@@ -274,6 +274,12 @@ void bx_init_options ()
   bx_options.log.actions[2] = ACT_REPORT;
   bx_options.log.actions[3] = ACT_ASK;
 
+  // quick start option, set by command line arg
+  new bx_param_bool_c (BXP_QUICK_START,
+      "Quick start",
+      "Quick start option: if true, read the bochsrc and start simulation immediately",
+      0);
+
   // floppya
   bx_options.floppya.Opath = new bx_param_filename_c (BXP_FLOPPYA_PATH,
       "Floppy A image",
@@ -1207,6 +1213,7 @@ bx_init_main (int argc, char *argv[])
 #if BX_WITH_WX
   // detect -q or -qf
   if ((argc > 1) && (!strncmp ("-q", argv[1], 2))) {
+    SIM->get_param_bool(BXP_QUICK_START)->set (1);  // used in wxmain.cc
     arg++;
     if ((argc > 2) && (!strcmp(argv[1], "-qf"))) {
       bochsrc = argv[arg];

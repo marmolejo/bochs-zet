@@ -127,6 +127,11 @@ bool MyApp::OnInit()
   theFrame = frame;  // hack alert
   frame->Show( TRUE );
   SetTopWindow( frame );
+  // if quickstart is enabled, kick off the simulation
+  if (SIM->get_param_bool(BXP_QUICK_START)->get ()) {
+    wxCommandEvent unusedEvent;
+    frame->OnStartSim (unusedEvent);
+  }
   return TRUE;
 }
 
