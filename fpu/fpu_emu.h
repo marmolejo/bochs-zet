@@ -45,10 +45,6 @@
 #define TAG_Special	 2 	/* De-normal, + or - infinity, or NaN */
 #define TAG_Empty	 3 	/* empty */
 
-/* A few flags (must be >= 0x10). */
-#define REV             0x10
-#define LOADED          0x40
-
 #define FPU_Exception   (0x80000000)   /* Added to tag returns. */
 
 #include "fpu_system.h"

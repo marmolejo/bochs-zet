@@ -118,13 +118,4 @@ int FPU_mul(FPU_REG const *b, u_char tagb, int deststnr, int control_w)
       setsign(dest, sign);
       return TAG_Special;
     }
-
-#ifdef PARANOID
-  else
-    {
-      INTERNAL(0x102);
-      return FPU_Exception;
-    }
-#endif /* PARANOID */
-
 }
