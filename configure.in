@@ -474,14 +474,17 @@ if test "$bx_plugins" = 1; then
   PLUGIN_VAR='ltdl.o'
   PLUGIN_TARGET=bochs_plugins
   INSTALL_PLUGINS_VAR=install_libtool_plugins
+  NONPLUGIN_GUI_LINK_OPTS=''
 else 
   AC_MSG_RESULT(no)
   bx_plugins=0
   AC_DEFINE(BX_PLUGINS, 0)
   GUI_NON_PLUGIN_OBJS='$(OBJS_THAT_CANNOT_BE_PLUGINS) $(OBJS_THAT_CAN_BE_PLUGINS) $(OBJS_THAT_SUPPORT_OTHER_PLUGINS)'
   GUI_PLUGIN_OBJS=''
+  NONPLUGIN_GUI_LINK_OPTS='$(GUI_LINK_OPTS)'
 fi
 AC_SUBST(DEFINE_PLUGIN_PATH)
+AC_SUBST(NONPLUGIN_GUI_LINK_OPTS)
 
 # copy gui variables into iodev variables.  Later, we will add to the gui
 # objs list, according to which display libraries are enabled.
