@@ -384,8 +384,8 @@ bx_gui_c::paste_handler(void)
   void
 bx_gui_c::config_handler(void)
 {
-#if BX_USE_CONTROL_PANEL && !BX_WITH_WX
-  bx_control_panel (BX_CPANEL_RUNTIME);
+#if BX_USE_CONFIG_INTERFACE && !BX_WITH_WX
+  bx_config_interface (BX_CI_RUNTIME);
 #else
   BX_ERROR(( "# CONFIG callback (unimplemented)." ));
 #endif

@@ -141,23 +141,40 @@ AC_TRY_COMPILE([#include <hash_map.h>], [],
    ], AC_MSG_RESULT(no))
 AC_LANG_RESTORE
 
-AC_MSG_CHECKING(for control panel)
-AC_ARG_ENABLE(control-panel,
-  [  --enable-control-panel           turns on/off control panel],
+AC_MSG_CHECKING(for configuration interface)
+AC_ARG_ENABLE(config-interface,
+  [  --enable-config-interface        turns on/off configuration interface],
   [if test "$enableval" = yes; then
     AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_USE_CONTROL_PANEL, 1)
+    AC_DEFINE(BX_USE_CONFIG_INTERFACE, 1)
    else
     AC_MSG_RESULT(no)
-    AC_DEFINE(BX_USE_CONTROL_PANEL, 0)
+    AC_DEFINE(BX_USE_CONFIG_INTERFACE, 0)
    fi],
   [
     AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_USE_CONTROL_PANEL, 1)
+    AC_DEFINE(BX_USE_CONFIG_INTERFACE, 1)
     ]
   )
-AC_SUBST(BX_USE_CONTROL_PANEL)
 
+# continue to support --enable-control-panel and make it do the same
+# as before.
+AC_MSG_CHECKING(for control panel)
+AC_ARG_ENABLE(control-panel,
+  [  --enable-control-panel           Deprecated. Use --enable-config-interface.],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_USE_CONFIG_INTERFACE, 1)
+   else
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_USE_CONFIG_INTERFACE, 0)
+   fi],
+  [
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_USE_CONFIG_INTERFACE, 1)
+    ]
+  )
+AC_SUBST(BX_USE_CONFIG_INTERFACE)
 
 AC_MSG_CHECKING(for new PIT model)
 AC_ARG_ENABLE(new-pit,
