@@ -1567,17 +1567,17 @@ bx_keyb_c::mouse_motion(int delta_x, int delta_y, unsigned button_state)
     BX_DEBUG(("[mouse] Dx=%d Dy=%d", delta_x, delta_y));
 #endif  /* ifdef VERBOSE_KBD_DEBUG */
 
-  if( (delta_x==0) && (delta_y==0) && (BX_KEY_THIS s.mouse.button_status == (button_state & 0x3) ) ) {
+  if( (delta_x==0) && (delta_y==0) && (BX_KEY_THIS s.mouse.button_status == (button_state & 0x7) ) ) {
     BX_DEBUG(("Ignoring useless mouse_motion call:\n"));
     BX_DEBUG(("This should be fixed in the gui code.\n"));
     return;
   }
 
-  if(BX_KEY_THIS s.mouse.button_status != (button_state & 0x3)) {
+  if(BX_KEY_THIS s.mouse.button_status != (button_state & 0x7)) {
     force_enq=1;
   }
 
-  BX_KEY_THIS s.mouse.button_status = button_state & 0x3;
+  BX_KEY_THIS s.mouse.button_status = button_state & 0x7;
 
   if(delta_x>255) delta_x=255;
   if(delta_y>255) delta_y=255;
