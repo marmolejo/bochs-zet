@@ -575,7 +575,7 @@ AC_ARG_ENABLE(pci,
   [if test "$enableval" = yes; then
     AC_MSG_RESULT(yes)
     AC_DEFINE(BX_PCI_SUPPORT, 1)
-    PCI_OBJ='pci.o'
+    PCI_OBJ='pci.o pci2isa.o'
    else
     AC_MSG_RESULT(no)
     AC_DEFINE(BX_PCI_SUPPORT, 0)

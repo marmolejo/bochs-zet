@@ -50,6 +50,7 @@ bx_devices_c::bx_devices_c(void)
 
 #if BX_PCI_SUPPORT
   pci = NULL;
+  pci2isa = NULL;
 #endif
   pit = NULL;
   keyboard = NULL;
@@ -117,6 +118,8 @@ bx_devices_c::init(BX_MEM_C *newmem)
   // PCI logic (i440FX)
   pci = & bx_pci;
   pci->init(this);
+  pci2isa = & bx_pci2isa;
+  pci2isa->init(this);
 #endif
 
 #if BX_SUPPORT_APIC
@@ -240,6 +243,7 @@ bx_devices_c::reset(unsigned type)
 {
 #if BX_PCI_SUPPORT
   pci->reset(type);
+  pci2isa->reset(type);
 #endif
 #if BX_SUPPORT_IOAPIC
   ioapic->reset (type);
