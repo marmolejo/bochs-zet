@@ -380,6 +380,11 @@ bx_gui_c::text_update(Bit8u *old_text, Bit8u *new_text,
   aWindow->Unlock();
 }
 
+  void
+bx_gui_c::set_clipboard_text(char *text_snapshot, Bit32u len)
+{
+}
+
 
   void
 bx_gui_c::graphics_tile_update(Bit8u *tile, unsigned x0, unsigned y0)

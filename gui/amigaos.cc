@@ -429,6 +429,11 @@ for (i=0; i<nchars*2; i+=2)
     previ = cursori;
 }
 
+  void
+bx_gui_c::set_clipboard_text(char *text_snapshot, Bit32u len)
+{
+}
+
 
   Boolean
 bx_gui_c::palette_change(unsigned index, unsigned red, unsigned green, unsigned blue)

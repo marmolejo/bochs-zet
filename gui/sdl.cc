@@ -249,8 +249,8 @@ void bx_gui_c::text_update(
   Bit8u cs_start, cs_end, cs_line, mask;
   Boolean invert;
 
-  cs_start = cursor_state >> 8;
-  cs_end = cursor_state & 0xff;
+  cs_start = (cursor_state >> 8) & 0x3f;
+  cs_end = cursor_state & 0x1f;
 
   if( sdl_screen )
   {
@@ -330,6 +330,11 @@ void bx_gui_c::text_update(
   } while( --rows );
   prev_cursor_x = cursor_x;
   prev_cursor_y = cursor_y;
+}
+
+  void
+bx_gui_c::set_clipboard_text(char *text_snapshot, Bit32u len)
+{
 }
 
 

@@ -46,6 +46,7 @@ public:
   static unsigned headerbar_bitmap(unsigned bmap_id, unsigned alignment, void (*f)(void));
   static void replace_bitmap(unsigned hbar_id, unsigned bmap_id);
   static void show_headerbar(void);
+  static void set_clipboard_text(char *snapshot, Bit32u len);
 
   // The following function(s) are defined already, and your
   // GUI code calls them

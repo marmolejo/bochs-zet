@@ -560,6 +560,11 @@ void bx_gui_c::text_update(Bit8u *old_text, Bit8u *new_text, unsigned long curso
 	}
 }
 
+  void
+bx_gui_c::set_clipboard_text(char *text_snapshot, Bit32u len)
+{
+}
+
 
 // ::PALETTE_CHANGE()
 //
