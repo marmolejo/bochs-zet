@@ -326,6 +326,7 @@ int bx_sound_windows_c::playnextbuffer()
 	  WRITELOG( WAVELOG(5), "waveOutWrite: %s", errormsg);
 	}
     }
+    return BX_SOUND_OUTPUT_OK;
 }
 
 int bx_sound_windows_c::startwaveplayback(int frequency, int bits, int stereo, int format)
