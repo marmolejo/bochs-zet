@@ -22,7 +22,7 @@ REMOTE_HOST=shell.sf.net
 # path of preexisting install in, on the remote server.  Each section
 # will go into a subdirectory of $REMOTE_PATH, as in
 # $REMOTE_PATH/user.
-REMOTE_PATH=/home/groups/b/bo/bochs/htdocs/tmp/docbooktest
+REMOTE_PATH=/home/groups/b/bo/bochs/htdocs/doc/docbook
 
 # -x means don't try to forward X authorization, it won't work for SF
 SSH=ssh -x
