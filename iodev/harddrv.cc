@@ -313,6 +313,10 @@ bx_hard_drive_c::init(bx_devices_c *d, bx_cmos_c *cmos)
       // system boot sequence cdrom
       cmos->s.reg[0x3d] = 0x03;
       }
+      
+    // Set the signature check flag
+    cmos->s.reg[0x38] = bx_options.OfloppySigCheck->get();
+    BX_INFO(("Floppy boot signature will %sbe checked", bx_options.OfloppySigCheck->get()==0?"not ":""));
     }
 
   //switch (stat_buf.st_size) {
