@@ -246,7 +246,7 @@ int make_image (Bit64u sec, char *filename)
 int main()
 {
   int hd;
-  Bit64u sectors = 0;
+  Bit64s sectors = 0;
   char filename[256];
   char bochsrc_line[256];
   print_banner ();
