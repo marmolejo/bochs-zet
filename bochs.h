@@ -532,6 +532,7 @@ char *bx_find_bochsrc (void);
 int bx_parse_cmdline (int arg, int argc, char *argv[]);
 int bx_read_configuration (char *rcfile);
 int bx_write_configuration (char *rcfile, int overwrite);
+void bx_reset_options (void);
 
 #define BX_PATHNAME_LEN 512
 
