@@ -1010,7 +1010,7 @@ BX_DEBUG(("IO write to %04x = %02x", (unsigned) address, (unsigned) value));
 #endif
                                             BX_HD_THIS s[1].cdrom.ready = 0;
                                             bx_options.cdromd.Oinserted->set(BX_EJECTED);
-                                            bx_gui.update_floppy_status_buttons();
+                                            bx_gui.update_drive_status_buttons();
                                           }
                                           raise_interrupt();
 				    } else { // Load the disc
