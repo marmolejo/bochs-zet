@@ -43,9 +43,9 @@ BX_CPU_C::ROL_Eb(bxInstruction_c *i)
   Bit8u op1_8, result_8;
   unsigned count;
 
-  if (i->b1 == 0xc0)
+  if (i->b1() == 0xc0)
     count = i->Ib();
-  else if (i->b1 == 0xd0)
+  else if (i->b1() == 0xd0)
     count = 1;
   else // 0xd2
     count = CL;
@@ -92,9 +92,9 @@ BX_CPU_C::ROR_Eb(bxInstruction_c *i)
   Bit8u result_b7;
   unsigned count;
 
-  if (i->b1 == 0xc0)
+  if (i->b1() == 0xc0)
     count = i->Ib();
-  else if (i->b1 == 0xd0)
+  else if (i->b1() == 0xd0)
     count = 1;
   else // 0xd2
     count = CL;
@@ -141,9 +141,9 @@ BX_CPU_C::RCL_Eb(bxInstruction_c *i)
   Bit8u op1_8, result_8;
   unsigned count;
 
-  if (i->b1 == 0xc0)
+  if (i->b1() == 0xc0)
     count = i->Ib();
-  else if (i->b1 == 0xd0)
+  else if (i->b1() == 0xd0)
     count = 1;
   else // 0xd2
     count = CL;
@@ -190,9 +190,9 @@ BX_CPU_C::RCR_Eb(bxInstruction_c *i)
   Bit8u op1_8, result_8;
   unsigned count;
 
-  if (i->b1 == 0xc0)
+  if (i->b1() == 0xc0)
     count = i->Ib();
-  else if (i->b1 == 0xd0)
+  else if (i->b1() == 0xd0)
     count = 1;
   else // 0xd2
     count = CL;
@@ -240,9 +240,9 @@ BX_CPU_C::SHL_Eb(bxInstruction_c *i)
   Bit8u op1_8, result_8;
   unsigned count;
 
-  if (i->b1 == 0xc0)
+  if (i->b1() == 0xc0)
     count = i->Ib();
-  else if (i->b1 == 0xd0)
+  else if (i->b1() == 0xd0)
     count = 1;
   else // 0xd2
     count = CL;
@@ -281,9 +281,9 @@ BX_CPU_C::SHR_Eb(bxInstruction_c *i)
   Bit8u op1_8, result_8;
   unsigned count;
 
-  if (i->b1 == 0xc0)
+  if (i->b1() == 0xc0)
     count = i->Ib();
-  else if (i->b1 == 0xd0)
+  else if (i->b1() == 0xd0)
     count = 1;
   else // 0xd2
     count = CL;
@@ -323,9 +323,9 @@ BX_CPU_C::SAR_Eb(bxInstruction_c *i)
   Bit8u op1_8, result_8;
   unsigned count;
 
-  if (i->b1 == 0xc0)
+  if (i->b1() == 0xc0)
     count = i->Ib();
-  else if (i->b1 == 0xd0)
+  else if (i->b1() == 0xd0)
     count = 1;
   else // 0xd2
     count = CL;

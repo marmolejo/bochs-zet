@@ -371,7 +371,7 @@ BX_CPU_C::JCC_Jd(bxInstruction_c *i)
 {
   Boolean condition = 0;
 
-  switch (i->b1 & 0x0f) {
+  switch (i->b1() & 0x0f) {
     case 0x00: /* JO */ condition = get_OF(); break;
     case 0x01: /* JNO */ condition = !get_OF(); break;
     case 0x02: /* JB */ condition = get_CF(); break;

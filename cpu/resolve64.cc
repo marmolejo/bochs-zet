@@ -59,7 +59,7 @@ BX_CPU_C::Resolve64Mod0Rm3(bxInstruction_c *i)
 BX_CPU_C::Resolve64Mod0Rm5(bxInstruction_c *i)
 {
   // eip hasn't been bumped yet when this is called.  must choose the saved value.
-  RMAddr(i) = BX_CPU_THIS_PTR prev_eip + i->ilen + (Bit32s)i->displ32u();
+  RMAddr(i) = BX_CPU_THIS_PTR prev_eip + i->ilen() + (Bit32s)i->displ32u();
 }
   void
 BX_CPU_C::Resolve64Mod0Rm6(bxInstruction_c *i)

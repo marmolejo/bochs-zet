@@ -48,7 +48,7 @@
 BX_CPU_C::UndefinedOpcode(bxInstruction_c *i)
 {
   BX_DEBUG(("UndefinedOpcode: %02x causes exception 6",
-              (unsigned) i->b1));
+              (unsigned) i->b1()));
   exception(BX_UD_EXCEPTION, 0, 0);
 }
 

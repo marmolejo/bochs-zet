@@ -128,7 +128,7 @@ BX_CPU_C::MOVSB_XbYb(bxInstruction_c *i)
     /* If conditions are right, we can transfer IO to physical memory
      * in a batch, rather than one instruction at a time.
      */
-    if (i->rep_used && !BX_CPU_THIS_PTR async_event) {
+    if (i->repUsedL() && !BX_CPU_THIS_PTR async_event) {
       Bit32u byteCount;
 
       if (i->as32L())
@@ -425,7 +425,7 @@ BX_CPU_C::MOVSW_XvYv(bxInstruction_c *i)
     /* If conditions are right, we can transfer IO to physical memory
      * in a batch, rather than one instruction at a time.
      */
-    if (i->rep_used && !BX_CPU_THIS_PTR async_event) {
+    if (i->repUsedL() && !BX_CPU_THIS_PTR async_event) {
       Bit32u dwordCount;
 
       if (i->as32L())
@@ -668,7 +668,7 @@ doIncr32:
     /* If conditions are right, we can transfer IO to physical memory
      * in a batch, rather than one instruction at a time.
      */
-    if (i->rep_used && !BX_CPU_THIS_PTR async_event) {
+    if (i->repUsedL() && !BX_CPU_THIS_PTR async_event) {
       Bit32u wordCount;
 
       if (i->as32L())
@@ -1538,7 +1538,7 @@ BX_CPU_C::STOSB_YbAL(bxInstruction_c *i)
     /* If conditions are right, we can transfer IO to physical memory
      * in a batch, rather than one instruction at a time.
      */
-    if (i->rep_used && !BX_CPU_THIS_PTR async_event) {
+    if (i->repUsedL() && !BX_CPU_THIS_PTR async_event) {
       Bit32u byteCount;
 
       if (i->as32L())

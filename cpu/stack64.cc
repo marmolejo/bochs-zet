@@ -63,7 +63,7 @@ BX_CPU_C::POP_Eq(bxInstruction_c *i)
   void
 BX_CPU_C::PUSH_RRX(bxInstruction_c *i)
 {
-  push_64(BX_CPU_THIS_PTR gen_reg[(i->b1 & 7) + i->rex_b()].rrx);
+  push_64(BX_CPU_THIS_PTR gen_reg[(i->b1() & 7) + i->rex_b()].rrx);
   //push_64(BX_CPU_THIS_PTR gen_reg[i->nnn()].rrx);
 }
 
@@ -73,7 +73,7 @@ BX_CPU_C::POP_RRX(bxInstruction_c *i)
   Bit64u rrx;
 
   pop_64(&rrx);
-  BX_CPU_THIS_PTR gen_reg[(i->b1 & 7) + i->rex_b()].rrx = rrx;
+  BX_CPU_THIS_PTR gen_reg[(i->b1() & 7) + i->rex_b()].rrx = rrx;
   //BX_CPU_THIS_PTR gen_reg[i->nnn()].rrx = rrx;
 }
 

@@ -37,13 +37,13 @@
   void
 BX_CPU_C::MOV_RLIb(bxInstruction_c *i)
 {
-  BX_CPU_THIS_PTR gen_reg[i->b1 & 0x03].word.byte.rl = i->Ib();
+  BX_CPU_THIS_PTR gen_reg[i->b1() & 0x03].word.byte.rl = i->Ib();
 }
 
   void
 BX_CPU_C::MOV_RHIb(bxInstruction_c *i)
 {
-  BX_CPU_THIS_PTR gen_reg[i->b1 & 0x03].word.byte.rh = i->Ib();
+  BX_CPU_THIS_PTR gen_reg[i->b1() & 0x03].word.byte.rh = i->Ib();
 }
 
 

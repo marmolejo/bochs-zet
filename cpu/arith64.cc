@@ -39,7 +39,7 @@ BX_CPU_C::INC_RRX(bxInstruction_c *i)
 {
   Bit32u rrx;
 
-  rrx = ++ BX_CPU_THIS_PTR gen_reg[(i->b1 & 0x07) + i->rex_b()].rrx;
+  rrx = ++ BX_CPU_THIS_PTR gen_reg[(i->b1() & 0x07) + i->rex_b()].rrx;
   //rrx = ++ BX_CPU_THIS_PTR gen_reg[i->nnn()].rrx;
   SET_FLAGS_OSZAP_64(0, 0, rrx, BX_INSTR_INC64);
 }
@@ -49,7 +49,7 @@ BX_CPU_C::DEC_RRX(bxInstruction_c *i)
 {
   Bit32u rrx;
 
-  rrx = -- BX_CPU_THIS_PTR gen_reg[(i->b1 & 0x07) + i->rex_b()].rrx;
+  rrx = -- BX_CPU_THIS_PTR gen_reg[(i->b1() & 0x07) + i->rex_b()].rrx;
   //rrx = -- BX_CPU_THIS_PTR gen_reg[i->nnn()].rrx;
   SET_FLAGS_OSZAP_64(0, 0, rrx, BX_INSTR_DEC64);
 }
