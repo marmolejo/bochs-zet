@@ -385,8 +385,8 @@ bx_win32_pktmover_c::bx_win32_pktmover_c(const char *netif,
      dwWindowsMajorVersion =  (DWORD)(LOBYTE(LOWORD(dwVersion)));
 	 if (!(dwVersion >= 0x80000000 && dwWindowsMajorVersion >= 4))
 	 {  // Windows NT/2k
-		 int nLen = MultiByteToWideChar(CP_ACP, 0, netif, -1, NULL, NULL);
-		 MultiByteToWideChar(CP_ACP, 0, netif, -1, (unsigned short *)netdev, nLen);
+		 int nLen = MultiByteToWideChar(CP_ACP, 0, netif, -1, NULL, 0);
+		 MultiByteToWideChar(CP_ACP, 0, netif, -1, (WCHAR *)netdev, nLen);
 	 } else { // Win9x
 		 strcpy(netdev, netif);
 	 }
