@@ -386,17 +386,15 @@ bx_devices_c::port92_write(Bit32u address, Bit32u value, unsigned io_len)
 #else
   UNUSED(this_ptr);
 #endif  // !BX_USE_DEV_SMF
-  bx_bool bx_cpu_reset;
 
-  BX_DEBUG(("port92h write of %02x partially supported!!!",
-    (unsigned) value));
+  BX_DEBUG(("port92h write of %02x partially supported!!!", (unsigned) value));
   BX_DEBUG(("A20: set_enable_a20() called"));
   BX_SET_ENABLE_A20( (value & 0x02) >> 1 );
   BX_DEBUG(("A20: now %u", (unsigned) BX_GET_ENABLE_A20()));
-  bx_cpu_reset  = (value & 0x01); /* high speed reset */
-  if (bx_cpu_reset) {
-    BX_PANIC(("PORT 92h write: CPU reset requested!"));
-    }
+  if (value & 0x01) { /* high speed reset */
+    BX_INFO(("iowrite to port0x92 : reset resquested"));
+    bx_pc_system.ResetCpus(BX_RESET_HARDWARE);
+  }
 }
 
 
