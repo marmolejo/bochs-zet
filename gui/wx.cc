@@ -102,6 +102,8 @@ MyPanel::MyPanel(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSi
   refreshTimer.SetOwner (this);
   refreshTimer.Start (100);
   needRefresh = true;
+  const char bits[1] = { 0 };
+  blankCursor = new wxCursor (bits, 1, 1, -1, -1, bits);
 }
 
 void MyPanel::OnTimer(wxCommandEvent& WXUNUSED(event))
@@ -141,6 +143,9 @@ void MyPanel::ToggleMouse ()
     mouseSavedX = wxScreenX / 2;
     mouseSavedY = wxScreenY / 2;
     WarpPointer (mouseSavedX, mouseSavedY);
+    SetCursor (*blankCursor);
+  } else {
+    SetCursor (wxNullCursor);
   }
 }
 

@@ -141,6 +141,7 @@ public:
   void SaveConfiguration ();
   void ToggleMouse ();
 private:
+  wxCursor *blankCursor;
   bool needRefresh;
   wxTimer refreshTimer;
   Bit16s mouseSavedX, mouseSavedY;
