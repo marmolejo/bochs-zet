@@ -277,6 +277,14 @@ BX_CPU_C::strseg(bx_segment_reg_t *seg)
   }
 }
 
+int BX_CPU_C::int_number(bx_segment_reg_t *seg)
+{
+  if (seg == &BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS])
+    return(BX_SS_EXCEPTION);
+  else
+    return(BX_GP_EXCEPTION);
+}
+
   void BX_CPP_AttrRegparmN(3)
 BX_CPU_C::write_virtual_byte(unsigned s, bx_address offset, Bit8u *data)
 {
