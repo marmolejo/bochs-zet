@@ -59,6 +59,22 @@ add_configuration ('wx-64bit',
   '--with-wx --enable-x86-64');
 add_configuration ('wx-64bit-d',
   '--with-wx --enable-x86-64 --enable-debugger --disable-readline');
+add_configuration ('nogui',
+  '--with-nogui');
+add_configuration ('nogui-d',
+  '--with-nogui --enable-debugger');
+add_configuration ('sdl',
+  '--with-sdl');
+add_configuration ('sdl-d',
+  '--with-sdl --enable-debugger');
+add_configuration ('term',
+  '--with-term');
+add_configuration ('term-d',
+  '--with-term --enable-debugger');
+add_configuration ('rfb',
+  '--with-rfb');
+add_configuration ('rfb-d',
+  '--with-rfb --enable-debugger');
 
 my $nohup = 0;
 my $parallel = 0;
