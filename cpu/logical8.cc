@@ -230,7 +230,7 @@ BX_CPU_C::OR_ALIb(bxInstruction_c *i)
   AL = result;
 
 #if !(defined(__i386__) && defined(__GNUC__) && BX_SupportHostAsms)
-  SET_FLAGS_OSZAPC_8(op1, op2, sum, BX_INSTR_OR8);
+  SET_FLAGS_OSZAPC_8(op1, op2, result, BX_INSTR_OR8);
 #endif
 }
 
