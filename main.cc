@@ -1604,6 +1604,7 @@ bx_atexit(void)
   if (been_here) return 1;   // protect from reentry
   been_here = 1;
 
+
 #if BX_PROVIDE_DEVICE_MODELS==1
   bx_pc_system.exit();
 #endif
