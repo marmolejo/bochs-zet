@@ -606,7 +606,8 @@ BX_INFO(("-----------------------------------"));
       BX_PANIC(("fetch_raw_descriptor: LDTR.valid=0"));
       }
     if ((selector->index*8 + 7) > BX_CPU_THIS_PTR ldtr.cache.u.ldt.limit) {
-      BX_PANIC(("fetch_raw_descriptor: LDT: index > limit"));
+      BX_PANIC(("fetch_raw_descriptor: LDT: index (%x)%x > limit (%x)",
+		(selector->index*8 + 7), selector->index, BX_CPU_THIS_PTR ldtr.cache.u.ldt.limit));
       exception(exception_no, selector->value & 0xfffc, 0);
       return;
       }
