@@ -120,6 +120,7 @@ fs              { bxlval.sval = strdup(bxtext); return(BX_TOKEN_FS); }
 gs              { bxlval.sval = strdup(bxtext); return(BX_TOKEN_GS); }
 force-check     { bxlval.sval = strdup(bxtext); return(BX_TOKEN_ALWAYS_CHECK); }
 v2l             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_V2L); }
+help            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_HELP); }
 \"[^\"\n]*\"    { bxlval.sval = strdup(bxtext); return(BX_TOKEN_STRING); }
 \/[0-9]*[xduotcsibhwg][xduotcsibhwg] { bxlval.sval = strdup(bxtext); return(BX_TOKEN_XFORMAT); }
 \/[0-9]*[xduotcsibhwg]              { bxlval.sval = strdup(bxtext); return(BX_TOKEN_XFORMAT); }

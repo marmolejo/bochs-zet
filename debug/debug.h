@@ -140,6 +140,7 @@ void bx_dbg_v2l_command(unsigned seg_no, Bit32u offset);
 extern Boolean watchpoint_continue;
 void bx_dbg_linux_syscall ();
 void bx_dbg_info_ne2k(int page, int reg);
+void bx_dbg_help_command(char* command);
 
 #ifdef __cplusplus
 }
