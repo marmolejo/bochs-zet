@@ -58,6 +58,8 @@ public:
 static bx_beos_gui_c *theGui = NULL;
 IMPLEMENT_GUI_PLUGIN_CODE(beos)
 
+#define LOG_THIS theGui->
+
 #define PAD_NEAREST(n, quantum) (( ((n) + ((quantum) - 1)) / (n) ) * (n))
 
 
