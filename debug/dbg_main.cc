@@ -4675,7 +4675,7 @@ static void dbg_dump_table(Boolean all)
 	    break;
       lina += 0x1000;
   }
-  if(all & start_lina != 1)
+  if(all && start_lina != 1)
 	printf("%08x - %08x: %8x - %8x\n",
 	       start_lina, 0xfffff000, start_phy, start_phy + (0xfffff000-start_lina));
 }
