@@ -424,6 +424,7 @@ bx_real_sim_c::periodic ()
   delete tick;
   if (retcode < 0) {
     BX_INFO (("Bochs thread has been asked to quit."));
+    bx_atexit ();
     quit_sim (0);
   }
 #if 0
