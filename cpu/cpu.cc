@@ -752,7 +752,11 @@ BX_CPU_C::prefetch(void)
   //  }
 
   // Linear address at the beginning of the page.
+#if BX_SUPPORT_X86_64
+  laddrPageOffset0 = laddr & BX_CONST64(0xfffffffffffff000);
+#else
   laddrPageOffset0 = laddr & 0xfffff000;
+#endif
   // Calculate RIP at the beginning of the page.
   eipPageOffset0 = RIP - (laddr - laddrPageOffset0);
   BX_CPU_THIS_PTR eipPageBias = - eipPageOffset0;
