@@ -866,6 +866,7 @@ BX_CPU_C::dbg_set_cpu(bx_dbg_cpu_t *cpu)
 
   // TR
   type = (cpu->tr.des_h >> 8) & 0x0f;
+  type &= ~2; // never allow busy bit in tr.cache.type
   BX_CPU_THIS_PTR tr.selector.value = cpu->tr.sel;
   BX_CPU_THIS_PTR tr.selector.index = cpu->tr.sel >> 3;
   BX_CPU_THIS_PTR tr.selector.ti    = (cpu->tr.sel >> 2) & 0x01;

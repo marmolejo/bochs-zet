@@ -681,7 +681,8 @@ BX_PANIC(("LOADALL: handle CR0.val32"));
   BX_CPU_THIS_PTR tr.cache.p           = (access & 0x80) >> 7;
   BX_CPU_THIS_PTR tr.cache.dpl         = (access & 0x60) >> 5;
   BX_CPU_THIS_PTR tr.cache.segment     = (access & 0x10) >> 4;
-  BX_CPU_THIS_PTR tr.cache.type        = (access & 0x0f);
+  // don't allow busy bit in tr.cache.type, so bit 2 is masked away too.
+  BX_CPU_THIS_PTR tr.cache.type        = (access & 0x0d);
   BX_CPU_THIS_PTR tr.cache.u.tss286.base  = (base_23_16 << 16) | base_15_0;
   BX_CPU_THIS_PTR tr.cache.u.tss286.limit = limit;
 
