@@ -1252,8 +1252,10 @@ public:
   // can force the gui events to be handled, so that interactive things such
   // as a toolbar click will be processed.
   virtual void handle_events () {}
+  // return first hard disk in ATA interface
+  virtual bx_param_c *get_first_cdrom () {return NULL;}
   // return first cdrom in ATA interface
-  bx_param_c *get_first_cdrom () {return NULL;}
+  virtual bx_param_c *get_first_hd () {return NULL;}
 #if BX_DEBUGGER
   // for debugger: same behavior as pressing control-C
   virtual void debug_break () {}
