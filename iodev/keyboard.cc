@@ -1393,6 +1393,17 @@ bx_keyb_c::create_mouse_packet(bool force_enq) {
   mouse_enQ_packet(b1, b2, b3);
 }
 
+
+void
+bx_keyb_c::mouse_enabled_changed(bool enabled) {
+  if(BX_KEY_THIS s.mouse.delayed_dx || BX_KEY_THIS s.mouse.delayed_dy) {
+    create_mouse_packet(1);
+  }
+  BX_KEY_THIS s.mouse.delayed_dx=0;
+  BX_KEY_THIS s.mouse.delayed_dy=0;
+  BX_DEBUG(("Keyboard mouse disable called."));
+}
+
   void
 bx_keyb_c::mouse_motion(int delta_x, int delta_y, unsigned button_state)
 {
