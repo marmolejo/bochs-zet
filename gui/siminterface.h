@@ -759,7 +759,7 @@ public:
 };
 
 class BOCHSAPI bx_param_c : public bx_object_c {
-  BOCHSAPI static const char *default_text_format;
+  BOCHSAPI_CYGONLY static const char *default_text_format;
 protected:
   char *name;
   char *description;
@@ -792,7 +792,7 @@ public:
 typedef Bit64s (*param_event_handler)(class bx_param_c *, int set, Bit64s val);
 
 class BOCHSAPI bx_param_num_c : public bx_param_c {
-  BOCHSAPI static Bit32u default_base;
+  BOCHSAPI_CYGONLY static Bit32u default_base;
   // The dependent_list is initialized to NULL.  If dependent_list is modified
   // to point to a bx_list_c of other parameters, the set() method of
   // bx_param_bool_c will enable those parameters when this bool is true, and
