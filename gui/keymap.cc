@@ -201,9 +201,18 @@ bx_keymap_c::loadKeymap(Bit32u stringToSymbol(const char*), const char* filename
 {
     FILE   *keymapFile;
     char   line[256], c, *p;
-    char baseSym[256], modSym[256], xwinSym[256];
+    char baseSym[256], modSym[256], xwinSym[256]; 
     Bit32s ascii;
     Bit32u baseKey, modKey, xwinKey;
+    struct stat status;
+
+    if (stat(filename, &status)) {
+      BX_PANIC(("Can not stat keymap file '%s'.",filename));
+      }
+
+    if (!(S_ISREG(status.st_mode))) {
+      BX_PANIC(("Keymap file '%s' is not a file",filename));
+      }
 
     if((keymapFile = fopen(filename,"r"))==NULL) {
       BX_PANIC(("Can not open keymap file '%s'.",filename));
