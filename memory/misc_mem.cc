@@ -336,23 +336,24 @@ BX_MEM_C::dbg_crc32(unsigned long (*f)(unsigned char *buf, int len),
   return(1);
 }
 
+//
+// Return a host address corresponding to the guest physical memory
+// address (with A20 already applied), given that the calling
+// code will perform an 'op' operation.  This address will be
+// used for direct access to guest memory as an acceleration by
+// a few instructions, like REP {MOV, INS, OUTS, etc}.
+// Values of 'op' are { BX_READ, BX_WRITE, BX_RW }.
+//
+// The other assumption is that the calling code _only_ accesses memory
+// directly within the page that encompasses the address requested.
+//
+
   Bit8u * BX_CPP_AttrRegparmN(3)
 BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op)
-  // Return a host address corresponding to the guest physical memory
-  // address (with A20 already applied), given that the calling
-  // code will perform an 'op' operation.  This address will be
-  // used for direct access to guest memory as an acceleration by
-  // a few instructions, like REP {MOV, INS, OUTS, etc}.
-  // Values of 'op' are { BX_READ, BX_WRITE, BX_RW }.
-
-  // The other assumption is that the calling code _only_ accesses memory
-  // directly within the page that encompasses the address requested.
 {
   if ( a20Addr >= BX_MEM_THIS len )
     return(NULL); // Error, requested addr is out of bounds.
-  if (op == BX_READ) {
-    if ( (a20Addr > 0x9ffff) && (a20Addr < 0xc0000) )
-      return(NULL); // Vetoed!  Mem mapped IO (VGA)
+
 #if BX_SUPPORT_APIC
     bx_generic_apic_c *local_apic = &cpu->local_apic;
     if (local_apic->get_base () == (a20Addr & ~0xfff))
@@ -361,6 +362,10 @@ BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op)
     if (ioapic->get_base () == (a20Addr & ~0xfff))
       return(NULL); // Vetoed!  IOAPIC address space
 #endif
+
+  if (op == BX_READ) {
+    if ( (a20Addr > 0x9ffff) && (a20Addr < 0xc0000) )
+      return(NULL); // Vetoed!  Mem mapped IO (VGA)
 #if !BX_SUPPORT_PCI
     return( (Bit8u *) & vector[a20Addr] );
 #else
@@ -382,14 +387,6 @@ BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op)
     }
   else { // op == {BX_WRITE, BX_RW}
     Bit8u *retAddr;
-#if BX_SUPPORT_APIC
-    bx_generic_apic_c *local_apic = &cpu->local_apic;
-    if (local_apic->get_base () == (a20Addr & ~0xfff))
-      return(NULL); // Vetoed!  APIC address space
-    bx_generic_apic_c *ioapic = bx_devices.ioapic;
-    if (ioapic->get_base () == (a20Addr & ~0xfff))
-      return(NULL); // Vetoed!  IOAPIC address space
-#endif
     if ((a20Addr < 0xa0000) || (a20Addr > 0xfffff)) {
       retAddr = (Bit8u *) & vector[a20Addr];
     }

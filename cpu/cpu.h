@@ -738,8 +738,6 @@ typedef struct {
   } bx_segment_reg_t;
 
 typedef void * (*BxVoidFPtr_t)(void);
-class BX_CPU_C;
-
 
 class bxInstruction_c {
 public:
@@ -1475,7 +1473,11 @@ public: // for now...
 
   // constructors & destructors...
   BX_CPU_C();
-  ~BX_CPU_C(void);
+#if BX_EXTERNAL_DEBUGGER
+  virtual ~BX_CPU_C();
+#else
+  ~BX_CPU_C();
+#endif
   void init (BX_MEM_C *addrspace);
 
   // prototypes for CPU instructions...

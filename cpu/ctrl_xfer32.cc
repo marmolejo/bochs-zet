@@ -62,7 +62,7 @@ BailBigRSP("RETnear32_Iw");
         /* ??? #SS(0) -or #GP(0) */
         }
 
-      access_linear(BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.base + temp_ESP + 0,
+      access_linear(BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.base + temp_ESP,
         4, CPL==3, BX_READ, &return_EIP);
 
       if (protected_mode() &&
@@ -120,7 +120,7 @@ BailBigRSP("RETnear32");
         /* ??? #SS(0) -or #GP(0) */
         }
 
-      access_linear(BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.base + temp_ESP + 0,
+      access_linear(BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.base + temp_ESP,
         4, CPL==3, BX_READ, &return_EIP);
 
       if ( return_EIP > BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.limit_scaled ) {

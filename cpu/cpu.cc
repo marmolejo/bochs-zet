@@ -750,8 +750,7 @@ BX_CPU_C::prefetch(void)
       BX_PANIC(("prefetch: running in bogus memory"));
       }
     else {
-      BX_PANIC(("prefetch: getHostMemAddr vetoed direct read, pAddr=0x%x.",
-                pAddr));
+      BX_PANIC(("prefetch: getHostMemAddr vetoed direct read, pAddr=0x%x.", pAddr));
       }
     }
 

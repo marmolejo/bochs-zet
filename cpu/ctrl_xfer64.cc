@@ -56,7 +56,7 @@ BX_CPU_C::RETnear64_Iw(bxInstruction_c *i)
   //  /* ??? #SS(0) -or #GP(0) */
   //  }
 
-  access_linear(BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.base + temp_RSP + 0,
+  access_linear(BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.base + temp_RSP,
     8, CPL==3, BX_READ, &return_RIP);
 
   /* Pentium book says imm16 is number of words ??? */
@@ -90,7 +90,7 @@ BX_CPU_C::RETnear64(bxInstruction_c *i)
   //  /* ??? #SS(0) -or #GP(0) */
   //  }
 
-  access_linear(BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.base + temp_RSP + 0,
+  access_linear(BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.base + temp_RSP,
       8, CPL==3, BX_READ, &return_RIP);
 
   RIP = return_RIP;
