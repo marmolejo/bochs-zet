@@ -354,6 +354,17 @@ logfunctions::ask (int level, char *prefix, char *fmt, va_list ap)
       break;
     case 2:   // user chose die
       fatal (prefix, fmt, ap);
+#if BX_DEBUGGER
+    case 3:
+      // user chose debugger.  To "drop into the debugger" we just set the
+      // interrupt_requested bit and continue execution.  Before the next
+      // instruction, it should notice the user interrupt and return to
+      // the debugger.
+      bx_guard.interrupt_requested = 1;
+      break;
+#endif
+    default:
+      fprintf (stderr, "WARNING: LOCAL_log_msg returned unexpected value %d\n", val);
   }
 }
 
