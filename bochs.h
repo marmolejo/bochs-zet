@@ -435,6 +435,10 @@ extern logfunc_t *genlog;
 #  include "cpu/cpu.h"
 #endif
 
+#if BX_EXTERNAL_DEBUGGER
+#  include "cpu/extdb.h"
+#endif
+
 #if BX_DISASM
 #  include "disasm/disasm.h"
 #endif
@@ -442,6 +446,7 @@ extern logfunc_t *genlog;
 #if BX_DYNAMIC_TRANSLATION
 #  include "dynamic/dynamic.h"
 #endif
+
 
 
 typedef struct {

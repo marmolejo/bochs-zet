@@ -34,11 +34,6 @@
 #define this (BX_CPU(0))
 #endif
 
-#if BX_EXTERNAL_DEBUGGER
-#include "cpu/extdb.h"
-#endif
-
-
 
 #if BX_SIM_ID == 0   // only need to define once
 // This array defines a look-up table for the even parity-ness

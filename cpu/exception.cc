@@ -30,10 +30,6 @@
 #include "bochs.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
-#if BX_EXTERNAL_DEBUGGER
-#include "cpu/extdb.h"
-#endif
-
 
 /* Exception classes.  These are used as indexes into the 'is_exception_OK'
  * array below, and are stored in the 'exception' array also
