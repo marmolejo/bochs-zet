@@ -1173,7 +1173,7 @@ bx_keyb_c::timer_handler(void *this_ptr)
   unsigned
 bx_keyb_c::periodic( Bit32u   usec_delta )
 {
-  static int multiple=0;
+/*  static int multiple=0; */
   static unsigned count_before_paste=0;
   Bit8u   retval;
 
