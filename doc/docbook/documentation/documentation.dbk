@@ -85,7 +85,7 @@ Every paragraph must begin with the &lt;para&gt; tag and end with the
 corresponding end tag, &lt;/para&gt;.
 <programlisting>
 &lt;<ulink url="http://www.docbook.org/tdg/en/html/para.html">para</ulink>&gt;
-This is a paragram
+This is a paragraph.
 &lt;/para&gt;
 </programlisting>
 </para>
