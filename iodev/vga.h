@@ -207,8 +207,8 @@ private:
       Bit8u   index;
       Bit8u   map_mask;
       Boolean map_mask_bit[4];
-      Boolean bit0;
-      Boolean bit1;
+      Boolean reset1;
+      Boolean reset2;
       Bit8u   reg1;
       Bit8u   char_map_select;
       Boolean extended_mem;
