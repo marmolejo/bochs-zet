@@ -360,11 +360,6 @@ typedef struct {
    */
   Bit32u val32; // Raw 32-bit value in x86 bit position.  Used to store
                 //   some eflags which are not cached in separate fields.
-
-  BX_CPP_INLINE Boolean get_bit1() { return 1; }
-  BX_CPP_INLINE Boolean get_bit3() { return 0; }
-  BX_CPP_INLINE Boolean get_bit5() { return 0; }
-  BX_CPP_INLINE Boolean get_bit15() { return 0; }
   } bx_flags_reg_t;
 
   // accessors for all eflags in bx_flags_reg_t
