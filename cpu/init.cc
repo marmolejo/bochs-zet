@@ -852,6 +852,7 @@ BX_CPU_C::reset(unsigned source)
 #endif
   BX_CPU_THIS_PTR stop_reason = STOP_NO_REASON;
   BX_CPU_THIS_PTR trace = 0;
+  BX_CPU_THIS_PTR trace_reg = 0;
 #endif
 
   // Init the Floating Point Unit
@@ -878,6 +879,7 @@ BX_CPU_C::reset(unsigned source)
 #else
   BX_CPU_THIS_PTR async_event = 0;
 #endif
+  BX_CPU_THIS_PTR kill_bochs_request = 0;
 
   BX_INSTR_RESET(CPU_ID);
 }
