@@ -155,6 +155,7 @@ BX_KEY_ALT_L                                  none       XK_Meta_L
 BX_KEY_ALT_R                                  none       XK_Alt_R
 BX_KEY_ALT_R                                  none       XK_Mode_switch
 BX_KEY_ALT_R                                  none       XK_Multi_key
+BX_KEY_ALT_R                                  none       XK_ISO_Level3_Shift
 BX_KEY_BACKSLASH                              apostrophe XK_apostrophe
 BX_KEY_BACKSLASH                              '#'        XK_numbersign
 BX_KEY_BACKSPACE                              none       XK_BackSpace
