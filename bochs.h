@@ -554,6 +554,7 @@ typedef struct {
   bx_param_string_c *Omacaddr;
   bx_param_string_c *Oethmod;
   bx_param_string_c *Oethdev;
+  bx_param_string_c *Oscript;
   } bx_ne2k_options;
 
 typedef struct {
