@@ -22,10 +22,10 @@
 // Translation table of the 8042
 extern unsigned char translation8042[256];
 
-typedef struct 
-{ const char *make;
+typedef struct { 
+  const char *make;
   const char *brek;
-}scancode;
+  }scancode;
 
 // Scancodes table
 extern scancode scancodes[BX_KEY_NBKEYS][3];
