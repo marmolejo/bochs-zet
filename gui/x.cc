@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
+//  Copyright (C) 2002  MandrakeSoft S.A.
 //
 //    MandrakeSoft S.A.
 //    43, rue d'Aboukir
@@ -1958,7 +1958,7 @@ Bool XPeekEventTimeout( Display *display, XEvent *event_return, struct timeval *
 }
 
 
-static void bx_gui_c::sim_is_idle () {
+void bx_gui_c::sim_is_idle () {
   XEvent dummy;
   struct timeval   timeout;   
   timeout.tv_sec  = 0;
