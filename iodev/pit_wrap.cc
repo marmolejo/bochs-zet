@@ -42,7 +42,7 @@ bx_pit_c bx_pit;
 #  undef OUT
 #endif
 
-#define TIME_DIVIDER (4)
+#define TIME_DIVIDER (1)
 #define TIME_MULTIPLIER (1)
 #define TIME_HEADSTART (1)
 //USEC_ALPHA is multiplier for the past.
