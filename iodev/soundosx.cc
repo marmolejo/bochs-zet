@@ -6,8 +6,13 @@
 
 #ifdef PARANOID
 #include <MacTypes.h>
+#else
+#define Float32 KLUDGE_Float32
+#define Float64 KLUDGE_Float64
 #endif
 #include "bochs.h"
+#undef Float32
+#undef Float64
 
 #if defined(macintosh) && BX_SUPPORT_SB16
 #define LOG_THIS bx_sb16.
