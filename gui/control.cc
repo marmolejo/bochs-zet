@@ -372,14 +372,14 @@ void build_runtime_options_prompt (char *format, char *buf, int size)
   for (int i=0; i<2; i++) {
     SIM->get_floppy_options (i, &floppyop);
     sprintf (buffer[i], "%s, size=%s, %s", floppyop.Opath->getptr (),
-	  SIM->get_floppy_type_name (floppyop.Otype->get ()),
-	  floppyop.Oinitial_status->get () ? "inserted" : "ejected");
+      SIM->get_floppy_type_name (floppyop.Otype->get ()),
+      (floppyop.Oinitial_status->get () == 11)? "inserted" : "ejected");
     if (!floppyop.Opath->getptr ()[0]) strcpy (buffer[i], "none");
   }
   SIM->get_cdrom_options (0, &cdromop);
   sprintf (buffer[2], "%s, %spresent, %s",
-     cdromop.Opath->getptr (), cdromop.Opresent->get ()?"":"not ",
-     cdromop.Oinserted->get ()?"inserted":"ejected");
+    cdromop.Opath->getptr (), cdromop.Opresent->get ()?"":"not ",
+    (cdromop.Oinserted->get () == 11)?"inserted":"ejected");
   snprintf (buf, size, format, buffer[0], buffer[1], buffer[2], 
       /* ips->get (), */
       SIM->get_param_num (BXP_VGA_UPDATE_INTERVAL)->get (), 
