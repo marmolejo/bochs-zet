@@ -443,8 +443,8 @@ int n_floppy_type_names = 9;
 
 char *floppy_status_names[] = { "ejected", "inserted", NULL };
 int n_floppy_status_names = 2;
-char *floppy_bootdisk_names[] = { "floppy", "disk","cdrom", NULL };
-int n_floppy_bootdisk_names = 3;
+char *bochs_bootdisk_names[] = { "none", "floppy", "disk","cdrom", NULL };
+int n_bochs_bootdisk_names = 4;
 char *loader_os_names[] = { "none", "linux", "nullkernel", NULL };
 int n_loader_os_names = 3;
 char *keyboard_type_names[] = { "xt", "at", "mf", NULL };

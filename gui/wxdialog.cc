@@ -1205,7 +1205,7 @@ void ParamDialog::AddParam (
 	    bx_list_c *childl = (bx_list_c *)child;
 	    for (int j=0; j<childl->get_size(); j++)
 	      AddParam (childl->get(j), plain, &newcontext);
-	    const char *pagename = child->get_ask_format ();
+	    const char *pagename = child->get_label ();
 	    if (!pagename) pagename = child->get_name ();
 	    panel->SetAutoLayout (TRUE);
 	    panel->SetSizer (boxsz);
