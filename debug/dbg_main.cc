@@ -387,6 +387,10 @@ process_sim2:
   DEV_reset_devices(BX_RESET_HARDWARE);
   SIM->set_init_done (1);
 
+  // update headerbar buttons since drive status can change during init
+  bx_gui->update_drive_status_buttons ();
+
+
   bx_gui->init_signal_handlers ();
   bx_pc_system.start_timers();
 
