@@ -24,10 +24,17 @@ class serial_raw : public logfunctions {
     void set_data_bits (int );
     void set_stop_bits (int);
     void set_parity_mode (int mode);
+    void set_break (int mode);
     void transmit (int byte);
     void send_hangup ();
     int ready_transmit ();
     int ready_receive ();
     int receive ();
+  private:
+    bx_bool present;
+#ifdef WIN32
+    DCB dcb;
+    BOOL DCBchanged;
+#endif
 };
 #endif
