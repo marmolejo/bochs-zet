@@ -699,13 +699,15 @@ bx_keyb_c::paste_bytes (Bit8u *bytes, Bit32s length)
   if (BX_KEY_THIS pastebuf) {
     BX_ERROR (("previous paste was not completed!  %d chars lost", 
 	  BX_KEY_THIS pastebuf_len - BX_KEY_THIS pastebuf_ptr));
-    delete [] BX_KEY_THIS pastebuf;
+    free(BX_KEY_THIS pastebuf);
   }
   BX_KEY_THIS pastebuf = (Bit8u *) malloc (length);
   memcpy (BX_KEY_THIS pastebuf, bytes, length);
   BX_KEY_THIS pastebuf_ptr = 0;
   BX_KEY_THIS pastebuf_len = length;
   BX_KEY_THIS service_paste_buf ();
+
+  delete [] bytes;
 }
 
   void
