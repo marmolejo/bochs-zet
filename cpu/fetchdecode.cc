@@ -2237,7 +2237,7 @@ static BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
   /* 0F AB */  { BxAnother,  &BX_CPU_C::BTS_EvGv },
   /* 0F AC */  { BxAnother | BxImmediate_Ib,  &BX_CPU_C::SHRD_EdGd },
   /* 0F AD */  { BxAnother,                   &BX_CPU_C::SHRD_EdGd },
-  /* 0F AE */  { BxAnother | BxGroup15, NULL, BxOpcodeInfoG8EvIb },
+  /* 0F AE */  { BxAnother | BxGroup15, NULL, BxOpcodeInfoG15 },
   /* 0F AF */  { BxAnother,  &BX_CPU_C::IMUL_GdEd },
   /* 0F B0 */  { BxAnother,  &BX_CPU_C::CMPXCHG_EbGb },
   /* 0F B1 */  { BxAnother,  &BX_CPU_C::CMPXCHG_EdGd },
