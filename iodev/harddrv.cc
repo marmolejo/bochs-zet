@@ -2829,20 +2829,6 @@ int concat_image_t::open (const char* pathname0)
     if (ret) {
 	  BX_PANIC(("fstat() returns error!"));
     }
-    if (S_ISBLK(stat_buf.st_mode))
-    {
-/* it's a block device. st_size will be 0, so set it to the correct size. */
-      if (ioctl(fd_table[i],BLKGETSIZE,&(stat_buf.st_size))==-1)
-        BX_PANIC(("size of block device %s can't be read",pathname));
-      if (stat_buf.st_size > (0x7ffffff/512))
-      {
-       BX_ERROR(("size of disk image is too big, rounded down"));
-        stat_buf.st_size=0x7ffffe00; /* maximum size without overflow */
-      }
-      else
-        stat_buf.st_size*=512; /* returned value is sectors */
-      /* what about an overflow here? should possibly use fstat64 */
-    }
     if ((stat_buf.st_size % 512) != 0) {
       BX_PANIC(("size of disk image must be multiple of 512 bytes"));
     }

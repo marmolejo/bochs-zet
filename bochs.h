@@ -58,7 +58,6 @@ extern "C" {
 #else
 #  ifndef WIN32
 #    include <sys/time.h>
-#    include <sys/mount.h>
 #  endif
 #  include <sys/types.h>
 #  include <sys/stat.h>
