@@ -1298,6 +1298,10 @@ void bx_win32_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight, 
   else
   {
     bitmap_info->bmiHeader.biCompression = BI_RGB;
+    if (bpp == 15)
+    {
+      bitmap_info->bmiHeader.biBitCount = 16;
+    }
   }
 
   SetWindowPos(stInfo.mainWnd, HWND_TOP, 0, 0, stretched_x + x_edge * 2,
