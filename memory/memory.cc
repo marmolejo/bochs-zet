@@ -70,7 +70,7 @@ BX_MEM_C::writePhysicalPage(BX_CPU_C *cpu, Bit32u addr, unsigned len, void *data
     cpu->iCache.decWriteStamp(a20addr);
 #endif
 
-  if ( a20addr <= BX_MEM_THIS len ) {
+  if ( (a20addr + len) <= BX_MEM_THIS len ) {
     // all of data is within limits of physical memory
     if ( (a20addr & 0xfff80000) != 0x00080000 ) {
       if (len == 4) {
