@@ -1005,7 +1005,7 @@ void bx_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight)
   IFDBG_VGA(wxLogDebug ("MyPanel::dimension_update trying to get lock. wxScreen=%p", wxScreen));
   wxScreen_lock.Enter ();
   IFDBG_VGA(wxLogDebug ("MyPanel::dimension_update got lock. wxScreen=%p", wxScreen));
-  BX_INFO (("dimension update"));
+  BX_INFO (("dimension update x=%d y=%d fontheight=%d", x, y, fheight));
   if (fheight > 0) {
   wxFontY = fheight;
   }
