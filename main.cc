@@ -2247,8 +2247,12 @@ bx_init_main (int argc, char *argv[])
   if (load_rcfile) {
     /* parse configuration file and command line arguments */
 #ifdef WIN32
+    LPTSTR *filepart;
+    int length;
     if (bochsrc_filename != NULL) {
-      lstrcpy(bx_startup_flags.initial_dir, bochsrc_filename);
+      GetFullPathName(bochsrc_filename, MAX_PATH, bx_startup_flags.initial_dir, filepart);
+      length = lstrlen(bx_startup_flags.initial_dir) - lstrlen(*filepart);
+      bx_startup_flags.initial_dir[length] = 0;
     } else {
       bx_startup_flags.initial_dir[0] = 0;
     }
