@@ -1352,7 +1352,7 @@ AC_ARG_ENABLE(cdrom,
   [if test "$enableval" = no; then
      bx_cdrom=0
    else
-     bx_cdom=1
+     bx_cdrom=1
    fi],
   [ bx_cdrom=1 ]
   )
