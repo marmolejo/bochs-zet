@@ -56,7 +56,7 @@ BX_CPU_C::POP_Eq(bxInstruction_c *i)
     // the address.
     if (i->as64L() && (!i->modC0()) && (i->rm()==4) && (i->sibBase()==4)) {
       // call method on BX_CPU_C object
-      BX_CPU_CALL_METHOD (i->ResolveModrm, (i));
+      BX_CPU_CALL_METHODR (i->ResolveModrm, (i));
       }
     write_virtual_qword(i->seg(), RMAddr(i), &val64);
     }
