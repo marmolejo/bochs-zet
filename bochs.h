@@ -332,7 +332,7 @@ public:
 			"DEBUG",
 			"INFO",
 			"ERROR",
-			"PANIC"
+			"PANIC",
 			"PASS"
 		};
                 if (i>=0 && i<4) return loglevel[i];
