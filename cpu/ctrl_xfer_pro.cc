@@ -1525,7 +1525,8 @@ BX_CPU_C::iret_protected(bxInstruction_c *i)
     if ( cs_descriptor.valid==0 ||
          cs_descriptor.segment==0  ||
          cs_descriptor.u.segment.executable==0 ) {
-      BX_PANIC(("iret: AR byte indicated non code segment"));
+      BX_PANIC(("iret: AR byte indicated non code segment (%x) %x:%x",
+raw_cs_selector, dword1, dword2));
       exception(BX_GP_EXCEPTION, raw_cs_selector & 0xfffc, 0);
       return;
       }
