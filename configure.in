@@ -1732,6 +1732,7 @@ if test "$with_carbon" = yes; then
   else
     PRIMARY_TARGET=bochs.app/.build   # only for carbon application
   fi
+  INSTALL_TARGET='install_macosx'
 fi
 
 if test "$with_term" = yes; then
