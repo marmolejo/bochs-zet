@@ -72,12 +72,15 @@ bx_serial_c::bx_serial_c(void)
 bx_serial_c::~bx_serial_c(void)
 {
   for (int i=0; i<BX_SERIAL_MAXDEV; i++) {
-    if ((bx_options.com[i].Oenabled->get ()) && (s[i].tty_id >= 0))
+    if (bx_options.com[i].Oenabled->get ()) {
 #if USE_RAW_SERIAL
       delete [] BX_SER_THIS s[i].raw;
 #elif defined(SERIAL_ENABLE)
-      tcsetattr(s[i].tty_id, TCSAFLUSH, &s[i].term_orig);
+      if (s[i].tty_id >= 0) {
+        tcsetattr(s[i].tty_id, TCSAFLUSH, &s[i].term_orig);
+      }
 #endif
+    }
   }
 }
 
