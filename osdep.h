@@ -159,6 +159,16 @@ typedef long ssize_t ;
 extern Bit64u bx_get_realtime64_usec (void);
 #endif
 
+#ifdef WIN32
+#undef BX_HAVE_MSLEEP
+#define BX_HAVE_MSLEEP 1
+#ifndef __MINGW32__
+#define msleep(msec)	_sleep(msec)
+#else
+#define msleep(msec)	Sleep(msec)
+#endif
+#endif
+
 #ifdef __cplusplus
 }
 #endif   /* __cplusplus */
