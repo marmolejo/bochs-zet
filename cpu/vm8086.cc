@@ -136,7 +136,7 @@ BX_CPU_C::stack_return_from_v86(bxInstruction_c *i)
     return;
     }
 
-  if (i->os_32) {
+  if (i->os32L()) {
     Bit32u eip, ecs_raw, eflags_tmp;
 
     if( !can_pop(12) )

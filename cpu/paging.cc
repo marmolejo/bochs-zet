@@ -540,7 +540,7 @@ BX_CPU_C::INVLPG(bxInstruction_c* i)
     }
 
 #if BX_USE_TLB
-  laddr = BX_CPU_THIS_PTR sregs[i->seg].cache.u.segment.base + i->rm_addr;
+  laddr = BX_CPU_THIS_PTR sregs[i->seg()].cache.u.segment.base + RMAddr(i);
   TLB_index = BX_TLB_INDEX_OF(laddr);
   BX_CPU_THIS_PTR TLB.entry[TLB_index].lpf = BX_INVALID_TLB_ENTRY;
   InstrTLB_Increment(tlbEntryInvlpg);

@@ -286,7 +286,7 @@ BX_CPU_C::CALL_Ed(bxInstruction_c *i)
       op1_32 = BX_READ_32BIT_REG(i->rm());
       }
     else {
-      read_virtual_dword(i->seg, i->rm_addr, &op1_32);
+      read_virtual_dword(i->seg(), RMAddr(i), &op1_32);
       }
     invalidate_prefetch_q();
 
@@ -323,8 +323,8 @@ BX_CPU_C::CALL32_Ep(bxInstruction_c *i)
       }
 
     /* pointer, segment address pair */
-    read_virtual_dword(i->seg, i->rm_addr, &op1_32);
-    read_virtual_word(i->seg, i->rm_addr+4, &cs_raw);
+    read_virtual_dword(i->seg(), RMAddr(i), &op1_32);
+    read_virtual_word(i->seg(), RMAddr(i)+4, &cs_raw);
     invalidate_prefetch_q();
 
     if ( protected_mode() ) {
@@ -424,7 +424,7 @@ BX_CPU_C::JMP_Ap(bxInstruction_c *i)
 
   invalidate_prefetch_q();
 
-  if (i->os_32) {
+  if (i->os32L()) {
     disp32 = i->Id();
     }
   else {
@@ -462,7 +462,7 @@ BX_CPU_C::JMP_Ed(bxInstruction_c *i)
       }
     else {
       /* pointer, segment address pair */
-      read_virtual_dword(i->seg, i->rm_addr, &op1_32);
+      read_virtual_dword(i->seg(), RMAddr(i), &op1_32);
       }
 
     invalidate_prefetch_q();
@@ -497,8 +497,8 @@ BX_CPU_C::JMP32_Ep(bxInstruction_c *i)
       }
 
     /* pointer, segment address pair */
-    read_virtual_dword(i->seg, i->rm_addr, &op1_32);
-    read_virtual_word(i->seg, i->rm_addr+4, &cs_raw);
+    read_virtual_dword(i->seg(), RMAddr(i), &op1_32);
+    read_virtual_word(i->seg(), RMAddr(i)+4, &cs_raw);
     invalidate_prefetch_q();
 
     if ( protected_mode() ) {

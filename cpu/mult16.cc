@@ -51,7 +51,7 @@ BX_CPU_C::MUL_AXEw(bxInstruction_c *i)
       }
     else {
       /* pointer, segment address pair */
-      read_virtual_word(i->seg, i->rm_addr, &op2_16);
+      read_virtual_word(i->seg(), RMAddr(i), &op2_16);
       }
 
     product_32 = ((Bit32u) op1_16) * ((Bit32u) op2_16);
@@ -89,7 +89,7 @@ BX_CPU_C::IMUL_AXEw(bxInstruction_c *i)
       }
     else {
       /* pointer, segment address pair */
-      read_virtual_word(i->seg, i->rm_addr, (Bit16u *) &op2_16);
+      read_virtual_word(i->seg(), RMAddr(i), (Bit16u *) &op2_16);
       }
 
     product_32 = ((Bit32s) op1_16) * ((Bit32s) op2_16);
@@ -134,7 +134,7 @@ BX_CPU_C::DIV_AXEw(bxInstruction_c *i)
       }
     else {
       /* pointer, segment address pair */
-      read_virtual_word(i->seg, i->rm_addr, &op2_16);
+      read_virtual_word(i->seg(), RMAddr(i), &op2_16);
       }
 
     if (op2_16 == 0) {
@@ -177,7 +177,7 @@ BX_CPU_C::IDIV_AXEw(bxInstruction_c *i)
       }
     else {
       /* pointer, segment address pair */
-      read_virtual_word(i->seg, i->rm_addr, (Bit16u *) &op2_16);
+      read_virtual_word(i->seg(), RMAddr(i), (Bit16u *) &op2_16);
       }
 
     if (op2_16 == 0) {
@@ -226,7 +226,7 @@ BX_CPU_C::IMUL_GwEwIw(bxInstruction_c *i)
       }
     else {
       /* pointer, segment address pair */
-      read_virtual_word(i->seg, i->rm_addr, (Bit16u *) &op2_16);
+      read_virtual_word(i->seg(), RMAddr(i), (Bit16u *) &op2_16);
       }
 
     product_32 = op2_16 * op3_16;
@@ -268,7 +268,7 @@ BX_CPU_C::IMUL_GwEw(bxInstruction_c *i)
       }
     else {
       /* pointer, segment address pair */
-      read_virtual_word(i->seg, i->rm_addr, (Bit16u *) &op2_16);
+      read_virtual_word(i->seg(), RMAddr(i), (Bit16u *) &op2_16);
       }
 
     op1_16 = BX_READ_16BIT_REG(i->nnn());
