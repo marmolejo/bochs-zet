@@ -54,25 +54,6 @@
      BX_CIRRUS_THIS s.vga_tile_updated[(xtile)][(ytile)]                    \
      : 1)
 
-// Make colour
-#define MAKE_COLOUR(red, red_shiftfrom, red_shiftto, red_mask, \
-                    green, green_shiftfrom, green_shiftto, green_mask, \
-                    blue, blue_shiftfrom, blue_shiftto, blue_mask) \
-( \
- ((((red_shiftto) > (red_shiftfrom)) ? \
-  (red) << ((red_shiftto) - (red_shiftfrom)) : \
-  (red) >> ((red_shiftfrom) - (red_shiftto))) & \
-  (red_mask)) | \
- ((((green_shiftto) > (green_shiftfrom)) ? \
-  (green) << ((green_shiftto) - (green_shiftfrom)) : \
-  (green) >> ((green_shiftfrom) - (green_shiftto))) & \
-  (green_mask)) | \
- ((((blue_shiftto) > (blue_shiftfrom)) ? \
-  (blue) << ((blue_shiftto) - (blue_shiftfrom)) : \
-  (blue) >> ((blue_shiftfrom) - (blue_shiftto))) & \
-  (blue_mask)) \
-)
-
 #define LOG_THIS BX_CIRRUS_THIS
 
 #if BX_USE_CIRRUS_SMF
