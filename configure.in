@@ -326,21 +326,20 @@ AC_ARG_ENABLE(config-interface,
     ]
   )
 
-# continue to support --enable-control-panel and make it do the same
+# continue to support --enable-control-panel and make it do the same, but with no default
 # as before.
 AC_MSG_CHECKING(for control panel)
 AC_ARG_ENABLE(control-panel,
   [  --enable-control-panel           Deprecated. Use --enable-config-interface.],
   [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
+    AC_MSG_RESULT(yes, overrides config-interface setting)
 	use_config_interface=1
    else
-    AC_MSG_RESULT(no)
+    AC_MSG_RESULT(no, overrides config-interface setting)
 	use_config_interface=0
    fi],
   [
-    AC_MSG_RESULT(yes)
-	use_config_interface=1
+    AC_MSG_RESULT(same as config-interface setting)
     ]
   )
 

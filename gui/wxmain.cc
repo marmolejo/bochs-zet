@@ -234,7 +234,7 @@ bool MyApp::OnInit()
   SetTopWindow( frame );
   wxTheClipboard->UsePrimarySelection (true);
   // if quickstart is enabled, kick off the simulation
-  if (SIM->get_param_bool(BXP_QUICK_START)->get ()) {
+  if (SIM->get_param_enum(BXP_BOCHS_START)->get () == BX_QUICK_START) {
     wxCommandEvent unusedEvent;
     frame->OnStartSim (unusedEvent);
   }
