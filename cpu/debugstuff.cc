@@ -1000,8 +1000,8 @@ void BX_CPU_C::atexit(void)
 {
   static const char *cpu_mode_name[] = {
      "real mode",
-     "protected mode",
      "v8086 mode",
+     "protected mode",
      "compatibility mode",
      "long mode"
   };
