@@ -209,7 +209,7 @@ char *bx_strdup(const char *str)
 {
 	char *temp;
 	
-	temp = malloc(strlen(str));
+	temp = malloc(strlen(str)+1);
 	sprintf(temp, "%s", str);
 	return temp;
 	
