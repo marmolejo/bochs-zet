@@ -800,6 +800,7 @@ bx_param_c::bx_param_c (bx_id id, char *name, char *description)
   this->description = description;
   this->text_format = default_text_format;
   this->ask_format = NULL;
+  this->label = NULL;
   this->runtime_param = 0;
   this->enabled = 1;
   SIM->register_param (id, this);
