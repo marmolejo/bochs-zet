@@ -58,7 +58,7 @@ BX_CPU_C::NOP(bxInstruction_c *i)
 
 void BX_CPU_C::PREFETCH(bxInstruction_c *i)
 {
-#if BX_SUPPORT_SSE != 0
+#if BX_SUPPORT_3DNOW || BX_SUPPORT_SSE >= 1
   BX_INSTR_PREFETCH_HINT(BX_CPU_ID, i->nnn(), i->seg(), RMAddr(i));
 #else
   UndefinedOpcode(i);
