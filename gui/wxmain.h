@@ -95,6 +95,9 @@ enum
 //#define IFDBG_KEY(x) x
 
 
+// defined in wxmain.cc
+void safeWxStrcpy (char *dest, wxString src, int destlen);
+
 /// the MyPanel methods are defined in wx.cc
 class MyPanel: public wxPanel
 {
@@ -133,6 +136,7 @@ public:
   void OnKillSim(wxCommandEvent& event);
   void OnSim2CIEvent(wxCommandEvent& event);
   void OnEditBoot(wxCommandEvent& event);
+  void OnEditMemory(wxCommandEvent& event);
   void OnEditNet(wxCommandEvent& event);
   void OnLogPrefs(wxCommandEvent& event);
   void OnOtherEvent(wxCommandEvent& event);
