@@ -962,7 +962,7 @@ bx_init_bx_dbg (void)
 #if BX_MAGIC_BREAKPOINT
   bx_dbg.magic_break_enabled = 0;
 #endif
-#ifdef BX_GDBSTUB
+#if BX_GDBSTUB
   bx_dbg.gdbstub_enabled = 0;
 #endif
 

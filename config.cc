@@ -3124,7 +3124,7 @@ parse_line_formatted(char *context, int num_params, char *params[])
       }
     }
   else if (!strcmp(params[0], "gdbstub")) {
-#ifdef BX_GDBSTUB
+#if BX_GDBSTUB
     if (num_params < 2) {
       PARSE_ERR(("%s: gdbstub directive: wrong # args.", context));
       }

@@ -455,7 +455,7 @@ typedef struct {
 #if BX_MAGIC_BREAKPOINT
   bx_bool magic_break_enabled;
 #endif /* BX_MAGIC_BREAKPOINT */
-#ifdef BX_GDBSTUB
+#if BX_GDBSTUB
   bx_bool gdbstub_enabled;
 #endif
 #if BX_SUPPORT_APIC
