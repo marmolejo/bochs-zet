@@ -33,14 +33,14 @@
 
 void BX_CPU_C::MOV_RXIw(bxInstruction_c *i)
 {
-  BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].word.rx = i->Iw();
+  BX_WRITE_16BIT_REG(i->opcodeReg(), i->Iw());
 }
 
 void BX_CPU_C::XCHG_RXAX(bxInstruction_c *i)
 {
   Bit16u temp16 = AX;
-  AX = BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].word.rx;
-  BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].word.rx = temp16;
+  AX = BX_READ_16BIT_REG(i->opcodeReg());
+  BX_WRITE_16BIT_REG(i->opcodeReg(), temp16);
 }
 
 void BX_CPU_C::MOV_EEwGw(bxInstruction_c *i)

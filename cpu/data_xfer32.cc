@@ -48,11 +48,7 @@ BX_CPU_C::XCHG_ERXEAX(bxInstruction_c *i)
 
 void BX_CPU_C::MOV_ERXId(bxInstruction_c *i)
 {
-#if BX_SUPPORT_X86_64
-  BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].rrx = i->Id();
-#else
-  BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].dword.erx = i->Id();
-#endif
+  BX_WRITE_32BIT_REGZ(i->opcodeReg(), i->Id());
 }
 
   void

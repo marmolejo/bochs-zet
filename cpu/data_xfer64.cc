@@ -36,14 +36,14 @@
 BX_CPU_C::XCHG_RRXRAX(bxInstruction_c *i)
 {
   Bit64u temp64 = RAX;
-  RAX = BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].rrx;
-  BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].rrx = temp64;
+  RAX = BX_READ_64BIT_REG(i->opcodeReg());
+  BX_WRITE_64BIT_REG(i->opcodeReg(), temp64);
 }
 
   void
 BX_CPU_C::MOV_RRXIq(bxInstruction_c *i)
 {
-  BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].rrx = i->Iq();
+  BX_WRITE_64BIT_REG(i->opcodeReg(), i->Iq());
 }
 
   void
