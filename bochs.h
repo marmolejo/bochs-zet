@@ -521,13 +521,6 @@ extern bx_gui_c   bx_gui;
 extern bx_devices_c   bx_devices;
 #endif
 
-#define BX_EJECTED   10
-#define BX_INSERTED  11
-
-
-#define BX_RESET_SOFTWARE 10
-#define BX_RESET_HARDWARE 11
-
 void bx_init_before_config_interface ();
 
 // This value controls how often each I/O device's periodic() method
