@@ -238,6 +238,7 @@ private:
     Bit8u rgb[3 * 256];
     Bit8u tile[X_TILESIZE * Y_TILESIZE];
     Bit16u charmap_address;
+    bx_bool x_dotclockdiv2;
     bx_bool y_doublescan;
 
 #if BX_SUPPORT_VBE    
