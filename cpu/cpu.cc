@@ -275,8 +275,8 @@ async_events_processed:
       // to the i-> structure.
       BX_CPU_THIS_PTR iCache.entry[iCacheHash].writeStamp =
         ICacheWriteStampInvalid;
-#endif
       i = &iStorage;
+#endif
       boundaryFetch(i);
       resolveModRM = i->ResolveModrm; // Get function pointers as early
       }
