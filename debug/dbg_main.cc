@@ -2067,7 +2067,7 @@ void bx_dbg_disassemble_current (int which_cpu, int print_time)
 
   if (which_cpu < 0) {
     // iterate over all of them.
-    for (int i=0; i<BX_NUM_SIMULATORS; i++)
+    for (int i=0; i<BX_SMP_PROCESSORS; i++)
       bx_dbg_disassemble_current (i, print_time);
     return;
   }
@@ -2200,7 +2200,10 @@ for (sim=0; sim<BX_SMP_PROCESSORS; sim++) {
 
 #if BX_DISASM
   if (bx_debugger.auto_disassemble) {
-    fprintf (stderr, "Next at t=%lld\n", bx_pc_system.time_ticks ());
+    if (sim==0) {
+      // print this only once
+      fprintf (stderr, "Next at t=%lld\n", bx_pc_system.time_ticks ());
+    }
     bx_dbg_disassemble_current (sim, 0);  // one cpu, don't print time
   }
 #endif  // #if BX_DISASM
