@@ -65,6 +65,7 @@ class bx_wx_gui_c : public bx_gui_c {
 public:
   bx_wx_gui_c (void) {}
   DECLARE_GUI_VIRTUAL_METHODS()
+  virtual void statusbar_setitem(int element, bx_bool active);
 };
 
 // declare one instance of the gui object and call macro to insert the
@@ -1024,6 +1025,26 @@ void bx_wx_gui_c::handle_events(void)
     }
   }
   num_events = 0;
+}
+
+void 
+bx_wx_gui_c::statusbar_setitem(int element, bx_bool active)
+{
+  if (element < 0) {
+    for (unsigned i = 0; i < statusitem_count; i++) {
+      if (active) {
+        theFrame->SetStatusText(statusitem_text[i], i+1);
+      } else {
+        theFrame->SetStatusText("", i+1);
+      }
+    }
+  } else if ((unsigned)element < statusitem_count) {
+    if (active) {
+      theFrame->SetStatusText(statusitem_text[element], element+1);
+    } else {
+      theFrame->SetStatusText("", element+1);
+    }
+  }
 }
 
 // ::FLUSH()

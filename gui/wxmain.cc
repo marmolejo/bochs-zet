@@ -475,6 +475,10 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size, 
   menuLog->Enable (ID_Log_View, FALSE);  // not implemented
 
   CreateStatusBar();
+  wxStatusBar *sb = GetStatusBar();
+  sb->SetFieldsCount(12);
+  const int sbwidth[12] = {160, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, -1};
+  sb->SetStatusWidths(12, sbwidth);
 
   CreateToolBar(wxNO_BORDER|wxHORIZONTAL|wxTB_FLAT);
   wxToolBar *tb = GetToolBar();
