@@ -1942,6 +1942,7 @@ case "$target" in
     AC_DEFINE(BX_NO_ATTRIBUTES, 1)
     AC_DEFINE(HAVE_TUNTAP, 0)
     AC_DEFINE(HAVE_ETHERTAP, 0)
+    AC_DEFINE(BX_HAVE_HASH_MAP, 0)
     ;;
   *-pc-windows*)
     INSTALL_TARGET='install_win32'
