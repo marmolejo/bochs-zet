@@ -1396,7 +1396,8 @@ if ( quantumsMax == 0)
 							      BX_SELECTED_CONTROLLER(channel).buffer[9] = 0x12;
 							      BX_SELECTED_CONTROLLER(channel).buffer[10] = 0x00;
 							      BX_SELECTED_CONTROLLER(channel).buffer[11] = 0x00;
-							      BX_SELECTED_CONTROLLER(channel).buffer[12] = 0x00;
+							      // Multisession, Mode 2 Form 2, Mode 2 Form 1
+							      BX_SELECTED_CONTROLLER(channel).buffer[12] = 0x70; 
 							      BX_SELECTED_CONTROLLER(channel).buffer[13] = (3 << 5);
 							      BX_SELECTED_CONTROLLER(channel).buffer[14] = (unsigned char)
 (1 |
