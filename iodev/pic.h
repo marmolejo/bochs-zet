@@ -96,4 +96,5 @@ private:
   BX_PIC_SMF void   service_master_pic(void);
   BX_PIC_SMF void   service_slave_pic(void);
   BX_PIC_SMF void   clear_highest_interrupt(bx_pic_t *pic);
+  BX_PIC_SMF void   check_irq_level(bx_pic_t *pic);
   };
