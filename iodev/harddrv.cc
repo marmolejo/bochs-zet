@@ -1627,8 +1627,16 @@ if ( quantumsMax == 0)
 			      }
 			      break;
 
-			      case 0x28: { // read (10)
-				    uint32 transfer_length = read_16bit(BX_SELECTED_CONTROLLER(channel).buffer + 7);
+			      case 0x28: // read (10)
+			      case 0xa8: // read (12)
+			                 { 
+
+				    uint32 transfer_length;
+				    if (atapi_command == 0x28)
+				          transfer_length = read_16bit(BX_SELECTED_CONTROLLER(channel).buffer + 7);
+				    else
+				          transfer_length = read_32bit(BX_SELECTED_CONTROLLER(channel).buffer + 6);
+
 				    uint32 lba = read_32bit(BX_SELECTED_CONTROLLER(channel).buffer + 2);
 
 				    if (!BX_SELECTED_DRIVE(channel).cdrom.ready) {
@@ -1640,7 +1648,7 @@ if ( quantumsMax == 0)
 				    if (transfer_length == 0) {
 					  atapi_cmd_nop(channel);
 					  raise_interrupt(channel);
-					  BX_INFO(("READ(10) with transfer length 0, ok"));
+					  BX_INFO(("READ(%d) with transfer length 0, ok", atapi_command==0x28?10:12));
 					  break;
 				    }
 
@@ -1650,7 +1658,7 @@ if ( quantumsMax == 0)
 					  break;
 				    }
 
-				    //BX_INFO(("cdrom: READ LBA=%d LEN=%d", lba, transfer_length));
+				    BX_DEBUG(("cdrom: READ (%d) LBA=%d LEN=%d", atapi_command==0x28?10:12, lba, transfer_length));
 
 				    // handle command
 				    init_send_atapi_command(channel, atapi_command, transfer_length * 2048,
@@ -1732,7 +1740,6 @@ if ( quantumsMax == 0)
 			      }
 			      break;
 
-			      case 0xa8: // read (12)
 			      case 0x55: // mode select
 			      case 0xa6: // load/unload cd
 			      case 0x4b: // pause/resume
