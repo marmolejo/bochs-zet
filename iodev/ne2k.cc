@@ -1108,7 +1108,8 @@ bx_ne2k_c::rx_frame(const void *buf, unsigned io_len)
 
   BX_DEBUG(("rx_frame with length %d", io_len));
 
-  if ((BX_NE2K_THIS s.CR.start == 0) ||
+
+  if ((BX_NE2K_THIS s.CR.stop != 0) ||
       (BX_NE2K_THIS s.page_start == 0) ||
       (BX_NE2K_THIS s.TCR.loop_cntl != 0)) {
 
