@@ -1462,18 +1462,12 @@ void bx_init_options ()
   menu->get_options ()->set (menu->SHOW_PARENT);
 
   bx_param_c *other_init_list[] = {
-      bx_options.Okeyboard_serial_delay,
-      bx_options.Okeyboard_paste_delay,
       bx_options.Ofloppy_command_delay,
       bx_options.Oi440FXSupport,
       bx_options.cmos.OcmosImage,
       bx_options.cmos.Opath,
       SIM->get_param (BXP_CLOCK),
       SIM->get_param (BXP_LOAD32BITOS),
-      bx_options.keyboard.OuseMapping,
-      bx_options.keyboard.Okeymap,
-      bx_options.Okeyboard_type,
-      bx_options.Ouser_shortcut,
       NULL
   };
   menu = new bx_list_c (BXP_MENU_MISC, "Configure Everything Else", "", other_init_list);
