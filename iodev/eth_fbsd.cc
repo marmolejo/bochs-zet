@@ -149,7 +149,6 @@ bx_fbsd_pktmover_c::bx_fbsd_pktmover_c(const char *netif,
   struct bpf_program bp;
   u_int v;
 
-  put("BPF");
   memcpy(fbsd_macaddr, macaddr, 6);
 
   do {
