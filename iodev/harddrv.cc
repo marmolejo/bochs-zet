@@ -794,6 +794,9 @@ if ( quantumsMax == 0)
 			      case 0x28: // read (10)
 			      case 0xa8: // read (12)
 #ifdef LOWLEVEL_CDROM
+				    if (!BX_SELECTED_DRIVE(channel).cdrom.ready) {
+				      BX_PANIC(("Read with CDROM not ready"));
+				    } 
 				    BX_SELECTED_DRIVE(channel).cdrom.cd->read_block(BX_SELECTED_CONTROLLER(channel).buffer,
 									BX_SELECTED_DRIVE(channel).cdrom.next_lba);
 				    BX_SELECTED_DRIVE(channel).cdrom.next_lba++;
