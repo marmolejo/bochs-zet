@@ -777,6 +777,7 @@ BX_CPU_C::prefetch(void)
       }
     }
 
+#if BX_SupportICache
   Bit32u pageWriteStamp;
   Bit32u fetchModeMask;
   Bit32u phyPageIndex;
@@ -791,6 +792,7 @@ BX_CPU_C::prefetch(void)
     pageWriteStamp |= fetchModeMask; // Add in new ones.
     BX_CPU_THIS_PTR iCache.pageWriteStampTable[phyPageIndex] = pageWriteStamp;
     }
+#endif
 }
 
 
