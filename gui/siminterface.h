@@ -1074,7 +1074,9 @@ public:
 #define BX_ATA_TRANSLATION_NONE      0
 #define BX_ATA_TRANSLATION_LBA       1
 #define BX_ATA_TRANSLATION_LARGE     2
-#define BX_ATA_TRANSLATION_LAST      2
+#define BX_ATA_TRANSLATION_RECHS     3
+#define BX_ATA_TRANSLATION_AUTO      4
+#define BX_ATA_TRANSLATION_LAST      4
 
 extern char *floppy_type_names[];
 extern int floppy_type_n_sectors[];
