@@ -81,6 +81,8 @@ enum
   ID_SPT,
   ID_Megs,
   ID_ComputeGeometry,
+  // dialog box: LogOptions
+  ID_Advanced
 };
 
 
@@ -132,6 +134,7 @@ public:
   void OnSim2CIEvent(wxCommandEvent& event);
   void OnEditBoot(wxCommandEvent& event);
   void OnEditNet(wxCommandEvent& event);
+  void OnLogPrefs(wxCommandEvent& event);
   void OnOtherEvent(wxCommandEvent& event);
   static bool editFloppyValidate (FloppyConfigDialog *dialog);
   void editFloppyConfig (int drive);
