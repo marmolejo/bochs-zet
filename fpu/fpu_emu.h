@@ -64,19 +64,6 @@
 
 #include "fpu_system.h"
 
-/*
-#define RE_ENTRANT_CHECKING
- */
-
-#ifdef RE_ENTRANT_CHECKING
-extern u_char emulating;
-#  define RE_ENTRANT_CHECK_OFF emulating = 0
-#  define RE_ENTRANT_CHECK_ON emulating = 1
-#else
-#  define RE_ENTRANT_CHECK_OFF
-#  define RE_ENTRANT_CHECK_ON
-#endif /* ifdef RE_ENTRANT_CHECKING */
-
 #define FWAIT_OPCODE 0x9b
 #define OP_SIZE_PREFIX 0x66
 #define ADDR_SIZE_PREFIX 0x67
