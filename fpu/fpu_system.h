@@ -26,7 +26,9 @@ typedef Bit32s s32;
 typedef Bit64u u64;
 typedef Bit64s s64;
 
+#ifndef __APPLE__
 typedef Bit8u u_char;
+#endif
 
 /* -----------------------------------------------------------
  * Slimmed down version used to compile against a CPU simulator
