@@ -349,10 +349,11 @@ BX_CPU_C::ENTER_IwIb(bxInstruction_c *i)
       }
     else { /* level > 0 */
       if (i->os32L())
-        bytes_to_push = 4 + (level-1)*4 + 4 + i->Iw();
+        bytes_to_push = 4 + level*4 + i->Iw();
       else
-        bytes_to_push = 2 + (level-1)*2 + 2 + i->Iw();
+        bytes_to_push = 2 + level*2 + i->Iw();
       }
+
     if (BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.d_b)
       temp_ESP = ESP;
     else

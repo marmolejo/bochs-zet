@@ -134,7 +134,6 @@ BX_CPU_C::RCL_Eb(bxInstruction_c *i)
   else // 0xd2
     count = CL;
 
-  count &= 0x1F;
   count %= 9;
 
   /* op1 is a register or memory reference */
@@ -187,7 +186,6 @@ BX_CPU_C::RCR_Eb(bxInstruction_c *i)
   else // 0xd2
     count = CL;
 
-  count &= 0x1F;
   count %= 9;
 
   /* op1 is a register or memory reference */

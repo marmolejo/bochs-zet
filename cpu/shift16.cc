@@ -256,7 +256,6 @@ BX_CPU_C::RCL_Ew(bxInstruction_c *i)
   else // 0xd3
     count = CL;
 
-  count &= 0x1F;
   count %= 17;
 
     /* op1 is a register or memory reference */
@@ -313,7 +312,6 @@ BX_CPU_C::RCR_Ew(bxInstruction_c *i)
   else // 0xd3
     count = CL;
 
-  count = count & 0x1F;
   count %= 17;
 
     /* op1 is a register or memory reference */

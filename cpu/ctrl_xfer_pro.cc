@@ -1376,11 +1376,7 @@ BX_CPU_C::return_protected(bxInstruction_c *i, Bit16u pop_bytes)
 
     /* check ES, DS, FS, GS for validity */
     validate_seg_regs();
-
-    return;
     }
-
-  return;
 }
 #endif
 
