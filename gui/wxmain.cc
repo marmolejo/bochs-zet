@@ -966,8 +966,15 @@ void MyFrame::editFloppyConfig (int drive)
   }
   dlg.AddRadio ("Not Present", "");
   dlg.AddRadio ("Ejected", "none");
+#if defined(__linux__)
   dlg.AddRadio ("Physical floppy drive /dev/fd0", "/dev/fd0");
   dlg.AddRadio ("Physical floppy drive /dev/fd1", "/dev/fd1");
+#elif defined(WIN32)
+  dlg.AddRadio ("Physical floppy drive A:", "A:");
+  dlg.AddRadio ("Physical floppy drive B:", "B:");
+#else
+  // add your favorite operating system here
+#endif
   dlg.SetCapacity (disktype->get () - disktype->get_min ());
   dlg.SetFilename (fname->getptr ());
   dlg.SetValidateFunc (editFloppyValidate);
@@ -1059,7 +1066,13 @@ void MyFrame::editCdromConfig ()
   wxASSERT (fname->get_type () == BXT_PARAM_STRING
       && present->get_type () == BXT_PARAM_BOOL
       && status->get_type () == BXT_PARAM_ENUM);
+#if defined(__linux__)
   dlg.AddRadio ("Physical CD-ROM drive /dev/cdrom", "/dev/cdrom");
+#elif defined (WIN32)
+  dlg.AddRadio ("Physical CD-ROM drive D:", "D:");
+#else
+  // add your favorite operating system here
+#endif
   dlg.SetEnable (present->get () ? TRUE : FALSE);
   dlg.SetFilename (fname->getptr ());
   dlg.SetEjected (status->get () == BX_EJECTED);
