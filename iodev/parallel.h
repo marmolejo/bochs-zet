@@ -48,6 +48,7 @@ typedef struct {
     Boolean init;
     Boolean slct_in;
     Boolean irq;
+    Boolean input;
   } CONTROL;
 } bx_par_t;
 
