@@ -320,8 +320,8 @@ void bx_sdl_gui_c::text_update(
       {
 
 	// Get Foreground/Background pixel colors
-	fgcolor_ndx = new_text[1] & 0x0F;
-	bgcolor_ndx = (new_text[1] >> 4) & 0x07;
+	fgcolor_ndx = DEV_vga_get_actl_pal_idx(new_text[1] & 0x0F);
+	bgcolor_ndx = DEV_vga_get_actl_pal_idx((new_text[1] >> 4) & 0x07);
 	fgcolor = palette[fgcolor_ndx];
 	bgcolor = palette[bgcolor_ndx];
 	invert = ( (y == cursor_y) && (x == cursor_x) && (cs_start < cs_end) );

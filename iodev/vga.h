@@ -116,6 +116,7 @@ public:
   virtual void   set_update_interval (unsigned interval);
   virtual void   get_text_snapshot(Bit8u **text_snapshot, unsigned *txHeight,
                                    unsigned *txWidth);
+  virtual Bit8u  get_actl_palette_idx(Bit8u index);
 
 private:
 

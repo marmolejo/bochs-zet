@@ -2107,6 +2107,12 @@ bx_vga_c::get_text_snapshot(Bit8u **text_snapshot, unsigned *txHeight,
   }
 }
 
+  Bit8u
+bx_vga_c::get_actl_palette_idx(Bit8u index)
+{
+  return BX_VGA_THIS s.attribute_ctrl.palette_reg[index];
+}
+
   void
 bx_vga_c::dump_status(void)
 {
