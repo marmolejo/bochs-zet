@@ -139,6 +139,8 @@ static BOOL CALLBACK FloppyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
         status = SIM->get_param_enum(BXP_FLOPPYB_STATUS);
         disktype = SIM->get_param_enum(BXP_FLOPPYB_DEVTYPE);
       }
+      cap = disktype->get() - disktype->get_min();
+      SetWindowText(GetDlgItem(hDlg, IDDEVTYPE), floppy_type_names[cap]);
       if (status->get() == BX_INSERTED) {
         SendMessage(GetDlgItem(hDlg, IDSTATUS), BM_SETCHECK, BST_CHECKED, 0);
       }
