@@ -317,7 +317,7 @@ install_win32: download_dlx @INSTALL_DOCBOOK_VAR@
 	for i in $(INSTALL_LIST_WIN32) niclist; do if test -f $$i; then cp $$i $(prefix); else cp $(srcdir)/$$i $(prefix); fi; done
 	cp $(srcdir)/misc/sb16/sb16ctrl.example $(prefix)/sb16ctrl.txt
 	cp $(srcdir)/misc/sb16/sb16ctrl.exe $(prefix)
-	cat $(srcdir)/build/win32/DOC-win32.htm | $(SED) -e 's/@VERSION@/$(VERSION)/g' > $(prefix)/DOC-win32.htm
+	#cat $(srcdir)/build/win32/DOC-win32.htm | $(SED) -e 's/@VERSION@/$(VERSION)/g' > $(prefix)/DOC-win32.htm
 	cp $(srcdir)/.bochsrc $(prefix)/bochsrc-sample.txt
 	-mkdir $(prefix)/keymaps
 	cp $(srcdir)/gui/keymaps/*.map $(prefix)/keymaps
