@@ -146,7 +146,7 @@ bool MyApp::OnInit()
 {
   //wxLog::AddTraceMask (_T("mime"));
   bx_init_siminterface ();
-  bx_init_main ();
+  bx_init_main (argc, argv);
   MyFrame *frame = new MyFrame( "Bochs x86 Emulator", wxPoint(50,50), wxSize(450,340), wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION );
   theFrame = frame;  // hack alert
   frame->Show( TRUE );
