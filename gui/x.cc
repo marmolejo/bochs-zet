@@ -884,6 +884,9 @@ xkeypress(KeySym keysym, int press_release)
         key_event = BX_KEY_KP_LEFT; break;
 
       case XK_KP_5:
+#ifdef XK_KP_Begin
+      case XK_KP_Begin:
+#endif
         key_event = BX_KEY_KP_5; break;
 
       case XK_KP_6:
