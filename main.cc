@@ -366,6 +366,8 @@ void bx_init_options ()
   bx_options.floppya.Otype->set_format (", size=%s, ");
   bx_options.floppya.Ostatus->set_format ("%s");
   bx_param_c *floppya_init_list[] = {
+    // if the order "path,type,status" changes, corresponding changes must
+    // be made in gui/wxmain.cc, MyFrame::editFloppyConfig.
     bx_options.floppya.Opath,
     bx_options.floppya.Otype,
     bx_options.floppya.Ostatus,
