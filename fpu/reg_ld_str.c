@@ -304,7 +304,7 @@ FPU_load_int32(bx_address _s, FPU_REG *loaded_data)
 
 
 /* Get a short from user memory */
-int  BX_CPP_AttrRegparmN(1)
+int  BX_CPP_AttrRegparmN(2)
 FPU_load_int16(bx_address _s, FPU_REG *loaded_data)
 {
   s16 s, negative;
