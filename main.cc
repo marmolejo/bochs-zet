@@ -988,7 +988,7 @@ void bx_init_options ()
     0);
   bx_options.Osel_displaylib->set_by_name (BX_DEFAULT_DISPLAY_LIBRARY);
   bx_options.Osel_displaylib->set_format ("Display library: %s");
-  bx_options.Osel_displaylib->set_ask_format ("Choose which libary to use for the Bochs display: [%s] ");
+  bx_options.Osel_displaylib->set_ask_format ("Choose which library to use for the Bochs display: [%s] ");
   bx_param_c *interface_init_list[] = {
     bx_options.Osel_config,
     bx_options.Osel_displaylib,
