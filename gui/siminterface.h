@@ -647,5 +647,5 @@ public:
 extern bx_simulator_interface_c *SIM;
 
 extern void bx_init_siminterface ();
-extern void bx_init_main ();
+extern void bx_init_main (int argc, char *argv[]);
 extern int bx_continue_after_control_panel (int argc, char *argv[]);
