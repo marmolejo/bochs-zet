@@ -1990,10 +1990,11 @@ void bx_sb16_c::opl_timerevent()
 	if ( (OPL.timer[i]--) == 0)
 	  { // overflow occured, set flags accordingly
 	    OPL.timer[i] = OPL.timerinit[i];      // reset the counter
-	    if ( (OPL.tmask[i/2] >> (5 + i % 2) ) != 0)  // set flags only if unmasked
+	    if ( (OPL.tmask[i/2] >> (6 - (i % 2)) ) == 0)  // set flags only if unmasked
 	      {
-		OPL.tflag[i/2] &= 1 << (5 + i % 2);   // set the overflow flag
-		OPL.tflag[i/2] &= 1 << 7;             // set the IRQ flag
+		writelog(WAVELOG(5), "OPL Timer Interrupt: Chip %d, Timer %d", i/2, 1 << (i % 2));
+		OPL.tflag[i/2] |= 1 << (6 - (i % 2));   // set the overflow flag
+		OPL.tflag[i/2] |= 1 << 7;             // set the IRQ flag
 	      }
 	  }
       }
