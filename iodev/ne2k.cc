@@ -224,7 +224,7 @@ bx_ne2k_c::chipmem_read(Bit32u address, unsigned int io_len)
     return (retval);
   }
 
-  BX_INFO(("out-of-bounds chipmem read, %04X", address));
+  BX_ERROR(("out-of-bounds chipmem read, %04X", address));
 
   return (0xff);
 }
@@ -240,7 +240,7 @@ bx_ne2k_c::chipmem_write(Bit32u address, Bit32u value, unsigned io_len)
     if (io_len == 2)
       BX_NE2K_THIS s.mem[address - BX_NE2K_MEMSTART + 1] = value >> 8;
   } else
-    BX_INFO(("out-of-bounds chipmem write, %04X", address));
+    BX_ERROR(("out-of-bounds chipmem write, %04X", address));
 }
 
 //

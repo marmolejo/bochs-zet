@@ -1416,12 +1416,9 @@ BX_DEBUG(("IO write to %04x = %02x", (unsigned) address, (unsigned) value));
 	  if (BX_SELECTED_HD.device_type != IDE_DISK)
 		BX_PANIC(("initialize drive parameters issued to non-disk"));
           // sets logical geometry of specified drive
-          BX_INFO(("initialize drive params"));
-          BX_INFO(("  sector count = %u",
-            (unsigned) BX_SELECTED_CONTROLLER.sector_count));
-          BX_INFO(("  drive select = %u",
-            (unsigned) BX_HD_THIS drive_select));
-          BX_INFO(("  head number = %u",
+          BX_DEBUG(("init drive params: sec=%u, drive sel=%u, head=%u",
+            (unsigned) BX_SELECTED_CONTROLLER.sector_count,
+            (unsigned) BX_HD_THIS drive_select,
             (unsigned) BX_SELECTED_CONTROLLER.head_no));
           if (BX_HD_THIS drive_select != 0 && !bx_options.diskd.Opresent->get ()) {
             BX_PANIC(("init drive params: drive != 0"));
