@@ -1404,8 +1404,12 @@ void MyFrame::editFloppyConfig (int drive)
 
 void MyFrame::editFirstCdrom ()
 {
-  ParamDialog dlg (this, -1);
   bx_param_c *firstcd = SIM->get_first_cdrom ();
+  if (!firstcd) {
+    wxMessageBox ("No CDROM drive is enabled.  Use Edit:ATA to set one up.", "No CDROM", wxOK | wxICON_ERROR );
+    return;
+  }
+  ParamDialog dlg (this, -1);
   dlg.SetTitle ("Configure CDROM");
   dlg.AddParam (firstcd);
   dlg.ShowModal ();
