@@ -990,6 +990,7 @@ typedef void (BX_CPU_C::*BxExecutePtr_tR)(bxInstruction_c *) BX_CPP_AttrRegparmN
 #define ICacheWriteStampInvalid   0x1fffffff
 #define ICacheWriteStampMax       0x1fffffff // Decrements from here.
 #define ICacheWriteStampMask      0x1fffffff
+#define ICacheFetchModeMask       (~ICacheWriteStampMask)
 
 class bxICacheEntry_c {
   public:

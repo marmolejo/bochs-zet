@@ -55,6 +55,7 @@ BX_CPU_C::load_seg_reg(bx_segment_reg_t *seg, Bit16u new_value)
       BX_CPU_THIS_PTR iCache.fetchModeMask =
           BX_CPU_THIS_PTR iCache.createFetchModeMask(BX_CPU_THIS);
 #endif
+      invalidate_prefetch_q();
       }
     else
       seg->cache.u.segment.executable = 0; /* data segment */
@@ -337,6 +338,7 @@ BX_CPU_C::load_seg_reg(bx_segment_reg_t *seg, Bit16u new_value)
       BX_CPU_THIS_PTR iCache.fetchModeMask =
           BX_CPU_THIS_PTR iCache.createFetchModeMask(BX_CPU_THIS);
 #endif
+    invalidate_prefetch_q();
     }
   else { /* SS, DS, ES, FS, GS */
     seg->selector.value = new_value;
@@ -557,6 +559,8 @@ BX_CPU_C::load_cs(bx_selector_t *selector, bx_descriptor_t *descriptor,
   BX_CPU_THIS_PTR iCache.fetchModeMask =
       BX_CPU_THIS_PTR iCache.createFetchModeMask(BX_CPU_THIS);
 #endif
+  // Loading CS will invalidate the EIP fetch window.
+  invalidate_prefetch_q();
 }
 
   void BX_CPP_AttrRegparmN(3)

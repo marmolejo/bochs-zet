@@ -1986,7 +1986,7 @@ BX_CPU_C::SYSENTER (bxInstruction_c *i)
     return;
   }
 
-  invalidate_prefetch_q ();
+  invalidate_prefetch_q();
 
   BX_CPU_THIS_PTR set_VM(0);           // do this just like the book says to do
   BX_CPU_THIS_PTR set_IF(0);
@@ -2051,7 +2051,7 @@ BX_CPU_C::SYSEXIT (bxInstruction_c *i)
     return;
   }
 
-  invalidate_prefetch_q ();
+  invalidate_prefetch_q();
 
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value = (BX_CPU_THIS_PTR sysenter_cs_msr + 16) | 3;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.index = (BX_CPU_THIS_PTR sysenter_cs_msr + 16) >> 3;
