@@ -68,7 +68,6 @@ BX_MEM_C::BX_MEM_C(size_t memsize)
   vector = new Bit8u[memsize];
   len    = memsize;
   megabytes = len / (1024*1024);
-  BX_INFO(("Init(%uB == %.2f)",memsize, megabytes));
 }
 #endif // #if BX_PROVIDE_CPU_MEMORY
 
@@ -100,7 +99,7 @@ BX_MEM_C::init_memory(int memsize)
     BX_MEM_THIS vector = new Bit8u[memsize];
     BX_MEM_THIS len    = memsize;
     BX_MEM_THIS megabytes = memsize / (1024*1024);
-    BX_INFO(("%.2fMB", memsize, (float)(BX_MEM_THIS megabytes) ));
+    BX_INFO(("%.2fMB", (float)(BX_MEM_THIS megabytes) ));
     }
   // initialize all memory to 0x00
   memset(BX_MEM_THIS vector, 0x00, BX_MEM_THIS len);
