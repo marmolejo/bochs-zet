@@ -224,12 +224,12 @@ bochs_plugins:
 	cd gui && $(MAKE) plugins
 	cd iodev && $(MAKE) plugins
 
-bximage@EXE@: $(srcdir)/misc/bximage.o
-	@LINK_CONSOLE@ $(srcdir)/misc/bximage.o
+bximage@EXE@: misc/bximage.o
+	@LINK_CONSOLE@ misc/bximage.o
 
 # compile with console CXXFLAGS, not gui CXXFLAGS
-misc/bximage.o: misc/bximage.c
-	$(CC) @DASH@c $(BX_INCDIRS) $(CFLAGS_CONSOLE) @CXXFP@misc/bximage.c @OFP@$@
+misc/bximage.o: $(srcdir)/misc/bximage.c
+	$(CC) @DASH@c $(BX_INCDIRS) $(CFLAGS_CONSOLE) @CXXFP@$(srcdir)/misc/bximage.c @OFP@$@
 
 niclist@EXE@: misc/niclist.o
 	@LINK@ misc/niclist.o
