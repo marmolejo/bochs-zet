@@ -98,6 +98,15 @@ public:
   virtual int set_rom_address (int addr) {return -1;}
   virtual int get_private_colormap () { return -1; }
   virtual void set_private_colormap (int en) {}
+  typedef int (*sim_interface_callback_t)(int code);
+  virtual void set_notify_callback (sim_interface_callback_t func) {}
+  virtual int notify_return (int retcode) {return -1;}
+  // methods marked LOCAL should only be called by the simulator, not
+  // from the control panel.
+#define NOTIFY_CODE_LOGMSG  0x101
+  virtual int LOCAL_notify (int code) {}
+  virtual int LOCAL_log_msg (char *prefix, int level, char *msg) {return -1;}
+  virtual int log_msg_2 (char *prefix, int *level, char *msg, int len) {return -1;}
 };
 
 extern bx_simulator_interface_c *SIM;
