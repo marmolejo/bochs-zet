@@ -1107,7 +1107,7 @@ unsigned
 bx_ne2k_c::mcast_index(const void *dst)
 {
 #define POLYNOMIAL 0x04c11db6
-  unsigned long crc = 0xffffffffL;
+  Bit32u crc = 0xffffffffL;
   int carry, i, j;
   unsigned char b;
   unsigned char *ep = (unsigned char *) dst;
