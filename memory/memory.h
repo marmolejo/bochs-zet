@@ -58,6 +58,7 @@ class BOCHSAPI BX_MEM_C : public logfunctions {
 
 private:
   struct memory_handler_struct **memory_handlers;
+  bx_bool rom_present[65];
   
 public:
   Bit8u   *actual_vector;
