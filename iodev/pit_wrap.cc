@@ -377,11 +377,15 @@ bx_pit_c::periodic( Bit32u   usec_delta )
     }
     BX_PIT_THIS s.timer.clock_all(timedelta);
     if ( (prev_timer0_out==0) ) {
-      if ((BX_PIT_THIS s.timer.read_OUT(0))==1)
+      if ((BX_PIT_THIS s.timer.read_OUT(0))==1) {
         bx_pic.raise_irq(0);
+        prev_timer0_out=1;
+      }
     } else {
-      if ((BX_PIT_THIS s.timer.read_OUT(0))==0)
+      if ((BX_PIT_THIS s.timer.read_OUT(0))==0) {
         bx_pic.lower_irq(0);
+        prev_timer0_out=0;
+      }
     }
     prev_timer0_out=BX_PIT_THIS s.timer.read_OUT(0);
     ticks_delta-=timedelta;
