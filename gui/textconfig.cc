@@ -428,6 +428,7 @@ int bx_config_interface (int menu)
 	 case 1:
 	   fprintf (stderr, "I reset all options back to their factory defaults.\n\n");
 	   SIM->reset_all_param ();
+	   SIM->get_param_enum(BXP_BOCHS_START)->set(BX_EDIT_START);
 	   break;
 	 case 2: 
 	   // Before reading a new configuration, reset every option to its
