@@ -364,12 +364,7 @@ bx_devices_c::timer()
   if (retval & 0x02)
     pic->raise_irq(12);
 
-#if BX_SUPPORT_APIC
-  // update local APIC timers
-  for (int i=0; i<BX_SMP_PROCESSORS; i++) {
-    BX_CPU(i)->local_apic.periodic (BX_IODEV_HANDLER_PERIOD);
-  }
-#endif
+// KPL Removed lapic periodic timer registration here.
 }
 
 
