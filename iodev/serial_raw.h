@@ -25,14 +25,18 @@ class serial_raw : public logfunctions {
     void set_stop_bits (int);
     void set_parity_mode (int mode);
     void set_break (int mode);
+    void set_modem_control (int ctrl);
+    int get_modem_status ();
     void transmit (int byte);
-    void send_hangup ();
     int ready_transmit ();
     int ready_receive ();
     int receive ();
+
   private:
+    void setup_port ();
     bx_bool present;
 #ifdef WIN32
+    HANDLE hCOM;
     DCB dcb;
     BOOL DCBchanged;
 #endif
