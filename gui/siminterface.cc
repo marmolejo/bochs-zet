@@ -609,7 +609,7 @@ bx_real_sim_c::get_first_cdrom ()
     for (int slave=0; slave<2; slave++) {
       Bit32u present = bx_options.atadevice[channel][slave].Opresent->get ();
       Bit32u type = bx_options.atadevice[channel][slave].Otype->get ();
-      if (present && type == BX_ATA_DEVICE_CDROM) {
+      if (present && (type == BX_ATA_DEVICE_CDROM)) {
 	return bx_options.atadevice[channel][slave].Omenu;
       }
     }
