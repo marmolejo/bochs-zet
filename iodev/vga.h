@@ -53,6 +53,7 @@
 
   #define VBE_DISPI_BPP_4                 0x04
   #define VBE_DISPI_BPP_8                 0x08
+  #define VBE_DISPI_BPP_15                0x0F
   #define VBE_DISPI_BPP_16                0x10
   #define VBE_DISPI_BPP_24                0x18
   #define VBE_DISPI_BPP_32                0x20

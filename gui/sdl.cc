@@ -487,67 +487,90 @@ void bx_sdl_gui_c::graphics_tile_update(
   // FIXME
   if( i<=0 ) return;
 
-  if (vga_bpp == 32)
+  switch (vga_bpp)
   {
-    Uint32 *snapshot32 = (Uint32 *)snapshot;
-    do
-    {
-      buf_row = buf;
-      j = tilewidth;
+    case 32:
+      {
+        Uint32 *snapshot32 = (Uint32 *)snapshot;
+        do
+        {
+          buf_row = buf;
+          j = tilewidth;
+          do
+          {
+            *buf++ = *snapshot32++;
+          } while( --j );
+          buf = buf_row + disp;
+        } while( --i);
+      }
+      break;
+    case 24:
+      {
+        do
+        {
+          buf_row = buf;
+          j = tilewidth;
+          do
+          {
+            buf[0] = snapshot[0];
+            buf[0] |= (snapshot[1] << 8);
+            buf[0] |= (snapshot[2] << 16);
+            buf++;
+            snapshot+=3;
+          } while( --j );
+          buf = buf_row + disp;
+        } while( --i);
+      }
+      break;
+    case 16:
+      {
+        Uint16 *snapshot16 = (Uint16 *)snapshot;
+        do
+        {
+          buf_row = buf;
+          j = tilewidth;
+          do
+          {
+            buf[0] = (snapshot16[0] & 0x001f) << 3;
+            buf[0] |= (snapshot16[0] & 0x07e0) << 5;
+            buf[0] |= (snapshot16[0] & 0xf800) << 8;
+            buf++;
+            snapshot16++;
+          } while( --j );
+          buf = buf_row + disp;
+        } while( --i);
+      }
+      break;
+    case 15:
+      {
+        Uint16 *snapshot16 = (Uint16 *)snapshot;
+        do
+        {
+          buf_row = buf;
+          j = tilewidth;
+          do
+          {
+            buf[0] = (snapshot16[0] & 0x001f) << 3;
+            buf[0] |= (snapshot16[0] & 0x03e0) << 6;
+            buf[0] |= (snapshot16[0] & 0x7c00) << 9;
+            buf++;
+            snapshot16++;
+          } while( --j );
+          buf = buf_row + disp;
+        } while( --i);
+      }
+      break;
+    default: /* 8 bpp */
       do
       {
-        *buf++ = *snapshot32++;
-      } while( --j );
-      buf = buf_row + disp;
-    } while( --i);
-  }
-  else if (vga_bpp == 24)
-  {
-    do
-    {
-      buf_row = buf;
-      j = tilewidth;
-      do
-      {
-        buf[0] = snapshot[0];
-        buf[0] |= (snapshot[1] << 8);
-        buf[0] |= (snapshot[2] << 16);
-        buf++;
-        snapshot+=3;
-      } while( --j );
-      buf = buf_row + disp;
-    } while( --i);
-  }
-  else if (vga_bpp == 16)
-  {
-    Uint16 *snapshot16 = (Uint16 *)snapshot;
-    do
-    {
-      buf_row = buf;
-      j = tilewidth;
-      do
-      {
-        buf[0] = (snapshot16[0] & 0x001f) << 3;
-        buf[0] |= (snapshot16[0] & 0x07e0) << 5;
-        buf[0] |= (snapshot16[0] & 0xf800) << 8;
-        buf++;
-        snapshot16++;
-      } while( --j );
-      buf = buf_row + disp;
-    } while( --i);
-  }
-  else /* 8 bpp */
-  {
-    do
-    {
-      buf_row = buf;
-      j = tilewidth;
-      do
-      {
-        *buf++ = palette[*snapshot++];
-      } while( --j );
-      buf = buf_row + disp;
-    } while( --i);
+        buf_row = buf;
+        j = tilewidth;
+        do
+        {
+          *buf++ = palette[*snapshot++];
+        } while( --j );
+        buf = buf_row + disp;
+      } while( --i);
   }
 }
 
@@ -949,7 +972,7 @@ void bx_sdl_gui_c::dimension_update(
     unsigned fwidth,
     unsigned bpp)
 {
-  if ((bpp == 8) || (bpp == 16) || (bpp == 24) || (bpp == 32)) {
+  if ((bpp == 8) || (bpp == 15) || (bpp == 16) || (bpp == 24) || (bpp == 32)) {
     vga_bpp = bpp;
   }
   else
