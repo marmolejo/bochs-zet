@@ -313,7 +313,7 @@ DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(x)
 
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif /* __PLUGIN_H */

@@ -63,6 +63,13 @@ extern "C" {
 }
 #endif
 
+#ifdef BX_WITH_MACOS
+extern "C" {
+#define BX_CD_FRAMESIZE 2048
+#define CD_FRAMESIZE 2048
+}
+#endif
+
 #ifdef __sun
 extern "C" {
 #include <sys/types.h>
@@ -646,7 +653,7 @@ cdrom_interface::insert_cdrom(char *dev)
       BX_INFO (("Using direct access for cdrom."));
     }
 
-    ret = read(fd, &buffer, BX_CD_FRAMESIZE);
+    ret = read(fd, (char*) &buffer, BX_CD_FRAMESIZE);
     if (ret < 0) {
        close(fd);
        fd = -1;
@@ -1291,7 +1298,7 @@ cdrom_interface::read_block(uint8* buf, int lba)
   if (pos < 0) {
     BX_PANIC(("cdrom: read_block: lseek returned error."));
   }
-  n = read(fd, buf, BX_CD_FRAMESIZE);
+  n = read(fd, (char*) buf, BX_CD_FRAMESIZE);
 #endif
 
   if (n != BX_CD_FRAMESIZE) {

@@ -58,6 +58,8 @@ extern "C" {
 #if BX_WITH_MACOS
 #  include <types.h>
 #  include <stat.h>
+#  include <cstdio>
+#  include <unistd.h>
 #elif BX_WITH_CARBON
 #  include <sys/types.h>
 #  include <sys/stat.h>
@@ -750,7 +752,5 @@ int bx_init_hardware ();
     }
 
 #endif
-
-
 
 #endif  /* BX_BOCHS_H */

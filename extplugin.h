@@ -17,7 +17,9 @@
 #ifndef __EXTPLUGIN_H
 #define __EXTPLUGIN_H
 
+#if BX_PLUGINS
 #include "ltdl.h"
+#endif
 
 enum plugintype_t {
   PLUGTYPE_NULL=100,
@@ -32,7 +34,9 @@ typedef struct _plugin_t
 {
     plugintype_t type;
     int  initialized;
+#if BX_PLUGINS
     lt_dlhandle handle;
+#endif
     int  argc;
     char *name, *args, *argv[MAX_ARGC];
     int  (*plugin_init)(struct _plugin_t *plugin, plugintype_t type, int argc, char *argv[]);

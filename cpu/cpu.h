@@ -373,7 +373,7 @@ typedef struct {
   Bit32u VM_cached;
 
 #define DECLARE_EFLAGS_ACCESSORS()                                           \
-  BX_CPP_INLINE void BX_CPU_C::setEFlags(Bit32u val);
+  BX_CPP_INLINE void setEFlags(Bit32u val);
 #define IMPLEMENT_EFLAGS_ACCESSORS()                                         \
   BX_CPP_INLINE void BX_CPU_C::setEFlags(Bit32u val) {                       \
     BX_CPU_THIS_PTR eflags.val32 = val;                                      \
@@ -1006,7 +1006,7 @@ class BOCHSAPI bxICache_c {
 
   Bit32u  fetchModeMask;
 
-  bxICache_c::bxICache_c() {
+  bxICache_c() {
     // Initially clear the iCache;
     memset(this, 0, sizeof(*this));
     pageWriteStampTable = NULL;

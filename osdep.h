@@ -114,6 +114,9 @@ typedef int socklen_t;
 int fd_read(char *buffer, Bit32u offset, Bit32u bytes);
 int fd_write(char *buffer, Bit32u offset, Bit32u bytes);
 int fd_stat(struct stat *buf);
+FILE *  fdopen(int fd, const char *type);
+
+typedef long ssize_t ;
 #endif
 
 //////////////////////////////////////////////////////////////////////

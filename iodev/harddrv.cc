@@ -3144,12 +3144,12 @@ off_t default_image_t::lseek (off_t offset, int whence)
 
 ssize_t default_image_t::read (void* buf, size_t count)
 {
-      return ::read(fd, buf, count);
+      return ::read(fd, (char*) buf, count);
 }
 
 ssize_t default_image_t::write (const void* buf, size_t count)
 {
-      return ::write(fd, buf, count);
+      return ::write(fd, (char*) buf, count);
 }
 
 #if BX_SPLIT_HD_SUPPORT
@@ -3280,7 +3280,7 @@ ssize_t concat_image_t::read (void* buf, size_t count)
   // end of a partial image.
   if (!seek_was_last_op) 
     BX_PANIC( ("no seek before read"));
-  return ::read(fd, buf, count);
+  return ::read(fd, (char*) buf, count);
 }
 
 ssize_t concat_image_t::write (const void* buf, size_t count)
@@ -3291,7 +3291,7 @@ ssize_t concat_image_t::write (const void* buf, size_t count)
   // end of a partial image.
   if (!seek_was_last_op)
     BX_PANIC( ("no seek before write"));
-  return ::write(fd, buf, count);
+  return ::write(fd, (char*) buf, count);
 }
 #endif   /* BX_SPLIT_HD_SUPPORT */
 
