@@ -141,7 +141,7 @@ bx_gui_c::specific_init(bx_gui_c *th, int argc, char **argv, unsigned tilewidth,
 	UNUSED(bochs_icon_bits);  // global variable
 
 	// the ask menu causes trouble
-	LOG_THIS setonoff(LOGLEV_PANIC, ACT_FATAL);
+	io->set_log_action(LOGLEV_PANIC, ACT_FATAL);
 	// logfile should be different from stderr, otherwise terminal mode
 	// really ends up having fun
 	if (!strcmp(bx_options.log.Ofilename->getptr(), "-"))
