@@ -340,6 +340,13 @@ currently work with.
     </entry>
   </row>
   <row>
+    <entry>VESA (Display) Support</entry>
+    <entry>Yes</entry>
+    <entry>Currently resolutions up to 1024x768x8pp are supported (so no
+    16/24/32 modes). You must enable vbe and use the LGPL'ed VGABIOS.
+    </entry>
+  </row>
+  <row>
     <entry>Floppy disk</entry>
     <entry>Yes</entry>
     <entry>Supports floppy disk images on all platforms: 1.44M 3.5", 1.2M 5.25", and 720K 3.5".  
