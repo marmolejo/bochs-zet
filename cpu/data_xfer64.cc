@@ -300,7 +300,7 @@ BX_CPU_C::MOVZX_GqEb(BxInstruction_t *i)
   Bit8u  op2_8;
 
   if (i->mod == 0xc0) {
-    op2_8 = BX_READ_8BIT_REG(i->rm,i->extend8bit);
+    op2_8 = BX_READ_8BIT_REGx(i->rm,i->extend8bit);
     }
   else {
     /* pointer, segment address pair */
@@ -342,7 +342,7 @@ BX_CPU_C::MOVSX_GqEb(BxInstruction_t *i)
   Bit8u op2_8;
 
   if (i->mod == 0xc0) {
-    op2_8 = BX_READ_8BIT_REG(i->rm,i->extend8bit);
+    op2_8 = BX_READ_8BIT_REGx(i->rm,i->extend8bit);
     }
   else {
     /* pointer, segment address pair */
