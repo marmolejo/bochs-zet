@@ -194,8 +194,10 @@ bx_devices_c::init(BX_MEM_C *newmem)
 #if BX_PCI_DEV_SUPPORT
     PLUG_load_plugin(pcidev, PLUGTYPE_OPTIONAL);
 #endif
-#if BX_PCI_PNIC_SUPPORT
+#if BX_PCI_PNIC_SUPPORT && BX_NE2K_SUPPORT
+  if (bx_options.ne2k.Opresent->get ()) {
     PLUG_load_plugin(pcipnic, PLUGTYPE_OPTIONAL);
+  }
 #endif
 #else
     BX_ERROR(("Bochs is not compiled with PCI support"));
