@@ -600,7 +600,7 @@ bx_gui_c::beep_off()
   BX_INFO(( "GUI Beep OFF"));
 }
 
-int
+  int
 bx_gui_c::register_statusitem(const char *text)
 {
   if (statusitem_count < BX_MAX_STATUSITEMS) {
@@ -610,4 +610,12 @@ bx_gui_c::register_statusitem(const char *text)
   } else {
    return -1;
   }
+}
+
+  void
+bx_gui_c::get_capabilities(Bit16u *xres, Bit16u *yres, Bit16u *bpp)
+{
+  *xres = 1024;
+  *yres = 768;
+  *bpp = 32;
 }
