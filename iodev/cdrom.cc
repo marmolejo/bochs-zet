@@ -311,7 +311,7 @@ cdrom_interface::insert_cdrom(char *dev)
 		fd=1;
 	} else {
 	  BX_INFO(("Using direct access for CDROM"));
-      hFile=CreateFile((char *)&drive,  GENERIC_READ, 0 , NULL, OPEN_EXISTING, FILE_FLAG_RANDOM_ACCESS, NULL);
+      hFile=CreateFile((char *)&drive, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_FLAG_RANDOM_ACCESS, NULL); 
       if (hFile !=(void *)0xFFFFFFFF)
         fd=1;
 	}
