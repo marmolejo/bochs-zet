@@ -1028,7 +1028,7 @@ typedef struct {
           } byte;
         };
       } word;
-    } dword;
+    };
   } bx_gen_reg_t;
 
 #else
