@@ -2097,14 +2097,11 @@ BX_CPU_C::fetchDecode64(Bit8u *iptr, bxInstruction_c *instruction,
   rex_x = 0;
   rex_b = 0;
   instruction->ResolveModrm = NULL;
-  instruction->initMetaInfo(
-                  BX_SEG_REG_NULL,
-                  /*os32*/       1, // operand size 32 override defaults to 1
-                  /*as32*/       1, // address size 32 override defaults to 1
-                  /*os64*/       0, // operand size 64 override defaults to 0
-                  /*as64*/       1, // address size 64 override defaults to 1
-                  /*extend8bit*/ 0,
-                  /*repUsed*/    0);
+  instruction->initMetaInfo(BX_SEG_REG_NULL,
+                  /*os32*/ 1, 	// operand size 32 override defaults to 1
+                  /*as32*/ 1, 	// address size 32 override defaults to 1
+                  /*os64*/ 0, 	// operand size 64 override defaults to 0
+                  /*as64*/ 1);	// address size 64 override defaults to 1
 
   sse_prefix = SSE_PREFIX_NONE;
 
