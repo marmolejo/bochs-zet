@@ -320,6 +320,9 @@ class BOCHSAPI bx_usb_stub_c : public bx_devmodel_c {
   virtual void usb_mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state) {
     STUBFUNC(pciusb, usb_mouse_enq);
   }
+  virtual void usb_mouse_enable(bx_bool enable) {
+    STUBFUNC(pciusb, usb_mouse_enable);
+  }
 };
 #endif
 

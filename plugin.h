@@ -209,6 +209,8 @@ extern "C" {
 #if BX_SUPPORT_PCIUSB
 	#define DEV_usb_mouse_enq(dx, dy, dz, state) \
     (bx_devices.pluginPciUSBAdapter->usb_mouse_enq(dx, dy, dz, state))
+	#define DEV_usb_mouse_enable(enable) \
+    (bx_devices.pluginPciUSBAdapter->usb_mouse_enable(enable))
 #endif
 
 //////// Memory macros
