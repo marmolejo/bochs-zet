@@ -267,8 +267,9 @@ bx_unmapped_c::write(Bit32u address, Bit32u value, unsigned io_len)
 	default :  BX_UM_THIS s.shutdown = 0; break;
         }
       if (BX_UM_THIS s.shutdown == 8) {
-        BX_INFO(("Shutdown port: shutdown requested"));
-        BX_CPU(0)->kill_bochs_request = 2;
+        bx_user_quit = 1;
+        LOG_THIS setonoff(LOGLEV_PANIC, ACT_FATAL);
+        BX_PANIC(("Shutdown port: shutdown requested"));
         }
       break;
 
