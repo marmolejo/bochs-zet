@@ -1498,6 +1498,12 @@ SimThread::SiminterfaceCallback2 (BxEvent *event)
 	    //wxLogDebug ("no sync response yet, waiting");
 	    this->Sleep (20);
 	  }
+	  // don't get stuck here if the gui is trying to close.
+	  if (wxBochsClosing) {
+	    wxLogDebug ("breaking out of sync event wait because gui is closing");
+	    event->retcode = -1;
+	    return event;
+	  }
     }
     wxASSERT (response != NULL);
     return response;
