@@ -1290,8 +1290,8 @@ bx_ne2k_c::init(void)
   for (unsigned addr = BX_NE2K_THIS s.base_address; 
        addr <= BX_NE2K_THIS s.base_address + 0x20; 
        addr++) {
-    DEV_register_ioread_handler(this, read_handler, addr, "ne2000 NIC", 1);
-    DEV_register_iowrite_handler(this, write_handler, addr, "ne2000 NIC", 1);
+    DEV_register_ioread_handler(this, read_handler, addr, "ne2000 NIC", 3);
+    DEV_register_iowrite_handler(this, write_handler, addr, "ne2000 NIC", 3);
   }
   BX_INFO(("port 0x%x/32 irq %d mac %02x:%02x:%02x:%02x:%02x:%02x",
            BX_NE2K_THIS s.base_address,

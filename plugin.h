@@ -65,10 +65,10 @@ extern "C" {
 // When plugins are off, PLUG_load_plugin will call the plugin_init function
 // directly.
 #define PLUG_load_plugin(name,type) {lib##name##_LTX_plugin_init(NULL,type,0,NULL);}
-#define DEV_register_ioread_handler(b,c,d,e,f) bx_devices.register_io_read_handler(b,c,d,e)
-#define DEV_register_iowrite_handler(b,c,d,e,f) bx_devices.register_io_write_handler(b,c,d,e)
-#define DEV_register_default_ioread_handler(b,c,d,e) bx_devices.register_default_io_read_handler(b,c,d)
-#define DEV_register_default_iowrite_handler(b,c,d,e) bx_devices.register_default_io_write_handler(b,c,d)
+#define DEV_register_ioread_handler(b,c,d,e,f) bx_devices.register_io_read_handler(b,c,d,e,f)
+#define DEV_register_iowrite_handler(b,c,d,e,f) bx_devices.register_io_write_handler(b,c,d,e,f)
+#define DEV_register_default_ioread_handler(b,c,d,e) bx_devices.register_default_io_read_handler(b,c,d,e)
+#define DEV_register_default_iowrite_handler(b,c,d,e) bx_devices.register_default_io_write_handler(b,c,d,e)
 #define DEV_register_irq(b,c) bx_devices.register_irq(b,c)
 #define DEV_unregister_irq(b,c) bx_devices.unregister_irq(b,c)
 
@@ -212,13 +212,13 @@ BOCHSAPI bx_bool pluginDevicePresent(char *name);
 
 /* === IO port stuff === */
 BOCHSAPI extern int (*pluginRegisterIOReadHandler)(void *thisPtr, ioReadHandler_t callback,
-                                unsigned base, const char *name, unsigned len);
+                                unsigned base, const char *name, Bit8u mask);
 BOCHSAPI extern int (*pluginRegisterIOWriteHandler)(void *thisPtr, ioWriteHandler_t callback,
-                                 unsigned base, const char *name, unsigned len);
+                                 unsigned base, const char *name, Bit8u mask);
 BOCHSAPI extern int (*pluginRegisterDefaultIOReadHandler)(void *thisPtr, ioReadHandler_t callback,
-                                const char *name, unsigned len);
+                                const char *name, Bit8u mask);
 BOCHSAPI extern int (*pluginRegisterDefaultIOWriteHandler)(void *thisPtr, ioWriteHandler_t callback,
-                                 const char *name, unsigned len);
+                                 const char *name, Bit8u mask);
 
 /* === A20 enable line stuff === */
 BOCHSAPI extern unsigned (*pluginGetA20E)(void);
