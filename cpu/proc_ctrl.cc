@@ -1070,9 +1070,13 @@ BX_CPU_C::SetCR0(Bit32u val_32)
   // from either MOV_CdRd() or debug functions
   // protection checks made already or forcing from debug
   Boolean prev_pe, prev_pg;
+#if BX_CPU_LEVEL >= 4
+  Boolean prev_wp;
+#endif
 
   prev_pe = BX_CPU_THIS_PTR cr0.pe;
   prev_pg = BX_CPU_THIS_PTR cr0.pg;
+  prev_wp = BX_CPU_THIS_PTR cr0.wp;
 
   BX_CPU_THIS_PTR cr0.pe = val_32 & 0x01;
   BX_CPU_THIS_PTR cr0.mp = (val_32 >> 1) & 0x01;
@@ -1115,6 +1119,8 @@ BX_CPU_C::SetCR0(Bit32u val_32)
     enable_paging();
   else if (prev_pg==1 && BX_CPU_THIS_PTR cr0.pg==0)
     disable_paging();
+  if (prev_wp != BX_CPU_THIS_PTR cr0.wp)
+    pagingWPChanged();
 }
 
 
