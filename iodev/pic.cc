@@ -527,7 +527,8 @@ bx_pic_c::lower_irq(unsigned irq_no)
 {
 #if BX_SUPPORT_APIC
   // forward this function call to the ioapic too
-  BX_PIC_THIS devices->ioapic->untrigger_irq (irq_no, -1);
+  if ((BX_PIC_THIS devices) && (BX_PIC_THIS devices->ioapic))
+    BX_PIC_THIS devices->ioapic->untrigger_irq (irq_no, -1);
 #endif
 
   if ((irq_no <= 7) && (BX_PIC_THIS s.master_pic.IRQ_line[irq_no])) {
