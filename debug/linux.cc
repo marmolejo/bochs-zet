@@ -17,7 +17,7 @@ bx_dbg_info_linux_command (void)
 {
   BX_INFO (("Info linux"));
   bx_dbg_cpu_t cpu;
-  bx_dbg_callback[0].get_cpu(&cpu);
+  BX_CPU(dbg_cpu)->dbg_get_cpu(&cpu);
 
   int mode;
   if (cpu.cr0 & 1) {
