@@ -59,9 +59,6 @@ extern "C" {
 #  define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
 #  define S_ISCHR(m)      (((m) & S_IFMT) == S_IFCHR)
 
-  // VCPP includes also are missing these
-#  define off_t long
-
 // win32 has snprintf though with different name.
 #define snprintf _snprintf
 #endif  /* ifnndef __MINGW32__ */
