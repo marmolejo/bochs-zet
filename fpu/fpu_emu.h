@@ -221,7 +221,6 @@ asmlinkage int wm_sqrt(FPU_REG *n, int dummy1, int dummy2,
 		       u16 control_w, u_char sign);
 asmlinkage u32	FPU_shrx(void *l, u32 x);
 asmlinkage u32	FPU_shrxs(void *v, u32 x);
-asmlinkage u32 FPU_div_small(u64 *x, u32 y);
 asmlinkage int FPU_round(FPU_REG *arg, u32 extent, int dummy,
 			 u16 control_w, u_char sign);
 

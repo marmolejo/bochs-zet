@@ -35,6 +35,15 @@
 #define SINGLE_Ebias 127
 #define SINGLE_Emin (-126)       /* smallest valid exponent */
 
+static u32 FPU_div_small(u64 *x, u32 y)
+{
+  u32 retval;
+
+  retval = *x % y;
+  *x /= y;
+
+  return retval;
+}
 
 static u_char  BX_CPP_AttrRegparmN(3)
 normalize_no_excep(FPU_REG *r, int exp, int sign)
