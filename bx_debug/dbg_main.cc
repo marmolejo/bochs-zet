@@ -2831,7 +2831,7 @@ void bx_dbg_info_registers_command(int which_regs_mask)
       memset(&cpu, 0, sizeof(cpu));
       BX_CPU(i)->dbg_get_cpu(&cpu);
 
-#if (BX_SMP_PROCESSORS > 1)
+#if (BX_SMP_PROCESSORS >= 2)
       dbg_printf ( "%s:\n", BX_CPU(i)->name, i);
 #endif
       reg = cpu.eax;
@@ -2871,13 +2871,11 @@ void bx_dbg_info_registers_command(int which_regs_mask)
       reg = cpu.gs.sel;
       dbg_printf ( "gs             0x%-8x\t%d\n", (unsigned) reg, (int) reg);
     }
-/*
-#if BX_SUPPORT_FPU == 1
+#if BX_SUPPORT_FPU
     if (which_regs_mask & BX_INFO_FPU_REGS) {
       BX_CPU(i)->print_state_FPU ();
     }
 #endif
-*/
   }
 }
 
