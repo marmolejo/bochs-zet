@@ -4120,7 +4120,7 @@ bx_dbg_info_gdt_command(bx_num_range range) {
     dbg_printf ( "GDT[0x%02x]=", n);
     bx_dbg_print_descriptor (entry, 0);
   }
-  if (print_table) dbg_printf ( "You can list individual interrupts with 'info gdt NUM'.\n");
+  if (print_table) dbg_printf ( "You can list individual entries with 'info gdt NUM'.\n");
 }
 
 void
