@@ -86,7 +86,7 @@ BX_CPU_C::ARPL_EwGw(bxInstruction_c *i)
       }
     }
   else {
-    BX_INFO(("ARPL: not recognized in real or virtual-8086 mode"));
+    BX_DEBUG(("ARPL: not recognized in real or virtual-8086 mode"));
     UndefinedOpcode(i);
     return;
     }

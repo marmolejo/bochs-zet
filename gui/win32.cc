@@ -621,8 +621,8 @@ void SetStatusText(int Num, const char *Text)
   SendMessage(hwndSB, SB_SETTEXT, Num, (long)StatText);
 }
 
-LRESULT CALLBACK mainWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
-
+LRESULT CALLBACK mainWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
+{
   switch (iMsg) {
   case WM_CREATE:
     bx_options.Omouse_enabled->set (mouseCaptureMode);
