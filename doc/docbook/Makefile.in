@@ -51,6 +51,7 @@ fixperm::
 	chmod 775 `find $(INSTALL_LIST) -type d -print`
 
 install: all
+	for i in $(DESTDIR)$(docdir); do if test ! -d $$i; then mkdir $$i; fi; done
 	for i in $(INSTALL_LIST); do cp -r $$i $(DESTDIR)$(docdir); done
 
 test_sfuser:
