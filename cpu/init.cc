@@ -310,7 +310,6 @@ void BX_CPU_C::init(BX_MEM_C *addrspace)
   sreg_mod1or2_base32[12] = BX_SEG_REG_DS;
   sreg_mod1or2_base32[13] = BX_SEG_REG_DS;
   sreg_mod1or2_base32[14] = BX_SEG_REG_DS;
-#warning "KPL: The following was 14, I changed to 15.  Typo?"
   sreg_mod1or2_base32[15] = BX_SEG_REG_DS;
 #endif
 

@@ -213,11 +213,6 @@ async_events_processed:
   }
 #endif
 
-#if BX_SUPPORT_X86_64
-// I noticed while merging cpu64/cpu.cc, the code above was repeated?
-#warning "Why were there 2 calls to bx_external_debugger for cpu64?"
-#endif
-
   {
   bx_address eipBiased;
   bx_address remainingInPage;

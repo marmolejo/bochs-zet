@@ -732,12 +732,12 @@ AC_ARG_ENABLE(debugger,
 AC_SUBST(DEBUGGER_VAR)
 
 AC_MSG_CHECKING(for external debugger)
+EXT_DEBUG_OBJS=''
 AC_ARG_ENABLE(external-debugger,
   [  --enable-external-debugger        enable external debugger support],
   [if test "$enableval" = yes; then
     AC_MSG_RESULT(yes)
     AC_DEFINE(BX_EXTERNAL_DEBUGGER, 1)
-    EXT_DEBUG_LIB=libextdb.a
     EXT_DEBUG_OBJS=extdb.o
    else
     AC_MSG_RESULT(no)
@@ -1185,7 +1185,6 @@ AC_SUBST(IODEV_LIB_VAR)
 AC_SUBST(NONINLINE_VAR)
 AC_SUBST(INLINE_VAR)
 AC_SUBST(EXTERNAL_DEPENDENCY)
-AC_SUBST(EXT_DEBUG_LIB)
 AC_SUBST(EXT_DEBUG_OBJS)
 
 
