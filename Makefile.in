@@ -301,6 +301,7 @@ install_bin::
 	$(LN_S) $(VERSIONDIR)/bochs $(DESTDIR)$(bindir)/bochs
 	$(LN_S) $(VERSIONDIR)/bximage $(DESTDIR)$(bindir)/bximage
 	$(CP) -r $(srcdir)/docs-html $(DESTDIR)$(VERSIONDIR)
+	$(CP) -r $(srcdir)/keymaps $(DESTDIR)$(VERSIONDIR)
 	$(RM) -f $(DESTDIR)$(VERSIONDIR)/README
 	$(CAT) $(srcdir)/build/linux/README.linux-binary $(srcdir)/README > $(DESTDIR)$(VERSIONDIR)/README
 	$(CP) $(srcdir)/font/vga.pcf $(DESTDIR)$(VERSIONDIR)
