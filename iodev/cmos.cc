@@ -249,9 +249,10 @@ bx_cmos_c::read(Bit32u address, unsigned io_len)
 
   switch (address) {
     case 0x0070:
-      BX_INFO(("CMOS read of CMOS index. returning 0x%02x", BX_CMOS_THIS s.cmos_mem_address));
-      ret8 = BX_CMOS_THIS s.cmos_mem_address;
-      return(ret8);
+      BX_INFO(("read of index port 0x70. returning 0xff"));
+      // Volker says his boxes return 0xff
+      //ret8 = BX_CMOS_THIS s.cmos_mem_address;
+      return(0xff);
       break;
     case 0x0071:
       if (BX_CMOS_THIS s.cmos_mem_address >= BX_NUM_CMOS_REGS) {
