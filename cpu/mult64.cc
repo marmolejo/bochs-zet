@@ -348,7 +348,7 @@ BX_CPU_C::IDIV_RAXEq(bxInstruction_c *i)
     /* check MIN_INT divided by -1 case */
     if (op2_64 == -1)
     {
-      if ((op1_128.ho == BX_CONT64(0x8000000000000000)) && (!op1_128.lo))
+      if ((op1_128.hi == BX_CONST64(0x8000000000000000)) && (!op1_128.lo))
         exception(BX_DE_EXCEPTION, 0, 0);
     }
 
