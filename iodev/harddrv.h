@@ -24,7 +24,6 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-
 typedef enum _sense {
       SENSE_NONE = 0, SENSE_NOT_READY = 2, SENSE_ILLEGAL_REQUEST = 5,
       SENSE_UNIT_ATTENTION = 6
@@ -348,6 +347,16 @@ private:
     Bit8u  irq;
 
     } channels[BX_MAX_ATA_CHANNEL];
+
+#if BX_PDC20230C_VLBIDE_SUPPORT
+// pdc20630c is only available for 1st ata channel
+  struct pdc20630c_t {
+    Boolean prog_mode;
+    Bit8u   prog_count;
+    Bit32u  p1f3_value;
+    Bit32u  p1f4_value;
+    } pdc20230c;
+#endif
 
   bx_devices_c *devices;
   };
