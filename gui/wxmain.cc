@@ -642,7 +642,7 @@ void MyFrame::OnEditSpeed(wxCommandEvent& WXUNUSED(event))
 {
   ParamDialog dlg (this, -1);
   dlg.AddParam (SIM->get_param (BXP_IPS));
-  dlg.AddParam (SIM->get_param (BXP_REALTIME_PIT));
+  dlg.AddParam (SIM->get_param (BXP_CLOCK_SYNC));
   dlg.ShowModal ();
 }
 
@@ -661,7 +661,7 @@ void MyFrame::OnEditCmos(wxCommandEvent& WXUNUSED(event))
   ParamDialog dlg (this, -1);
   dlg.AddParam (SIM->get_param (BXP_CMOS_IMAGE));
   dlg.AddParam (SIM->get_param (BXP_CMOS_PATH));
-  dlg.AddParam (SIM->get_param (BXP_CMOS_TIME0));
+  dlg.AddParam (SIM->get_param (BXP_CLOCK_TIME0));
   dlg.ShowModal ();
 }
 
