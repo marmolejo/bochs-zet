@@ -155,6 +155,10 @@ BX_MEM_C::init_memory(int memsize)
 
 #if BX_PROVIDE_CPU_MEMORY
   void
+  // Values for type :
+  // 0 : System Bios
+  // 1 : VGA Bios
+  // 2 : Optional ROM Bios
 BX_MEM_C::load_ROM(const char *path, Bit32u romaddress, Bit8u type)
 {
   struct stat stat_buf;
@@ -180,7 +184,7 @@ BX_MEM_C::load_ROM(const char *path, Bit32u romaddress, Bit8u type)
 #endif
            );
   if (fd < 0) {
-    if (type > 0) {
+    if (type < 2) {
       BX_PANIC(( "ROM: couldn't open ROM image file '%s'.", path));
       }
     else {
@@ -190,7 +194,7 @@ BX_MEM_C::load_ROM(const char *path, Bit32u romaddress, Bit8u type)
     }
   ret = fstat(fd, &stat_buf);
   if (ret) {
-    if (type > 0) {
+    if (type < 2) {
       BX_PANIC(( "ROM: couldn't stat ROM image file '%s'.", path));
       }
     else {
