@@ -48,8 +48,10 @@ private:
 
   struct {
     Bit8u pci_conf[256];
-    Bit32u bmide_addr;
-    Bit8u bmide_regs[16];
+    Bit32u bmdma_addr;
+    Bit8u bmdma_command[2];
+    Bit8u bmdma_status[2];
+    Bit32u bmdma_dtpr[2];
     } s;
 
   static Bit32u read_handler(void *this_ptr, Bit32u address, unsigned io_len);
