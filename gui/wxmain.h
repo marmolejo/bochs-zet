@@ -29,6 +29,7 @@ enum
   ID_Edit_FD_1,
   ID_Edit_HD_0,
   ID_Edit_HD_1,
+  ID_Edit_Cdrom,
   ID_Edit_Boot,
   ID_Edit_Vga,
   ID_Edit_Memory,
@@ -132,6 +133,7 @@ public:
   static bool editFloppyValidate (FloppyConfigDialog *dialog);
   void editFloppyConfig (int drive);
   void editHDConfig (int drive);
+  void editCdromConfig ();
   void OnToolbarClick(wxCommandEvent& event);
   int HandleAskParam (BxEvent *event);
   int HandleAskParamString (bx_param_string_c *param);

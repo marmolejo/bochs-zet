@@ -249,6 +249,14 @@ typedef enum {
   N_LOGLEV
 } bx_log_levels;
 
+// types of reset
+#define BX_RESET_SOFTWARE 10
+#define BX_RESET_HARDWARE 11
+
+//cdrom
+#define BX_EJECTED   10
+#define BX_INSERTED  11
+
 ///////////////////////////////////////////////////////////////////
 // event structures for communication between simulator and CI
 ///////////////////////////////////////////////////////////////////
