@@ -69,7 +69,6 @@
 #define	DENORMAL	1
 #define	UNMASKED_UNDERFLOW 2
 
-
 static int round_up_64(FPU_REG *x)
 {
   x->sigl ++;

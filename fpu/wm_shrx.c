@@ -69,9 +69,7 @@ unsigned FPU_shrx(void *arg1, u32 arg2)
   (*(u64 *)arg1) >>= arg2;
 
   return x;
-
 }
-
 
 /*---------------------------------------------------------------------------+
  |   unsigned FPU_shrxs(void *arg1, unsigned arg2)                           |
@@ -147,6 +145,4 @@ unsigned FPU_shrxs(void *arg1, u32 arg2)
     x |= 1;
 
   return x;
-
 }
-

@@ -225,26 +225,6 @@ asmlinkage int arith_invalid(int deststnr)
   return (!(FPU_control_word & FPU_CW_Invalid) ? FPU_Exception : 0) | TAG_Valid;
 }
 
-
-/* Divide a finite number by zero */
-asmlinkage int FPU_divide_by_zero(int deststnr, u_char sign)
-{
-  FPU_REG *dest = &st(deststnr);
-  int tag = TAG_Valid;
-
-  if (FPU_control_word & FPU_CW_Zero_Div)
-    {
-      /* The masked response */
-      FPU_copy_to_regi(&CONST_INF, TAG_Special, deststnr);
-      setsign(dest, sign);
-      tag = TAG_Special;
-    }
- 
-  EXCEPTION(EX_ZeroDiv);
-
-  return (!(FPU_control_word & FPU_CW_Zero_Div) ? FPU_Exception : 0) | tag;
-}
-
 /* This may be called often, so keep it lean */
 asmlinkage void set_precision_flag_up(void)
 {
