@@ -757,7 +757,7 @@ static BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
   /* 0F 0B */  { 0, &BX_CPU_C::UndefinedOpcode }, // UD2 opcode
   /* 0F 0C */  { 0, &BX_CPU_C::BxError },
 #if BX_SUPPORT_3DNOW
-  /* 0F 0D */  { 0, &BX_CPU_C::NOP   },           // 3DNow! PREFETCH
+  /* 0F 0D */  { BxAnother, &BX_CPU_C::NOP   },   // 3DNow! PREFETCH
   /* 0F 0E */  { 0, &BX_CPU_C::EMMS },            // 3DNow! FEMMS
   /* 0F 0F */  { BxAnother | BxImmediate_Ib, NULL, Bx3DNowOpcodeInfo },
 #else
@@ -1303,7 +1303,7 @@ static BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
   /* 0F 0B */  { 0, &BX_CPU_C::UndefinedOpcode }, // UD2 opcode
   /* 0F 0C */  { 0, &BX_CPU_C::BxError },
 #if BX_SUPPORT_3DNOW
-  /* 0F 0D */  { 0, &BX_CPU_C::NOP   },           // 3DNow! PREFETCH
+  /* 0F 0D */  { BxAnother, &BX_CPU_C::NOP   },   // 3DNow! PREFETCH
   /* 0F 0E */  { 0, &BX_CPU_C::EMMS },            // 3DNow! FEMMS
   /* 0F 0F */  { BxAnother | BxImmediate_Ib, NULL, Bx3DNowOpcodeInfo },
 #else
