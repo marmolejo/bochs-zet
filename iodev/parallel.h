@@ -63,6 +63,8 @@ public:
 private:
   FILE *output;
 
+  Boolean initmode;
+
   bx_par_t s;
 
   bx_devices_c *devices;
