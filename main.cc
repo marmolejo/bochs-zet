@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
+//  Copyright (C) 2002  MandrakeSoft S.A.
 //
 //    MandrakeSoft S.A.
 //    43, rue d'Aboukir
@@ -1427,6 +1427,7 @@ parse_bochsrc(char *rcfile)
       parse_line_unformatted(rcfile, line);
       }
     } while (!feof(fd));
+  fclose(fd);
   return 0;
 }
 
