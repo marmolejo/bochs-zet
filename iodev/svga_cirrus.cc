@@ -263,10 +263,17 @@ bx_svga_cirrus_c::init(void)
 {
   // initialize VGA stuffs.
   BX_CIRRUS_THIS bx_vga_c::init();
-  BX_CIRRUS_THIS bx_vga_c::init_iohandlers(
-      svga_read_handler, svga_write_handler);
-  BX_CIRRUS_THIS bx_vga_c::init_systemtimer(
-      svga_timer_handler);
+  if (!strcmp(bx_options.Ovga_extension->getptr(), "cirrus")) {
+    BX_CIRRUS_THIS bx_vga_c::init_iohandlers(
+        svga_read_handler, svga_write_handler);
+    BX_CIRRUS_THIS bx_vga_c::init_systemtimer(
+        svga_timer_handler);
+  } else {
+    BX_CIRRUS_THIS bx_vga_c::init_iohandlers(
+        bx_vga_c::read_handler, bx_vga_c::write_handler);
+    BX_CIRRUS_THIS bx_vga_c::init_systemtimer(
+        bx_vga_c::timer_handler);
+  }
 
   // initialize SVGA stuffs.
 #if BX_SUPPORT_PCI && BX_SUPPORT_CLGD54XX_PCI
