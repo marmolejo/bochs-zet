@@ -60,7 +60,6 @@ typedef struct {
   bx_bool  ls_ipending;
   bx_bool  ms_ipending;
   bx_bool  rx_ipending;
-  bx_bool  tx_ipending;
 
   int  baudrate;
   int  tx_timer_index;
