@@ -120,12 +120,9 @@ BX_CPU_THIS_PTR save_esp = ESP;
 
     idtindex += BX_CPU_THIS_PTR idtr.base;
 
-    access_linear(idtindex,     4, 0,
-      BX_READ, &dword1);
-    access_linear(idtindex + 4, 4, 0,
-      BX_READ, &dword2);
-    access_linear(idtindex + 8, 4, 0,
-      BX_READ, &dword3);
+    access_linear(idtindex,     4, 0, BX_READ, &dword1);
+    access_linear(idtindex + 4, 4, 0, BX_READ, &dword2);
+    access_linear(idtindex + 8, 4, 0, BX_READ, &dword3);
 
     parse_descriptor(dword1, dword2, &gate_descriptor);
 
