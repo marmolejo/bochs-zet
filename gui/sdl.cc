@@ -245,9 +245,8 @@ void bx_sdl_gui_c::specific_init(
   atexit(SDL_Quit);
 
   sdl_screen = NULL;
-  dimension_update(640,480);
-
   sdl_fullscreen_toggle = 0;
+  dimension_update(640,480);
 
   SDL_EnableKeyRepeat(250,50);
   SDL_WM_SetCaption(
@@ -268,6 +267,18 @@ void bx_sdl_gui_c::specific_init(
   // load keymap for sdl
   if(bx_options.keyboard.OuseMapping->get()) {
     bx_keymap.loadKeymap(convertStringToSDLKey);
+  }
+
+  // parse sdl specific options
+  if (argc > 1) {
+    for (i = 1; i < argc; i++) {
+      if (!strcmp(argv[i], "fullscreen")) {
+        sdl_fullscreen_toggle = 1;
+        switch_to_fullscreen();
+      } else {
+        BX_PANIC(("Unknown sdl option '%s'", argv[i]));
+      }
+    }
   }
 }
 
