@@ -879,7 +879,12 @@ public: // for now...
 #if BX_USE_TLB
   struct {
     bx_TLB_entry entry[BX_TLB_SIZE];
+#if BX_USE_QUICK_TLB_INVALIDATE
+#  define BX_TLB_LPF_VALUE(lpf) (lpf | BX_CPU_THIS_PTR TLB.tlb_invalidate)
     Bit32u tlb_invalidate;
+#else
+#  define BX_TLB_LPF_VALUE(lpf) (lpf)
+#endif
     } TLB;
 #endif
 
