@@ -65,7 +65,7 @@ extern "C" {
 #define BX_CD_FRAMESIZE 2048
 #endif
 
-#if (defined(__OpenBSD__) || defined(__FreeBSD__))
+#if (defined (__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__))
 // OpenBSD pre version 2.7 may require extern "C" { } structure around
 // all the includes, because the i386 sys/disklabel.h contains code which 
 // c++ considers invalid.
@@ -495,7 +495,7 @@ cdrom_interface::read_toc(uint8* buf, int* length, bool msf, int start_track)
 
   return true;
   }
-#elif (defined(__OpenBSD__) || defined(__FreeBSD__))
+#elif (defined(__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__))
   {
   struct ioc_toc_header h;
   struct ioc_read_toc_entry t;
@@ -622,7 +622,7 @@ cdrom_interface::capacity()
   
     return(buf.st_size);
   }
-#elif defined(__OpenBSD__)
+#elif (defined(__NetBSD__) || defined(__OpenBSD__))
   {
   // We just read the disklabel, imagine that...
   struct disklabel lp;
