@@ -1247,3 +1247,26 @@ BOCHSAPI extern bx_simulator_interface_c *SIM;
 
 BOCHSAPI extern void bx_init_siminterface ();
 BOCHSAPI extern int bx_init_main (int argc, char *argv[]);
+
+#ifdef __WXMSW__
+// Just to provide HINSTANCE, etc. in files that have not included bochs.h.
+// I don't like this at all, but I don't see a way around it.
+#include <windows.h>
+#endif
+
+// define structure to hold data that is passed into our main function.
+typedef struct BOCHSAPI {
+  // standard argc,argv
+  int argc;
+  char **argv;
+#ifdef __WXMSW__
+  // these are only used when compiling with wxWindows.  This gives us a
+  // place to store the data that was passed to WinMain.
+  HINSTANCE hInstance;
+  HINSTANCE hPrevInstance;
+  LPSTR m_lpCmdLine;
+  int nCmdShow;
+#endif
+} bx_startup_flags_t;
+
+extern bx_startup_flags_t BOCHSAPI bx_startup_flags;

@@ -406,8 +406,7 @@ int bx_config_interface (int menu)
      bx_config_interface_init ();
      return 0;
    case BX_CI_START_SIMULATION: {
-     char *myargv[] = {"manufactured-argv"};
-     SIM->begin_simulation (1, myargv);
+     SIM->begin_simulation (bx_startup_flags.argc, bx_startup_flags.argv);
      // we don't expect it to return, but if it does, quit
      SIM->quit_sim(1);
      break;
