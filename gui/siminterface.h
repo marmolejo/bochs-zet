@@ -158,6 +158,7 @@ typedef enum {
   BXP_KEYBOARD_USEMAPPING,
   BXP_KEYBOARD_MAP,
   BXP_KEYBOARD,
+  BXP_USER_SHORTCUT,
   BXP_ASK_FOR_PATHNAME,   // for general file selection dialog
   BXP_THIS_IS_THE_LAST    // used to determine length of list
 } bx_id;
@@ -173,7 +174,8 @@ typedef enum {
   BX_TOOLBAR_PASTE,
   BX_TOOLBAR_SNAPSHOT,
   BX_TOOLBAR_CONFIG,
-  BX_TOOLBAR_MOUSE_EN
+  BX_TOOLBAR_MOUSE_EN,
+  BX_TOOLBAR_USER
 } bx_toolbar_buttons;
 
 // Log level defines

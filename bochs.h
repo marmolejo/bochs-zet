@@ -660,6 +660,7 @@ typedef struct {
   bx_load32bitOSImage_t load32bitOSImage;
   bx_log_options    log;
   bx_keyboard_options keyboard;
+  bx_param_string_c *Ouser_shortcut;
   } bx_options_t;
 
 extern bx_options_t bx_options;

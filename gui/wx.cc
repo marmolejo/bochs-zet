@@ -612,6 +612,7 @@ void bx_gui_c::handle_events(void)
           case BX_TOOLBAR_SNAPSHOT: snapshot_handler (); break;
           case BX_TOOLBAR_CONFIG: config_handler (); break;
           case BX_TOOLBAR_MOUSE_EN: toggle_mouse_enable (); break;
+          case BX_TOOLBAR_USER: userbutton_handler (); break;
           default:
             wxLogDebug ("unknown toolbar id %d", event_queue[i].u.toolbar.button);
         }
