@@ -20,6 +20,7 @@ draft mode.
 <!ENTITY NEEDHELP '<inlinegraphic format="GIF" fileref="../images/undercon.gif">'>
 
 <!ENTITY bochswebsite '<ulink url="http://bochs.sourceforge.net">Bochs web site</ulink>'>
+<!ENTITY bochs-sf-net '<ulink url="http://bochs.sourceforge.net">bochs.sourceforge.net</ulink>'>
 
 <!-- these are probably only useful for the documentation guide -->
 <!ENTITY docbookTDG '<ulink url="http://www.docbook.org/tdg/en/html/docbook.html">DocBook: The Definitive Guide</ulink>'>
