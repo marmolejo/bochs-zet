@@ -117,19 +117,21 @@ bx_slowdown_timer_c::handle_timer() {
   s.lasttime=thistime;
 
   //Diagnostic info:
+#if 0
   if(wanttime > (totaltime+REALTIME_Q)) {
     if(totaltime > total_emu_time) {
-      if(0) printf("Solving OpenBSD problem.\n");
+      printf("Solving OpenBSD problem.\n");
     } else {
-      if(0) printf("too fast.\n");
+      printf("too fast.\n");
     }
   } else {
     if(totaltime > total_emu_time) {
-      if(0) printf("too slow.\n");
+      printf("too slow.\n");
     } else {
-      if(0) printf("sometimes invalid state, normally okay.\n");
+      printf("sometimes invalid state, normally okay.\n");
     }
   }
+#endif // Diagnostic info
 }
 
 #endif
