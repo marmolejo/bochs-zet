@@ -70,6 +70,8 @@ private:
   Bit32u     currCountdown; // Current countdown ticks value (decrements to 0).
   Bit32u     currCountdownPeriod; // Length of current countdown period.
   Bit64u     ticksTotal; // Num ticks total since start of emulator execution.
+  Bit64u     lastTimeUsec; // Last sequentially read time in usec.
+  Bit64u     usecSinceLast; // Number of useconds claimed since then.
 
   // A special null timer is always inserted in the timer[0] slot.  This
   // make sure that at least one timer is always active, and that the
@@ -137,6 +139,7 @@ public:
   void activate_timer_ticks(unsigned index, Bit64u instructions,
                             bx_bool continuous);
   Bit64u time_usec();
+  Bit64u time_usec_sequential();
   static BX_CPP_INLINE Bit64u time_ticks() {
     return bx_pc_system.ticksTotal +
       Bit64u(bx_pc_system.currCountdownPeriod - bx_pc_system.currCountdown);
