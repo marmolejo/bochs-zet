@@ -473,17 +473,6 @@ BOCHSAPI extern bx_debug_t bx_dbg;
 
 
 
-/* Already in gui/siminterface.h ??? 
-#define BX_FLOPPY_NONE   10 // floppy not present
-#define BX_FLOPPY_1_2    11 // 1.2M  5.25"
-#define BX_FLOPPY_1_44   12 // 1.44M 3.5"
-#define BX_FLOPPY_2_88   13 // 2.88M 3.5"
-#define BX_FLOPPY_720K   14 // 720K  3.5"
-#define BX_FLOPPY_360K   15 // 360K  5.25"
-#define BX_FLOPPY_LAST   15 // last one
-*/
-
-
 #define BX_READ    0
 #define BX_WRITE   1
 #define BX_RW      2

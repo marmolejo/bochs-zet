@@ -1225,7 +1225,7 @@ enum {
 #define BX_FLOPPY_320K   18 // 320K  5.25"
 #define BX_FLOPPY_LAST   18 // last legal value of floppy type
 
-#define BX_FLOPPY_GUESS  20 // decide based on image size
+#define BX_FLOPPY_UNKNOWN  20 // image size doesn't match one of the types above
 
 #define BX_ATA_DEVICE_DISK      0
 #define BX_ATA_DEVICE_CDROM     1
