@@ -465,6 +465,7 @@ $(APP)/.build: bochs
 	$(CP) bochs $(APP)/Contents/MacOS
 	$(MKDIR) -p $(APP)/Contents/Resources
 	$(REZ) $(REZ_ARGS) $(MACOSX_STUFF)/bochs.r -o $(APP)/Contents/Resources/bochs.rsrc
+	$(CP) -f $(MACOSX_STUFF)/bochs-icn.icns $(APP)/Contents/Resources
 	ls -ld $(APP)
 	touch $(APP)/.build
 
