@@ -4275,6 +4275,17 @@ bx_dbg_info_pic()
 {
  DEV_pic_show_pic_state();
 }
+
+/*
+ * this implements the info vga command in the debugger.
+ * info vga - shows vga registers
+ */
+void
+bx_dbg_info_vga()
+{
+ DEV_vga_dump_status();
+}
+
 //
 // Reports from various events
 //
@@ -5356,6 +5367,7 @@ nuf_help:
       dbg_printf("%s symbols [string] - list symbols whose prefix is string\n", p);
       dbg_printf("%s pic - show PICs registers\n", p);
       dbg_printf("%s ne2000 - show NE2000 registers\n", p);
+      dbg_printf("%s vga - show vga registers\n", p);
     }
     else
     if (strcmp(p, "set") == 0)

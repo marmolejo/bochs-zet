@@ -121,6 +121,7 @@ public:
   virtual Bit8u  mem_read(Bit32u addr);
   virtual void   mem_write(Bit32u addr, Bit8u value);
   virtual void   trigger_timer(void *this_ptr);
+  virtual void   dump_status(void);
 
 #if BX_SUPPORT_VBE
   BX_VGA_SMF Bit8u  vbe_mem_read(Bit32u addr) BX_CPP_AttrRegparmN(1);
@@ -309,7 +310,6 @@ protected:
 
   protected:
   BX_VGA_SMF void   update(void);
-  BX_VGA_SMF void   dump_status(void);
   BX_VGA_SMF void determine_screen_dimensions(unsigned *piHeight,
                                               unsigned *piWidth);
   };

@@ -125,6 +125,7 @@ addr-info       { bxlval.sval = strdup(bxtext); return(BX_TOKEN_INFO_ADDRESS); }
 ne2k            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_NE2000); }
 ne2000          { bxlval.sval = strdup(bxtext); return(BX_TOKEN_NE2000); }
 page            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_PAGE); }
+vga             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_VGA); }
 al              { bxlval.reg=rAL; return (BX_TOKEN_REG_AL);}
 bl              { bxlval.reg=rBL; return (BX_TOKEN_REG_BL);}
 cl              { bxlval.reg=rCL; return (BX_TOKEN_REG_CL);}
