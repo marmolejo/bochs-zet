@@ -10,6 +10,8 @@
 
 #include "bochs.h"
 
+#if BX_USE_CONTROL_PANEL
+
 bx_simulator_interface_c *SIM = NULL;
 logfunctions *siminterface_log = NULL;
 #define LOG_THIS siminterface_log->
@@ -361,3 +363,5 @@ bx_real_sim_c::set_private_colormap (int en)
 {
   bx_options.private_colormap = en;
 }
+
+#endif  // if BX_USE_CONTROL_PANEL==1

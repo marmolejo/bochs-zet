@@ -58,13 +58,15 @@ write a compiler!
 
 */
 
+#include "config.h"
+#if BX_USE_CONTROL_PANEL
+
 extern "C" {
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
 #include <assert.h>
 }
-#include "config.h"
 #include "osdep.h"
 #include "control.h"
 #include "siminterface.h"
@@ -811,3 +813,5 @@ void bx_edit_rom_addr ()
   }
 }
 
+
+#endif
