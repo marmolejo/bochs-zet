@@ -324,7 +324,7 @@ BX_CPU_C::XCHG_EwGw(BxInstruction_t *i)
     else {
       /* pointer, segment address pair */
       read_RMW_virtual_word(i->seg, i->rm_addr, &op1_16);
-      write_RMW_virtual_word(op2_16);
+      Write_RMW_virtual_word(op2_16);
       }
 
     BX_WRITE_16BIT_REG(i->nnn, op1_16);

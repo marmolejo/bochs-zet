@@ -186,7 +186,7 @@ BX_CPU_C::XCHG_EbGb(BxInstruction_t *i)
   else {
     /* pointer, segment address pair */
     read_RMW_virtual_byte(i->seg, i->rm_addr, &op1);
-    write_RMW_virtual_byte(op2);
+    Write_RMW_virtual_byte(op2);
     }
 
   BX_WRITE_8BIT_REG(i->nnn, op1);

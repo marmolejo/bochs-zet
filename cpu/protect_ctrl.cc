@@ -78,7 +78,7 @@ BX_CPU_C::ARPL_EwGw(BxInstruction_t *i)
           }
         }
       else {
-        write_RMW_virtual_word(op1_16);
+        Write_RMW_virtual_word(op1_16);
         }
       set_ZF(1);
       }

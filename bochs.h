@@ -686,17 +686,17 @@ int bx_init_hardware ();
 #ifdef __i386__
 
 #define WriteHostWordToLittleEndian(hostPtr,  nativeVar16) \
-    *(hostPtr) = (nativeVar16)
+    *((Bit16u*)(hostPtr)) = (nativeVar16)
 #define WriteHostDWordToLittleEndian(hostPtr, nativeVar32) \
-    *(hostPtr) = (nativeVar32)
+    *((Bit32u*)(hostPtr)) = (nativeVar32)
 #define WriteHostQWordToLittleEndian(hostPtr, nativeVar64) \
-    *(hostPtr) = (nativeVar64)
+    *((Bit64u*)(hostPtr)) = (nativeVar64)
 #define ReadHostWordFromLittleEndian(hostPtr, nativeVar16) \
-    (nativeVar16) = *(hostPtr)
+    (nativeVar16) = *((Bit16u*)(hostPtr))
 #define ReadHostDWordFromLittleEndian(hostPtr, nativeVar32) \
-    (nativeVar32) = *(hostPtr)
+    (nativeVar32) = *((Bit32u*)(hostPtr))
 #define ReadHostQWordFromLittleEndian(hostPtr, nativeVar64) \
-    (nativeVar64) = *(hostPtr)
+    (nativeVar64) = *((Bit64u*)(hostPtr))
 
 #else
 
