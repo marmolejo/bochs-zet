@@ -2568,9 +2568,12 @@ bx_hard_drive_c::init_send_atapi_command(Bit8u command, int req_length, int allo
       if (BX_SELECTED_CONTROLLER.byte_count == 0)
 	    BX_PANIC(("ATAPI command with zero byte count"));
 
+      if (BX_SELECTED_CONTROLLER.byte_count == 0xffff)
+        BX_SELECTED_CONTROLLER.byte_count = 0xfffe;
+
       if ((BX_SELECTED_CONTROLLER.byte_count & 1)
           && !(alloc_length <= BX_SELECTED_CONTROLLER.byte_count)) {
-        BX_ERROR(("Odd byte count to ATAPI command"));
+        BX_ERROR(("Odd byte count to ATAPI command 0x%02x", command));
       }
       if (alloc_length <= 0)
 	    BX_PANIC(("Allocation length <= 0"));
