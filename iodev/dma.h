@@ -80,8 +80,7 @@ private:
     bx_bool flip_flop;
     Bit8u   status_reg;
     Bit8u   command_reg;
-    Bit8u   request_reg;
-    Bit8u   temporary_reg;
+    bx_bool ctrl_disabled;
     struct {
       struct {
         Bit8u mode_type;
