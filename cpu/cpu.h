@@ -2074,11 +2074,11 @@ union {
 
 #if BX_SUPPORT_3DNOW
   BX_SMF void PFPNACC_PqQq(bxInstruction_c *i);
+  BX_SMF void PI2FW_PqQq(bxInstruction_c *i);
   BX_SMF void PI2FD_PqQq(bxInstruction_c *i);
   BX_SMF void PF2IW_PqQq(bxInstruction_c *i);
   BX_SMF void PF2ID_PqQq(bxInstruction_c *i);
   BX_SMF void PFNACC_PqQq(bxInstruction_c *i);
-  BX_SMF void PFPNACC_PqQq(bxInstruction_c *i);
   BX_SMF void PFCMPGE_PqQq(bxInstruction_c *i);
   BX_SMF void PFMIN_PqQq(bxInstruction_c *i);
   BX_SMF void PFRCP_PqQq(bxInstruction_c *i);
