@@ -75,6 +75,8 @@ public:
   virtual int set_log_file (char *path);
   virtual int get_log_prefix (char *prefix, int len);
   virtual int set_log_prefix (char *prefix);
+  virtual int get_debugger_log_file (char *path, int len);
+  virtual int set_debugger_log_file (char *path);
   virtual int get_floppy_options (int drive, bx_floppy_options *out);
   virtual int get_cdrom_options (int drive, bx_atadevice_options *out, int *device = NULL);
   virtual char *get_floppy_type_name (int type);
@@ -371,6 +373,20 @@ int
 bx_real_sim_c::set_log_prefix (char *prefix)
 {
   bx_options.log.Oprefix->set (prefix);
+  return 0;
+}
+
+int 
+bx_real_sim_c::get_debugger_log_file (char *path, int len)
+{
+  strncpy (path, bx_options.log.Odebugger_filename->getptr (), len);
+  return 0;
+}
+
+int 
+bx_real_sim_c::set_debugger_log_file (char *path)
+{
+  bx_options.log.Odebugger_filename->set (path);
   return 0;
 }
 

@@ -589,6 +589,7 @@ typedef struct {
 typedef struct {
   bx_param_string_c *Ofilename;
   bx_param_string_c *Oprefix;
+  bx_param_string_c *Odebugger_filename;
 } bx_log_options;
 
 typedef struct {
