@@ -121,7 +121,7 @@ int bx_sound_windows_c::openmidioutput(char *device)
 
   MidiOpen = 0;
 
-  UINT ret = midiOutOpen( &MidiOut, deviceid, NULL, NULL, CALLBACK_NULL);
+  UINT ret = midiOutOpen( &MidiOut, deviceid, 0, 0, CALLBACK_NULL);
   if (ret == 0)
     MidiOpen = 1;
 
@@ -254,7 +254,7 @@ int bx_sound_windows_c::playnextbuffer()
 	  waveformat.wf.nBlockAlign = bps;
 	  waveformat.wBitsPerSample = bits;
 
-	  ret = waveOutOpen( &(WaveOut), WaveDevice, (LPWAVEFORMATEX)&(waveformat.wf), NULL, NULL, CALLBACK_NULL);
+	  ret = waveOutOpen( &(WaveOut), WaveDevice, (LPWAVEFORMATEX)&(waveformat.wf), 0, 0, CALLBACK_NULL);
 	  if (ret != 0)
 	    {
 	      char errormsg[4*MAXERRORLENGTH+1];
