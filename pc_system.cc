@@ -398,7 +398,7 @@ bx_pc_system_c::time_usec() {
 bx_pc_system_c::time_ticks()
 {
       return (counter + 1) * COUNTER_INTERVAL 
-	    - ticks_remaining(counter_timer_index) 
+	    - timer[counter_timer_index].remaining
 	    + ((Bit64u)num_cpu_ticks_in_period - (Bit64u)num_cpu_ticks_left);
 }
 
