@@ -155,10 +155,6 @@ typedef struct { overrides override;
 #define PM16      (SIXTEEN | PROTECTED)
 #define SEG32     PROTECTED
 
-#ifndef USE_WITH_CPU_SIM
-extern u_char const data_sizes_16[32];
-#endif
-
 #define fpu_register(x)  ( * ((FPU_REG *)(FPU_register_base + sizeof(FPU_REG) * (x & 7) )))
 #define	st(x)      ( * ((FPU_REG *)(FPU_register_base + sizeof(FPU_REG) * ((FPU_tos+x) & 7) )))
 

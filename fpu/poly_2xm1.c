@@ -65,7 +65,7 @@ int	poly_2xm1(u_char sign, FPU_REG *arg, FPU_REG *result)
   if ( exponent >= 0 )    	/* Don't want a |number| >= 1.0 */
     {
       /* Number negative, too large, or not Valid. */
-      EXCEPTION(EX_INTERNAL|0x127);
+      INTERNAL(0x127);
       return 1;
     }
 #endif /* PARANOID */

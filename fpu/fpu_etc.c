@@ -85,7 +85,7 @@ static void ftst_(FPU_REG *st0_ptr, u_char st0tag)
 	  break;
 	default:
 	  setcc(SW_C0|SW_C2|SW_C3);   /* Operand is not comparable */ 
-	  EXCEPTION(EX_INTERNAL|0x14);
+	  INTERNAL(0x14);
 	  break;
 	}
       break;

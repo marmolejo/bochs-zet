@@ -121,7 +121,7 @@ void	poly_atan(FPU_REG *st0_ptr, u_char st0_tag,
 		 (argSignif.lsw == 0) && (argSignif.midw == 0) &&
 		 (argSignif.msw == 0x80000000) ) )
 	    {
-	      EXCEPTION(EX_INTERNAL|0x104);  /* There must be a logic error */
+	      INTERNAL(0x104);  /* There must be a logic error */
 	      return;
 	    }
 #endif /* PARANOID */

@@ -198,7 +198,7 @@ void	poly_sine(FPU_REG *st0_ptr)
   if ( (exponent(&result) >= 0)
       && (significand(&result) > BX_CONST64(0x8000000000000000)) )
     {
-      EXCEPTION(EX_INTERNAL|0x150);
+      INTERNAL(0x150);
     }
 #endif /* PARANOID */
 
@@ -391,7 +391,7 @@ void	poly_cos(FPU_REG *st0_ptr)
   if ( (exponent(&result) >= 0)
       && (significand(&result) > BX_CONST64(0x8000000000000000)) )
     {
-      EXCEPTION(EX_INTERNAL|0x151);
+      INTERNAL(0x151);
     }
 #endif /* PARANOID */
 

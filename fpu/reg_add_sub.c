@@ -232,7 +232,7 @@ int FPU_sub(int flags, FPU_REG *rm, u16 control_w)
 	  break;
 #ifdef PARANOID
 	default:
-	  EXCEPTION(EX_INTERNAL|0x111);
+	  INTERNAL(0x111);
 	  return -1;
 #endif
 	}
@@ -373,7 +373,7 @@ int add_sub_specials_core(FPU_REG const *a, u_char taga, u_char signa,
     }
 
 #ifdef PARANOID
-  EXCEPTION(EX_INTERNAL|0x101);
+  INTERNAL(0x101);
 #endif
 
   return FPU_Exception;

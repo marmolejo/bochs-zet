@@ -40,7 +40,7 @@ void div_Xsig(const Xsig *aa, const Xsig *b, Xsig *dest)
 #ifdef PARANOID
   if ( (b->msw & 0x80000000) == 0 )
     {
-      EXCEPTION(EX_INTERNAL|0x240);
+      INTERNAL(0x240);
       return;
     }
 #endif
@@ -85,7 +85,7 @@ void div_Xsig(const Xsig *aa, const Xsig *b, Xsig *dest)
 #ifdef PARANOID
       if ( a.msw > 1 )
 	{
-	  EXCEPTION(EX_INTERNAL|0x241);
+	  INTERNAL(0x241);
 	}
 #endif
 
@@ -139,7 +139,7 @@ void div_Xsig(const Xsig *aa, const Xsig *b, Xsig *dest)
 #ifdef PARANOID
       if ( a.midw > 1 )
 	{
-          EXCEPTION(EX_INTERNAL|0x242);
+          INTERNAL(0x242);
 	}
 #endif
 
@@ -172,7 +172,7 @@ void div_Xsig(const Xsig *aa, const Xsig *b, Xsig *dest)
 #ifdef PARANOID
   if ( a.lsw > 2 )
     {
-      EXCEPTION(EX_INTERNAL|0x243);
+      INTERNAL(0x243);
     }
 #endif
 

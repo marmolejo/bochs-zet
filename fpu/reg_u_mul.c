@@ -33,7 +33,7 @@ int FPU_u_mul(const FPU_REG *a, const FPU_REG *b, FPU_REG *c, u16 cw,
 #ifdef PARANOID
   if (! (a->sigh & 0x80000000) || ! (b->sigh & 0x80000000))
     {
-      EXCEPTION(EX_INTERNAL|0x205);
+      INTERNAL(0x205);
     }
 #endif
 

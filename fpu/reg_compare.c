@@ -201,7 +201,7 @@ int FPU_compare_st_data(FPU_REG const *loaded_data, u_char loaded_tag)
 	break;
 #ifdef PARANOID
       default:
-	EXCEPTION(EX_INTERNAL|0x121);
+	INTERNAL(0x121);
 	f = SW_C3 | SW_C2 | SW_C0;
 	break;
 #endif /* PARANOID */
@@ -253,7 +253,7 @@ static int compare_st_st(int nr)
 	break;
 #ifdef PARANOID
       default:
-	EXCEPTION(EX_INTERNAL|0x122);
+	INTERNAL(0x122);
 	f = SW_C3 | SW_C2 | SW_C0;
 	break;
 #endif /* PARANOID */
@@ -310,7 +310,7 @@ static int compare_u_st_st(int nr)
 	break;
 #ifdef PARANOID
       default:
-	EXCEPTION(EX_INTERNAL|0x123);
+	INTERNAL(0x123);
 	f = SW_C3 | SW_C2 | SW_C0;
 	break;
 #endif /* PARANOID */

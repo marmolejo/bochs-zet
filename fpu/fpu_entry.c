@@ -395,7 +395,7 @@ do_the_FPU_interrupt:
           FPU_illegal();
           goto FPU_instruction_done;
         default:
-          EXCEPTION(EX_INTERNAL|0x111);
+          INTERNAL(0x111);
           goto FPU_instruction_done;
         }
       (*st_instr_table[(int) instr_index])();

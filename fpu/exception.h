@@ -17,7 +17,6 @@
 #define FPU_BUSY        (0x8000)   /* FPU busy bit (8087 compatibility) */
 #define EX_ErrorSummary (0x0080)   /* Error summary status */
 /* Special exceptions: */
-#define	EX_INTERNAL	(0x8000)	/* Internal error in wm-FPU-emu */
 #define EX_StackOver	(0x0041|SW_C1)	/* stack overflow */
 #define EX_StackUnder	(0x0041)	/* stack underflow */
 /* Exception flags: */
@@ -32,5 +31,6 @@
 #define PRECISION_LOST_DOWN  (EX_Precision)
 
 #define EXCEPTION(x)    FPU_exception(x)
+#define INTERNAL(x)     FPU_internal(x)
 
 #endif /* _EXCEPTION_H_ */

@@ -867,7 +867,7 @@ FPU_store_single(FPU_REG *st0_ptr, u_char st0_tag, bx_address single)
 #ifdef PARANOID
       else
 	{
-	  EXCEPTION(EX_INTERNAL|0x164);
+	  INTERNAL(0x164);
 	  return 0;
 	}
 #endif
@@ -892,7 +892,7 @@ FPU_store_single(FPU_REG *st0_ptr, u_char st0_tag, bx_address single)
 #ifdef PARANOID
   else
     {
-      EXCEPTION(EX_INTERNAL|0x163);
+      INTERNAL(0x163);
       return 0;
     }
 #endif

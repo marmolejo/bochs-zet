@@ -52,7 +52,7 @@ int  FPU_u_add(const FPU_REG *arg1, const FPU_REG *arg2, FPU_REG *answ,
 #ifdef PARANOID
   if (!(arg1->sigh & 0x80000000) || !(arg2->sigh & 0x80000000))
     {
-      EXCEPTION(EX_INTERNAL|0x201);
+      INTERNAL(0x201);
       return -1;
     }
 #endif
