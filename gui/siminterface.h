@@ -1163,6 +1163,14 @@ public:
   // changed.  The CI will reread the parameters and change its display if it's
   // appropriate.  Maybe later: mention which params have changed to save time.
   virtual void refresh_ci () {}
+  // forces a vga update.  This was added so that a debugger can force
+  // a vga update when single stepping, without having to wait thousands
+  // of cycles for the normal vga refresh triggered by iodev/keyboard.cc.
+  virtual void refresh_vga () {}
+  // forces a call to bx_gui.handle_events.  This was added so that a debugger
+  // can force the gui events to be handled, so that interactive things such
+  // as a toolbar click will be processed.
+  virtual void handle_events () {}
   // return first cdrom in ATA interface
   bx_param_c *get_first_cdrom () {return NULL;}
 #if BX_DEBUGGER

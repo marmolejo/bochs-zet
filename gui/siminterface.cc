@@ -86,6 +86,14 @@ public:
   virtual void periodic ();
   virtual int create_disk_image (const char *filename, int sectors, Boolean overwrite);
   virtual void refresh_ci ();
+  virtual void refresh_vga () {
+    // maybe need to check if something has been initialized yet?
+    bx_vga.timer_handler (&bx_vga); 
+  }
+  virtual void handle_events () {
+    // maybe need to check if something has been initialized yet?
+    bx_gui.handle_events ();
+  }
   bx_param_c *get_first_cdrom ();
 #if BX_DEBUGGER
   virtual void debug_break ();
