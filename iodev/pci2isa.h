@@ -47,7 +47,11 @@ public:
 private:
   bx_devices_c *devices;
 
-  Bit8u  pci_conf[256];
+  struct {
+    Bit8u pci_conf[256];
+    Bit8u elcr1;
+    Bit8u elcr2; 
+    } s;
 
   static Bit32u read_handler(void *this_ptr, Bit32u address, unsigned io_len);
   static void   write_handler(void *this_ptr, Bit32u address, Bit32u value, unsigned io_len);

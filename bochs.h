@@ -346,6 +346,7 @@ class iofunctions {
 #define    PIT81LOG        45
 #define    PIT82LOG        46
 #define    IODEBUGLOG      47
+#define    PCI2ISALOG      48
 
 
 public:
