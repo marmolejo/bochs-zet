@@ -146,14 +146,21 @@ BX_MEM_C::init_memory(int memsize)
 
 #if BX_PROVIDE_CPU_MEMORY
   void
-BX_MEM_C::load_ROM(const char *path, Bit32u romaddress)
+BX_MEM_C::load_ROM(const char *path, Bit32u romaddress, Bit8u type)
 {
   struct stat stat_buf;
   int fd, ret;
   unsigned long size, offset;
 
-  if (*path == '\0')
+  if (*path == '\0') {
+    if (type == 1) {
+      BX_PANIC(( "ROM: System BIOS image undefined."));
+      }
+    else {
+      BX_PANIC(( "ROM: VGA BIOS image undefined."));
+      }
     return;
+    }
   // read in ROM BIOS image file
   fd = open(path, O_RDONLY
 #ifdef O_BINARY
@@ -161,12 +168,22 @@ BX_MEM_C::load_ROM(const char *path, Bit32u romaddress)
 #endif
            );
   if (fd < 0) {
-    BX_PANIC(( "ROM: couldn't open ROM image file '%s'.", path));
+    if (type > 0) {
+      BX_PANIC(( "ROM: couldn't open ROM image file '%s'.", path));
+      }
+    else {
+      BX_ERROR(( "ROM: couldn't open ROM image file '%s'.", path));
+      }
     return;
     }
   ret = fstat(fd, &stat_buf);
   if (ret) {
-    BX_PANIC(( "ROM: couldn't stat ROM image file '%s'.", path));
+    if (type > 0) {
+      BX_PANIC(( "ROM: couldn't stat ROM image file '%s'.", path));
+      }
+    else {
+      BX_ERROR(( "ROM: couldn't stat ROM image file '%s'.", path));
+      }
     return;
     }
 

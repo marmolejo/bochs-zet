@@ -383,7 +383,7 @@ typedef struct {
   void     (*take_dma)(void);
   void     (*reset_cpu)(unsigned source);
   void     (*init_mem)(int size_in_bytes);
-  void     (*load_ROM)(const char *path, Bit32u romaddress);
+  void     (*load_ROM)(const char *path, Bit32u romaddress, Bit8u type);
 
   // for asynchronous environment handling
   void     (*set_A20)(unsigned val);

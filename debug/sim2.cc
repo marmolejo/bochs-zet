@@ -51,7 +51,7 @@ void     sim2_take_irq(void);
 void     sim2_take_dma(void);
 void     sim2_reset_cpu(void);
 void     sim2_init_mem(int size_in_bytes);
-void     sim2_load_ROM(const char *path, Bit32u romaddress);
+void     sim2_load_ROM(const char *path, Bit32u romaddress, Bit8u type);
 
 void     sim2_set_A20(unsigned val);
 void     sim2_set_NMI(unsigned val);
@@ -187,7 +187,7 @@ sim2_init_mem(int size_in_bytes)
 {
 }
   void
-sim2_load_ROM(const char *path, Bit32u romaddress)
+sim2_load_ROM(const char *path, Bit32u romaddress, Bit8u type)
 {
 }
 
