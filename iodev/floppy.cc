@@ -40,6 +40,9 @@ extern "C" {
 #include <errno.h>
 }
 #include "bochs.h"
+#ifdef WIN32
+#include <windows.h>     // for wsprintf
+#endif
 #define LOG_THIS bx_floppy.
 
 
