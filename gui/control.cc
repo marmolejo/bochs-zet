@@ -623,7 +623,7 @@ int bx_read_rc (char *rc)
   char newrc[CPANEL_PATH_LEN];
   while (1) {
     if (ask_string ("\nWhat is the configuration file name?\nTo cancel, type 'none'. [%s] ", oldrc, newrc) < 0) return -1;
-    if (!strcmp (newrc, "none")) return 0;
+    if (!strcmp (newrc, "none")) return -1;
     if (SIM->read_rc (newrc) >= 0) return 0;
     fprintf (stderr, "The file '%s' could not be found.\n", newrc);
   }
