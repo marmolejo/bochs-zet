@@ -236,9 +236,6 @@ bx_devices_c::init(BX_MEM_C *newmem)
   DEV_cmos_set_reg(0x34, (Bit8u) extended_memory_in_64k);
   DEV_cmos_set_reg(0x35, (Bit8u) (extended_memory_in_64k >> 8));
 
-  /* now perform checksum of CMOS memory */
-  DEV_cmos_checksum();
-
   if (timer_handle != BX_NULL_TIMER_HANDLE) {
     timer_handle = bx_pc_system.register_timer( this, timer_handler,
       (unsigned) BX_IODEV_HANDLER_PERIOD, 1, 1, "devices.cc");
@@ -250,6 +247,9 @@ bx_devices_c::init(BX_MEM_C *newmem)
   bulkIOQuantumsTransferred = 0;
 
   bx_init_plugins();
+
+  /* now perform checksum of CMOS memory */
+  DEV_cmos_checksum();
 }
 
 
