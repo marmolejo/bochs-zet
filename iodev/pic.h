@@ -52,6 +52,7 @@ typedef struct {
   Bit8u irr;               /* interrupt request register */
   Bit8u read_reg_select;   /* 0=IRR, 1=ISR */
   Bit8u irq;               /* current IRQ number */
+  Bit8u lowest_priority;   /* current lowest priority irq */
   Boolean INT;             /* INT request pin of PIC */
   Boolean IRQ_line[8];     /* IRQ pins of PIC */
   struct {
@@ -60,6 +61,8 @@ typedef struct {
     int        byte_expected;
     } init;
   Boolean special_mask;
+  Boolean polled;            /* Set when poll command is issued. */
+  Boolean rotate_on_autoeoi; /* Set when should rotate in auto-eoi mode. */
   } bx_pic_t;
 
 
@@ -91,6 +94,7 @@ private:
   BX_PIC_SMF void   service_master_pic(void);
   BX_PIC_SMF void   service_slave_pic(void);
   BX_PIC_SMF void   show_pic_state(void);
+  BX_PIC_SMF void   clear_highest_interrupt(bx_pic_t *pic);
   };
 
 extern bx_pic_c bx_pic;
