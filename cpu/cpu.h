@@ -2696,7 +2696,7 @@ public: // for now...
   // now for some ancillary functions...
   BX_SMF void cpu_loop(Bit32s max_instr_count);
   BX_SMF unsigned handleAsyncEvent(void);
-  BX_SMF void boundaryFetch(bxInstruction_c *i);
+  BX_SMF void boundaryFetch(Bit8u *fetchPtr, unsigned remainingInPage, bxInstruction_c *i);
   BX_SMF void branch_near32(Bit32u new_eip) BX_CPP_AttrRegparmN(1);
 
   BX_SMF void prefetch(void);
