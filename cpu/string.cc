@@ -1835,6 +1835,8 @@ void BX_CPU_C::STOSQ_YqRAX(bxInstruction_c *i)
       /* increment EDI */
       rdi += 8;
     }
+
+    RDI = rdi;
   }
   else /* 32 bit address size */
   {
