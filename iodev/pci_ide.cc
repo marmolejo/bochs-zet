@@ -99,6 +99,7 @@ bx_pci_ide_c::init(void)
   BX_PIDE_THIS s.pci_conf[0x0a] = 0x01;
   BX_PIDE_THIS s.pci_conf[0x0b] = 0x01;
   BX_PIDE_THIS s.pci_conf[0x0e] = 0x00;
+  BX_PIDE_THIS s.bmdma_addr = 0;
 }
 
   void
