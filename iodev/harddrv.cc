@@ -1106,8 +1106,12 @@ BX_DEBUG(("IO write to %04x = %02x", (unsigned) address, (unsigned) value));
 						      case 0x0d: // CD-ROM
 						      case 0x0e: // CD-ROM audio control
 						      case 0x3f: // all
-							    BX_PANIC(("cdrom: MODE SENSE (curr), code=%x",
+							    BX_ERROR(("cdrom: MODE SENSE (curr), code=%x"
+								      " not implemented yet",
 								     PageCode));
+							    atapi_cmd_error(SENSE_ILLEGAL_REQUEST,
+									    ASC_INV_FIELD_IN_CMD_PACKET);
+							    raise_interrupt();
 							    break;
 
 						      default:
