@@ -814,7 +814,11 @@ BX_CPU_C::exception(unsigned vector, Bit16u error_code, Boolean is_INT)
 #endif
 
 #if BX_EXTERNAL_DEBUGGER
+#if BX_SUPPORT_X86_64
   printf ("Exception(%u) code=%08x @%08x%08x\n", vector, error_code,(Bit32u)(BX_CPU_THIS_PTR prev_eip >>32),(Bit32u)(BX_CPU_THIS_PTR prev_eip));
+#else
+  printf ("Exception(%u) code=%08x @%08x\n", vector, error_code,(Bit32u)(BX_CPU_THIS_PTR prev_eip));
+#endif
   //trap_debugger(1);
 #endif
 
