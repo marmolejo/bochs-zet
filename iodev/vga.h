@@ -236,6 +236,7 @@ private:
     Bit8u rgb[3 * 256];
     Bit8u tile[X_TILESIZE * Y_TILESIZE];
     Bit16u charmap_address;
+    bx_bool y_doublescan;
 
 #if BX_SUPPORT_VBE    
     Bit8u vbe_memory[VBE_DISPI_TOTAL_VIDEO_MEMORY_BYTES];
