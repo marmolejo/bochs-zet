@@ -1200,6 +1200,12 @@ bx_floppy_ctrl_c::evaluate_media(unsigned type, char *path, floppy_t *media)
   if (type == BX_FLOPPY_NONE)
     return(0);
 
+  //If media file is already open, close it before reopening.
+  if(media->fd >=0) {
+    close(media->fd);
+    media->fd=-1;
+  }
+
   // open media file (image file or device)
   media->write_protected = 0;
 #ifdef macintosh
