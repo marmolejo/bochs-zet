@@ -1620,7 +1620,7 @@ static BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
   /* 0F 31 */  { 0, &BX_CPU_C::RDTSC },
   /* 0F 32 */  { 0, &BX_CPU_C::RDMSR },
   /* 0F 33 */  { 0, &BX_CPU_C::BxError },
-#if BX_SUPPORT_SYSENTEREXIT
+#if BX_SUPPORT_SEP
   /* 0F 34 */  { 0,  &BX_CPU_C::SYSENTER },
   /* 0F 35 */  { 0,  &BX_CPU_C::SYSEXIT },
 #else
