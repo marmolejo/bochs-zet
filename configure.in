@@ -1660,6 +1660,14 @@ if test ! -d instrument; then mkdir instrument; fi
 if test ! -d build; then mkdir build; fi
 if test ! -d build/linux; then mkdir build/linux; fi
 
+if test "$use_x86_64" = 1; then
+  # For x86-64, force support of the Physical Address Extension (PAE).
+  AC_DEFINE(BX_SupportPAE, 1)
+else
+  # Not an option yet for x86-32.
+  AC_DEFINE(BX_SupportPAE, 0)
+fi
+AC_SUBST(BX_SupportPAE)
 
 AC_SUBST(INSTALL_TARGET)
 AC_SUBST(INSTALL_LIST_FOR_PLATFORM)
