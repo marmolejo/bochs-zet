@@ -337,11 +337,57 @@ bx_disassemble_c::ObAL(void)
 }
 
   void
-bx_disassemble_c::YbAL(void) {dis_sprintf("*** YbAL() unfinished ***");}
+bx_disassemble_c::YbAL(void)
+{
+  char *edi;
+
+  if (db_32bit_addrsize) {
+    edi = "EDI";
+    }
+  else {
+    edi = "DI";
+    }
+
+  dis_sprintf("ES:[%s], AL", edi);
+}
+
   void
-bx_disassemble_c::ALXb(void) {dis_sprintf("*** ALXb() unfinished ***");}
+bx_disassemble_c::ALXb(void)
+{
+  char *esi;
+
+  if (db_32bit_addrsize) {
+    esi = "ESI";
+    }
+  else {
+    esi = "SI";
+    }
+
+  dis_sprintf("AL, [%s]", esi);
+}
+
   void
-bx_disassemble_c::eAXXv(void) { dis_sprintf("*** eAXXv() unfinished ***"); }
+bx_disassemble_c::eAXXv(void)
+{
+  char *eax, *esi;
+
+  if (db_32bit_opsize) {
+    eax = "EAX";
+    }
+  else {
+    eax = "AX";
+    }
+
+  if (db_32bit_addrsize) {
+    esi = "ESI";
+    }
+  else {
+    esi = "SI";
+    }
+
+  dis_sprintf("%s, [%s]", eax, esi);
+}
+ 
   void
 bx_disassemble_c::Es(void) {dis_sprintf("*** Es() unfinished ***");}
   void
