@@ -229,7 +229,7 @@ BX_MEM_C::pci_fetch_ptr(Bit32u addr)
 #endif
 
 
-#if ( BX_DEBUGGER || BX_DISASM )
+#if ( BX_DEBUGGER || BX_DISASM || BX_GDBSTUB)
   Boolean
 BX_MEM_C::dbg_fetch_mem(Bit32u addr, unsigned len, Bit8u *buf)
 {
@@ -275,7 +275,7 @@ BX_MEM_C::dbg_fetch_mem(Bit32u addr, unsigned len, Bit8u *buf)
 }
 #endif
 
-#if BX_DEBUGGER
+#if BX_DEBUGGER || BX_GDBSTUB
   Boolean
 BX_MEM_C::dbg_set_mem(Bit32u addr, unsigned len, Bit8u *buf)
 {
