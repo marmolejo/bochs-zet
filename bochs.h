@@ -633,6 +633,10 @@ typedef struct {
   bx_cdrom_options  cdromd; 
   bx_rom_options    rom;
   bx_vgarom_options vgarom;
+  bx_rom_options    optrom1; // Optional rom image (1)
+  bx_rom_options    optrom2; // Optional rom image (2)
+  bx_rom_options    optrom3; // Optional rom image (3)
+  bx_rom_options    optrom4; // Optional rom image (4)
   bx_mem_options    memory;
   bx_parport_options par1; // parallel port #1
   bx_parport_options par2; // parallel port #2  (not implemented)
