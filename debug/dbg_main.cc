@@ -2054,6 +2054,23 @@ void bx_dbg_disassemble_current (int which_cpu)
     for (unsigned j=0; j<ilen; j++)
       fprintf(stderr, "%02x", (unsigned) bx_disasm_ibuf[j]);
     fprintf(stderr, ": %s\n", bx_disasm_tbuf);
+
+    // Note: it would be nice to display only the modified registers here, the easy
+    // way out I have thought of would be to keep a prev_eax, prev_ebx, etc copies
+    // in each cpu description (see cpu/cpu.h) and update/compare those "prev" values
+    // from here. (eks)
+    if( BX_CPU(dbg_cpu)->trace_reg )
+	    fprintf( stderr,
+		"eax: %08X\tecx: %08X\tedx: %08X\tebx: %08X\tesp: %08X\tebp: %08X\tesi: %08X\tedi: %08X\n",
+		BX_CPU(which_cpu)->gen_reg[0],
+		BX_CPU(which_cpu)->gen_reg[1],
+		BX_CPU(which_cpu)->gen_reg[2],
+		BX_CPU(which_cpu)->gen_reg[3],
+		BX_CPU(which_cpu)->gen_reg[4],
+		BX_CPU(which_cpu)->gen_reg[5],
+		BX_CPU(which_cpu)->gen_reg[6],
+		BX_CPU(which_cpu)->gen_reg[7]);
+    
     }
   else {
     fprintf(stderr, "(%u) ??? (physical address not available)\n", which_cpu);
