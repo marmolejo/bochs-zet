@@ -741,6 +741,7 @@ private:
       atapi_t atapi;
 
       Bit8u model_no[41];
+      int statusbar_id;
       } drives[2];
     unsigned drive_select;
 

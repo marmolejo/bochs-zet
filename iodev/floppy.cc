@@ -200,7 +200,7 @@ bx_floppy_ctrl_c::init(void)
     }
   if (BX_FD_THIS s.device_type[0] != BX_FLOPPY_NONE) {
     BX_FD_THIS s.num_supported_floppies++;
-    BX_FD_THIS s.statusbar_id[0] = bx_gui->register_statusitem("A:");
+    BX_FD_THIS s.statusbar_id[0] = bx_gui->register_statusitem(" A: ");
   } else {
     BX_FD_THIS s.statusbar_id[0] = -1;
   }
@@ -270,7 +270,7 @@ bx_floppy_ctrl_c::init(void)
     }
   if (BX_FD_THIS s.device_type[1] != BX_FLOPPY_NONE) {
     BX_FD_THIS s.num_supported_floppies++;
-    BX_FD_THIS s.statusbar_id[1] = bx_gui->register_statusitem("B:");
+    BX_FD_THIS s.statusbar_id[1] = bx_gui->register_statusitem(" B: ");
   } else {
     BX_FD_THIS s.statusbar_id[1] = -1;
   }
