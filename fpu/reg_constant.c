@@ -116,5 +116,5 @@ static FUNC_RC constants_table[] = {
 
 void fconst(void)
 {
-  (constants_table[FPU_rm])(control_word & CW_RC);
+  (constants_table[FPU_rm])(FPU_control_word & CW_RC);
 }

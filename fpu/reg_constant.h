@@ -20,7 +20,7 @@ extern FPU_REG const CONST_L2E;
 extern FPU_REG const CONST_PI;
 
 /*
- * bbd: make CONST_PI2 non-const so that you can write "&CONST_PI2" when
+ * make CONST_PI2 non-const so that you can write "&CONST_PI2" when
  * calling a function.  Otherwise you get const warnings.  Surely there's
  * a better way.
  */
