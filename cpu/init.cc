@@ -376,7 +376,7 @@ void BX_CPU_C::init(BX_MEM_C *addrspace)
     DEFPARAM_NORMAL (CR3, cr3);
 #endif
 #if BX_CPU_LEVEL >= 4
-    DEFPARAM_NORMAL (CR4, cr4);
+    DEFPARAM_NORMAL (CR4, cr4.registerValue);
 #endif
 #endif  // #if BX_SUPPORT_X86_64==0
 
