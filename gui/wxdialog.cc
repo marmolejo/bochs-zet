@@ -1682,7 +1682,7 @@ void DebugLogDialog::AppendText (wxString text) {
 void DebugLogDialog::OnEvent(wxCommandEvent& event)
 {
   int id = event.GetId ();
-  wxLogMessage ("event was from id=%d, type=%d", id, (int)event.GetEventType ());
+  //wxLogMessage ("event was from id=%d, type=%d", id, (int)event.GetEventType ());
   switch (id) {
     case wxID_OK:
       Show(FALSE);
@@ -1955,6 +1955,8 @@ bool ParamDialog::CopyGuiToParam ()
 	stringp->set (buf);
 	break;
         }
+      case BXT_LIST:
+        break;
       default:
         wxLogError ("ParamDialog::CopyGuiToParam: unsupported param type id=%d", (int)type);
     }
@@ -2110,6 +2112,8 @@ void ParamDialog::CopyParamToGui ()
 	pstr->u.text->SetValue (wxString (stringp->getptr ()));
 	break;
         }
+      case BXT_LIST:
+        break;
       default:
         wxLogError ("ParamDialog::CopyParamToGui(): unsupported param type id=%d", (int)type);
     }
@@ -2119,7 +2123,7 @@ void ParamDialog::CopyParamToGui ()
 void ParamDialog::OnEvent(wxCommandEvent& event)
 {
   int id = event.GetId ();
-  wxLogMessage ("event was from id=%d", id);
+  //wxLogMessage ("event was from id=%d", id);
   if (isGeneratedId (id)) {
     ParamStruct *pstr = (ParamStruct*) idHash->Get (id);
     if (pstr == NULL) {
