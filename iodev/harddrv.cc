@@ -282,9 +282,9 @@ bx_hard_drive_c::init(bx_devices_c *d, bx_cmos_c *cmos)
       // AMI BIOS: 2nd hard disk, 0x80 if heads>8
       cmos->s.reg[0x29] = (bx_options.diskd.Oheads->get () > 8) ? 0x80 : 0x00;
       // AMI BIOS: 2nd hard disk landing zone, low byte
-      cmos->s.reg[0x2a] = cmos->s.reg[0x1b];
+      cmos->s.reg[0x2a] = cmos->s.reg[0x24];
       // AMI BIOS: 2nd hard disk landing zone, high byte
-      cmos->s.reg[0x2b] = cmos->s.reg[0x1c];
+      cmos->s.reg[0x2b] = cmos->s.reg[0x25];
       // AMI BIOS: 2nd hard disk sectors/track
       cmos->s.reg[0x2c] = bx_options.diskd.Ospt->get ();
     }
