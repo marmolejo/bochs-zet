@@ -387,6 +387,11 @@ logfunctions::panic(const char *fmt, ...)
 
 	va_start(ap, fmt);
 	this->logio->out(this->type,LOGLEV_PANIC,this->prefix, fmt, ap);
+
+	// This fixes a funny bug on linuxppc where va_list is no pointer but a struct
+	va_end(ap);
+	va_start(ap, fmt);
+
 	if (onoff[LOGLEV_PANIC] == ACT_ASK) 
 	  ask (LOGLEV_PANIC, this->prefix, fmt, ap);
 	if (onoff[LOGLEV_PANIC] == ACT_FATAL) 
