@@ -1497,6 +1497,7 @@ elif test "$with_wx" = yes; then
   case $target in
     *-pc-windows* | *-cygwin* | *-mingw32*)
        EXTRA_BX_OBJS="$EXTRA_BX_OBJS wxbochs_resources.o"
+	   GUI_LINK_OPTS_WX="$GUI_LINK_OPTS_WX --subsystem,windows -mwindows"
        ;;
   esac
 else
