@@ -207,7 +207,7 @@ bx_load_linux_hack(void)
   BX_OUTP( 0xA1, 0xFB, 1 );
 
   // Disable interrupts and NMIs
-  BX_CPU(0)->eflags.clear_IF ();
+  BX_CPU(0)->clear_IF ();
   BX_OUTP( 0x70, 0x80, 1 );
 
   // Enter protected mode

@@ -130,7 +130,7 @@ BX_CPU_C::INT_Ib(BxInstruction_t *i)
 
   imm8 = i->Ib;
 
-  if (v8086_mode() && (IOPL<3)) {
+  if (v8086_mode() && (BX_CPU_THIS_PTR get_IOPL()<3)) {
     //BX_INFO(("int_ib: v8086: IOPL<3"));
     exception(BX_GP_EXCEPTION, 0, 0);
     }

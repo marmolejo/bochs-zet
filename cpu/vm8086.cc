@@ -125,7 +125,7 @@ BX_CPU_C::stack_return_to_v86(Bit32u new_eip, Bit32u raw_cs_selector,
   void
 BX_CPU_C::stack_return_from_v86(BxInstruction_t *i)
 {
-  if (IOPL != 3) {
+  if (BX_CPU_THIS_PTR get_IOPL() != 3) {
     // trap to virtual 8086 monitor
     BX_DEBUG(("IRET in vm86 with IOPL != 3"));
     exception(BX_GP_EXCEPTION, 0, 0);
@@ -133,7 +133,7 @@ BX_CPU_C::stack_return_from_v86(BxInstruction_t *i)
   }
 
   if (i->os_32) {
-    Bit32u eip, ecs_raw, eflags;
+    Bit32u eip, ecs_raw, eflags_tmp;
 
     if( !can_pop(12) )
     {
@@ -143,11 +143,11 @@ BX_CPU_C::stack_return_from_v86(BxInstruction_t *i)
   
     pop_32(&eip);
     pop_32(&ecs_raw);
-    pop_32(&eflags);
+    pop_32(&eflags_tmp);
 
     load_seg_reg(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS], (Bit16u) ecs_raw);
     BX_CPU_THIS_PTR eip = eip;
-    write_eflags(eflags, /*IOPL*/ 0, /*IF*/ 1, /*VM*/ 0, /*RF*/ 1);
+    write_eflags(eflags_tmp, /*IOPL*/ 0, /*IF*/ 1, /*VM*/ 0, /*RF*/ 1);
     }
   else {
     Bit16u ip, cs_raw, flags;
