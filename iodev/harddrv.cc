@@ -208,6 +208,7 @@ bx_hard_drive_c::init(bx_devices_c *d, bx_cmos_c *cmos)
 	      } else {		    
 		    BX_INFO(( "Could not locate CD-ROM, continuing with media not present"));
 		    BX_HD_THIS s[1].cdrom.ready = 0;
+		    bx_options.cdromd.Oinserted->set(BX_EJECTED);
 	      }
 	} else {
 #endif
