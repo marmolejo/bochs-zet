@@ -1,6 +1,6 @@
 # Bochs Keymap file
 # $Id$
-# Target: PC(x86) keyboard, US keymap
+# Target: PC(x86) keyboard, DE keymap
 # Author: Volker Ruppert
 #
 # The keymap file describes the layout of a keyboard, and how it translates
