@@ -297,7 +297,7 @@ accessOK:
 #endif
       if ( (BX_CPU_THIS_PTR TLB.entry[tlbIndex].lpf == BX_TLB_LPF_VALUE(lpf))
 #if BX_SupportICache
-           && *pageStamp
+           && (*pageStamp & ICacheWriteStampMask)
 #endif
            ) {
         Bit32u accessBits;
@@ -361,7 +361,7 @@ accessOK:
 #endif
         if ( (BX_CPU_THIS_PTR TLB.entry[tlbIndex].lpf == BX_TLB_LPF_VALUE(lpf))
 #if BX_SupportICache
-              && *pageStamp
+              && (*pageStamp & ICacheWriteStampMask)
 #endif
              ) {
           Bit32u accessBits;
@@ -426,7 +426,7 @@ accessOK:
 #endif
         if ( (BX_CPU_THIS_PTR TLB.entry[tlbIndex].lpf == BX_TLB_LPF_VALUE(lpf))
 #if BX_SupportICache
-             && *pageStamp
+             && (*pageStamp & ICacheWriteStampMask)
 #endif
              ) {
           Bit32u accessBits;
@@ -654,7 +654,7 @@ accessOK:
 #endif
       if ( (BX_CPU_THIS_PTR TLB.entry[tlbIndex].lpf == BX_TLB_LPF_VALUE(lpf))
 #if BX_SupportICache
-            && *pageStamp
+            && (*pageStamp & ICacheWriteStampMask)
 #endif
            ) {
         Bit32u accessBits;
@@ -722,7 +722,7 @@ accessOK:
 #endif
         if ( (BX_CPU_THIS_PTR TLB.entry[tlbIndex].lpf == BX_TLB_LPF_VALUE(lpf))
 #if BX_SupportICache
-             && *pageStamp
+             && (*pageStamp & ICacheWriteStampMask)
 #endif
              ) {
           Bit32u accessBits;
@@ -788,7 +788,7 @@ accessOK:
 #endif
         if ( (BX_CPU_THIS_PTR TLB.entry[tlbIndex].lpf == BX_TLB_LPF_VALUE(lpf))
 #if BX_SupportICache
-             && *pageStamp
+             && (*pageStamp & ICacheWriteStampMask)
 #endif
              ) {
           Bit32u accessBits;
@@ -938,7 +938,7 @@ accessOK:
 #endif
         if ( (BX_CPU_THIS_PTR TLB.entry[tlbIndex].lpf == BX_TLB_LPF_VALUE(lpf))
 #if BX_SupportICache
-             && *pageStamp
+             && (*pageStamp & ICacheWriteStampMask)
 #endif
              ) {
           Bit32u accessBits;
@@ -1094,7 +1094,7 @@ accessOK:
 #endif
         if ( (BX_CPU_THIS_PTR TLB.entry[tlbIndex].lpf == BX_TLB_LPF_VALUE(lpf))
 #if BX_SupportICache
-             && *pageStamp
+             && (*pageStamp & ICacheWriteStampMask)
 #endif
              ) {
           Bit32u accessBits;

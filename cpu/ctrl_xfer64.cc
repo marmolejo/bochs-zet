@@ -299,7 +299,7 @@ BX_CPU_C::JMP_Jq(bxInstruction_c *i)
   void
 BX_CPU_C::JCC_Jq(bxInstruction_c *i)
 {
-  Boolean condition = 0;
+  Boolean condition;
 
   switch (i->b1() & 0x0f) {
     case 0x00: /* JO */ condition = get_OF(); break;
@@ -320,6 +320,9 @@ BX_CPU_C::JCC_Jq(bxInstruction_c *i)
       break;
     case 0x0F: /* JNLE */ condition = (get_SF() == get_OF()) &&
                             !get_ZF();
+      break;
+    default:
+      condition = 0; // For compiler...all targets should set condition.
       break;
     }
 
