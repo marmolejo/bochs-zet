@@ -2009,7 +2009,7 @@ BX_CPU_C::iret_protected(bxInstruction_c *i)
 #endif
 
 #if BX_CPU_LEVEL >= 2
-int BX_CPP_AttrRegparmN(1) BX_CPU_C::branch_near32(Bit32u new_EIP)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::branch_near32(Bit32u new_EIP)
 {
     // check always, not only in protected mode
     if (new_EIP > BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.limit_scaled)
