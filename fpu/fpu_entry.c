@@ -134,7 +134,7 @@ static u_char const type_table[64] = {
 math_emulate(fpu_addr_modes addr_modes,
               u_char  FPU_modrm,
               u_char byte1,
-              void *data_address,
+              bx_address data_address,
               struct address data_sel_off,
               struct address entry_sel_off)
 {
@@ -211,7 +211,7 @@ do_the_FPU_interrupt:
               switch ( (byte1 >> 1) & 3 )
                 {
                 case 0:
-                  unmasked = FPU_load_single((float *)data_address,
+                  unmasked = FPU_load_single(data_address,
                                              &loaded_data);
                   loaded_tag = unmasked & 0xff;
                   unmasked &= ~0xff;
@@ -220,14 +220,14 @@ do_the_FPU_interrupt:
                   loaded_tag = FPU_load_int32((s32 *)data_address, &loaded_data);
                   break;
                 case 2:
-                  unmasked = FPU_load_double((double *)data_address,
+                  unmasked = FPU_load_double(data_address,
                                              &loaded_data);
                   loaded_tag = unmasked & 0xff;
                   unmasked &= ~0xff;
                   break;
                 case 3:
                 default:  /* Used here to suppress gcc warnings. */
-                  loaded_tag = FPU_load_int16((s16 *)data_address, &loaded_data);
+                  loaded_tag = FPU_load_int16(data_address, &loaded_data);
                   break;
                 }
 

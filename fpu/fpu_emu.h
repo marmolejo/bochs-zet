@@ -116,7 +116,7 @@ extern u_char emulating;
 #define PREFIX_DEFAULT 7
 
 struct address {
-  u32 offset;
+  bx_address offset;
 #ifdef EMU_BIG_ENDIAN
   u32 empty:5;
   u32 opcode:11;
