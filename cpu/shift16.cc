@@ -484,24 +484,5 @@ BX_CPU_C::SAR_Ew(bxInstruction_c *i)
       Write_RMW_virtual_word(result_16);
       }
 
-    /* set eflags:
-     * SAR count affects the following flags: S,Z,P,C
-     */
-    if (count < 16) {
-      set_CF((op1_16 >> (count - 1)) & 0x01);
-      }
-    else {
-      if (op1_16 & 0x8000) {
-        set_CF(1);
-        }
-      else {
-        set_CF(0);
-        }
-      }
-
-    set_ZF(result_16 == 0);
-    set_SF(result_16 >> 15);
-    if (count == 1)
-      set_OF(0);
-    set_PF_base((Bit8u) result_16);
+    SET_FLAGS_OSZAPC_RESULT_16(result_16, BX_INSTR_SAR16);
 }

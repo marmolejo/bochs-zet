@@ -435,14 +435,5 @@ BX_CPU_C::SAR_Ed(bxInstruction_c *i)
       Write_RMW_virtual_dword(result_32);
       }
 
-    /* set eflags:
-     * SAR count affects the following flags: S,Z,P,C
-     */
-
-    set_CF((op1_32 >> (count - 1)) & 0x01);
-    set_ZF(result_32 == 0);
-    set_SF(result_32 >> 31);
-    if (count == 1)
-      set_OF(0);
-    set_PF_base(result_32);
+    SET_FLAGS_OSZAPC_RESULT_32(result_32, BX_INSTR_SAR32);
 }
