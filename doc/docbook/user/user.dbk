@@ -350,7 +350,7 @@ currently work with.
     <entry>Floppy disk</entry>
     <entry>Yes</entry>
     <entry>Supports floppy disk images on all platforms: 1.44M 3.5", 1.2M 5.25", and 720K 3.5".  
-    On Unix and Windows NT/2000, Bochs can access the physical floppy drive.
+    On Unix and Windows XP/NT/2000, Bochs can access the physical floppy drive.
     </entry>
   </row>
   <row>
