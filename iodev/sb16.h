@@ -91,7 +91,7 @@
              // it should not be too large to avoid lag, and not too
              // small to avoid unnecessary overhead.
 
-#define BX_SB16_MIX_REG  0x90         // total number of mixer registers
+#define BX_SB16_MIX_REG  0x100        // total number of mixer registers
 
 // The array containing an instrument/bank remapping
 struct bx_sb16_ins_map {
