@@ -70,5 +70,5 @@ clean:
 	  rm -f $$S/*.html $$S/*.htm $$S/*.ps $$S/*.pdf $$S/*.out; \
 	done
 
-dist-clean:
+dist-clean: clean
 	@RMCOMMAND@ Makefile
