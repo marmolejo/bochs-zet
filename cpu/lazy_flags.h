@@ -37,13 +37,13 @@
 #define BX_INSTR_SUB32          7
 #define BX_INSTR_SUB64          8
 
-// used only when CF = 1 when executing ADC instruction
+// used only if CF = 1 when executing ADC instruction
 #define BX_INSTR_ADC8           9
 #define BX_INSTR_ADC16          10
 #define BX_INSTR_ADC32          11
 #define BX_INSTR_ADC64          12
 
-// used only when CF = 1 when executing SBB instruction
+// used only if CF = 1 when executing SBB instruction
 #define BX_INSTR_SBB8           13
 #define BX_INSTR_SBB16          14
 #define BX_INSTR_SBB32          15
