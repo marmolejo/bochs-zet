@@ -370,7 +370,7 @@ so that it sticks to the release tag.
 
 cp -a clean-anon bochs-2.0.pre3
 cd bochs-2.0.pre3
-cvs upd -r REL_2_0_pre3_FINAL
+cvs upd -P -r REL_2_0_pre3_FINAL
 cd ..
 tar czvf bochs-2.0.pre3.tar.gz --exclude CVS --exclude .cvsignore bochs-2.0.pre3
 
