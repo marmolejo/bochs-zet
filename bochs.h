@@ -58,7 +58,11 @@ extern "C" {
 #endif
 #include <time.h>
 #if BX_WITH_MACOS
+#define Float32 KLUDGE_Float32
+#define Float64 KLUDGE_Float64
 #  include <types.h>
+#undef Float32
+#undef Float64
 #  include <stat.h>
 #  include <cstdio>
 #  include <unistd.h>

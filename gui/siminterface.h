@@ -907,7 +907,7 @@ public:
   enum {
     // When a bx_param_num_c is displayed in dialog, USE_SPIN_CONTROL controls
     // whether a spin control should be used instead of a simple text control.
-    USE_SPIN_CONTROL = (1<<0),
+    USE_SPIN_CONTROL = (1<<0)
   } bx_numopt_bits;
   bx_param_num_c (bx_id id,
       char *name,

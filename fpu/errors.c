@@ -28,7 +28,9 @@
 #include "control_w.h"
 #include "reg_constant.h"
 #include "version.h"
-
+#ifdef __cplusplus
+extern "C"
+#endif
 int printk(const char * fmt, ...);
 
 /*

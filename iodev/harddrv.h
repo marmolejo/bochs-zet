@@ -285,8 +285,16 @@ class sparse_image_t : public device_image_t
  off_t total_size;
 
  void panic(const char * message);
- off_t sparse_image_t::get_physical_offset();
- void sparse_image_t::set_virtual_page(uint32 new_virtual_page);
+ off_t
+#ifndef PARANOID
+       sparse_image_t::
+#endif
+                       get_physical_offset();
+ void
+#ifndef PARANOID
+       sparse_image_t::
+#endif
+                       set_virtual_page(uint32 new_virtual_page);
  void read_header();
  ssize_t read_page_fragment(uint32 read_virtual_page, uint32 read_page_offset, size_t read_size, void * buf);
 

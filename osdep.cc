@@ -235,6 +235,9 @@ char *bx_strrev(char *str)
 }
 #endif  /* !BX_HAVE_STRREV */
 
+#if BX_WITH_MACOS
+namespace std{extern "C" {char *mktemp(char *tpl);}}
+#endif
 #if !BX_HAVE_MKSTEMP
 int bx_mkstemp(char *tpl)
 {
