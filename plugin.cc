@@ -13,6 +13,7 @@
 /////////////////////////////////////////////////////////////////////////
 
 #include "bochs.h"
+#include "iodev/iodev.h"
 #include "plugin.h"
 
 #define LOG_THIS genlog->

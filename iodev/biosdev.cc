@@ -43,7 +43,7 @@
 // is used to know when we are exporting symbols and when we are importing.
 #define BX_PLUGGABLE
 
-#include "bochs.h"
+#include "iodev.h"
 
 bx_biosdev_c *theBiosDevice;
 

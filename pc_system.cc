@@ -27,6 +27,7 @@
 
 
 #include "bochs.h"
+#include "iodev/iodev.h"
 #define LOG_THIS bx_pc_system.
 
 #ifdef WIN32

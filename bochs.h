@@ -502,7 +502,6 @@ enum PCS_OP { PCS_CLEAR, PCS_SET, PCS_TOGGLE };
 #include "gui/gui.h"
 #include "gui/textconfig.h"
 #include "gui/keymap.h"
-#include "iodev/iodev.h"
 
 
 
@@ -511,10 +510,6 @@ enum PCS_OP { PCS_CLEAR, PCS_SET, PCS_TOGGLE };
 
 
 /* --- EXTERNS --- */
-
-#if ( BX_PROVIDE_DEVICE_MODELS==1 )
-BOCHSAPI extern bx_devices_c   bx_devices;
-#endif
 
 #if BX_GUI_SIGHANDLER
 extern bx_bool bx_gui_sighandler;

@@ -20,7 +20,8 @@
 
 #define BX_PLUGGABLE
 
-#include "bochs.h"
+#include "iodev.h"
+
 #ifdef __linux__
 #include <unistd.h>
 #include <stdio.h>

@@ -25,12 +25,12 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 
-#include "bochs.h"
+#include "iodev.h"
 
 #if BX_USE_NEW_PIT
 
 #include "pit_wrap.h"
-
+#include "iodev.h"
 
 //Important constant #defines:
 #define USEC_PER_SECOND (1000000)

@@ -32,7 +32,7 @@
 // for your OS if it is not supported yet.
 
 
-#include "bochs.h"
+#include "iodev.h"
 #include "scsi_commands.h"
 
 #include <exec/types.h>

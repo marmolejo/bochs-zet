@@ -31,6 +31,7 @@
 #define BX_PLUGGABLE
 
 #include "bochs.h"
+#include "iodev.h"
 #if BX_WITH_AMIGAOS
 #include "icon_bochs.h"
 #include "amigagui.h"

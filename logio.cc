@@ -26,7 +26,7 @@
 
 
 
-#include "bochs.h"
+#include "iodev/iodev.h"
 #include <assert.h>
 #include "state_file.h"
 

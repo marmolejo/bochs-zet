@@ -37,6 +37,7 @@
 // BOCHS INCLUDES
 #include <MacTypes.h>
 #include "bochs.h"
+#include "iodev.h"
 
 // decide whether to enable this file or not
 #if BX_WITH_MACOS

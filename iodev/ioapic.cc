@@ -3,7 +3,8 @@
 /////////////////////////////////////////////////////////////////////////
 //
 #include <stdio.h>
-#include  "bochs.h"
+
+#include "iodev.h"
 #if BX_SUPPORT_APIC
 
 class bx_ioapic_c bx_ioapic;

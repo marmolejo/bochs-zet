@@ -37,6 +37,7 @@
 #define BX_PLUGGABLE
 
 #include "bochs.h"
+#include "iodev.h"
 #if BX_WITH_WX
 
 // For compilers that support precompilation, includes <wx/wx.h>.

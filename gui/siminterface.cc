@@ -7,6 +7,7 @@
 // the configuration user interface, and allows them to talk to each other.
 
 #include "bochs.h"
+#include "iodev.h"
 
 bx_simulator_interface_c *SIM = NULL;
 logfunctions *siminterface_log = NULL;

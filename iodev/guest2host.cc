@@ -26,7 +26,7 @@
 
 
 
-#include "bochs.h"
+#include "iodev.h"
 #define LOG_THIS  bx_g2h.
 
 bx_g2h_c bx_g2h;

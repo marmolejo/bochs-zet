@@ -26,6 +26,7 @@
 
 #include "bochs.h"
 #include "state_file.h"
+#include "iodev/iodev.h"
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>

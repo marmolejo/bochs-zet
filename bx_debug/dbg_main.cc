@@ -29,6 +29,7 @@ extern "C" {
 }
 
 #include "bochs.h"
+#include "iodev/iodev.h"
 #if BX_DEBUGGER
 
 #define LOG_THIS genlog->

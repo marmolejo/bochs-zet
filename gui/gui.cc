@@ -27,6 +27,7 @@
 
 #include <signal.h>
 #include "bochs.h"
+#include "iodev.h"
 #include "gui/bitmaps/floppya.h"
 #include "gui/bitmaps/floppyb.h"
 #include "gui/bitmaps/mouse.h"

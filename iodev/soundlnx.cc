@@ -27,7 +27,7 @@
 // This file (SOUNDLNX.CC) written and donated by Josef Drexler
 
 
-#include "bochs.h"
+#include "iodev.h"
 #if (defined(linux) || defined(__FreeBSD__)) && BX_SUPPORT_SB16
 #define LOG_THIS bx_sb16.
 

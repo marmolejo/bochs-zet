@@ -52,7 +52,7 @@ extern "C" {
 #include <linux/fd.h>
 }
 #endif
-#include "bochs.h"
+#include "iodev.h"
 // windows.h included by bochs.h
 #ifdef WIN32
 extern "C" {

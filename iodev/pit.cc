@@ -26,7 +26,7 @@
 
 
 
-#include "bochs.h"
+#include "iodev.h"
 
 #if (BX_USE_NEW_PIT==0)
 

@@ -26,7 +26,7 @@
  *  write?
  */
 
-#include "bochs.h"
+#include "iodev.h"
 #include "pit82c54.h"
 #define LOG_THIS this->
 

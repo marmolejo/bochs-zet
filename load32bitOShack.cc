@@ -28,6 +28,7 @@
 
 
 #include "bochs.h"
+#include "iodev/iodev.h"
 #define LOG_THIS genlog->
 
 

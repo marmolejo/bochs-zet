@@ -29,17 +29,13 @@
 
 
 
-
-
-
-#include "bochs.h"
+#include "iodev/iodev.h"
 #define LOG_THIS BX_MEM(0)->
 
 
 
 #if BX_PROVIDE_CPU_MEMORY
-  Bit32u
-BX_MEM_C::get_memory_in_k(void)
+Bit32u BX_MEM_C::get_memory_in_k(void)
 {
   return(BX_MEM_THIS megabytes * 1024);
 }
