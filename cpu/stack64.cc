@@ -31,11 +31,6 @@
 
 #if BX_SUPPORT_X86_64
 
-#if BX_USE_CPU_SMF
-#define this (BX_CPU(0))
-#endif
-
-
   void
 BX_CPU_C::POP_Eq(bxInstruction_c *i)
 {

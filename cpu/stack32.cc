@@ -29,10 +29,6 @@
 #include "bochs.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
-#if BX_USE_CPU_SMF
-#define this (BX_CPU(0))
-#endif
-
 #if BX_SUPPORT_X86_64==0
 // Make life easier for merging 64&32-bit code.
 #define RBP EBP
