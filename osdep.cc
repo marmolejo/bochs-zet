@@ -235,6 +235,18 @@ char *bx_strrev(char *str)
 }
 #endif  /* !BX_HAVE_STRREV */
 
+#if !BX_HAVE_MKSTEMP
+int bx_mkstemp(char *tpl)
+{
+  mktemp(tpl);
+  return ::open(tpl, O_RDWR | O_CREAT | O_TRUNC
+#  ifdef O_BINARY
+            | O_BINARY
+#  endif
+              , S_IWUSR | S_IRUSR | S_IRGRP | S_IWGRP);
+}
+#endif // !BX_HAVE_MKSTEMP
+
 //////////////////////////////////////////////////////////////////////
 // Missing library functions, implemented for MacOS only
 //////////////////////////////////////////////////////////////////////
