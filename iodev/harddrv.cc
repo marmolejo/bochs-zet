@@ -1431,18 +1431,18 @@ if ( quantumsMax == 0)
 				    BX_SELECTED_CONTROLLER(channel).buffer[7] = 0x00; // reserved
 
 				    // Vendor ID
-				    const char* vendor_id = "VTAB\0\0\0\0";
+				    const char* vendor_id = "VTAB    ";
                                     int i;
 				    for (i = 0; i < 8; i++)
 					  BX_SELECTED_CONTROLLER(channel).buffer[8+i] = vendor_id[i];
 
 				    // Product ID
-				    const char* product_id = "Turbo CD-ROM\0\0\0\0";
+				    const char* product_id = "Turbo CD-ROM    ";
 				    for (i = 0; i < 16; i++)
 					  BX_SELECTED_CONTROLLER(channel).buffer[16+i] = product_id[i];
 
 				    // Product Revision level
-				    const char* rev_level = "R0\0\0";
+				    const char* rev_level = "1.0 ";
 				    for (i = 0; i < 4; i++)
 					  BX_SELECTED_CONTROLLER(channel).buffer[32+i] = rev_level[i];
 
@@ -1782,8 +1782,11 @@ if ( quantumsMax == 0)
            * sector count of 0 means 256 sectors
            */
 
-	  if (!BX_SELECTED_IS_HD(channel))
-		BX_PANIC(("read multiple issued to non-disk"));
+	  if (!BX_SELECTED_IS_HD(channel)) {
+		BX_ERROR(("read multiple issued to non-disk"));
+		command_aborted(channel, value);
+		break;
+	  }
 
           BX_SELECTED_CONTROLLER(channel).current_command = value;
 
