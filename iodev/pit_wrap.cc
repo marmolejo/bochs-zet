@@ -77,7 +77,6 @@ bx_pit_c bx_pit;
 #endif
 
 #define DEBUG_REALTIME_WITH_PRINTF 0
-#define BX_HAVE_GETTIMEOFDAY 1
 #define DEBUG_GETTIMEOFDAY_WITH_PRINTF 1
 
 
