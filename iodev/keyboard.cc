@@ -116,6 +116,7 @@ bx_keyb_c::init(bx_devices_c *d, bx_cmos_c *cmos)
   BX_KEY_THIS devices = d;
 
   BX_KEY_THIS devices->register_irq(1, "8042 Keyboard controller");
+  BX_KEY_THIS devices->register_irq(12, "8042 Keyboard controller (PS/2 mouse)");
 
   BX_KEY_THIS devices->register_io_read_handler(this, read_handler,
                                       0x0060, "8042 Keyboard controller");
