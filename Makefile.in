@@ -618,7 +618,7 @@ $(APP)/.build_plugins: $(APP)/.build bochs_plugins
 
 install_macosx: all download_dlx
 	-mkdir -p $(prefix)
-	for i in $(INSTALL_LIST_MACOSX); do if test -f $$i; then $(CPMAC) -r $$i $(prefix); else $(CPMAC) -r $(srcdir)/$$i $(prefix); fi; done
+	for i in $(INSTALL_LIST_MACOSX); do if test -e $$i; then $(CPMAC) -r $$i $(prefix); else $(CPMAC) -r $(srcdir)/$$i $(prefix); fi; done
 	$(CPMAC) $(srcdir)/.bochsrc $(prefix)/bochsrc-sample.txt
 	$(CPMAC) -r $(srcdir)/docs-html $(prefix)
 	-mkdir $(prefix)/keymaps
