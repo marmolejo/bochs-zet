@@ -11,13 +11,13 @@
 
 #define BX_IODEBUG_MAX_AREAS	30
 
-class bx_iodebug_c : public logfunctions
+class bx_iodebug_c : public bx_devmodel_c
 {
 public:
   bx_iodebug_c( void );
   ~bx_iodebug_c( void );
-  int init(void);
-  void reset (unsigned type);
+  virtual void init(void);
+  virtual void reset (unsigned type);
   static void mem_write( BX_CPU_C *cpu, Bit32u addr, unsigned len, void *data);
   static void mem_read( BX_CPU_C *cpu, Bit32u addr, unsigned len, void *data);
 
