@@ -122,6 +122,11 @@ BX_CPU_C::MOV_SwEw(bxInstruction_c *i)
 {
   Bit16u op2_16;
 
+  /* If attempt is made to load the CS register ... */
+  if (i->nnn() == BX_SEG_REG_CS) {
+    UndefinedOpcode(i);
+  }
+
 #if BX_CPU_LEVEL < 3
   BX_PANIC(("MOV_SwEw: incomplete for CPU < 3"));
 #endif
