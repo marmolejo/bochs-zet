@@ -615,6 +615,21 @@ AC_ARG_ENABLE(global-pages,
     ]
   )
 
+AC_MSG_CHECKING(for host specific inline assembly accelerations)
+AC_ARG_ENABLE(host-specific-asms,
+  [  --enable-host-specific-asms       support for host specific inline assembly],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_SupportHostAsms, 1)
+   else
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SupportHostAsms, 0)
+   fi],
+  [
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_SupportHostAsms, 1)
+    ]
+  )
 
 AC_MSG_CHECKING(for port e9 hack)
 AC_ARG_ENABLE(port-e9-hack,
