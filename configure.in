@@ -1654,4 +1654,5 @@ AC_OUTPUT(Makefile iodev/Makefile debug/Makefile bios/Makefile \
 	 disasm/Makefile ${INSTRUMENT_DIR}/Makefile misc/Makefile \
 	 fpu/Makefile install-x11-fonts build/linux/bochs-dlx \
 	 build/linux/bochs-docs bxversion.h \
-	 build/linux/DOC-linux.html)
+	 build/linux/DOC-linux.html \
+	 build/macosx/Info.plist)
