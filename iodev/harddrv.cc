@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
+//  Copyright (C) 2002  MandrakeSoft S.A.
 //
 //    MandrakeSoft S.A.
 //    43, rue d'Aboukir
@@ -711,7 +711,8 @@ bx_hard_drive_c::read(Bit32u address, unsigned io_len)
 
     case 0x1f7: // Hard Disk Status
     case 0x3f6: // Hard Disk Alternate Status
-      if (BX_HD_THIS drive_select && !bx_options.diskd.Opresent->get ()) {
+      if ((!BX_HD_THIS drive_select && !bx_options.diskc.Opresent->get ()) ||
+          (BX_HD_THIS drive_select && !bx_options.diskd.Opresent->get ())) {
 	    // (mch) Just return zero for these registers
 	    value8 = 0;
       } else {
@@ -731,6 +732,7 @@ bx_hard_drive_c::read(Bit32u address, unsigned io_len)
         BX_SELECTED_CONTROLLER.status.index_pulse_count = 0;
         }
       }
+      if (address == 0x1f7) BX_HD_THIS devices->pic->untrigger_irq(14);
       goto return_value8;
       break;
 
@@ -920,7 +922,6 @@ BX_DEBUG(("IO write to %04x = %02x", (unsigned) address, (unsigned) value));
 		  if (BX_SELECTED_CONTROLLER.buffer_index >= PACKET_SIZE) {
 			// complete command received
 			Bit8u atapi_command = BX_SELECTED_CONTROLLER.buffer[0];
-			int alloc_length;
 
 			if (bx_dbg.cdrom)
 				BX_INFO(("cdrom: ATAPI command 0x%x started", atapi_command));
@@ -1457,7 +1458,8 @@ BX_DEBUG(("IO write to %04x = %02x", (unsigned) address, (unsigned) value));
         case 0x10: // CALIBRATE DRIVE
 	  if (BX_SELECTED_HD.device_type != IDE_DISK)
 		BX_PANIC(("calibrate drive issued to non-disk"));
-          if (BX_HD_THIS drive_select != 0 && !bx_options.diskd.Opresent->get ()) {
+          if ((BX_HD_THIS drive_select == 0 && !bx_options.diskc.Opresent->get ()) ||
+              (BX_HD_THIS drive_select != 0 && !bx_options.diskd.Opresent->get ())) {
             BX_SELECTED_CONTROLLER.error_register = 0x02; // Track 0 not found
             BX_SELECTED_CONTROLLER.status.busy = 0;
             BX_SELECTED_CONTROLLER.status.drive_ready = 1;
@@ -1465,7 +1467,7 @@ BX_DEBUG(("IO write to %04x = %02x", (unsigned) address, (unsigned) value));
             BX_SELECTED_CONTROLLER.status.drq = 0;
             BX_SELECTED_CONTROLLER.status.err = 1;
 	    raise_interrupt();
-            BX_INFO(("calibrate drive != 0, with diskd not present"));
+            BX_INFO(("calibrate drive: disk%c not present", BX_HD_THIS drive_select+67));
             break;
             }
 
@@ -1591,8 +1593,9 @@ BX_DEBUG(("IO write to %04x = %02x", (unsigned) address, (unsigned) value));
             (unsigned) BX_SELECTED_CONTROLLER.sector_count,
             (unsigned) BX_HD_THIS drive_select,
             (unsigned) BX_SELECTED_CONTROLLER.head_no));
-          if (BX_HD_THIS drive_select != 0 && !bx_options.diskd.Opresent->get ()) {
-            BX_PANIC(("init drive params: drive != 0"));
+          if ((BX_HD_THIS drive_select == 0 && !bx_options.diskc.Opresent->get ()) ||
+              (BX_HD_THIS drive_select != 0 && !bx_options.diskd.Opresent->get ())) {
+            BX_PANIC(("init drive params: disk%c not present", BX_HD_THIS drive_select+67));
             //BX_SELECTED_CONTROLLER.error_register = 0x12;
             BX_SELECTED_CONTROLLER.status.busy = 0;
             BX_SELECTED_CONTROLLER.status.drive_ready = 1;
@@ -1617,6 +1620,11 @@ BX_DEBUG(("IO write to %04x = %02x", (unsigned) address, (unsigned) value));
 	    if (bx_dbg.disk || (CDROM_SELECTED && bx_dbg.cdrom))
 		  BX_INFO(("Drive ID Command issued : 0xec "));
 
+            if (!BX_HD_THIS drive_select && !bx_options.diskc.Opresent->get ()) {
+              BX_INFO(("1st drive not present, aborting"));
+              command_aborted(value);
+              break;
+              }
             if (BX_HD_THIS drive_select && !bx_options.diskd.Opresent->get ()) {
               BX_INFO(("2nd drive not present, aborting"));
               command_aborted(value);
