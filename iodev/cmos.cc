@@ -120,7 +120,7 @@ bx_cmos_c::init(bx_devices_c *d)
   }
   tmptime[strlen(tmptime)-1]='\0';
 
-  BX_INFO(("Setting initial clock to: %s (time0=%u)", tmptime, (Bit32u)s.timeval));
+  BX_INFO(("Setting initial clock to: %s (time0=%u)", tmptime, (Bit32u)BX_CMOS_THIS s.timeval));
 
   update_clock();
 
