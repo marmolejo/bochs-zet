@@ -85,6 +85,8 @@ static unsigned curr_multiple_sectors = 0; // was 0x3f
 
 bx_hard_drive_c::bx_hard_drive_c(void)
 {
+      s[0].hard_drive =  NULL;
+      s[1].hard_drive =  NULL;
       put("HD");
       settype(HDLOG);
 #if EXTERNAL_DISK_SIMULATOR
@@ -106,9 +108,19 @@ bx_hard_drive_c::bx_hard_drive_c(void)
 
 bx_hard_drive_c::~bx_hard_drive_c(void)
 {
-  // nothing for now
 	BX_DEBUG(("Exit."));
+  if ( s[0].hard_drive != NULL )      /* DT 17.12.2001 21:55 */
+  {
+    delete s[0].hard_drive;
+    s[0].hard_drive =  NULL;
+  }
+  if ( s[1].hard_drive != NULL )
+  {
+    delete s[1].hard_drive;
+    s[1].hard_drive =  NULL;        /* DT 17.12.2001 21:56 */
+  }
 }
+
 
 
 

@@ -855,7 +855,8 @@ unsigned bx_gui_c::create_bitmap(const unsigned char *bmap, unsigned xdim,
   for (unsigned i=0; i<ydim * xdim/8; i++)
     data[i] = reverse_bitorder(bmap[i]);
   SetBitmapBits(bx_bitmaps[bx_bitmap_entries].bmap, ydim * xdim/8, data);
-  free(data);
+  delete [] data;
+  data = NULL;
 
   bx_bitmaps[bx_bitmap_entries].xdim = xdim;
   bx_bitmaps[bx_bitmap_entries].ydim = ydim;

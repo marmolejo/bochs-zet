@@ -52,7 +52,11 @@ bx_unmapped_c::bx_unmapped_c(void)
 
 bx_unmapped_c::~bx_unmapped_c(void)
 {
-  // nothing for now
+    if ( bioslog != NULL )              /* DT 17.12.2001 21:32 */
+    {
+        delete bioslog;
+        bioslog = NULL;
+    }
 }
 
   void

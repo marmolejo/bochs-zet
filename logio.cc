@@ -195,9 +195,10 @@ iofunctions::~iofunctions(void)
 
 logfunctions::logfunctions(void)
 {
+	prefix = NULL;
 	put(" ");
 	settype(GENLOG);
-	if(io == NULL && Allocio == 0) {
+	if (io == NULL && Allocio == 0) {
 		Allocio = 1;
 		io = new iofunc_t(stderr);
 	}
@@ -210,6 +211,7 @@ logfunctions::logfunctions(void)
 
 logfunctions::logfunctions(iofunc_t *iofunc)
 {
+	prefix = NULL;
 	put(" ");
 	settype(GENLOG);
 	setio(iofunc);
@@ -221,6 +223,16 @@ logfunctions::logfunctions(iofunc_t *iofunc)
 
 logfunctions::~logfunctions(void)
 {
+    if (io != NULL)
+    {
+        delete io;
+        io = NULL;
+    }
+    if ( this->prefix )
+    {
+        free(this->prefix);
+        this->prefix = NULL;
+    }
 }
 
 void
@@ -238,6 +250,16 @@ logfunctions::put(char *p)
 	char *tmpbuf;
 	tmpbuf=strdup("[     ]");// if we ever have more than 32 chars,
 						   //  we need to rethink this
+
+	if ( tmpbuf == NULL)
+	{
+	    return ;                        /* allocation not successful */
+	}
+	if ( this->prefix != NULL )
+	{
+	    free(this->prefix);             /* free previously allocated memory */
+	    this->prefix = NULL;
+	}
 	int len=strlen(p);
 	for(int i=1;i<len+1;i++) {
 		tmpbuf[i]=p[i-1];

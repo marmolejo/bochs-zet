@@ -128,4 +128,9 @@ state_file::state_file (FILE *f)
 state_file::~state_file()
 {
   BX_DEBUG(("Exit."));
+  if ( log != NULL )
+  {
+        delete log;
+        log = NULL;
+  }
 }

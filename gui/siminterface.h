@@ -229,6 +229,7 @@ public:
       char *description,
       char *initial_val,
       int maxsize=-1);
+  ~bx_param_string_c ();
   void reset ();
   void set_handler (param_string_event_handler handler);
   Bit32s get (char *buf, int len);
@@ -274,6 +275,7 @@ public:
   } bx_listopt_bits;
   //bx_list_c (bx_id id, int maxsize);
   bx_list_c (bx_id id, char *name, char *description, bx_param_c **init_list);
+  ~bx_list_c();
   void add (bx_param_c *param);
   bx_param_c *get (int index);
   bx_param_num_c *get_options () { return options; }
