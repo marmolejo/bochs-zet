@@ -54,7 +54,6 @@
 #include "osdep.h"
 #include "font/vga.bitmap.h"
 
-#include "wxdialog.h"
 // shared elements between wxmain.cc and this file
 #include "wxmain.h"
 

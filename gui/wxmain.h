@@ -86,13 +86,8 @@ enum
   ID_Browse,
   ID_Browse2,
   ID_Create,
-  // dialog box: HDConfigDialog
+  // dialog box: NetConfigDialog
   ID_Enable,
-  ID_Cylinders,
-  ID_Heads,
-  ID_SPT,
-  ID_Megs,
-  ID_ComputeGeometry,
   // dialog box: LogOptions
   ID_Advanced,
   // dialog box: CpuRegistersDialog
