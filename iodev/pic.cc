@@ -572,8 +572,9 @@ bx_pic_c::raise_irq(unsigned irq_no)
   }
 }
 
-// old IRQ handling routines (unused)
+// old IRQ handling routines (disabled)
 
+#if 0
   void
 bx_pic_c::trigger_irq(unsigned irq_no)
 {
@@ -631,6 +632,7 @@ bx_pic_c::untrigger_irq(unsigned irq_no)
     }
   }
 }
+#endif
 
   /* */
   void
