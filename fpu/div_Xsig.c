@@ -149,7 +149,6 @@ void div_Xsig(const Xsig *aa, const Xsig *b, Xsig *dest)
       result.midw ++;
     }
 
-
   /* Now result.msw is done, the lsw is next... */
 
   num = a.lsw;

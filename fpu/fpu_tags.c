@@ -71,12 +71,6 @@ int BX_CPP_AttrRegparmN(1) isNaN(FPU_REG const *ptr)
 	   && !((ptr->sigh == 0x80000000) && (ptr->sigl == 0)));
 }
 
-int FPU_stackoverflow(FPU_REG **st_new_ptr)
-{
-  *st_new_ptr = &st(-1);
-  return ((FPU_tag_word >> (((FPU_tos - 1) & 7)*2)) & 3) != TAG_Empty;
-}
-
 void  BX_CPP_AttrRegparmN(3) FPU_copy_to_regi(FPU_REG const *r, u_char tag, int stnr)
 {
   reg_copy(r, &st(stnr));

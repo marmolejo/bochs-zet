@@ -73,8 +73,6 @@
 #define getsign(a) (signbyte(a) & 0x80)
 #define setsign(a,b) { if (b) signbyte(a) |= 0x80; else signbyte(a) &= 0x7f; }
 #define changesign(a) { signbyte(a) ^= 0x80; }
-#define setpositive(a) { signbyte(a) &= 0x7f; }
-#define setnegative(a) { signbyte(a) |= 0x80; }
 #define signpositive(a) ( (signbyte(a) & 0x80) == 0 )
 #define signnegative(a) (signbyte(a) & 0x80)
 
