@@ -1,5 +1,6 @@
 /*---------------------------------------------------------------------------+
  |  poly_tan.c                                                               |
+ |  $Id$
  |                                                                           |
  | Compute the tan of a FPU_REG, using a polynomial approximation.           |
  |                                                                           |

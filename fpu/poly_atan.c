@@ -1,5 +1,6 @@
 /*---------------------------------------------------------------------------+
  |  poly_atan.c                                                              |
+ |  $Id$
  |                                                                           |
  | Compute the arctan of a FPU_REG, using a polynomial approximation.        |
  |                                                                           |

@@ -1,5 +1,6 @@
 /*---------------------------------------------------------------------------+
  |  polynomial_Xsig.c                                                        |
+ |  $Id$
  |                                                                           |
  | Fixed point arithmetic polynomial evaluation.                             |
  |                                                                           |

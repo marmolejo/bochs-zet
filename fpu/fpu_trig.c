@@ -1,5 +1,6 @@
 /*---------------------------------------------------------------------------+
  |  fpu_trig.c                                                               |
+ |  $Id$
  |                                                                           |
  | Implementation of the FPU "transcendental" functions.                     |
  |                                                                           |

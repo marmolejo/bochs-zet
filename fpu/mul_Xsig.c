@@ -1,5 +1,6 @@
 /*---------------------------------------------------------------------------+
  |  mul_Xsig.S                                                               |
+ |  $Id$
  |                                                                           |
  | Multiply a 12 byte fixed point number by another fixed point number.      |
  |                                                                           |

@@ -1,5 +1,6 @@
 /*---------------------------------------------------------------------------+
  |  exception.h                                                              |
+ |  $Id$
  |                                                                           |
  | Copyright (C) 1992    W. Metzenthen, 22 Parker St, Ormond, Vic 3163,      |
  |                       Australia.  E-mail   billm@vaxc.cc.monash.edu.au    |

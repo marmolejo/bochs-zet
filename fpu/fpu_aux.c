@@ -1,5 +1,6 @@
 /*---------------------------------------------------------------------------+
  |  fpu_aux.c                                                                |
+ |  $Id$
  |                                                                           |
  | Code to implement some of the FPU auxiliary instructions.                 |
  |                                                                           |

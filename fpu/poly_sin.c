@@ -1,5 +1,6 @@
 /*---------------------------------------------------------------------------+
  |  poly_sin.c                                                               |
+ |  $Id$
  |                                                                           |
  |  Computation of an approximation of the sin function and the cosine       |
  |  function by a polynomial.                                                |

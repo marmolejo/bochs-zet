@@ -1,5 +1,6 @@
 /*---------------------------------------------------------------------------+
  |  get_address.c                                                            |
+ |  $Id$
  |                                                                           |
  | Get the effective address from an FPU instruction.                        |
  |                                                                           |

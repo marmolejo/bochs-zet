@@ -1,5 +1,6 @@
 /*---------------------------------------------------------------------------+
  |  wm_sqrt.c                                                                |
+ |  $Id$
  |                                                                           |
  | Fixed point arithmetic square root evaluation.                            |
  |                                                                           |

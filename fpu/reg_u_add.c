@@ -1,5 +1,6 @@
 /*---------------------------------------------------------------------------+
  |  reg_u_add.c                                                              |
+ |  $Id$
  |                                                                           |
  | Add two valid (TAG_Valid) FPU_REG numbers, of the same sign, and put the  |
  |   result in a destination FPU_REG.                                        |

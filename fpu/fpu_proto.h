@@ -1,5 +1,6 @@
 #ifndef _FPU_PROTO_H
 #define _FPU_PROTO_H
+|  $Id$
 
 /* errors.c */
 extern void Un_impl(void);

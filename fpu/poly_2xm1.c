@@ -1,5 +1,6 @@
 /*---------------------------------------------------------------------------+
  |  poly_2xm1.c                                                              |
+ |  $Id$
  |                                                                           |
  | Function to compute 2^x-1 by a polynomial approximation.                  |
  |                                                                           |

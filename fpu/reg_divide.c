@@ -1,5 +1,6 @@
 /*---------------------------------------------------------------------------+
  |  reg_divide.c                                                             |
+ |  $Id$
  |                                                                           |
  | Divide one FPU_REG by another and put the result in a destination FPU_REG.|
  |                                                                           |

@@ -1,5 +1,6 @@
 /*---------------------------------------------------------------------------+
  |  reg_mul.c                                                                |
+ |  $Id$
  |                                                                           |
  | Multiply one FPU_REG by another, put the result in a destination FPU_REG. |
  |                                                                           |
