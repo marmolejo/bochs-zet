@@ -679,6 +679,7 @@ cdrom_interface::start_cdrom()
     return(false); // OS not supported yet, return false always.
 #endif
     }
+  return(false);
 }
 
   void
