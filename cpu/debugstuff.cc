@@ -154,7 +154,7 @@ BX_CPU_C::debug(Bit32u offset)
 
   dbg_xlate_linear2phy(BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.base + offset,
                        &phy_addr, &valid);
-  if (valid && mem!=NULL) {
+  if (valid && BX_CPU_THIS_PTR mem!=NULL) {
     BX_CPU_THIS_PTR mem->dbg_fetch_mem(phy_addr, 16, instr_buf);
     isize = bx_disassemble.disasm(
         BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b,
