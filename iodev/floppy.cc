@@ -124,6 +124,9 @@ bx_floppy_ctrl_c::init(bx_devices_c *d, bx_cmos_c *cmos)
     case BX_FLOPPY_NONE:
       cmos->s.reg[0x10] = (cmos->s.reg[0x10] & 0x0f) | 0x00;
       break;
+    case BX_FLOPPY_360K:
+      cmos->s.reg[0x10] = (cmos->s.reg[0x10] & 0x0f) | 0x10;
+      break;
     case BX_FLOPPY_1_2:
       cmos->s.reg[0x10] = (cmos->s.reg[0x10] & 0x0f) | 0x20;
       break;
@@ -169,6 +172,9 @@ bx_floppy_ctrl_c::init(bx_devices_c *d, bx_cmos_c *cmos)
   switch (bx_options.floppyb.Otype->get ()) {
     case BX_FLOPPY_NONE:
       cmos->s.reg[0x10] = (cmos->s.reg[0x10] & 0xf0) | 0x00;
+      break;
+    case BX_FLOPPY_360K:
+      cmos->s.reg[0x10] = (cmos->s.reg[0x10] & 0xf0) | 0x01;
       break;
     case BX_FLOPPY_1_2:
       cmos->s.reg[0x10] = (cmos->s.reg[0x10] & 0xf0) | 0x02;
@@ -1510,6 +1516,12 @@ bx_floppy_ctrl_c::evaluate_media(unsigned type, char *path, floppy_t *media)
   if ( S_ISREG(stat_buf.st_mode) ) {
     // regular file
     switch (type) {
+      case BX_FLOPPY_360K: // 360K 5.25"
+        media->type              = BX_FLOPPY_360K;
+        media->sectors_per_track = 9;
+        media->tracks            = 40;
+        media->heads             = 2;
+        break;
       case BX_FLOPPY_720K: // 720K 3.5"
         media->type              = BX_FLOPPY_720K;
         media->sectors_per_track = 9;
@@ -1568,6 +1580,12 @@ bx_floppy_ctrl_c::evaluate_media(unsigned type, char *path, floppy_t *media)
     // character or block device
     // assume media is formatted to typical geometry for drive
     switch (type) {
+      case BX_FLOPPY_360K: // 360K 5.25"
+        media->type              = BX_FLOPPY_360K;
+        media->sectors_per_track = 9;
+        media->tracks            = 40;
+        media->heads             = 2;
+        break;
       case BX_FLOPPY_720K: // 720K 3.5"
         media->type              = BX_FLOPPY_720K;
         media->sectors_per_track = 9;

@@ -530,7 +530,8 @@ public:
 #define BX_FLOPPY_1_44   12 // 1.44M 3.5"
 #define BX_FLOPPY_2_88   13 // 2.88M 3.5"
 #define BX_FLOPPY_720K   14 // 720K  3.5"
-#define BX_FLOPPY_LAST   14 // last legal value of floppy type
+#define BX_FLOPPY_360K   15 // 360K  5.25"
+#define BX_FLOPPY_LAST   15 // last legal value of floppy type
 #define BX_FLOPPY_GUESS  20 // decide based on image size
 
 extern char *floppy_type_names[];
