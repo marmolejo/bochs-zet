@@ -293,7 +293,7 @@ FloppyConfigDialog::SetRadio (int n) {
   }
 }
 
-void FloppyConfigDialog::SetFilename (char *f) {
+void FloppyConfigDialog::SetFilename (const char *f) {
   // search equivalentFilename[] for matches. if it matches, select the
   // radio button instead.
   for (int i=0; i<n_rbtns; i++) {
@@ -475,7 +475,7 @@ void HDConfigDialog::Init()
 {
 }
 
-void HDConfigDialog::SetFilename (char *f) {
+void HDConfigDialog::SetFilename (const char *f) {
   if (!strcmp (f, "none")) {
     enable->SetValue (FALSE);
     // trick event handler into updating the state

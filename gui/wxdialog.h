@@ -119,7 +119,7 @@ public:
   void OnTextEvent (wxCommandEvent& event);
   int ShowModal() { Init(); return wxDialog::ShowModal(); }
   void SetRadio (int val);
-  void SetFilename (char *f);
+  void SetFilename (const char *f);
   void SetCapacityChoices (int n, char *choices[]);
   void SetCapacity (int cap) { capacity->SetSelection (cap); }
   int GetRadio ();
@@ -175,7 +175,7 @@ public:
   HDConfigDialog(wxWindow* parent, wxWindowID id);
   void OnEvent (wxCommandEvent& event);
   int ShowModal() { Init(); return wxDialog::ShowModal(); }
-  void SetFilename (char *f);
+  void SetFilename (const char *f);
   char *GetFilename ();
   void SetDriveName (const char *name);
   void SetGeom (int n, int value);
