@@ -121,6 +121,7 @@ typedef enum {
 typedef enum {
   BXP_NULL = 101,
   BXP_IPS,
+  BXP_REALTIME_PIT,
   BXP_VGA_UPDATE_INTERVAL,
   BXP_MOUSE_ENABLED,
   BXP_MEM_SIZE,
