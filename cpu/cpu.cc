@@ -101,7 +101,6 @@ extern void REGISTER_IADDR(Bit32u addr);
 #  define BX_TICK1_IF_SINGLE_PROCESSOR()
 #endif
 
-
 #if BX_DYNAMIC_TRANSLATION == 0
   void
 BX_CPU_C::cpu_loop(Bit32s max_instr_count)
@@ -232,9 +231,7 @@ fetch_decode_OK:
 #if BX_DEBUGGER
     if (BX_CPU_THIS_PTR trace) {
       // print the instruction that is about to be executed.
-//      fprintf(stderr, "begin about to execute:\n");
       bx_dbg_disassemble_current (-1, 1);  // all cpus, print time stamp
-//      fprintf(stderr, "  end about to execute:\n");
     }
 #endif
 
@@ -286,12 +283,6 @@ repeat_not_done:
       REGISTER_IADDR(BX_CPU_THIS_PTR eip + BX_CPU_THIS_PTR sregs[BX_SREG_CS].cache.u.segment.base);
 #endif
 
-#if BX_DEBUGGER
-//    if (BX_CPU_THIS_PTR trace) {
-      // print the instruction that was just executed.
-//      bx_dbg_disassemble_current (-1, 1);  // all cpus, print time stamp
-//    }
-#endif
       BX_TICK1_IF_SINGLE_PROCESSOR();
 
 #if BX_DEBUGGER == 0
@@ -321,12 +312,6 @@ repeat_done:
     REGISTER_IADDR(BX_CPU_THIS_PTR eip + BX_CPU_THIS_PTR sregs[BX_SREG_CS].cache.u.segment.base);
 #endif
 
-#if BX_DEBUGGER
-//    if (BX_CPU_THIS_PTR trace) {
-      // print the instruction that was just executed.
-//      bx_dbg_disassemble_current (-1, 1);  // all cpus, print time stamp
-//    }
-#endif
     BX_TICK1_IF_SINGLE_PROCESSOR();
 
 debugger_check:
