@@ -335,7 +335,7 @@ bx_real_sim_c::quit_sim (int code) {
     // just a single thread.  Use exit() to stop the application.
     if (!code)
       BX_PANIC (("Quit simulation command"));
-    ::exit (0);
+    ::exit (exit_code);
   }
 }
 

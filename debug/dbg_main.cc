@@ -721,7 +721,7 @@ bx_dbg_exit(int code)
 #endif
 
   bx_atexit();
-  BX_EXIT(1);
+  BX_EXIT(code);
 }
 
 

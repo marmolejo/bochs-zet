@@ -374,7 +374,7 @@ bx_gui_c::snapshot_checker(void * this_ptr)
     fread(compare_snapshot, 1, len, fp);
     fclose(fp);
     if(!memcmp(text_snapshot,compare_snapshot,len)) {
-      BX_PANIC(("Test Passed."));
+      BX_PASS(("Test Passed."));
     }
   }
   free(compare_snapshot);
