@@ -2062,6 +2062,8 @@ union {
 
 #if BX_SUPPORT_MMX || BX_SUPPORT_SSE
   BX_SMF void prepareMMX(void);
+  /* cause transition from FPU to MMX technology state */
+  BX_SMF void prepareFPU2MMX(void);
   BX_SMF void printMmxRegisters(void);
 #endif
 
