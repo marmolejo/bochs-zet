@@ -258,6 +258,8 @@ private:
   enum bx_sb16_fm_mode {single, adlib, dual, opl3, fminit};
 
   // the variables common to all FM emulations
+  struct bx_sb16_opl_struct;
+  friend struct bx_sb16_opl_struct;
   struct bx_sb16_opl_struct {
     bx_sb16_fm_mode mode;
     // modes: single: one OPL2 (OPL3 disabled), 

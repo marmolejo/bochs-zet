@@ -28,7 +28,7 @@
 #define PLUGIN_FILENAME_FORMAT "bx_%s.dll"
 #endif
 
-
+extern "C" {
 
 void  (*pluginRegisterIRQ)(unsigned irq, const char* name) = 0;
 void  (*pluginUnregisterIRQ)(unsigned irq, const char* name) = 0;
@@ -631,4 +631,6 @@ void bx_reset_plugins(unsigned signal)
         device->devmodel->reset (signal);
       }
     }
+}
+
 }

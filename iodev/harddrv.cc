@@ -3730,7 +3730,7 @@ inline off_t sparse_image_t::get_physical_offset()
  return physical_offset;
 }
 
-inline void sparse_image_t::set_virtual_page(uint32 new_virtual_page)
+void sparse_image_t::set_virtual_page(uint32 new_virtual_page)
 {
  position_virtual_page = new_virtual_page;
 
