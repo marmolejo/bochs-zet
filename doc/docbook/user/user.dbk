@@ -2144,12 +2144,6 @@ turn it off.
       </entry>
     </row>
     <row>
-      <entry>--enable-loader</entry>
-      <entry>no</entry>
-      <entry>Support calling external loader from debugger.  This
-	  is an unsupported option. Don't use it.</entry>
-    </row>
-    <row>
       <entry>--enable-instrumentation=<option>directory</option></entry>
       <entry>no</entry>
       <entry>
