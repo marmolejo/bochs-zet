@@ -732,7 +732,7 @@ static BxOpcodeInfo_t BxOpcodeInfo64[512*3] = {
   /* 0F 08 */  { 0,  &BX_CPU_C::INVD },
   /* 0F 09 */  { 0,  &BX_CPU_C::WBINVD },
   /* 0F 0A */  { 0,  &BX_CPU_C::BxError },
-  /* 0F 0B */  { 0,  &BX_CPU_C::BxError },
+  /* 0F 0B */  { 0,  &BX_CPU_C::UndefinedOpcode }, /* UD2 undefined opcode */
   /* 0F 0C */  { 0,  &BX_CPU_C::BxError },
   /* 0F 0D */  { BxAnother,  &BX_CPU_C::NOP }, // PREFETCH L1
   /* 0F 0E */  { 0,  &BX_CPU_C::BxError },

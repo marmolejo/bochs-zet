@@ -660,7 +660,7 @@ static BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
   /* 0F 08 */  { 0,  &BX_CPU_C::INVD },
   /* 0F 09 */  { 0,  &BX_CPU_C::WBINVD },
   /* 0F 0A */  { 0,  &BX_CPU_C::BxError },
-  /* 0F 0B */  { 0,  &BX_CPU_C::BxError },
+  /* 0F 0B */  { 0,  &BX_CPU_C::UndefinedOpcode }, /* UD2 undefined opcode */
   /* 0F 0C */  { 0,  &BX_CPU_C::BxError },
   /* 0F 0D */  { 0,  &BX_CPU_C::BxError },
   /* 0F 0E */  { 0,  &BX_CPU_C::BxError },
