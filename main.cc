@@ -1109,10 +1109,7 @@ bx_do_text_config_interface (int argc, char *argv[])
     }
     // Display the pre-simulation control panel.
     SIM->set_enabled (1);
-#if !BX_WITH_WX
-// unless wxwindows interface in use, show the control panel now
     bx_control_panel (BX_CPANEL_START_MENU);
-#endif
   }
 }
 
