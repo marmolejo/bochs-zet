@@ -699,12 +699,10 @@ BX_CPU_C::SGDT_Ms(bxInstruction_c *i)
   // ams says it works ok in v8086 mode
   // if (v8086_mode()) BX_PANIC(("protect_ctrl: v8086 mode unsupported"));
 
-
   /* op1 is a register or memory reference */
   if (i->modC0()) {
-
     /* undefined opcode exception */
-    BX_PANIC(("SGDT_Ms: use of register is undefined opcode."));
+    BX_INFO(("SGDT_Ms: use of register is undefined opcode."));
     UndefinedOpcode(i);
     return;
     }
@@ -750,7 +748,7 @@ BX_CPU_C::SIDT_Ms(bxInstruction_c *i)
   /* op1 is a register or memory reference */
   if (i->modC0()) {
     /* undefined opcode exception */
-    BX_PANIC(("SIDT: use of register is undefined opcode."));
+    BX_INFO(("SIDT: use of register is undefined opcode."));
     UndefinedOpcode(i);
     return;
     }
