@@ -119,6 +119,16 @@ int fd_write(char *buffer, Bit32u offset, Bit32u bytes);
 int fd_stat(struct stat *buf);
 #endif
 
+//////////////////////////////////////////////////////////////////////
+// New functions to replace library functions
+//   with OS-independent versions
+//////////////////////////////////////////////////////////////////////
+
+#if BX_HAVE_REALTIME_USEC
+// 64-bit time in useconds.
+extern Bit64u bx_get_realtime64_usec (void);
+#endif
+
 #ifdef __cplusplus
 }
 #endif   /* __cplusplus */
