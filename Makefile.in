@@ -522,7 +522,7 @@ dist-clean: local-dist-clean
 	$(MAKE) dist-clean
 	@CD_UP_ONE@
 	cd doc/docbook @COMMAND_SEPARATOR@
-	$(MAKE) clean
+	$(MAKE) dist-clean
 	@CD_UP_TWO@
 	@RMCOMMAND@ Makefile
 
