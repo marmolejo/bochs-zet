@@ -301,7 +301,7 @@ BX_CPU_C::ENTER64_IwIb(bxInstruction_c *i)
 
   RBP = frame_ptr64;
 
-  RSP -= RSP - i->Iw();
+  RSP -= i->Iw();
 }
 
   void
