@@ -325,64 +325,6 @@ bx_devices_c::timer()
 }
 
 
-  void
-bx_devices_c::drq(unsigned channel, Boolean val)
-{
-  dma->DRQ(channel, val);
-}
-
-  void
-bx_devices_c::raise_hlda(void)
-{
-  dma->raise_HLDA( &bx_pc_system );
-}
-
-  void
-bx_devices_c::dma_read8(unsigned channel, Bit8u *data_byte)
-{
-  if (channel == 2) 
-    floppy->dma_read(data_byte);
-#if BX_SUPPORT_SB16
-  else if (channel == (unsigned) sb16->currentdma8)
-    sb16->dma_read8(data_byte);
-#endif
-}
-
-  void
-bx_devices_c::dma_write8(unsigned channel, Bit8u *data_byte)
-{
-  if (channel == 2)
-    floppy->dma_write(data_byte);
-#if BX_SUPPORT_SB16
-  else if (channel == (unsigned) sb16->currentdma8)
-    sb16->dma_write8(data_byte);
-#endif
-}
-
-  void
-bx_devices_c::dma_read16(unsigned channel, Bit16u *data_word)
-{
-#if BX_SUPPORT_SB16
-  if (channel == (unsigned) sb16->currentdma16)
-    sb16->dma_read16(data_word);
-#else
-  UNUSED(channel);
-  UNUSED(data_word);
-#endif
-}
-
-  void
-bx_devices_c::dma_write16(unsigned channel, Bit16u *data_word)
-{
-#if BX_SUPPORT_SB16
-  if (channel == (unsigned) sb16->currentdma16)
-    sb16->dma_write16(data_word);
-#else
-  UNUSED(channel);
-  UNUSED(data_word);
-#endif
-}
-
   Boolean
 bx_devices_c::register_irq(unsigned irq, const char *name)
 {
