@@ -100,6 +100,8 @@ private:
   bx_bool HLDA;    // Hold Acknowlege
   bx_bool TC;      // Terminal Count
 
+  Bit8u   ext_page_reg[16]; // Extra page registers (unused)
+
   struct {
     void (* dmaRead8)(Bit8u *data_byte);
     void (* dmaWrite8)(Bit8u *data_byte);
