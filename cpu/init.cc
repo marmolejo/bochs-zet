@@ -569,11 +569,9 @@ BX_CPU_C::reset(unsigned source)
 #endif // BX_USE_TLB
 #endif // BX_SUPPORT_PAGING
 
-  BX_CPU_THIS_PTR bytesleft = 0;
-  BX_CPU_THIS_PTR fetch_ptr = NULL;
-  BX_CPU_THIS_PTR prev_linear_page = 0;
-  BX_CPU_THIS_PTR prev_phy_page = 0;
-  BX_CPU_THIS_PTR max_phy_addr = 0;
+  BX_CPU_THIS_PTR eipPageBias = 0;
+  BX_CPU_THIS_PTR eipPageWindowSize = 0;
+  BX_CPU_THIS_PTR eipFetchPtr = NULL;
 
 #if BX_DEBUGGER
 #ifdef MAGIC_BREAKPOINT
