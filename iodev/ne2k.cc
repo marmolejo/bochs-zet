@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
+//  Copyright (C) 2002  MandrakeSoft S.A.
 //
 //    MandrakeSoft S.A.
 //    43, rue d'Aboukir
@@ -531,6 +531,22 @@ bx_ne2k_c::page0_write(Bit32u offset, Bit32u value, unsigned io_len)
     BX_NE2K_THIS s.ISR.overwrite &= ~((value & 0x10) == 0x10);
     BX_NE2K_THIS s.ISR.cnt_oflow &= ~((value & 0x20) == 0x20);
     BX_NE2K_THIS s.ISR.rdma_done &= ~((value & 0x40) == 0x40);
+    value = ((BX_NE2K_THIS s.ISR.rdma_done << 6) |
+             (BX_NE2K_THIS s.ISR.cnt_oflow << 5) |
+             (BX_NE2K_THIS s.ISR.overwrite << 4) |
+             (BX_NE2K_THIS s.ISR.tx_err    << 3) |
+             (BX_NE2K_THIS s.ISR.rx_err    << 2) |
+             (BX_NE2K_THIS s.ISR.pkt_tx    << 1) |
+             (BX_NE2K_THIS s.ISR.pkt_rx));
+    value &= ((BX_NE2K_THIS s.IMR.rdma_inte << 6) |
+              (BX_NE2K_THIS s.IMR.cofl_inte << 5) |
+              (BX_NE2K_THIS s.IMR.overw_inte << 4) |
+              (BX_NE2K_THIS s.IMR.txerr_inte << 3) |
+              (BX_NE2K_THIS s.IMR.rxerr_inte << 2) |
+              (BX_NE2K_THIS s.IMR.tx_inte << 1) |
+              (BX_NE2K_THIS s.IMR.rx_inte));
+    if (value == 0)
+      BX_NE2K_THIS devices->pic->untrigger_irq(BX_NE2K_THIS s.base_irq);
     break;
 
   case 0x8:  // RSAR0
