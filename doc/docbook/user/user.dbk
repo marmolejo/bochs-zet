@@ -5678,7 +5678,6 @@ to
         <title>Windows ME</title>
         <para>
 	</para>
-</section>
         
                 <section><title>Installing Windows ME</title>
 <para>
@@ -5920,6 +5919,7 @@ Some bugs i've found
 
                 </para>
                 </section> <!-- end of Installing Windows ME -->
+</section>
 <section>
         <title>Windows 2000</title>
         <para>
