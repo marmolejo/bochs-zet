@@ -28,7 +28,7 @@
 
 
 #include "bochs.h"
-#if defined(linux) && BX_SUPPORT_SB16
+#if (defined(linux) || defined(__FreeBSD__)) && BX_SUPPORT_SB16
 #define LOG_THIS bx_sb16.
 
 #include <errno.h>

@@ -27,7 +27,7 @@
 // This file (SOUNDLNX.H) written and donated by Josef Drexler
 
 
-#if defined(linux)
+#if (defined(linux) || defined(__FreeBSD__))
 
 #include "bochs.h"
 
