@@ -746,6 +746,8 @@ void bx_gui_c::text_update(Bit8u *old_text, Bit8u *new_text,
 		      Bit16u cursor_state, unsigned nrows)
 {
   IFDBG_VGA(wxLogDebug ("text_update"));
+	Bit8u cs_start = (cursor_state >> 8) & 0x3f;
+	Bit8u cs_end = cursor_state & 0x1f;
 	unsigned char cChar;
 	unsigned int nchars = 80 * nrows;
 	if((wxCursorY * 80 + wxCursorX) < nchars) {
@@ -764,7 +766,7 @@ void bx_gui_c::text_update(Bit8u *old_text, Bit8u *new_text,
 	wxCursorX = cursor_x;
 	wxCursorY = cursor_y;
 
-	if((cursor_y * 80 + cursor_x) < nchars) {
+	if(((cursor_y * 80 + cursor_x) < nchars) && (cs_start <= cs_end)) {
 		cChar = new_text[(cursor_y * 80 + cursor_x) * 2];
 		char cAttr = new_text[((cursor_y * 80 + cursor_x) * 2) + 1];
 		cAttr = ((cAttr >> 4) & 0xF) + ((cAttr & 0xF) << 4);
