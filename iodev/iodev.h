@@ -167,7 +167,8 @@ class BOCHSAPI bx_cmos_stub_c : public bx_devmodel_c {
     STUBFUNC(cmos, set_reg);
   }
   virtual time_t get_timeval() {
-    STUBFUNC(cmos, get_timeval); return 0;
+    // STUBFUNC(cmos, get_timeval); 
+    return 0;
   }
   virtual void checksum_cmos(void) {
     STUBFUNC(cmos, checksum);
