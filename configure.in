@@ -1243,7 +1243,11 @@ SLASH="/"
 CXXFP=""
 CFP=""
 OFP="-o "
-MAKELIB="ar rv \$@"
+# (KPL) Changed following. Loader was not finding symbols between
+# cpu and cpu64 directory due to circular dependencies.
+#MAKELIB="ar rv \$@"
+MAKELIB="ld -i -o \$@"
+RANLIB="echo"
 RMCOMMAND="rm -f "
 LINK="\$(CXX) -o \$@ \$(CXXFLAGS)"
 EXE=""
