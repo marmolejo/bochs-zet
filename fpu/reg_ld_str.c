@@ -316,7 +316,7 @@ int FPU_load_int32(s32 *_s, FPU_REG *loaded_data)
 /* Get a short from user memory */
 int FPU_load_int16(s16 *_s, FPU_REG *loaded_data)
 {
-  int s, negative;
+  s16 s, negative;
 
   RE_ENTRANT_CHECK_OFF;
   FPU_verify_area(VERIFY_READ, _s, 2);
