@@ -1666,7 +1666,7 @@ void rfbKeyPressed(Bit32u key, int press_release)
     }
   }
 
-  if (press_release) key_event |= BX_KEY_RELEASED;
+  if (!press_release) key_event |= BX_KEY_RELEASED;
   DEV_kbd_gen_scancode(key_event);
 }
 
