@@ -638,6 +638,7 @@ install_macosx: all download_dlx @INSTALL_DOCBOOK_VAR@
 	mv $(prefix)/README $(prefix)/README.orig
 	cat $(srcdir)/build/macosx/README.macosx-binary $(prefix)/README.orig > $(prefix)/README
 	rm -f $(prefix)/README.orig
+	$(CPMAC) $(SCRIPT_EXEC) $(prefix)/dlxlinux
 	for i in $(TEXT_FILE_LIST); do mv $(prefix)/$$i $(prefix)/$$i.txt; done
 	# make the disk image
 	perl $(srcdir)/build/macosx/diskimage.pl $(prefix)
