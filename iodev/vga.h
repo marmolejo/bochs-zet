@@ -233,8 +233,6 @@ private:
     bx_bool  vga_tile_updated[BX_NUM_X_TILES][BX_NUM_Y_TILES];
     Bit8u vga_memory[256 * 1024];
     Bit8u text_snapshot[2 * 80 * BX_MAX_TEXT_LINES]; // current text snapshot
-    unsigned horiz_tick;
-    unsigned vert_tick;
     Bit8u rgb[3 * 256];
     Bit8u tile[X_TILESIZE * Y_TILESIZE];
     Bit16u charmap_address;
