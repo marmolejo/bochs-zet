@@ -84,6 +84,7 @@ enum
   ID_Filename,
   ID_FilenameText,
   ID_Browse,
+  ID_Browse2,
   ID_Create,
   // dialog box: HDConfigDialog
   ID_Enable,

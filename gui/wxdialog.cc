@@ -1005,6 +1005,10 @@ void NetConfigDialog::ShowHelp ()
 //       action[2] = wxChoice
 //       "panic"
 //       action[3] = wxChoice
+//     debuggerlogfileSizer
+//       prompt
+//       debuggerlogfile
+//       browse button
 //     buttonSizer:
 //       advanced
 //       help
@@ -1036,7 +1040,9 @@ LogOptionsDialog::LogOptionsDialog(
   gridSizer = new wxFlexGridSizer (2);
   vertSizer->Add (gridSizer, 1, wxLEFT, 40);
   text = new wxStaticText (this, -1, LOG_OPTS_ADV);
-  vertSizer->Add (text, 0, wxALL, 20);
+  vertSizer->Add (text, 0, wxTOP|wxLEFT, 20);
+  debuggerlogfileSizer = new wxBoxSizer (wxHORIZONTAL);
+  vertSizer->Add (debuggerlogfileSizer, 0, wxALL, 20);
   buttonSizer = new wxBoxSizer (wxHORIZONTAL);
   vertSizer->Add (buttonSizer, 0, wxALIGN_RIGHT);
 
@@ -1047,6 +1053,14 @@ LogOptionsDialog::LogOptionsDialog(
   logfileSizer->Add (logfile);
   wxButton *btn = new wxButton (this, ID_Browse, BTNLABEL_BROWSE);
   logfileSizer->Add (btn, 0, wxALL, 5);
+
+  // debuggerlogfileSizer contents
+  text = new wxStaticText (this, -1, LOG_OPTS_DEBUGGER_LOGFILE);
+  debuggerlogfileSizer->Add (text);
+  debuggerlogfile = new wxTextCtrl (this, -1, "", wxDefaultPosition, longTextSize);
+  debuggerlogfileSizer->Add (debuggerlogfile);
+  btn = new wxButton (this, ID_Browse2, BTNLABEL_BROWSE);
+  debuggerlogfileSizer->Add (btn, 0, wxALL, 5);
 
   // gridSizer contents
   gridSizer->AddGrowableCol (1);
@@ -1113,6 +1127,9 @@ void LogOptionsDialog::OnEvent(wxCommandEvent& event)
   switch (id) {
     case ID_Browse:
       BrowseTextCtrl (logfile);
+      break;
+    case ID_Browse2:
+      BrowseTextCtrl (debuggerlogfile);
       break;
     case ID_Advanced:
       wxMessageBox ("The advanced dialog is not implemented yet.");
