@@ -1587,7 +1587,7 @@ bx_init_hardware()
 
   // set up memory and CPU objects
 #if BX_SUPPORT_APIC
-  memset(apic_index, 0, sizeof(apic_index[0]) * APIC_MAX_ID);
+  bx_generic_apic_c::reset_all_ids ();
 #endif
 
 #if BX_SMP_PROCESSORS==1
