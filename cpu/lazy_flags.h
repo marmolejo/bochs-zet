@@ -97,12 +97,11 @@
 #define BX_INSTR_LOGIC32        55
 #define BX_INSTR_LOGIC64        56
 
-#define BX_INSTR_BITSCAN8       57
+//      BX_INSTR_BITSCAN8       not exists, leave number for alignment
 #define BX_INSTR_BITSCAN16      58
 #define BX_INSTR_BITSCAN32      59
 #define BX_INSTR_BITSCAN64      60
 
-#define BX_LF_INDEX_KNOWN   0
 #define BX_LF_INDEX_OSZAPC  1
 #define BX_LF_INDEX_OSZAP   2
 

@@ -36,7 +36,7 @@
 BX_CPU_C::AAA(bxInstruction_c *)
 {
   /* 
-   *  Note: This istruction incorrectly documented in Intel's materials.
+   *  Note: This instruction incorrectly documented in Intel's materials.
    *        The right description is:
    *
    *    IF (((AL and 0FH) > 9) or (AF==1)

@@ -227,7 +227,7 @@ BX_CPU_C::IMUL_GwEwIw(bxInstruction_c *i)
      *   result exactly fits within r16
      */
 
-    if (product_32 > -32768  && product_32 < 32767) {
+    if (product_32 > -32768 && product_32 < 32767) {
       SET_FLAGS_OxxxxC(0, 0);
       }
     else {
@@ -265,7 +265,7 @@ BX_CPU_C::IMUL_GwEw(bxInstruction_c *i)
      *   result exactly fits within r16
      */
 
-    if (product_32 > -32768  && product_32 < 32767) {
+    if (product_32 > -32768 && product_32 < 32767) {
       SET_FLAGS_OxxxxC(0, 0);
       }
     else {
