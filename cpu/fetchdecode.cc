@@ -1597,12 +1597,15 @@ another_byte:
 #endif
     // Simple instruction, nothing left to do.
     if (attr == 0) {
+      if (lock) {
+        BX_INFO(("LOCK prefix unallowed (op1=0x%x, attr=0x%x, mod=0x%x, nnn=%u)", b1, attr, mod, nnn));
+        UndefinedOpcode(instruction);
+      }
       instruction->setB1(b1);
       instruction->setILen(ilen);
       return(1);
-      }
+    }
   }
-
   else {
     if (attr & BxPrefix) {
       switch (b1) {
