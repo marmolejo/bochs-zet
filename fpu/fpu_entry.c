@@ -131,7 +131,7 @@ static u_char const type_table[64] = {
 
 
   asmlinkage void
-math_emulate2(fpu_addr_modes addr_modes,
+math_emulate(fpu_addr_modes addr_modes,
               u_char  FPU_modrm,
               u_char byte1,
               void *data_address,

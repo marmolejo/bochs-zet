@@ -87,7 +87,6 @@ extern void ffreep(void);
 extern void fst_i_(void);
 extern void fstp_i(void);
 /* fpu_entry.c */
-extern void math_emulate(long arg);
 extern void math_abort(struct info *info, unsigned int signal);
 /* fpu_etc.c */
 extern void FPU_etc(void);

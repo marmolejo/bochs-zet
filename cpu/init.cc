@@ -864,7 +864,9 @@ BX_CPU_C::reset(unsigned source)
 #endif
 
   // Init the Floating Point Unit
+#if BX_SUPPORT_FPU
   fpu_init();
+#endif
 
 #if (BX_SMP_PROCESSORS > 1)
   // notice if I'm the bootstrap processor.  If not, do the equivalent of
