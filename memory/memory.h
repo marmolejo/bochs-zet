@@ -58,7 +58,7 @@ public:
 #endif
 
   BX_MEM_C(void);
-  BX_MEM_C(size_t memsize);
+  //BX_MEM_C(size_t memsize);
   ~BX_MEM_C(void);
   BX_MEM_SMF void    alloc_vector_aligned (size_t bytes, size_t alignment) BX_CPP_AttrRegparmN(2);
   BX_MEM_SMF void    init_memory(int memsize);
