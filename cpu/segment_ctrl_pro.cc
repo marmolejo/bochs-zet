@@ -89,7 +89,7 @@ BX_CPU_C::load_seg_reg(bx_segment_reg_t *seg, Bit16u new_value)
 
       if (ti == 0) { /* GDT */
         if ((index*8 + 7) > BX_CPU_THIS_PTR gdtr.limit) {
-          BX_PANIC(("load_seg_reg: GDT: %s: index(%04x) > limit(%06x)",
+          BX_PANIC(("load_seg_reg: GDT: %s: index(%04x*8+7) > limit(%06x)",
             BX_CPU_THIS_PTR strseg(seg), (unsigned) index, (unsigned) BX_CPU_THIS_PTR gdtr.limit));
           exception(BX_GP_EXCEPTION, new_value & 0xfffc, 0);
           return;
