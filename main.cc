@@ -1347,6 +1347,7 @@ int main (int argc, char *argv[])
   } else {
     // quit via longjmp
   }
+  SIM->set_quit_context (NULL);
   return 0;
 }
 #endif

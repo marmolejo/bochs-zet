@@ -1389,6 +1389,7 @@ SimThread::Entry (void)
   } else {
     wxLogDebug ("in SimThread, bx_continue_after_config_interface exited by longjmp");
   }
+  SIM->set_quit_context (NULL);
   // it is possible that the whole interface has already been shut down.
   // If so, we must end immediately.
   if (!theFrame->IsClosing ()) {
