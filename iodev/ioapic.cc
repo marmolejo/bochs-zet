@@ -55,7 +55,7 @@ bx_ioapic_c::init ()
 }
 
 void 
-bx_ioapic_c::reset () 
+bx_ioapic_c::reset (unsigned type) 
 {
 }
 
