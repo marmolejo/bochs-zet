@@ -1998,7 +1998,7 @@ CpuRegistersDialog::Init ()
   for (i=0; i<CPU_REGS_MAX_FLAGS; i++) {
     if (i<nflags) {
       bx_param_c *param = SIM->get_param (flagid[i]);
-      flagsSizer->Add (new wxStaticText (this, -1, param->get_name ()), 0, wxALL|wxALIGN_CENTER, 4);
+      flagsSizer->Add (new wxStaticText (this, -1, param->get_name ()), 0, wxALL|wxALIGN_LEFT, 4);
     } else {
       flagsSizer->Add (0, 0);  // spacer
     }
@@ -2079,7 +2079,9 @@ CpuRegistersDialog::OnEvent(wxCommandEvent& event)
       theFrame->DebugBreak ();
       break;
     case ID_Debug_Continue:
+      wxLogDebug ("before calling DebugCommand");
       theFrame->DebugCommand ("continue");
+      wxLogDebug ("after calling DebugCommand");
       break;
     case ID_Debug_Step:
       theFrame->DebugCommand ("step 1");
