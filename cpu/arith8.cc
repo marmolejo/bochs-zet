@@ -486,12 +486,12 @@ BX_CPU_C::NEG_Eb(bxInstruction_c *i)
 
   if (i->modC0()) {
     op1_8 = BX_READ_8BIT_REGx(i->rm(),i->extend8bitL());
-    diff_8 = 0 - op1_8;
+    diff_8 = -op1_8;
     BX_WRITE_8BIT_REGx(i->rm(), i->extend8bitL(), diff_8);
   }
   else {
     read_RMW_virtual_byte(i->seg(), RMAddr(i), &op1_8);
-    diff_8 = 0 - op1_8;
+    diff_8 = -op1_8;
     Write_RMW_virtual_byte(diff_8);
   }
 

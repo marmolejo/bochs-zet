@@ -622,12 +622,12 @@ BX_CPU_C::NEG_Ew(bxInstruction_c *i)
 
   if (i->modC0()) {
     op1_16 = BX_READ_16BIT_REG(i->rm());
-    diff_16 = 0 - op1_16;
+    diff_16 = -op1_16;
     BX_WRITE_16BIT_REG(i->rm(), diff_16);
     }
   else {
     read_RMW_virtual_word(i->seg(), RMAddr(i), &op1_16);
-    diff_16 = 0 - op1_16;
+    diff_16 = -op1_16;
     Write_RMW_virtual_word(diff_16);
     }
 

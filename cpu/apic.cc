@@ -457,7 +457,7 @@ void bx_local_apic_c::write (Bit32u addr, Bit32u *data, unsigned len)
       break;
     case 0xd0: // logical destination
       log_dest = (value >> 24) & APIC_ID_MASK;
-      BX_DEBUG (("set logical destiation to %02x", log_dest));
+      BX_DEBUG (("set logical destination to %02x", log_dest));
       break;
     case 0xe0: // destination format
       dest_format = (value >> 28) & 0xf;
