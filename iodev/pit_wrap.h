@@ -80,6 +80,7 @@ private:
     Bit64u last_time;
     Bit64u last_sec_usec;
     Bit64u max_ticks;
+    Bit64u stored_delta;
 #else
     Bit64u total_usec;
 #endif
