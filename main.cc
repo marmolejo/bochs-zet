@@ -437,7 +437,7 @@ void bx_init_options ()
     0x1f0, 0x170, 0x1e8, 0x168 
   };
   Bit8u ata_default_irq[BX_MAX_ATA_CHANNEL] = { 
-    14, 15, 12, 11 
+    14, 15, 11, 9 
   };
 
   bx_list_c *ata[BX_MAX_ATA_CHANNEL];
