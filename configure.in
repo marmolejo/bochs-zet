@@ -1787,25 +1787,6 @@ if test "$with_rfb" = yes -a "$cross_configure" = 0; then
   fi
 fi
 
-# since wxWindows (usually) needs pthread library, check that it was found.
-# But on win32 platforms, the pthread library is not needed.
-if test "$with_wx" = yes -a "$cross_configure" = 0; then
-  if test "$pthread_ok" = yes; then
-	GUI_LINK_OPTS="$PTHREAD_LIBS $GUI_LINK_OPTS"
-	CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
-	CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
-	CC="$PTHREAD_CC"
-  else
-    case "$target" in
-	  *-pc-windows* | *-pc-winnt* | *-cygwin* | *-mingw*)
-	    # pthread not needed for win32 platform
-		;;
-	  *)
-        echo ERROR: --with-wx requires the pthread library, which could not be found.; exit 1
-    esac
-  fi
-fi
-
 # Create some subdirectories for when you run configure from some other 
 # directory.
 if test ! -d instrument; then mkdir instrument; fi
