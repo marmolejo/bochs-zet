@@ -257,6 +257,12 @@ typedef enum {
 #define BX_EJECTED   10
 #define BX_INSERTED  11
 
+// boot devices
+#define BX_BOOT_FLOPPYA 0
+#define BX_BOOT_DISKC   1
+#define BX_BOOT_CDROM   2
+
+
 ///////////////////////////////////////////////////////////////////
 // event structures for communication between simulator and CI
 ///////////////////////////////////////////////////////////////////

@@ -610,10 +610,6 @@ typedef struct {
   bx_param_string_c *Okeymap;
   } bx_keyboard_options;
 
-#define BX_BOOT_FLOPPYA 0
-#define BX_BOOT_DISKC   1
-#define BX_BOOT_CDROM   2
-
 #define BX_KBD_XT_TYPE        0
 #define BX_KBD_AT_TYPE        1
 #define BX_KBD_MF_TYPE        2 
