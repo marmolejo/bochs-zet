@@ -386,7 +386,7 @@ VOID UIThread(PVOID pvoid) {
     cursorWarped();
 
     hdc = GetDC(stInfo.hwnd);
-    MemoryBitmap = CreateCompatibleBitmap(hdc, dimension_x, dimension_y);
+    MemoryBitmap = CreateCompatibleBitmap(hdc, BX_MAX_XRES, BX_MAX_YRES);
     MemoryDC = CreateCompatibleDC(hdc);
     ReleaseDC(stInfo.hwnd, hdc);
 
