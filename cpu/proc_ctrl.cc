@@ -1270,7 +1270,7 @@ BX_CPU_C::WRMSR(BxInstruction_t *i)
 		*/
 
 		case BX_MSR_APICBASE:
-			BX_CPU_THIS_PTR msr.apicbase = (EDX << 32) + EAX;
+			BX_CPU_THIS_PTR msr.apicbase = ((Bit64u)EDX << 32) + EAX;
 			BX_INFO(("WRMSR: wrote %08x:%08x to MSR_APICBASE", EDX, EAX));
 			return;
 			
