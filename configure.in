@@ -71,8 +71,7 @@ case "$target" in
     DEFAULT_GUI=x11
     ;;
 esac
-if [ "${ADD_FLAGS:+set}" = set ]
-then
+if test "${ADD_FLAGS:+set}" = set; then
       CFLAGS="$CFLAGS $ADD_FLAGS"
       CXXFLAGS="$CXXFLAGS $ADD_FLAGS"
 fi
