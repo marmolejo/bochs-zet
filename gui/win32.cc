@@ -1513,6 +1513,7 @@ void bx_win32_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight, 
   GetClientRect(stInfo.mainWnd, &R);
   MoveWindow(hwndSB, 0, R.bottom-bx_statusbar_y, stretched_x,
              bx_statusbar_y, TRUE);
+  UpdateWindow(hwndSB);
   MoveWindow(stInfo.simWnd, 0, bx_headerbar_y, stretched_x, stretched_y, TRUE);
 
   BX_INFO (("dimension update x=%d y=%d fontheight=%d fontwidth=%d bpp=%d", x, y, fheight, fwidth, bpp));
