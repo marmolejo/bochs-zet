@@ -1337,10 +1337,12 @@ void BX_CPU_C::SetCR0(Bit32u val_32)
 
   if (prev_pe==0 && BX_CPU_THIS_PTR cr0.pe) {
     enter_protected_mode();
+    BX_DEBUG(("Enter Protected Mode"));
     BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_PROTECTED;
   }
   else if (prev_pe==1 && BX_CPU_THIS_PTR cr0.pe==0) {
     enter_real_mode();
+    BX_DEBUG(("Enter Real Mode"));
     BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_REAL;
   }
 
@@ -1352,6 +1354,7 @@ void BX_CPU_C::SetCR0(Bit32u val_32)
         exception(BX_GP_EXCEPTION, 0, 0);
       }
       BX_CPU_THIS_PTR msr.lma = 1;
+      BX_DEBUG(("Enter Compatibility Mode"));
       BX_CPU_THIS_PTR cpu_mode = BX_MODE_LONG_COMPAT;
 #if BX_EXTERNAL_DEBUGGER
       //trap_debugger(0);
@@ -1365,9 +1368,11 @@ void BX_CPU_C::SetCR0(Bit32u val_32)
       }
       BX_CPU_THIS_PTR msr.lma = 0;
       if (BX_CPU_THIS_PTR cr0.pe) {
+        BX_DEBUG(("Enter Protected Mode"));
         BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_PROTECTED;
       }
       else {
+        BX_DEBUG(("Enter Real Mode"));
         BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_REAL;
       }
 #if BX_EXTERNAL_DEBUGGER

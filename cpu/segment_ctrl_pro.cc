@@ -564,6 +564,7 @@ BX_CPU_C::load_cs(bx_selector_t *selector, bx_descriptor_t *descriptor,
       loadSRegLMNominal(BX_SEG_REG_CS, selector->value, 0, cpl);
     }
     else {
+      BX_INFO(("Compatibility Mode Activated"));
       BX_CPU_THIS_PTR cpu_mode = BX_MODE_LONG_COMPAT;
     }
   }

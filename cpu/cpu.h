@@ -2743,7 +2743,7 @@ public: // for now...
   BX_SMF void    decrementESPForPush(unsigned nBytes, Bit32u *eSP);
   BX_SMF void    sanity_checks(void);
 
-  BX_SMF void    debug(Bit32u offset);
+  BX_SMF void    debug(bx_address offset);
 
 #if BX_EXTERNAL_DEBUGGER
   BX_SMF void    trap_debugger(bx_bool callnow);
