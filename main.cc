@@ -1155,16 +1155,37 @@ parse_line_unformatted(char *context, char *line)
     for (i=0; i<strlen(ptr); i++) {
       if (ptr[i] == '"')
         inquotes = !inquotes;
-      else
+      else {
+#if BX_HAVE_GETENV
+	// substitute environment variables.
+	if (ptr[i] == '$') {
+	  char varname[512];
+	  char *pv = varname;
+	  char *value;
+	  *pv = 0;
+	  i++;
+	  while (isalpha(ptr[i]) || ptr[i]=='_') {
+	    *pv = ptr[i]; pv++; i++;
+	  }
+	  *pv = 0;
+	  if (strlen(varname)<1 || !(value = getenv(varname))) {
+	    BX_PANIC (("could not look up environment variable '%s'\n", varname));
+	  } else {
+	    // append value to the string
+	    for (pv=value; *pv; pv++)
+		string[string_i++] = *pv;
+	  }
+	}
+#endif
         if (!isspace(ptr[i]) || inquotes) {
-          string[string_i++] = ptr[i];
-          }
+	  string[string_i++] = ptr[i];
+	}
       }
-    string[string_i] = '\0';
-    strcpy(ptr, string);
-    params[num_params++] = ptr;
-    ptr = strtok(NULL, ",");
     }
+    string[string_i] = '\0';
+    params[num_params++] = strdup (string);
+    ptr = strtok(NULL, ",");
+  }
   parse_line_formatted(context, num_params, &params[0]);
 }
 
