@@ -805,6 +805,8 @@ BX_CPU_C::reset(unsigned source)
     debug_trap |= 0x80000000;
     async_event = 1;
   }
+#else
+  BX_CPU_THIS_PTR async_event = 0;
 #endif
 }
 

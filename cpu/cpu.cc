@@ -474,6 +474,10 @@ handle_async_event:
       if (BX_CPU_THIS_PTR INTR && GetEFlagsIFLogical()) {
         break;
         }
+     if (BX_CPU_THIS_PTR async_event == 0) {
+       BX_INFO(("decode: reset detected in halt state"));
+       break;
+       }
       BX_TICK1();
     }
 #else      /* BX_SMP_PROCESSORS != 1 */
