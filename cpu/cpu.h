@@ -628,7 +628,7 @@ typedef struct {
         };
       } word;
     };
-   BX_CPP_INLINE get_erx() { return erx; }
+   BX_CPP_INLINE Bit32u get_erx() { return erx; }
   } bx_gen_reg_t;
 #else
 typedef struct {
@@ -645,7 +645,7 @@ typedef struct {
       Bit16u word_filler;
       } word;
     };
-   BX_CPP_INLINE get_erx() { return erx; }
+   BX_CPP_INLINE Bit32u get_erx() { return erx; }
   } bx_gen_reg_t;
 #endif
 
