@@ -12,6 +12,10 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
+#ifndef WIN32
+#error Niclist will only work on WIN32 platforms.
+#endif
+
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,6 +41,12 @@ NIC_INFO_9X ni9X[MAX_ADAPTERS];
 
 BOOLEAN   (*PacketGetAdapterNames)(PTSTR, PULONG) = NULL;
 
+void myexit (int code)
+{
+  printf ("\nPress any key to continue\n");
+  getch();
+  exit(code);
+}
 
 int main(int argc, char **argv)
 {
@@ -61,7 +71,7 @@ int main(int argc, char **argv)
 		printf("Could not load WinPCap driver!\n");
 		printf ("You can download them for free from\n");
 		printf ("http://netgroup-serv.polito.it/winpcap\n");
-		return 1;
+		myexit(1);
 	}
 
 	dwVersion      = GetVersion();
@@ -146,5 +156,5 @@ int main(int argc, char **argv)
 		printf("\n");
 	}
 
-	return 0;
+	myexit (0);
 }

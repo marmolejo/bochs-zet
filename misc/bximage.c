@@ -11,6 +11,9 @@
 #include <string.h>
 #include <ctype.h>
 #include <assert.h>
+#ifdef WIN32
+#  include <conio.h>
+#endif
 #include "config.h"
 
 char *EOF_ERR = "ERROR: End of input";
@@ -51,6 +54,10 @@ print_banner ()
 void fatal (char *c)
 {
   printf ("%s\n", c);
+#ifdef WIN32
+  printf ("\nPress any key to continue\n");
+  getch();
+#endif
   exit (1);
 }
 
