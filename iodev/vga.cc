@@ -320,6 +320,11 @@ bx_vga_c::determine_screen_dimensions(unsigned *piHeight, unsigned *piWidth)
         *piHeight = v;
         }
       }
+    else if ((h >= 640) && (v >= 480)) {
+      *piWidth = h;
+      *piHeight = v;
+      BX_VGA_THIS s.scan_bits = BX_VGA_THIS s.CRTC.reg[19] << 4;
+      }
     }
   else if ( BX_VGA_THIS s.graphics_ctrl.shift_reg == 2 )
     {
