@@ -59,6 +59,9 @@
   #define VBE_DISPI_ENABLED               0x01
   #define VBE_DISPI_LFB_PHYSICAL_ADDRESS  0xE0000000
   
+  
+#define VBE_DISPI_TOTAL_VIDEO_MEMORY_KB		(VBE_DISPI_TOTAL_VIDEO_MEMORY_MB * 1024)  
+#define VBE_DISPI_TOTAL_VIDEO_MEMORY_BYTES 	(VBE_DISPI_TOTAL_VIDEO_MEMORY_KB * 1024)  
 
 #define BX_MAX_XRES VBE_DISPI_MAX_XRES
 #define BX_MAX_YRES VBE_DISPI_MAX_YRES
@@ -227,7 +230,7 @@ private:
     Bit16u charmap_address;
 
 #if BX_SUPPORT_VBE    
-    Bit8u vbe_memory[VBE_DISPI_TOTAL_VIDEO_MEMORY_MB *1024 * 1024];
+    Bit8u vbe_memory[VBE_DISPI_TOTAL_VIDEO_MEMORY_BYTES];
     Bit16u  vbe_cur_dispi;
     Bit16u  vbe_xres;
     Bit16u  vbe_yres;

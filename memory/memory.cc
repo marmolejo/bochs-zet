@@ -232,10 +232,10 @@ inc_one:
 #if BX_SUPPORT_VBE
     // Check VBE LFB support
     
-    if (a20addr >= VBE_DISPI_LFB_PHYSICAL_ADDRESS)
+    if ((a20addr >= VBE_DISPI_LFB_PHYSICAL_ADDRESS) &&
+        (a20addr <  (VBE_DISPI_LFB_PHYSICAL_ADDRESS +  VBE_DISPI_TOTAL_VIDEO_MEMORY_BYTES)))
     {
       for (i = 0; i < len; i++) {
-        // FIXME: check for max VBE video memory size
         
         //if (a20addr < BX_MEM_THIS len) {
           //vector[a20addr] = *data_ptr;
@@ -462,10 +462,10 @@ inc_one:
 #if BX_SUPPORT_VBE
     // Check VBE LFB support
     
-    if (a20addr >= VBE_DISPI_LFB_PHYSICAL_ADDRESS)
+    if ((a20addr >= VBE_DISPI_LFB_PHYSICAL_ADDRESS) &&
+        (a20addr <  (VBE_DISPI_LFB_PHYSICAL_ADDRESS +  VBE_DISPI_TOTAL_VIDEO_MEMORY_BYTES)))
     {
       for (i = 0; i < len; i++) {
-        // FIXME: check for max VBE video memory size
         
         //if (a20addr < BX_MEM_THIS len) {
           //vector[a20addr] = *data_ptr;
