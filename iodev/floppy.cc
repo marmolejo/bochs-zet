@@ -1320,8 +1320,16 @@ bx_floppy_ctrl_c::set_media_status(unsigned drive, unsigned status)
     if (evaluate_media(type, path, & BX_FD_THIS s.media[drive])) {
       BX_FD_THIS s.media_present[drive] = 1;
       if (drive == 0) {
+#define MED (BX_FD_THIS s.media[0])
+        BX_INFO(("fd0: '%s' ro=%d, h=%d,t=%d,spt=%d", bx_options.floppya.Opath->getptr(),
+        MED.write_protected, MED.heads, MED.tracks, MED.sectors_per_track));
+#undef MED
         bx_options.floppya.Ostatus->set(BX_INSERTED);
       } else {
+#define MED (BX_FD_THIS s.media[1])
+        BX_INFO(("fd1: '%s' ro=%d, h=%d,t=%d,spt=%d", bx_options.floppyb.Opath->getptr(),
+        MED.write_protected, MED.heads, MED.tracks, MED.sectors_per_track));
+#undef MED
         bx_options.floppyb.Ostatus->set(BX_INSERTED);
       }
       BX_FD_THIS s.DIR[drive] |= 0x80; // disk changed line

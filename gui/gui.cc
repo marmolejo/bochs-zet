@@ -221,11 +221,6 @@ bx_gui_c::floppyA_handler(void)
     // a dialog asking what disk image you want to switch to.
     int ret = SIM->ask_param (BXP_FLOPPYA_PATH);
     if (ret > 0) {
-      // eject and then insert the disk.  If the new path is invalid,
-      // the status will return 0.
-      unsigned new_status = DEV_floppy_set_media_status(0, 0);
-      new_status = DEV_floppy_set_media_status(0, 1);
-      BX_GUI_THIS floppyA_status = new_status;
       BX_GUI_THIS update_drive_status_buttons ();
     }
     return;
@@ -248,11 +243,6 @@ bx_gui_c::floppyB_handler(void)
     // a dialog asking what disk image you want to switch to.
     int ret = SIM->ask_param (BXP_FLOPPYB_PATH);
     if (ret > 0) {
-      // eject and then insert the disk.  If the new path is invalid,
-      // the status will return 0.
-      unsigned new_status = DEV_floppy_set_media_status(1, 0);
-      new_status = DEV_floppy_set_media_status(1, 1);
-      BX_GUI_THIS floppyB_status = new_status;
       BX_GUI_THIS update_drive_status_buttons ();
     }
     return;
