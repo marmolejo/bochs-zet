@@ -1442,6 +1442,22 @@ AC_ARG_ENABLE(time0,
   )
 
 
+AC_MSG_CHECKING(for raw serial support)
+AC_ARG_ENABLE(raw-serial,
+  [  --enable-raw-serial               use raw serial port access],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(USE_RAW_SERIAL, 1)
+   else
+    AC_MSG_RESULT(no)
+    AC_DEFINE(USE_RAW_SERIAL, 0)
+   fi],
+  [
+    AC_MSG_RESULT(no)
+    AC_DEFINE(USE_RAW_SERIAL, 0)
+    ]
+  )
+
 AC_MSG_CHECKING(for VESA BIOS extensions)
 AC_ARG_ENABLE(vbe,
   [  --enable-vbe                      use VESA BIOS extensions],
