@@ -1452,6 +1452,28 @@ else
   AC_DEFINE(BX_SUPPORT_SSE,  0)
 fi
 
+AC_MSG_CHECKING(for DAZ support)
+AC_ARG_ENABLE(daz,
+  [  --enable-daz                      denormals-are-zeroes support],
+  [if test "$enableval" = yes; then     
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_SUPPORT_DAZ, 1)
+   elif test "$enableval" = no; then
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SUPPORT_DAZ, 0)
+   fi
+   ],
+  [
+    if test "$support_sse" = 2; then
+      AC_MSG_RESULT(yes)
+      AC_DEFINE(BX_SUPPORT_DAZ, 1)
+    else
+      AC_MSG_RESULT(no)
+      AC_DEFINE(BX_SUPPORT_DAZ, 0)
+    fi
+    ]
+  )
+
 AC_MSG_CHECKING(for SEP support)
 AC_ARG_ENABLE(sep,
   [  --enable-sep                      SYSENTER/SYSEXIT support],
