@@ -468,15 +468,15 @@ typedef struct {
 
 #define DECLARE_8BIT_REGISTER_ACCESSORS(name)                                \
   BX_SMF BX_CPP_INLINE Bit8u get_##name(void);                               \
-  BX_SMF BX_CPP_INLINE void  set_##name(Bit8u val);
+  BX_SMF BX_CPP_INLINE void  set_##name(Bit8u val)
 
 #define DECLARE_16BIT_REGISTER_ACCESSORS(name)                               \
   BX_SMF BX_CPP_INLINE Bit16u get_##name(void);                              \
-  BX_SMF BX_CPP_INLINE void   set_##name(Bit16u val);
+  BX_SMF BX_CPP_INLINE void   set_##name(Bit16u val)
 
 #define DECLARE_32BIT_REGISTER_ACCESSORS(name)                               \
   BX_SMF BX_CPP_INLINE Bit32u get_##name(void);                              \
-  BX_SMF BX_CPP_INLINE void   set_##name(Bit32u val);
+  BX_SMF BX_CPP_INLINE void   set_##name(Bit32u val)
 
 #define IMPLEMENT_8LBIT_REGISTER_ACCESSORS(name)                             \
   BX_CPP_INLINE void BX_CPU_C::set_##name(Bit8u val) {                \
