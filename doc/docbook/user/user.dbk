@@ -2701,7 +2701,7 @@ the "wx" display library.
 <para>
 Examples:
 <screen>
-  log: bochs.out
+  log: bochsout.txt
   log: /dev/tty               (unix only)
   log: /dev/null              (unix only)
 </screen>
