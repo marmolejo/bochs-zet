@@ -1512,6 +1512,7 @@ void BX_CPU_C::RDTSC(bxInstruction_c *i)
     exception (BX_GP_EXCEPTION, 0, 0);
   }
 #else
+  BX_INFO(("RDTSC: Pentium CPU required"));
   UndefinedOpcode(i);
 #endif
 }
@@ -1632,19 +1633,19 @@ void BX_CPU_C::RDMSR(bxInstruction_c *i)
 #endif  // #if BX_SUPPORT_X86_64
 
     default:
-#if BX_IGNORE_BAD_MSR
       BX_ERROR(("RDMSR: Unknown register %#x", ECX));
+#if BX_IGNORE_BAD_MSR
       return;
-#else
-      BX_PANIC(("RDMSR: Unknown register %#x", ECX));
 #endif
-      goto do_exception;
-
   }
-#endif  /* BX_CPU_LEVEL >= 5 */
 
 do_exception:
   exception(BX_GP_EXCEPTION, 0, 0);
+
+#else  /* BX_CPU_LEVEL >= 5 */
+  BX_INFO(("RDMSR: Pentium CPU required"));
+  UndefinedOpcode(i);
+#endif
 }
 
 void BX_CPU_C::WRMSR(bxInstruction_c *i)
@@ -1747,19 +1748,19 @@ void BX_CPU_C::WRMSR(bxInstruction_c *i)
 #endif  // #if BX_SUPPORT_X86_64
 
     default:
+      BX_ERROR(("WRMSR: Unknown register %#x", ECX));
 #if BX_IGNORE_BAD_MSR
-                        BX_ERROR(("WRMSR: Unknown register %#x", ECX));
-                        return;
-#else
-      BX_PANIC(("WRMSR: Unknown register %#x", ECX));
+      return;
 #endif
-      goto do_exception;
-
   }
-#endif  /* BX_CPU_LEVEL >= 5 */
 
 do_exception:
   exception(BX_GP_EXCEPTION, 0, 0);
+
+#else  /* BX_CPU_LEVEL >= 5 */
+  BX_INFO(("RDMSR: Pentium CPU required"));
+  UndefinedOpcode(i);
+#endif
 }
 
 void BX_CPU_C::SYSENTER (bxInstruction_c *i)
