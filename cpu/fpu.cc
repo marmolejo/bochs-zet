@@ -380,14 +380,14 @@ void BX_CPU_C::FISTP_QWORD_INTEGER(bxInstruction_c *i)
 #endif
 }
 
-void BX_CPU_C::FSTENV(bxInstruction_c *i)
+void BX_CPU_C::FNSTENV(bxInstruction_c *i)
 {
 #if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU();
 
   fpu_execute(i);
 #else
-  BX_INFO(("FSTENV: required FPU, configure --enable-fpu"));
+  BX_INFO(("FNSTENV: required FPU, configure --enable-fpu"));
 #endif
 }
 
@@ -476,14 +476,14 @@ void BX_CPU_C::FRSTOR(bxInstruction_c *i)
 #endif
 }
 
-void BX_CPU_C::FSAVE(bxInstruction_c *i)
+void BX_CPU_C::FNSAVE(bxInstruction_c *i)
 {
 #if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU();
 
   fpu_execute(i);
 #else
-  BX_INFO(("FSAVE: required FPU, configure --enable-fpu"));
+  BX_INFO(("FNSAVE: required FPU, configure --enable-fpu"));
 #endif
 }
 
@@ -1487,14 +1487,14 @@ void BX_CPU_C::FCOS(bxInstruction_c *i)
 #endif
 }
 
-void BX_CPU_C::FCLEX(bxInstruction_c *i)
+void BX_CPU_C::FNCLEX(bxInstruction_c *i)
 {
 #if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU();
 
   fpu_execute(i);
 #else
-  BX_INFO(("FCLEX: required FPU, configure --enable-fpu"));
+  BX_INFO(("FNCLEX: required FPU, configure --enable-fpu"));
 #endif
 }
 
