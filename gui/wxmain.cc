@@ -294,7 +294,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size, 
   menuLog->Enable (ID_Log_PrefsDevice, FALSE);  // not implemented
 
   CreateStatusBar();
-  SetStatusText( "Welcome to wxWindows!" );
+  SetStatusText("");
 
   CreateToolBar(wxNO_BORDER|wxHORIZONTAL|wxTB_FLAT);
   wxToolBar *tb = GetToolBar();
