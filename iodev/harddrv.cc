@@ -640,7 +640,12 @@ bx_hard_drive_c::read(Bit32u address, unsigned io_len)
     }
 
   if (channel == BX_MAX_ATA_CHANNEL) {
-    BX_PANIC(("Unable to find ATA channel, ioport=0x%04x", address));
+    if ((address < 0x03f6) || (address > 0x03f7)) {
+      BX_PANIC(("read: unable to find ATA channel, ioport=0x%04x", address));
+    } else {
+      channel = 0;
+      port = address - 0x03e0;
+    }
     }
 
 #if BX_PDC20230C_VLBIDE_SUPPORT
@@ -1179,8 +1184,13 @@ bx_hard_drive_c::write(Bit32u address, Bit32u value, unsigned io_len)
     }
 
   if (channel == BX_MAX_ATA_CHANNEL) {
-    BX_PANIC(("Unable to find ATA channel, ioport=0x%04x", address));
+    if (address != 0x03f6) {
+      BX_PANIC(("write: unable to find ATA channel, ioport=0x%04x", address));
+    } else {
+      channel = 0;
+      port = address - 0x03e0;
     }
+  }
 
 #if BX_PDC20230C_VLBIDE_SUPPORT
 // pdc20230c is only available for first ata channel
