@@ -97,9 +97,10 @@ bx_parallel_c::init(bx_devices_c *d)
   void
 bx_parallel_c::virtual_printer(void)
 {
-  if (!OUTPUT) return;
-  fputc(BX_PAR_THIS s.data, OUTPUT);
-  fflush (OUTPUT);
+  if (OUTPUT != NULL) {
+    fputc(BX_PAR_THIS s.data, OUTPUT);
+    fflush (OUTPUT);
+    }
   if (BX_PAR_THIS s.CONTROL.irq == 1) {
     BX_PAR_THIS devices->pic->trigger_irq(7);
     }
