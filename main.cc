@@ -1713,8 +1713,10 @@ bx_atexit(void)
 #endif
 
 #if BX_DEBUGGER == 0
-  for (int cpu=0; cpu<BX_SMP_PROCESSORS; cpu++)
-    if (BX_CPU(cpu)) BX_CPU(cpu)->atexit();
+  if (SIM && SIM->get_init_done ()) {
+    for (int cpu=0; cpu<BX_SMP_PROCESSORS; cpu++)
+      if (BX_CPU(cpu)) BX_CPU(cpu)->atexit();
+  }
 #endif
 
 #if BX_PCI_SUPPORT
