@@ -575,12 +575,12 @@ int main()
     make_image_win32 (sectors, filename, writefn_win32);
   }
   else
-#else
+#endif
   {
     make_image (sectors, filename, write_function);
   }
-#endif
-  printf ("\nI wrote " FMT_LL "d bytes to %s.\n", sectors*512, filename);
+  printf ("\nI wrote " FMT_LL "u bytes to ", sectors*512);
+  printf ("%s.\n", filename);
   printf ("\nThe following line should appear in your bochsrc:\n");
   printf ("  %s\n", bochsrc_line);
 #ifdef WIN32
