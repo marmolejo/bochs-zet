@@ -2009,7 +2009,7 @@ parse_line_formatted(char *context, int num_params, char *params[])
     else if (!strcmp (action, "ignore"))
       bx_options.log.actions[LOGLEV_ERROR] = ACT_IGNORE;
     else if (!strcmp (action, "ask"))
-      bx_options.log.actions[LOGLEV_PANIC] = ACT_ASK;
+      bx_options.log.actions[LOGLEV_ERROR] = ACT_ASK;
     else {
       BX_PANIC(("%s: error directive malformed.", context));
       }
@@ -2029,7 +2029,7 @@ parse_line_formatted(char *context, int num_params, char *params[])
     else if (!strcmp (action, "ignore"))
       bx_options.log.actions[LOGLEV_INFO] = ACT_IGNORE;
     else if (!strcmp (action, "ask"))
-      bx_options.log.actions[LOGLEV_PANIC] = ACT_ASK;
+      bx_options.log.actions[LOGLEV_INFO] = ACT_ASK;
     else {
       BX_PANIC(("%s: info directive malformed.", context));
       }
@@ -2049,7 +2049,7 @@ parse_line_formatted(char *context, int num_params, char *params[])
     else if (!strcmp (action, "ignore"))
       bx_options.log.actions[LOGLEV_DEBUG] = ACT_IGNORE;
     else if (!strcmp (action, "ask"))
-      bx_options.log.actions[LOGLEV_PANIC] = ACT_ASK;
+      bx_options.log.actions[LOGLEV_DEBUG] = ACT_ASK;
     else {
       BX_PANIC(("%s: debug directive malformed.", context));
       }

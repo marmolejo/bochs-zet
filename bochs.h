@@ -243,7 +243,7 @@ extern Bit8u DTPageDirty[];
 #define DEFAULT_LOG_ACTIONS(level) \
   (level<=LOGLEV_INFO ? ACT_IGNORE \
    : level==LOGLEV_ERROR ? ACT_REPORT \
-   : ACT_ASK)
+   : ACT_REPORT)
 
 typedef class logfunctions {
 	char *prefix;
