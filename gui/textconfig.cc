@@ -426,6 +426,7 @@ int bx_config_interface (int menu)
        if (ask_uint (startup_menu_prompt, 1, 6, default_choice, &choice, 10) < 0) return -1;
        switch (choice) {
 	 case 1:
+	   fprintf (stderr, "I reset all options back to their factory defaults.\n\n");
 	   SIM->reset_all_param ();
 	   break;
 	 case 2: 
