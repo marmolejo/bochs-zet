@@ -630,7 +630,6 @@ void bx_gui_c::dimension_update(
 	BX_HEADERBAR_FG_RED,
 	BX_HEADERBAR_FG_GREEN,
 	BX_HEADERBAR_FG_BLUE );
-    headerbar_fg=0xffffffff;
     headerbar_bg = SDL_MapRGB(
 	sdl_screen->format,
 	BX_HEADERBAR_BG_RED,
@@ -678,12 +677,12 @@ unsigned bx_gui_c::create_bitmap(
       0xff000000,
       0x00ff0000,
       0x0000ff00,
-      0x000000ff
+      0x00000000
 #else
       0x000000ff,
       0x0000ff00,
       0x00ff0000,
-      0xff000000
+      0x00000000
 #endif
       );
   if( !tmp->surface )
