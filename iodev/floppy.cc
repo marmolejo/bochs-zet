@@ -1,4 +1,4 @@
-/////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
@@ -416,7 +416,10 @@ bx_floppy_ctrl_c::write(Bit32u address, Bit32u value, unsigned io_len)
         BX_DEBUG(("  drive_select=%02x",
           (unsigned) drive_select));
       if (drive_select>1) {
-        BX_PANIC(("io_write: drive_select>1"));
+	BX_DEBUG(("WARNING: applying mod(2) on drive_select"));
+	drive_select = drive_select & 0x01;
+	BX_DEBUG(("new drive_select=%02x",
+	  (unsigned) drive_select));
         }
       break;
 
