@@ -425,7 +425,7 @@ BailBigRSP("JCC_Jd");
     }
 #if BX_INSTRUMENTATION
   else {
-    BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID, );
+    BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID);
     }
 #endif
 }
@@ -453,7 +453,7 @@ BailBigRSP("JZ_Jd");
     }
 #if BX_INSTRUMENTATION
   else {
-    BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID, );
+    BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID);
     }
 #endif
 }
@@ -481,7 +481,7 @@ BailBigRSP("JNZ_Jd");
     }
 #if BX_INSTRUMENTATION
   else {
-    BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID, );
+    BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID);
     }
 #endif
 }

@@ -51,7 +51,7 @@ BailBigRSP("JCXZ_Jb");
       }
 #if BX_INSTRUMENTATION
     else {
-      BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID, );
+      BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID);
       }
 #endif
     }
@@ -83,7 +83,7 @@ BailBigRSP("JCXZ_Jb");
       }
 #if BX_INSTRUMENTATION
     else {
-      BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID, );
+      BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID);
       }
 #endif
   }
@@ -105,7 +105,7 @@ BailBigRSP("loopne_jb");
       }
 #if BX_INSTRUMENTATION
     else {
-      BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID, );
+      BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID);
       }
 #endif
     }
@@ -137,7 +137,7 @@ BailBigRSP("loopne_jb");
       }
 #if BX_INSTRUMENTATION
     else {
-      BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID, );
+      BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID);
       }
 #endif
 
@@ -162,7 +162,7 @@ BailBigRSP("loope_jb");
       }
 #if BX_INSTRUMENTATION
     else {
-      BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID, );
+      BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID);
       }
 #endif
     }
@@ -194,7 +194,7 @@ BailBigRSP("loope_jb");
       }
 #if BX_INSTRUMENTATION
     else {
-      BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID, );
+      BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID);
       }
 #endif
 
@@ -219,7 +219,7 @@ BailBigRSP("loop_jb");
       }
 #if BX_INSTRUMENTATION
     else {
-      BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID, );
+      BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID);
       }
 #endif
     }
@@ -251,7 +251,7 @@ BailBigRSP("loop_jb");
       }
 #if BX_INSTRUMENTATION
     else {
-      BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID, );
+      BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(CPU_ID);
       }
 #endif
 
