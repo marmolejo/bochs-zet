@@ -54,6 +54,7 @@ BX_MEM_C::BX_MEM_C(void)
   settype(MEMLOG);
 
   vector = NULL;
+  actual_vector = NULL;
   len    = 0;
   megabytes = 0;
 }
@@ -90,7 +91,8 @@ BX_MEM_C::alloc_vector_aligned (size_t bytes, size_t alignment)
   // BX_MEM_C constructor
 BX_MEM_C::BX_MEM_C(size_t memsize)
 {
-  // Alloc 8 extra bytes so that the realignment operation is safe.
+  vector = NULL;
+  actual_vector = NULL;
   alloc_vector_aligned (memsize, BX_MEM_VECTOR_ALIGN);
   len    = memsize;
   megabytes = len / (1024*1024);
