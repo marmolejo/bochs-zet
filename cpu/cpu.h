@@ -2236,6 +2236,10 @@ union {
 
   BX_SMF void SWAPGS(bxInstruction_c *i);
 
+  BX_SMF void LOOPNE64_Jb(bxInstruction_c *);
+  BX_SMF void LOOPE64_Jb(bxInstruction_c *);
+  BX_SMF void LOOP64_Jb(bxInstruction_c *);
+  BX_SMF void JCXZ64_Jb(bxInstruction_c *);
 #endif  // #if BX_SUPPORT_X86_64
 
   // mch added
