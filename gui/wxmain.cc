@@ -97,6 +97,7 @@ MyPanel *thePanel = NULL;
 bool wxBochsClosing = false;
 
 bool isSimThread () {
+  if (wxThread::IsMain()) return false;
   wxThread *current = wxThread::This ();
   if (current == (wxThread*) theFrame->GetSimThread ()) {
     //wxLogDebug ("isSimThread? yes");

@@ -171,7 +171,8 @@ void MyPanel::ToggleMouse (bool fromToolbar)
   static bool first_enable = true;
   bx_param_bool_c *enable = SIM->get_param_bool (BXP_MOUSE_ENABLED);
   bool en = ! enable->get ();
-  bool needmutex = SIM->is_sim_thread ();
+  bool is_main_thread = wxThread::IsMain ();
+  bool needmutex = !is_main_thread && SIM->is_sim_thread ();
   if (needmutex) wxMutexGuiEnter();
   if (fromToolbar && first_enable && en) {
     // only show this help if you click on the toolbar.  If they already
