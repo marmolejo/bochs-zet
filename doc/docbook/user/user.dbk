@@ -447,7 +447,7 @@ currently work with.
     allow the TAP or TUN/TAP interface, there is no such limitation.  Often
     the host machine may be configured so the guest OS has access to the
     internet. On MacOSX, you may download the TUN driver from:
-    http://chrisp.de/en/projects/tunnel.html
+    <ulink url="http://chrisp.de/en/projects/tunnel.html"></ulink>
     </entry>
   </row>
   <row>
