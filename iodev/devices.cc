@@ -146,8 +146,6 @@ bx_devices_c::init(BX_MEM_C *newmem)
   if (bx_options.Oi440FXSupport->get ()) {
     PLUG_load_plugin(pci, PLUGTYPE_OPTIONAL);
     PLUG_load_plugin(pci2isa, PLUGTYPE_OPTIONAL);
-    pluginPciBridge->init();
-    pluginPci2IsaBridge->init();
   }
 #endif
 
