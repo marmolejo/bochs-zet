@@ -39,7 +39,7 @@
 typedef struct {
   Bit32u confAddr;
   Bit32u confData;
-  Bit32u array[256];
+  Bit8u array[256];
   Bit8u  shadow[4*16*4096];     // 256k of memory
   } bx_def440fx_t;
 
