@@ -122,7 +122,7 @@ bx_real_sim_c::bx_real_sim_c ()
 {
   callback = NULL;
   notify_return_val = -1;
-  for (int i=0; i<NOTIFY_TYPE_STRING; i++) {
+  for (int i=0; i<BX_NOTIFY_MAX_ARGS; i++) {
     notify_int_args[i] = -1;
     notify_string_args[i] = NULL;
   }
