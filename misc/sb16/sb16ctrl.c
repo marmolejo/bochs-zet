@@ -43,7 +43,7 @@
 #	include <dos.h>
 #endif
 
-#ifdef linux
+#ifdef __unix__
 #	include <sys/io.h>
 #	include <errno.h>
 #	define inp inb
@@ -80,7 +80,7 @@ void writeemul(int value)
 /* Enable access to the emulator port */
 void enableport()
 {
-#ifdef linux
+#ifdef __unix__
   if (ioperm(EMULPORT, 1, 1)) {
     printf("Could not access emulator port %03x: %s.\n", EMULPORT, strerror(errno));
     exit(1);
