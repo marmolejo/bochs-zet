@@ -458,8 +458,7 @@ lShift l\ Z X C V B N M , . / rShift
 lCtrl lAlt Space rAlt rCtrl
 */
 
-/* ES key mapping, Applied as a diff to the default.
-   Thanks to Vicente Hernando Ara */
+/* ES (Spanish) key mapping, thanks to Vicente Hernando Ara */
 Bit32u keymap_es[][2] = {
   { XK_bar                 , BX_KEY_1 },
   { XK_dead_acute          , BX_KEY_SINGLE_QUOTE }, 
