@@ -298,6 +298,7 @@ public:
   bx_pci_stub_c    *pluginPciBridge;
   bx_devmodel_c    *pluginPci2IsaBridge;
   bx_devmodel_c    *pluginPciVgaAdapter;
+  bx_devmodel_c    *pluginPciUSBAdapter;
   bx_pit_c         *pit;
   bx_keyb_stub_c   *pluginKeyboard;
   bx_dma_stub_c    *pluginDmaDevice;
@@ -371,6 +372,7 @@ private:
 
   int timer_handle;
   bx_bool is_serial_enabled ();
+  bx_bool is_usb_enabled ();
   bx_bool is_parallel_enabled ();
   };
 
@@ -381,6 +383,9 @@ private:
 #include "iodev/pci2isa.h"
 #if BX_PCI_VGA_SUPPORT
 #include "iodev/pcivga.h"
+#endif
+#if BX_PCI_USB_SUPPORT
+#include "iodev/pciusb.h"
 #endif
 #endif
 #include "iodev/vga.h"

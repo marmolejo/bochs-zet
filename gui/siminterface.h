@@ -272,6 +272,10 @@ typedef enum {
   BXP_COM3_PATH,
   BXP_COM4_ENABLED,
   BXP_COM4_PATH,
+#define BXP_PARAMS_PER_USB_HUB 3
+  BXP_USB1_ENABLED,
+  BXP_USB1_IOADDR,
+  BXP_USB1_IRQ,
   BXP_PRIVATE_COLORMAP,
   BXP_FULLSCREEN,
   BXP_SCREENMODE,
@@ -413,6 +417,15 @@ typedef enum {
    (bx_id)(BXP_COM1_ENABLED + (((x)-1)*BXP_PARAMS_PER_SERIAL_PORT))
 #define BXP_COMx_PATH(x) \
   (bx_id)(BXP_COM1_PATH + (((x)-1)*BXP_PARAMS_PER_SERIAL_PORT))
+
+// use x=1
+#define BXP_USBx_ENABLED(x) \
+   (bx_id)(BXP_USB1_ENABLED + (((x)-1)*BXP_PARAMS_PER_USB_HUB))
+#define BXP_USBx_IOADDR(x) \
+   (bx_id)(BXP_USB1_IOADDR + (((x)-1)*BXP_PARAMS_PER_USB_HUB))
+#define BXP_USBx_IRQ(x) \
+   (bx_id)(BXP_USB1_IRQ + (((x)-1)*BXP_PARAMS_PER_USB_HUB))
+
 // use x=1,2
 #define BXP_PARPORTx_ENABLED(x) \
   (bx_id)(BXP_PARPORT1_ENABLED + (((x)-1)*BXP_PARAMS_PER_PARALLEL_PORT))
@@ -1147,6 +1160,12 @@ typedef struct {
   bx_param_bool_c *Oenabled;
   bx_param_string_c *Odev;
   } bx_serial_options;
+
+typedef struct {
+  bx_param_bool_c *Oenabled;
+  bx_param_num_c *Oioaddr;
+  bx_param_num_c *Oirq;
+  } bx_usb_options;
 
 
 ////////////////////////////////////////////////////////////////////

@@ -54,6 +54,9 @@ bx_devices_c::bx_devices_c(void)
 #if BX_PCI_VGA_SUPPORT
     pluginPciVgaAdapter = NULL;
 #endif
+#if BX_PCI_USB_SUPPORT
+    pluginPciUSBAdapter = NULL;
+#endif                               
 #endif
   pit = NULL;
   pluginKeyboard = &stubKeyboard;
@@ -153,6 +156,9 @@ bx_devices_c::init(BX_MEM_C *newmem)
     PLUG_load_plugin(pci2isa, PLUGTYPE_OPTIONAL);
 #if BX_PCI_VGA_SUPPORT
     PLUG_load_plugin(pcivga, PLUGTYPE_OPTIONAL);
+#endif
+#if BX_PCI_USB_SUPPORT
+    PLUG_load_plugin(pciusb, PLUGTYPE_OPTIONAL);
 #endif
 #else
     BX_ERROR(("Bochs is not compiled with PCI support"));
@@ -271,6 +277,9 @@ bx_devices_c::reset(unsigned type)
     pluginPci2IsaBridge->reset(type);
 #if BX_PCI_VGA_SUPPORT
     pluginPciVgaAdapter->reset(type);
+#endif
+#if BX_PCI_USB_SUPPORT
+    pluginPciUSBAdapter->reset(type);
 #endif
   }
 #endif
@@ -632,6 +641,15 @@ bx_bool bx_devices_c::is_serial_enabled ()
   for (int i=0; i<BX_N_SERIAL_PORTS; i++) {
     if (SIM->get_param_bool (BXP_COMx_ENABLED(i+1))->get())
       return true;
+  }
+  return false;
+}
+
+bx_bool bx_devices_c::is_usb_enabled ()
+{
+  for (int i=0; i<BX_N_USB_HUBS; i++) {
+    if (SIM->get_param_bool (BXP_USBx_ENABLED(i+1))->get())
+       return true;
   }
   return false;
 }
