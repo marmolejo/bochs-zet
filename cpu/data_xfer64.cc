@@ -413,7 +413,7 @@ BX_CPU_C::XCHG_EqGq(bxInstruction_c *i)
     else {
       /* pointer, segment address pair */
       read_RMW_virtual_qword(i->seg(), RMAddr(i), &op1_64);
-      Write_RMW_virtual_qword(op2_64);
+      write_RMW_virtual_qword(op2_64);
       }
 
     BX_WRITE_64BIT_REG(i->nnn(), op1_64);
