@@ -1281,6 +1281,7 @@ union {
   Bit32u        cr1;
   bx_address    cr2;
   bx_address    cr3;
+  bx_address    cr3_masked;
 #endif
 
 #if BX_CPU_LEVEL >= 4

@@ -822,6 +822,7 @@ BX_CPU_C::reset(unsigned source)
 #if BX_CPU_LEVEL >= 3
   BX_CPU_THIS_PTR cr2 = 0;
   BX_CPU_THIS_PTR cr3 = 0;
+  BX_CPU_THIS_PTR cr3_masked = 0;
 #endif
 #if BX_CPU_LEVEL >= 4
   BX_CPU_THIS_PTR cr4.setRegister(0);
