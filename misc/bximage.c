@@ -6,14 +6,15 @@
  *
  */
 
+#ifdef WIN32
+#  include <windows.h>
+#  include <conio.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <assert.h>
-#ifdef WIN32
-#  include <conio.h>
-#endif
 #include "config.h"
 
 #include <string.h>
@@ -485,6 +486,18 @@ int main()
   printf ("\nI wrote %lld bytes to %s.\n", sectors*512, filename);
   printf ("\nThe following line should appear in your bochsrc:\n");
   printf ("  %s\n", bochsrc_line);
+#ifdef WIN32
+  if (OpenClipboard(NULL)) {
+    HGLOBAL hgClip;
+    
+    EmptyClipboard();
+    hgClip = GlobalAlloc(GMEM_DDESHARE, (strlen(bochsrc_line) + 1));
+    strcpy((char *)GlobalLock(hgClip), bochsrc_line);
+    GlobalUnlock(hgClip);
+    SetClipboardData(CF_TEXT, hgClip);
+    CloseClipboard();
+  }
+#endif
   myexit(0);
 
   // make picky compilers (c++, gcc) happy,

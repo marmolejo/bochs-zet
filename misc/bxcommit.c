@@ -27,6 +27,23 @@
 
 #include <string.h>
 
+#if !BX_HAVE_SNPRINTF
+#include <stdarg.h>
+/* XXX use real snprintf */
+/* if they don't have snprintf, just use sprintf */
+int snprintf (char *s, size_t maxlen, const char *format, ...)
+{
+  va_list arg;
+  int done;
+
+  va_start (arg, format);
+  done = vsprintf (s, format, arg);
+  va_end (arg);
+
+  return done;
+}
+#endif  /* !BX_HAVE_SNPRINTF */
+
 #define uint8   Bit8u
 #define uint16  Bit16u
 #define uint32  Bit32u
