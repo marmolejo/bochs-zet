@@ -54,7 +54,7 @@ fixperm::
 	chmod 775 `find $(INSTALL_LIST) -type d -print`
 
 copy_from_srcdir::
-	for i in $(EXTRAS); do if test -a $(srcdir)/$$i -a ! -a $$i; then cp -r $(srcdir)/$$i $$i; fi; done
+	for i in $(EXTRAS); do if test -e $(srcdir)/$$i -a ! -e $$i; then cp -r $(srcdir)/$$i $$i; fi; done
 
 $(TARGZ): all copy_from_srcdir fixperm
 	rm -f $(TARGZ)
