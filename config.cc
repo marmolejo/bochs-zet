@@ -818,7 +818,7 @@ void bx_init_options ()
   bx_options.memory.Osize = new bx_param_num_c (BXP_MEM_SIZE,
       "megs",
       "Amount of RAM in megabytes",
-      1, BX_MAX_BIT32U,
+      1, 2048,
       BX_DEFAULT_MEM_MEGS);
   bx_options.memory.Osize->set_ask_format ("Enter memory size (MB): [%d] ");
 #if BX_WITH_WX
