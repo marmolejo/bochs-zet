@@ -153,9 +153,6 @@ bx_parallel_c::read(Bit32u address, unsigned io_len)
 		    (BX_PAR_THIS s.STATUS.error << 3));
 	  if (BX_PAR_THIS s.STATUS.ack == 0) {
 	    BX_PAR_THIS s.STATUS.ack = 1;
-	    if (BX_PAR_THIS s.CONTROL.irq == 1) {
-	      BX_PAR_THIS devices->pic->untrigger_irq(7);
-	      }
 	    }
 	  if (BX_PAR_THIS initmode == 1) {
 	    BX_PAR_THIS s.STATUS.busy  = 1;
