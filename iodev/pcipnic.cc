@@ -87,15 +87,12 @@ bx_pcipnic_c::init(void)
   // This code ripped wholesale from ne2k.cc:
   // Attach to the simulated ethernet dev
   char *ethmod = bx_options.pnic.Oethmod->get_choice(bx_options.pnic.Oethmod->get());
-  // 
-  // FIXME: eth_tuntap.cc rips script straight from ne2k options...
-  //
-  bx_options.ne2k.Oscript->set ( bx_options.pnic.Oscript->getptr() );
   BX_PNIC_THIS ethdev = eth_locator_c::create(ethmod,
                                               bx_options.pnic.Oethdev->getptr (),
                                               (const char *) bx_options.pnic.Omacaddr->getptr (),
                                               rx_handler, 
-                                              this);
+                                              this,
+                                              bx_options.pnic.Oscript->getptr ());
 
   if (BX_PNIC_THIS ethdev == NULL) {
     BX_PANIC(("could not find eth module %s", ethmod));
@@ -105,7 +102,7 @@ bx_pcipnic_c::init(void)
     BX_PNIC_THIS ethdev = eth_locator_c::create("null", NULL,
                                                 (const char *) bx_options.pnic.Omacaddr->getptr (),
                                                 rx_handler, 
-                                                this);
+                                                this, "");
     if (BX_PNIC_THIS ethdev == NULL)
       BX_PANIC(("could not locate null module"));
   }
