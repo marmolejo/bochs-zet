@@ -2,9 +2,11 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 
-#ifdef WIN32
-
 #include "config.h"
+
+#if BX_USE_TEXTCONFIG && defined(WIN32)
+
+#ifdef WIN32
 
 extern "C" {
 #include <stdio.h>
@@ -257,4 +259,4 @@ int FloppyDialog(bx_param_filename_c *param)
                         (DLGPROC)FloppyDlgProc, (LPARAM)param);
 }
 
-#endif // WIN32
+#endif // BX_USE_TEXTCONFIG && defined(WIN32)

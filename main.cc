@@ -1134,7 +1134,9 @@ void bx_init_options ()
   bx_options.Oscreenmode->set_handler (bx_param_string_handler);
 #endif
   static char *config_interface_list[] = {
+#if BX_USE_TEXTCONFIG
     "textconfig",
+#endif
 #if BX_WITH_WX
     "wx",
 #endif
@@ -1575,6 +1577,7 @@ void bx_init_options ()
       "Userbutton shortcut",
       "Defines the keyboard shortcut to be sent when you press the 'user' button in the headerbar.",
       "none", 16);
+  bx_options.Ouser_shortcut->set_runtime_param (1);
 
   // GDB stub
   bx_options.gdbstub.port = 1234;
@@ -1854,7 +1857,11 @@ int bxmain () {
     bx_param_enum_c *ci_param = SIM->get_param_enum (BXP_SEL_CONFIG_INTERFACE);
     char *ci_name = ci_param->get_choice (ci_param->get ());
     if (!strcmp(ci_name, "textconfig")) {
+#if BX_USE_TEXTCONFIG
       init_text_config_interface ();   // in textconfig.h
+#else
+      BX_PANIC(("configuration interface 'textconfig' not present"));
+#endif
     }
 #if BX_WITH_WX
     else if (!strcmp(ci_name, "wx")) {

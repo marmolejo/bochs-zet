@@ -14,6 +14,8 @@
 
 #include "config.h"
 
+#if BX_USE_TEXTCONFIG
+
 extern "C" {
 #include <stdio.h>
 #include <ctype.h>
@@ -997,3 +999,5 @@ int init_text_config_interface ()
   SIM->register_configuration_interface ("textconfig", ci_callback, NULL);
   return 0;  // success
 }
+
+#endif

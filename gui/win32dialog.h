@@ -2,7 +2,9 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 
-#ifdef WIN32
+#include "config.h"
+
+#if BX_USE_TEXTCONFIG && defined(WIN32)
 
 extern "C" {
 #include <windows.h>

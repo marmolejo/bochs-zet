@@ -2,6 +2,11 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
+
+#include "config.h"
+
+#if BX_USE_TEXTCONFIG
+
 enum {
   BX_CI_INIT,
   BX_CI_START_MENU,
@@ -17,3 +22,5 @@ enum {
 };
 
 int init_text_config_interface ();
+
+#endif
