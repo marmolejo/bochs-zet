@@ -173,7 +173,7 @@ bx_devices_c::init(BX_MEM_C *newmem)
   pit->init(this);
 
 #if BX_USE_SLOWDOWN_TIMER
-  bx_slowdown_timer.init();
+  bx_slowdown_timer.init(this);
 #endif
 
   keyboard = &bx_keyboard;
