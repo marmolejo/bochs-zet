@@ -411,8 +411,8 @@ MyPanel::fillBxKeyEvent_MSW (wxKeyEvent& wxev, BxKeyEvent& bxev, Boolean release
   // Swap the scancodes of "numlock" and "pause"
   if ((key & 0xff)==0x45) key ^= 0x100;
   if (key & 0x0100) {
-  // Its an extended key
-  bxev.bx_key = 0xE000;
+    // Its an extended key
+    bxev.bx_key = 0xE000;
   }
   // Its a key
   bxev.bx_key |= (key & 0x00FF) | (release? 0x80 : 0x00);
@@ -796,6 +796,11 @@ void bx_gui_c::handle_events(void)
       // event contains raw scancodes: use put_scancode
       Bit8u scancode;
       if (bx_key & 0xFF00) { // for extended keys
+        // This makes the "AltGr" key on European keyboards work
+        if (bx_key==0xE038) {
+          scancode = 0x9d; // left control key released
+          bx_devices.keyboard->put_scancode(&scancode, 1);
+        }
         scancode = 0xFF & (bx_key>>8);
       IFDBG_KEY (wxLogDebug ("sending raw scancode 0x%02x (extended key)", (int)scancode));
         bx_devices.keyboard->put_scancode (&scancode, 1);
