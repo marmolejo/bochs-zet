@@ -321,14 +321,11 @@ BX_CPU_C::dbg_query_pending(void)
   return(ret);
 }
 
-
-
   Bit32u
 BX_CPU_C::dbg_get_eflags(void)
 {
-  return(BX_CPU_THIS_PTR eflags.val32);
+  return (BX_CPU_THIS_PTR read_eflags());
 }
-
 
   Bit32u
 BX_CPU_C::dbg_get_descriptor_l(bx_descriptor_t *d)
@@ -664,7 +661,6 @@ BX_CPU_C::dbg_set_cpu(bx_dbg_cpu_t *cpu)
 #endif
 
   EIP = cpu->eip;
-
 
 
   // CS:

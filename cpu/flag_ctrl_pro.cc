@@ -95,9 +95,7 @@ BX_CPU_C::write_eflags(Bit32u eflags_raw, bx_bool change_IOPL, bx_bool change_IF
 }
 #endif /* BX_CPU_LEVEL >= 3 */
 
-
-  Bit16u
-BX_CPU_C::read_flags(void)
+Bit16u BX_CPU_C::read_flags(void)
 {
   Bit16u flags16;
 
@@ -109,7 +107,8 @@ BX_CPU_C::read_flags(void)
     (void) get_ZF();
     (void) get_SF();
     (void) get_OF();
-    }
+  }
+
   flags16 = (Bit16u) BX_CPU_THIS_PTR eflags.val32;
 
   /* 8086: bits 12-15 always set to 1.
@@ -129,10 +128,8 @@ BX_CPU_C::read_flags(void)
   return(flags16);
 }
 
-
 #if BX_CPU_LEVEL >= 3
-  Bit32u
-BX_CPU_C::read_eflags(void)
+Bit32u BX_CPU_C::read_eflags(void)
 {
   Bit32u flags32;
 
@@ -144,7 +141,8 @@ BX_CPU_C::read_eflags(void)
     (void) get_ZF();
     (void) get_SF();
     (void) get_OF();
-    }
+  }
+
   flags32 = BX_CPU_THIS_PTR eflags.val32;
 
 #if 0
