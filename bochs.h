@@ -499,7 +499,7 @@ enum PCS_OP { PCS_CLEAR, PCS_SET, PCS_TOGGLE };
 #include "pc_system.h"
 #include "plugin.h"
 #include "gui/gui.h"
-#include "gui/control.h"
+#include "gui/textconfig.h"
 #include "gui/keymap.h"
 #include "iodev/iodev.h"
 
