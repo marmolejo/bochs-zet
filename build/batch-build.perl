@@ -98,10 +98,10 @@ add_configuration ('repeat',
   '--enable-repeat-speedups');
 add_configuration ('globalpg',
   '--enable-global-pages');
-add_configuration ('fetchdecode',
-  '--enable-fetchdecode-cache');
+add_configuration ('icache',
+  '--enable-icache');
 add_configuration ('cpuopt',
-  '--enable-4meg-pages --enable-pae --enable-guest2host-tlb --enable-repeat-speedups --enable-global-pages');
+  '--enable-4meg-pages --enable-pae --enable-guest2host-tlb --enable-repeat-speedups --enable-global-pages --enable-icache');
 }
 
 if ($TEST_SMP) {
@@ -179,8 +179,8 @@ EOF
 }
 
 $x = 50; $y = 50;
-$xinc = 40;
-$yinc = 40;
+$xinc = 30;
+$yinc = 30;
 
 for (my $i=0; $i <= $#config_names; $i++) {
   my $name = "build-$config_names[$i]";
@@ -214,7 +214,7 @@ BUILD_EOF
   close BUILD;
   chmod 0755, "$name/build.sh";
   $gotodir = "cd $name";
-  $startcmd = "$maybe_nohup ./build.sh";
+  $startcmd = "nice $maybe_nohup ./build.sh";
   $header = <<HEADER_EOF;
 ====================================================================
 Configuration name: $name
