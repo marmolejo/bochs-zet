@@ -382,7 +382,8 @@ bx_param_num_c::set (Bit32s newval)
 {
   if (handler) {
     // the handler can override the new value and/or perform some side effect
-    val = (*handler)(this, 1, newval);
+    val = newval;
+    (*handler)(this, 1, newval);
   } else {
     // just set the value.  This code does not check max/min.
     val = newval;
@@ -473,14 +474,14 @@ bx_param_string_c::get (char *buf, int len)
 void 
 bx_param_string_c::set (char *buf)
 {
-  if (handler) {
-    // the handler can return a different char* to be copied into the value
-    buf = (*handler)(this, 1, buf, -1);
-  }
   if (options->get () & BX_RAW_BYTES)
     memcpy (val, buf, maxsize);
   else
     strncpy (val, buf, maxsize);
+  if (handler) {
+    // the handler can return a different char* to be copied into the value
+    buf = (*handler)(this, 1, buf, -1);
+  }
 }
 
 #if 0
