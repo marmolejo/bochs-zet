@@ -330,6 +330,9 @@ class BOCHSAPI bx_usb_stub_c : public bx_devmodel_c {
   virtual bx_bool usb_keyboard_connected() {
     return 0;
   }
+  virtual bx_bool usb_mouse_connected() {
+    return 0;
+  }
 };
 #endif
 

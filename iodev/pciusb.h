@@ -357,6 +357,7 @@ public:
   virtual void  usb_mouse_enable(bx_bool enable);
   virtual bx_bool usb_key_enq(Bit8u *scan_code);
   virtual bx_bool usb_keyboard_connected();
+  virtual bx_bool usb_mouse_connected();
 
 private:
 
@@ -385,6 +386,7 @@ private:
 
   bx_bool  last_connect;
   bx_bool  keyboard_connected;
+  bx_bool  mouse_connected;
 
   static void  init_device(Bit8u port, char *devname);
   static void  usb_set_connect_status(int type, bx_bool connected);

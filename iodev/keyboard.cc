@@ -1570,8 +1570,8 @@ bx_keyb_c::mouse_motion(int delta_x, int delta_y, int delta_z, unsigned button_s
 #endif
 
 #if BX_SUPPORT_PCIUSB
-  // if type == usb, redirect mouse data to the usb device
-  if (BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_USB) {
+  // if an usb mouse is connected redirect mouse data to the usb device
+  if (DEV_usb_mouse_connected()) {
     DEV_usb_mouse_enq(delta_x, delta_y, delta_z, button_state);
     return;
   }

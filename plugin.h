@@ -215,6 +215,8 @@ extern "C" {
     (bx_devices.pluginPciUSBAdapter->usb_key_enq(scan_code))
 #define DEV_usb_keyboard_connected() \
     (bx_devices.pluginPciUSBAdapter->usb_keyboard_connected())
+#define DEV_usb_mouse_connected() \
+    (bx_devices.pluginPciUSBAdapter->usb_mouse_connected())
 #endif
 
 //////// Memory macros
