@@ -299,9 +299,9 @@ bx_gui_c::copy_handler(void)
   BX_INFO (("storing %d bytes to X windows clipboard", len));
   XStoreBytes (bx_x_display, (char *)text_snapshot, len);
 #else
-  OUTPUT = fopen("copy.txt", "w");
-  fwrite(text_snapshot, 1, strlen(snapshot_txt), OUTPUT);
-  fclose(OUTPUT);
+  FILE *fp = fopen("copy.txt", "w");
+  fwrite(text_snapshot, 1, strlen(text_snapshot), fp);
+  fclose(fp);
 #endif
   free(text_snapshot);
 }
