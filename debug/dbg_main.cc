@@ -2041,13 +2041,15 @@ void bx_dbg_disassemble_current (int which_cpu)
 				 bx_disasm_ibuf, bx_disasm_tbuf);
 
     if (BX_CPU(which_cpu)->guard_found.is_32bit_code) {
-      fprintf(stderr, "(%u) %04x:%08x (%s): ", which_cpu,
+      fprintf(stderr, "(%u).[%lld] %04x:%08x (%s): ", which_cpu,
+	      bx_pc_system.time_ticks(),
 	      (unsigned) BX_CPU(which_cpu)->guard_found.cs,
 	      (unsigned) BX_CPU(which_cpu)->guard_found.eip,
 	      bx_dbg_symbolic_address((BX_CPU(which_cpu)->cr3) >> 12, BX_CPU(which_cpu)->guard_found.eip, BX_CPU(which_cpu)->sregs[BX_SREG_CS].cache.u.segment.base));
       }
     else {
-      fprintf(stderr, "(%u) %04x:%04x: ", which_cpu,
+      fprintf(stderr, "(%u).[%lld] %04x:%04x: ", which_cpu,
+	      bx_pc_system.time_ticks(),
 	      (unsigned) BX_CPU(which_cpu)->guard_found.cs,
 	      (unsigned) BX_CPU(which_cpu)->guard_found.eip);
       }
@@ -2086,7 +2088,7 @@ void bx_dbg_disassemble_current (int which_cpu)
     
     }
   else {
-    fprintf(stderr, "(%u) ??? (physical address not available)\n", which_cpu);
+    fprintf(stderr, "(%u).[%lld] ??? (physical address not available)\n", which_cpu, bx_pc_system.time_ticks());
   }
 }
 
