@@ -44,7 +44,7 @@
   void
 BX_CPU_C::LES_GvMp(bxInstruction_c *i)
 {
-  if (i->mod() == 0xc0) {
+  if (i->modC0()) {
     // (BW) NT seems to use this when booting.
     BX_INFO(("invalid use of LES, must use memory reference!"));
     UndefinedOpcode(i);
@@ -79,7 +79,7 @@ BX_CPU_C::LES_GvMp(bxInstruction_c *i)
   void
 BX_CPU_C::LDS_GvMp(bxInstruction_c *i)
 {
-  if (i->mod() == 0xc0) {
+  if (i->modC0()) {
     BX_PANIC(("invalid use of LDS, must use memory reference!"));
     UndefinedOpcode(i);
     }
@@ -117,7 +117,7 @@ BX_CPU_C::LFS_GvMp(bxInstruction_c *i)
   BX_PANIC(("lfs_gvmp: not supported on 8086"));
 #else /* 386+ */
 
-  if (i->mod() == 0xc0) {
+  if (i->modC0()) {
     BX_PANIC(("invalid use of LFS, must use memory reference!"));
     UndefinedOpcode(i);
     }
@@ -154,7 +154,7 @@ BX_CPU_C::LGS_GvMp(bxInstruction_c *i)
   BX_PANIC(("lgs_gvmp: not supported on 8086"));
 #else /* 386+ */
 
-  if (i->mod() == 0xc0) {
+  if (i->modC0()) {
     BX_PANIC(("invalid use of LGS, must use memory reference!"));
     UndefinedOpcode(i);
     }
@@ -191,7 +191,7 @@ BX_CPU_C::LSS_GvMp(bxInstruction_c *i)
   BX_PANIC(("lss_gvmp: not supported on 8086"));
 #else /* 386+ */
 
-  if (i->mod() == 0xc0) {
+  if (i->modC0()) {
     BX_PANIC(("invalid use of LSS, must use memory reference!"));
     UndefinedOpcode(i);
     }

@@ -46,7 +46,7 @@ BX_CPU_C::BOUND_GvMa(bxInstruction_c *i)
   BX_PANIC(("BOUND_GvMa: not supported on 8086!"));
 #else
 
-  if (i->mod() == 0xc0) {
+  if (i->modC0()) {
     /* undefined opcode exception */
     BX_PANIC(("bound: op2 must be mem ref"));
     UndefinedOpcode(i);

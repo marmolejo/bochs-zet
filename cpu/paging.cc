@@ -523,7 +523,7 @@ BX_CPU_C::INVLPG(bxInstruction_c* i)
   invalidate_prefetch_q();
 
   // Operand must not be a register
-  if (i->mod() == 0xc0) {
+  if (i->modC0()) {
     BX_INFO(("INVLPG: op is a register"));
     UndefinedOpcode(i);
     }

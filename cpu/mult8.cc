@@ -45,7 +45,7 @@ BX_CPU_C::MUL_ALEb(bxInstruction_c *i)
   op1 = AL;
 
   /* op2 is a register or memory reference */
-  if (i->mod() == 0xc0) {
+  if (i->modC0()) {
     op2 = BX_READ_8BIT_REGx(i->rm(),i->extend8bitL());
     }
   else {
@@ -79,7 +79,7 @@ BX_CPU_C::IMUL_ALEb(bxInstruction_c *i)
   op1 = AL;
 
   /* op2 is a register or memory reference */
-  if (i->mod() == 0xc0) {
+  if (i->modC0()) {
     op2 = BX_READ_8BIT_REGx(i->rm(),i->extend8bitL());
     }
   else {
@@ -119,7 +119,7 @@ BX_CPU_C::DIV_ALEb(bxInstruction_c *i)
   op1 = AX;
 
   /* op2 is a register or memory reference */
-  if (i->mod() == 0xc0) {
+  if (i->modC0()) {
     op2 = BX_READ_8BIT_REGx(i->rm(),i->extend8bitL());
     }
   else {
@@ -164,7 +164,7 @@ BX_CPU_C::IDIV_ALEb(bxInstruction_c *i)
 
 
   /* op2 is a register or memory reference */
-  if (i->mod() == 0xc0) {
+  if (i->modC0()) {
     op2 = BX_READ_8BIT_REGx(i->rm(),i->extend8bitL());
     }
   else {

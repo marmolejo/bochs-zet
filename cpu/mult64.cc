@@ -240,7 +240,7 @@ BX_CPU_C::MUL_RAXEq(bxInstruction_c *i)
     op1_64 = RAX;
 
     /* op2 is a register or memory reference */
-    if (i->mod() == 0xc0) {
+    if (i->modC0()) {
       op2_64 = BX_READ_64BIT_REG(i->rm());
       }
     else {
@@ -279,7 +279,7 @@ BX_CPU_C::IMUL_RAXEq(bxInstruction_c *i)
     op1_64 = RAX;
 
     /* op2 is a register or memory reference */
-    if (i->mod() == 0xc0) {
+    if (i->modC0()) {
       op2_64 = BX_READ_64BIT_REG(i->rm());
       }
     else {
@@ -326,7 +326,7 @@ BX_CPU_C::DIV_RAXEq(bxInstruction_c *i)
     op1_128.hi = RDX;
 
     /* op2 is a register or memory reference */
-    if (i->mod() == 0xc0) {
+    if (i->modC0()) {
       op2_64 = BX_READ_64BIT_REG(i->rm());
       }
     else {
@@ -369,7 +369,7 @@ BX_CPU_C::IDIV_RAXEq(bxInstruction_c *i)
     op1_128.hi = RDX;
 
     /* op2 is a register or memory reference */
-    if (i->mod() == 0xc0) {
+    if (i->modC0()) {
       op2_64 = BX_READ_64BIT_REG(i->rm());
       }
     else {
@@ -416,7 +416,7 @@ BX_CPU_C::IMUL_GqEqId(bxInstruction_c *i)
     op3_64 = (Bit32s) i->Id();
 
     /* op2 is a register or memory reference */
-    if (i->mod() == 0xc0) {
+    if (i->modC0()) {
       op2_64 = BX_READ_64BIT_REG(i->rm());
       }
     else {
@@ -458,7 +458,7 @@ BX_CPU_C::IMUL_GqEq(bxInstruction_c *i)
     Bit128s product_128;
 
     /* op2 is a register or memory reference */
-    if (i->mod() == 0xc0) {
+    if (i->modC0()) {
       op2_64 = BX_READ_64BIT_REG(i->rm());
       }
     else {

@@ -282,7 +282,7 @@ BX_CPU_C::CALL_Ed(bxInstruction_c *i)
 
 
     /* op1_32 is a register or memory reference */
-    if (i->mod() == 0xc0) {
+    if (i->modC0()) {
       op1_32 = BX_READ_32BIT_REG(i->rm());
       }
     else {
@@ -318,7 +318,7 @@ BX_CPU_C::CALL32_Ep(bxInstruction_c *i)
 #endif
 
     /* op1_32 is a register or memory reference */
-    if (i->mod() == 0xc0) {
+    if (i->modC0()) {
       BX_PANIC(("CALL_Ep: op1 is a register"));
       }
 
@@ -457,7 +457,7 @@ BX_CPU_C::JMP_Ed(bxInstruction_c *i)
   Bit32u op1_32;
 
     /* op1_32 is a register or memory reference */
-    if (i->mod() == 0xc0) {
+    if (i->modC0()) {
       op1_32 = BX_READ_32BIT_REG(i->rm());
       }
     else {
@@ -491,7 +491,7 @@ BX_CPU_C::JMP32_Ep(bxInstruction_c *i)
   Bit32u op1_32;
 
     /* op1_32 is a register or memory reference */
-    if (i->mod() == 0xc0) {
+    if (i->modC0()) {
       /* far indirect must specify a memory address */
       BX_PANIC(("JMP_Ep(): op1 is a register"));
       }

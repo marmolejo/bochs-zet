@@ -2178,6 +2178,7 @@ BX_PANIC(("fetch_decode: prefix default = 0x%02x", b1));
     if (mod == 0xc0) { // mod == 11b
       rm += rex_b;
       instruction->modRMForm.modRMData |= rm;
+      instruction->modRMForm.modRMData |= (1<<28); // (modC0)
       goto modrm_done;
       }
     if (rm != 4) {
