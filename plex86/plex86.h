@@ -196,6 +196,7 @@ typedef struct {
 #define MonReqRedirect          4 /* Only to host-kernel. */
 #define MonReqRemapMonitor      5
 #define MonReqGuestFault        6
+#define MonReqPinUserPage       7
 #define MonReqPanic             8
 
 #define VMStateFDOpened         0x001
@@ -237,7 +238,10 @@ typedef struct {
 
 typedef struct {
   unsigned nMegs;
-  Bit8u   *vector;
+  Bit32u   guestPhyMemVector;
+
+  Bit32u   logBufferWindow;
+  Bit32u   guestCPUWindow;
   } plex86IoctlRegisterMem_t;
 
 #endif  /* #ifndef __PLEX86_H__ */
