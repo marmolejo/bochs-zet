@@ -194,10 +194,7 @@ serial_raw::get_modem_status ()
 
 #ifdef WIN32
   GetCommModemStatus(hCOM, &mstat);
-  if (mstat & MS_CTS_ON) status = 0x01;
-  if (mstat & MS_DSR_ON) status |= 0x02;
-  if (mstat & MS_RING_ON) status |= 0x04;
-  if (mstat & MS_RLSD_ON) status |= 0x08;
+  status = mstat & 0xf0;
 #endif
   BX_DEBUG (("get modem status returns 0x%02x", status));
   return status;
@@ -267,20 +264,14 @@ serial_raw::ready_receive ()
   return (rxdata_count > 0);
 }
 
-Bit8u 
+int 
 serial_raw::receive ()
 {
-#ifdef WIN32
-  DWORD DErr;
-#endif
-
   BX_DEBUG (("receive returning 'A'"));
   if (present) {
 #ifdef WIN32
     if (DCBchanged) {
       setup_port();
-    } else {
-      ClearCommError(hCOM, &DErr, NULL);
     }
 #endif
     return (int)'A';
