@@ -412,3 +412,4 @@ public:
 
 #include "soundlnx.h"
 #include "soundwin.h"
+#include "soundosx.h"
