@@ -27,6 +27,8 @@
 
 #define BX_MAX_PCI_DEVICES 20
 
+#define BX_PCI_DEVICE(device, function) ((device)<<3 | (function))
+
 typedef Bit32u (*bx_pci_read_handler_t)(void *, Bit8u, unsigned);
 typedef void   (*bx_pci_write_handler_t)(void *, Bit8u, Bit32u, unsigned);
 

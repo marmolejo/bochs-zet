@@ -95,7 +95,7 @@ bx_pci_c::init(void)
   }
 
   DEV_register_pci_handlers(this, pci_read_handler, pci_write_handler,
-                            0x00, "440FX Host bridge");
+                            BX_PCI_DEVICE(0,0), "440FX Host bridge");
 
   for (i=0; i<256; i++)
     BX_PCI_THIS s.i440fx.pci_conf[i] = 0x0;

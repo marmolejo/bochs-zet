@@ -73,7 +73,7 @@ bx_pci2isa_c::init(void)
   // called once when bochs initializes
 
   DEV_register_pci_handlers(this, pci_read_handler, pci_write_handler,
-                            0x08, "PIIX3 PCI-to-ISA bridge");
+                            BX_PCI_DEVICE(1,0), "PIIX3 PCI-to-ISA bridge");
 
   DEV_register_iowrite_handler(this, write_handler, 0x00B2, "PIIX3 PCI-to-ISA bridge", 7);
   DEV_register_iowrite_handler(this, write_handler, 0x00B3, "PIIX3 PCI-to-ISA bridge", 7);
