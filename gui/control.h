@@ -3,7 +3,7 @@
 /////////////////////////////////////////////////////////////////////////
 //
 enum {
-  BX_CPANEL_START_MAIN,
+  BX_CPANEL_INIT,
   BX_CPANEL_START_MENU,
   BX_CPANEL_START_OPTS,
   BX_CPANEL_START_OPTS_MEM,
@@ -15,7 +15,7 @@ enum {
   BX_CPANEL_N_MENUS
 };
 
-/* special return value from bx_control_panl */
+/* special return value from bx_control_panel */
 #define BX_DISABLE_CONTROL_PANEL 10 
 
 int bx_control_panel (int menu);
