@@ -61,6 +61,7 @@ extern "C" {
 #endif /* __sun */
 
 #ifdef __BEOS__
+#include "cdrom_beos.h"
 #define BX_CD_FRAMESIZE 2048
 #endif
 
@@ -599,7 +600,6 @@ cdrom_interface::capacity()
 #endif
 
 #ifdef __BEOS__
-	#include "cdrom_beos.h"
 	return GetNumDeviceBlocks(fd, BX_CD_FRAMESIZE);
 #elif defined(__sun)
   {
