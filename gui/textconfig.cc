@@ -921,7 +921,8 @@ bx_param_string_c::text_ask (FILE *fpin, FILE *fpout)
 	continue;
       }
     }
-    set (buffer);
+    if (!equals (buffer)) 
+      set (buffer);
     return 0;
   }
 }

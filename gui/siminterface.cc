@@ -1237,6 +1237,15 @@ bx_param_string_c::set (char *buf)
   }
 }
 
+bx_bool
+bx_param_string_c::equals (const char *buf)
+{
+  if (options->get () & RAW_BYTES)
+    return (memcmp (val, buf, maxsize) == 0);
+  else
+    return (strncmp (val, buf, maxsize) == 0);
+}
+
 bx_list_c::bx_list_c (bx_id id, int maxsize)
   : bx_param_c (id, "list", "")
 {

@@ -978,6 +978,7 @@ public:
   Bit32s get (char *buf, int len);
   char *getptr () {return val; }
   void set (char *buf);
+  bx_bool equals (const char *buf);
   bx_param_num_c *get_options () { return options; }
   void set_separator (char sep) {separator = sep; }
 #if BX_UI_TEXT
