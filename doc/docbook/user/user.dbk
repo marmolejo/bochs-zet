@@ -3587,6 +3587,31 @@ Enables limited i440fx PCI chipset support.
 </para>
 </section>
 
+<section><title>pcidev</title>
+<para>
+Examples:
+<screen>
+  pcidev: vendor=0xbabe, device=0x2bad
+</screen>
+Enables the mapping of a host PCI hardware device within the virtual PCI
+subsystem of the Bochs x86 emulator. The arguments
+<varname>vendor</varname> and <varname>device</varname>
+should contain the PCI vendor ID respectively the PCI
+device ID of the host PCI device you want to map within Bochs.
+</para>
+<note>
+<para>
+The PCI device mapping is still in a very early stage of development and thus it is very experimental.
+This feature requires Linux as a host operating system.
+</para>
+</note>
+<para>
+Besides the <varname>pcidev</varname> config line you will need to load
+a pcidev kernel module within your Linux host OS. This kernel module is
+located in the <constant>bochs/host/linux/pcidev/</constant> directory.
+</para>
+</section>
+
 <section><title>usb1</title>
 <para>
 Examples:
