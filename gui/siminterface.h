@@ -818,7 +818,8 @@ public:
   virtual bx_list_c *get_dependent_list () { return dependent_list; }
   void set_dependent_list (bx_list_c *l);
   virtual void set_enabled (int enabled);
-  virtual Bit64s get ();
+  virtual Bit32s get () { return (Bit32s) get64(); }
+  virtual Bit64s get64 ();
   virtual void set (Bit64s val);
   void set_base (int base) { this->base = base; }
   void set_initial_val (Bit64s initial_val);
@@ -892,7 +893,7 @@ public:
       Bit8u *ptr_to_real_val,
       Bit8u highbit = 7,
       Bit8u lowbit = 0);
-  virtual Bit64s get ();
+  virtual Bit64s get64 ();
   virtual void set (Bit64s val);
 };
 
@@ -922,7 +923,7 @@ public:
       char *description,
       Boolean *ptr_to_real_val,
       Bit8u bitnum = 0);
-  virtual Bit64s get ();
+  virtual Bit64s get64 ();
   virtual void set (Bit64s val);
 };
 
