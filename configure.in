@@ -1577,13 +1577,6 @@ elif test "$with_wx" = yes; then
   GUI_LINK_OPTS='$(GUI_LINK_OPTS_WX)'
   # using debugger with readline is failing due to thread/signal handler
   # problems.
-  if test "$use_readline" = 1 -a "$bx_debugger" = 1; then
-    echo ERROR: You have selected wxWindows, the debugger, and the readline 
-    echo library.  This combination is known to trigger problems with SIGINT 
-    echo handling.  Please run configure again with --disable-readline to 
-    echo correct this.
-    exit 1
-  fi
   case $target in
     *-pc-windows* | *-cygwin* | *-mingw32*)
        EXTRA_BX_OBJS="$EXTRA_BX_OBJS wxbochs_resources.o"
