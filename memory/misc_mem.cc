@@ -378,8 +378,6 @@ BX_MEM_C::dbg_crc32(unsigned long (*f)(unsigned char *buf, int len),
   Bit8u * BX_CPP_AttrRegparmN(3)
 BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op)
 {
-  if ( a20Addr >= BX_MEM_THIS len )
-    return(NULL); // Error, requested addr is out of bounds.
 
 #if BX_SUPPORT_APIC
     bx_generic_apic_c *local_apic = &cpu->local_apic;

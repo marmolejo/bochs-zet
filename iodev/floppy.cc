@@ -991,7 +991,7 @@ bx_floppy_ctrl_c::floppy_command(void)
 bx_floppy_ctrl_c::floppy_xfer(Bit8u drive, Bit32u offset, Bit8u *buffer,
             Bit32u bytes, Bit8u direction)
 {
-  int ret;
+  int ret = 0;
 
   if (BX_FD_THIS s.device_type[drive] == BX_FLOPPY_NONE)
     BX_PANIC(("floppy_xfer: bad drive #%d", drive));
