@@ -2669,6 +2669,7 @@ public: // for now...
   BX_SMF void stack_return_to_v86(Bit32u new_eip, Bit32u raw_cs_selector,
                                      Bit32u flags32);
   BX_SMF void stack_return_from_v86(bxInstruction_c *);
+  BX_SMF void v86_redirect_interrupt(Bit32u vector);
   BX_SMF void init_v8086_mode(void);
   BX_SMF void v8086_message(void);
   BX_SMF void task_switch(bx_selector_t *selector,
