@@ -73,9 +73,6 @@ extern "C" {
 #include <winioctl.h>
 #include "aspi-win32.h"
 #include "scsidefs.h"
-#ifndef __MINGW32__
-#include "type.h"
-#endif
 
 DWORD (*GetASPI32SupportInfo)(void);
 DWORD (*SendASPI32Command)(LPSRB);
