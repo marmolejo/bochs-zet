@@ -230,7 +230,7 @@ bximage@EXE@: misc/bximage.o
 
 # compile with console CXXFLAGS, not gui CXXFLAGS
 misc/bximage.o: misc/bximage.c
-	$(CXX) @DASH@c $(BX_INCDIRS) $(CXXFLAGS_CONSOLE) @CXXFP@$< @OFP@$@
+	$(CC) @DASH@c $(BX_INCDIRS) $(CFLAGS_CONSOLE) @CXXFP@$< @OFP@$@
 
 niclist@EXE@: misc/niclist.o
 	@LINK@ misc/niclist.o
