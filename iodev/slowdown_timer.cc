@@ -7,8 +7,6 @@
 
 #if BX_USE_SLOWDOWN_TIMER
 
-#define BX_HAVE_USLEEP 1
-
 //These need to stay printfs because they are useless in the log file.
 #define BX_SLOWDOWN_PRINTF_FEEDBACK 0
 
