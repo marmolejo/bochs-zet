@@ -856,7 +856,7 @@ BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR eipFetchPtr = NULL;
 
 #if BX_DEBUGGER
-#ifdef MAGIC_BREAKPOINT
+#if BX_MAGIC_BREAKPOINT
   BX_CPU_THIS_PTR magic_break = 0;
 #endif
   BX_CPU_THIS_PTR stop_reason = STOP_NO_REASON;

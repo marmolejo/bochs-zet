@@ -450,9 +450,9 @@ typedef struct {
   bx_bool unsupported_io;
   bx_bool serial;
   bx_bool cdrom;
-#ifdef MAGIC_BREAKPOINT
+#if BX_MAGIC_BREAKPOINT
   bx_bool magic_break_enabled;
-#endif /* MAGIC_BREAKPOINT */
+#endif /* BX_MAGIC_BREAKPOINT */
 #if BX_SUPPORT_APIC
   bx_bool apic;
   bx_bool ioapic;

@@ -1367,7 +1367,7 @@ union {
 #if BX_DEBUGGER
   Bit32u watchpoint;
   Bit8u break_point;
-#ifdef MAGIC_BREAKPOINT
+#if BX_MAGIC_BREAKPOINT
   Bit8u magic_break;
 #endif
   Bit8u stop_reason;

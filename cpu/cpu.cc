@@ -115,7 +115,7 @@ BX_CPU_C::cpu_loop(Bit32s max_instr_count)
 
 #if BX_DEBUGGER
   BX_CPU_THIS_PTR break_point = 0;
-#ifdef MAGIC_BREAKPOINT
+#if BX_MAGIC_BREAKPOINT
   BX_CPU_THIS_PTR magic_break = 0;
 #endif
   BX_CPU_THIS_PTR stop_reason = STOP_NO_REASON;
@@ -461,7 +461,7 @@ debugger_check:
           BX_PANIC(("Weird break point condition"));
         }
       }
-#ifdef MAGIC_BREAKPOINT
+#if BX_MAGIC_BREAKPOINT
     // (mch) Magic break point support
     if (BX_CPU_THIS_PTR magic_break) {
       if (bx_dbg.magic_break_enabled) {

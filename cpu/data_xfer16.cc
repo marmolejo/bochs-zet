@@ -313,13 +313,12 @@ BX_CPU_C::XCHG_EwGw(bxInstruction_c *i)
 {
     Bit16u op2_16, op1_16;
 
-#ifdef MAGIC_BREAKPOINT
-#if BX_DEBUGGER
+#if BX_DEBUGGER && BX_MAGIC_BREAKPOINT
   // (mch) Magic break point
+  // Note for mortals: the instruction to trigger this is "xchgw %bx,%bx"
   if (i->nnn() == 3 && i->modC0() && i->rm() == 3) {
-    BX_CPU_THIS_PTR magic_break = 1;
+	  BX_CPU_THIS_PTR magic_break = 1;
     }
-#endif
 #endif
 
     /* op2_16 is a register, op2_addr is an index of a register */
