@@ -355,7 +355,8 @@ process_sim2:
     }
 
   // Open debugger log file if needed
-  if (strcmp(bx_options.log.Odebugger_filename->getptr(), "-") != 0) {
+  if ((strlen(bx_options.log.Odebugger_filename->getptr()) > 0) 
+   && (strcmp(bx_options.log.Odebugger_filename->getptr(), "-") != 0)) {
     debugger_log = fopen (bx_options.log.Odebugger_filename->getptr(), "w");
     if (!debugger_log) {
       BX_PANIC(("Can not open debugger log file '%s'",
