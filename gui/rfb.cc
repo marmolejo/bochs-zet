@@ -590,7 +590,9 @@ void HandleRfbClient(SOCKET sClient)
                 rfbKeyboardEvent[rfbKeyboardEvents].type = MOUSE;
                 rfbKeyboardEvent[rfbKeyboardEvents].x    = ntohs(pe.xPosition);
                 rfbKeyboardEvent[rfbKeyboardEvents].y    = ntohs(pe.yPosition);
-                rfbKeyboardEvent[rfbKeyboardEvents].down = pe.buttonMask;
+                rfbKeyboardEvent[rfbKeyboardEvents].down = (pe.buttonMask & 0x01)
+                                                           | ((pe.buttonMask>>1) & 0x02)
+                                                           | ((pe.buttonMask<<1) & 0x04);
                 rfbKeyboardEvents++;
                 bKeyboardInUse = false;
                 break;
@@ -1686,7 +1688,6 @@ void rfbMouseMove(int x, int y, int bmask)
     return;
   }
   if(y > rfbHeaderbarY) {
-    //DEV_mouse_motion(x, y - rfbHeaderbarY, buttons);
     DEV_mouse_motion(x - oldx, oldy - y, bmask);
     oldx = x;
     oldy = y;
