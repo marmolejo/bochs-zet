@@ -712,6 +712,10 @@ bx_keyb_c::gen_scancode(Bit32u   key)
     case BX_KEY_SCRL_LOCK:        scancode = 0x46; break;
     case BX_KEY_PAUSE:         extended = 1; scancode = 0x45; break;
 
+    case BX_KEY_WIN_L:         extended = 1; scancode = 0x5B; break;
+    case BX_KEY_WIN_R:         extended = 1; scancode = 0x5C; break;
+    case BX_KEY_MENU:          extended = 1; scancode = 0x5D; break;
+
     default:
       BX_DEBUG(( "bx_keyb_c::gen_scancode : Unhandled %u",
         (unsigned) key));

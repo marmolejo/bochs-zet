@@ -221,3 +221,7 @@ private:
 #define BX_KEY_KP_ENTER      99
 #define BX_KEY_KP_MULTIPLY  100
 #define BX_KEY_KP_DIVIDE    101
+
+#define BX_KEY_WIN_L         102
+#define BX_KEY_WIN_R         103
+#define BX_KEY_MENU          104
