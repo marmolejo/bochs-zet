@@ -156,9 +156,6 @@ iofunctions::out(int f, int l, const char *prefix, const char *fmt, va_list ap)
 	assert (this != NULL);
 	assert (logfd != NULL);
 
-	//if( showtick )
-	//	fprintf(logfd, "%011lld", bx_pc_system.time_ticks());
-
 	switch(l) {
 		case LOGLEV_INFO: c='i'; break;
 		case LOGLEV_PANIC: c='p'; break;
@@ -183,7 +180,7 @@ iofunctions::out(int f, int l, const char *prefix, const char *fmt, va_list ap)
                   fprintf(logfd, "%s", prefix==NULL?"":prefix);
 		  break;
 		case 't':
-                  fprintf(logfd, "%011lld", bx_pc_system.time_ticks());
+                  fprintf(logfd, FMT_TICK, bx_pc_system.time_ticks());
 		  break;
 		case 'i':
                   fprintf(logfd, "%08x", BX_CPU(0)==NULL?0:BX_CPU(0)->dword.eip);

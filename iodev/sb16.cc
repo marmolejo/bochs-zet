@@ -3322,7 +3322,7 @@ void bx_sb16_c::writelog(int loglevel, const char *str, ...)
 // append a line to the log file, if desired
   if ( (int) bx_options.sb16.Ologlevel->get () >= loglevel)
     {
-        fprintf(LOGFILE, "%011lld", bx_pc_system.time_ticks());
+        fprintf(LOGFILE, FMT_TICK, bx_pc_system.time_ticks());
         fprintf(LOGFILE, " (%d) ", loglevel);
 	va_list ap;
 	va_start(ap, str);

@@ -53,6 +53,7 @@ extern "C" {
 
 #ifndef __MINGW32__
 #define FMT_LL "%I64"
+#define FMT_TICK "%011I64u"
 
 // Definitions that are needed for WIN32 compilers EXCEPT FOR
 // cygwin compiling with -mno-cygwin.  e.g. VC++.
@@ -78,6 +79,7 @@ extern "C" {
 
 #else   /* ifndef __MINGW32__ */
 #define FMT_LL "%ll"
+#define FMT_TICK "%011llu"
 
 #define off_t __int64
 #define lseek _lseeki64
@@ -85,6 +87,7 @@ extern "C" {
 #endif  /* ifndef __MINGW32__ */
 #else    /* WIN32 */
 #define FMT_LL "%ll"
+#define FMT_TICK "%011llu"
 #endif   /* WIN32 */
 
 // Missing defines for open
