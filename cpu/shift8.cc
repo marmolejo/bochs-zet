@@ -350,5 +350,5 @@ BX_CPU_C::SAR_Eb(bxInstruction_c *i)
     Write_RMW_virtual_byte(result_8);
     }
 
-  SET_FLAGS_OSZAPC_RESULT_8(result_8, BX_INSTR_SAR8);
+  SET_FLAGS_OSZAPC_8(op1_8, count, result_8, BX_INSTR_SAR8);
 }

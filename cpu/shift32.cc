@@ -435,5 +435,5 @@ BX_CPU_C::SAR_Ed(bxInstruction_c *i)
       Write_RMW_virtual_dword(result_32);
       }
 
-    SET_FLAGS_OSZAPC_RESULT_32(result_32, BX_INSTR_SAR32);
+    SET_FLAGS_OSZAPC_32(op1_32, count, result_32, BX_INSTR_SAR32);
 }
