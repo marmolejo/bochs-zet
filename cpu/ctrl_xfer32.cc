@@ -301,7 +301,6 @@ BailBigRSP("CALL_Ed");
   if (protected_mode()) {
     if (op1_32 >
         BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.limit_scaled) {
-      BX_DEBUG(("call_ev: EIP out of CS limits! at %s:%d"));
       exception(BX_GP_EXCEPTION, 0, 0);
       }
     }
