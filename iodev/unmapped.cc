@@ -41,6 +41,7 @@ bx_unmapped_c::bx_unmapped_c(void)
   settype(UNMAPLOG);
   s.port80 = 0x00;
   s.port8e = 0x00;
+  s.shutdown = 0;
 }
 
 bx_unmapped_c::~bx_unmapped_c(void)
