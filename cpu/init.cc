@@ -325,7 +325,7 @@ void BX_CPU_C::init(BX_MEM_C *addrspace)
   mem = addrspace;
   sprintf (name, "CPU %p", this);
 
-  BX_INSTR_INIT();
+  BX_INSTR_INIT(CPU_ID);
 
 #if BX_WITH_WX
   // Register some of the CPUs variables as shadow parameters so that
@@ -463,7 +463,7 @@ void BX_CPU_C::init(BX_MEM_C *addrspace)
 
 BX_CPU_C::~BX_CPU_C(void)
 {
-  BX_INSTR_SHUTDOWN();
+  BX_INSTR_SHUTDOWN(CPU_ID);
   BX_DEBUG(( "Exit."));
 }
 
@@ -870,6 +870,8 @@ BX_CPU_C::reset(unsigned source)
 #else
   BX_CPU_THIS_PTR async_event = 0;
 #endif
+
+  BX_INSTR_RESET(CPU_ID);
 }
 
 
