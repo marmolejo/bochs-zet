@@ -871,7 +871,7 @@ bx_floppy_ctrl_c::floppy_xfer(Bit8u drive, Bit32u offset, Bit8u *buffer,
     BX_INFO(("direction=%s", (direction==FROM_FLOPPY)? "from" : "to"));
     }
 
-#ifdef macintosh
+#if BX_WITH_MACOS
   if (strcmp(bx_options.floppya.Opath->getptr (), SuperDrive))
 #endif
     {
@@ -882,7 +882,7 @@ bx_floppy_ctrl_c::floppy_xfer(Bit8u drive, Bit32u offset, Bit8u *buffer,
     }
 
   if (direction == FROM_FLOPPY) {
-#ifdef macintosh
+#if BX_WITH_MACOS
     if (!strcmp(bx_options.floppya.Opath->getptr (), SuperDrive))
       ret = fd_read((char *) buffer, offset, bytes);
     else
