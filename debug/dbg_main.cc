@@ -1587,6 +1587,12 @@ bx_dbg_continue_command(void)
 		  if (BX_CPU(cpu)->guard_found.icount > max_executed)
 			max_executed = BX_CPU(cpu)->guard_found.icount;
 		}
+		// potential deadlock if all processors are halted.  Then 
+		// max_executed will be 0, tick will be incremented by zero, and
+		// there will never be a timed event to wake them up.  To avoid this,
+		// always tick by a minimum of 1.
+		if (max_executed < 1) max_executed=1;
+
 		BX_TICKN(max_executed);
 #endif /* BX_SMP_PROCESSORS>1 */
 	}
