@@ -804,6 +804,7 @@ public: // for now...
 #endif
   Bit8u stop_reason;
   Bit8u trace;
+  Bit8u trace_reg;
   Bit8u mode_break;		/* BW */
   Boolean debug_vm;		/* BW contains current mode*/
   Bit8u show_eip;		/* BW record eip at special instr f.ex eip */
