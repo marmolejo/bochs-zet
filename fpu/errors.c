@@ -29,6 +29,9 @@
 /* This is the real indefinite QNaN */
 static FPU_REG const CONST_QNaN = MAKE_REG(NEG, EXP_OVER, 0x00000000, 0xC0000000);
 
+FPU_REG const CONST_Z   = MAKE_REG(POS, EXP_UNDER, 0x00000000, 0x00000000);
+FPU_REG const CONST_INF = MAKE_REG(POS, EXP_OVER,  0x00000000, 0x80000000);
+
 static struct {
   int type;
   const char *name;
