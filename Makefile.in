@@ -298,6 +298,10 @@ libbochs_cpu.a: @DEBUGGER_VAR@ $(BX_OBJS)
 wxbochs_resources.o: wxbochs.rc
 	windres $(srcdir)/wxbochs.rc -o $@ --include-dir=`@WX_CONFIG@ --prefix`/include
 
+# for win32 gui
+win32res.o: win32res.rc
+	windres $(srcdir)/win32res.rc -o $@
+
 #####################################################################
 # Install target for all platforms.
 #####################################################################

@@ -1770,6 +1770,7 @@ if test "$with_win32" = yes; then
        GUI_LINK_OPTS="$GUI_LINK_OPTS \$(GUI_LINK_OPTS_WIN32_VCPP)"
        ;;
     *-cygwin* | *-mingw32*)
+       EXTRA_BX_OBJS="$EXTRA_BX_OBJS win32res.o"
        GUI_LINK_OPTS="$GUI_LINK_OPTS \$(GUI_LINK_OPTS_WIN32)"
        ;;
     *) echo Unsupported compile setup: GUI library is win32, but target is neither windows nor cygwin.
