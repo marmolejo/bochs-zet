@@ -187,7 +187,9 @@ bx_devices_c::init(BX_MEM_C *newmem)
     PLUG_load_plugin(pci2isa, PLUGTYPE_CORE);
     PLUG_load_plugin(pci_ide, PLUGTYPE_OPTIONAL);
 #if BX_SUPPORT_PCIVGA
-    PLUG_load_plugin(pcivga, PLUGTYPE_OPTIONAL);
+    if (!strcmp(bx_options.Ovga_extension->getptr (), "vbe")) {
+      PLUG_load_plugin(pcivga, PLUGTYPE_OPTIONAL);
+    }
 #endif
 #if BX_SUPPORT_PCIUSB
     PLUG_load_plugin(pciusb, PLUGTYPE_OPTIONAL);
