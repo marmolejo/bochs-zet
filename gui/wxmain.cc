@@ -46,6 +46,7 @@
 #include <wx/wx.h>
 #endif
 #include <wx/image.h>
+#include <wx/clipbrd.h>
 
 #include "config.h"              // definitions based on configure script
 #include "osdep.h"               // workarounds for missing stuff
@@ -137,6 +138,7 @@ bool MyApp::OnInit()
   theFrame = frame;  // hack alert
   frame->Show( TRUE );
   SetTopWindow( frame );
+  wxTheClipboard->UsePrimarySelection (true);
   // if quickstart is enabled, kick off the simulation
   if (SIM->get_param_bool(BXP_QUICK_START)->get ()) {
     wxCommandEvent unusedEvent;
