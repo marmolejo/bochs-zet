@@ -864,11 +864,7 @@ bx_floppy_ctrl_c::floppy_command(void)
         BX_FD_THIS s.status_reg1 = 0x85;
         // 0000 0000
         BX_FD_THIS s.status_reg2 = 0x00;
-
-        bx_pc_system.activate_timer( BX_FD_THIS s.floppy_timer_index,
-          bx_options.Ofloppy_command_delay->get (), 0 );
-        /* data reg not ready, controller busy */
-        BX_FD_THIS s.main_status_reg = FD_MS_BUSY;
+        enter_result_phase();
         return;
         }
 
