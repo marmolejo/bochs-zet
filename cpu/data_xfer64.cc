@@ -95,7 +95,7 @@ BX_CPU_C::MOV_GqEq(bxInstruction_c *i)
 BX_CPU_C::LEA_GqM(bxInstruction_c *i)
 {
   if (i->modC0()) {
-    BX_PANIC(("LEA_GvM: op2 is a register"));
+    BX_INFO(("LEA_GvM: op2 is a register"));
     UndefinedOpcode(i);
     return;
     }

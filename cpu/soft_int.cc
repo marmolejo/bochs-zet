@@ -39,7 +39,7 @@ BX_CPU_C::BOUND_GvMa(bxInstruction_c *i)
 
   if (i->modC0()) {
     /* undefined opcode exception */
-    BX_PANIC(("bound: op2 must be mem ref"));
+    BX_PANIC(("bound: op2 must be memory reference"));
     UndefinedOpcode(i);
     }
 
