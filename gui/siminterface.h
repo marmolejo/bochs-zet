@@ -72,6 +72,8 @@ typedef enum {
   BXP_MENU_SOUND,
   BXP_MENU_MISC,
   BXP_MENU_RUNTIME,
+  BXP_SYSTEM_CLOCK_SYNC,
+  BXP_MAX_IPS,
   BXP_THIS_IS_THE_LAST    // used to determine length of list
 } bx_id;
 
