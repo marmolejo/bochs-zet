@@ -2699,6 +2699,19 @@ just a configuration problem like "could not find hard drive image."
 </tip>
 </section>
 
+<section><title>debugger_log</title>
+<para>
+Examples:
+<screen>
+  log: debugger.out
+  log: /dev/null              (unix only)
+  log: -
+</screen>
+Give the path of the log file you'd like Bochs to log debugger output.
+If you really don't want it, make it '/dev/null', or '-'.
+</para>
+</section>
+
 <section><title>com1</title>
 <para>
 Specifies the device to use as com1.  This can be a real serial line, or
