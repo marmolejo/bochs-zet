@@ -1856,6 +1856,7 @@ union {
   BX_SMF void FWAIT(bxInstruction_c *);
 
 #ifdef BX_SUPPORT_FPU
+#undef FSCALE
   BX_SMF void FLD_STi(bxInstruction_c *);  
   BX_SMF void FLD_SINGLE_REAL(bxInstruction_c *);
   BX_SMF void FLD_DOUBLE_REAL(bxInstruction_c *);
