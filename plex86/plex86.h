@@ -156,7 +156,7 @@ typedef struct {
  *  ioctl() names.
  */
 
-#if defined(__linux__) || defined(__NetBSD__) || defined(__FreeBSD__)
+#if defined(__linux__) || defined(__NetBSD__) || defined(__NetBSD_kernel__) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
 #ifdef __linux__
 #include <asm/ioctl.h>
 #else

@@ -87,7 +87,7 @@ extern "C" {
 #include "cdrom_beos.h"
 #define BX_CD_FRAMESIZE 2048
 
-#elif (defined (__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__))
+#elif (defined(__NetBSD__) || defined(__NetBSD_kernel__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__))
 // OpenBSD pre version 2.7 may require extern "C" { } structure around
 // all the includes, because the i386 sys/disklabel.h contains code which 
 // c++ considers invalid.
@@ -723,7 +723,7 @@ cdrom_interface::start_cdrom()
   // Spin up the cdrom drive.
 
   if (fd >= 0) {
-#if defined(__NetBSD__)
+#if defined(__NetBSD__) || defined(__NetBSD_kernel__)
     if (ioctl (fd, CDIOCSTART) < 0)
        BX_DEBUG(( "start_cdrom: start returns error: %s", strerror (errno) ));
     return(true);
@@ -742,7 +742,7 @@ cdrom_interface::eject_cdrom()
   // some ioctl() calls to really eject the CD as well.
 
   if (fd >= 0) {
-#if (defined(__OpenBSD__) || defined(__FreeBSD__))
+#if (defined(__OpenBSD__) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__))
     (void) ioctl (fd, CDIOCALLOW);
     if (ioctl (fd, CDIOCEJECT) < 0)
 	  BX_DEBUG(( "eject_cdrom: eject returns error." ));
@@ -964,7 +964,7 @@ cdrom_interface::read_toc(uint8* buf, int* length, bx_bool msf, int start_track,
 
   return true;
   }
-#elif (defined(__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__))
+#elif (defined(__NetBSD__) || defined(__NetBSD_kernel__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__))
   {
   struct ioc_toc_header h;
   struct ioc_read_toc_entry t;
@@ -1163,7 +1163,7 @@ cdrom_interface::capacity()
   
     return(buf.st_size);
   }
-#elif (defined(__NetBSD__) || defined(__OpenBSD__))
+#elif (defined(__NetBSD__) || defined(__NetBSD_kernel__) || defined(__OpenBSD__))
   {
   // We just read the disklabel, imagine that...
   struct disklabel lp;
@@ -1229,7 +1229,7 @@ cdrom_interface::capacity()
   return(num_sectors);
 
   }
-#elif defined(__FreeBSD__)
+#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
   {
   // Read the TOC to get the size of the data track.
   // Keith Jones <freebsd.dev@blueyonder.co.uk>, 16 January 2000

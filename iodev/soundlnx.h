@@ -27,7 +27,7 @@
 // This file (SOUNDLNX.H) written and donated by Josef Drexler
 
 
-#if (defined(linux) || defined(__FreeBSD__))
+#if (defined(linux) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__))
 
 #define BX_SOUND_LINUX_BUFSIZE   BX_SOUND_OUTPUT_WAVEPACKETSIZE
 
