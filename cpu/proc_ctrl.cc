@@ -96,7 +96,7 @@ BX_CPU_C::HLT(bxInstruction_c *i)
   // is met.
 
 #if BX_USE_IDLE_HACK  
-  bx_gui.sim_is_idle ();
+  bx_gui->sim_is_idle ();
 #endif /* BX_USE_IDLE_HACK */  
 }
 
