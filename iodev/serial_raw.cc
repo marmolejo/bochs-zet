@@ -254,8 +254,8 @@ serial_raw::receive ()
     if (DCBchanged) {
       setup_port();
     }
-    return (int)'A';
 #endif
+    return (int)'A';
   } else {
     return (int)'A';
   }
