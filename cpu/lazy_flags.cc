@@ -250,7 +250,6 @@ bx_bool BX_CPU_C::get_CFLazy(void)
     }
 }
 
-
 bx_bool BX_CPU_C::get_AFLazy(void)
 {
   unsigned af;
@@ -401,7 +400,6 @@ bx_bool BX_CPU_C::get_AFLazy(void)
     }
 }
 
-
 bx_bool BX_CPU_C::get_ZFLazy(void)
 {
   unsigned zf;
@@ -517,7 +515,6 @@ bx_bool BX_CPU_C::get_ZFLazy(void)
       return(0);
     }
 }
-
 
 bx_bool BX_CPU_C::get_SFLazy(void)
 {
