@@ -400,8 +400,9 @@ bx_hard_drive_c::read(Bit32u address, unsigned io_len)
   switch (address) {
     case 0x1f0: // hard disk data (16bit)
       if (BX_SELECTED_CONTROLLER.status.drq == 0) {
-	    BX_PANIC(("IO read(1f0h) with drq == 0: last command was %02xh",
+	    BX_ERROR(("IO read(1f0h) with drq == 0: last command was %02xh",
 		     (unsigned) BX_SELECTED_CONTROLLER.current_command));
+            return(0);
       }
       BX_DEBUG(("IO read(1f0h): current command is %02xh",
             (unsigned) BX_SELECTED_CONTROLLER.current_command));
