@@ -248,7 +248,7 @@ bx_keymap_c::loadKeymap(Bit32u stringToSymbol(const char*), const char* filename
         }
 
       if( hostKey==BX_KEYMAP_UNKNOWN ) {
-        BX_PANIC (("line %d: unknown host key name '%s'",lineCount,hostSym));
+        BX_PANIC (("line %d: unknown host key name '%s' (wrong keymap ?)",lineCount,hostSym));
         continue;
         }
 
