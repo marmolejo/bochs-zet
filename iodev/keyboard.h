@@ -228,6 +228,7 @@ private:
   static void   timer_handler(void *);
   void   timer(void);
   int    timer_handle;
+  int    statusbar_id[3];
   };
 
 

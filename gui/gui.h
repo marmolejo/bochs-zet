@@ -24,6 +24,8 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
+#define BX_MAX_STATUSITEMS 10
+
 typedef struct {
   Bit8u cs_start;
   Bit8u cs_end;
@@ -64,6 +66,7 @@ public:
   virtual int get_clipboard_text(Bit8u **bytes, Bit32s *nbytes)  = 0;
   virtual int set_clipboard_text(char *snapshot, Bit32u len) = 0;
   virtual void mouse_enabled_changed_specific (bx_bool val) = 0;
+  virtual void statusbar_setitem(int element, bx_bool active) {};
   virtual void exit(void) = 0;
   // set_display_mode() changes the mode between the configuration interface
   // and the simulation.  This is primarily intended for display libraries
@@ -96,6 +99,7 @@ public:
                  unsigned x_tilesize, unsigned y_tilesize);
   void update_drive_status_buttons (void);
   static void     mouse_enabled_changed (bx_bool val);
+  int register_statusitem(const char *text);
   static void init_signal_handlers ();
 
 
@@ -133,6 +137,8 @@ protected:
   unsigned char vga_charmap[0x2000];
   bx_bool charmap_updated;
   bx_bool char_changed[256];
+  unsigned statusitem_count;
+  char statusitem_text[BX_MAX_STATUSITEMS][8];
   disp_mode_t disp_mode;
   };
 

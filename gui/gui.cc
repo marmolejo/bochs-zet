@@ -51,6 +51,7 @@ bx_gui_c::bx_gui_c(void)
 {
   put("GUI"); // Init in specific_init
   settype(GUILOG);
+  statusitem_count = 0;
 }
 
 bx_gui_c::~bx_gui_c()
@@ -597,4 +598,16 @@ bx_gui_c::beep_on(float frequency)
 bx_gui_c::beep_off()
 {
   BX_INFO(( "GUI Beep OFF"));
+}
+
+int
+bx_gui_c::register_statusitem(const char *text)
+{
+  if (statusitem_count < BX_MAX_STATUSITEMS) {
+    strncpy(statusitem_text[statusitem_count], text, 8);
+    statusitem_text[statusitem_count][7] = 0;
+    return statusitem_count++;
+  } else {
+   return -1;
+  }
 }
