@@ -557,13 +557,13 @@ bx_ne2k_c::page0_write(Bit32u offset, Bit32u value, unsigned io_len)
   case 0x7:  // ISR
     value &= 0x7f;  // clear RST bit - status-only bit
     // All other values are cleared iff the ISR bit is 1
-    BX_NE2K_THIS s.ISR.pkt_rx    &= ~((value & 0x01) == 0x01);
-    BX_NE2K_THIS s.ISR.pkt_tx    &= ~((value & 0x02) == 0x02);
-    BX_NE2K_THIS s.ISR.rx_err    &= ~((value & 0x04) == 0x04);
-    BX_NE2K_THIS s.ISR.tx_err    &= ~((value & 0x08) == 0x08);
-    BX_NE2K_THIS s.ISR.overwrite &= ~((value & 0x10) == 0x10);
-    BX_NE2K_THIS s.ISR.cnt_oflow &= ~((value & 0x20) == 0x20);
-    BX_NE2K_THIS s.ISR.rdma_done &= ~((value & 0x40) == 0x40);
+    BX_NE2K_THIS s.ISR.pkt_rx    &= ~((bx_bool)((value & 0x01) == 0x01));
+    BX_NE2K_THIS s.ISR.pkt_tx    &= ~((bx_bool)((value & 0x02) == 0x02));
+    BX_NE2K_THIS s.ISR.rx_err    &= ~((bx_bool)((value & 0x04) == 0x04));
+    BX_NE2K_THIS s.ISR.tx_err    &= ~((bx_bool)((value & 0x08) == 0x08));
+    BX_NE2K_THIS s.ISR.overwrite &= ~((bx_bool)((value & 0x10) == 0x10));
+    BX_NE2K_THIS s.ISR.cnt_oflow &= ~((bx_bool)((value & 0x20) == 0x20));
+    BX_NE2K_THIS s.ISR.rdma_done &= ~((bx_bool)((value & 0x40) == 0x40));
     value = ((BX_NE2K_THIS s.ISR.rdma_done << 6) |
              (BX_NE2K_THIS s.ISR.cnt_oflow << 5) |
              (BX_NE2K_THIS s.ISR.overwrite << 4) |

@@ -436,15 +436,15 @@ debugger_check:
     if (BX_CPU_THIS_PTR break_point) {
       switch (BX_CPU_THIS_PTR break_point) {
         case BREAK_POINT_TIME:
-          BX_INFO(("[%lld] Caught time breakpoint", bx_pc_system.time_ticks()));
+          BX_INFO(("[" FMT_LL "d] Caught time breakpoint", bx_pc_system.time_ticks()));
           BX_CPU_THIS_PTR stop_reason = STOP_TIME_BREAK_POINT;
           return;
         case BREAK_POINT_READ:
-          BX_INFO(("[%lld] Caught read watch point", bx_pc_system.time_ticks()));
+          BX_INFO(("[" FMT_LL "d] Caught read watch point", bx_pc_system.time_ticks()));
           BX_CPU_THIS_PTR stop_reason = STOP_READ_WATCH_POINT;
           return;
         case BREAK_POINT_WRITE:
-          BX_INFO(("[%lld] Caught write watch point", bx_pc_system.time_ticks()));
+          BX_INFO(("[" FMT_LL "d] Caught write watch point", bx_pc_system.time_ticks()));
           BX_CPU_THIS_PTR stop_reason = STOP_WRITE_WATCH_POINT;
           return;
         default:

@@ -238,8 +238,7 @@ bx_win32_pktmover_c::bx_win32_pktmover_c(const char *netif,
 {
      // Open Packet Driver Here.
      DWORD dwVersion;
-	 DWORD dwWindowsMajorVersion;
-     struct bpf_program bp;
+     DWORD dwWindowsMajorVersion;
 
      BX_INFO(("bx_win32_pktmover_c"));
      rx_Arg     = rxarg;
@@ -251,7 +250,7 @@ bx_win32_pktmover_c::bx_win32_pktmover_c(const char *netif,
           PacketOpenAdapter     = (LPADAPTER (*)(LPTSTR))                          GetProcAddress(hPacket, "PacketOpenAdapter");
           PacketCloseAdapter    = (VOID      (*)(LPADAPTER))                       GetProcAddress(hPacket, "PacketCloseAdapter");
           PacketSetHwFilter     = (BOOLEAN   (*)(LPADAPTER, ULONG))                GetProcAddress(hPacket, "PacketSetHwFilter");
-		  PacketSetBpf          = (BOOLEAN   (*)(LPADAPTER, struct bpf_program *)) GetProcAddress(hPacket, "PacketSetBpf");
+          PacketSetBpf          = (BOOLEAN   (*)(LPADAPTER, struct bpf_program *)) GetProcAddress(hPacket, "PacketSetBpf");
           PacketGetAdapterNames = (BOOLEAN   (*)(PTSTR, PULONG))                   GetProcAddress(hPacket, "PacketGetAdapterNames");
           PacketSendPacket      = (BOOLEAN   (*)(LPADAPTER, LPPACKET, BOOLEAN))    GetProcAddress(hPacket, "PacketSendPacket");
           PacketReceivePacket   = (BOOLEAN   (*)(LPADAPTER, LPPACKET, BOOLEAN))    GetProcAddress(hPacket, "PacketReceivePacket");

@@ -18,6 +18,7 @@
 
 #include <windows.h>
 #include <stdio.h>
+#include <conio.h>
 #include <stdlib.h>
 
 #define MAX_ADAPTERS 10

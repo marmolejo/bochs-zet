@@ -76,7 +76,7 @@ BX_MEM_C::alloc_vector_aligned (size_t bytes, size_t alignment)
   actual_vector = new Bit8u [bytes+test_mask];
   // round address forward to nearest multiple of alignment.  Alignment 
   // MUST BE a power of two for this to work.
-  Bit64u masked = ((Bit64u) actual_vector + test_mask) & ~test_mask;
+  Bit64u masked = ((Bit64u)(actual_vector + test_mask)) & ~test_mask;
   vector = (Bit8u *)masked;
   // sanity check: no lost bits during pointer conversion
   BX_ASSERT (sizeof(masked) >= sizeof(vector));
@@ -239,7 +239,7 @@ BX_MEM_C::pci_fetch_ptr(Bit32u addr)
 BX_MEM_C::dbg_fetch_mem(Bit32u addr, unsigned len, Bit8u *buf)
 {
   if ( (addr + len) > this->len ) {
-    BX_INFO(("dbg_fetch_mem out of range. %p > %p",
+    BX_INFO(("dbg_fetch_mem out of range. 0x%x > 0x%x",
       addr+len, this->len));
     return(0); // error, beyond limits of memory
     }

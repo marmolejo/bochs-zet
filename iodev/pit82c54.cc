@@ -668,7 +668,7 @@ pit_82C54::clock(Bit8u cnum) {
 	  thisctr.count_written=0;
 	  thisctr.first_pass=1;
 	  thisctr.rw_mode=RW;
-	  thisctr.bcd_mode=BCD;
+	  thisctr.bcd_mode=(BCD > 0);
 	  thisctr.mode=M;
 	  switch(RW) {
 	  case 0x1:

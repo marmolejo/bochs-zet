@@ -523,8 +523,8 @@ cdrom_interface::insert_cdrom(char *dev)
     }
 	if(bUseASPI) {
 		DWORD d;
-		int cdr, cnt, max;
-		int i, j, k;
+		UINT cdr, cnt, max;
+		UINT i, j, k;
 		SRB_HAInquiry sh;
 		SRB_GDEVBlock sd;
 		if (!hASPI) {

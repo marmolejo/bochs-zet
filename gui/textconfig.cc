@@ -889,10 +889,10 @@ bx_param_enum_c::text_ask (FILE *fpin, FILE *fpout)
     fprintf (fpout, "\n");
     prompt = "Enter new value: [%s] ";
   }
-  Bit32s n = get () - min;
+  Bit32s n = (Bit32s)(get () - min);
   int status = ask_menu (prompt, (max-min+1), choices, n, &n);
   if (status < 0) return status;
-  n += min;
+  n += (Bit32s)min;
   set (n);
   return 0;
 }
