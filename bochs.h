@@ -474,6 +474,9 @@ BOCHSAPI extern bx_debug_t bx_dbg;
 #define BX_WRITE        1
 #define BX_RW           2
 
+#define DATA_ACCESS     0
+#define CODE_ACCESS     1
+
 
 #include "memory/memory.h"
 
