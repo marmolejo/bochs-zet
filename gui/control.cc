@@ -64,6 +64,8 @@ extern "C" {
 #include <string.h>
 #include <assert.h>
 }
+#include "config.h"
+#include "osdep.h"
 #include "control.h"
 #include "siminterface.h"
 
