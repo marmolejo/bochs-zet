@@ -30,7 +30,6 @@
 #include "fpu_asm.h"
 #define	Const(x)	$##x
 #else
-#include <asm/types.h>
 #define	Const(x)	x
 #endif
 
@@ -81,7 +80,6 @@
 #include "fpu_system.h"
 
 #include <asm/sigcontext.h>   /* for struct _fpstate */
-#include <asm/math_emu.h>
 #include <linux/linkage.h>
 
 /*

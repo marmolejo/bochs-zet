@@ -19,7 +19,6 @@
  +---------------------------------------------------------------------------*/
 
 #include <linux/signal.h>
-#include <asm/uaccess.h>
 #include <stdio.h>
 
 #include "fpu_emu.h"

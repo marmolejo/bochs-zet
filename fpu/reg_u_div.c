@@ -22,7 +22,6 @@
 #include "exception.h"
 #include "fpu_emu.h"
 #include "control_w.h"
-#include <asm/types.h>
 
 
 int FPU_u_div(const FPU_REG *a, const FPU_REG *b, FPU_REG *dest,
