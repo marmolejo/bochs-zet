@@ -272,10 +272,12 @@ void BX_CPU_C::init_v8086_mode(void)
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_GS].selector.rpl                 = 3;
 }
 
+#if BX_CPU_LEVEL >= 4
 void BX_CPU_C::v86_redirect_interrupt(Bit32u vector)
 {
   BX_PANIC(("Redirection of interrupts through virtual-mode idt still not implemented"));
 }
+#endif
 
 #endif /* BX_CPU_LEVEL >= 3 */
 
