@@ -24,8 +24,9 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 //
-// eth_win32.cc  - skeleton code for an ethernet pktmover
+// eth_win32.cc  - packet mover for win32
 // All win32 coding by Don Becker <x-odus@iname.com>
+// with patches from various sources
 //
 // Various networking docs:
 // http://www.graphcomp.com/info/rfc/
