@@ -42,7 +42,7 @@
 // alignment of memory vector, must be a power of 2
 #define BX_MEM_VECTOR_ALIGN 4096
 
-typedef bool (*memory_handler_t)(unsigned long addr, unsigned long len, void *data, void *param);
+typedef bx_bool (*memory_handler_t)(unsigned long addr, unsigned long len, void *data, void *param);
 
 struct memory_handler_struct {
 	struct memory_handler_struct *next;

@@ -424,7 +424,7 @@ BX_MEM_C::registerMemoryHandlers(memory_handler_t read_handler, void *read_param
 		return false;
 	if (!write_handler)
 		return false;
-	for (int page_idx = begin_addr >> 20; page_idx <= end_addr >> 20; page_idx++) {
+	for (unsigned page_idx = begin_addr >> 20; page_idx <= end_addr >> 20; page_idx++) {
 		struct memory_handler_struct *memory_handler = new struct memory_handler_struct;
 		memory_handler->next = memory_handlers[page_idx];
 		memory_handlers[page_idx] = memory_handler;
@@ -444,7 +444,7 @@ BX_MEM_C::unregisterMemoryHandlers(memory_handler_t read_handler, memory_handler
 		unsigned long begin_addr, unsigned long end_addr)
 {
 	bx_bool ret = true;
-	for (int page_idx = begin_addr >> 20; page_idx <= end_addr >> 20; page_idx++) {
+	for (unsigned page_idx = begin_addr >> 20; page_idx <= end_addr >> 20; page_idx++) {
 		struct memory_handler_struct *memory_handler = memory_handlers[page_idx];
 		struct memory_handler_struct *prev = NULL;
 		while (memory_handler && 
