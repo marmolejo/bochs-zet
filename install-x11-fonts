@@ -9,7 +9,7 @@
 
 X11_FONT_PATH_CHOICES="/usr/X11R6/lib/X11/fonts /usr/local/lib/X11/fonts /usr/lib/X11/fonts /usr/openwin/lib/X11/fonts"
 FONTS=vga.pcf
-FONT_SOURCE_PATH_CHOICES="font /usr/local/bochs/latest"
+FONT_SOURCE_PATH_CHOICES="font ${srcdir+$srcdir/font} /usr/local/bochs/latest"
 
 die () {
 cat <<EOF
