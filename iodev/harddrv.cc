@@ -1320,7 +1320,9 @@ if ( quantumsMax == 0)
 				    bx_bool Start = (BX_SELECTED_CONTROLLER(channel).buffer[4] >> 0) & 1;
 
 				    if (!LoEj && !Start) { // stop the disc
-					  BX_PANIC(("Stop disc not implemented"));
+					  BX_ERROR(("FIXME: Stop disc not implemented"));
+					  atapi_cmd_nop(channel);
+					  raise_interrupt(channel);
 				    } else if (!LoEj && Start) { // start the disc and read the TOC
 					  // BX_PANIC(("Start disc not implemented"));
 					  BX_ERROR(("FIXME: ATAPI start disc not reading TOC"));
