@@ -652,6 +652,14 @@ typedef struct {
 // displayed.  The CI shows a dialog that asks if the user wants to 
 // continue, quit, etc. and sends the answer back to the simulator.
 // This event also uses BxLogMsgEvent.
+enum {
+  BX_LOG_ASK_CHOICE_CONTINUE,
+  BX_LOG_ASK_CHOICE_CONTINUE_ALWAYS,
+  BX_LOG_ASK_CHOICE_DIE,
+  BX_LOG_ASK_CHOICE_DUMP_CORE,
+  BX_LOG_ASK_CHOICE_ENTER_DEBUG,
+  BX_LOG_ASK_N_CHOICES
+};
 
 // Event type: BX_SYNC_EVT_GET_DBG_COMMAND
 //
