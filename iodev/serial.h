@@ -76,6 +76,10 @@ enum {
   BX_SER_INT_FIFO
 };
 
+#if USE_RAW_SERIAL
+class serial_raw;
+#endif
+
 typedef struct {
   /*
    * UART internal state
@@ -108,7 +112,8 @@ typedef struct {
 
 #if USE_RAW_SERIAL
   serial_raw* raw;
-#elif defined(SERIAL_ENABLE)
+#endif
+#if defined(SERIAL_ENABLE)
   struct termios term_orig, term_new;
 #endif
 

@@ -566,7 +566,7 @@ bx_serial_c::write(Bit32u address, Bit32u value, unsigned io_len)
   bx_bool gen_int = 0;
   Bit8u offset, new_wordlen;
 #if USE_RAW_SERIAL
-  bx_bool mcr_changed;
+  bx_bool mcr_changed = 0;
   Bit8u p_mode;
 #endif
   Bit8u port = 0;
