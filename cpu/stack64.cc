@@ -249,7 +249,7 @@ BX_CPU_C::ENTER64_IwIb(bxInstruction_c *i)
 
   level = i->Ib2();
 
-  invalidate_prefetch_q();
+//invalidate_prefetch_q();
 
   level %= 32;
 /* ??? */
