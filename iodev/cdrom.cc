@@ -112,7 +112,11 @@ extern "C" {
 #include <paths.h>
 #include <sys/param.h>
 
+#define Float32 KLUDGE_Float32
+#define Float64 KLUDGE_Float64
 #include <IOKit/IOKitLib.h>
+#undef Float32
+#undef Float64
 #include <IOKit/IOBSD.h>
 #include <IOKit/storage/IOCDMedia.h>
 #include <IOKit/storage/IOMedia.h>

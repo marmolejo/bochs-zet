@@ -47,7 +47,11 @@
 #endif
 
 #if BX_WITH_CARBON
+#define Float32 KLUDGE_Float32
+#define Float64 KLUDGE_Float64
 #include <Carbon/Carbon.h>
+#undef Float32
+#undef Float64
 #endif
 
 // BX_SHARE_PATH should be defined by the makefile.  If not, give it
