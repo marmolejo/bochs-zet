@@ -1452,6 +1452,11 @@ BX_CPU_C::CPUID(bxInstruction_c *i)
       features |= (1<<6); // Support PAE.
 #endif
 
+#if (BX_CPU_LEVEL >= 5)
+	    features |= (1<<8); //Support CMPXCHG8B instruction
+#endif
+
+
       RAX = (family <<8) | (model<<4) | stepping;
       RBX = RCX = 0; // reserved
       RDX = features;
