@@ -25,11 +25,6 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 
-
-
-
-
-
 #define NEED_CPU_REG_SHORTCUTS 1
 #include "bochs.h"
 #define LOG_THIS BX_CPU_THIS_PTR
@@ -50,7 +45,6 @@ BX_CPU_C::UndefinedOpcode(BxInstruction_t *i)
 BX_CPU_C::NOP(BxInstruction_t *i)
 {
 }
-
 
   void
 BX_CPU_C::HLT(BxInstruction_t *i)
@@ -81,6 +75,10 @@ BX_CPU_C::HLT(BxInstruction_t *i)
   // Execution of this instruction completes.  The processor
   // will remain in a halt state until one of the above conditions
   // is met.
+
+#if BX_USE_IDLE_HACK  
+  bx_gui.sim_is_idle ();
+#endif /* BX_USE_IDLE_HACK */  
 }
 
 

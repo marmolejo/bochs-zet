@@ -64,6 +64,9 @@ public:
   // called when registered signal arrives
   static void sighandler (int sig);
 #endif
+#if BX_USE_IDLE_HACK
+  static void sim_is_idle(void);
+#endif
 
 
 private:
