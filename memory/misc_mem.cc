@@ -388,6 +388,15 @@ BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op)
       return(NULL); // Vetoed!  IOAPIC address space
 #endif
 
+  struct memory_handler_struct *memory_handler = memory_handlers[a20Addr >> 20];
+  while (memory_handler) {
+    if (memory_handler->begin <= a20Addr &&
+        memory_handler->end >= a20Addr) {
+      return(NULL); // Vetoed!  memory handler for vram, mmio and PCI PnP
+    }
+    memory_handler = memory_handler->next;
+  }
+
   if (op == BX_READ) {
     if ( (a20Addr & 0xfffe0000) == 0x000a0000 )
       return(NULL); // Vetoed!  Mem mapped IO (VGA)
