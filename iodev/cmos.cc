@@ -151,6 +151,9 @@ bx_cmos_c::init(bx_devices_c *d)
     BX_CMOS_THIS s.reg[0x0b] = 0x02;
     BX_CMOS_THIS s.reg[0x0c] = 0x00;
     BX_CMOS_THIS s.reg[0x0d] = 0x80;
+#if BX_SUPPORT_FPU == 1
+    BX_CMOS_THIS s.reg[0x14] = 0x02;
+#endif
     }
 }
 
