@@ -733,13 +733,13 @@ int main (int argc, char *argv[])
 #ifdef WIN32
   if (OpenClipboard(NULL)) {
     HGLOBAL hgClip;
-    
     EmptyClipboard();
     hgClip = GlobalAlloc(GMEM_DDESHARE, (strlen(bochsrc_line) + 1));
     strcpy((char *)GlobalLock(hgClip), bochsrc_line);
     GlobalUnlock(hgClip);
     SetClipboardData(CF_TEXT, hgClip);
     CloseClipboard();
+    printf("(The line is stored in your windows clipboard, use CTRL-V to paste)\n");
   }
 #endif
   myexit(0);
