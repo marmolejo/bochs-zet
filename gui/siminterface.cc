@@ -1196,6 +1196,7 @@ bx_param_string_c::bx_param_string_c (bx_id id,
   this->val = new char[maxsize];
   this->initial_val = new char[maxsize];
   this->handler = NULL;
+  this->enable_handler = NULL;
   this->maxsize = maxsize;
   strncpy (this->val, initial_val, maxsize);
   strncpy (this->initial_val, initial_val, maxsize);
