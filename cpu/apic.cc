@@ -19,10 +19,6 @@ bx_generic_apic_c::bx_generic_apic_c ()
   hwreset ();
 }
 
-bx_generic_apic_c::~bx_generic_apic_c () 
-{
-}
-
 void bx_generic_apic_c::set_arb_id (int new_arb_id)
 {
   // politely ignore it. This gets sent to every APIC, regardless of its type.
@@ -88,8 +84,7 @@ bx_bool bx_generic_apic_c::is_selected (Bit32u addr, Bit32u len)
   return false;
 }
 
-void
-bx_generic_apic_c::read (Bit32u addr, void *data, unsigned len)
+void bx_generic_apic_c::read (Bit32u addr, void *data, unsigned len)
 {
   if ((addr & ~0xf) != ((addr+len-1) & ~0xf))
     BX_PANIC(("APIC read spans 32-bit boundary"));
@@ -403,11 +398,6 @@ BX_CPU_C *bx_local_apic_c::get_cpu (Bit8u id)
 {
   BX_ASSERT (id < APIC_MAX_ID);
   return cpu;
-}
-
-bx_local_apic_c::~bx_local_apic_c(void)
-{
-  // nothing for now
 }
 
 void bx_local_apic_c::set_id (Bit8u newid)

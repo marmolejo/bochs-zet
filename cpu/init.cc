@@ -782,7 +782,11 @@ void BX_CPU_C::reset(unsigned source)
   /* APIC Address, APIC enabled and BSP is default, we'll fill in the rest later */
   BX_CPU_THIS_PTR msr.apicbase = APIC_BASE_ADDR;
   BX_CPU_THIS_PTR msr.apicbase <<= 12;
+#if BX_SUPPORT_APIC
   BX_CPU_THIS_PTR msr.apicbase |= 0x900;
+#else
+  BX_CPU_THIS_PTR msr.apicbase |= 0x100;
+#endif
 #if BX_SUPPORT_X86_64
   BX_CPU_THIS_PTR msr.lme = BX_CPU_THIS_PTR msr.lma = 0;
 #endif
@@ -844,7 +848,7 @@ void BX_CPU_C::reset(unsigned source)
     async_event = 1;
   }
 #else
-    BX_CPU_THIS_PTR async_event=2;
+  BX_CPU_THIS_PTR async_event=2;
 #endif
   BX_CPU_THIS_PTR kill_bochs_request = 0;
 
