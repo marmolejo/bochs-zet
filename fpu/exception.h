@@ -14,7 +14,6 @@
 #include "fpu_emu.h"
 #endif /* SW_C1 */
 
-#define FPU_BUSY        (0x8000)   /* FPU busy bit (8087 compatibility) */
 #define EX_ErrorSummary (0x0080)   /* Error summary status */
 /* Special exceptions: */
 #define EX_StackOver	(0x0041|SW_C1)	/* stack overflow */

@@ -35,7 +35,6 @@
 #define _FPU_PROTO_H
 
 /* errors.c */
-extern void Un_impl(void);
 extern void FPU_illegal(void);
 asmlinkage void FPU_exception(int n);
 asmlinkage void FPU_internal(int n);

@@ -38,7 +38,6 @@
 #define SIGN_Positive	(0)
 #define SIGN_Negative	(0x8000)
 
-
 /* Keep the order TAG_Valid, TAG_Zero, TW_Denormal */
 /* The following fold to 2 (Special) in the Tag Word */
 #define TW_Denormal      4      /* De-normal */
