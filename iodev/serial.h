@@ -66,6 +66,11 @@ extern "C" {
 #define BX_SER_MSR  6
 #define BX_SER_SCR  7
 
+#define BX_SER_MODE_NULL  0
+#define BX_SER_MODE_FILE  1
+#define BX_SER_MODE_TERM  2
+#define BX_SER_MODE_RAW   3
+
 enum {
   BX_SER_INT_IER,
   BX_SER_INT_RXDATA,
@@ -101,7 +106,9 @@ typedef struct {
   int  rx_timer_index;
   int  fifo_timer_index;
 
+  int io_mode;
   int tty_id;
+  FILE *output;
 
 #if USE_RAW_SERIAL
   serial_raw* raw;
