@@ -56,6 +56,7 @@ bx_devices_c::bx_devices_c(void)
   keyboard = NULL;
   dma = NULL;
   floppy = NULL;
+  biosdev = NULL;
   cmos = NULL;
   serial = NULL;
   parallel = NULL;
@@ -123,6 +124,9 @@ bx_devices_c::init(BX_MEM_C *newmem)
   ioapic->set_id (BX_IOAPIC_DEFAULT_ID);
 #endif
 
+  // BIOS log 
+  biosdev = &bx_biosdev;
+  biosdev->init(this);
 
   // CMOS RAM & RTC
   cmos = &bx_cmos;

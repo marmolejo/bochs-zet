@@ -38,6 +38,7 @@
 #define BX_NO_IRQ  -1
 
 
+class bx_biosdev_c;
 class bx_pit_c;
 class bx_keyb_c;
 class bx_dma_c;
@@ -97,6 +98,7 @@ public:
   static void timer_handler(void *);
   void timer(void);
 
+  bx_biosdev_c     *biosdev;
   bx_ioapic_c      *ioapic;
   bx_pci_c         *pci;
   bx_pit_c         *pit;
@@ -157,6 +159,7 @@ private:
 #if BX_SUPPORT_APIC
 #  include "iodev/ioapic.h"
 #endif
+#include "iodev/biosdev.h"
 #include "iodev/cmos.h"
 #include "iodev/dma.h"
 #include "iodev/floppy.h"
