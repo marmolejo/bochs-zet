@@ -48,7 +48,7 @@
 // Ability to turn translation on or off
 
 #include "bochs.h"
-#include "math.h"
+#include <math.h>
 #include "scancodes.h"
 
 #define LOG_THIS  bx_keyboard.
