@@ -230,6 +230,7 @@ private:
     Bit8u speaker,prostereo;                   // properties of the sound input/output
     bx_bool irqpending;                        // Is an IRQ pending (not ack'd)
     bx_bool midiuartmode;                      // Is the DSP in MIDI UART mode
+    Bit8u testreg;
     struct bx_sb16_dsp_dma_struct {
       // Properties of the current DMA transfer:
       // mode= 0: no transfer, 1: single-cycle transfer, 2: auto-init DMA
