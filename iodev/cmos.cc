@@ -163,15 +163,22 @@ bx_cmos_c::init(void)
        
        BX_CMOS_THIS s.timeval = time(NULL);
 
-#if BX_HAVE_GMTIME && BX_HAVE_MKTIME
-       utc_ok = 1;
+#if BX_HAVE_GMTIME
+#if BX_HAVE_MKTIME
        struct tm *utc_holder = gmtime(&BX_CMOS_THIS s.timeval);
        utc_holder->tm_isdst = -1;
+       utc_ok = 1;
        BX_CMOS_THIS s.timeval = mktime(utc_holder);
-#endif // BX_HAVE_GMTIME && BX_HAVE_MKTIME
+#elif BX_HAVE_TIMELOCAL
+       struct tm *utc_holder = gmtime(&BX_CMOS_THIS s.timeval);
+       utc_holder->tm_isdst = 0;	// XXX Is this correct???
+       utc_ok = 1;
+       BX_CMOS_THIS s.timeval = timelocal(utc_holder);
+#endif //BX_HAVE_MKTIME
+#endif //BX_HAVE_GMTIME
 
        if (!utc_ok) {
-           BX_ERROR(("UTC time is not supported on your platform. Using current localtime"));
+           BX_ERROR(("UTC time is not supported on your platform. Using current time(NULL)"));
        }
   }
   else {

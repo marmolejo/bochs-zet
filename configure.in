@@ -151,6 +151,7 @@ AC_CHECK_MEMBER(struct sockaddr_in.sin_len, AC_DEFINE(BX_HAVE_SOCKADDR_IN_SIN_LE
 #include <netinet/in.h> ])
 AC_CHECK_FUNCS(mkstemp, AC_DEFINE(BX_HAVE_MKSTEMP))
 AC_CHECK_HEADER(sys/mman.h, AC_DEFINE(BX_HAVE_SYS_MMAN_H))
+AC_CHECK_FUNCS(timelocal, AC_DEFINE(BX_HAVE_TIMELOCAL))
 AC_CHECK_FUNCS(gmtime, AC_DEFINE(BX_HAVE_GMTIME))
 AC_CHECK_FUNCS(mktime, AC_DEFINE(BX_HAVE_MKTIME))
 
@@ -1554,7 +1555,7 @@ if test "$bx_cdrom" = 1; then
       # use cdrom_osx
       AC_MSG_RESULT(Using OSX IOKit CD Interface)	
       CDROM_OBJS="cdrom.o"
-      EXTRA_LINK_OPTS="${EXTRA_LINK_OPTS} -framework IOKit -framework CoreFoundation"
+      EXTRA_LINK_OPTS="${EXTRA_LINK_OPTS} -framework IOKit -framework CoreFoundation "'$(GUI_LINK_OPTS)'
     fi
     case $target in
       *-beos*)
