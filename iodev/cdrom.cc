@@ -596,7 +596,10 @@ cdrom_interface::capacity()
   }
 #endif
 
-#ifdef __sun
+#ifdef __BEOS__
+	#include "cdrom_beos.h"
+	return GetNumDeviceBlocks(fd, BX_CD_FRAMESIZE);
+#elif defined(__sun)
   {
     struct stat buf = {0};
 
