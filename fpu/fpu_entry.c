@@ -678,7 +678,7 @@ void math_abort(struct info * info, unsigned int signal)
 
 #define S387 ((struct i387_soft_struct *)s387)
 #define sstatus_word() \
-  ((S387->swd & ~SW_Top & 0xffff) | ((S387->ftop << SW_Top_Shift) & SW_Top))
+  ((S387->swd & ~SW_Top & 0xffff) | ((S387->tos << SW_Top_Shift) & SW_Top))
 
 int restore_i387_soft(void *s387, struct _fpstate *buf)
 {
@@ -693,8 +693,8 @@ int restore_i387_soft(void *s387, struct _fpstate *buf)
 
   d += 7*4;
 
-  S387->ftop = (S387->swd >> SW_Top_Shift) & 7;
-  offset = (S387->ftop & 7) * 10;
+  S387->tos = (S387->swd >> SW_Top_Shift) & 7;
+  offset = (S387->tos & 7) * 10;
   other = 80 - offset;
 
   RE_ENTRANT_CHECK_OFF;
@@ -708,7 +708,7 @@ int restore_i387_soft(void *s387, struct _fpstate *buf)
 
   /* The tags may need to be corrected now. */
   tags = S387->twd;
-  newtop = S387->ftop;
+  newtop = S387->tos;
   for ( i = 0; i < 8; i++ )
     {
       regnr = (i+newtop) & 7;
@@ -729,7 +729,7 @@ int restore_i387_soft(void *s387, struct _fpstate *buf)
 int save_i387_soft(void *s387, struct _fpstate * buf)
 {
   u_char *d = (u_char *)buf;
-  int offset = (S387->ftop & 7) * 10, other = 80 - offset;
+  int offset = (S387->tos & 7) * 10, other = 80 - offset;
 
   RE_ENTRANT_CHECK_OFF;
   FPU_verify_area(VERIFY_WRITE, d, 7*4 + 8*10);

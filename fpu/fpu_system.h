@@ -64,7 +64,7 @@
 #define control_word		(I387.soft.cwd)
 #define fpu_tag_word		(I387.soft.twd)
 #define registers		(I387.soft.st_space)
-#define top			(I387.soft.ftop)
+#define top			(I387.soft.tos)
 
 #define instruction_address	(*(struct address *)&I387.soft.fip)
 #define operand_address		(*(struct address *)&I387.soft.foo)
@@ -157,7 +157,7 @@ extern i387_t *current_i387;
 #define control_word            (I387.soft.cwd)
 #define fpu_tag_word            (I387.soft.twd)
 #define registers               (I387.soft.st_space)
-#define top                     (I387.soft.ftop)
+#define top                     (I387.soft.tos)
 
 #define instruction_address     (*(struct address *)&I387.soft.fip)
 #define operand_address         (*(struct address *)&I387.soft.foo)
