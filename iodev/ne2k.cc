@@ -39,10 +39,10 @@ bx_ne2k_c bx_ne2k;
 
 bx_ne2k_c::bx_ne2k_c(void)
 {
-	put("NE2K");
-	settype(NE2KLOG);
-	BX_DEBUG(("Init $Id$"));
-	// nothing for now
+  put("NE2K");
+  settype(NE2KLOG);
+  BX_DEBUG(("Init $Id$"));
+  BX_NE2K_THIS s.tx_timer_index = BX_NULL_TIMER_HANDLE;
 }
 
 
@@ -1258,9 +1258,11 @@ bx_ne2k_c::init(bx_devices_c *d)
     BX_NE2K_THIS s.base_irq     = bx_options.ne2k.Oirq->get ();
     memcpy(BX_NE2K_THIS s.physaddr, bx_options.ne2k.Omacaddr->getptr (), 6);
 
-    BX_NE2K_THIS s.tx_timer_index =
-      bx_pc_system.register_timer(this, tx_timer_handler, 0,
-				  0,0, "ne2k"); // one-shot, inactive
+    if (BX_NE2K_THIS s.tx_timer_index == BX_NULL_TIMER_HANDLE) {
+      BX_NE2K_THIS s.tx_timer_index =
+	bx_pc_system.register_timer(this, tx_timer_handler, 0,
+				    0,0, "ne2k"); // one-shot, inactive
+    }
     // Register the IRQ and i/o port addresses
     BX_NE2K_THIS devices->register_irq(BX_NE2K_THIS s.base_irq,
 				       "ne2000 ethernet NIC");
