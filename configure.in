@@ -545,6 +545,41 @@ AC_ARG_ENABLE(pci,
 AC_SUBST(PCI_OBJ)
 
 
+AC_MSG_CHECKING(for 4Meg pages support)
+AC_ARG_ENABLE(4meg-pages,
+  [  --enable-4meg-pages               support 4Megabyte pages extensions],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_SUPPORT_4MEG_PAGES, 1)
+   else
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SUPPORT_4MEG_PAGES, 0)
+   fi],
+  [
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SUPPORT_4MEG_PAGES, 0)
+    ]
+  )
+AC_SUBST(BX_SUPPORT_4MEG_PAGES)
+
+AC_MSG_CHECKING(for guest to host TLB support)
+AC_ARG_ENABLE(guest2host-tlb,
+  [  --enable-guest2host-tlb           support guest to host addr TLB for speed],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_SupportGuest2HostTLB, 1)
+   else
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SupportGuest2HostTLB, 0)
+   fi],
+  [
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SupportGuest2HostTLB, 0)
+    ]
+  )
+AC_SUBST(BX_SupportGuest2HostTLB)
+
+
 AC_MSG_CHECKING(for port e9 hack)
 AC_ARG_ENABLE(port-e9-hack,
   [  --enable-port-e9-hack             writes to port e9 go to console],

@@ -59,7 +59,6 @@ private:
     } timer[BX_MAX_TIMERS];
   unsigned   num_timers;
   Bit64u     num_cpu_ticks_in_period;
-  Bit64u     num_cpu_ticks_left;
   void       expire_ticks(void);
 
 #if !defined(PROVIDE_M_IPS)
@@ -67,6 +66,7 @@ private:
 #endif
 
 public:
+  Bit64u     num_cpu_ticks_left;
 
   Boolean HRQ;     // Hold Request
   //Boolean INTR;    // Interrupt
