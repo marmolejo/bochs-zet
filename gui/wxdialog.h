@@ -69,7 +69,7 @@ public:
 #define LOG_MSG_ASK_IDS \
   { ID_Continue, ID_Die, ID_DumpCore, ID_Debugger, wxHELP }
 #define LOG_MSG_ASK_NAMES \
-  { "Continue", "Die", "Dump Core", "Debugger", "Help" }
+  { "Continue", "Kill Sim", "Dump Core", "Debugger", "Help" }
 #define LOG_MSG_DONT_ASK_STRING \
   "Don't ask about future messages like this"
 #define LOG_MSG_CONTEXT "Context: %s"
