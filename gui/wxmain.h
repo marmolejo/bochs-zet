@@ -110,6 +110,9 @@ enum
 #define IFDBG_KEY(x) /* nothing */
 //#define IFDBG_KEY(x) x
 
+#define IFDBG_MOUSE(x) /* nothing */
+//#define IFDBG_MOUSE(x) x
+
 #define IFDBG_EVENT(x) /* nothing */
 //#define IFDBG_EVENT(x) x
 
@@ -130,14 +133,18 @@ public:
   MyPanel(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = "panel");
   void OnKeyDown(wxKeyEvent& event);
   void OnKeyUp(wxKeyEvent& event);
-  void OnPaint(wxPaintEvent& event);
   void OnTimer(wxCommandEvent& event);
+  void OnPaint(wxPaintEvent& event);
+  void OnMouse(wxMouseEvent& event);
   void MyRefresh ();
   void ReadConfiguration ();
   void SaveConfiguration ();
+  void ToggleMouse ();
 private:
   bool needRefresh;
   wxTimer refreshTimer;
+  Bit16s mouseSavedX, mouseSavedY;
+  Bit32u centerX, centerY;
   DECLARE_EVENT_TABLE()
 };
 
