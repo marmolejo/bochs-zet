@@ -545,6 +545,9 @@ BX_CPU_C::IRET32(BxInstruction_t *i)
     }
 #endif
 
+  BX_ERROR(("IRET32 called when you're not in vm8086 mode or protected mode."));
+  BX_ERROR(("IRET32 may not be implemented right, since it doesn't check anything."));
+  BX_PANIC(("Please report that you have found a test case for BX_CPU_C::IRET32."));
 
     pop_32(&eip);
     pop_32(&ecs_raw);
