@@ -2164,12 +2164,12 @@ void bx_dbg_disassemble_current (int which_cpu, int print_time)
 		BX_CPU(which_cpu)->getB_SF(),
 		BX_CPU(which_cpu)->getB_OF(),
 		BX_CPU(which_cpu)->getB_PF(),
-		BX_CPU(which_cpu)->get_TF (),
-		BX_CPU(which_cpu)->get_IF (),
-		BX_CPU(which_cpu)->get_DF (),
+		BX_CPU(which_cpu)->getB_TF (),
+		BX_CPU(which_cpu)->getB_IF (),
+		BX_CPU(which_cpu)->getB_DF (),
 		BX_CPU(which_cpu)->get_IOPL (),
-		BX_CPU(which_cpu)->get_NT (),
-		BX_CPU(which_cpu)->get_RF (),
+		BX_CPU(which_cpu)->getB_NT (),
+		BX_CPU(which_cpu)->getB_RF (),
 		BX_CPU(which_cpu)->getB_VM ());
 
     if (print_time)
