@@ -41,6 +41,7 @@ enum
   ID_Edit_Cdrom,  // for toolbar. FIXME: toolbar can't handle >1 cdrom
   ID_Edit_Boot,
   ID_Edit_Memory,
+  ID_Edit_PCI,
   ID_Edit_Sound,
   ID_Edit_Timing,
   ID_Edit_Network,
@@ -175,7 +176,7 @@ public:
   void OnLogMsg(BxEvent *logMsgEvent);
   void OnEditBoot(wxCommandEvent& event);
   void OnEditMemory(wxCommandEvent& event);
-  void OnEditSpeed(wxCommandEvent& event);
+  void OnEditPCI(wxCommandEvent& event);
   void OnEditSound(wxCommandEvent& event);
   void OnEditTiming(wxCommandEvent& event);
   void OnEditNet(wxCommandEvent& event);
