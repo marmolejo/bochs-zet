@@ -264,7 +264,7 @@ install: all @INSTALL_TARGET@
 # tools.
 #####################################################################
 
-install_win32: all  download_dlx
+install_win32: download_dlx
 	-mkdir -p $(prefix)
 	for i in $(INSTALL_LIST); do if test -f $$i; then cp $$i $(prefix); else cp $(srcdir)/$$i $(prefix); fi; done
 	cp $(srcdir)/misc/sb16/sb16ctrl.example $(prefix)/sb16ctrl.txt
@@ -279,7 +279,7 @@ install_win32: all  download_dlx
 	cat $(srcdir)/build/win32/README.win32-binary $(prefix)/README.orig > $(prefix)/README
 	rm -f $(prefix)/README.orig
 	for i in README CHANGES COPYING VGABIOS-elpin-LICENSE dlxlinux/README; do mv $(prefix)/$$i $(prefix)/$$i.txt; done
-	$(UNIX2DOS) $(prefix)/*.txt $(prefix)/*/*.txt
+	cd $(prefix); $(UNIX2DOS) *.txt */*.txt
 	cd $(prefix); NAME=`pwd|$(SED) 's/.*\///'`; (cd ..; $(ZIP) $$NAME.zip -r $$NAME); ls -l ../$$NAME.zip
 
 #####################################################################
