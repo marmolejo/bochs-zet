@@ -2681,7 +2681,7 @@ bx_dbg_dump_cpu_command(void)
 
 #if BX_PCI_SUPPORT
   if (bx_options.Oi440FXSupport->get ()) {
-    bx_devices.pci->print_i440fx_state();
+    DEV_pci_print_i440fx_state();
     }
 #endif
 
