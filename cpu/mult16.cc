@@ -150,7 +150,6 @@ BX_CPU_C::DIV_AXEw(bxInstruction_c *i)
 #endif
 
     /* now write quotient back to destination */
-
     AX = quotient_16l;
     DX = remainder_16;
 }
@@ -193,7 +192,6 @@ BX_CPU_C::IDIV_AXEw(bxInstruction_c *i)
 #endif
 
     /* now write quotient back to destination */
-
     AX = quotient_16l;
     DX = remainder_16;
 }

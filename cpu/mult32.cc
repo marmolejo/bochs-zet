@@ -155,7 +155,6 @@ BX_CPU_C::DIV_EAXEd(bxInstruction_c *i)
      */
 
     /* now write quotient back to destination */
-
     RAX = quotient_32l;
     RDX = remainder_32;
 }
@@ -196,7 +195,6 @@ BX_CPU_C::IDIV_EAXEd(bxInstruction_c *i)
      */
 
     /* now write quotient back to destination */
-
     RAX = quotient_32l;
     RDX = remainder_32;
 }

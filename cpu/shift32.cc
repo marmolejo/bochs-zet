@@ -383,6 +383,7 @@ BX_CPU_C::SHR_Ed(bxInstruction_c *i)
     setEFlagsOSZAPC(flags32);
 #else
     result_32 = (op1_32 >> count);
+    SET_FLAGS_OSZAPC_32(op1_32, count, result_32, BX_INSTR_SHR32);
 #endif
 
     /* now write result back to destination */
@@ -392,10 +393,6 @@ BX_CPU_C::SHR_Ed(bxInstruction_c *i)
     else {
       Write_RMW_virtual_dword(result_32);
       }
-
-#if !defined(BX_HostAsm_Shr32)
-    SET_FLAGS_OSZAPC_32(op1_32, count, result_32, BX_INSTR_SHR32);
-#endif
 }
 
   void

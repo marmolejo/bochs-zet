@@ -30,7 +30,6 @@
 #define LOG_THIS BX_CPU_THIS_PTR
 
 
-
   void
 BX_CPU_C::MUL_ALEb(bxInstruction_c *i)
 {
@@ -140,7 +139,6 @@ BX_CPU_C::DIV_ALEb(bxInstruction_c *i)
 #endif
 
   /* now write quotient back to destination */
-
   AL = quotient_8l;
   AH = remainder_8;
 }
@@ -189,7 +187,6 @@ BX_INFO(("AH: %02x, AL: %02x", (unsigned) AH, (unsigned) AL));
 #endif
 
   /* now write quotient back to destination */
-
   AL = quotient_8l;
   AH = remainder_8;
 }

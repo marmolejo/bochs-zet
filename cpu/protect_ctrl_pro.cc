@@ -25,16 +25,9 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 
-
-
-
-
-
 #define NEED_CPU_REG_SHORTCUTS 1
 #include "bochs.h"
 #define LOG_THIS BX_CPU_THIS_PTR
-
-
 
 
   void
@@ -55,7 +48,6 @@ if ( BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.rpl!=0 || BX_CPU_THIS_PTR sre
   void
 BX_CPU_C::enter_real_mode(void)
 {
-// ???
 // BX_INFO(("processor switching into REAL mode!!!"));
 // debug(BX_CPU_THIS_PTR prev_eip);
   if (v8086_mode()) BX_PANIC(("protect_ctrl: v8086 mode unsupported"));

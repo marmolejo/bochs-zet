@@ -420,6 +420,7 @@ BX_CPU_C::SHR_Ew(bxInstruction_c *i)
     setEFlagsOSZAPC(flags32);
 #else
     result_16 = (op1_16 >> count);
+    SET_FLAGS_OSZAPC_16(op1_16, count, result_16, BX_INSTR_SHR16);
 #endif
 
     /* now write result back to destination */
@@ -429,10 +430,6 @@ BX_CPU_C::SHR_Ew(bxInstruction_c *i)
     else {
       Write_RMW_virtual_word(result_16);
       }
-
-#if !defined(BX_HostAsm_Shr16)
-    SET_FLAGS_OSZAPC_16(op1_16, count, result_16, BX_INSTR_SHR16);
-#endif
 }
 
 

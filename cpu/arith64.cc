@@ -26,8 +26,6 @@
 
 
 
-
-
 #define NEED_CPU_REG_SHORTCUTS 1
 #include "bochs.h"
 #define LOG_THIS BX_CPU_THIS_PTR
@@ -167,8 +165,7 @@ BX_CPU_C::ADC_GqEq(bxInstruction_c *i)
     /* now write sum back to destination */
     BX_WRITE_64BIT_REG(i->nnn(), sum_64);
 
-    SET_FLAGS_OSZAPC_64_CF(op1_64, op2_64, sum_64, BX_INSTR_ADC64,
-                             temp_CF);
+    SET_FLAGS_OSZAPC_64_CF(op1_64, op2_64, sum_64, BX_INSTR_ADC64, temp_CF);
 }
 
   void
@@ -186,8 +183,7 @@ BX_CPU_C::ADC_RAXId(bxInstruction_c *i)
     /* now write sum back to destination */
     RAX = sum_64;
 
-    SET_FLAGS_OSZAPC_64_CF(op1_64, op2_64, sum_64, BX_INSTR_ADC64,
-                           temp_CF);
+    SET_FLAGS_OSZAPC_64_CF(op1_64, op2_64, sum_64, BX_INSTR_ADC64, temp_CF);
 }
 
   void

@@ -46,8 +46,7 @@ BX_CPU_C::XCHG_ERXEAX(bxInstruction_c *i)
 #endif
 }
 
-  void
-BX_CPU_C::MOV_ERXId(bxInstruction_c *i)
+void BX_CPU_C::MOV_ERXId(bxInstruction_c *i)
 {
 #if BX_SUPPORT_X86_64
   BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].rrx = i->Id();
