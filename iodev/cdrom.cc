@@ -118,7 +118,7 @@ HANDLE hFile = NULL;
 
 #ifdef WIN32
 
-int ReadCDSector(unsigned int hid, unsigned int tid, unsigned int lun, unsigned long frame, unsigned char *buf, int bufsize)
+bool ReadCDSector(unsigned int hid, unsigned int tid, unsigned int lun, unsigned long frame, unsigned char *buf, int bufsize)
 {
 	HANDLE hEventSRB;
 	SRB_ExecSCSICmd srb;
@@ -138,10 +138,10 @@ int ReadCDSector(unsigned int hid, unsigned int tid, unsigned int lun, unsigned 
 	srb.SRB_BufLen     = bufsize;
 	srb.SRB_CDBLen     = 10;
 	srb.CDBByte[0]     = SCSI_READ10;
-	srb.CDBByte[2]     = frame>>24;
-	srb.CDBByte[3]     = frame>>16;
-	srb.CDBByte[4]     = frame>>8;
-	srb.CDBByte[5]     = frame;
+	srb.CDBByte[2]     = (unsigned char) (frame>>24);
+	srb.CDBByte[3]     = (unsigned char) (frame>>16);
+	srb.CDBByte[4]     = (unsigned char) (frame>>8);
+	srb.CDBByte[5]     = (unsigned char) (frame);
 	srb.CDBByte[7]     = 0;
 	srb.CDBByte[8]     = 1; /* read 1 frames */
 
@@ -261,7 +261,8 @@ cdrom_interface::insert_cdrom(char *dev)
       BX_INFO (("Opening image file as a cd"));
     }
 	if(bUseASPI) {
-		DWORD d, cnt, max;
+		DWORD d;
+		int cnt, max;
 		int i, j, k;
 		SRB_HAInquiry sh;
 		SRB_GDEVBlock sd;

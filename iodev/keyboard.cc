@@ -1454,39 +1454,39 @@ bx_keyb_c::create_mouse_packet(bool force_enq) {
   b1 = (button_state & 0x0f) | 0x08; // bit3 always set
 
   if ( (delta_x>=0) && (delta_x<=255) ) {
-    b2 = delta_x;
+    b2 = (Bit8u) delta_x;
     BX_KEY_THIS s.mouse.delayed_dx-=delta_x;
     }
   else if ( delta_x > 255 ) {
-    b2 = 0xff;
+    b2 = (Bit8u) 0xff;
     BX_KEY_THIS s.mouse.delayed_dx-=255;
     }
   else if ( delta_x >= -256 ) {
-    b2 = delta_x;
+    b2 = (Bit8u) delta_x;
     b1 |= 0x10;
     BX_KEY_THIS s.mouse.delayed_dx-=delta_x;
     }
   else {
-    b2 = 0x00;
+    b2 = (Bit8u) 0x00;
     b1 |= 0x10;
     BX_KEY_THIS s.mouse.delayed_dx+=256;
     }
 
   if ( (delta_y>=0) && (delta_y<=255) ) {
-    b3 = delta_y;
+    b3 = (Bit8u) delta_y;
     BX_KEY_THIS s.mouse.delayed_dy-=delta_y;
     }
   else if ( delta_y > 255 ) {
-    b3 = 0xff;
+    b3 = (Bit8u) 0xff;
     BX_KEY_THIS s.mouse.delayed_dy-=255;
     }
   else if ( delta_y >= -256 ) {
-    b3 = delta_y;
+    b3 = (Bit8u) delta_y;
     b1 |= 0x20;
     BX_KEY_THIS s.mouse.delayed_dy-=delta_y;
     }
   else {
-    b3 = 0x00;
+    b3 = (Bit8u) 0x00;
     b1 |= 0x20;
     BX_KEY_THIS s.mouse.delayed_dy+=256;
     }

@@ -122,7 +122,7 @@ private:
       Bit8u get_status_byte ()
 	{
 	  // top bit is 0 , bit 6 is 1 if remote mode.
-	  Bit8u ret = (mode == MOUSE_MODE_REMOTE) ? 0x40 : 0;
+	  Bit8u ret = (Bit8u) ((mode == MOUSE_MODE_REMOTE) ? 0x40 : 0);
 	  ret |= (enable << 5);
 	  ret |= (scaling == 1) ? 0 : (1 << 4);
 	  ret |= ((button_status & 0x1) << 2);

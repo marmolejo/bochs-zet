@@ -331,7 +331,7 @@ int bx_sound_windows_c::playnextbuffer()
 
 int bx_sound_windows_c::startwaveplayback(int frequency, int bits, int stereo, int format)
 {
-  UINT ret;
+  // UINT ret;
 
   WRITELOG( WAVELOG(4), "startwaveplayback(%d, %d, %d, %x)", frequency, bits, stereo, format);
 
@@ -374,7 +374,7 @@ int bx_sound_windows_c::startwaveplayback(int frequency, int bits, int stereo, i
 
 int bx_sound_windows_c::sendwavepacket(int length, Bit8u data[])
 {
-  UINT ret;
+//  UINT ret;
   int bufnum;
 
   WRITELOG( WAVELOG(4), "sendwavepacket(%d, %p)", length, data);
@@ -451,7 +451,7 @@ int bx_sound_windows_c::stopwaveplayback()
 
 int bx_sound_windows_c::closewaveoutput()
 {
-  int bufnum;
+//  int bufnum;
 
   WRITELOG( WAVELOG(4), "closewaveoutput");
 
