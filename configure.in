@@ -1486,6 +1486,13 @@ if test "$use_curses" = yes; then
   fi
 fi
 
+if test "$with_term" = yes; then
+  old_LIBS="$LIBS"
+  LIBS="$LIBS $GUI_LINK_OPTS_TERM"
+  AC_CHECK_FUNCS(color_set, AC_DEFINE(BX_HAVE_COLOR_SET, 1))
+  LIBS="$old_LIBS"
+fi
+
 if test "$with_rfb" = yes -a "$cross_configure" = 0; then
   # we need the socket function. if cross configuring, don't bother.
   AC_CHECK_FUNCS(socket, have_socket=yes)
