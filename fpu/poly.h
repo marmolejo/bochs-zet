@@ -34,7 +34,7 @@ typedef struct {
   u32 midw;
   u32 msw;
 #endif
-} GCC_ATTRIBUTE((packed)) Xsig;
+} Xsig GCC_ATTRIBUTE((packed));
 #if defined(__MWERKS__) && defined(macintosh)
 #pragma options align=reset
 #endif
