@@ -47,6 +47,13 @@
 #include <Carbon/Carbon.h>
 #endif
 
+// BX_SHARE_PATH should be defined by the makefile.  If not, give it
+// a value of NULL to avoid compile problems.
+#ifndef BX_SHARE_PATH
+#define BX_SHARE_PATH NULL
+#endif
+
+
 int bochsrc_include_count = 0;
 
 extern "C" {
@@ -2330,8 +2337,6 @@ parse_bochsrc(char *rcfile)
   static char *
 get_builtin_variable(char *varname)
 {
-#ifdef BX_SHARE_PATH
-
 #ifdef WIN32
   int code;
   DWORD size;
@@ -2367,9 +2372,6 @@ get_builtin_variable(char *varname)
     }
     return NULL;
   }
-#else
-  return NULL;
-#endif
 }
 
   static Bit32s
