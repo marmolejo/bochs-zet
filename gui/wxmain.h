@@ -88,6 +88,12 @@ enum
   ID_ComputeGeometry,
   // dialog box: LogOptions
   ID_Advanced,
+  // dialog box: CpuRegistersDialog
+  ID_Debug_Continue,
+  ID_Debug_Stop,
+  ID_Debug_Step,
+  ID_Debug_Commit,
+  ID_Close,
   // that's all
   ID_LAST_USER_DEFINED
 };
@@ -167,6 +173,8 @@ public:
   void OnOtherEvent(wxCommandEvent& event);
   void OnShowCpu(wxCommandEvent& event);
   void OnShowKeyboard(wxCommandEvent& event);
+  void DebugBreak ();
+  void DebugCommand (const char *cmd);
   static bool editFloppyValidate (FloppyConfigDialog *dialog);
   void editFloppyConfig (int drive);
   void editHDConfig (int drive);
@@ -191,6 +199,8 @@ private:
   wxMenu *menuHelp;
   ParamDialog *showCpu, *showKbd;
   void RefreshDialogs ();
+  char *debugCommand; // maybe need lock on this
+  BxEvent *debugCommandEvent;  // maybe need lock on this
 public:
   bool WantRefresh ();
 
