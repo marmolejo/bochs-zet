@@ -115,13 +115,13 @@ extern "C" {
 #define Float32 KLUDGE_Float32
 #define Float64 KLUDGE_Float64
 #include <IOKit/IOKitLib.h>
-#undef Float32
-#undef Float64
 #include <IOKit/IOBSD.h>
 #include <IOKit/storage/IOCDMedia.h>
 #include <IOKit/storage/IOMedia.h>
 #include <IOKit/storage/IOCDTypes.h>
 #include <CoreFoundation/CoreFoundation.h>
+#undef Float32
+#undef Float64
 
 // These definitions were taken from mount_cd9660.c
 // There are some similar definitions in IOCDTypes.h
