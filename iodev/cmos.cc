@@ -119,12 +119,12 @@ bx_cmos_c::init(void)
   if (BX_CMOS_THIS s.periodic_timer_index == BX_NULL_TIMER_HANDLE) {
     BX_CMOS_THIS s.periodic_timer_index =
       DEV_register_timer(this, periodic_timer_handler,
-	1000000, 1,0, "cmos"); // continuous, not-active
+        1000000, 1,0, "cmos"); // continuous, not-active
   }
   if (BX_CMOS_THIS s.one_second_timer_index == BX_NULL_TIMER_HANDLE) {
     BX_CMOS_THIS s.one_second_timer_index =
       DEV_register_timer(this, one_second_timer_handler,
-	1000000, 1,0, "cmos"); // continuous, not-active
+        1000000, 1,0, "cmos"); // continuous, not-active
   }
 
 #if BX_USE_SPECIFIED_TIME0 == 0
