@@ -780,6 +780,9 @@ BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR cr0.pg = 0; // paging disabled
   // no change to cr0.val32
 #endif
+  BX_CPU_THIS_PTR protectedMode = 0;
+  BX_CPU_THIS_PTR v8086Mode = 0;
+  BX_CPU_THIS_PTR realMode = 1;
 
 #if BX_CPU_LEVEL >= 4
   BX_CPU_THIS_PTR cr0.cd = 1; // caching disabled

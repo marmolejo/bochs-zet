@@ -118,7 +118,6 @@ BX_CPU_C::cpu_loop(Bit32s max_instr_count)
   bxInstruction_c *i = &iStorage;
 
   BxExecutePtr_t execute;
-  BxExecutePtr_t resolveModRM;
 
 #if BX_DEBUGGER
   BX_CPU_THIS_PTR break_point = 0;
