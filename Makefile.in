@@ -76,6 +76,7 @@ ZIP=zip
 UNIX2DOS=unix2dos
 LIBTOOL=@LIBTOOL@
 DLLTOOL=dlltool
+RC_CMD=@RC_CMD@
 
 @SUFFIX_LINE@
 
@@ -106,7 +107,7 @@ GUI_LINK_OPTS_RFB = @RFB_LIBS@
 GUI_LINK_OPTS_AMIGAOS = 
 GUI_LINK_OPTS_WIN32 = -luser32 -lgdi32 -lcomdlg32 -lcomctl32
 GUI_LINK_OPTS_WIN32_VCPP = user32.lib gdi32.lib winmm.lib \
-  comdlg32.lib comctl32.lib wsock32.lib
+  comdlg32.lib comctl32.lib wsock32.lib advapi.lib
 GUI_LINK_OPTS_MACOS =
 GUI_LINK_OPTS_CARBON = -framework Carbon
 GUI_LINK_OPTS_NOGUI =
@@ -303,7 +304,7 @@ wxbochs_resources.o: wxbochs.rc
 
 # for win32 gui
 win32res.o: win32res.rc
-	windres $(srcdir)/win32res.rc -o $@
+	$(RC_CMD)$@ $(srcdir)/win32res.rc
 
 #####################################################################
 # Install target for all platforms.
