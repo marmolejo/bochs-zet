@@ -172,7 +172,6 @@ public:
   void SetDriveName (const char *name);
   void SetValidateFunc (validateFunc_t v) { validate = v; }
   void AddRadio (char *description, char *filename);
-  void CreateImage ();
 DECLARE_EVENT_TABLE()
 };
 
@@ -235,6 +234,5 @@ public:
   void SetEnable (bool val) { enable->SetValue (val); }
   bool GetEnable () { return enable->GetValue (); }
   void EnterSize ();
-  bool CreateImage (int harddisk, int sectors, const char *filename);
 DECLARE_EVENT_TABLE()
 };
