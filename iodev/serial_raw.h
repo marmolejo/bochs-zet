@@ -2,6 +2,9 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
+
+#if USE_RAW_SERIAL
+
 #include <linux/serial.h>
 
 #define P_EVEN 0
@@ -21,3 +24,4 @@ class serial_raw : public logfunctions {
     int ready_receive ();
     int receive ();
 };
+#endif
