@@ -116,6 +116,32 @@ MyPanel::MyRefresh ()
 #endif
 }
 
+void 
+MyPanel::ReadConfiguration ()
+{
+  char *bochsrc;
+  long style = wxOPEN;
+  wxFileDialog *fdialog = new wxFileDialog (this, "Read configuration", "", "", "*.*", style);
+  if (fdialog->ShowModal() == wxID_OK) {
+    bochsrc = (char *)fdialog->GetPath().c_str ();
+    bx_read_configuration(bochsrc);
+  }
+  delete fdialog;
+}
+
+void 
+MyPanel::SaveConfiguration ()
+{
+  char *bochsrc;
+  long style = wxSAVE | wxOVERWRITE_PROMPT;
+  wxFileDialog *fdialog = new wxFileDialog (this, "Save configuration", "", "", "*.*", style);
+  if (fdialog->ShowModal() == wxID_OK) {
+    bochsrc = (char *)fdialog->GetPath().c_str ();
+    bx_write_configuration(bochsrc, 1);
+  }
+  delete fdialog;
+}
+
 void MyPanel::OnKeyDown(wxKeyEvent& event)
 {
 	if(event.GetKeyCode() == WXK_F12) {
