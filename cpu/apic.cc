@@ -683,7 +683,11 @@ bx_local_apic_c::get_delivery_bitmask (Bit8u dest, Bit8u dest_mode)
 
 Bit8u bx_local_apic_c::get_ppr ()
 {
-  BX_ERROR(("WARNING: Local APIC Processor Priority not implemented, returning 0"));
+  static int warned = 0;
+  if (warned < 10) {
+    BX_ERROR(("WARNING: Local APIC Processor Priority not implemented, returning 0"));
+    warned++;
+  }
   // should look at TPR, vector of highest priority isr, etc.
   return 0;
 }
