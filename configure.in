@@ -2139,11 +2139,9 @@ if test "$with_rfb" = yes; then
   # we need the socket function
   case $target in
     *-pc-windows* | *-pc-winnt* | *-pc-cygwin* | *-pc-mingw32*)
-      AC_CHECK_LIB(wsock32, socket,
-        [
-          RFB_LIBS="$RFB_LIBS -lwsock32"
-          have_socket=yes
-        ])
+      # is this okay without a check ?
+      RFB_LIBS="$RFB_LIBS -lwsock32"
+      have_socket=yes
       ;;
     *)
       AC_CHECK_FUNCS(socket, have_socket=yes)
