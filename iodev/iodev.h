@@ -95,11 +95,8 @@ class BOCHSAPI bx_keyb_stub_c : public bx_devmodel_c {
   virtual void mouse_motion(int delta_x, int delta_y, unsigned button_state) {
     STUBFUNC(keyboard, mouse_motion);
   }
-  virtual void gen_scancode(Bit32u   scancode) {
+  virtual void gen_scancode(Bit32u key) {
     STUBFUNC(keyboard, gen_scancode);
-  }
-  virtual void put_scancode( unsigned char *code, int count ) {
-    STUBFUNC(keyboard, put_scancode);
   }
   virtual void paste_bytes(Bit8u *data, Bit32s length) {
     STUBFUNC(keyboard, paste_bytes);

@@ -1599,17 +1599,6 @@ bx_keyb_c::mouse_motion(int delta_x, int delta_y, unsigned button_state)
 }
 
 
-  void
-bx_keyb_c::put_scancode( unsigned char *code, int count )
-{
-  for ( int i = 0 ; i < count ; i++ ) {
-    kbd_enQ( code[i] );
-    }
-
-  return;
-}
-
-
   int
 bx_keyb_c::SaveState( class state_file *fd )
 {

@@ -88,10 +88,8 @@ extern "C" {
 ///////// keyboard macros
 #define DEV_mouse_motion(dx, dy, state) \
     (bx_devices.pluginKeyboard->mouse_motion(dx, dy, state))
-#define DEV_kbd_gen_scancode(scancode) \
-    (bx_devices.pluginKeyboard->gen_scancode(scancode))
-#define DEV_kbd_put_scancode(scancode, count) \
-    (bx_devices.pluginKeyboard->put_scancode(scancode, count))
+#define DEV_kbd_gen_scancode(key) \
+    (bx_devices.pluginKeyboard->gen_scancode(key))
 #define DEV_kbd_paste_bytes(bytes, count) \
     (bx_devices.pluginKeyboard->paste_bytes(bytes,count))
 #define DEV_kbd_paste_delay_changed() \
