@@ -255,7 +255,7 @@ private:
     int outputinit;	// have the output functions been initialized
   } dsp;
 
-  enum bx_sb16_fm_mode {single, adlib, dual, opl3};
+  enum bx_sb16_fm_mode {single, adlib, dual, opl3, fminit};
 
   // the variables common to all FM emulations
   struct bx_sb16_opl_struct {
