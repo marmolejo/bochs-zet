@@ -92,6 +92,7 @@ bx_keyb_c::resetinternals(Boolean powerup)
   void
 bx_keyb_c::init(bx_devices_c *d, bx_cmos_c *cmos)
 {
+  BX_DEBUG(("Init $Id$"));
   Bit32u   i;
 
   BX_KEY_THIS devices = d;
@@ -157,7 +158,6 @@ bx_keyb_c::init(bx_devices_c *d, bx_cmos_c *cmos)
 
   // mouse port installed on system board
   cmos->s.reg[0x14] |= 0x04;
-  BX_DEBUG(("Init."));
 }
 
 #define RETURN(x) do { ret = (x); goto read_return; } while (0)

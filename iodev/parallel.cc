@@ -39,7 +39,6 @@ bx_parallel_c::bx_parallel_c(void)
 {
 	put("PAR");
 	settype(PARLOG);
-	BX_DEBUG(("Init $Id$"));
 }
 
 bx_parallel_c::~bx_parallel_c(void)
@@ -50,6 +49,7 @@ bx_parallel_c::~bx_parallel_c(void)
   void
 bx_parallel_c::init(bx_devices_c *d)
 {
+	BX_DEBUG(("Init $Id$"));
   BX_PAR_THIS devices = d;
 
 #if 0

@@ -43,7 +43,6 @@ bx_dma_c::bx_dma_c(void)
 {
 	put("DMA");
 	settype(DMALOG);
-	BX_DEBUG(("Init $Id$"));
 }
 
 bx_dma_c::~bx_dma_c(void)
@@ -56,6 +55,7 @@ bx_dma_c::~bx_dma_c(void)
 bx_dma_c::init(bx_devices_c *d)
 {
   unsigned c;
+	BX_DEBUG(("Init $Id$"));
 
   BX_DMA_THIS devices = d;
 

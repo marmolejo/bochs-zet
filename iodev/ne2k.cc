@@ -1160,9 +1160,9 @@ bx_ne2k_c::rx_frame(const void *buf, unsigned io_len)
 void
 bx_ne2k_c::init(bx_devices_c *d)
 {
+  BX_DEBUG(("Init $Id$"));
   BX_NE2K_THIS devices = d;
 
-  BX_DEBUG(("Init."));
 
   if (bx_options.ne2k.Ovalid->get ()) {
     // Bring the register state into power-up state

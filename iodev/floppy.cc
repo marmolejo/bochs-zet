@@ -69,7 +69,6 @@ bx_floppy_ctrl_c::bx_floppy_ctrl_c(void)
 {
 	put("FDD");
 	settype(FDLOG);
-	BX_DEBUG(("Init $Id$"));
 }
 
 bx_floppy_ctrl_c::~bx_floppy_ctrl_c(void)
@@ -82,6 +81,7 @@ bx_floppy_ctrl_c::~bx_floppy_ctrl_c(void)
   void
 bx_floppy_ctrl_c::init(bx_devices_c *d, bx_cmos_c *cmos)
 {
+	BX_DEBUG(("Init $Id$"));
   BX_FD_THIS devices = d;
 
   BX_FD_THIS devices->register_irq(6, "Floppy Drive");
