@@ -701,8 +701,8 @@ Steve Chamberlain and now maintained by RedHat.  Download it from--you guessed i
      system, it does not reach high emulation speeds. Kevin reported
      approximately 1.5MIPS using bochs on a 400Mhz PII Linux machine. Users
      who have an x86 processor and want the highest emulation speeds may want
-     to consider PC virtualization software such as plex86 (free) or VMware
-     (commercial). 
+     to consider PC virtualization software such as plex86 (free software) 
+     or VMware (proprietary and commercial). 
      </para></answer>
   </qandaentry>
 
