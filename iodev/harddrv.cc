@@ -1364,7 +1364,7 @@ BX_DEBUG(("IO write to %04x = %02x", (unsigned) address, (unsigned) value));
                                     UNUSED(data_format);
                                     UNUSED(track_number);
 
-				    if (BX_SELECTED_HD.cdrom.ready) {
+				    if (!BX_SELECTED_HD.cdrom.ready) {
 					  atapi_cmd_error(SENSE_NOT_READY, ASC_MEDIUM_NOT_PRESENT);
 					  raise_interrupt();
 				    } else {
