@@ -2052,7 +2052,8 @@ void ParamDialog::EnableChangedRecursive (
     ParamStruct *pstrOfCheckbox)
 {
   if (list==NULL) return;
-  for (int i=0; i<list->get_size (); i++) {
+  int i;
+  for (i=0; i<list->get_size (); i++) {
     bx_param_c *param = list->get(i);
     ParamStruct *pstr = (ParamStruct*) paramHash->Get (param->get_id ());
     if (pstr) {
@@ -2077,7 +2078,7 @@ void ParamDialog::EnableChangedRecursive (
     }
   }
   // if any enums changed, give them a chance to update
-  for (int i=0; i<list->get_size (); i++) {
+  for (i=0; i<list->get_size (); i++) {
     bx_param_c *param = list->get(i);
     ParamStruct *pstr = (ParamStruct*) paramHash->Get (param->get_id ());
     if (pstr) {
