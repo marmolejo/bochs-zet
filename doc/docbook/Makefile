@@ -57,5 +57,5 @@ webinst: all
 clean:
 	#remove generated files
 	for S in $(SECTIONS); do \
-	  rm -f $$S/*.html $$S/*.ps $$S/*.pdf $$S/*.out; \
+	  rm -f $$S/*.html $$S/*.htm $$S/*.ps $$S/*.pdf $$S/*.out; \
 	done
