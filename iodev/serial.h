@@ -66,6 +66,7 @@ extern "C" {
 #define BX_SER_MODE_FILE  1
 #define BX_SER_MODE_TERM  2
 #define BX_SER_MODE_RAW   3
+#define BX_SER_MODE_MOUSE 4
 
 enum {
   BX_SER_INT_IER,

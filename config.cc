@@ -865,6 +865,7 @@ void bx_init_options ()
     "file",
     "term",
     "raw",
+    "mouse",
     NULL
   };
 
