@@ -691,6 +691,7 @@ public:
   virtual ~bx_list_c();
   void add (bx_param_c *param);
   bx_param_c *get (int index);
+  int get_size () { return size; }
   bx_param_num_c *get_options () { return options; }
   bx_param_num_c *get_choice () { return choice; }
   bx_param_string_c *get_title () { return title; }
