@@ -1178,7 +1178,9 @@ typedef struct {
 
 #endif  // #if BX_SUPPORT_X86_64
 
+#if BX_SUPPORT_APIC
 #include "cpu/apic.h"
+#endif
 
 class BX_MEM_C;
 
@@ -2939,14 +2941,15 @@ public: // for now...
   BX_SMF BX_CPP_INLINE bx_bool real_mode(void);
   BX_SMF BX_CPP_INLINE bx_bool protected_mode(void);
   BX_SMF BX_CPP_INLINE bx_bool v8086_mode(void);
+
 #if BX_SUPPORT_APIC
   bx_local_apic_c local_apic;
+  static Bit32u cpu_online_map;
 #endif
-  };
 
+};
 
 #if BX_SUPPORT_ICACHE
-
 BX_CPP_INLINE void bxICache_c::decWriteStamp(BX_CPU_C *cpu, Bit32u a20Addr) {
   // Increment page write stamp, so iCache entries with older stamps
   // are effectively invalidated.
