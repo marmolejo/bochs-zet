@@ -590,8 +590,6 @@ void bx_gui_c::dimension_update(
 
   if( fheight > 0 )
   {
-    if (bx_gui.charmap_changed) bx_gui.clear_screen();
-    bx_gui.charmap_changed = 0;
     fontheight = fheight;
     fontwidth = 8;
   }
