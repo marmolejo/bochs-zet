@@ -660,7 +660,7 @@ void bx_real_sim_c::debug_puts (const char *text)
 #else
   // text mode debugger: just write to console
   fputs (text, stderr);
-  delete [] text;
+  delete [] (char *)text;
 #endif
 }
 #endif
