@@ -176,7 +176,7 @@ get_next_keymap_line (FILE *fp, char *bxsym, char *modsym, Bit32s *ascii, char *
 	return -1;
       }
       if (buf[0] == '\'' && buf[2] == '\'' && buf[3]==0) {
-	*ascii = (Bit32s) buf[1];
+	*ascii = (Bit8u) buf[1];
       } else if (!strcmp(buf, "space")) {
 	*ascii = ' ';
       } else if (!strcmp(buf, "return")) {
