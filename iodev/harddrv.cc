@@ -1537,8 +1537,7 @@ if (channel == 0) {
 							      // Multisession, Mode 2 Form 2, Mode 2 Form 1
 							      BX_SELECTED_CONTROLLER(channel).buffer[12] = 0x70; 
 							      BX_SELECTED_CONTROLLER(channel).buffer[13] = (3 << 5);
-							      BX_SELECTED_CONTROLLER(channel).buffer[14] = (unsigned char)
-(1 |
+							      BX_SELECTED_CONTROLLER(channel).buffer[14] = (unsigned char) (1 |
 								      (BX_SELECTED_DRIVE(channel).cdrom.locked ? (1 << 1) : 0) |
 								      (1 << 3) |
 								      (1 << 5));
@@ -1610,10 +1609,38 @@ if (channel == 0) {
 
 					  case 0x2: // default values
 						switch (PageCode) {
+						      case 0x2a: // CD-ROM capabilities & mech. status, copied from current values
+						            init_send_atapi_command(channel, atapi_command, 28, alloc_length);
+							    init_mode_sense_single(channel, &BX_SELECTED_CONTROLLER(channel).buffer[8], 28);
+							    BX_SELECTED_CONTROLLER(channel).buffer[8] = 0x2a;
+							    BX_SELECTED_CONTROLLER(channel).buffer[9] = 0x12;
+							    BX_SELECTED_CONTROLLER(channel).buffer[10] = 0x00;
+							    BX_SELECTED_CONTROLLER(channel).buffer[11] = 0x00;
+							    // Multisession, Mode 2 Form 2, Mode 2 Form 1
+							    BX_SELECTED_CONTROLLER(channel).buffer[12] = 0x70; 
+							    BX_SELECTED_CONTROLLER(channel).buffer[13] = (3 << 5);
+							    BX_SELECTED_CONTROLLER(channel).buffer[14] = (unsigned char) (1 |
+								      (BX_SELECTED_DRIVE(channel).cdrom.locked ? (1 << 1) : 0) |
+								      (1 << 3) |
+								      (1 << 5));
+							    BX_SELECTED_CONTROLLER(channel).buffer[15] = 0x00;
+							    BX_SELECTED_CONTROLLER(channel).buffer[16] = (706 >> 8) & 0xff;
+							    BX_SELECTED_CONTROLLER(channel).buffer[17] = 706 & 0xff;
+							    BX_SELECTED_CONTROLLER(channel).buffer[18] = 0;
+							    BX_SELECTED_CONTROLLER(channel).buffer[19] = 2;
+							    BX_SELECTED_CONTROLLER(channel).buffer[20] = (512 >> 8) & 0xff;
+							    BX_SELECTED_CONTROLLER(channel).buffer[21] = 512 & 0xff;
+							    BX_SELECTED_CONTROLLER(channel).buffer[22] = (706 >> 8) & 0xff;
+							    BX_SELECTED_CONTROLLER(channel).buffer[23] = 706 & 0xff;
+							    BX_SELECTED_CONTROLLER(channel).buffer[24] = 0;
+							    BX_SELECTED_CONTROLLER(channel).buffer[25] = 0;
+							    BX_SELECTED_CONTROLLER(channel).buffer[26] = 0;
+							    BX_SELECTED_CONTROLLER(channel).buffer[27] = 0;
+							    ready_to_send_atapi(channel);
+							    break;
 						      case 0x01: // error recovery
 						      case 0x0d: // CD-ROM
 						      case 0x0e: // CD-ROM audio control
-						      case 0x2a: // CD-ROM capabilities & mech. status
 						      case 0x3f: // all
 							    BX_PANIC(("cdrom: MODE SENSE (dflt), code=%x",
 								     PageCode));
