@@ -2325,6 +2325,12 @@ for (sim=0; sim<BX_SMP_PROCESSORS; sim++) {
   }
 #endif  // #if BX_DISASM
   }
+#if 0
+  // print the TSC value for every CPU
+  for (sim=0; sim<BX_SMP_PROCESSORS; sim++) {
+    dbg_printf ("TSC[%d] = %lld\n", sim, BX_CPU(sim)->tsc);
+  }
+#endif
 }
 
 
