@@ -1182,7 +1182,8 @@ MyFrame::HandleAskParam (BxEvent *event)
   default:
     {
           wxString msg;
-          msg.Printf ("ask param for parameter type %d is not implemented in wxWindows");
+          msg.Printf ("ask param for parameter type %d is not implemented in wxWindows",
+                      param->get_type ());
           wxMessageBox( msg, "not implemented", wxOK | wxICON_ERROR );
           return -1;
         }
