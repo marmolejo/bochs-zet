@@ -470,6 +470,16 @@ debugger_check:
     }
 
 #endif  // #if BX_DEBUGGER
+#if BX_GDBSTUB
+    {
+      unsigned int reason;
+      if ((reason = bx_gdbstub_check(EIP)) != GDBSTUB_STOP_NO_REASON)
+  	{
+	  return;
+        }
+    }
+#endif
+
     goto main_cpu_loop;
 
 
