@@ -686,5 +686,5 @@ void FPU_stack_underflow_pop(int i)
 
 int printk(const char * fmt, ...)
 {
-  return(0); // for now
+  return(0);
 }

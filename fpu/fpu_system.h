@@ -38,9 +38,6 @@ typedef Bit8u u_char;
 #define VERIFY_READ     0
 #define VERIFY_WRITE    1
 
-/* bbd: include ported linux headers after config.h for GCC_ATTRIBUTE macro */
-//#include <linux/types.h>
-
 #ifndef WORDS_BIGENDIAN
 #error "WORDS_BIGENDIAN not defined in config.h"
 #elif WORDS_BIGENDIAN == 1
