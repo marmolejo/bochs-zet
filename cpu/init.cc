@@ -36,9 +36,9 @@
 #define BX_DEVICE_ID     3
 #define BX_STEPPING_ID   0
 
-BX_CPU_C::BX_CPU_C()
+BX_CPU_C::BX_CPU_C(): bx_cpuid(0)
 #if BX_SUPPORT_APIC
-   : local_apic (this)
+   ,local_apic (this)
 #endif
 {
   // in case of SMF, you cannot reference any member data
