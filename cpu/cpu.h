@@ -2849,6 +2849,10 @@ public: // for now...
                                  unsigned opa, unsigned opb);
 #endif
 
+  BX_SMF Bit32u get_cpu_version_information(void);
+  BX_SMF Bit32u get_extended_cpuid_features(void);
+  BX_SMF Bit32u get_std_cpuid_features(void);
+
   BX_CPP_INLINE unsigned which_cpu(void) { return bx_cpuid; }
   BX_CPP_INLINE const bx_gen_reg_t *get_gen_reg() { return gen_reg; }
 

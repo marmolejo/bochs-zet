@@ -29,8 +29,6 @@
 #include "bochs.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
-extern Bit32u get_cpu_version_information();
-
 BX_CPU_C::BX_CPU_C(): bx_cpuid(0)
 #if BX_SUPPORT_APIC
    ,local_apic (this)
