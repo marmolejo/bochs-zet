@@ -819,7 +819,7 @@ BX_CPU_C::exception(unsigned vector, Bit16u error_code, Boolean is_INT)
 
 #if BX_EXTERNAL_DEBUGGER
   printf ("Exception(%u) code=%08x @%08x%08x\n", vector, error_code,(Bit32u)(BX_CPU_THIS_PTR prev_eip >>32),(Bit32u)(BX_CPU_THIS_PTR prev_eip));
-  trap_debugger(1);
+  //trap_debugger(1);
 #endif
 
 
