@@ -391,7 +391,14 @@ currently work with.
   <row>
     <entry>Mouse</entry>
     <entry>Yes</entry>
-    <entry>Emulates a PS/2 mouse with 3 buttons.
+    <entry>Emulates a PS/2 mouse with 2 buttons.
+    </entry>
+  </row>
+  <row>
+    <entry>Sound Blaster</entry>
+    <entry>Yes</entry>
+    <entry>Emulates a Sound Blaster 16 card.  On Windows, Linux, and FreeBSD
+    you can send the output to your host computer's sound system.
     </entry>
   </row>
   <row>
