@@ -225,6 +225,7 @@ private:
     Bit16u  vbe_bank;
     Boolean vbe_enabled;
     Bit16u  vbe_curindex;
+    Bit32u  vbe_visable_screen_size; // in bytes
 #endif    
     } s;  // state information
 
