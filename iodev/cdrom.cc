@@ -53,22 +53,19 @@ extern "C" {
 // I use the framesize in non OS specific code too
 #define BX_CD_FRAMESIZE CD_FRAMESIZE
 }
-#endif
 
-#if defined(__GNU__) || (defined(__CYGWIN32__) && !defined(WIN32))
+#elif defined(__GNU__) || (defined(__CYGWIN32__) && !defined(WIN32))
 extern "C" {
 #include <sys/ioctl.h>
 #define BX_CD_FRAMESIZE 2048
 #define CD_FRAMESIZE 2048
 }
-#endif
 
-#if BX_WITH_MACOS
+#elif BX_WITH_MACOS
 #define BX_CD_FRAMESIZE 2048
 #define CD_FRAMESIZE 2048
-#endif
 
-#ifdef __sun
+#elif defined(__sun)
 extern "C" {
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -76,22 +73,19 @@ extern "C" {
 #include <sys/cdio.h>
 #define BX_CD_FRAMESIZE CDROM_BLK_2048
 }
-#endif /* __sun */
 
-#ifdef __DJGPP__
+#elif defined(__DJGPP__)
 extern "C" {
 #include <sys/ioctl.h>
 #define BX_CD_FRAMESIZE 2048
 #define CD_FRAMESIZE 2048
 }
-#endif
 
-#ifdef __BEOS__
+#elif defined(__BEOS__)
 #include "cdrom_beos.h"
 #define BX_CD_FRAMESIZE 2048
-#endif
 
-#if (defined (__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__))
+#elif (defined (__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__))
 // OpenBSD pre version 2.7 may require extern "C" { } structure around
 // all the includes, because the i386 sys/disklabel.h contains code which 
 // c++ considers invalid.
@@ -107,9 +101,8 @@ extern "C" {
 // XXX
 #define BX_CD_FRAMESIZE 2048
 #define CD_FRAMESIZE	2048
-#endif
 
-#ifdef __APPLE__
+#elif defined(__APPLE__)
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -165,9 +158,8 @@ static char CDDevicePath[ MAXPATHLEN ];
 
 #define BX_CD_FRAMESIZE 2048
 #define CD_FRAMESIZE	2048
-#endif
 
-#ifdef WIN32
+#elif defined(WIN32)
 // windows.h included by bochs.h
 #include <winioctl.h>
 #include "aspi-win32.h"
@@ -188,8 +180,14 @@ static HINSTANCE hASPI = NULL;
 
 #define BX_CD_FRAMESIZE 2048
 #define CD_FRAMESIZE	2048
-#endif
 
+#else // all others (Irix, Tru64)
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/ioctl.h>
+#define BX_CD_FRAMESIZE 2048
+#define CD_FRAMESIZE 2048 
+#endif
 
 #include <stdio.h>
 
