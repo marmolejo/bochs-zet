@@ -1847,6 +1847,7 @@ esac
 case $target in 
   *-pc-windows* | *-pc-winnt* | *-cygwin* | *-mingw*)
 	if test "$bx_plugins" = 1; then 
+	  AC_CHECK_LIB(mingwex, opendir, LIBS="$LIBS -lmingwex")
 	  # set variables for building DLL plugins
 	  PRIMARY_TARGET=".win32_dll_plugin_target"
 	  PLUGIN_LIBNAME_TRANSFORMATION='%.o=bx_%.dll'
