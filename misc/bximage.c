@@ -120,7 +120,7 @@ ask_menu (char *prompt, int n_choices, char *choice[], int the_default, int *out
       return 0;
     }
     for (i=0; i<n_choices; i++) {
-      if (!strcasecmp (choice[i], clean)) {
+      if (!strcmp (choice[i], clean)) {
 	// matched, return the choice number
 	*out = i;
 	return 0;
