@@ -325,8 +325,6 @@ void BX_CPU_C::init(BX_MEM_C *addrspace)
   mem = addrspace;
   sprintf (name, "CPU %p", this);
 
-  BX_INSTR_INIT(CPU_ID);
-
 #if BX_WITH_WX
   // Register some of the CPUs variables as shadow parameters so that
   // they can be visible in the config interface.

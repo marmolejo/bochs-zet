@@ -1610,6 +1610,7 @@ bx_init_hardware()
   BX_CPU(0)->init (BX_MEM(0));
 #if BX_SUPPORT_APIC
   BX_CPU(0)->local_apic.set_id (0);
+  BX_INSTR_INIT(0);
 #endif
   BX_CPU(0)->reset(BX_RESET_HARDWARE);
 #else
@@ -1638,6 +1639,7 @@ bx_init_hardware()
     // assign apic ID from the index of this loop
     // if !BX_SUPPORT_APIC, this will not compile.
     BX_CPU(i)->local_apic.set_id (i);
+    BX_INSTR_INIT(i);
     BX_CPU(i)->reset(BX_RESET_HARDWARE);
   }
 #endif
