@@ -289,6 +289,11 @@ BX_CPU_C::JMP_Jq(bxInstruction_c *i)
   invalidate_prefetch_q();
 
   RIP += (Bit32s) i->Id();
+  if (i->os32L()==0) {
+    // For 16-bit opSize, upper bits of RIP are cleared, as in
+    // 32-bit counterpart JMP_Jd.
+    BX_CPU_THIS_PTR dword.rip_upper = 0;
+    }
   BX_INSTR_UCNEAR_BRANCH(BX_INSTR_IS_JMP, new_RIP);
 }
 
