@@ -1605,7 +1605,7 @@ BX_DEBUG(("IO write to %04x = %02x", (unsigned) address, (unsigned) value));
 	      }
         // non-standard commands
         case 0xf0: // Exabyte enable nest command
-	  BX_INFO(("Not implemented command"));
+	  BX_INFO(("Not implemented command 0xf0: exabyte enable nest"));
           command_aborted(value);
           break;
 
