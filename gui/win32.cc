@@ -862,13 +862,15 @@ bx_gui_c::get_clipboard_text(Bit8u **bytes, Bit32s *nbytes)
     HGLOBAL hg = GetClipboardData(CF_TEXT);
     char *data = (char *)GlobalLock(hg);
     *nbytes = strlen(data);
-    *bytes = (Bit8u *)malloc (*nbytes+1);
+    *bytes = new Bit8u[1 + *nbytes];
     BX_INFO (("found %d bytes on the clipboard", *nbytes));
     memcpy (*bytes, data, *nbytes+1);
     BX_INFO (("first byte is 0x%02x", *bytes[0]));
     GlobalUnlock(hg);
     CloseClipboard();
     return 1;
+    // *bytes will be freed in bx_keyb_c::paste_bytes or
+    // bx_keyb_c::service_paste_buf, using delete [].
   } else {
     BX_ERROR (("paste: could not open clipboard"));
     return 0;

@@ -1008,13 +1008,15 @@ bx_gui_c::get_clipboard_text(Bit8u **bytes, Bit32s *nbytes)
       wxTheClipboard->GetData (data);
       wxString str = data.GetText ();
       int len = str.Len ();
-      Bit8u *buf = (Bit8u *) malloc (len);
+      Bit8u *buf = new Bit8u[len];
       memcpy (buf, str.c_str (), len);
       *bytes = buf;
       *nbytes = len;
       ret = 1;
-      // buf will be free()d in bx_keyb_c::paste_bytes or 
-      // bx_keyb_c::service_paste_buf.
+      // buf will be freed in bx_keyb_c::paste_bytes or 
+      // bx_keyb_c::service_paste_buf, using delete [].
+    } else {
+      BX_ERROR (("paste: could not open wxWindows clipboard"));
     }
     wxTheClipboard->Close ();
   }
