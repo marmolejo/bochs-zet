@@ -187,4 +187,5 @@ int main(int argc, char **argv)
 	}
 
 	myexit (0);
+	return 0; /* shut up stupid compilers */
 }

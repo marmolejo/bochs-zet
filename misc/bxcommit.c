@@ -288,7 +288,7 @@ int commit_redolog (char *flatname, char *redologname )
   lseek(redologfd, dtoh32(header.standard.header), SEEK_SET);
 
   catalog_size = dtoh32(header.specific.catalog) * sizeof(Bit32u);
-  if (read(redologfd, catalog, catalog_size)!= catalog_size)
+  if ((Bit32u) read(redologfd, catalog, catalog_size) != catalog_size)
      fatal ("\nERROR: while reading redolog catalog!");
 
   printf ("] Done.");
@@ -315,7 +315,7 @@ int commit_redolog (char *flatname, char *redologname )
                   lseek(redologfd, bitmap_offset, SEEK_SET);
 
                   bitmap_size = dtoh32(header.specific.bitmap);
-                  if (read(redologfd, bitmap, bitmap_size) != bitmap_size)
+                  if ((Bit32u) read(redologfd, bitmap, bitmap_size) != bitmap_size)
                           fatal ("\nERROR: while reading bitmap from redolog !");
 
                   for(j=0; j<dtoh32(header.specific.bitmap); j++)
