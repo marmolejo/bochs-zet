@@ -41,12 +41,23 @@ all: $(SECTION_HTML)
 user/book1.html: $(srcdir)/user/user.dbk
 	-mkdir -p user
 	$(DOCBOOK2HTML) -o user $(srcdir)/user/user.dbk
+	if [ -f $(srcdir)/user/index.html ]; \
+		then mv $(srcdir)/user/index.html $(srcdir)/user/book1.html; \
+	fi
+
 documentation/book1.html: $(srcdir)/documentation/documentation.dbk
 	-mkdir -p documentation
 	$(DOCBOOK2HTML) -o documentation $(srcdir)/documentation/documentation.dbk 
+	if [ -f $(srcdir)/documentation/index.html ]; \
+		then mv $(srcdir)/documentation/index.html $(srcdir)/documentation/book1.html; \
+	fi
+
 development/book1.html: $(srcdir)/development/development.dbk
 	-mkdir -p development
 	$(DOCBOOK2HTML) -o development $(srcdir)/development/development.dbk
+	if [ -f $(srcdir)/development/index.html ]; \
+		then mv $(srcdir)/development/index.html $(srcdir)/development/book1.html; \
+	fi
 
 fixperm::
 	# fix permissions locally so that tar will install things right
