@@ -1100,7 +1100,7 @@ bx_keyb_c::periodic( Bit32u   usec_delta )
   {
     multiple=0;
 	SIM->periodic ();
-	if (BX_CPU_THIS_PTR kill_bochs_request) return 0;
+	if (BX_CPU(0)->kill_bochs_request) return 0;
     bx_gui.handle_events();
   }
 
