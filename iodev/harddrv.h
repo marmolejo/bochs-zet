@@ -142,6 +142,35 @@ class concat_image_t : public device_image_t
 #include "external-disk-simulator.h"
 #endif
 
+#if DLL_HD_SUPPORT
+class dll_image_t : public device_image_t
+{
+  public:
+      // Open a image. Returns non-negative if successful.
+      int open (const char* pathname);
+
+      // Close the image.
+      void close ();
+
+      // Position ourselves. Return the resulting offset from the
+      // beginning of the file.
+      off_t lseek (off_t offset, int whence);
+
+      // Read count bytes to the buffer buf. Return the number of
+      // bytes read (count).
+      ssize_t read (void* buf, size_t count);
+
+      // Write count bytes from buf. Return the number of bytes
+      // written (count).
+      ssize_t write (const void* buf, size_t count);
+
+  private:
+      int vunit,vblk;
+
+};
+#endif
+
+
 typedef struct {
   struct {
     Boolean busy;
