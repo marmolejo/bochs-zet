@@ -1276,7 +1276,7 @@ union {
   // in code that needs them.
   unsigned      protectedMode; // CR0.PE=1, EFLAGS.VM=0
   unsigned      v8086Mode;     // CR0.PE=1, EFLAGS.VM=1
-  unsigned      realMode;      // CR0.PE=1
+  unsigned      realMode;      // CR0.PE=0
 
   Bit32u        cr1;
   bx_address    cr2;
