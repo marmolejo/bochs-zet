@@ -5601,7 +5601,7 @@ in the "<command>ataX-xxxx: ..., translation='algorithm'</command>" section.
 Setting a specific CHS translation should be done if you use a disk dump
 of an actual disk, or use a real disk as a block device. You need to
 know which geometry was used to format the disk, and which translation 
-was used.
+was used. You must not set the translation to 'auto'.
         </para>
 
         <note>
