@@ -625,7 +625,9 @@ void bx_gui_c::handle_events(void) {
       headerbar_click(LOWORD(key));
     }
     else {
-      if (((key & 0x0100) && ((key & 0x01ff) != 0x0145)) | ((key & 0x01ff) == 0x45)) {
+      // Swap the scancodes of "numlock" and "pause"
+      if ((key & 0xff)==0x45) key ^= 0x100;
+      if (key & 0x0100) {
         // This makes the "AltGr" key on European keyboards work
 	if (key==0x138) {
           scancode = 0x9d; // left control key released
