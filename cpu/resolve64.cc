@@ -324,9 +324,6 @@ BX_CPU_C::Resolve64Mod0Base15(bxInstruction_c *i)
     RMAddr(i) = R15;
 }
 
-
-
-
   void  BX_CPP_AttrRegparmN(1)
 BX_CPU_C::Resolve64Mod1or2Base0(bxInstruction_c *i)
 {
