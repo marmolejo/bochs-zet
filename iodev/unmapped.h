@@ -55,6 +55,7 @@ private:
   struct {
     Bit8u port80;
     Bit8u port8e;
+    Bit8u shutdown;
     } s;  // state information
 
   bx_devices_c *devices;
