@@ -28,7 +28,6 @@
 
 #include "iodev/iodev.h"
 #include <assert.h>
-#include "state_file.h"
 
 #if BX_WITH_CARBON
 #define Float32 KLUDGE_Float32

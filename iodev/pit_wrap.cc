@@ -359,28 +359,6 @@ bx_pit_c::write( Bit32u   address, Bit32u   dvalue,
 }
 
 
-
-
-  int
-bx_pit_c::SaveState( class state_file *fd )
-{
-  fd->write_check ("8254 start");
-  fd->write (&BX_PIT_THIS s, sizeof (BX_PIT_THIS s));
-  fd->write_check ("8254 end");
-  return(0);
-}
-
-
-  int
-bx_pit_c::LoadState( class state_file *fd )
-{
-  fd->read_check ("8254 start");
-  fd->read (&BX_PIT_THIS s, sizeof (BX_PIT_THIS s));
-  fd->read_check ("8254 end");
-  return(0);
-}
-
-
 #if 0
   void
 bx_kbd_port61h_write(Bit8u   value)

@@ -53,8 +53,6 @@ public:
   BX_PIT_SMF void reset( unsigned type);
   BX_PIT_SMF bx_bool periodic( Bit32u   usec_delta );
 
-  BX_PIT_SMF int SaveState( class state_file *fd );
-  BX_PIT_SMF int LoadState( class state_file *fd );
   Bit16u get_timer(int Timer) {
       return s.timer.get_inlatch(Timer);
   }

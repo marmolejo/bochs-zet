@@ -1614,24 +1614,3 @@ bx_keyb_c::mouse_motion(int delta_x, int delta_y, int delta_z, unsigned button_s
 
   create_mouse_packet(force_enq);
 }
-
-
-  int
-bx_keyb_c::SaveState( class state_file *fd )
-{
-  fd->write_check ("keyboard start");
-  fd->write (&BX_KEY_THIS s, sizeof (BX_KEY_THIS s));
-  fd->write_check ("keyboard end");
-  return(0);
-}
-
-
-  int
-bx_keyb_c::LoadState( class state_file *fd )
-{
-  fd->read_check ("keyboard start");
-  fd->read (&BX_KEY_THIS s, sizeof (BX_KEY_THIS s));
-  fd->read_check ("keyboard end");
-  return(0);
-}
-

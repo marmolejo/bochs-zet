@@ -66,9 +66,6 @@ private:
   BX_KEY_SMF Bit8u    get_kbd_enable(void);
   BX_KEY_SMF void     service_paste_buf ();
   BX_KEY_SMF void     create_mouse_packet(bool force_enq);
-  BX_KEY_SMF void     mouse_button(unsigned mouse_state);
-  BX_KEY_SMF int      SaveState( class state_file *fd );
-  BX_KEY_SMF int      LoadState( class state_file *fd );
   BX_KEY_SMF unsigned periodic( Bit32u   usec_delta );
 
 
