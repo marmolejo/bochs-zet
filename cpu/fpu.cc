@@ -1277,6 +1277,7 @@ void BX_CPU_C::FNOP(bxInstruction_c *i)
 {
 #if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU();
+  BX_CPU_THIS_PTR FPU_check_pending_exceptions();
 
   // Perform no FPU operation. This instruction takes up space in the
   // instruction stream but does not affect the FPU or machine
