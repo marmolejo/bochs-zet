@@ -408,7 +408,9 @@ plugin_startup(void)
 /* Plugin system: Device registration                                   */
 /************************************************************************/
 
+#ifdef __GNUC__
 #warning BBD: when all plugin devices are converted to the "bx_devmodel" type with virtual functions, I intend to chop this out.
+#endif
 // (and the nasty current_plugin_context hack can go too)
 
 void pluginRegisterDevice(deviceInitMem_t init1, deviceInitDev_t init2,

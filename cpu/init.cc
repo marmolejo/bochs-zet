@@ -52,7 +52,9 @@ BX_CPU_C::BX_CPU_C()
 #if BX_WITH_WX
 
 #if BX_SMP_PROCESSORS!=1
+#ifdef __GNUC__
 #warning cpu_param_handler only supports parameters for one processor.
+#endif
 // To fix this, I think I will need to change bx_param_num_c::set_handler
 // so that I pass in a void* data value.  The void* will be passed to each
 // handler.  In this case, I would pass a pointer to the BX_CPU_C object

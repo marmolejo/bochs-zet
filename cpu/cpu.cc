@@ -847,7 +847,9 @@ BX_CPU_THIS_PTR eipPageWindowSize = 0; // Fixme
   void
 BX_CPU_C::revalidate_prefetch_q(void)
 {
+#ifdef __GNUC__
 #warning "::revalidate_prefetch_q() is ifdef'd out."
+#endif
   bx_address eipBiased;
 
   eipBiased = RIP + BX_CPU_THIS_PTR eipPageBias;

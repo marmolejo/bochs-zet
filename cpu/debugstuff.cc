@@ -953,7 +953,9 @@ bx_dbg_init_cpu_mem_env1(bx_dbg_callback_t *callback, int argc, char *argv[])
   UNUSED(argv);
 
 #if 0
+#ifdef __GNUC__
 #warning hardcoding BX_CPU_THIS_PTR mem[0] and cpu[0]
+#endif
   callback->setphymem           = BX_MEM(0)->dbg_set_mem;
   callback->getphymem           = BX_MEM(0)->dbg_fetch_mem;
   callback->xlate_linear2phy    = BX_CPU(0)->dbg_xlate_linear2phy;

@@ -1147,7 +1147,9 @@ SYSCALL_LEGACY_MODE:
   if (BX_CPU_THIS_PTR msr.lma) {
 
     RCX = RIP;
+#ifdef __GNUC__
 #warning - PRT: SYSCALL --  do we reset RF/VM before saving to R11?
+#endif
     R11 = read_eflags();
 
     if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64) {

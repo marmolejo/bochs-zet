@@ -45,9 +45,10 @@
 // you care about.
 #define TEST_READ_BEYOND_END 0
 #define TEST_WRITE_BEYOND_END 0
-#if TEST_READ_BEYOND_END || TEST_WRITE_BEYOND_END
-#warning BEWARE: Dangerous options are enabled in harddrv.cc
-#warning If you are not trying to provoke hard drive errors you should disable them right now.
+#ifdef __GNUC__
+#  if TEST_READ_BEYOND_END || TEST_WRITE_BEYOND_END
+#    warning BEWARE: Dangerous options are enabled in harddrv.cc. If you are not trying to provoke hard drive errors you should disable them right now.
+#  endif
 #endif
 // end of dangerous options.
 
