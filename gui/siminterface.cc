@@ -364,7 +364,7 @@ bx_real_sim_c::get_floppy_options (int drive, bx_floppy_options *out)
 }
 
 int 
-bx_real_sim_c::get_cdrom_options (int level, bx_atadevice_options *out, int *where = NULL)
+bx_real_sim_c::get_cdrom_options (int level, bx_atadevice_options *out, int *where)
 {
   for (Bit8u channel=0; channel<BX_MAX_ATA_CHANNEL; channel++) {
     for (Bit8u device=0; device<2; device++) {
