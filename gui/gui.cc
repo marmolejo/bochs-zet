@@ -39,6 +39,9 @@
 #  include <Disks.h>
 #endif
 
+#ifdef WIN32
+#include <windows.h>
+#endif
 
 
 
@@ -230,7 +233,7 @@ bx_gui_c::snapshot_handler(void)
   Bit8u* text_snapshot = NULL;
   char *snapshot_txt;
   unsigned line_addr, txt_addr, txHeight, txWidth;
-#if defined(WIN32) && !defined(__MINGW32__)
+#ifdef WIN32
   HANDLE hMem;
 #else
   FILE *OUTPUT;
@@ -246,7 +249,7 @@ bx_gui_c::snapshot_handler(void)
         snapshot_txt[txt_addr] = text_snapshot[line_addr+j];
         txt_addr++;
       }
-#if defined(WIN32) && !defined(__MINGW32__)
+#ifdef WIN32
       snapshot_txt[txt_addr] = 13;
       txt_addr++;
 #endif
@@ -254,7 +257,7 @@ bx_gui_c::snapshot_handler(void)
       txt_addr++;
     }
     snapshot_txt[txt_addr] = 0;
-#if defined(WIN32) && !defined(__MINGW32__)
+#ifdef WIN32
     if (OpenClipboard(NULL)) {
       hMem = GlobalAlloc(GMEM_ZEROINIT, txHeight*(txWidth+2)+1);
       EmptyClipboard();
