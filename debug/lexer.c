@@ -1272,7 +1272,7 @@ YY_RULE_SETUP
 case 92:
 YY_RULE_SETUP
 #line 108 "lexer.l"
-{ bxlval.ulval = bx_strtoull(bxtext, NULL, 10); return(BX_TOKEN_LONG_NUMERIC); }
+{ bxlval.ulval = strtoull(bxtext, NULL, 10); return(BX_TOKEN_LONG_NUMERIC); }
 	YY_BREAK
 case 93:
 YY_RULE_SETUP
