@@ -223,11 +223,6 @@ logfunctions::logfunctions(iofunc_t *iofunc)
 
 logfunctions::~logfunctions(void)
 {
-    if (io != NULL)
-    {
-        delete io;
-        io = NULL;
-    }
     if ( this->prefix )
     {
         free(this->prefix);
