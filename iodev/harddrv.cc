@@ -1735,7 +1735,9 @@ BX_DEBUG(("IO write to %04x = %02x", (unsigned) address, (unsigned) value));
 	    case 0x82: //  Disable write cache.
 	    case 0xAA: // Enable and
 	    case 0x55: //  Disable look-ahead cache.
-	      BX_INFO(("SET FEATURES subcommand not supported by disk."));
+	    case 0x66: //  Disable reverting to power-on default
+	    case 0xCC: //  Enable reverting to power-on default
+	      BX_INFO(("SET FEATURES subcommand 0x%02x not supported by disk.", (unsigned) BX_SELECTED_CONTROLLER.features));
 	      command_aborted(value);
 	    break;
 
