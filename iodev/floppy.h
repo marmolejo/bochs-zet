@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
+//  Copyright (C) 2002  MandrakeSoft S.A.
 //
 //    MandrakeSoft S.A.
 //    43, rue d'Aboukir
@@ -72,6 +72,7 @@ private:
 
     Boolean multi_track;
     Boolean pending_irq;
+    Bit8u   reset_sensei;
     Bit8u   format_count;
     Bit8u   format_fillbyte;
 
@@ -126,6 +127,7 @@ private:
 #endif
   BX_FD_SMF void   floppy_command(void);
   BX_FD_SMF void   floppy_xfer(Bit8u drive, Bit32u offset, Bit8u *buffer, Bit32u bytes, Bit8u direction);
+  BX_FD_SMF void   raise_interrupt(void);
   static void   timer_handler(void *);
 
 public:
