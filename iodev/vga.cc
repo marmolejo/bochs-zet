@@ -2197,7 +2197,12 @@ bx_vga_c::vbe_write(Bit32u address, Bit32u value, unsigned io_len)
       {
         BX_VGA_THIS s.vbe_yres=(Bit16u) value;
       } break;
-      
+  
+      case VBE_DISPI_INDEX_BPP: // set bpp
+      {
+        BX_VGA_THIS s.vbe_bpp=(Bit16u) value;
+      } break;
+        
       case VBE_DISPI_INDEX_BANK: // set bank
       {
         BX_INFO(("VBE set bank to %d", BX_VGA_THIS s.vbe_bank));
