@@ -624,7 +624,6 @@ Steve Chamberlain and now maintained by RedHat.  Download it from--you guessed i
       a year, and Nick Behnken's page seems to be inactive.
       Also, Craig Ballantyne ported bochs to OS/2, but his web page has
       disappeared and his port has not been updated since March 2000.
-      His latest sources are at <ulink url="http://www.os2world.com/emulator/computer.html">http://www.os2world.com/emulator/computer.html</ulink>.
       If you want to bring the OS/2 port up to date, contact the &devlist;.
       </entry>
    </row>
