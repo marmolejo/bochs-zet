@@ -966,6 +966,9 @@ void bx_init_options ()
 #if BX_WITH_SDL
     "sdl",
 #endif
+#if BX_WITH_SVGA
+    "svga",
+#endif
 #if BX_WITH_TERM
     "term",
 #endif
@@ -1820,6 +1823,10 @@ bx_bool load_and_init_display_lib () {
 #if BX_WITH_SDL
   if (!strcmp (gui_name, "sdl")) 
     PLUG_load_plugin (sdl, PLUGTYPE_OPTIONAL);
+#endif
+#if BX_WITH_SVGA
+  if (!strcmp (gui_name, "svga")) 
+    PLUG_load_plugin (svga, PLUGTYPE_OPTIONAL);
 #endif
 #if BX_WITH_TERM
   if (!strcmp (gui_name, "term")) 
