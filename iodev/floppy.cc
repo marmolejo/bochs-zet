@@ -1447,6 +1447,7 @@ bx_floppy_ctrl_c::evaluate_media(unsigned type, char *path, floppy_t *media)
     ret = fstat(media->fd, &stat_buf);
 #elif defined(WIN32)
   if (raw_floppy) {
+    memset (&stat_buf, 0, sizeof(stat_buf));
     stat_buf.st_mode = S_IFCHR;
     ret = 0;
   } else {
