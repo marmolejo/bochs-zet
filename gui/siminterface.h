@@ -1193,7 +1193,7 @@ public:
 extern bx_simulator_interface_c *SIM;
 
 extern void bx_init_siminterface ();
-extern void bx_init_main (int argc, char *argv[]);
+extern int bx_init_main (int argc, char *argv[]);
 extern int bx_continue_after_config_interface (int argc, char *argv[]);
 
 #if BX_WITH_WX

@@ -144,7 +144,10 @@ bool MyApp::OnInit()
   // install callback function to handle anything that occurs before the
   // simulation begins.
   SIM->set_notify_callback (&MyApp::DefaultCallback, this);
-  bx_init_main (argc, argv);
+  if (bx_init_main (argc, argv) < 0) {
+    // init failed. Don't even start the interface.
+    return FALSE;
+  }
   MyFrame *frame = new MyFrame( "Bochs x86 Emulator", wxPoint(50,50), wxSize(450,340), wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION );
   theFrame = frame;  // hack alert
   frame->Show( TRUE );
