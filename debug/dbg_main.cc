@@ -2188,13 +2188,15 @@ void bx_dbg_disassemble_current (int which_cpu, int print_time)
     else
       dbg_printf ( "(%u) ", which_cpu);
     if (BX_CPU(which_cpu)->guard_found.is_32bit_code) {
-      dbg_printf ( "%04x:%08x (%s): ", 
+      dbg_printf ( "[0x%08x] %04x:%08x (%s): ", 
+	phy,
         (unsigned) BX_CPU(which_cpu)->guard_found.cs,
         (unsigned) BX_CPU(which_cpu)->guard_found.eip,
         bx_dbg_symbolic_address((BX_CPU(which_cpu)->cr3) >> 12, BX_CPU(which_cpu)->guard_found.eip, BX_CPU(which_cpu)->sregs[BX_SEG_REG_CS].cache.u.segment.base));
       }
     else {
-      dbg_printf ( "%04x:%04x (%s): ", 
+      dbg_printf ( "[0x%08x] %04x:%04x (%s): ", 
+	phy,
         (unsigned) BX_CPU(which_cpu)->guard_found.cs,
         (unsigned) BX_CPU(which_cpu)->guard_found.eip,
         bx_dbg_symbolic_address_16bit(BX_CPU(which_cpu)->guard_found.eip, BX_CPU(which_cpu)->sregs[BX_SEG_REG_CS].selector.value));
