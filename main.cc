@@ -1141,6 +1141,7 @@ int main (int argc, char *argv[])
   } else {
     // quit via longjmp
   }
+  return 0;
 }
 #endif
 
