@@ -17,6 +17,9 @@
 #include <assert.h>
 #ifdef WIN32
 #  include <conio.h>
+#ifndef __MINGW32__
+#  define snprintf _snprintf
+#endif
 #endif
 #include "config.h"
 
