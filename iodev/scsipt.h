@@ -1,7 +1,13 @@
-/*
- * distilled information from various header files from Microsoft's
- * DDK for Windows NT 4.0
- */
+//
+// iodev/scsipt.h
+// $Id$
+//
+// This file was copied from ... ?
+//
+// distilled information from various header files from Microsoft's
+// DDK for Windows NT 4.0
+//
+
 #ifndef _SCSIPT_H_INC
 #define _SCSIPT_H_INC
 
