@@ -5875,7 +5875,7 @@ bx_dbg_info_flags(void)
  if(BX_CPU(dbg_cpu)->getB_NT())
   dbg_printf ("NT ");
  dbg_printf ("IOPL=%d ", BX_CPU(dbg_cpu)->get_IOPL());
- if(BX_CPU(dbg_cpu)->eflags.val32 & EFlagsOFMask)
+ if(BX_CPU(dbg_cpu)->getB_OF())
   dbg_printf ("OF ");
  if(BX_CPU(dbg_cpu)->getB_DF())
   dbg_printf ("DF ");

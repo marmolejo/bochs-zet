@@ -489,7 +489,7 @@ BX_CPU_C::XADD_EqGq(bxInstruction_c *i)
       BX_WRITE_64BIT_REG(i->nnn(), op1_64);
       }
 
-    SET_FLAGS_OSZAPC_64(op1_64, op2_64, sum_64, BX_INSTR_XADD64);
+    SET_FLAGS_OSZAPC_64(op1_64, op2_64, sum_64, BX_INSTR_ADD64);
 }
 
   void

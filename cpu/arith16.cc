@@ -499,7 +499,7 @@ BX_CPU_C::XADD_EwGw(bxInstruction_c *i)
     BX_WRITE_16BIT_REG(i->nnn(), op1_16);
     }
 
-  SET_FLAGS_OSZAPC_16(op1_16, op2_16, sum_16, BX_INSTR_XADD16);
+  SET_FLAGS_OSZAPC_16(op1_16, op2_16, sum_16, BX_INSTR_ADD16);
 #else
   BX_PANIC(("XADD_EvGv: not supported on < 80486"));
 #endif

@@ -526,7 +526,7 @@ BX_CPU_C::XADD_EdGd(bxInstruction_c *i)
     BX_WRITE_32BIT_REGZ(i->nnn(), op1_32);
     }
 
-  SET_FLAGS_OSZAPC_32(op1_32, op2_32, sum_32, BX_INSTR_XADD32);
+  SET_FLAGS_OSZAPC_32(op1_32, op2_32, sum_32, BX_INSTR_ADD32);
 #else
   BX_INFO (("XADD_EdGd not supported for cpulevel <= 3"));
   UndefinedOpcode(i);

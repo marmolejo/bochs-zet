@@ -394,7 +394,7 @@ BX_CPU_C::XADD_EbGb(bxInstruction_c *i)
     BX_WRITE_8BIT_REGx(i->nnn(), i->extend8bitL(), op1);
     }
 
-  SET_FLAGS_OSZAPC_8(op1, op2, sum, BX_INSTR_XADD8);
+  SET_FLAGS_OSZAPC_8(op1, op2, sum, BX_INSTR_ADD8);
 #else
   BX_INFO(("XADD_EbGb: not supported on < 80486"));
   UndefinedOpcode(i);
