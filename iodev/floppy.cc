@@ -219,8 +219,6 @@ bx_floppy_ctrl_c::reset(unsigned source)
 {
   Bit32u i;
 
-  BX_FD_THIS s.data_rate = 0; /* 500 Kbps */
-
   BX_FD_THIS s.command_complete = 1; /* waiting for new command */
   BX_FD_THIS s.command_index = 0;
   BX_FD_THIS s.command_size = 0;
@@ -246,8 +244,9 @@ bx_floppy_ctrl_c::reset(unsigned source)
     // normal operation
     // drive select 0
 
-    // DIR affected only by hard reset
+    // DIR and CCR affected only by hard reset
     BX_FD_THIS s.DIR |= 0x80; // disk changed
+    BX_FD_THIS s.data_rate = 0; /* 500 Kbps */
     }
 
   for (i=0; i<4; i++) {
@@ -316,6 +315,8 @@ bx_floppy_ctrl_c::read(Bit32u address, unsigned io_len)
         BX_FD_THIS s.result_index = 0;
         BX_FD_THIS s.result[0] = value;
         BX_FD_THIS s.main_status_reg = FD_MS_MRQ;
+        BX_FD_THIS devices->pic->untrigger_irq(6);
+        BX_FD_THIS s.pending_irq = 0;
         }
       return(value);
       break;
@@ -620,10 +621,7 @@ bx_floppy_ctrl_c::floppy_command(void)
        *   byte1 = current cylinder number (0 to 79)
        */
       drive = BX_FD_THIS s.DOR & 0x03;
-      if (BX_FD_THIS s.pending_irq) {
-        BX_FD_THIS s.pending_irq = 0;
-        }
-      else {
+      if (!BX_FD_THIS s.pending_irq) {
         BX_FD_THIS s.status_reg0 = 0x80;
         }
       BX_FD_THIS s.result[0] = BX_FD_THIS s.status_reg0;
