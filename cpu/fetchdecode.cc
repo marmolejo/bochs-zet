@@ -1887,15 +1887,16 @@ modrm_done:
               */
              OpcodeInfoPtr = &(OpcodeInfoPtr->AnotherArray[mod==0xc0]);
              break;
+#if BX_SUPPORT_FPU
          case BxFPGroup:
              if (mod != 0xc0)  // mod != 11b
                 OpcodeInfoPtr = &(OpcodeInfoPtr->AnotherArray[nnn]);
-             else
-             {
+             else {
                 int index = (b1-0xD8)*64 + (0x3f & b2);
                 OpcodeInfoPtr = &(BxOpcodeInfo_FloatingPoint[index]);
              }
              break;
+#endif
          default:
              BX_PANIC(("fetchdecode: Unknown opcode group"));
        }
