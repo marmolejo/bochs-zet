@@ -73,6 +73,14 @@ extern "C" {
 }
 #endif /* __sun */
 
+#ifdef __DJGPP__
+extern "C" {
+#include <sys/ioctl.h>
+#define BX_CD_FRAMESIZE 2048
+#define CD_FRAMESIZE 2048
+}
+#endif
+
 #ifdef __BEOS__
 #include "cdrom_beos.h"
 #define BX_CD_FRAMESIZE 2048
