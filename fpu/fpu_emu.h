@@ -130,15 +130,26 @@ struct address {
 #endif
 } GCC_ATTRIBUTE((packed));
 
+// Endian  Host byte order         Guest (x86) byte order
+// ======================================================
+// Little  FFFFFFFFEEAAAAAA        FFFFFFFFEEAAAAAA
+// Big     AAAAAAEEFFFFFFFF        FFFFFFFFEEAAAAAA
+//
+// Legend: F - fraction/mmx
+//         E - exponent
+//         A - aligment
+
 struct fpu__reg {
 #ifdef EMU_BIG_ENDIAN
+  u16 aligment1, aligment2, aligment3;
+  s16 exp;   /* Signed quantity used in internal arithmetic. */
   u32 sigh;
   u32 sigl;
-  s16 exp;   /* Signed quantity used in internal arithmetic. */
 #else
   u32 sigl;
   u32 sigh;
   s16 exp;   /* Signed quantity used in internal arithmetic. */
+  u16 aligment1, aligment2, aligment3;
 #endif
 } GCC_ATTRIBUTE((aligned(16), packed));
 
