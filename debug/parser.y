@@ -982,7 +982,7 @@ expression:
    | expression '+' expression       { $$ = $1 + $3; }
    | expression '-' expression       { $$ = $1 - $3; }
    | expression '*' expression       { $$ = $1 * $3; }
-   | expression '/' expression       { $$ = $1 / $3; }
+   | expression '/' expression       { $$ = ($3 != 0) ? $1 / $3 : 0; }
    | expression BX_TOKEN_RSHIFT expression { $$ = $1 >> $3; }
    | expression BX_TOKEN_LSHIFT expression { $$ = $1 << $3; }
    | expression '|' expression       { $$ = $1 | $3; }
