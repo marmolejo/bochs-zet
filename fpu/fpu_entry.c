@@ -32,8 +32,6 @@
 #include "status_w.h"
 
 #include <linux/signal.h>
-#include <asm/desc.h>
-
 
 #define __BAD__ FPU_illegal   /* Illegal on an 80486, causes SIGILL */
 

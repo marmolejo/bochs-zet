@@ -348,8 +348,11 @@ void fcompp()
       FPU_illegal();
       return;
     }
-  if ( !compare_st_st(1) )
-      poppop();
+  if (!compare_st_st(1))
+  {
+      FPU_pop();
+      FPU_pop();
+  }
 }
 
 
@@ -374,8 +377,11 @@ void fucompp()
   /* fucompp */
   if (FPU_rm == 1)
     {
-      if ( !compare_u_st_st(1) )
-	poppop();
+      if (!compare_u_st_st(1))
+      {
+          FPU_pop();
+          FPU_pop();
+      }
     }
   else
     FPU_illegal();
