@@ -1275,16 +1275,13 @@ public: // for now...
 
   // for decoding instructions; accessing seg reg's by index
   unsigned sreg_mod00_rm16[8];
-  unsigned sreg_mod01_rm16[8];
-  unsigned sreg_mod10_rm16[8];
+  unsigned sreg_mod01or10_rm16[8];
 #if BX_SUPPORT_X86_64
-  unsigned sreg_mod01_rm32[16];
-  unsigned sreg_mod10_rm32[16];
+  unsigned sreg_mod01or10_rm32[16];
   unsigned sreg_mod0_base32[16];
   unsigned sreg_mod1or2_base32[16];
 #else
-  unsigned sreg_mod01_rm32[8];
-  unsigned sreg_mod10_rm32[8];
+  unsigned sreg_mod01or10_rm32[8];
   unsigned sreg_mod0_base32[8];
   unsigned sreg_mod1or2_base32[8];
 #endif
