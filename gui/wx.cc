@@ -574,6 +574,16 @@ MyPanel::fillBxKeyEvent_GTK (wxKeyEvent& wxev, BxKeyEvent& bxev, Boolean release
       case GDK_Page_Up:     key_event = BX_KEY_PAGE_UP; break;
       case GDK_Page_Down:   key_event = BX_KEY_PAGE_DOWN; break;
 
+#ifdef GDK_Menu
+      case GDK_Menu:        key_event = BX_KEY_MENU; break;
+#endif
+#ifdef GDK_Super_L
+      case GDK_Super_L:     key_event = BX_KEY_WIN_L; break;
+#endif
+#ifdef GDK_Super_R
+      case GDK_Super_R:     key_event = BX_KEY_WIN_R; break;
+#endif
+
       default:
         wxLogError( "fillBxKeyEvent_GTK(): keysym %x unhandled!", (unsigned) keysym );
         return BX_KEY_UNHANDLED;
