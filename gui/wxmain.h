@@ -188,7 +188,7 @@ public:
   void OnEditOther(wxCommandEvent& event);
   void OnLogPrefs(wxCommandEvent& event);
   void OnLogPrefsDevice(wxCommandEvent& event);
-  void OnOtherEvent(wxCommandEvent& event);
+  void OnEditATA(wxCommandEvent& event);
   void OnShowCpu(wxCommandEvent& event);
   void OnShowKeyboard(wxCommandEvent& event);
 #if BX_DEBUGGER
@@ -199,7 +199,7 @@ public:
 #endif
   static bool editFloppyValidate (FloppyConfigDialog *dialog);
   void editFloppyConfig (int drive);
-  void editATAConfig (int channel);
+  void editFirstCdrom ();
   void OnToolbarClick(wxCommandEvent& event);
   int HandleAskParam (BxEvent *event);
   int HandleAskParamString (bx_param_string_c *param);
