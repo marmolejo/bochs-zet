@@ -760,7 +760,7 @@ bx_list_c::text_print (FILE *fp)
     assert (list[i] != NULL);
     if (list[i]->get_enabled ()) {
       list[i]->text_print (fp);
-      if (!options->get () & BX_SERIES_ASK)
+      if (!(options->get () & BX_SERIES_ASK))
         fprintf (fp, "\n");
     }
   }
