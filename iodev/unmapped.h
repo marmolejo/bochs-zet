@@ -27,9 +27,6 @@
 
 
 
-#define BX_BIOS_MESSAGE_SIZE 80
-
-
 #if BX_USE_UM_SMF
 #  define BX_UM_SMF  static
 #  define BX_UM_THIS bx_unmapped.
