@@ -50,6 +50,8 @@ typedef struct {
     Boolean irq;
     Boolean input;
   } CONTROL;
+  FILE *output;
+  Boolean initmode;
 } bx_par_t;
 
 
@@ -62,10 +64,6 @@ public:
   BX_PAR_SMF void   init(bx_devices_c *);
 
 private:
-  FILE *output;
-
-  Boolean initmode;
-
   bx_par_t s;
 
   bx_devices_c *devices;
