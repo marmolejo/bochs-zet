@@ -5,7 +5,9 @@
 
 #if USE_RAW_SERIAL
 
+#ifdef __linux__
 #include <linux/serial.h>
+#endif
 
 #define P_EVEN 0
 #define P_ODD 1
@@ -13,7 +15,8 @@
 
 class serial_raw : public logfunctions {
   public:
-    serial_raw (char *ttypath, int signal);
+    serial_raw (char *devname);
+    ~serial_raw (void);
     void set_baudrate (int rate);
     void set_data_bits (int );
     void set_stop_bits (int);

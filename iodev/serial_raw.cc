@@ -36,10 +36,15 @@
 
 #define LOG_THIS bx_devices.pluginSerialDevice->
 
-serial_raw::serial_raw (char *ttypath, int signal)
+serial_raw::serial_raw (char *devname)
 {
   put ("SERR");
   settype (SERRLOG);
+}
+
+serial_raw::~serial_raw (void)
+{
+  // nothing here yet
 }
 
 void 
