@@ -208,23 +208,31 @@ int make_image (int sec, char *filename)
 #endif
     fatal ("ERROR: Could not write disk image");
   }
-  // clear the buffer
-  for (i=0; i<512; i++)
-    buffer[i] = 0;
-  // write it however many times
+
   printf ("\nWriting: [");
-  for (i=0; i<sec; i++) {
-    n = (unsigned int) fwrite (buffer, 512, 1, fp);
-    if (n != 1) {
-      printf ("\nWrite failed with %d sectors written\n", i);
-      fclose (fp);
-      fatal ("ERROR: The disk image is not complete!");
-    }
-    if ((i%2048) == 0) {
-      printf (".");
-      fflush (stdout);
-    }
+
+  /*
+   * seek to sec*512-1 and write a signle character.
+   * can't just do: fseek(fp, 512*sec-1, SEEK_SET)
+   * because 512*sec may be too large for signed int.
+   */
+  while (sec > 0)
+  {
+    /* temp <-- min(sec, 4194303)
+     * 4194303 is (int)(0x7FFFFFFF/512)
+     */
+    int temp = ((sec < 4194303) ? sec : 4194303);
+    fseek(fp, 512*temp, SEEK_CUR);
+    sec -= temp;
   }
+
+  fseek(fp, -1, SEEK_CUR);
+  if (fputc('\0', fp) == EOF)
+  {
+    fclose (fp);
+    fatal ("ERROR: The disk image is not complete!");
+  }
+
   printf ("] Done.\n");
   fclose (fp);
   return 0;
