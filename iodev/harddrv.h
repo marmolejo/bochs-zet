@@ -274,7 +274,7 @@ public:
 
 private:
 
-  BX_HD_SMF Bit32u calculate_logical_address();
+  BX_HD_SMF Boolean calculate_logical_address(Bit32u *sector);
   BX_HD_SMF void increment_address();
   BX_HD_SMF void identify_drive(unsigned drive);
   BX_HD_SMF void identify_ATAPI_drive(unsigned drive);
