@@ -786,9 +786,9 @@ bx_param_bool_c::text_ask (FILE *fpin, FILE *fpout)
   fprintf (fpout, "\n");
   int status;
   char *prompt = get_ask_format ();
+  char buffer[512];
   if (prompt == NULL) {
     // default prompt, if they didn't set an ask format string
-    char buffer[512];
     sprintf (buffer, "%s? [%%s] ", get_name ());
     prompt = buffer;
   }
