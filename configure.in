@@ -1830,6 +1830,13 @@ if test "$with_sdl" = yes; then
   GUI_CFLAGS="$GUI_CFLAGS \`sdl-config --cflags\`"
   GUI_CXXFLAGS="$GUI_CXXFLAGS \`sdl-config --cflags\`"
   GUI_LINK_OPTS="$GUI_LINK_OPTS \$(GUI_LINK_OPTS_SDL)"
+  if test "$with_win32" != yes; then
+    case $target in
+      *-cygwin* | *-mingw32*)
+         EXTRA_BX_OBJS="$EXTRA_BX_OBJS win32res.o"
+         ;;
+    esac
+  fi
 fi
 
 if test "$with_svga" = yes; then
