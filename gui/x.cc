@@ -155,7 +155,7 @@ static unsigned bx_statusitem_pos[12] = {
   };
 static bx_bool bx_statusitem_active[12];
 static long bx_status_led_green, bx_status_graytext;
-static char bx_status_info_text[32];
+static char bx_status_info_text[34];
 
 static void headerbar_click(int x, int y);
 static void send_keyboard_mouse_status(void);
