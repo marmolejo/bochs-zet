@@ -989,7 +989,7 @@ class bxICacheEntry_c {
   bxInstruction_c i;  // The instruction decode information.
   };
 
-class bxICache_c {
+class BOCHSAPI bxICache_c {
   public:
 
   bxICacheEntry_c entry[BxICacheEntries];
