@@ -77,7 +77,6 @@ bx_pci2isa_c::init(void)
 
   DEV_register_iowrite_handler(this, write_handler, 0x00B2, "PIIX3 PCI-to-ISA bridge", 7);
   DEV_register_iowrite_handler(this, write_handler, 0x00B3, "PIIX3 PCI-to-ISA bridge", 7);
-  DEV_register_iowrite_handler(this, write_handler, 0x00F0, "PIIX3 PCI-to-ISA bridge", 7);
   DEV_register_iowrite_handler(this, write_handler, 0x04D0, "PIIX3 PCI-to-ISA bridge", 7);
   DEV_register_iowrite_handler(this, write_handler, 0x04D1, "PIIX3 PCI-to-ISA bridge", 7);
   DEV_register_iowrite_handler(this, write_handler, 0x0CF9, "PIIX3 PCI-to-ISA bridge", 7);
@@ -212,9 +211,6 @@ bx_pci2isa_c::write(Bit32u address, Bit32u value, unsigned io_len)
       break;
     case 0x00b3:
       BX_ERROR(("write: APM status register not supported yet"));
-      break;
-    case 0x00f0:
-      BX_ERROR(("write: FPU error register not supported yet"));
       break;
     case 0x04d0:
       BX_P2I_THIS s.elcr1 = (value & 0xf8);
