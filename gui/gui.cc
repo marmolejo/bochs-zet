@@ -41,10 +41,6 @@
 #  include <Disks.h>
 #endif
 
-#if BX_WITH_X11
-#include <X11/Xlib.h>
-#endif
-
 bx_gui_c   bx_gui;
 
 #define BX_GUI_THIS bx_gui.
