@@ -2067,6 +2067,7 @@ union {
 
 #if BX_SUPPORT_SSE
   BX_SMF void prepareSSE(void);
+  BX_SMF void SSE_check_exceptions(int);
 #endif
 
 #if BX_SUPPORT_3DNOW
