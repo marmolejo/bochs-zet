@@ -286,7 +286,7 @@ bx_devices_c::init(BX_MEM_C *newmem)
 
   // misc. CMOS
   Bit32u extended_memory_in_k = mem->get_memory_in_k() > 1024 ? (mem->get_memory_in_k() - 1024) : 0;
-  if (extended_memory_in_k > 0xffff) extended_memory_in_k = 0xffff;
+  if (extended_memory_in_k > 0xfc00) extended_memory_in_k = 0xfc00;
 
   DEV_cmos_set_reg(0x15, (Bit8u) BASE_MEMORY_IN_K);
   DEV_cmos_set_reg(0x16, (Bit8u) (BASE_MEMORY_IN_K >> 8));
