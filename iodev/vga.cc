@@ -2895,7 +2895,7 @@ bx_vga_c::vbe_write(Bit32u address, Bit32u value, unsigned io_len)
           }
           else
           {
-            BX_INFO(("VBE disabling"));
+            if (BX_VGA_THIS s.vbe_enabled) BX_INFO(("VBE disabling"));
             BX_VGA_THIS s.vbe_lfb_enabled=0;
           }     
           BX_VGA_THIS s.vbe_enabled=(bx_bool)(value & VBE_DISPI_ENABLED);
