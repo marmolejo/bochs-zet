@@ -10,4 +10,4 @@
  |                                                                           |
  +---------------------------------------------------------------------------*/
 
-#define FPU_VERSION "wm-FPU-emu version 2.05"
+#define FPU_VERSION "wm-FPU-emu version 2.1 for Bochs"
