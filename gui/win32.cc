@@ -410,6 +410,7 @@ VOID UIThread(PVOID pvoid) {
   if (stInfo.mainWnd) {
     ShowWindow (stInfo.mainWnd, SW_SHOW);
 
+    InitCommonControls();
     hwndTB = CreateWindowEx(0, TOOLBARCLASSNAME, (LPSTR) NULL,
                WS_CHILD | CCS_ADJUSTABLE, 0, 0, 0, 0, stInfo.mainWnd,
                (HMENU) 100, stInfo.hInstance, NULL);
