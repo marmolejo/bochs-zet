@@ -687,7 +687,7 @@ void bx_init_options ()
       "romaddr",
       "The address at which the ROM image should be loaded",
       0, BX_MAX_INT, 
-      0);
+      0xf0000);
   bx_options.rom.Oaddress->set_format ("ROM BIOS address: 0x%05x");
   bx_options.rom.Oaddress->set_base (16);
 
