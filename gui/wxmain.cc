@@ -65,7 +65,7 @@
 #include "bitmaps/reset.xpm"
 #include "bitmaps/snapshot.xpm"
 #include "bitmaps/mouse.xpm"
-#include "bitmaps/configbutton.xpm"
+//#include "bitmaps/configbutton.xpm"
 #include "bitmaps/userbutton.xpm"
 
 // FIXME: ugly global variables that the bx_gui_c object in wx.cc can use
