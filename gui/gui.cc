@@ -585,3 +585,16 @@ bx_gui_c::set_text_charbyte(Bit16u address, Bit8u data)
   BX_GUI_THIS char_changed[address >> 5] = 1;
   BX_GUI_THIS charmap_updated = 1;
 }
+
+  
+  void
+bx_gui_c::beep_on(float frequency)
+{
+  BX_INFO(( "GUI Beep ON (frequency=%.2f)",frequency));
+}
+
+  void
+bx_gui_c::beep_off()
+{
+  BX_INFO(( "GUI Beep OFF"));
+}
