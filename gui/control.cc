@@ -270,10 +270,10 @@ static char *startup_interface_options =
 Bochs Interface Options\n\
 ------------------\n\
 0. Return to previous menu\n\
-1. VGA Update Interval: 300000\n\
-2. Mouse: enabled\n\
-3. Emulated instructions per second (IPS): 1000000\n\
-4. Private Colormap: enabled=0\n\
+1. VGA Update Interval: %d\n\
+2. Mouse: %s\n\
+3. Emulated instructions per second (IPS): %d\n\
+4. Private Colormap: %s\n\
 \n\
 Please choose one: [0] ";
 
@@ -476,9 +476,16 @@ int bx_control_panel (int menu)
        }
      }
      break;
-   case BX_CPANEL_START_OPTS_DISK:
+#if 0
+   case BX_CPANEL_START_OPTS_INTERFACE:
      {
        char prompt[1024];
+       int interval;
+       SIM->get_vga_update_interval (&interval);
+       sprintf (prompt, startup_interface_options, 
+	 interval, 
+	 SIM->get_mouse_enabled (),
+	 SIM->getips ());
        build_disk_options_prompt (startup_disk_options_prompt, prompt, 1024);
        if (ask_int (prompt, 0, 7, 0, &choice) < 0) return -1;
        switch (choice) {
@@ -494,6 +501,7 @@ int bx_control_panel (int menu)
        }
      }
      break;
+#endif
    case BX_CPANEL_RUNTIME:
      if (ask_int (runtime_menu_prompt, 1, 9, 8, &choice) < 0) return -1;
      switch (choice) {

@@ -296,7 +296,10 @@ bx_real_sim_c::set_mem_size (int megs) {
 int 
 bx_real_sim_c::get_rom_path (char *buf, int len)
 {
-  strncpy (buf, bx_options.rom.path, len);
+  if (bx_options.rom.path)
+    strncpy (buf, bx_options.rom.path, len);
+  else
+    buf[0] = 0;
   return 0;
 }
 
@@ -310,7 +313,10 @@ bx_real_sim_c::set_rom_path (char *path)
 int 
 bx_real_sim_c::get_vga_path (char *buf, int len)
 {
-  strncpy (buf, bx_options.vgarom.path, len);
+  if (bx_options.vgarom.path)
+    strncpy (buf, bx_options.vgarom.path, len);
+  else
+    buf[0] = 0;
   return 0;
 }
 
