@@ -77,8 +77,11 @@ private:
     bx_pci_read_handler_t  read;
     bx_pci_write_handler_t write;
     void             *this_ptr;
-    } pci_handler[BX_MAX_PCI_DEVICES];
+  } pci_handler[BX_MAX_PCI_DEVICES];
   unsigned num_pci_handles;
+
+  bx_bool slot_used[BX_N_PCI_SLOTS];
+  bx_bool slots_checked;
 
   struct {
     bx_def440fx_t i440fx;
