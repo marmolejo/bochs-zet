@@ -1419,7 +1419,7 @@ void bx_init_options ()
       "clock:time0",
       "Initial time for Bochs CMOS clock, used if you really want two runs to be identical",
       0, BX_MAX_BIT32U,
-      0);
+      BX_CLOCK_TIME0_LOCAL);
   bx_options.clock.Osync = new bx_param_enum_c (BXP_CLOCK_SYNC,
       "clock:sync",
       "Host to guest time synchronization method",
