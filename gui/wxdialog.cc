@@ -483,6 +483,13 @@ void HDConfigDialog::SetGeom (int n, int value) {
   UpdateMegs ();
 }
 
+void HDConfigDialog::SetGeomRange (int n, int min, int max)
+{
+  wxLogDebug ("Setting range of geom[%d] to min=%d, max=%d", n, min, max);
+  geom[n]->SetRange (min, SPINCTRL_FIX_MAX(max)); 
+  wxLogDebug ("now min=%d, max=%d", geom[n]->GetMin (), geom[n]->GetMax ());
+}
+
 float
 HDConfigDialog::UpdateMegs () {
   float meg = 512.0 
