@@ -5,5 +5,6 @@
 #ifdef WIN32
 
 void LogAskDialog(BxEvent *event);
+int AskFilename(bx_param_filename_c *param);
 
 #endif
