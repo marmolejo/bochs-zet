@@ -914,9 +914,14 @@ main(int argc, char *argv[])
   }
 
   if (enable_control_panel) {
+    // update log actions before starting control panel
+    for (int level=0; level<N_LOGLEV; level++) {
+      int action = bx_options.log.actions[level];
+      io->set_log_action (level, action);
+    }
     // Display the pre-simulation control panel.
-    bx_control_panel (BX_CPANEL_START_MENU);
     SIM->set_enabled (1);
+    bx_control_panel (BX_CPANEL_START_MENU);
   }
 
 #if BX_DEBUGGER
@@ -972,6 +977,14 @@ bx_read_configuration (char *rcfile)
   if (parse_bochsrc(rcfile) < 0) {
     BX_ERROR (("reading from %s failed", rcfile));
     return -1;
+  }
+  // update log actions if control panel is enabled
+  fprintf(stderr,"updating actions: %d\n",SIM->get_enabled ());
+  if (SIM->get_enabled ()) {
+    for (int level=0; level<N_LOGLEV; level++) {
+      int action = bx_options.log.actions[level];
+      io->set_log_action (level, action);
+    }
   }
   return 0;
 }
