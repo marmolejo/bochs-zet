@@ -63,7 +63,7 @@ bx_devices_c::bx_devices_c(void)
     pluginPciDevAdapter = NULL;
 #endif
 #if BX_SUPPORT_PCIUSB
-    pluginPciUSBAdapter = NULL;
+    pluginPciUSBAdapter = &stubUsbAdapter;
 #endif        
 #if BX_SUPPORT_PCIPNIC
     pluginPciPNicAdapter = NULL;
@@ -71,6 +71,9 @@ bx_devices_c::bx_devices_c(void)
 #endif
   pit = NULL;
   pluginKeyboard = &stubKeyboard;
+#if BX_SUPPORT_BUSMOUSE
+  pluginBusMouse = &stubBusMouse;
+#endif
   pluginDmaDevice = &stubDma;
   pluginFloppyDevice = &stubFloppy;
   pluginBiosDevice = NULL;
@@ -159,6 +162,11 @@ bx_devices_c::init(BX_MEM_C *newmem)
   PLUG_load_plugin(floppy, PLUGTYPE_CORE);
   PLUG_load_plugin(harddrv, PLUGTYPE_OPTIONAL);
   PLUG_load_plugin(keyboard, PLUGTYPE_OPTIONAL);
+#if BX_SUPPORT_BUSMOUSE
+  if (bx_options.Omouse_type->get () == BX_MOUSE_TYPE_BUS) {
+    PLUG_load_plugin(busmouse, PLUGTYPE_OPTIONAL);
+  }
+#endif
   if (is_serial_enabled ())
     PLUG_load_plugin(serial, PLUGTYPE_OPTIONAL);
   if (is_parallel_enabled ()) 

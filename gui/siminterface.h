@@ -1278,6 +1278,8 @@ enum {
 #define BX_MOUSE_TYPE_IMPS2        2
 #define BX_MOUSE_TYPE_SERIAL       3
 #define BX_MOUSE_TYPE_SERIAL_WHEEL 4
+#define BX_MOUSE_TYPE_BUS          5
+#define BX_MOUSE_TYPE_USB          6
 
 BOCHSAPI extern char *bochs_start_names[];
 BOCHSAPI extern int n_bochs_start_names;
