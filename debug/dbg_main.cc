@@ -3889,7 +3889,7 @@ void
 bx_dbg_info_ne2k(int page, int reg)
 {
 #if BX_NE2K_SUPPORT
-  bx_ne2k.print_info (stderr, page, reg, 0);
+  DEV_ne2k_print_info (stderr, page, reg, 0);
 #else
   dbg_printf ( "NE2000 support is not compiled in.\n");
 #endif

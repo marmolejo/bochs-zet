@@ -42,7 +42,7 @@
 
 #include "bochs.h"
 #if BX_NE2K_SUPPORT && defined (ETH_LINUX)
-#define LOG_THIS bx_ne2k.
+#define LOG_THIS bx_devices.pluginNE2kDevice->
 
 extern "C" {
 #include <errno.h>

@@ -65,7 +65,7 @@ bx_devices_c::bx_devices_c(void)
   pluginPicDevice = &stubPic;
   pluginHardDrive = &stubHardDrive;
   pluginSB16Device = NULL;
-  ne2k = NULL;
+  pluginNE2kDevice =&stubNE2k;
   g2h = NULL;
 #if BX_IODEBUG_SUPPORT
   iodebug = NULL;
@@ -195,9 +195,9 @@ bx_devices_c::init(BX_MEM_C *newmem)
 
 #if BX_NE2K_SUPPORT
   // NE2000 NIC
-  ne2k = &bx_ne2k;
-  ne2k->init();
-  BX_DEBUG(("ne2k"));
+  if (bx_options.ne2k.Opresent->get ()) {
+    PLUG_load_plugin(ne2k, PLUGTYPE_OPTIONAL);
+  }
 #endif  // #if BX_NE2K_SUPPORT
 
 #if 0
@@ -277,7 +277,7 @@ bx_devices_c::reset(unsigned type)
   iodebug->reset(type);
 #endif
 #if BX_NE2K_SUPPORT
-  ne2k->reset(type);
+  if (pluginNE2kDevice) pluginNE2kDevice->reset(type);
 #endif
 
   bx_reset_plugins(type);

@@ -34,7 +34,7 @@
 #include "bochs.h"
 #if BX_NE2K_SUPPORT
 
-#define LOG_THIS bx_ne2k.
+#define LOG_THIS bx_devices.pluginNE2kDevice->
 
 
 //
