@@ -177,7 +177,6 @@ extern "C" {
 #define DEV_register_pci_handlers(b,c,d,e,f,g) \
   (bx_devices.pluginPciBridge->register_pci_handlers(b,c,d,e,f,g))
 #define DEV_is_pci_device(name) bx_devices.pluginPciBridge->is_pci_device(name)
-#define DEV_pci_init_irq(a,b,c) bx_devices.pluginPci2IsaBridge->pci_init_irq(a,b,c)
 #define DEV_pci_set_irq(a,b,c) bx_devices.pluginPci2IsaBridge->pci_set_irq(a,b,c)
 #define DEV_pci_set_base_mem(a,b,c,d,e,f) \
   (bx_devices.pluginPciBridge->pci_set_base_mem(a,b,c,d,e,f))

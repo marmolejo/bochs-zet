@@ -130,8 +130,6 @@ bx_ne2k_c::reset(unsigned type)
     DEV_pci_set_base_io(this, read_handler, write_handler,
                         &BX_NE2K_THIS s.base_address, &BX_NE2K_THIS s.pci_conf[0x10],
                         32, &ne2k_iomask[0], "NE2000 PCI NIC");
-    BX_NE2K_THIS s.pci_conf[0x3c] = bx_options.ne2k.Oirq->get ();
-    DEV_pci_init_irq(BX_NE2K_THIS s.devfunc, BX_NE2K_THIS s.pci_conf[0x3d], bx_options.ne2k.Oirq->get ());
   }
 #endif
   set_irq_level(0);

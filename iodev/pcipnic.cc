@@ -166,8 +166,8 @@ bx_pcipnic_c::reset(unsigned type)
     { 0x20, (( bx_options.pnic.Oioaddr->get() & 0xE0) | 0x01) },
     { 0x21, ( bx_options.pnic.Oioaddr->get() >> 8) },
     { 0x22, 0x00 }, { 0x23, 0x00 },
-    { 0x3c, bx_options.pnic.Oirq->get() }, // IRQ
-    { 0x3d, BX_PCI_INTA },                 // INT
+    { 0x3c, 0x00, },                // IRQ
+    { 0x3d, BX_PCI_INTA },          // INT
     { 0x6a, 0x01 },                 // PNIC clock
     { 0xc1, 0x20 }                  // PIRQ enable
 
@@ -190,7 +190,6 @@ bx_pcipnic_c::reset(unsigned type)
                       &BX_PNIC_THIS s.base_ioaddr,
                       &BX_PNIC_THIS s.pci_conf[0x20],
                       16, &pnic_iomask[0], "PNIC");
-  DEV_pci_init_irq(BX_PNIC_THIS s.devfunc, BX_PNIC_THIS s.pci_conf[0x3d], bx_options.pnic.Oirq->get());
   // Deassert IRQ
   set_irq_level(0);
 }

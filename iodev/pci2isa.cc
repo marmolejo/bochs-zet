@@ -182,13 +182,6 @@ bx_pci2isa_c::pci_unregister_irq(unsigned pirq)
 }
 
   void
-bx_pci2isa_c::pci_init_irq(Bit8u devfunc, unsigned line, unsigned irq)
-{
-  Bit8u pirq = ((devfunc >> 3) + line - 2) & 0x03;
-  pci_register_irq(pirq, irq);
-}
-
-  void
 bx_pci2isa_c::pci_set_irq(Bit8u devfunc, unsigned line, bx_bool level)
 {
   Bit8u pirq = ((devfunc >> 3) + line - 2) & 0x03;
