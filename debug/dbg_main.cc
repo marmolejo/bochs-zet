@@ -1277,6 +1277,14 @@ bx_dbg_symbolic_address(Bit32u context, Bit32u eip, Bit32u base)
   return "unknown context";
 }
 
+char*
+bx_dbg_symbolic_address_16bit(Bit32u eip, Bit32u cs)
+{
+  // just prints an error anyway
+  return bx_dbg_symbolic_address (0,0,0);
+}
+
+
 void
 bx_dbg_symbol_command(char* filename, Boolean global, Bit32u offset)
 {
