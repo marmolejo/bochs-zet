@@ -87,7 +87,6 @@ private:
                     //       data before AT style machines
 
       /* internal to our version of the keyboard controller */
-      Boolean scan_convert;
       Boolean kbd_clock_enabled;
       Boolean aux_clock_enabled;
       Boolean allow_irq1;
@@ -101,6 +100,9 @@ private:
       Bit32u   timer_pending;
       Boolean irq1_requested;
       Boolean irq12_requested;
+      Boolean scancodes_translate;
+      Boolean expecting_scancodes_set;
+      Bit8u   current_scancodes_set;
       } kbd_controller;
 
     struct mouseStruct {
