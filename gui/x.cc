@@ -548,7 +548,7 @@ load_font(void)
 
   /* Load font and get font information structure. */
   if ((font_info = XLoadQueryFont(bx_x_display,"vga")) == NULL) {
-    BX_PANIC(("Could not open vga font"));
+    BX_PANIC(("Could not open vga font. See docs-html/install.html"));
     }
 }
 
