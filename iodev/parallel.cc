@@ -37,9 +37,9 @@ bx_parallel_c bx_parallel;
 
 bx_parallel_c::bx_parallel_c(void)
 {
-  put("PAR");
-  settype(PARLOG);
-  // nothing for now
+	put("PAR");
+	settype(PARLOG);
+	BX_DEBUG(("Init $Id$"));
 }
 
 bx_parallel_c::~bx_parallel_c(void)

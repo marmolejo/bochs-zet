@@ -81,7 +81,7 @@ bx_hard_drive_c::bx_hard_drive_c(void)
 #endif
 
 #endif
-	BX_DEBUG(("Init."));
+	BX_DEBUG(("Init $Id$"));
 }
 
 bx_hard_drive_c::~bx_hard_drive_c(void)
