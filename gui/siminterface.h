@@ -471,7 +471,7 @@ typedef struct {
 // events aren't implemented in our wxWindows code yet.
 typedef struct {
   // type is BX_EVT_MOUSE
-  Bit16u x, y;             // coordinate (vga screen?)
+  Bit16s dx, dy;           // mouse motion delta
   Bit8u buttons;           // which buttons are pressed.
                            // bit 0: 1=left button down, 0=up
                            // bit 1: 1=right button down, 0=up
