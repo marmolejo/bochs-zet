@@ -29,12 +29,12 @@
 
 extern unsigned     plex86State;
 extern int          plex86FD;
-extern Bit8u       *plex86MemPtr;
 extern unsigned     plex86MemSize;
 extern Bit8u       *plex86PrintBuffer;
 extern guest_cpu_t *plex86GuestCPU;
 
 extern unsigned plex86CpuInfo(BX_CPU_C *cpu);
-extern unsigned char * plex86AllocateMemory(unsigned nMegs);
 extern unsigned plex86TearDown(void);
 extern unsigned plex86ExecuteInVM(BX_CPU_C *cpu);
+extern unsigned plex86RegisterGuestMemory(Bit8u *vector, unsigned bytes);
+extern unsigned plex86UnregisterGuestMemory(Bit8u *vector, unsigned bytes);
