@@ -879,6 +879,7 @@ public: // for now...
 #if BX_USE_TLB
   struct {
     bx_TLB_entry entry[BX_TLB_SIZE];
+    Bit32u tlb_invalidate;
     } TLB;
 #endif
 
