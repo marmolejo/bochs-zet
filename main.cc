@@ -836,6 +836,7 @@ bx_init_hardware()
   BX_INFO(("  RepeatSpeedups support: %s",BX_SupportRepeatSpeedups?"yes":"no"));
   BX_INFO(("  Icache support: %s",BX_SUPPORT_ICACHE?"yes":"no"));
   BX_INFO(("  Host Asm support: %s",BX_SupportHostAsms?"yes":"no"));
+  BX_INFO(("  Fast function calls: %s",BX_FAST_FUNC_CALL?"yes":"no"));
 
   // set up memory and CPU objects
 #if BX_SUPPORT_APIC
@@ -991,9 +992,11 @@ bx_atexit(void)
 #endif
 
 #if BX_SUPPORT_PCI
-  if (bx_options.Oi440FXSupport->get ()) {
-    bx_devices.pluginPciBridge->print_i440fx_state();
+  if (SIM && SIM->get_init_done ()) {
+    if (bx_options.Oi440FXSupport->get ()) {
+      bx_devices.pluginPciBridge->print_i440fx_state();
     }
+  }
 #endif
 
   // restore signal handling to defaults
