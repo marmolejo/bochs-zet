@@ -2071,7 +2071,6 @@ union {
 #endif
 
 #if BX_SUPPORT_3DNOW
-  BX_SMF void FEMMS(bxInstruction_c *i);
   BX_SMF void PFPNACC_PqQq(bxInstruction_c *i);
   BX_SMF void PI2FD_PqQq(bxInstruction_c *i);
   BX_SMF void PF2IW_PqQq(bxInstruction_c *i);
@@ -2095,7 +2094,6 @@ union {
   BX_SMF void PFRCPIT2_PqQq(bxInstruction_c *i);
   BX_SMF void PMULHRW_PqQq(bxInstruction_c *i);
   BX_SMF void PSWAPD_PqQq(bxInstruction_c *i);
-  BX_SMF void PAVGUSB_PqQq(bxInstruction_c *i);
 #endif
 
   /* SSE */

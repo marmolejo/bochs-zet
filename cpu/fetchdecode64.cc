@@ -854,7 +854,7 @@ static BxOpcodeInfo_t BxOpcodeInfo64[512*3] = {
   /* 0F 0B */  { 0, &BX_CPU_C::UndefinedOpcode }, // UD2 opcode
   /* 0F 0C */  { 0, &BX_CPU_C::BxError },
   /* 0F 0D */  { 0, &BX_CPU_C::NOP   },           // 3DNow! PREFETCH
-  /* 0F 0E */  { 0, &BX_CPU_C::FEMMS },           // 3DNow! FEMMS
+  /* 0F 0E */  { 0, &BX_CPU_C::EMMS },            // 3DNow! FEMMS
   /* 0F 0F */  { BxAnother | BxImmediate_Ib, NULL, Bx3DNowOpcodeInfo },
   /* 0F 0D */  { BxAnother, &BX_CPU_C::NOP }, // PREFETCH L1
   /* 0F 0E */  { 0, &BX_CPU_C::BxError },
@@ -1375,7 +1375,7 @@ static BxOpcodeInfo_t BxOpcodeInfo64[512*3] = {
   /* 0F 0B */  { 0, &BX_CPU_C::UndefinedOpcode }, // UD2 opcode
   /* 0F 0C */  { 0, &BX_CPU_C::BxError },
   /* 0F 0D */  { 0, &BX_CPU_C::NOP   },           // 3DNow! PREFETCH
-  /* 0F 0E */  { 0, &BX_CPU_C::FEMMS },           // 3DNow! FEMMS
+  /* 0F 0E */  { 0, &BX_CPU_C::EMMS },            // 3DNow! FEMMS
   /* 0F 0F */  { BxAnother | BxImmediate_Ib, NULL, Bx3DNowOpcodeInfo },
   /* 0F 10 */  { BxAnother | BxPrefixSSE, NULL, BxOpcodeGroupSSE_0f10 },
   /* 0F 11 */  { BxAnother | BxPrefixSSE, NULL, BxOpcodeGroupSSE_0f11 },
@@ -1890,7 +1890,7 @@ static BxOpcodeInfo_t BxOpcodeInfo64[512*3] = {
   /* 0F 0B */  { 0, &BX_CPU_C::UndefinedOpcode }, // UD2 opcode
   /* 0F 0C */  { 0, &BX_CPU_C::BxError },
   /* 0F 0D */  { 0, &BX_CPU_C::NOP   },           // 3DNow! PREFETCH
-  /* 0F 0E */  { 0, &BX_CPU_C::FEMMS },           // 3DNow! FEMMS
+  /* 0F 0E */  { 0, &BX_CPU_C::EMMS },            // 3DNow! FEMMS
   /* 0F 0F */  { BxAnother | BxImmediate_Ib, NULL, Bx3DNowOpcodeInfo },
   /* 0F 10 */  { BxAnother | BxPrefixSSE, NULL, BxOpcodeGroupSSE_0f10 },
   /* 0F 11 */  { BxAnother | BxPrefixSSE, NULL, BxOpcodeGroupSSE_0f11 },
