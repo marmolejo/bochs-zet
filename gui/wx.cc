@@ -404,6 +404,12 @@ MyPanel::fillBxKeyEvent_MSW (wxKeyEvent& wxev, BxKeyEvent& bxev, Boolean release
 #include <gdk/gdkkeysyms.h>
 #endif
 
+#if defined (wxHAS_RAW_KEY_CODES) && defined(__WXMSW__)
+// get windows specific definitions. At present the only thing needed
+// is the definition of HIWORD.
+#include <windows.h>
+#endif
+
 // GTK specific key mapping, which uses wxKeyEvent::m_rawCode.
 Boolean
 MyPanel::fillBxKeyEvent_GTK (wxKeyEvent& wxev, BxKeyEvent& bxev, Boolean release)
