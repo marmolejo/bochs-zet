@@ -51,7 +51,7 @@ INSTALL_LIST_SHARE=bios/BIOS-* bios/VGABIOS* @INSTALL_LIST_FOR_PLATFORM@
 INSTALL_LIST_DOC=CHANGES COPYING README
 INSTALL_LIST_BIN=bochs bximage 
 INSTALL_LIST_BIN_OPTIONAL=bochsdbg $(srcdir)/build/linux/bochs-docs
-INSTALL_LIST=$(INSTALL_LIST_SHARE) $(INSTALL_LIST_DOC) $(INSTALL_LIST_BIN)
+INSTALL_LIST_WIN32=$(INSTALL_LIST_SHARE) $(INSTALL_LIST_DOC) $(INSTALL_LIST_BIN) $(INSTALL_LIST_BIN_OPTIONAL) niclist
 INSTALL_LIST_X11=install-x11-fonts test-x11-fonts
 INSTALL_LIST_SED=DOC-linux.html
 CP=cp
@@ -311,7 +311,7 @@ install: all @INSTALL_TARGET@
 install_win32: download_dlx
 	-mkdir -p $(prefix)
 	cp obj-debug/*.exe .
-	for i in $(INSTALL_LIST) niclist; do if test -f $$i; then cp $$i $(prefix); else cp $(srcdir)/$$i $(prefix); fi; done
+	for i in $(INSTALL_LIST_WIN32) niclist; do if test -f $$i; then cp $$i $(prefix); else cp $(srcdir)/$$i $(prefix); fi; done
 	cp $(srcdir)/misc/sb16/sb16ctrl.example $(prefix)/sb16ctrl.txt
 	cp $(srcdir)/misc/sb16/sb16ctrl.exe $(prefix)
 	cat $(srcdir)/build/win32/DOC-win32.htm | $(SED) -e 's/@VERSION@/$(VERSION)/g' > $(prefix)/DOC-win32.htm
