@@ -115,7 +115,7 @@ cdrom_interface::~cdrom_interface(void)
 }
 
   bool
-cdrom_interface::insert_cdrom()
+cdrom_interface::insert_cdrom(char *dev)
 {
   uint8 cdb[6];
   uint8 buf[2*BX_CD_FRAMESIZE];
