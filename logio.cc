@@ -182,7 +182,7 @@ iofunctions::out(int f, int l, const char *prefix, const char *fmt, va_list ap)
                   fprintf(logfd, "%011lld", bx_pc_system.time_ticks());
 		  break;
 		case 'i':
-                  fprintf(logfd, "%08x", BX_CPU(0)->dword.eip);
+                  fprintf(logfd, "%08x", BX_CPU(0)==NULL?0:BX_CPU(0)->dword.eip);
 		  break;
 		case 'e':
                   fprintf(logfd, "%c", c);
