@@ -74,6 +74,7 @@ public:
   virtual void set_mouse_enabled (int en) {}
   virtual int get_default_rc (char *path, int len) {}
   virtual int read_rc (char *path) {return -1;}
+  virtual int write_rc (char *rc, int overwrite) {return -1;}
   virtual int get_log_file (char *path, int len) {}
   virtual int set_log_file (char *path) {return -1;}
   virtual int get_floppy_options (int drive, bx_floppy_options *out) {return -1;}
