@@ -142,5 +142,4 @@ int  FPU_u_add(const FPU_REG *arg1, const FPU_REG *arg2, FPU_REG *answ,
     }
 
   return FPU_round(answ, extent, 0, control_w, sign);
-
 }

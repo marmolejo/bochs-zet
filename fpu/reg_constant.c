@@ -17,8 +17,6 @@
 #include "reg_constant.h"
 #include "control_w.h"
 
-
-
 FPU_REG const CONST_1    = MAKE_REG(POS, 0, 0x00000000, 0x80000000);
 FPU_REG const CONST_2    = MAKE_REG(POS, 1, 0x00000000, 0x80000000);
 FPU_REG const CONST_HALF = MAKE_REG(POS, -1, 0x00000000, 0x80000000);
@@ -55,12 +53,12 @@ static void fld_const(FPU_REG const *c, int adj, u_char tag)
 {
   FPU_REG *st_new_ptr;
 
-  if ( STACK_OVERFLOW )
+  if (FPU_stackoverflow(&st_new_ptr))
     {
       FPU_stack_overflow();
       return;
     }
-  push();
+  FPU_push();
   reg_copy(c, st_new_ptr);
   st_new_ptr->sigl += adj;  /* For all our fldxxx constants, we don't need to
 			       borrow or carry. */

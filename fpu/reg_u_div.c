@@ -277,4 +277,3 @@ int FPU_u_div(const FPU_REG *a, const FPU_REG *b, FPU_REG *dest,
   dest->exp --;
   return FPU_round(dest, rem, 0, control_w, sign);
 }
-

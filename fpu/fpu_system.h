@@ -47,7 +47,7 @@ typedef Bit8u u_char;
 #define EMU_BIG_ENDIAN 1
 #else
 /* Nothing needed.  Lack of defining EMU_BIG_ENDIAN means
- * small endian
+ * little endian.
  */
 #endif
 
