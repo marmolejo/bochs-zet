@@ -1356,6 +1356,12 @@ bx_keyb_c::mouse_motion(int delta_x, int delta_y, unsigned button_state)
 
   b1 = (button_state & 0x0f) | 0x08; // bit3 always set
 
+  if( (delta_x==0) && (delta_y==0) && (BX_KEY_THIS s.mouse.button_status == button_state & 0x3) ) {
+    BX_DEBUG(("Ignoring useless mouse_motion call:\n"));
+    BX_DEBUG(("This should be fixed in the gui code.\n"));
+    return;
+  }
+
   BX_KEY_THIS s.mouse.button_status = button_state & 0x3;
 
   if ( (delta_x>=0) && (delta_x<=255) ) {
