@@ -352,11 +352,7 @@ private:
 
 #include "iodev/pci.h"
 #include "iodev/pci2isa.h"
-#if BX_SUPPORT_VGA
-#  include "iodev/vga.h"
-#else
-#  include "iodev/hga.h"
-#endif
+#include "iodev/vga.h"
 #if BX_SUPPORT_APIC
 #  include "iodev/ioapic.h"
 #endif

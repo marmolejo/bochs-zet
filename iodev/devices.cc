@@ -173,13 +173,8 @@ bx_devices_c::init(BX_MEM_C *newmem)
   sb16->init();
 #endif
 
-#if BX_SUPPORT_VGA
   /*--- VGA adapter ---*/
   pluginVgaDevice->init ();
-#else
-  /*--- HGA adapter ---*/
-  bx_init_hga_hardware();
-#endif
 
   /*--- 8259A PIC ---*/
   pluginPicDevice->init();
@@ -269,11 +264,7 @@ bx_devices_c::reset(unsigned type)
 #if BX_SUPPORT_SB16
   sb16->reset(type);
 #endif
-#if BX_SUPPORT_VGA
   pluginVgaDevice->reset(type);
-#else
-  // reset hga hardware?
-#endif
   pluginPicDevice->reset(type);
   pit->reset(type);
 #if BX_USE_SLOWDOWN_TIMER

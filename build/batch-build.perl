@@ -92,8 +92,6 @@ add_configuration ('dc2300-vlb-ide',
   '--enable-dc2300-vlb-ide');
 add_configuration ('port-e9-hack',
   '--enable-port-e9-hack');
-add_configuration ('novga',
-  '--disable-vga');
 add_configuration ('cdrom',
   '--enable-cdrom');
 add_configuration ('gdbstub',
