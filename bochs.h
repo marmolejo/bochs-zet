@@ -561,7 +561,7 @@ typedef struct {
   } bx_cmos_options;
 
 typedef struct {
-  bx_param_bool_c *Ovalid;
+  bx_param_bool_c *Opresent;
   bx_param_num_c *Oioaddr;
   bx_param_num_c *Oirq;
   bx_param_string_c *Omacaddr;

@@ -1250,7 +1250,7 @@ bx_ne2k_c::init(void)
   BX_DEBUG(("Init $Id$"));
 
 
-  if (bx_options.ne2k.Ovalid->get ()) {
+  if (bx_options.ne2k.Opresent->get ()) {
     // Bring the register state into power-up state
     reset(BX_RESET_HARDWARE);
 
