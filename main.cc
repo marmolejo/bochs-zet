@@ -1525,6 +1525,9 @@ int bxmain () {
 //
 // I'm sure other people have written this same function, and they may have
 // done it better, but I don't know where to find it. -BBD
+#ifndef MAX_ARGLEN
+#define MAX_ARGLEN 80
+#endif
 int split_string_into_argv (
   char *string,
   int *argc_out,
