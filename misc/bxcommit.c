@@ -352,7 +352,7 @@ int main()
   if (ask_string ("\nWhat is the flat image name?\n", "c.img", filename) < 0)
     fatal (EOF_ERR);
 
-  snprintf(tmplogname,256,"%s%s", filename,REDOLOG_EXTENSION);
+  snprintf(tmplogname,256,"%s%s", filename, UNDOABLE_REDOLOG_EXTENSION);
 
   if (ask_string ("\nWhat is the redolog name?\n", tmplogname, redologname) < 0)
     fatal (EOF_ERR);
