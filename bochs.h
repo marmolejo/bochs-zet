@@ -537,6 +537,11 @@ typedef struct {
   } bx_mem_options;
 
 typedef struct {
+  bx_param_bool_c *Oenable;
+  bx_param_string_c *Ooutfile;
+} bx_parport_options;
+
+typedef struct {
   bx_param_string_c *Opath;
   bx_param_bool_c *OcmosImage;
   bx_param_num_c *Otime0;
@@ -597,6 +602,8 @@ typedef struct {
   bx_rom_options    rom;
   bx_vgarom_options vgarom;
   bx_mem_options    memory;
+  bx_parport_options par1; // parallel port #1
+  bx_parport_options par2; // parallel port #2  (not implemented)
   bx_sb16_options   sb16;
   bx_param_num_c    *Obootdrive;  //0=floppya, 0x80=diskc
   bx_param_num_c    *Ovga_update_interval;

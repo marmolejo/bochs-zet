@@ -32,7 +32,7 @@
 #include "bochs.h"
 #define LOG_THIS bx_parallel.
 
-#define OUTPUT BX_PAR_THIS output
+#define OUTPUT (BX_PAR_THIS output)
 
 bx_parallel_c bx_parallel;
 
@@ -46,11 +46,13 @@ bx_parallel_c::bx_parallel_c(void)
 {
 	put("PAR");
 	settype(PARLOG);
+	OUTPUT = NULL;
 }
 
 bx_parallel_c::~bx_parallel_c(void)
 {
-  fclose(OUTPUT);
+  if (OUTPUT != NULL) 
+    fclose(OUTPUT);
 }
 
   void
@@ -83,14 +85,17 @@ bx_parallel_c::init(bx_devices_c *d)
   BX_PAR_THIS s.CONTROL.slct_in  = 1;
   BX_PAR_THIS s.CONTROL.irq      = 0;
 
-  OUTPUT = fopen("parport.out", "w");
+  if (bx_options.par1.Oenable->get ()) {
+    OUTPUT = fopen(bx_options.par1.Ooutfile->getptr (), "w");
+    if (!OUTPUT)
+      BX_PANIC (("Could not open '%s' to write parport1 output"));
+  }
 }
-
-
 
   void
 bx_parallel_c::virtual_printer(void)
 {
+  if (!OUTPUT) return;
   fprintf(OUTPUT, "%c", BX_PAR_THIS s.data);
   fflush (OUTPUT);
   if (BX_PAR_THIS s.CONTROL.irq == 1) {
