@@ -190,9 +190,13 @@ extern "C" {
 #define DEV_ne2k_print_info(file,page,reg,brief) \
     bx_devices.pluginNE2kDevice->print_info(file,page,reg,brief)
 
-///////// Speaker macro
+///////// Speaker macros
 #define DEV_speaker_beep_on(frequency) bx_devices.pluginSpeaker->beep_on(frequency)
 #define DEV_speaker_beep_off() bx_devices.pluginSpeaker->beep_off()
+
+///////// Serial macro
+#define DEV_serial_mouse_enq(dx, dy, state) \
+    (bx_devices.pluginSerialDevice->serial_mouse_enq(dx, dy, state))
 
 //////// Memory macros
 #define DEV_register_memory_handlers(rh,rp,wh,wp,b,e) \

@@ -1146,7 +1146,7 @@ void bx_init_options ()
   };
   bx_options.Omouse_type = new bx_param_enum_c (BXP_MOUSE_TYPE,
       "Mouse type", 
-      "The mouse type can be one of these: 'ps2', 'imps2'", 
+      "The mouse type can be one of these: 'ps2', 'imps2', 'serial'", 
       mouse_type_list,
       0,
       0);

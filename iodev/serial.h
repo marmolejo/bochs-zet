@@ -191,15 +191,25 @@ typedef struct {
 
 
 
-class bx_serial_c : public bx_devmodel_c {
+class bx_serial_c : public bx_serial_stub_c {
 public:
   bx_serial_c(void);
   ~bx_serial_c(void);
   virtual void   init(void);
   virtual void   reset(unsigned type);
+  virtual void   serial_mouse_enq(int delta_x, int delta_y, unsigned button_state);
 
 private:
   bx_serial_t s[BX_SERIAL_MAXDEV];
+
+  int   mouse_port;
+  int   mouse_delayed_dx;
+  int   mouse_delayed_dy;
+  struct {
+    int     num_elements;
+    Bit8u   buffer[BX_MOUSE_BUFF_SIZE];
+    int     head;
+  } mouse_internal_buffer;
 
   static void lower_interrupt(Bit8u port);
   static void raise_interrupt(Bit8u port, int type);

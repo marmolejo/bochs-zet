@@ -75,7 +75,7 @@ bx_devices_c::bx_devices_c(void)
   pluginFloppyDevice = &stubFloppy;
   pluginBiosDevice = NULL;
   pluginCmosDevice = &stubCmos;
-  pluginSerialDevice = NULL;
+  pluginSerialDevice = &stubSerial;
   pluginParallelDevice = NULL;
   pluginUnmapped = NULL;
   pluginVgaDevice = &stubVga;
