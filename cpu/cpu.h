@@ -2120,12 +2120,8 @@ union {
   BX_SMF void MOVSD_VsdWsd(bxInstruction_c *i);
   BX_SMF void MOVUPD_WpdVpd(bxInstruction_c *i);
   BX_SMF void MOVSD_WsdVsd(bxInstruction_c *i);
-  BX_SMF void MOVLPD_VsdMq(bxInstruction_c *i);
-  BX_SMF void MOVLPD_MqVsd(bxInstruction_c *i);
   BX_SMF void UNPCKLPD_VpdWq(bxInstruction_c *i);
   BX_SMF void UNPCKHPD_VpdWq(bxInstruction_c *i);
-  BX_SMF void MOVHPD_VpdMq(bxInstruction_c *i);
-  BX_SMF void MOVHPD_MqVpd(bxInstruction_c *i);
   BX_SMF void CVTPI2PD_VpdQd(bxInstruction_c *i);
   BX_SMF void CVTSI2SD_VsdEd(bxInstruction_c *i);
   BX_SMF void CVTTPD2PI_PqWpd(bxInstruction_c *i);
