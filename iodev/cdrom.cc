@@ -1111,8 +1111,6 @@ cdrom_interface::read_toc(uint8* buf, int* length, bx_bool msf, int start_track,
   *length = len;
 
   return true;
-//  BX_INFO(( "Read TOC - Not Implemented" ));
-//  return false;
   }
 #else
   BX_INFO(( "Read TOC - Not Implemented" ));
@@ -1320,7 +1318,6 @@ cdrom_interface::capacity()
   // on how you look at it).  The difference in the sector numbers
   // is returned as the sized of the data track.
   for ( int i=toc_entries - 1; i>=0; i-- ) {
-
     BX_DEBUG(( "session %d ctl_adr %d tno %d point %d lba %d z %d p lba %d\n",
              (int)toc->trackdesc[i].session,
              (int)toc->trackdesc[i].ctrl_adr,
@@ -1331,22 +1328,16 @@ cdrom_interface::capacity()
              MSF_TO_LBA(toc->trackdesc[i].p )));
 
     if ( start_sector != -1 ) {
-
       start_sector = MSF_TO_LBA(toc->trackdesc[i].p) - start_sector;
       break;
-
     }
 
-    if (( toc->trackdesc[i].ctrl_adr >> 4) != 1 ) continue;
+    if ((toc->trackdesc[i].ctrl_adr >> 4) != 1) continue;
 
     if ( toc->trackdesc[i].ctrl_adr & 0x04 ) {
-
       data_track = toc->trackdesc[i].point;
-
       start_sector = MSF_TO_LBA(toc->trackdesc[i].p);
-
     }
-      
   }  
 
   free( toc );

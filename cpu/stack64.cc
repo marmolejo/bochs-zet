@@ -236,7 +236,6 @@ BX_CPU_C::PUSH_Eq(bxInstruction_c *i)
 BX_CPU_C::ENTER64_IwIb(bxInstruction_c *i)
 {
   Bit64u frame_ptr64;
-  Bit16u frame_ptr16;
   Bit8u level;
   static Bit8u first_time = 1;
 

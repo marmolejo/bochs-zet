@@ -377,8 +377,6 @@ done:
   void
 BX_CPU_C::IRET64(bxInstruction_c *i)
 {
-  Bit32u rip, ecs_raw, eflags;
-
   invalidate_prefetch_q();
 
 #if BX_DEBUGGER
