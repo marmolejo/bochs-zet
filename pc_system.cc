@@ -221,21 +221,21 @@ bx_pc_system_c::ResetSignal( PCS_OP operation )
 }
 
   int
-bx_pc_system_c::ResetCpus( unsigned type )
+bx_pc_system_c::Reset( unsigned type )
 {
-  BX_INFO(( "bx_pc_system_c::ResetCpus() called" ));
-  for (int i=0; i<BX_SMP_PROCESSORS; i++)
-    BX_CPU(i)->reset(type);
-  return(0);
-}
+  // type is BX_RESET_HARDWARE or BX_RESET_SOFTWARE
+  BX_INFO(( "bx_pc_system_c::Reset(%s) called",type==BX_RESET_HARDWARE?"HARDWARE":"SOFTWARE" ));
 
-  int
-bx_pc_system_c::ResetSystem( unsigned type )
-{
-  BX_INFO(( "bx_pc_system_c::ResetSystem() called" ));
-  for (int i=0; i<BX_SMP_PROCESSORS; i++)
+  // Always reset cpu
+  for (int i=0; i<BX_SMP_PROCESSORS; i++) {
     BX_CPU(i)->reset(type);
-  DEV_reset_devices(type);
+  }
+
+  // Reset devices only on Hardware resets
+  if (type==BX_RESET_HARDWARE) {
+    DEV_reset_devices(type);
+  }
+
   return(0);
 }
 

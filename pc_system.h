@@ -201,6 +201,5 @@ public:
   void    exit(void);
 
   // Cpu and System Reset
-  int ResetCpus( unsigned type );
-  int ResetSystem( unsigned type );
+  int Reset( unsigned type );
   };

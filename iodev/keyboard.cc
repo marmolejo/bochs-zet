@@ -460,7 +460,7 @@ bx_keyb_c::write( Bit32u   address, Bit32u   value, unsigned io_len)
             BX_SET_ENABLE_A20( (value & 0x02) != 0 );
             if (!(value & 0x01)) {
 	        BX_INFO(("write output port : processor reset requested!"));
-                bx_pc_system.ResetCpus( BX_RESET_HARDWARE);
+                bx_pc_system.Reset( BX_RESET_SOFTWARE);
             }
             break;
           case 0xd4: // Write to mouse
@@ -648,7 +648,7 @@ BX_PANIC(("kbd: OUTB set and command 0x%02x encountered", value));
         case 0xfe: // System (cpu?) Reset, transition to real mode
           BX_INFO(("io write 0x64: command 0xfe: reset cpu"));
           //bx_pc_system.ResetSignal( PCS_SET ); /* XXX is this right? */
-          bx_pc_system.ResetCpus( BX_RESET_HARDWARE );
+          bx_pc_system.Reset( BX_RESET_SOFTWARE );
           break;
 
         default:

@@ -396,7 +396,7 @@ bx_devices_c::port92_write(Bit32u address, Bit32u value, unsigned io_len)
   BX_DEBUG(("A20: now %u", (unsigned) BX_GET_ENABLE_A20()));
   if (value & 0x01) { /* high speed reset */
     BX_INFO(("iowrite to port0x92 : reset resquested"));
-    bx_pc_system.ResetCpus(BX_RESET_HARDWARE);
+    bx_pc_system.Reset(BX_RESET_SOFTWARE);
   }
 }
 
