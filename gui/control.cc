@@ -57,7 +57,6 @@ write a compiler!
 */
 
 #include "config.h"
-#if BX_USE_CONTROL_PANEL
 
 extern "C" {
 #include <stdio.h>
@@ -887,7 +886,4 @@ bx_list_c::text_ask (FILE *fpin, FILE *fpout)
   return 0;
 }
 
-
 ///////////////////////////////////////////////////////////
-
-#endif

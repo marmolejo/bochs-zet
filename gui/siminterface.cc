@@ -10,8 +10,6 @@
 
 #include "bochs.h"
 
-#if BX_USE_CONTROL_PANEL
-
 bx_simulator_interface_c *SIM = NULL;
 logfunctions *siminterface_log = NULL;
 #define LOG_THIS siminterface_log->
@@ -545,7 +543,3 @@ bx_list_c::set_parent (bx_param_c *parent)
 {
   this->parent = parent;
 }
-
-#endif  // if BX_USE_CONTROL_PANEL==1
-
-
