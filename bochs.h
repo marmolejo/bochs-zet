@@ -609,6 +609,10 @@ typedef struct {
   bx_floppy_options floppyb;
   bx_disk_options   diskc;
   bx_disk_options   diskd;
+  bx_serial_options com1;
+  bx_serial_options com2;
+  bx_serial_options com3;
+  bx_serial_options com4;
   bx_cdrom_options  cdromd; 
   bx_rom_options    rom;
   bx_vgarom_options vgarom;

@@ -54,6 +54,14 @@ typedef enum {
   BXP_DISKD_HEADS,
   BXP_DISKD_SPT,
   BXP_DISKD,
+  BXP_COM1_PRESENT,
+  BXP_COM1_PATH,
+  BXP_COM2_PRESENT,
+  BXP_COM2_PATH,
+  BXP_COM3_PRESENT,
+  BXP_COM3_PATH,
+  BXP_COM4_PRESENT,
+  BXP_COM4_PATH,
   BXP_CDROM_PRESENT,
   BXP_CDROM_PATH,
   BXP_CDROM_INSERTED,
@@ -323,6 +331,11 @@ typedef struct {
   bx_param_num_c *Oheads;
   bx_param_num_c *Ospt;
   } bx_disk_options;
+
+typedef struct {
+  bx_param_bool_c *Opresent;
+  bx_param_string_c *Odev;
+  } bx_serial_options;
 
 struct bx_cdrom_options
 {
