@@ -37,7 +37,7 @@
   void
 BX_CPU_C::MOV_RLIb(bxInstruction_c *i)
 {
-  BX_CPU_THIS_PTR gen_reg[i->b1() & 0x03].word.byte.rl = i->Ib();
+  BX_READ_8BIT_REGx(i->opcodeReg(),i->extend8bitL()) = i->Ib();
 }
 
   void
