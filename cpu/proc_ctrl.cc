@@ -604,15 +604,9 @@ void BX_CPU_C::SMSW_Ew(bxInstruction_c *i)
   msw |= (BX_CPU_THIS_PTR cr0.ts << 3) |
          (BX_CPU_THIS_PTR cr0.em << 2) |
          (BX_CPU_THIS_PTR cr0.mp << 1) |
-         BX_CPU_THIS_PTR cr0.pe;
+         (BX_CPU_THIS_PTR cr0.pe);
 #else /* 386+ */
-  /* reserved bits 0 ??? */
-  /* should NE bit be included here ??? */
-  // should ET bit be included here (AW)
-  msw =  (BX_CPU_THIS_PTR cr0.ts << 3) |
-         (BX_CPU_THIS_PTR cr0.em << 2) |
-         (BX_CPU_THIS_PTR cr0.mp << 1) |
-         BX_CPU_THIS_PTR cr0.pe;
+  msw = BX_CPU_THIS_PTR cr0.val32 & 0xffff;
 #endif
 
   if (i->modC0()) {
