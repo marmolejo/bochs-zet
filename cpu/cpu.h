@@ -228,6 +228,8 @@
 #define BX_MSR_MTRRPHYSMASK0	0x0201
 #define BX_MSR_MTRRPHYSBASE1	0x0202
 
+class BX_CPU_C;
+
 typedef struct {
   /* 31|30|29|28|27|26|25|24|23|22|21|20|19|18|17|16
    * ==|==|=====|==|==|==|==|==|==|==|==|==|==|==|==
