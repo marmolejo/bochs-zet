@@ -836,7 +836,9 @@ BX_CPU_C::reset(unsigned source)
 /* initialise MSR registers to defaults */
 #if BX_CPU_LEVEL >= 5
   /* APIC Address, APIC enabled and BSP is default, we'll fill in the rest later */
-  BX_CPU_THIS_PTR msr.apicbase = (APIC_BASE_ADDR << 12) + 0x900;
+  BX_CPU_THIS_PTR msr.apicbase = APIC_BASE_ADDR;
+  BX_CPU_THIS_PTR msr.apicbase <<= 12;
+  BX_CPU_THIS_PTR msr.apicbase |= 0x900;
 #if BX_SUPPORT_X86_64
   BX_CPU_THIS_PTR msr.lme = BX_CPU_THIS_PTR msr.lma = 0;
 #endif
