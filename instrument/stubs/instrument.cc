@@ -65,6 +65,7 @@ void bx_instr_hwinterrupt(unsigned cpu, unsigned vector, Bit16u cs, bx_address e
 
 void bx_instr_tlb_cntrl(unsigned cpu, unsigned what, Bit32u newval) {}
 void bx_instr_cache_cntrl(unsigned cpu, unsigned what) {}
+void bx_instr_prefetch_hint(unsigned cpu, unsigned what, unsigned seg, bx_address offset) {}
 
 void bx_instr_repeat_iteration(unsigned cpu) {}
 
