@@ -2380,7 +2380,7 @@ BX_CPU_C::fetchDecode(Bit8u *iptr, bxInstruction_c *instruction,
   bx_bool is_32, lock=0;
   unsigned b1, b2, ilen=1, attr, os_32;
   unsigned imm_mode, offset;
-  unsigned rm, mod, nnn;
+  unsigned rm, mod=0, nnn=0;
   unsigned sse_prefix;
 #define SSE_PREFIX_NONE 0
 #define SSE_PREFIX_66   1

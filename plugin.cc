@@ -54,7 +54,9 @@ void (*pluginHRQHackCallback)(void);
 unsigned pluginHRQ = 0;
 
 plugin_t *plugins = NULL;      /* Head of the linked list of plugins  */
+#if BX_PLUGINS
 static void plugin_init_one(plugin_t *plugin);
+#endif
 
 device_t *devices = NULL;      /* Head of the linked list of registered devices  */
 
