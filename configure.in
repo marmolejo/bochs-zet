@@ -1409,6 +1409,8 @@ elif test "$with_wx" = yes; then
     WX_CXXFLAGS="$WX_CXXFLAGS \`gtk-config --cflags\`"
   fi
   # wxwindows is the only one without control.o in GUI_OBJS
+  CFLAGS="$CFLAGS $WX_CFLAGS"
+  CXXFLAGS="$CXXFLAGS $WX_CXXFLAGS"
   GUI_OBJS='$(GUI_OBJS_WX)'
   GUI_LINK_OPTS='$(GUI_LINK_OPTS_WX)'
   # using debugger with readline is failing due to thread/signal handler
