@@ -76,6 +76,7 @@ static unsigned curr_multiple_sectors = 0; // was 0x3f
 
 #define BX_MASTER_IS_PRESENT(c) BX_DRIVE_IS_PRESENT((c),0)
 #define BX_SLAVE_IS_PRESENT(c) BX_DRIVE_IS_PRESENT((c),1)
+#define BX_ANY_IS_PRESENT(c) (BX_DRIVE_IS_PRESENT((c),0) || BX_DRIVE_IS_PRESENT((c),1))
 
 #define BX_SELECTED_CONTROLLER(c) (BX_CONTROLLER((c),BX_HD_THIS channels[(c)].drive_select))
 #define BX_SELECTED_DRIVE(c) (BX_DRIVE((c),BX_HD_THIS channels[(c)].drive_select))
@@ -974,11 +975,17 @@ if (channel == 0) {
     case 0x03: // sector number 0x1f3
       value8 = (!BX_SELECTED_IS_PRESENT(channel)) ? 0 : BX_SELECTED_CONTROLLER(channel).sector_no;
       goto return_value8;
-    case 0x04: // cylinder low 0x1f4
-      value8 = (!BX_SELECTED_IS_PRESENT(channel)) ? 0 : (BX_SELECTED_CONTROLLER(channel).cylinder_no & 0x00ff);
+    case 0x04: // cylinder low 0x1f4  
+               // -- WARNING : On real hardware the controller registers are shared between drives. 
+               // So we must respond even if the select device is not present. Some OS uses this fact 
+               // to detect the disks.... minix2 for example
+      value8 = (!BX_ANY_IS_PRESENT(channel)) ? 0 : (BX_SELECTED_CONTROLLER(channel).cylinder_no & 0x00ff);
       goto return_value8;
     case 0x05: // cylinder high 0x1f5
-      value8 = (!BX_SELECTED_IS_PRESENT(channel)) ? 0 : BX_SELECTED_CONTROLLER(channel).cylinder_no >> 8;
+               // -- WARNING : On real hardware the controller registers are shared between drives. 
+               // So we must respond even if the select device is not present. Some OS uses this fact 
+               // to detect the disks.... minix2 for example
+      value8 = (!BX_ANY_IS_PRESENT(channel)) ? 0 : BX_SELECTED_CONTROLLER(channel).cylinder_no >> 8;
       goto return_value8;
 
     case 0x06: // hard disk drive and head register 0x1f6
@@ -1000,7 +1007,7 @@ if (channel == 0) {
 
     case 0x07: // Hard Disk Status 0x1f7
     case 0x16: // Hard Disk Alternate Status 0x3f6
-      if (!BX_SELECTED_IS_PRESENT(channel)) {
+      if (!BX_ANY_IS_PRESENT(channel)) {
 	    // (mch) Just return zero for these registers
 	    value8 = 0;
       } else {
