@@ -35,6 +35,7 @@ class serial_raw : public logfunctions {
   private:
     void setup_port ();
     bx_bool present;
+    Bit8u rxdata_count;
 #ifdef WIN32
     HANDLE hCOM;
     DCB dcb;
