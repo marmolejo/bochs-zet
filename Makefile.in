@@ -314,7 +314,7 @@ install: all @INSTALL_TARGET@
 
 install_win32: download_dlx
 	-mkdir -p $(prefix)
-	cp obj-debug/*.exe .
+	cp obj-release/*.exe .
 	for i in $(INSTALL_LIST_WIN32) niclist; do if test -f $$i; then cp $$i $(prefix); else cp $(srcdir)/$$i $(prefix); fi; done
 	cp $(srcdir)/misc/sb16/sb16ctrl.example $(prefix)/sb16ctrl.txt
 	cp $(srcdir)/misc/sb16/sb16ctrl.exe $(prefix)
