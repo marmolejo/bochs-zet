@@ -48,8 +48,12 @@ extern "C" {
 //////////////////////////////////////////////////////////////////////
 #ifdef WIN32
 
+// Definitions that are needed for all WIN32 compilers.
+#  define ssize_t long
+
 #ifndef __MINGW32__
-// This is for win32 platforms EXCEPT FOR cygwin compiling with -mno-cygwin.
+// Definitions that are needed for WIN32 compilers EXCEPT FOR
+// cygwin compiling with -mno-cygwin.  e.g. VC++.
 
 // always return regular file.
 #  define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
@@ -57,7 +61,6 @@ extern "C" {
 
   // VCPP includes also are missing these
 #  define off_t long
-#  define ssize_t int
 
 // win32 has snprintf though with different name.
 #define snprintf _snprintf
