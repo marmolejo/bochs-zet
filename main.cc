@@ -4132,6 +4132,9 @@ bx_write_clock_options (FILE *fp, bx_clock_options *opt)
     case BX_CLOCK_SYNC_SLOWDOWN:
       fprintf (fp, "sync=slowdown");
       break;
+    case BX_CLOCK_SYNC_BOTH:
+      fprintf (fp, "sync=both");
+      break;
     default:
       BX_PANIC(("Unknown value for sync method"));
   }

@@ -459,8 +459,8 @@ char *atadevice_biosdetect_names[] = { "none", "auto", "cmos", NULL };
 int n_atadevice_biosdetect_names = 3;
 char *atadevice_translation_names[] = { "none", "lba", "large", "rechs", "auto", NULL };
 int n_atadevice_translation_names = 5;
-char *clock_sync_names[] = { "none", "realtime", "slowdown", NULL };
-int clock_sync_n_names=3;
+char *clock_sync_names[] = { "none", "realtime", "slowdown", "both", NULL };
+int clock_sync_n_names=4;
 
 
 
