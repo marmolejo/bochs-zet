@@ -78,13 +78,6 @@ asmlinkage void div_Xsig(const Xsig *x1, const Xsig *x2, Xsig *dest);
    actually be in-line.
    */
 
-/* Multiply two fixed-point 32 bit numbers, producing a 32 bit result.
-   The answer is the ms word of the product.  */
-BX_C_INLINE u32 mul_32_32(const u32 arg1, const u32 arg2)
-{
-  return (((u64)arg1) * arg2) >> 32;
-}
-
 /* Add the 12 byte Xsig x2 to Xsig dest, with no checks for overflow. */
 BX_C_INLINE void add_Xsig_Xsig(Xsig *dest, const Xsig *x2)
 {

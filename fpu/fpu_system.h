@@ -59,12 +59,4 @@ extern struct i387_t *current_i387;
 
 #define FPU_register_base       ((u_char *) FPU_registers)
 
-/*
- * Change a pointer to an int, with type conversions that make it legal.
- * First make it a void pointer, then convert to an integer of the same
- * size as the pointer.  Otherwise, on machines with 64-bit pointers, 
- * compilers complain when you typecast a 64-bit pointer into a 32-bit integer.
- */
-#define PTR2INT(x)   ((bx_ptr_equiv_t)(void *)(x))
-
 #endif
