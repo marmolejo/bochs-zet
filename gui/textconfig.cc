@@ -749,7 +749,7 @@ bx_param_enum_c::text_print (FILE *fp)
     fprintf (fp, get_format (), choice);
   } else {
     char *format = "%s: %s"; 
-    fprintf (fp, format, get_name (), get_choice (get ()));
+    fprintf (fp, format, get_name (), choice);
   }
 }
 
@@ -797,6 +797,8 @@ bx_list_c::text_print (FILE *fp)
     //fprintf (fp, "param[%d] = %p\n", i, list[i]);
     assert (list[i] != NULL);
     if (list[i]->get_enabled ()) {
+      if ((i>0) && (options->get () & SERIES_ASK))
+        fprintf (fp, ", ");
       list[i]->text_print (fp);
       if (!(options->get () & SERIES_ASK))
         fprintf (fp, "\n");
