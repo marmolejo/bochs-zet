@@ -512,10 +512,10 @@ bx_ne2k_c::page0_write(Bit32u offset, Bit32u value, unsigned io_len)
 {
   BX_DEBUG(("page 0 write to port %04x, len=%u", (unsigned) offset,
 	   (unsigned) io_len));
-    if (io_len != 1) {
-	BX_ERROR(("bad length! page 0 write to port %04x, len=%u",
-		  (unsigned) offset,
-            (unsigned) io_len));
+  // The NE2000 driver for MS-DOS writes a 16 bit value to reg 5
+  // ignoring the high-byte - is this okay ?
+  if (((io_len > 1) && (offset != 5)) || (io_len > 2)) {
+    BX_ERROR(("bad length! page 0 write to port %04x, len=%u", offset, io_len));
     return;
   }
 	
