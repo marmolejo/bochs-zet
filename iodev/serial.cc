@@ -81,7 +81,8 @@ bx_serial_c::bx_serial_c(void)
 bx_serial_c::~bx_serial_c(void)
 {
 #ifdef SERIAL_ENABLE
-  tcsetattr(tty_id, TCSAFLUSH, &term_orig);
+  if (bx_options.com1.Opresent->get ())
+    tcsetattr(tty_id, TCSAFLUSH, &term_orig);
 #endif
   // nothing for now
 }
