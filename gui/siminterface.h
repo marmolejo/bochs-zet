@@ -524,6 +524,11 @@ typedef enum {
 #define BX_BOOT_DISKC   1
 #define BX_BOOT_CDROM   2
 
+// loader hack
+#define Load32bitOSNone        0
+#define Load32bitOSLinux       1
+#define Load32bitOSNullKernel  2 // being developed for plex86
+#define Load32bitOSLast        2
 
 ///////////////////////////////////////////////////////////////////
 // event structures for communication between simulator and CI

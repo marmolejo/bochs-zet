@@ -591,12 +591,8 @@ typedef struct {
 // These options are used for a special hack to load a
 // 32bit OS directly into memory, so it can be run without
 // any of the 16bit real mode or BIOS assistance.  This
-// is for the development of freemware, so we don't have
+// is for the development of plex86, so we don't have
 // to implement real mode up front.
-#define Load32bitOSNone        0
-#define Load32bitOSLinux       1
-#define Load32bitOSNullKernel  2 // being developed for freemware
-#define Load32bitOSLast        2
   bx_param_num_c *OwhichOS;
   bx_param_string_c *Opath;
   bx_param_string_c *Oiolog;
