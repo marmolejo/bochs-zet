@@ -49,8 +49,6 @@ struct bx_cdrom_options
 };
 
 
-typedef char *string_list_t[0];
-
 class bx_simulator_interface_c {
   int init_done;
 public:
