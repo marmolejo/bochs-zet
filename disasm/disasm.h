@@ -135,10 +135,6 @@ private:
   void EwRw(void);
   void Iv(void);
   void Ib(void);
-  void YbDX(void);
-  void YvDX(void);
-  void DXXb(void);
-  void DXXv(void);
   void Jb(void);
   void EbIb(void);
   void EvIv(void);
