@@ -318,7 +318,7 @@ bx_ne2k_c::asic_read(Bit32u offset, unsigned int io_len)
     break;
 
   case 0xf:  // Reset register
-    reset(BX_RESET_HARDWARE);
+    reset(BX_RESET_SOFTWARE);
     break;
 
   default:
@@ -365,7 +365,7 @@ bx_ne2k_c::asic_write(Bit32u offset, Bit32u value, unsigned io_len)
     break;
 
   case 0xf:  // Reset register
-    reset(BX_RESET_HARDWARE);
+    reset(BX_RESET_SOFTWARE);
     break;
 
   default: // this is invalid, but happens under win95 device detection
