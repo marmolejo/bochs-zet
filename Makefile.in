@@ -443,6 +443,9 @@ clean:
 	@RMCOMMAND@ bochsout.txt
 	@RMCOMMAND@ bochs.exp
 	@RMCOMMAND@ bochs.def
+	@RMCOMMAND@ bochs.scpt
+	@RMCOMMAND@ -rf bochs.app
+	@RMCOMMAND@ -rf .libs
 	@RMCOMMAND@ .win32_dll_plugin_target
 
 local-dist-clean: clean
