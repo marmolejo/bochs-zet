@@ -240,17 +240,21 @@ bx_devices_c::init(BX_MEM_C *newmem)
                             "Port 92h System Control" );
 
   // misc. CMOS
-  Bit16u extended_memory_in_k = mem->get_memory_in_k() - 1024;
+  Bit32u extended_memory_in_k = mem->get_memory_in_k() > 1024 ? (mem->get_memory_in_k() - 1024) : 0;
+  if (extended_memory_in_k > 0xffff) extended_memory_in_k = 0xffff;
+
   DEV_cmos_set_reg(0x15, (Bit8u) BASE_MEMORY_IN_K);
   DEV_cmos_set_reg(0x16, (Bit8u) (BASE_MEMORY_IN_K >> 8));
-  DEV_cmos_set_reg(0x17, (Bit8u) extended_memory_in_k);
-  DEV_cmos_set_reg(0x18, (Bit8u) (extended_memory_in_k >> 8));
-  DEV_cmos_set_reg(0x30, (Bit8u) extended_memory_in_k);
-  DEV_cmos_set_reg(0x31, (Bit8u) (extended_memory_in_k >> 8));
+  DEV_cmos_set_reg(0x17, (Bit8u) (extended_memory_in_k & 0xff) );
+  DEV_cmos_set_reg(0x18, (Bit8u) ((extended_memory_in_k >> 8) & 0xff) );
+  DEV_cmos_set_reg(0x30, (Bit8u) (extended_memory_in_k & 0xff) );
+  DEV_cmos_set_reg(0x31, (Bit8u) ((extended_memory_in_k >> 8) & 0xff) );
 
-  Bit16u extended_memory_in_64k = mem->get_memory_in_k() > 16384 ? (mem->get_memory_in_k() - 16384) / 64 : 0;
-  DEV_cmos_set_reg(0x34, (Bit8u) extended_memory_in_64k);
-  DEV_cmos_set_reg(0x35, (Bit8u) (extended_memory_in_64k >> 8));
+  Bit32u extended_memory_in_64k = mem->get_memory_in_k() > 16384 ? (mem->get_memory_in_k() - 16384) / 64 : 0;
+  if (extended_memory_in_64k > 0xffff) extended_memory_in_64k = 0xffff;
+
+  DEV_cmos_set_reg(0x34, (Bit8u) (extended_memory_in_64k & 0xff) );
+  DEV_cmos_set_reg(0x35, (Bit8u) ((extended_memory_in_64k >> 8) & 0xff) );
 
   if (timer_handle != BX_NULL_TIMER_HANDLE) {
     timer_handle = bx_pc_system.register_timer( this, timer_handler,
