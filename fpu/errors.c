@@ -288,12 +288,7 @@ void FPU_exception(int n)
       if ( n == EX_INTERNAL )
 	{
 	  printk("FPU emulator: Internal error type 0x%04x\n", int_type);
-	  FPU_printall();
 	}
-#ifdef PRINT_MESSAGES
-      else
-	FPU_printall();
-#endif /* PRINT_MESSAGES */
 
       /*
        * The 80486 generates an interrupt on the next non-control FPU

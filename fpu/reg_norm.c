@@ -15,16 +15,13 @@
 
 #include "fpu_emu.h"
 
-
-
 int FPU_normalize_nuo(FPU_REG *x, int bias)
 {
-
-  if ( ! (x->sigh & 0x80000000) )
+  if (! (x->sigh & 0x80000000))
     {
-      if ( x->sigh == 0 )
+      if (x->sigh == 0)
 	{
-	  if ( x->sigl == 0 )
+	  if (x->sigl == 0)
 	    {
 	      x->exp = 0;
 	      return TAG_Zero;
@@ -33,10 +30,10 @@ int FPU_normalize_nuo(FPU_REG *x, int bias)
 	  x->sigl = 0;
 	  x->exp -= 32;
 	}
-      while ( !(x->sigh & 0x80000000) )
+      while (!(x->sigh & 0x80000000))
 	{
 	  x->sigh <<= 1;
-	  if ( x->sigl & 0x80000000 )
+	  if (x->sigl & 0x80000000)
 	    x->sigh |= 1;
 	  x->sigl <<= 1;
 	  x->exp --;
