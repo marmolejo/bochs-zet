@@ -2410,6 +2410,7 @@ bx_init_hardware()
   BX_INFO(("  mmx support: %s",BX_SUPPORT_MMX?"yes":"no"));
   BX_INFO(("  sse support: %s",BX_SUPPORT_SSE==2?"2":BX_SUPPORT_SSE==1?"1":"no"));
   BX_INFO(("  v8086 mode support: %s",BX_SUPPORT_V8086_MODE?"yes":"no"));
+  BX_INFO(("  3dnow! support: %s",BX_SUPPORT_3DNOW?"yes":"no"));
   BX_INFO(("  PAE support: %s",BX_SupportPAE?"yes":"no"));
   BX_INFO(("  PGE support: %s",BX_SupportGlobalPages?"yes":"no"));
   BX_INFO(("  PSE support: %s",BX_SUPPORT_4MEG_PAGES?"yes":"no"));

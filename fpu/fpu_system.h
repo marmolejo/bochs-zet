@@ -11,6 +11,8 @@
 #ifndef _FPU_SYSTEM_H
 #define _FPU_SYSTEM_H
 
+#include <stdio.h>
+
 /* Get data sizes from config.h generated from simulator's
  * configure script
  */
@@ -24,6 +26,8 @@ typedef Bit32s s32;
 typedef Bit64u u64;
 typedef Bit64s s64;
 
+typedef Bit8u u_char;
+
 /* -----------------------------------------------------------
  * Slimmed down version used to compile against a CPU simulator
  * rather than a kernel (ported by Kevin Lawton)
@@ -31,9 +35,11 @@ typedef Bit64s s64;
 
 #include <cpu/i387.h>
 
+#define VERIFY_READ     0
+#define VERIFY_WRITE    1
+
 /* bbd: include ported linux headers after config.h for GCC_ATTRIBUTE macro */
-#include <linux/mm.h>
-#include <linux/types.h>
+//#include <linux/types.h>
 
 #ifndef WORDS_BIGENDIAN
 #error "WORDS_BIGENDIAN not defined in config.h"
@@ -44,7 +50,6 @@ typedef Bit64s s64;
  * small endian
  */
 #endif
-
 
 extern unsigned fpu_get_user(bx_address ptr, unsigned len) BX_CPP_AttrRegparmN(2);
 extern void fpu_put_user(unsigned val, bx_address ptr, unsigned len) BX_CPP_AttrRegparmN(2);
