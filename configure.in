@@ -175,7 +175,12 @@ AC_ARG_ENABLE(control-panel,
 	use_config_interface=1
     ]
   )
-AC_DEFINE(BX_USE_CONFIG_INTERFACE, $use_config_interface)
+
+if test "$use_config_interface" = 1; then
+  AC_DEFINE(BX_USE_CONFIG_INTERFACE, 1)
+else
+  AC_DEFINE(BX_USE_CONFIG_INTERFACE, 0)
+fi
 
 AC_MSG_CHECKING(for new PIT model)
 AC_ARG_ENABLE(new-pit,
@@ -1674,13 +1679,13 @@ else
   support_pae=0   # Not an option yet for x86-32.
 fi
 
-if test "$support_global_pages"; then 
+if test "$support_global_pages" = 1; then 
   AC_DEFINE(BX_SupportGlobalPages, 1)
 else 
   AC_DEFINE(BX_SupportGlobalPages, 0)
 fi
 
-if test "$support_pae"; then 
+if test "$support_pae" = 1; then 
   AC_DEFINE(BX_SupportPAE, 1)
 else 
   AC_DEFINE(BX_SupportPAE, 0)
