@@ -1264,6 +1264,8 @@ SYSRET_NON_64BIT_MODE:
     exception(BX_GP_EXCEPTION, 0, 0);
     }
 
+  invalidate_prefetch_q();
+  
   if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64) {
     if (i->os64L()) { // Return to 64-bit mode.
 
