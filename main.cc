@@ -815,9 +815,9 @@ void bx_init_options ()
       NULL,
       0);
   bx_options.keyboard.Okeymap = new bx_param_string_c (BXP_KEYBOARD_MAP,
-      "Keymap name",
+      "Keymap filename",
       NULL,
-      "", 10);
+      "", BX_PATHNAME_LEN);
 
  // Keyboard type
   bx_options.Okeyboard_type = new bx_param_enum_c (BXP_KBD_TYPE,
