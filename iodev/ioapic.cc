@@ -165,7 +165,6 @@ void bx_ioapic_c::service_ioapic ()
       if (!entry->masked) {
 	// clear irr bit and deliver
 	bx_bool done = deliver (entry->dest, entry->dest_mode, entry->delivery_mode, entry->vector, entry->polarity, entry->trig_mode);
-	if (done) irr &= ~(1<<bit);
 	if (done) {
 	  irr &= ~(1<<bit);
 	  entry->delivery_status = 0;

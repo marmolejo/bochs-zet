@@ -2790,7 +2790,6 @@ public: // for now...
 
 #if BX_SUPPORT_APIC
   bx_local_apic_c local_apic;
-  static Bit32u cpu_online_map;
 #endif
 
 };

@@ -55,10 +55,6 @@ const bx_bool bx_parity_lookup[256] = {
   };
 #endif
 
-#if BX_SUPPORT_APIC
-Bit32u BX_CPU_C::cpu_online_map = 0;
-#endif
-
 #if BX_SMP_PROCESSORS==1
 // single processor simulation, so there's one of everything
 BOCHSAPI BX_CPU_C    bx_cpu;
