@@ -362,7 +362,7 @@ BX_CPU_C::CMOV_GqEq(bxInstruction_c *i)
   //       of whether condition is true or not.  Thus, exceptions may
   //       occur even if the MOV does not take place.
 
-  bx_bool condition;
+  bx_bool condition = 0;
   Bit64u op2_64;
 
   switch (i->b1()) {
@@ -384,7 +384,6 @@ BX_CPU_C::CMOV_GqEq(bxInstruction_c *i)
     case 0x14E: condition = get_ZF() || (getB_SF() != getB_OF()); break;
     case 0x14F: condition = !get_ZF() && (getB_SF() == getB_OF()); break;
     default:
-      condition = 0;
       BX_PANIC(("CMOV_GqEq: default case"));
     }
 

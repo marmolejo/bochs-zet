@@ -422,7 +422,12 @@ BX_CPU_C::CR3_change(bx_address value)
   // flush TLB even if value does not change
   TLB_flush(0); // 0 = Don't flush Global entries.
   BX_CPU_THIS_PTR cr3 = value;
-  BX_CPU_THIS_PTR cr3_masked = value & 0xfffff000;
+#if BX_SupportPAE
+  if (BX_CPU_THIS_PTR cr4.get_PAE())
+    BX_CPU_THIS_PTR cr3_masked = value & 0xffffffe0;
+  else
+#endif
+    BX_CPU_THIS_PTR cr3_masked = value & 0xfffff000;
 }
 
   void

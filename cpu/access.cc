@@ -1234,3 +1234,23 @@ BX_CPU_C::write_virtual_dqword_aligned(unsigned s, bx_address offset, Bit8u *dat
 
   write_virtual_dqword(s, offset, data);
 }
+
+#if BX_SUPPORT_FPU
+
+  void BX_CPP_AttrRegparmN(3)
+BX_CPU_C::read_virtual_tword(unsigned s, bx_address offset, floatx80 *data)
+{
+  // read floating point register
+  read_virtual_qword(s, offset+0, &data->fraction);
+  read_virtual_word (s, offset+8, &data->exp);
+}
+
+  void BX_CPP_AttrRegparmN(3)
+BX_CPU_C::write_virtual_tword(unsigned s, bx_address offset, floatx80 *data)
+{
+  // store floating point register
+  write_virtual_qword(s, offset+0, &data->fraction);
+  write_virtual_word (s, offset+8, &data->exp);
+}
+
+#endif

@@ -655,7 +655,7 @@ void BX_CPU_C::MOV_CdRd(bxInstruction_c *i)
   if (protected_mode() && CPL!=0) {
     BX_INFO(("MOV_CdRd: #GP(0) if CPL is not 0"));
     exception(BX_GP_EXCEPTION, 0, 0);
-    }
+  }
 
   val_32 = BX_READ_32BIT_REG(i->rm());
 
