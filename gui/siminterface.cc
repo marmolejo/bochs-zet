@@ -309,6 +309,7 @@ bx_real_sim_c::get_default_rc (char *path, int len)
   char *rc = bx_find_bochsrc ();
   if (rc == NULL) return -1;
   strncpy (path, rc, len);
+  path[len-1] = 0;
   return 0;
 }
 
