@@ -2978,6 +2978,12 @@ IMPLEMENT_EFLAG_ACCESSOR   (TF,  8)
 #define BxGroup9          BxGroupN
 #define BxGroupA          BxGroupN
 
+#if BX_SUPPORT_FPU
+#define BxAnotherFPU      BxAnother
+#else
+#define BxAnotherFPU      (0)
+#endif
+
 #if BX_SUPPORT_MMX
 #define BxAnotherMMX      BxAnother
 #else
