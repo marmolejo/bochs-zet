@@ -462,7 +462,11 @@ void bx_local_apic_c::read_aligned (Bit32u addr, Bit32u *data, unsigned len)
   case 0xa0: // processor priority
     *data = get_ppr (); break;
   case 0xb0: // EOI
-    BX_PANIC(("EOI register not writable"));
+    /*
+     * Read-modify-write operations should operate without generating
+     * exceptions, and are used by some operating systems to EOI.
+     * The results of reads should be ignored by the OS.
+     */
     break;
   case 0xd0: // logical destination
     *data = (log_dest & 0xff) << 24; break;
