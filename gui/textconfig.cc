@@ -974,8 +974,11 @@ static int ci_callback (void *userdata, ci_command_t command)
       bx_config_interface_init ();
       if (SIM->get_param_enum(BXP_BOCHS_START)->get () == BX_QUICK_START)
 	bx_config_interface (BX_CI_START_SIMULATION);
-      else
+      else {
+        if (!SIM->test_for_text_console ())
+	  return CI_ERR_NO_TEXT_CONSOLE;
         bx_config_interface (BX_CI_START_MENU);
+      }
       break;
     case CI_RUNTIME_CONFIG:
       bx_config_interface (BX_CI_RUNTIME);
