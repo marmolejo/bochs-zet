@@ -198,7 +198,7 @@ bx_pit_c::init( void )
   BX_PIT_THIS s.speaker_data_on = 0;
   BX_PIT_THIS s.refresh_clock_div2 = 0;
 
-  BX_PIT_THIS s.use_realtime = bx_options.Orealtime_pit->get ();
+  BX_PIT_THIS s.use_realtime = 0 ; // was: bx_options.Orealtime_pit->get ();
 
   BX_PIT_THIS s.timer.init();
 
