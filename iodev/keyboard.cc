@@ -1017,7 +1017,7 @@ bx_keyb_c::kbd_ctrl_to_kbd(Bit8u   value)
       if( value<4 ) {
         BX_KEY_THIS s.kbd_controller.current_scancodes_set = (value-1);
         BX_INFO(("Switched to scancode set %d\n",
-          (unsigned) BX_KEY_THIS s.kbd_controller.current_scancodes_set));
+          (unsigned) BX_KEY_THIS s.kbd_controller.current_scancodes_set + 1));
         kbd_enQ(0xFA);
         } 
       else {
