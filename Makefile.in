@@ -300,7 +300,7 @@ libbochs_cpu.a: @DEBUGGER_VAR@ $(BX_OBJS)
 	ar rv libbochs_cpu.a $(BX_OBJS)
 	$(RANLIB) libbochs_cpu.a
 
-# for wxWindows port, on win32 platform
+# for wxWidgets port, on win32 platform
 wxbochs_resources.o: wxbochs.rc
 	windres $(srcdir)/wxbochs.rc -o $@ --include-dir=`@WX_CONFIG@ --prefix`/include
 
