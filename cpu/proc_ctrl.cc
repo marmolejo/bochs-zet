@@ -1745,8 +1745,9 @@ void BX_CPU_C::WRMSR(bxInstruction_c *i)
                 case BX_MSR_EFER:
                         // GPF #0 if lme 0->1 and cr0.pg = 1
                         // GPF #0 if lme 1->0 and cr0.pg = 1
-                        if (  (BX_CPU_THIS_PTR msr.lme != (EAX >> 8) & 1)
-                           && (BX_CPU_THIS_PTR cr0.pg == 1)) {
+                        if ((BX_CPU_THIS_PTR msr.lme != ((EAX >> 8) & 1))
+                           && (BX_CPU_THIS_PTR cr0.pg == 1))
+                        {
                           exception(BX_GP_EXCEPTION, 0, 0);
                         }
                         BX_CPU_THIS_PTR msr.sce = (EAX >> 0) & 1;
