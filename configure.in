@@ -8,9 +8,9 @@ AC_CONFIG_HEADER(ltdlconf.h)
 
 dnl // Put Bochs version information right here so that it gets substituted
 dnl // into all the right places.
-VERSION="2.0.pre2"
-VER_STRING="2.0.pre2"
-REL_STRING="CVS some time after 2.0.pre2 release"
+VERSION="2.0.pre3"
+VER_STRING="2.0.pre3"
+REL_STRING="Build from CVS snapshot on December 4, 2002"
 
 changequote(<<, >>)
 changequote([, ])
