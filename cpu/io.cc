@@ -180,7 +180,7 @@ BX_CPU_C::INSW_YvDX(bxInstruction_c *i)
         // transfer, we can do the full segment limit check ourselves
         // without generating an exception.
         write_virtual_checks(dstSegPtr, edi, 2);
-        laddrDst = dstSegPtr->cache.u.segment.base + edi;
+        laddrDst = BX_CPU_THIS_PTR get_segment_base(BX_SEG_REG_ES) + edi;
         if (BX_CPU_THIS_PTR cr0.pg)
           paddrDst = dtranslate_linear(laddrDst, CPL==3, BX_WRITE);
         else
@@ -486,7 +486,7 @@ BX_CPU_C::OUTSW_DXXv(bxInstruction_c *i)
         // transfer, we can do the full segment limit check ourselves
         // without generating an exception.
         read_virtual_checks(srcSegPtr, esi, 2);
-        laddrSrc = srcSegPtr->cache.u.segment.base + esi;
+        laddrSrc = BX_CPU_THIS_PTR get_segment_base(seg) + esi;
         if (BX_CPU_THIS_PTR cr0.pg)
           paddrSrc = dtranslate_linear(laddrSrc, CPL==3, BX_READ);
         else
