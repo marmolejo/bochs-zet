@@ -441,7 +441,11 @@ handle_async_event:
     BX_CPU_THIS_PTR inhibit_mask = 0; // clear inhibits for after resume
     // for one processor, pass the time as quickly as possible until
     // an interrupt wakes up the CPU.
+#if BX_DEBUGGER
     while (bx_guard.interrupt_requested != 1) {
+#else
+    while (1) {
+#endif
       if (BX_CPU_THIS_PTR INTR && BX_CPU_THIS_PTR eflags.if_) {
         break;
         }
