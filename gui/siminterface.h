@@ -63,6 +63,7 @@ typedef enum {
   BXP_MOUSE_ENABLED,
   BXP_MEM_SIZE,
   BXP_ROM_PATH,
+  BXP_ROM_ADDRESS,
   BXP_VGA_ROM_PATH
 } bx_id;
 
@@ -225,10 +226,6 @@ public:
   virtual char *get_floppy_type_name (int type) {return NULL;}
   virtual int get_boot_hard_disk () {return -1;}
   virtual int set_boot_hard_disk (int val) {return -1;}
-  virtual int get_vga_path (char *buf, int len) {return -1;}
-  virtual int set_vga_path (char *path) {return -1;}
-  virtual int get_rom_address () {return -1;}
-  virtual int set_rom_address (int addr) {return -1;}
   virtual int get_private_colormap () { return -1; }
   virtual void set_private_colormap (int en) {}
   typedef int (*sim_interface_callback_t)(int code);
