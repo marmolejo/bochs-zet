@@ -332,9 +332,11 @@ bx_cmos_c::write(Bit32u address, Bit32u value, unsigned io_len)
      case 0x07: // day of the month
      case 0x08: // month
      case 0x09: // year
+     case 0x32: // century
        //BX_INFO(("write reg 0x%02x: value = 0x%02x",
        //    (unsigned) BX_CMOS_THIS s.cmos_mem_address, (unsigned) value);
        BX_CMOS_THIS s.reg[BX_CMOS_THIS s.cmos_mem_address] = value;
+       BX_ERROR(("changing time and date not supported yet"));
        return;
        break;
 
