@@ -2020,7 +2020,7 @@ bx_hard_drive_c::identify_ATAPI_drive(unsigned drive)
   for (i = 1; i <= 9; i++)
 	BX_SELECTED_HD.id_drive[i] = 0;
 
-  char* serial_number = " VT00001\0\0\0\0\0\0\0\0\0\0\0\0";
+  const char* serial_number = " VT00001\0\0\0\0\0\0\0\0\0\0\0\0";
   for (i = 0; i < 10; i++) {
 	BX_SELECTED_HD.id_drive[10+i] = (serial_number[i*2] << 8) |
 	      serial_number[i*2 + 1];
@@ -2029,7 +2029,7 @@ bx_hard_drive_c::identify_ATAPI_drive(unsigned drive)
   for (i = 20; i <= 22; i++)
 	BX_SELECTED_HD.id_drive[i] = 0;
 
-  char* firmware = "ALPHA1  ";
+  const char* firmware = "ALPHA1  ";
   for (i = 0; i < strlen(firmware)/2; i++) {
 	BX_SELECTED_HD.id_drive[23+i] = (firmware[i*2] << 8) |
 	      firmware[i*2 + 1];
