@@ -1091,7 +1091,7 @@ bx_keyb_c::kbd_ctrl_to_kbd(Bit8u   value)
 bx_keyb_c::periodic( Bit32u   usec_delta )
 {
   static int multiple=0;
-  static int count_before_paste=0;
+  static unsigned count_before_paste=0;
   Bit8u   retval;
 
   UNUSED( usec_delta );
@@ -1495,7 +1495,7 @@ bx_keyb_c::mouse_motion(int delta_x, int delta_y, unsigned button_state)
     BX_DEBUG(("[mouse] Dx=%d Dy=%d", delta_x, delta_y));
 #endif  /* ifdef VERBOSE_KBD_DEBUG */
 
-  if( (delta_x==0) && (delta_y==0) && (BX_KEY_THIS s.mouse.button_status == button_state & 0x3) ) {
+  if( (delta_x==0) && (delta_y==0) && (BX_KEY_THIS s.mouse.button_status == (button_state & 0x3) ) ) {
     BX_DEBUG(("Ignoring useless mouse_motion call:\n"));
     BX_DEBUG(("This should be fixed in the gui code.\n"));
     return;
