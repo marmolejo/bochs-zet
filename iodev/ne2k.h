@@ -194,6 +194,7 @@ typedef struct {
     // pci stuff
     bx_bool pci_enabled;
 #if BX_PCI_SUPPORT
+    Bit8u devfunc;
     Bit8u pci_conf[256];
 #endif
 } bx_ne2k_t;

@@ -41,7 +41,8 @@ public:
   ~bx_pci2isa_c(void);
   virtual void   init(void);
   virtual void   reset(unsigned type);
-  virtual void   pci_set_irq(unsigned line, bx_bool level);
+  virtual void   pci_init_irq(Bit8u devfunc, unsigned line, unsigned irq);
+  virtual void   pci_set_irq(Bit8u devfunc, unsigned line, bx_bool level);
 
 private:
 

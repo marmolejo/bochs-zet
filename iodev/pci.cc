@@ -456,7 +456,7 @@ bx_pci_c::register_pci_handlers( void *this_ptr, bx_pci_read_handler_t f1,
       }
     }
     if (*devfunc == 0x00) {
-      BX_ERROR(("Plugin '%s'not connected to a PCI slot", name));
+      BX_ERROR(("Plugin '%s' not connected to a PCI slot", name));
     }
   }
   /* check if device/function is available */

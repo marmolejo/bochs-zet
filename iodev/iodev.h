@@ -273,8 +273,11 @@ class BOCHSAPI bx_pci_stub_c : public bx_devmodel_c {
 
 class BOCHSAPI bx_pci2isa_stub_c : public bx_devmodel_c {
   public:
-  virtual void pci_set_irq (unsigned line, bx_bool level) {
+  virtual void pci_set_irq (Bit8u devfunc, unsigned line, bx_bool level) {
     STUBFUNC(pci2isa, pci_set_irq);
+  }
+  virtual void pci_init_irq (Bit8u devfunc, unsigned line, unsigned irq) {
+    STUBFUNC(pci2isa, pci_init_irq);
   }
 };
 
