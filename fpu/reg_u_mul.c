@@ -96,5 +96,5 @@ int FPU_u_mul(const FPU_REG *a, const FPU_REG *b, FPU_REG *c, u16 cw,
   c->sigl = mu;
   c->sigh = mu >> 32;
 
-  return FPU_round(c, lh, 0, cw, sign);
+  return FPU_round(c, lh, cw, sign);
 }

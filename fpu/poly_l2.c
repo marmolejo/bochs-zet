@@ -103,7 +103,7 @@ void	poly_l2(FPU_REG *st0_ptr, FPU_REG *st1_ptr, u_char st1_sign)
   significand(st1_ptr) = XSIG_LL(accumulator);
   setexponent16(st1_ptr, expon_expon + exponent16(st1_ptr) + 1);
 
-  tag = FPU_round(st1_ptr, 1, 0, FULL_PRECISION, sign ^ st1_sign);
+  tag = FPU_round(st1_ptr, 1, FULL_PRECISION, sign ^ st1_sign);
   FPU_settagi(1, tag);
 
   set_precision_flag_up();  /* 80486 appears to always do this */
@@ -140,7 +140,7 @@ int	poly_l2p1(u_char sign0, u_char sign1,
       significand(dest) = XSIG_LL(accumulator);
       setexponent16(dest, exponent);
 
-      tag = FPU_round(dest, 1, 0, FULL_PRECISION, sign0 ^ sign1);
+      tag = FPU_round(dest, 1, FULL_PRECISION, sign0 ^ sign1);
       FPU_settagi(1, tag);
 
       if ( tag == TAG_Valid )

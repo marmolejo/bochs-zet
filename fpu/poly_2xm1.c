@@ -147,7 +147,7 @@ int	poly_2xm1(u_char sign, FPU_REG *arg, FPU_REG *result)
   significand(result) = XSIG_LL(accumulator);
   setexponent16(result, exponent);
 
-  tag = FPU_round(result, 1, 0, FULL_PRECISION, sign);
+  tag = FPU_round(result, 1, FULL_PRECISION, sign);
 
   setsign(result, sign);
   FPU_settag0(tag);

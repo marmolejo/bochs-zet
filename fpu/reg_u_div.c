@@ -85,11 +85,10 @@ int FPU_u_div(const FPU_REG *a, const FPU_REG *b, FPU_REG *dest,
       dest->sigl = rat2;
 
       dest->exp --;
-      return FPU_round(dest, rem, 0, control_w, sign);
+      return FPU_round(dest, rem, control_w, sign);
     }
 
   /* This may take a little time... */
-
   accum64 = work64;
   divr64 = significand(b);
 
@@ -275,5 +274,5 @@ int FPU_u_div(const FPU_REG *a, const FPU_REG *b, FPU_REG *dest,
   dest->sigl = rat2;
 
   dest->exp --;
-  return FPU_round(dest, rem, 0, control_w, sign);
+  return FPU_round(dest, rem, control_w, sign);
 }

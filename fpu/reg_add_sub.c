@@ -412,13 +412,13 @@ int add_sub_specials(FPU_REG const *a, u_char taga, u_char signa,
      if ((dest->sigh & 0x80000000) == 0) 
      {
          dest->exp++;
-         tag = FPU_round (dest, 0, 0, control_w, sign);
+         tag = FPU_round (dest, 0, control_w, sign);
          if ((dest->sigh & 0x80000000) == 0) 
              dest->exp--;
          if ((dest->exp & 0x7FFF) == 0) 
              if (dest->exp != unrounded.exp || dest->sigh != unrounded.sigh || dest->sigl != unrounded.sigl)
                  EXCEPTION(EX_Underflow);
      }
-     else tag = FPU_round (dest, 0, 0, control_w, sign);
+     else tag = FPU_round (dest, 0, control_w, sign);
      return tag;
 }

@@ -140,7 +140,7 @@ static int truncate_24(FPU_REG *x)
   return LOST_DOWN;
 }
 
-int FPU_round(FPU_REG *x, u32 extent, int dummy, u16 control_w, u8 sign)
+int FPU_round(FPU_REG *x, u32 extent, u16 control_w, u8 sign)
 {
   u64 work;
   u32 leading;

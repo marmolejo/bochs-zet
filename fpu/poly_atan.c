@@ -220,7 +220,7 @@ void	poly_atan(FPU_REG *st0_ptr, u_char st0_tag,
   significand(st1_ptr) = XSIG_LL(accumulator);
   setexponent16(st1_ptr, exponent);
 
-  tag = FPU_round(st1_ptr, 1, 0, FULL_PRECISION, sign2);
+  tag = FPU_round(st1_ptr, 1, FULL_PRECISION, sign2);
   FPU_settagi(1, tag);
 
 
