@@ -683,7 +683,7 @@ bx_keyb_c::service_paste_buf ()
     BX_KEY_THIS pastebuf_ptr++;
   }
   // reached end of pastebuf.  free the memory it was using.
-  delete [] BX_KEY_THIS pastebuf;
+  free(BX_KEY_THIS pastebuf);
   BX_KEY_THIS pastebuf = NULL;
 }
 
