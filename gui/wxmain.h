@@ -127,16 +127,17 @@ class MyPanel: public wxPanel
   Boolean fillBxKeyEvent_MSW (wxKeyEvent& event, BxKeyEvent& bxev, Boolean release);
   Boolean fillBxKeyEvent_GTK (wxKeyEvent& event, BxKeyEvent& bxev, Boolean release);
 public:
-  MyPanel(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = "panel")
-      : wxPanel (parent, id, pos, size, style, name)
-    { wxLogDebug ("MyPanel constructor"); }
+  MyPanel(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = "panel");
   void OnKeyDown(wxKeyEvent& event);
   void OnKeyUp(wxKeyEvent& event);
   void OnPaint(wxPaintEvent& event);
+  void OnTimer(wxCommandEvent& event);
   void MyRefresh ();
   void ReadConfiguration ();
   void SaveConfiguration ();
 private:
+  bool needRefresh;
+  wxTimer refreshTimer;
   DECLARE_EVENT_TABLE()
 };
 
