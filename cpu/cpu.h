@@ -237,7 +237,7 @@
 #if BX_SMP_PROCESSORS==1
 #define CPU_ID 0
 #else
-#define CPU_ID (BX_CPU_THIS_PTR local_apic.get_id())
+#define CPU_ID (BX_CPU_THIS - BX_CPU(0))
 #endif
 
 #ifndef CPL
