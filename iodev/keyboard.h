@@ -161,6 +161,7 @@ private:
       Bit8u button_status;
       Bit16s delayed_dx;
       Bit16s delayed_dy;
+      Bit8u im_request;
       } mouse;
 
     struct {
