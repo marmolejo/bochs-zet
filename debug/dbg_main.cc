@@ -3458,7 +3458,7 @@ bx_dbg_loader_command(char *path_quoted)
 #if BX_USE_LOADER
   {
   bx_loader_misc_t loader_misc;
-  BX_CPU(0)->loader(path_quoted, &loader_misc);
+  bx_dbg_callback[0].loader(path_quoted, &loader_misc);
 #if 0
 fprintf(stderr, "dr0: 0x%08x\n", loader_misc.dr0);
 fprintf(stderr, "dr1: 0x%08x\n", loader_misc.dr1);
