@@ -135,7 +135,8 @@ NONINLINE_OBJS = \
 	load32bitOShack.o \
 	state_file.o \
 	pc_system.o \
-	osdep.o
+	osdep.o \
+	@EXTRA_BX_OBJS@
 
 EXTERN_ENVIRONMENT_OBJS = \
 	main.o \
@@ -254,6 +255,10 @@ libbochs_cpu.a: @DEBUGGER_VAR@ $(BX_OBJS)
 	-rm -f libbochs_cpu.a
 	ar rv libbochs_cpu.a $(BX_OBJS)
 	$(RANLIB) libbochs_cpu.a
+
+# for wxWindows port, on win32 platform
+wxbochs_resources.o: wxbochs.rc
+	windres $(srcdir)/wxbochs.rc -o $@ --include-dir=`wx-config --prefix`/include
 
 #####################################################################
 # Install target for all platforms.
