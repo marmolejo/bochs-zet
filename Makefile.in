@@ -442,7 +442,7 @@ tar:
 	NAME=`pwd|$(SED) 's/.*\///'`; (cd ..; tar cf - $$NAME | $(GZIP) > $$NAME.tar.gz); ls -l ../$$NAME.tar.gz
 
 zip:
-	NAME=`pwd|$(SED) 's/.*\///'`; (cd ..; $(ZIP) $$NAME.zip -r $$NAME); ls -l ../$$NAME.zip
+	NAME=`pwd|$(SED) 's/.*\///'`; (cd ..; $(ZIP) $$NAME.zip -r $$NAME -x \*CVS\* -x \*.cvsignore ); ls -l ../$$NAME.zip
 
 clean:
 	@RMCOMMAND@ *.o
