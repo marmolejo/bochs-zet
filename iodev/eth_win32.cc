@@ -32,6 +32,8 @@
 // rfc0826: arp
 // rfc0903: rarp
 //
+// For ethernet support under win32 to work, you must install WinPCap.
+// Download it from http://netgroup-serv.polito.it/winpcap
 
 #include <windows.h>
 #include "bochs.h"
