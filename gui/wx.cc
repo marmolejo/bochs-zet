@@ -68,7 +68,6 @@ static long wxTileY = 0;
 static unsigned long wxCursorX = 0;
 static unsigned long wxCursorY = 0;
 static unsigned long wxFontY = 0;
-static unsigned long wxMouseCaptured = 0;
 struct {
 	unsigned char red;
 	unsigned char green;
@@ -104,6 +103,13 @@ MyPanel::MyPanel(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSi
   needRefresh = true;
   const char bits[1] = { 0 };
   blankCursor = new wxCursor (bits, 1, 1, -1, -1, bits);
+  thePanel = this;
+}
+
+MyPanel::~MyPanel ()
+{
+  delete blankCursor;
+  thePanel = NULL;
 }
 
 void MyPanel::OnTimer(wxCommandEvent& WXUNUSED(event))
