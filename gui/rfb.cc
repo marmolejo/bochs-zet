@@ -302,7 +302,7 @@ void ServerThreadInit(void *indata)
         BX_PANIC(( "could not create socket." ));
         goto end_of_thread;
     }
-    if (setsockopt(sServer, SOL_SOCKET, SO_REUSEADDR, &one, sizeof(int)) == -1)  {
+    if (setsockopt(sServer, SOL_SOCKET, SO_REUSEADDR, (const char *)&one, sizeof(int)) == -1)  {
         BX_PANIC(( "could not set socket option." ));
         goto end_of_thread;
     }
