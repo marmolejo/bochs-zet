@@ -103,6 +103,9 @@ typedef enum {
   BXP_PARPORT1_OUTFILE,
   BXP_PARPORT2_ENABLE,
   BXP_PARPORT2_OUTFILE,
+  BXP_KEYBOARD_USEMAPPING,
+  BXP_KEYBOARD_MAP,
+  BXP_KEYBOARD,
   BXP_THIS_IS_THE_LAST    // used to determine length of list
 } bx_id;
 
