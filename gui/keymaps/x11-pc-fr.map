@@ -184,7 +184,7 @@ BX_KEY_LEFT_BACKSLASH                         '<'        XK_less
 BX_KEY_LEFT_BRACKET                           '^'        XK_dead_circumflex
 BX_KEY_LEFT_BRACKET                           none       XK_dead_diaeresis
 BX_KEY_MENU                                   none       XK_Menu
-BX_KEY_MINUS                                  ']'        XK_bracketright
+BX_KEY_MINUS+BX_KEY_ALT_R                     ']'        XK_bracketright
 BX_KEY_MINUS+BX_KEY_SHIFT_L                   '°'        XK_degree
 BX_KEY_MINUS                                  ')'        XK_parenright
 BX_KEY_NUM_LOCK                               none       XK_Num_Lock
