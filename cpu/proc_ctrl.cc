@@ -604,15 +604,9 @@ void BX_CPU_C::SMSW_Ew(bxInstruction_c *i)
   msw |= (BX_CPU_THIS_PTR cr0.ts << 3) |
          (BX_CPU_THIS_PTR cr0.em << 2) |
          (BX_CPU_THIS_PTR cr0.mp << 1) |
-         BX_CPU_THIS_PTR cr0.pe;
+         (BX_CPU_THIS_PTR cr0.pe);
 #else /* 386+ */
-  /* reserved bits 0 ??? */
-  /* should NE bit be included here ??? */
-  // should ET bit be included here (AW)
-  msw =  (BX_CPU_THIS_PTR cr0.ts << 3) |
-         (BX_CPU_THIS_PTR cr0.em << 2) |
-         (BX_CPU_THIS_PTR cr0.mp << 1) |
-         BX_CPU_THIS_PTR cr0.pe;
+  msw = BX_CPU_THIS_PTR cr0.val32 & 0xffff;
 #endif
 
   if (i->modC0()) {
@@ -661,7 +655,7 @@ void BX_CPU_C::MOV_CdRd(bxInstruction_c *i)
   if (protected_mode() && CPL!=0) {
     BX_INFO(("MOV_CdRd: #GP(0) if CPL is not 0"));
     exception(BX_GP_EXCEPTION, 0, 0);
-    }
+  }
 
   val_32 = BX_READ_32BIT_REG(i->rm());
 
