@@ -2054,12 +2054,6 @@ bx_begin_simulation (int argc, char *argv[])
   // bx_init_hardware() and cpu_loop()
   bx_dbg_main(argc, argv);
 #else
-#if BX_PLUGINS
-#ifdef __GNUC__
-#warning bx_load_plugins doesnt do much anymore and should maybe be removed
-#endif
-  bx_load_plugins ();
-#endif
 
   bx_init_hardware();
 

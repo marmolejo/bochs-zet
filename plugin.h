@@ -42,7 +42,6 @@ extern "C" {
 #define BX_PLUGIN_GAMEPORT  "gameport"
 
 
-#define BX_REGISTER_DEVICE pluginRegisterDevice
 #define BX_REGISTER_DEVICE_DEVMODEL(a,b,c,d) pluginRegisterDeviceDevmodel(a,b,c,d)
 
 #if BX_PLUGINS
@@ -210,9 +209,6 @@ typedef void (*deviceReset_t)(unsigned);
 typedef void (*deviceLoad_t)(void);
 typedef void (*deviceSave_t)(void);
 
-BOCHSAPI void pluginRegisterDevice(deviceInitMem_t init_mem, deviceInitDev_t init_dev,
-                          deviceReset_t reset, deviceLoad_t load, 
-                          deviceSave_t save, char *name);
 BOCHSAPI void pluginRegisterDeviceDevmodel(plugin_t *plugin, plugintype_t type, bx_devmodel_c *dev, char *name);
 BOCHSAPI bx_bool pluginDevicePresent(char *name);
 
@@ -274,8 +270,6 @@ BOCHSAPI extern Bit8u    (*pluginWr_memType)(Bit32u addr);
 
 void plugin_abort (void);
 
-// called from bochs main (hack)
-extern int bx_load_plugins ();
 int bx_load_plugin (const char *name, plugintype_t type);
 extern void bx_init_plugins (void);
 extern void bx_reset_plugins (unsigned);
