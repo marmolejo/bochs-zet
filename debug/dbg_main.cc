@@ -2170,7 +2170,7 @@ void bx_dbg_disassemble_current (int which_cpu, int print_time)
 		BX_CPU(which_cpu)->get_IOPL (),
 		BX_CPU(which_cpu)->get_NT (),
 		BX_CPU(which_cpu)->get_RF (),
-		BX_CPU(which_cpu)->get_BVM ());
+		BX_CPU(which_cpu)->getB_VM ());
 
     if (print_time)
       dbg_printf ( "(%u).[%lld] ", which_cpu, bx_pc_system.time_ticks());
