@@ -637,7 +637,6 @@ AC_ARG_ENABLE(guest2host-tlb,
     AC_DEFINE(BX_SupportGuest2HostTLB, 0)
     ]
   )
-AC_SUBST(BX_SupportGuest2HostTLB)
 
 AC_MSG_CHECKING(for repeated IO and mem copy speedups)
 AC_ARG_ENABLE(repeat-speedups,
@@ -654,7 +653,22 @@ AC_ARG_ENABLE(repeat-speedups,
     AC_DEFINE(BX_SupportRepeatSpeedups, 0)
     ]
   )
-AC_SUBST(BX_SupportRepeatSpeedups)
+
+AC_MSG_CHECKING(for instruction cache support)
+AC_ARG_ENABLE(icache,
+  [  --enable-icache                   support instruction cache],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_SupportICache, 1)
+   else
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SupportICache, 0)
+   fi],
+  [
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SupportICache, 0)
+    ]
+  )
 
 support_global_pages=0
 AC_MSG_CHECKING(for Global pages support)

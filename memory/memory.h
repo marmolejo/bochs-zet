@@ -76,7 +76,7 @@ public:
   BX_MEM_SMF Boolean dbg_crc32(
     unsigned long (*f)(unsigned char *buf, int len),
     Bit32u addr1, Bit32u addr2, Bit32u *crc);
-  BX_MEM_SMF Bit8u * getHostMemAddr(Bit32u a20Addr, unsigned op);
+  BX_MEM_SMF Bit8u * getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op);
   };
 
 #if BX_PROVIDE_CPU_MEMORY==1

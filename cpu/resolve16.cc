@@ -66,6 +66,11 @@ BX_CPU_C::Resolve16Mod0Rm5(bxInstruction_c *i)
   RMAddr(i) = (Bit16u) DI;
 }
   void
+BX_CPU_C::Resolve16Mod0Rm6(bxInstruction_c *i)
+{
+  RMAddr(i) = i->displ16u();
+}
+  void
 BX_CPU_C::Resolve16Mod0Rm7(bxInstruction_c *i)
 {
   RMAddr(i) = (Bit16u) BX;

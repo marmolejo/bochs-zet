@@ -56,6 +56,11 @@ BX_CPU_C::Resolve32Mod0Rm3(bxInstruction_c *i)
   RMAddr(i) = EBX;
 }
   void
+BX_CPU_C::Resolve32Mod0Rm5(bxInstruction_c *i)
+{
+  RMAddr(i) = i->displ32u();
+}
+  void
 BX_CPU_C::Resolve32Mod0Rm6(bxInstruction_c *i)
 {
   RMAddr(i) = ESI;

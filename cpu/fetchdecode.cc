@@ -94,7 +94,7 @@ static BxExecutePtr_t BxResolve16Mod0[8] = {
   &BX_CPU_C::Resolve16Mod0Rm3,
   &BX_CPU_C::Resolve16Mod0Rm4,
   &BX_CPU_C::Resolve16Mod0Rm5,
-  NULL, // d16, no registers used
+  &BX_CPU_C::Resolve16Mod0Rm6,
   &BX_CPU_C::Resolve16Mod0Rm7
   };
 
@@ -115,7 +115,7 @@ static BxExecutePtr_t BxResolve32Mod0[8] = {
   &BX_CPU_C::Resolve32Mod0Rm2,
   &BX_CPU_C::Resolve32Mod0Rm3,
   NULL, // escape to 2-byte
-  NULL, // d32, no registers used
+  &BX_CPU_C::Resolve32Mod0Rm5,
   &BX_CPU_C::Resolve32Mod0Rm6,
   &BX_CPU_C::Resolve32Mod0Rm7
   };
@@ -1430,7 +1430,7 @@ static BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
 
 
   unsigned
-BX_CPU_C::FetchDecode(Bit8u *iptr, bxInstruction_c *instruction,
+BX_CPU_C::fetchDecode(Bit8u *iptr, bxInstruction_c *instruction,
                       unsigned remain, Boolean is_32)
 {
   // remain must be at least 1
@@ -1580,7 +1580,8 @@ BX_PANIC(("fetch_decode: prefix default = 0x%02x", b1));
               imm32u |= (*iptr++) << 8;
               imm32u |= (*iptr++) << 16;
               imm32u |= (*iptr++) << 24;
-              RMAddr(instruction) = imm32u;
+              //RMAddr(instruction) = imm32u;
+              instruction->modRMForm.displ32u = imm32u;
               ilen += 4;
 #if BX_DYNAMIC_TRANSLATION
               instruction->DTMemRegsUsed = 0;
@@ -1750,7 +1751,8 @@ get_32bit_displ:
           Bit16u displ16u;
           displ16u = *iptr++;
           displ16u |= (*iptr++) << 8;
-          RMAddr(instruction) = displ16u;
+          //RMAddr(instruction) = displ16u;
+          instruction->modRMForm.displ16u = displ16u;
           ilen += 2;
           goto modrm_done;
           }
