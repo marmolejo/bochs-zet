@@ -626,7 +626,9 @@ bx_keyb_c::service_paste_buf ()
 
 // paste_bytes schedules an arbitrary number of ASCII characters to be
 // inserted into the hardware queue as it become available.  Any previous
-// paste which is still in progress will be thrown out.
+// paste which is still in progress will be thrown out.  BYTES is a pointer
+// to a region of memory containing the chars to be pasted. When the paste
+// is complete, the keyboard code will call free(BYTES).
 void
 bx_keyb_c::paste_bytes (Bit8u *bytes, Bit32s length)
 {
