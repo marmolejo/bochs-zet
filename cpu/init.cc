@@ -186,19 +186,6 @@ void BX_CPU_C::init(BX_MEM_C *addrspace)
   DTDirBrHandler = (BxDTShim_t) DTASDirBrHandler;
 #endif
 
-#if BX_FETCHDECODE_CACHE
-  {
-    int n;
-    for(n=0;n<BX_FDCACHE_SIZE;n++) {
-      fdcache_ip[n]=0xFFFFFFFF;
-    }
-    for(n=0;n<BX_FDCACHE_RPN_SIZE;n++) {
-      fdcache_rpn[n]=0xFFFFFFFF;
-      fdcache_rpn_start[n]=0xFFFFFFFF;
-    }
-  }
-#endif
-
   mem = addrspace;
   sprintf (name, "CPU %p", this);
 
