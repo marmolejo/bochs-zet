@@ -393,7 +393,7 @@ bx_hard_drive_c::read(Bit32u address, unsigned io_len)
   Bit16u value16;
   Bit32u value32;
 
-  if (io_len==2 && address!=0x1f0) {
+  if (io_len>1 && address!=0x1f0) {
     BX_PANIC(("non-byte IO read to %04x", (unsigned) address));
     }
 
@@ -835,7 +835,7 @@ bx_hard_drive_c::write(Bit32u address, Bit32u value, unsigned io_len)
   int ret;
   Boolean prev_control_reset;
 
-  if (io_len==2 && address!=0x1f0) {
+  if (io_len>1 && address!=0x1f0) {
     BX_PANIC(("non-byte IO write to %04x", (unsigned) address));
     }
 
@@ -2149,7 +2149,7 @@ bx_hard_drive_c::identify_ATAPI_drive(unsigned drive)
   BX_ASSERT((27+i) == 47);
 
   BX_SELECTED_HD.id_drive[47] = 0;
-  BX_SELECTED_HD.id_drive[48] = 0;
+  BX_SELECTED_HD.id_drive[48] = 1; // 32 bits access
 
   BX_SELECTED_HD.id_drive[49] = (1 << 9); // LBA supported
 
