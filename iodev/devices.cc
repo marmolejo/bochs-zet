@@ -84,6 +84,7 @@ bx_devices_c::bx_devices_c(void)
   pluginNE2kDevice =&stubNE2k;
   pluginExtFpuIrq = NULL;
   pluginGameport = NULL;
+  pluginSpeaker = &stubSpeaker;
   g2h = NULL;
 #if BX_IODEBUG_SUPPORT
   iodebug = NULL;
@@ -604,7 +605,7 @@ bx_devices_c::register_io_write_handler( void *this_ptr, bx_write_handler_t f,
 bx_devices_c::register_io_read_handler_range( void *this_ptr, bx_read_handler_t f,
                                         Bit32u begin_addr, Bit32u end_addr, const char *name, Bit8u mask )
 {
-  int addr;
+  Bit32u addr;
   begin_addr &= 0x0000ffff;
   end_addr &= 0x0000ffff;
 
@@ -668,7 +669,7 @@ bx_devices_c::register_io_read_handler_range( void *this_ptr, bx_read_handler_t 
 bx_devices_c::register_io_write_handler_range( void *this_ptr, bx_write_handler_t f,
                                         Bit32u begin_addr, Bit32u end_addr, const char *name, Bit8u mask )
 {
-  int addr;
+  Bit32u addr;
   begin_addr &= 0x0000ffff;
   end_addr &= 0x0000ffff;
 
@@ -842,7 +843,7 @@ bx_devices_c::unregister_io_read_handler_range( void *this_ptr, bx_read_handler_
 {
 	begin &= 0x0000ffff;
 	end &= 0x0000ffff;
-	int addr;
+	Bit32u addr;
 	bx_bool ret = true;
 
 	/*
@@ -862,7 +863,7 @@ bx_devices_c::unregister_io_write_handler_range( void *this_ptr, bx_write_handle
 {
 	begin &= 0x0000ffff;
 	end &= 0x0000ffff;
-	int addr;
+	Bit32u addr;
 	bx_bool ret = true;
 
 	/*

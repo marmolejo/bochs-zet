@@ -359,6 +359,7 @@ public:
   bx_vga_stub_c  stubVga;
   bx_pci_stub_c  stubPci;
   bx_ne2k_stub_c stubNE2k;
+  bx_speaker_stub_c stubSpeaker;
 
   // Some info to pass to devices which can handled bulk IO.  This allows
   // the interface to remain the same for IO devices which can't handle
