@@ -465,7 +465,7 @@ public:
   // functions which stick these values in the bx_devices_c class, and
   // then call the normal functions rather than having gross globals
   // variables.
-  Bit32u   bulkIOHostAddr;
+  Bit8u*   bulkIOHostAddr;
   unsigned bulkIOQuantumsRequested;
   unsigned bulkIOQuantumsTransferred;
 

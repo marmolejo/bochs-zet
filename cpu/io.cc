@@ -258,14 +258,14 @@ BX_CPU_C::INSW_YvDX(bxInstruction_c *i)
               Bit16u temp16;
               bx_devices.bulkIOQuantumsTransferred = 0;
               if ( BX_CPU_THIS_PTR get_DF ()==0 ) { // Only do accel for DF=0
-                bx_devices.bulkIOHostAddr = (Bit32u) hostAddrDst;
+                bx_devices.bulkIOHostAddr = hostAddrDst;
                 bx_devices.bulkIOQuantumsRequested = (wordCount - j);
                 }
               else
                 bx_devices.bulkIOQuantumsRequested = 0;
               temp16 = BX_INP(DX, 2);
               if ( bx_devices.bulkIOQuantumsTransferred ) {
-                hostAddrDst =  (Bit8u*) bx_devices.bulkIOHostAddr;
+                hostAddrDst =  bx_devices.bulkIOHostAddr;
                 j += bx_devices.bulkIOQuantumsTransferred;
                 }
               else {
@@ -564,7 +564,7 @@ BX_CPU_C::OUTSW_DXXv(bxInstruction_c *i)
               Bit16u temp16;
               bx_devices.bulkIOQuantumsTransferred = 0;
               if ( BX_CPU_THIS_PTR get_DF ()==0 ) { // Only do accel for DF=0
-                bx_devices.bulkIOHostAddr = (Bit32u) hostAddrSrc;
+                bx_devices.bulkIOHostAddr = hostAddrSrc;
                 bx_devices.bulkIOQuantumsRequested = (wordCount - j);
                 }
               else
@@ -572,7 +572,7 @@ BX_CPU_C::OUTSW_DXXv(bxInstruction_c *i)
               temp16 = * (Bit16u *) hostAddrSrc;
               BX_OUTP(DX, temp16, 2);
               if ( bx_devices.bulkIOQuantumsTransferred ) {
-                hostAddrSrc =  (Bit8u*) bx_devices.bulkIOHostAddr;
+                hostAddrSrc =  bx_devices.bulkIOHostAddr;
                 j += bx_devices.bulkIOQuantumsTransferred;
                 }
               else {
