@@ -512,6 +512,10 @@ enum PCS_OP { PCS_CLEAR, PCS_SET, PCS_TOGGLE };
 BOCHSAPI extern bx_devices_c   bx_devices;
 #endif
 
+#if BX_GUI_SIGHANDLER
+extern bx_bool bx_gui_sighandler;
+#endif
+
 // This value controls how often each I/O device's periodic() method
 // gets called.  The timer is set up in iodev/devices.cc.
 #define BX_IODEV_HANDLER_PERIOD 100    // microseconds
