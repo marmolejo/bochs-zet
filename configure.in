@@ -1944,6 +1944,9 @@ case "$target" in
     AC_DEFINE(BX_HAVE_GETTIMEOFDAY, 0)
     AC_DEFINE(BX_HAVE_DLFCN_H, 0)
     ;;
+  *-beos*)
+    PRIMARY_TARGET=.bochs_beos_target
+    ;;
 esac
 
 case $target in 
