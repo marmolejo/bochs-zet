@@ -60,6 +60,7 @@ public:
     int     periodic_timer_index;
     Bit32u  periodic_interval_usec;
     int     one_second_timer_index;
+    int     uip_timer_index;
     time_t  timeval;
     Bit8u   cmos_mem_address;
     bx_bool timeval_change;
@@ -78,8 +79,10 @@ private:
 public:
   static void periodic_timer_handler(void *);
   static void one_second_timer_handler(void *);
+  static void uip_timer_handler(void *);
   BX_CMOS_SMF void periodic_timer(void);
   BX_CMOS_SMF void one_second_timer(void);
+  BX_CMOS_SMF void uip_timer(void);
 private:
   BX_CMOS_SMF void update_clock(void);
   BX_CMOS_SMF void update_timeval(void);
