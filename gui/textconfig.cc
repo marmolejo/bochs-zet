@@ -16,12 +16,19 @@
 
 #if BX_USE_TEXTCONFIG
 
+#ifndef __QNXNTO__
 extern "C" {
+#endif
+
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
 #include <assert.h>
+
+#ifndef __QNXNTO__
 }
+#endif
+
 #include "osdep.h"
 #include "textconfig.h"
 #include "siminterface.h"

@@ -70,7 +70,11 @@ IMPLEMENT_GUI_PLUGIN_CODE(rfb)
 #include <netinet/tcp.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#ifndef __QNXNTO__
 #include <sys/errno.h>
+#else
+#include <errno.h>
+#endif
 #include <pthread.h>
 
 typedef int SOCKET;
