@@ -121,7 +121,7 @@ bx_real_sim_c::bx_real_sim_c ()
 {
   callback = NULL;
   registry_alloc_size = BXP_THIS_IS_THE_LAST - BXP_NULL;
-  param_registry = new (bx_param_c*)[registry_alloc_size];
+  param_registry = new bx_param_c*  [registry_alloc_size];
 }
 
 int
@@ -518,7 +518,7 @@ bx_list_c::bx_list_c (bx_id id, int maxsize)
   set_type (BXT_LIST);
   this->maxsize = maxsize;
   this->size = 0;
-  this->list = new (bx_param_c *)[maxsize];
+  this->list = new bx_param_c*  [maxsize];
   init ();
 }
 
@@ -530,7 +530,7 @@ bx_list_c::bx_list_c (bx_id id, bx_param_c **init_list)
   while (init_list[size] != NULL)
     size++;
   this->maxsize = size;
-  this->list = new (bx_param_c *)[maxsize];
+  this->list = new bx_param_c*  [maxsize];
   for (int i=0; i<size; i++)
     this->list[i] = init_list[i];
   init ();
