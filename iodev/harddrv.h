@@ -707,6 +707,9 @@ public:
   static Bit32u read_handler(void *this_ptr, Bit32u address, unsigned io_len);
   static void   write_handler(void *this_ptr, Bit32u address, Bit32u value, unsigned io_len);
 
+  static void iolight_timer_handler(void *);
+  BX_HD_SMF void iolight_timer(void);
+
 private:
 
   BX_HD_SMF bx_bool calculate_logical_address(Bit8u channel, off_t *sector) BX_CPP_AttrRegparmN(2);
@@ -742,6 +745,7 @@ private:
 
       Bit8u model_no[41];
       int statusbar_id;
+      int iolight_counter;
       } drives[2];
     unsigned drive_select;
 
@@ -750,6 +754,8 @@ private:
     Bit8u  irq;
 
     } channels[BX_MAX_ATA_CHANNEL];
+
+  int iolight_timer_index;
 
 #if BX_PDC20230C_VLBIDE_SUPPORT
 // pdc20630c is only available for 1st ata channel
