@@ -1178,9 +1178,7 @@ typedef struct {
 
 #endif  // #if BX_SUPPORT_X86_64
 
-#if BX_SUPPORT_APIC
 #include "cpu/apic.h"
-#endif
 
 class BX_MEM_C;
 
