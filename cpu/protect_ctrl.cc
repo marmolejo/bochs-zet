@@ -646,7 +646,7 @@ BX_CPU_C::VERR_Ew(bxInstruction_c *i)
       return;
       }
     set_ZF(1); /* accessible */
-    BX_ERROR(("VERR: data segment OK"));
+    BX_DEBUG(("VERR: data segment OK"));
     return;
     }
 }
@@ -719,7 +719,7 @@ BX_CPU_C::VERW_Ew(bxInstruction_c *i)
       return;
       }
     set_ZF(1); /* accessible */
-    BX_ERROR(("VERW: data seg writable"));
+    BX_DEBUG(("VERW: data seg writable"));
     return;
     }
 
