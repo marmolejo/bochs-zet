@@ -41,15 +41,18 @@ void BX_CPU_C::prepareFPU(void)
 
 void BX_CPU_C::FPU_check_pending_exceptions(void)
 {
-  if (BX_CPU_THIS_PTR cr0.ne == 0)
+  if(FPU_PARTIAL_STATUS & FPU_SW_SUMMARY)
   {
-    // MSDOS compatibility external interrupt (IRQ13)
-    BX_INFO (("math_abort: MSDOS compatibility FPU exception"));
-    DEV_pic_raise_irq(13);
-  }
-  else
-  {
-    exception(BX_MF_EXCEPTION, 0, 0);
+    if (BX_CPU_THIS_PTR cr0.ne == 0)
+    {
+      // MSDOS compatibility external interrupt (IRQ13)
+      BX_INFO (("math_abort: MSDOS compatibility FPU exception"));
+      DEV_pic_raise_irq(13);
+    }
+    else
+    {
+      exception(BX_MF_EXCEPTION, 0, 0);
+    }
   }
 }
 #endif
