@@ -410,7 +410,10 @@ all-clean: clean
 	cd debug @COMMAND_SEPARATOR@
 	$(MAKE) clean
 	@CD_UP_ONE@
-	cd $(CPUDIR) @COMMAND_SEPARATOR@
+	cd cpu @COMMAND_SEPARATOR@
+	$(MAKE) clean
+	@CD_UP_ONE@
+	cd cpu64 @COMMAND_SEPARATOR@
 	$(MAKE) clean
 	@CD_UP_ONE@
 	cd memory @COMMAND_SEPARATOR@
@@ -445,7 +448,10 @@ dist-clean: local-dist-clean
 	cd bios @COMMAND_SEPARATOR@
 	$(MAKE) dist-clean
 	@CD_UP_ONE@
-	cd $(CPUDIR) @COMMAND_SEPARATOR@
+	cd cpu @COMMAND_SEPARATOR@
+	$(MAKE) dist-clean
+	@CD_UP_ONE@
+	cd cpu64 @COMMAND_SEPARATOR@
 	$(MAKE) dist-clean
 	@CD_UP_ONE@
 	cd memory @COMMAND_SEPARATOR@
