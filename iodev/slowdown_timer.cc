@@ -116,8 +116,7 @@ bx_slowdown_timer_c::handle_timer() {
   if(totaltime > total_emu_time) {
     bx_pc_system.deactivate_timer(s.timer_handle);
     bx_pc_system.activate_timer(s.timer_handle,
-				(Bit32u)((Bit64u)
-					 (s.MAXmultiplier * (float)s.Q)),
+				(Bit32u)(s.MAXmultiplier * (float)((Bit64s)s.Q)),
 				0);
 #if BX_SLOWDOWN_PRINTF_FEEDBACK
     printf("running at MAX speed\n");
