@@ -60,6 +60,9 @@ extern class bx_win32_locator_c bx_win32_match;
 #if HAVE_ETHERTAP
 extern class bx_tap_locator_c bx_tap_match;
 #endif
+#if HAVE_TUNTAP
+extern class bx_tuntap_locator_c bx_tuntap_match;
+#endif
 #ifdef ETH_TEST
 extern bx_test_match;
 #endif
@@ -106,6 +109,12 @@ eth_locator_c::create(const char *type, const char *netif,
   {
     if (!strcmp(type, "linux"))    
       ptr = (eth_locator_c *) &bx_linux_match;
+  }
+#endif
+#if HAVE_TUNTAP
+  {
+    if (!strcmp(type, "tuntap"))    
+      ptr = (eth_locator_c *) &bx_tuntap_match;
   }
 #endif
 #if HAVE_ETHERTAP
