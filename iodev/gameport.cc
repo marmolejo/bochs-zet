@@ -208,7 +208,7 @@ bx_gameport_c::read(Bit32u address, unsigned io_len)
       }
     }
   } else {
-    BX_INFO(("read: joystick not present"));
+    BX_DEBUG(("read: joystick not present"));
   }
   return BX_GAMEPORT_THIS port;
 }
