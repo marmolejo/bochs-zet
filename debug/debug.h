@@ -410,7 +410,7 @@ void    bx_dbg_outp(Bit16u addr, Bit32u value, unsigned len);
 void    bx_dbg_raise_HLDA(void);
 Bit8u   bx_dbg_IAC(void);
 void    bx_dbg_set_INTR(Boolean b);
-void bx_dbg_disassemble_current (int which_cpu);
+void bx_dbg_disassemble_current (int which_cpu, int print_time);
 
 int bx_dbg_symbolic_output(void); /* BW */
 #endif // #ifdef __cplusplus
