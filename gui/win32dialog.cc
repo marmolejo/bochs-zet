@@ -169,7 +169,8 @@ int AskFilename(bx_param_filename_c *param)
   char *title;
 
   param->get(filename, MAX_PATH);
-  title = param->get_name();
+  title = param->get_label();
+  if (!title) title = param->get_name();
   ofn.lStructSize = sizeof(OPENFILENAME);
   ofn.hwndOwner = GetBochsWindow();
   ofn.hInstance   = NULL;
