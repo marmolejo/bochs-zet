@@ -19,8 +19,9 @@ This is the top level file for the Bochs Documentation Manual.
 <bookinfo>
    <title>Bochs Documentation Manual</title>
    <authorgroup>
-   <author><firstname>Michael</firstname><surname>Calabrese</surname></author>
    <author><firstname>Bryce</firstname><surname>Denney</surname></author>
+   <author><firstname>Michael</firstname><surname>Calabrese</surname></author>
+   <editor><firstname>Vasudeva</firstname></editor>
    </authorgroup>
 </bookinfo>
 <chapter><title>Layout of Bochs Documentation</title>
