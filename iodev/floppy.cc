@@ -904,7 +904,7 @@ bx_floppy_ctrl_c::floppy_xfer(Bit8u drive, Bit32u offset, Bit8u *buffer,
 
   else { // TO_FLOPPY
     BX_ASSERT (!BX_FD_THIS s.media[drive].write_protected);
-#ifdef macintosh
+#if BX_WITH_MACOS
     if (!strcmp(bx_options.floppya.Opath->getptr (), SuperDrive))
       ret = fd_write((char *) buffer, offset, bytes);
     else
