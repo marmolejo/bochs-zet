@@ -818,6 +818,10 @@ LRESULT CALLBACK mainWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
     PostQuitMessage (0);
     return 0;
 
+  case WM_SIZE:
+    SendMessage(hwndTB, TB_AUTOSIZE, 0, 0);
+    break;
+
   }
   return DefWindowProc (hwnd, iMsg, wParam, lParam);
 }
@@ -1457,7 +1461,6 @@ void bx_win32_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight, 
   SetWindowPos(stInfo.mainWnd, HWND_TOP, 0, 0, stretched_x + x_edge * 2,
                stretched_y + bx_headerbar_y + bx_statusbar_y + y_edge * 2
                + y_caption, SWP_NOMOVE | SWP_NOZORDER);
-  SendMessage(hwndTB, TB_AUTOSIZE, 0, 0);
   GetClientRect(stInfo.mainWnd, &R);
   MoveWindow(hwndSB, 0, R.bottom-bx_statusbar_y, stretched_x,
              bx_statusbar_y, TRUE);
