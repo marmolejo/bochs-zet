@@ -231,9 +231,13 @@ void terminateEmul(int reason) {
 
   if ( bitmap_info) delete[] (char*)bitmap_info;
 
+  for (unsigned b=0; b<bx_bitmap_entries; b++)
+    if (bx_bitmaps[b].bmap) DeleteObject(bx_bitmaps[b].bmap);
   for (unsigned c=0; c<256; c++)
     if (vgafont[c]) DeleteObject(vgafont[c]);
-  DeleteObject(cursorBmp);
+  if (cursorBmp) DeleteObject(cursorBmp);
+
+  LOG_THIS setonoff(LOGLEV_PANIC, ACT_FATAL);
 
   switch (reason) {
   case EXIT_GUI_SHUTDOWN:
