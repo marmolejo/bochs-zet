@@ -249,5 +249,7 @@ private:
 #define BX_KEY_POWER_WAKE   120
 
 #define BX_KEY_NBKEYS       121
-// If you add BX_KEYs Please update BX_KEY_NBKEYS
-// and the scancodes table in the file iodev/scancodes.cc
+// If you add BX_KEYs Please update 
+// - BX_KEY_NBKEYS
+// - the scancodes table in the file iodev/scancodes.cc
+// - the bx_key_symbol table in the file gui/keymap.cc
