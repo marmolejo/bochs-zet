@@ -263,12 +263,11 @@ private:
     Bit16u  vbe_bank;
     bx_bool vbe_enabled;
     Bit16u  vbe_curindex;
-    Bit32u  vbe_visable_screen_size; /**< in bytes */
+    Bit32u  vbe_visible_screen_size; /**< in bytes */
     Bit16u  vbe_offset_x;		 /**< Virtual screen x start (in pixels) */ 
     Bit16u  vbe_offset_y;		 /**< Virtual screen y start (in pixels) */
     Bit16u  vbe_virtual_xres;
     Bit16u  vbe_virtual_yres;
-    Bit16u  vbe_line_byte_width; /**< For dealing with bpp>8, this is they width of a line in bytes. */
     Bit32u  vbe_virtual_start;   /**< For dealing with bpp>8, this is where the virtual screen starts. */
     Bit8u   vbe_bpp_multiplier;  /**< We have to save this b/c sometimes we need to recalculate stuff with it. */
     bx_bool vbe_lfb_enabled;
