@@ -1446,7 +1446,7 @@ bx_floppy_ctrl_c::evaluate_media(unsigned type, char *path, floppy_t *media)
 {
   struct stat stat_buf;
   int ret;
-#if BX_WITH_WIN32
+#ifdef WIN32
   char sTemp[1024];
 #endif
 
@@ -1465,7 +1465,7 @@ bx_floppy_ctrl_c::evaluate_media(unsigned type, char *path, floppy_t *media)
   media->fd = 0;
   if (strcmp(bx_options.floppya.Opath->getptr (), SuperDrive))
 #endif
-#if BX_WITH_WIN32
+#ifdef WIN32
     if ( (path[1] == ':') && (strlen(path) == 2) ) {
 	  wsprintf(sTemp, "\\\\.\\%s", path);
 	  media->fd = open(sTemp, BX_RDWR);
@@ -1484,7 +1484,7 @@ bx_floppy_ctrl_c::evaluate_media(unsigned type, char *path, floppy_t *media)
   media->fd = 0;
   if (strcmp(bx_options.floppya.Opath->getptr (), SuperDrive))
 #endif
-#if BX_WITH_WIN32
+#ifdef WIN32
     if ( (path[1] == ':') && (strlen(path) == 2) ) {
 	  wsprintf(sTemp, "\\\\.\\%s", path);
 	  media->fd = open(sTemp, BX_RDONLY);
@@ -1507,7 +1507,7 @@ bx_floppy_ctrl_c::evaluate_media(unsigned type, char *path, floppy_t *media)
     ret = fd_stat(&stat_buf);
   else
     ret = fstat(media->fd, &stat_buf);
-#elif BX_WITH_WIN32
+#elif defined(WIN32)
 //  if ( (path[1] == ':') && (strlen(path) == 2) ) {
     stat_buf.st_mode = S_IFCHR;
     // maybe replace with code that sets ret to -1 if the disk is not available
