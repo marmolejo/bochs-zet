@@ -69,7 +69,7 @@ bx_g2h_c::reset(unsigned type)
 }
 
   unsigned
-bx_g2h_c::aquire_channel(bx_g2h_callback_t f)
+bx_g2h_c::acquire_channel(bx_g2h_callback_t f)
 {
   unsigned i;
 
@@ -81,16 +81,16 @@ bx_g2h_c::aquire_channel(bx_g2h_callback_t f)
       }
     }
 
-  BX_INFO(("g2h: attempt to aquire channel: maxed out"));
+  BX_INFO(("g2h: attempt to acquire channel: maxed out"));
   return(BX_G2H_ERROR); // No more free channels
 }
 
   unsigned
-bx_g2h_c::deaquire_channel(unsigned channel)
+bx_g2h_c::deacquire_channel(unsigned channel)
 {
   if ( (channel >= BX_MAX_G2H_CHANNELS) ||
        (bx_g2h.s.callback[channel].used==0) ) {
-    BX_PANIC(("g2h: attempt to deaquire channel %u: not aquired",
+    BX_PANIC(("g2h: attempt to deacquire channel %u: not acquired",
       channel));
     }
   bx_g2h.s.callback[channel].used = 0;

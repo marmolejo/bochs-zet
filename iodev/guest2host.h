@@ -48,8 +48,8 @@ public:
   ~bx_g2h_c(void);
   static void   init(void);
   void reset (unsigned type);
-  unsigned aquire_channel(bx_g2h_callback_t);
-  unsigned deaquire_channel(unsigned channel);
+  unsigned acquire_channel(bx_g2h_callback_t);
+  unsigned deacquire_channel(unsigned channel);
 
 private:
 
