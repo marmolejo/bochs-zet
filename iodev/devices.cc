@@ -133,6 +133,10 @@ bx_devices_c::init(BX_MEM_C *newmem)
   cmos->init(this);
   cmos->reset();
 
+  /*--- 8237 DMA ---*/
+  dma = &bx_dma;
+  dma->init(this);
+
   /*--- HARD DRIVE ---*/
   hard_drive = &bx_hard_drive;
   hard_drive->init(this, cmos);
@@ -168,9 +172,6 @@ bx_devices_c::init(BX_MEM_C *newmem)
 #if BX_USE_SLOWDOWN_TIMER
   bx_slowdown_timer.init();
 #endif
-
-  dma = &bx_dma;
-  dma->init(this);
 
   keyboard = &bx_keyboard;
   keyboard->init(this, cmos);
