@@ -38,12 +38,8 @@ BX_CPU_C::INC_RX(bxInstruction_c *i)
 {
   Bit16u rx;
 
-  rx = ++ BX_CPU_THIS_PTR gen_reg[(i->b1() & 7) + i->rex_b()].word.rx;
-//#if BX_SUPPORT_X86_64
-//  rx = ++ BX_CPU_THIS_PTR gen_reg[i->nnn()].word.rx;
-//#else
-//  rx = ++ BX_CPU_THIS_PTR gen_reg[i->b1() & 0x07].word.rx;
-//#endif
+  rx = ++ BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].word.rx;
+
   SET_FLAGS_OSZAP_16(0, 0, rx, BX_INSTR_INC16);
 }
 
@@ -52,12 +48,8 @@ BX_CPU_C::DEC_RX(bxInstruction_c *i)
 {
   Bit16u rx;
 
-  rx = -- BX_CPU_THIS_PTR gen_reg[(i->b1() & 7) + i->rex_b()].word.rx;
-//#if BX_SUPPORT_X86_64
-//  rx = -- BX_CPU_THIS_PTR gen_reg[i->nnn()].word.rx;
-//#else
-//  rx = -- BX_CPU_THIS_PTR gen_reg[i->b1() & 0x07].word.rx;
-//#endif
+  rx = -- BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].word.rx;
+
   SET_FLAGS_OSZAP_16(0, 0, rx, BX_INSTR_DEC16);
 }
 

@@ -41,17 +41,14 @@ BX_CPU_C::XCHG_RRXRAX(bxInstruction_c *i)
   Bit64u temp64;
 
   temp64 = RAX;
-  RAX = BX_CPU_THIS_PTR gen_reg[(i->b1() & 7) + i->rex_b()].rrx;
-  BX_CPU_THIS_PTR gen_reg[(i->b1() & 7) + i->rex_b()].rrx = temp64;
-  //RAX = BX_CPU_THIS_PTR gen_reg[i->nnn()].rrx;
-  //BX_CPU_THIS_PTR gen_reg[i->nnn()].rrx = temp64;
+  RAX = BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].rrx;
+  BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].rrx = temp64;
 }
 
   void
 BX_CPU_C::MOV_RRXIq(bxInstruction_c *i)
 {
-  BX_CPU_THIS_PTR gen_reg[(i->b1() & 7) + i->rex_b()].rrx = i->Iq();
-  //BX_CPU_THIS_PTR gen_reg[i->nnn()].rrx = i->Iq();
+  BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].rrx = i->Iq();
 }
 
   void

@@ -37,12 +37,7 @@
   void
 BX_CPU_C::MOV_RXIw(bxInstruction_c *i)
 {
-  BX_CPU_THIS_PTR gen_reg[(i->b1() & 7) + i->rex_b()].word.rx = i->Iw();
-//#if BX_SUPPORT_X86_64
-//  BX_CPU_THIS_PTR gen_reg[i->nnn()].word.rx = i->Iw();
-//#else
-//  BX_CPU_THIS_PTR gen_reg[i->b1() & 0x07].word.rx = i->Iw();
-//#endif
+  BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].word.rx = i->Iw();
 }
 
   void
@@ -51,15 +46,8 @@ BX_CPU_C::XCHG_RXAX(bxInstruction_c *i)
   Bit16u temp16;
 
   temp16 = AX;
-  AX = BX_CPU_THIS_PTR gen_reg[(i->b1() & 7) + i->rex_b()].word.rx;
-  BX_CPU_THIS_PTR gen_reg[(i->b1() & 7) + i->rex_b()].word.rx = temp16;
-//#if BX_SUPPORT_X86_64
-//  AX = BX_CPU_THIS_PTR gen_reg[i->nnn()].word.rx;
-//  BX_CPU_THIS_PTR gen_reg[i->nnn()].word.rx = temp16;
-//#else
-//  AX = BX_CPU_THIS_PTR gen_reg[i->b1() & 0x07].word.rx;
-//  BX_CPU_THIS_PTR gen_reg[i->b1() & 0x07].word.rx = temp16;
-//#endif
+  AX = BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].word.rx;
+  BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].word.rx = temp16;
 }
 
 
