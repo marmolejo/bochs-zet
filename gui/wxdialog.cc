@@ -1218,7 +1218,7 @@ AdvancedLogOptionsDialog::AdvancedLogOptionsDialog(
   // to get the scrollWin geometry right, first build everything on a wxPanel,
   // with gridSizer as the main sizer.
   scrollPanel = new wxPanel (scrollWin, -1);
-  gridSizer = new wxGridSizer (5);
+  gridSizer = new wxGridSizer (ADVLOG_OPTS_N_TYPES + 1);
   // add title row
   int typemax = ADVLOG_OPTS_N_TYPES;
   text = new wxStaticText (scrollPanel, -1, "Device");
