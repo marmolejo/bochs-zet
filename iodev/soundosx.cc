@@ -17,6 +17,8 @@
 #if defined(macintosh) && BX_SUPPORT_SB16
 #define LOG_THIS bx_sb16.
 
+#include "soundosx.h"
+
 #if BX_WITH_MACOS
 #include <QuickTimeMusic.h>
 #else

@@ -411,7 +411,3 @@ public:
 #define BOTHLOG(x)      (x)
 #define MIDILOG(x)      ((bx_options.sb16.Omidimode->get ()>0?x:0x7f))
 #define WAVELOG(x)      ((bx_options.sb16.Owavemode->get ()>0?x:0x7f))
-
-#include "soundlnx.h"
-#include "soundwin.h"
-#include "soundosx.h"

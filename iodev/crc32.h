@@ -9,7 +9,7 @@
 #ifndef _CRC_32_H_
 #define _CRC_32_H_
 
-#include "bochs.h"
+#include "../config.h"
 
 class CRC_Generator {
 private:

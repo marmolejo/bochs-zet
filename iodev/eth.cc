@@ -37,6 +37,8 @@
 #include "iodev.h"
 #if BX_SUPPORT_NE2K
 
+#include "eth.h"
+
 #define LOG_THIS /* not needed */
 
 eth_locator_c *eth_locator_c::all;

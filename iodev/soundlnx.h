@@ -29,8 +29,6 @@
 
 #if (defined(linux) || defined(__FreeBSD__))
 
-#include "bochs.h"
-
 #define BX_SOUND_LINUX_BUFSIZE   BX_SOUND_OUTPUT_WAVEPACKETSIZE
 
 class bx_sound_linux_c : public bx_sound_output_c {

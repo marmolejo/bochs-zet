@@ -34,6 +34,8 @@
 #include "iodev.h"
 #if defined(WIN32) && BX_SUPPORT_SB16
 
+#include "soundwin.h"
+
 #define LOG_THIS bx_devices.pluginSB16Device->
 
 bx_sound_windows_c::bx_sound_windows_c(bx_sb16_c *sb16)

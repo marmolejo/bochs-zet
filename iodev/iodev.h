@@ -462,7 +462,6 @@ private:
 #include "iodev/dma.h"
 #include "iodev/floppy.h"
 #include "iodev/harddrv.h"
-#include "iodev/vmware3.h"
 #if BX_SUPPORT_IODEBUG
 #   include "iodev/iodebug.h"
 #endif
@@ -477,7 +476,6 @@ private:
 #  include "iodev/sb16.h"
 #endif
 #include "iodev/unmapped.h"
-#include "iodev/eth.h"
 #include "iodev/ne2k.h"
 #if BX_SUPPORT_PCIPNIC
 #include "iodev/pcipnic.h"
@@ -486,7 +484,6 @@ private:
 #include "iodev/slowdown_timer.h"
 #include "iodev/extfpuirq.h"
 #include "iodev/gameport.h"
-#include "iodev/speaker.h"
 
 #if ( BX_PROVIDE_DEVICE_MODELS==1 )
 BOCHSAPI extern bx_devices_c   bx_devices;

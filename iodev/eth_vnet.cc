@@ -19,6 +19,8 @@
 #include "iodev.h"
 #if BX_SUPPORT_NE2K
 
+#include "eth.h"
+
 #define LOG_THIS bx_devices.pluginNE2kDevice->
 
 #define BX_ETH_VNET_LOGGING 1
@@ -382,7 +384,7 @@ bx_vnet_pktmover_c::process_arp(const Bit8u *buf, unsigned io_len)
   Bit8u replybuf[60];
 
   if (io_len < 22) return;
-  if (io_len < (22+buf[18]*2+buf[19]*2)) return;
+  if (io_len < (unsigned)(22+buf[18]*2+buf[19]*2)) return;
   // hardware:Ethernet
   if (buf[14] != 0x00 || buf[15] != 0x01 || buf[18] != 0x06) return;
   opcode = get_net2(&buf[20]);

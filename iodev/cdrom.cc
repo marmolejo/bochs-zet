@@ -37,8 +37,10 @@
 // is used to know when we are exporting symbols and when we are importing.
 #define BX_PLUGGABLE
 
-#include "iodev.h"
+#include "bochs.h"
 #if BX_SUPPORT_CDROM
+
+#include "cdrom.h"
 
 #define LOG_THIS /* no SMF tricks here, not needed */
 

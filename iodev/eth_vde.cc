@@ -29,6 +29,8 @@
 #include "iodev.h"
 #if BX_SUPPORT_NE2K
 
+#include "eth.h"
+
 #define LOG_THIS bx_devices.pluginNE2kDevice->
 
 #include <signal.h>
@@ -316,11 +318,11 @@ static int send_fd(char *name, int fddata, struct sockaddr_un *datasock, int gro
 	return fdctl;
 }
 
-  int vde_alloc(char *dev, int *fdp, struct sockaddr_un *pdataout)
-  {
+int vde_alloc(char *dev, int *fdp, struct sockaddr_un *pdataout)
+{
       //struct ifreq ifr;
-      int fd, err;
-      int fddata;
+      //int err;
+      int fd, fddata;
 
       if((fddata = socket(AF_UNIX, SOCK_DGRAM, 0)) < 0){ 
 	      return -1;
@@ -334,6 +336,6 @@ static int send_fd(char *name, int fddata, struct sockaddr_un *datasock, int gro
       *fdp=fddata;
 
       return fd;
-  }              
+}              
 
 #endif /* if BX_SUPPORT_NE2K */

@@ -36,10 +36,6 @@
 #  define BX_SER_THIS this->
 #endif
 
-#if USE_RAW_SERIAL
-#include "serial_raw.h"
-#endif // USE_RAW_SERIAL
-
 #if defined(__NetBSD__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__linux__) || defined(__GNU__) || defined(__APPLE__)
 #define SERIAL_ENABLE
 extern "C" {

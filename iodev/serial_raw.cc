@@ -34,6 +34,8 @@
 
 #if USE_RAW_SERIAL
 
+#include "serial_raw.h"
+
 #define LOG_THIS
 
 #ifdef WIN32_RECEIVE_RAW

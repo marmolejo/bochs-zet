@@ -30,6 +30,8 @@
 
 #if (BX_USE_NEW_PIT==0)
 
+#include "speaker.h"
+
 #define LOG_THIS bx_pit.
 
 

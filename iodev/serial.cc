@@ -39,6 +39,10 @@
 
 #include "iodev.h"
 
+#if USE_RAW_SERIAL
+#include "serial_raw.h"
+#endif // USE_RAW_SERIAL
+
 #define LOG_THIS theSerialDevice->
 
 bx_serial_c *theSerialDevice = NULL;

@@ -44,6 +44,8 @@
 #include "iodev.h"
 #if BX_SUPPORT_NE2K
 
+#include "eth.h"
+
 // windows.h included by bochs.h
 #define LOG_THIS bx_devices.pluginNE2kDevice->
 

@@ -36,6 +36,8 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "vmware3.h"
+#include "cdrom.h"
 
 #if BX_HAVE_SYS_MMAN_H
 #include <sys/mman.h>

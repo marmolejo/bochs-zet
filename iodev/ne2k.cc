@@ -35,6 +35,8 @@
 #include "iodev.h"
 #if BX_SUPPORT_NE2K
 
+#include "eth.h"
+
 //Never completely fill the ne2k ring so that we never
 // hit the unclear completely full buffer condition.
 #define BX_NE2K_NEVER_FULL_RING (1)

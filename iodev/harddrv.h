@@ -639,11 +639,6 @@ uint16 read_16bit(const uint8* buf) BX_CPP_AttrRegparmN(1);
 uint32 read_32bit(const uint8* buf) BX_CPP_AttrRegparmN(1);
 
 
-#ifdef LOWLEVEL_CDROM
-#  include "cdrom.h"
-#endif
-
-
 struct cdrom_t
 {
   bx_bool ready;

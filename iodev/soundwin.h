@@ -29,7 +29,6 @@
 
 #if defined(WIN32)
 
-#include "bochs.h"
 #include <windows.h>
 
 // uncomment one of the following two #defines

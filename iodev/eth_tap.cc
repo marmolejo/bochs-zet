@@ -87,6 +87,8 @@
 #include "iodev.h"
 #if BX_SUPPORT_NE2K
 
+#include "eth.h"
+
 #define LOG_THIS bx_devices.pluginNE2kDevice->
 
 #include <signal.h>

@@ -56,6 +56,8 @@
 #include "iodev.h"
 #if BX_SUPPORT_NE2K && defined(ETH_FBSD)
 
+#include "eth.h"
+
 #define LOG_THIS bx_devices.pluginNE2kDevice->
 
 extern "C" {

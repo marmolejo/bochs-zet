@@ -34,6 +34,10 @@
 #include "iodev.h"
 #if BX_SUPPORT_SB16
 
+#include "soundlnx.h"
+#include "soundwin.h"
+#include "soundosx.h"
+
 #define LOG_THIS theSB16Device->
 
 bx_sb16_c *theSB16Device = NULL;

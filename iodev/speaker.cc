@@ -21,6 +21,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "speaker.h"
 
 #ifdef __linux__
 #include <unistd.h>

@@ -31,6 +31,8 @@
 #if (defined(linux) || defined(__FreeBSD__)) && BX_SUPPORT_SB16
 #define LOG_THIS bx_sb16.
 
+#include "soundlnx.h"
+
 #include <errno.h>
 #include <sys/ioctl.h>
 #include <sys/soundcard.h>

@@ -48,6 +48,8 @@
 #define  BX_NE2K_MEMSTART  (16*1024)
 #define  BX_NE2K_MEMEND    (BX_NE2K_MEMSTART + BX_NE2K_MEMSIZ)
 
+class eth_pktmover_c;
+
 typedef struct {
     //
     // ne2k register state
