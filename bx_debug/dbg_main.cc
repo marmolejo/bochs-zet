@@ -5875,9 +5875,9 @@ bx_dbg_info_flags(void)
 {
  if(BX_CPU(dbg_cpu)->getB_ID())
   dbg_printf ("ID ");
- if(BX_CPU(dbg_cpu)->getB_VP())
+ if(BX_CPU(dbg_cpu)->getB_VIP())
   dbg_printf ("VIP ");
- if(BX_CPU(dbg_cpu)->getB_VF())
+ if(BX_CPU(dbg_cpu)->getB_VIF())
   dbg_printf ("VIF ");
  if(BX_CPU(dbg_cpu)->getB_AC())
   dbg_printf ("AC ");
