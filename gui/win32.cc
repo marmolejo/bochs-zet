@@ -56,13 +56,6 @@ IMPLEMENT_GUI_PLUGIN_CODE(win32)
 
 #define LOG_THIS theGui->
 
-
-#ifdef __MINGW32__
-#if BX_SHOW_IPS
-#include <windows32/CommonFunctions.h>
-#endif
-#endif
-
 #define EXIT_GUI_SHUTDOWN        1
 #define EXIT_GMH_FAILURE         2
 #define EXIT_FONT_BITMAP_ERROR   3
