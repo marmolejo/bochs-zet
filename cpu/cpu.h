@@ -413,6 +413,7 @@ typedef struct {
   BX_CPP_INLINE void    assert_VM();                                         \
   BX_CPP_INLINE void    clear_VM();                                          \
   BX_CPP_INLINE Boolean get_VM();                                            \
+  BX_CPP_INLINE Boolean getB_VM();                                           \
   BX_CPP_INLINE void    set_VM(Bit32u val);
 
 #define IMPLEMENT_EFLAG_ACCESSOR_VM(bitnum)                                  \
@@ -426,6 +427,9 @@ typedef struct {
     }                                                                        \
   BX_CPP_INLINE Boolean BX_CPU_C::get_VM() {                                 \
     return BX_CPU_THIS_PTR eflags.VM_cached;                                 \
+    }                                                                        \
+  BX_CPP_INLINE Boolean BX_CPU_C::getB_VM() {                                \
+    return (BX_CPU_THIS_PTR eflags.VM_cached>0);                             \
     }                                                                        \
   BX_CPP_INLINE void BX_CPU_C::set_VM(Bit32u val) {                          \
     BX_CPU_THIS_PTR eflags.val32 =                                           \

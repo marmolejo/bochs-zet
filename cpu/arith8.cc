@@ -119,7 +119,7 @@ BX_CPU_C::ADC_EbGb(bxInstruction_c *i)
   Bit8u op2, op1, sum;
   Boolean temp_CF;
 
-  temp_CF = !!get_CF();
+  temp_CF = getB_CF();
 
 
   /* op2 is a register, RMAddr(i) is an index of a register */
@@ -155,7 +155,7 @@ BX_CPU_C::ADC_GbEb(bxInstruction_c *i)
   Bit8u op1, op2, sum;
   Boolean temp_CF;
 
-  temp_CF = !!get_CF();
+  temp_CF = getB_CF();
 
 
   /* op1 is a register, RMAddr(i) is an index of a register */
@@ -186,7 +186,7 @@ BX_CPU_C::ADC_ALIb(bxInstruction_c *i)
   Bit8u op1, op2, sum;
   Boolean temp_CF;
 
-  temp_CF = !!get_CF();
+  temp_CF = getB_CF();
 
 
   op1 = AL;
@@ -209,7 +209,7 @@ BX_CPU_C::SBB_EbGb(bxInstruction_c *i)
   Bit8u op2_8, op1_8, diff_8;
   Boolean temp_CF;
 
-  temp_CF = !!get_CF();
+  temp_CF = getB_CF();
 
 
   /* op2 is a register, RMAddr(i) is an index of a register */
@@ -245,7 +245,7 @@ BX_CPU_C::SBB_GbEb(bxInstruction_c *i)
   Bit8u op1_8, op2_8, diff_8;
   Boolean temp_CF;
 
-  temp_CF = !!get_CF();
+  temp_CF = getB_CF();
 
 
   /* op1 is a register, RMAddr(i) is an index of a register */
@@ -276,7 +276,7 @@ BX_CPU_C::SBB_ALIb(bxInstruction_c *i)
   Bit8u op1_8, op2_8, diff_8;
   Boolean temp_CF;
 
-  temp_CF = !!get_CF();
+  temp_CF = getB_CF();
 
 
   op1_8 = AL;
@@ -299,7 +299,7 @@ BX_CPU_C::SBB_EbIb(bxInstruction_c *i)
   Bit8u op2_8, op1_8, diff_8;
   Boolean temp_CF;
 
-  temp_CF = !!get_CF();
+  temp_CF = getB_CF();
 
   op2_8 = i->Ib();
 
@@ -596,7 +596,7 @@ BX_CPU_C::ADC_EbIb(bxInstruction_c *i)
   Bit8u op2, op1, sum;
   Boolean temp_CF;
 
-  temp_CF = !!get_CF();
+  temp_CF = getB_CF();
 
   op2 = i->Ib();
 
