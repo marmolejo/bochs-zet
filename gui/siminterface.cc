@@ -76,6 +76,7 @@ public:
   virtual int get_cdrom_options (int drive, bx_atadevice_options *out, int *device = NULL);
   virtual char *get_floppy_type_name (int type);
   virtual void set_notify_callback (sim_interface_callback_t func, void *arg);
+  virtual void get_notify_callback (sim_interface_callback_t *func, void **arg);
   virtual BxEvent* sim_to_ci_event (BxEvent *event);
   virtual int log_msg (const char *prefix, int level, const char *msg);
   virtual int ask_param (bx_id which);
@@ -405,6 +406,14 @@ bx_real_sim_c::set_notify_callback (sim_interface_callback_t func, void *arg)
 {
   callback = func;
   callback_ptr = arg;
+}
+
+void bx_real_sim_c::get_notify_callback (
+    sim_interface_callback_t *func,
+    void **arg)
+{
+  *func = callback;
+  *arg = callback_ptr;
 }
 
 BxEvent *

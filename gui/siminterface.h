@@ -1142,6 +1142,7 @@ public:
   // the buttons.  Some of these implementations call the siminterface.
   typedef BxEvent* (*sim_interface_callback_t)(void *theclass, BxEvent *event);
   virtual void set_notify_callback (sim_interface_callback_t func, void *arg) {}
+  virtual void get_notify_callback (sim_interface_callback_t *func, void **arg) {}
 
   // send an event from the simulator to the CI.
   virtual BxEvent* sim_to_ci_event (BxEvent *event) {return NULL;}
