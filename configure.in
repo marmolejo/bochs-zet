@@ -2345,6 +2345,13 @@ case "$target" in
     AC_DEFINE(BX_HAVE_USLEEP, 0)
     AC_DEFINE(HAVE_ETHERTAP, 0)
     ;;
+  *-pc-cygwin*)
+    EXE=".exe"
+    PRIMARY_TARGET="bochs.exe"
+    if test "$networking" = yes; then
+      PRIMARY_TARGET="$PRIMARY_TARGET niclist.exe"
+    fi
+    ;;
   *-beos*)
     PRIMARY_TARGET=.bochs_beos_target
     ;;
