@@ -66,7 +66,7 @@ BX_CPU_C::XOR_EwGw(bxInstruction_c *i)
 #else
     result_16 = op1_16 ^ op2_16;
 #endif
-    write_RMW_virtual_word(result_16);
+    Write_RMW_virtual_word(result_16);
     }
 
 #if !(defined(__i386__) && defined(__GNUC__) && BX_SupportHostAsms)
@@ -129,7 +129,7 @@ BX_CPU_C::XOR_EwIw(bxInstruction_c *i)
   else {
     read_RMW_virtual_word(i->seg(), RMAddr(i), &op1_16);
     result_16 = op1_16 ^ op2_16;
-    write_RMW_virtual_word(result_16);
+    Write_RMW_virtual_word(result_16);
     }
 
   SET_FLAGS_OSZAPC_16(op1_16, op2_16, result_16, BX_INSTR_XOR16);
@@ -152,7 +152,7 @@ BX_CPU_C::OR_EwIw(bxInstruction_c *i)
   else {
     read_RMW_virtual_word(i->seg(), RMAddr(i), &op1_16);
     result_16 = op1_16 | op2_16;
-    write_RMW_virtual_word(result_16);
+    Write_RMW_virtual_word(result_16);
     }
 
   SET_FLAGS_OSZAPC_16(op1_16, op2_16, result_16, BX_INSTR_OR16);
@@ -172,7 +172,7 @@ BX_CPU_C::NOT_Ew(bxInstruction_c *i)
   else {
     read_RMW_virtual_word(i->seg(), RMAddr(i), &op1_16);
     result_16 = ~op1_16;
-    write_RMW_virtual_word(result_16);
+    Write_RMW_virtual_word(result_16);
     }
 }
 
@@ -192,7 +192,7 @@ BX_CPU_C::OR_EwGw(bxInstruction_c *i)
   else {
     read_RMW_virtual_word(i->seg(), RMAddr(i), &op1_16);
     result_16 = op1_16 | op2_16;
-    write_RMW_virtual_word(result_16);
+    Write_RMW_virtual_word(result_16);
     }
 
   SET_FLAGS_OSZAPC_16(op1_16, op2_16, result_16, BX_INSTR_OR16);
@@ -280,7 +280,7 @@ BX_CPU_C::AND_EwGw(bxInstruction_c *i)
     result_16 = op1_16 & op2_16;
 #endif
 
-    write_RMW_virtual_word(result_16);
+    Write_RMW_virtual_word(result_16);
     }
 
 #if !(defined(__i386__) && defined(__GNUC__) && BX_SupportHostAsms)
@@ -377,7 +377,7 @@ BX_CPU_C::AND_EwIw(bxInstruction_c *i)
     result_16 = op1_16 & op2_16;
 #endif
 
-    write_RMW_virtual_word(result_16);
+    Write_RMW_virtual_word(result_16);
     }
 
 #if !(defined(__i386__) && defined(__GNUC__) && BX_SupportHostAsms)

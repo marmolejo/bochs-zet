@@ -2715,6 +2715,11 @@ union {
   BX_SMF void write_RMW_virtual_dword(Bit32u val32);
   BX_SMF void write_RMW_virtual_qword(Bit64u val64);
 
+#define Write_RMW_virtual_byte(val8)   write_RMW_virtual_byte(val8)
+#define Write_RMW_virtual_word(val16)  write_RMW_virtual_word(val16)
+#define Write_RMW_virtual_dword(val32) write_RMW_virtual_dword(val32)
+#define Write_RMW_virtual_qword(val64) write_RMW_virtual_qword(val64)
+
 #if BX_SUPPORT_SSE
   BX_SMF void readVirtualDQword(unsigned s, bx_address off, Bit8u *data);
   BX_SMF void readVirtualDQwordAligned(unsigned s, bx_address off, Bit8u *data);
