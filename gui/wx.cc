@@ -843,6 +843,7 @@ UpdateScreen(char *newBits, int x, int y, int width, int height)
 				wxScreen[(y * wxScreenX * 3) + ((x+c) * 3) + 2] = wxBochsPalette[newBits[(i * width) + c]].blue;
 			}
 			y++;
+			if(y >= wxScreenY) break;
 		}
 	} else {
 	  IFDBG_VGA (wxLogDebug ("UpdateScreen with null wxScreen"));
