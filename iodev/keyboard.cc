@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
+//  Copyright (C) 2002  MandrakeSoft S.A.
 //
 //    MandrakeSoft S.A.
 //    43, rue d'Aboukir
@@ -586,7 +586,6 @@ BX_PANIC(("kbd: OUTB set and command 0x%02x encountered", value));
 bx_keyb_c::gen_scancode(Bit32u   key)
 {
   unsigned char *scancode;
-  static Boolean alt_pressed = 0;
   Bit8u  i;
 
   BX_DEBUG(( "gen_scancode %lld %x", bx_pc_system.time_ticks(), key));
