@@ -2082,6 +2082,7 @@ union {
 
 #if BX_SUPPORT_FPU
   BX_SMF void prepareFPU(void);
+  BX_SMF void FPU_check_pending_exceptions(void);
   BX_SMF void print_state_FPU(void);
 #endif
 
