@@ -560,8 +560,9 @@ BX_CPU_C::load_cs(bx_selector_t *selector, bx_descriptor_t *descriptor,
   if (BX_CPU_THIS_PTR msr.lma) {
     if (descriptor->u.segment.l) {
       BX_CPU_THIS_PTR cpu_mode = BX_MODE_LONG_64;
+      BX_INFO(("Long Mode Activated"));
       loadSRegLMNominal(BX_SEG_REG_CS, selector->value, 0, cpl);
-      }
+    }
     else {
       BX_CPU_THIS_PTR cpu_mode = BX_MODE_LONG_COMPAT;
     }
