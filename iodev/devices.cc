@@ -184,7 +184,7 @@ bx_devices_c::init(BX_MEM_C *newmem)
   // PCI logic (i440FX)
   if (bx_options.Oi440FXSupport->get ()) {
 #if BX_PCI_SUPPORT
-    PLUG_load_plugin(pci, PLUGTYPE_OPTIONAL);
+    PLUG_load_plugin(pci, PLUGTYPE_CORE);
     PLUG_load_plugin(pci2isa, PLUGTYPE_OPTIONAL);
     PLUG_load_plugin(pci_ide, PLUGTYPE_OPTIONAL);
 #if BX_PCI_VGA_SUPPORT
@@ -232,6 +232,10 @@ bx_devices_c::init(BX_MEM_C *newmem)
     BX_ERROR(("Bochs is not compiled with SB16 support"));
 #endif
   }
+
+#if BX_PCI_SUPPORT
+  if (pluginPciBridge) pluginPciBridge->init ();
+#endif
 
   /*--- VGA adapter ---*/
   pluginVgaDevice->init ();
