@@ -176,10 +176,12 @@ public:
   void OnOtherEvent(wxCommandEvent& event);
   void OnShowCpu(wxCommandEvent& event);
   void OnShowKeyboard(wxCommandEvent& event);
+#if BX_DEBUGGER
   void OnDebugLog(wxCommandEvent& event);
   void DebugBreak ();
   void DebugCommand (wxString string);
   void DebugCommand (const char *cmd);
+#endif
   static bool editFloppyValidate (FloppyConfigDialog *dialog);
   void editFloppyConfig (int drive);
   void editHDConfig (int drive);
@@ -203,7 +205,9 @@ private:
   wxMenu *menuLog;
   wxMenu *menuHelp;
   ParamDialog *showCpu, *showKbd;
+#if BX_DEBUGGER
   DebugLogDialog *showDebugLog;
+#endif
   void RefreshDialogs ();
   char *debugCommand; // maybe need lock on this
   BxEvent *debugCommandEvent;  // maybe need lock on this

@@ -799,7 +799,9 @@ class CpuRegistersDialog : public ParamDialog
 #define CPU_REGS_MAX_FLAGS 17
   bx_id flagid[CPU_REGS_MAX_FLAGS];
   int nflags;
+#if BX_DEBUGGER
   wxButton *contButton, *stopButton, *stepButton, *commitButton;
+#endif
   void stateChanged (bool simRunning);
 public:
   CpuRegistersDialog(wxWindow* parent, wxWindowID id);
@@ -809,7 +811,6 @@ public:
   virtual void Refresh ();
   DECLARE_EVENT_TABLE()
 };
-
 
 
 

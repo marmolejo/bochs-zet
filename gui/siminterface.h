@@ -295,9 +295,11 @@ typedef enum {
   BXP_KBD_TIMER_PENDING,
   BXP_KBD_IRQ1_REQ,
   BXP_KBD_IRQ12_REQ,
+#if BX_DEBUGGER
   // in debugger, is the simulation running (continue command) or waiting.
   // This is only modified by debugger code, not by the user.
   BXP_DEBUG_RUNNING,
+#endif
   BXP_THIS_IS_THE_LAST    // used to determine length of list
 } bx_id;
 
