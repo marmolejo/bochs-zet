@@ -680,6 +680,7 @@ public:
   void Execute (bool clearCommand);
   void AppendCommand (const char *);
   void AppendText (wxString text);
+  void CopyParamToGui () { /* empty for now */ }
 DECLARE_EVENT_TABLE()
 };
 
