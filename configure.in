@@ -1522,10 +1522,12 @@ AC_ARG_ENABLE(docbook,
 
 if test $build_docbook = 1; then
   AC_MSG_RESULT(yes)
+  BUILD_DOCBOOK_VAR=build_docbook
   INSTALL_DOCBOOK_VAR=install_docbook
 else
   AC_MSG_RESULT(no)
 fi
+AC_SUBST(BUILD_DOCBOOK_VAR)
 AC_SUBST(INSTALL_DOCBOOK_VAR)
 AC_SUBST(DOCBOOK2HTML)
 
