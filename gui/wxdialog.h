@@ -676,6 +676,10 @@ private:
 #define DEBUG_CMD_PROMPT "Type a debugger command:"
   wxBoxSizer *mainSizer, *commandSizer, *buttonSizer;
   wxTextCtrl *log, *command;
+  Bit32u lengthMax;
+  Bit32u lengthTolerance;
+#define DEBUG_LOG_DEFAULT_LENGTH_MAX (400*80)
+#define DEBUG_LOG_DEFAULT_TOLERANCE (200*80)
 public:
   DebugLogDialog(wxWindow* parent, wxWindowID id);
   void Init ();  // called automatically by ShowModal()
@@ -684,6 +688,7 @@ public:
   void OnKeyEvent (wxKeyEvent& event);
   int ShowModal() { Init(); return wxDialog::ShowModal(); }
   void Execute (bool clearCommand);
+  void CheckLogLength ();
   void AppendCommand (const char *);
   void AppendText (wxString text);
   void CopyParamToGui () { /* empty for now */ }
