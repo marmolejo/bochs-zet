@@ -260,12 +260,10 @@ BX_MEM_C::dbg_fetch_mem(Bit32u addr, unsigned len, Bit8u *buf)
     return(0); // error, beyond limits of memory
     }
   for (; len>0; len--) {
-#if BX_SUPPORT_VGA
     if ( (addr & 0xfffe0000) == 0x000a0000 ) {
       *buf = DEV_vga_mem_read(addr);
       }
     else {
-#endif
 #if BX_PCI_SUPPORT == 0
       *buf = vector[addr];
 #else
@@ -304,12 +302,10 @@ BX_MEM_C::dbg_set_mem(Bit32u addr, unsigned len, Bit8u *buf)
     return(0); // error, beyond limits of memory
     }
   for (; len>0; len--) {
-#if BX_SUPPORT_VGA
     if ( (addr & 0xfffe0000) == 0x000a0000 ) {
       DEV_vga_mem_write(addr, *buf);
       }
     else
-#endif
       vector[addr] = *buf;
     buf++;
     addr++;
