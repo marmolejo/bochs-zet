@@ -16,8 +16,8 @@ Presently, each one just shows an under construction icon.  We might
 want some editing marks that don't show anything, or only show up in
 draft mode.
 -->
-<!ENTITY FIXME '<inlinegraphic format="GIF" fileref="../images/undercon.gif">'>
-<!ENTITY NEEDHELP '<inlinegraphic format="GIF" fileref="../images/undercon.gif">'>
+<!ENTITY FIXME '<inlinegraphic format="PNG" fileref="../images/undercon.png">'>
+<!ENTITY NEEDHELP '<inlinegraphic format="PNG" fileref="../images/undercon.png">'>
 
 <!ENTITY bochswebsite '<ulink url="http://bochs.sourceforge.net">Bochs web site</ulink>'>
 <!ENTITY bochs-sf-net '<ulink url="http://bochs.sourceforge.net">bochs.sourceforge.net</ulink>'>

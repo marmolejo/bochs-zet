@@ -1373,7 +1373,7 @@ boots, and you get a login prompt.  Type "root" and ENTER to log in to
 DLX linux.
 <figure>
 <title>Screenshot of Bochs running DLX Linux</title>
-<graphic format="GIF" fileref="../images/dlxlinux-in-linux.gif">
+<graphic format="PNG" fileref="../images/dlxlinux-in-linux.png">
 </figure>
 </para>
 
@@ -4884,7 +4884,7 @@ DIRECTORIES!
 </para>
 <para>
 You can find it at 
-<ulink url="http://http://hp.vector.co.jp/authors/VA013937/editdisk/index_e.html">
+<ulink url="http://hp.vector.co.jp/authors/VA013937/editdisk/index_e.html">
 http://hp.vector.co.jp/authors/VA013937/editdisk/index_e.html</ulink>
 </para>
 </section>
