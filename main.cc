@@ -1099,7 +1099,14 @@ int main (int argc, char *argv[])
   bx_init_main (argc, argv);
   bx_do_text_config_interface (argc, argv);
   bx_config_interface (BX_CI_INIT);
-  bx_continue_after_config_interface (argc, argv);
+  static jmp_buf context;
+  if (setjmp (context) == 0) {
+    SIM->set_quit_context (&context);
+    bx_continue_after_config_interface (argc, argv);
+    // function returned normally
+  } else {
+    // quit via longjmp
+  }
 }
 #endif
 
