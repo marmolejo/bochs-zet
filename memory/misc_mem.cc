@@ -158,12 +158,10 @@ BX_MEM_C::load_ROM(const char *path, Bit32u romaddress)
   while (size > 0) {
 #if BX_PCI_SUPPORT
     if (bx_options.Oi440FXSupport->get ())
-      ret = read(fd, (bx_ptr_t) &bx_pci.s.i440fx.shadow[romaddress - 0xC0000 + offset],
-                 size);
+      ret = BX_PCI_LOAD_ROM(fd, (romaddress - 0xC0000 + offset), size);
     else
-      ret = read(fd, (bx_ptr_t) &BX_MEM_THIS vector[romaddress + offset], size);
 #else
-    ret = read(fd, (bx_ptr_t) &BX_MEM_THIS vector[romaddress + offset], size);
+      ret = read(fd, (bx_ptr_t) &BX_MEM_THIS vector[romaddress + offset], size);
 #endif
     if (ret <= 0) {
       BX_PANIC(( "ROM: read failed on BIOS image: '%s'",path));
