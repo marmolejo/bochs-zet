@@ -504,10 +504,8 @@ bx_pic_c::trigger_irq(unsigned irq_no)
 
   int irq_no_bitmask;
 
-#if BX_DEBUG
   if ( irq_no > 15 )
     BX_PANIC(("trigger_irq: irq out of range"));
-#endif
 
   if (bx_dbg.pic)
     BX_INFO(("trigger_irq(%d decimal)", (unsigned) irq_no));
@@ -534,10 +532,8 @@ bx_pic_c::untrigger_irq(unsigned irq_no)
 
   int irq_no_bitmask;
 
-#if BX_DEBUG
   if ( irq_no > 15 )
     BX_PANIC(("untrigger_irq: irq out of range"));
-#endif
 
   if (bx_dbg.pic)
     BX_INFO(("untrigger_irq(%d decimal)", (unsigned) irq_no));
