@@ -117,6 +117,7 @@ bx_pit_c::init( void )
 
   BX_DEBUG(("pit: starting init"));
 
+  BX_PIT_THIS console = new bx_console_c;
   BX_PIT_THIS s.speaker_data_on = 0;
   BX_PIT_THIS s.refresh_clock_div2 = 0;
 
@@ -313,6 +314,11 @@ bx_pit_c::write( Bit32u   address, Bit32u   dvalue,
 
     case 0x61:
       BX_PIT_THIS s.speaker_data_on = (value >> 1) & 0x01;
+      if ( BX_PIT_THIS s.speaker_data_on ) {
+	  BX_PIT_THIS console->beep_on(1193180.0 / this->get_timer(2));
+      } else {
+	  BX_PIT_THIS console->beep_off();
+      }
 /*??? only on AT+ */
       BX_PIT_THIS s.timer.set_GATE(2, value & 0x01);
 #if BX_CPU_LEVEL < 2

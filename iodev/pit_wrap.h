@@ -32,6 +32,7 @@
 #if BX_USE_NEW_PIT
 
 #include "pit82c54.h"
+#include "console.h"
 
 #if BX_USE_PIT_SMF
 #  define BX_PIT_SMF  static
@@ -55,7 +56,10 @@ public:
 
   BX_PIT_SMF int SaveState( class state_file *fd );
   BX_PIT_SMF int LoadState( class state_file *fd );
-
+  bx_console_c *console;
+  Bit16u get_timer(int Timer) {
+      return s.timer.get_inlatch(Timer);
+  }
 private:
 
   static Bit32u read_handler(void *this_ptr, Bit32u address, unsigned io_len);

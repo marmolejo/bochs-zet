@@ -891,3 +891,7 @@ Bit32u pit_82C54::get_next_event_time(void) {
     out=time2;
   return out;
 }
+
+Bit16u pit_82C54::get_inlatch(int counternum) {
+    return counter[counternum].inlatch;
+}

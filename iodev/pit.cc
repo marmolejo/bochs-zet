@@ -173,6 +173,7 @@ bx_pit_c::init( void )
   DEV_register_iowrite_handler(this, write_handler, 0x0043, "8254 PIT", 1);
   DEV_register_iowrite_handler(this, write_handler, 0x0061, "8254 PIT", 1);
 
+  BX_PIT_THIS console = new bx_console_c;
   BX_PIT_THIS s.speaker_data_on = 0;
   BX_PIT_THIS s.refresh_clock_div2 = 0;
 
@@ -417,6 +418,10 @@ BX_INFO(("timer 0-2 mode control: comm:%02x mode:%02x bcd_mode:%u",
 
     case 0x61:
       BX_PIT_THIS s.speaker_data_on = (value >> 1) & 0x01;
+      if ( BX_PIT_THIS s.speaker_data_on )
+	  BX_PIT_THIS console->beep_on(440.0);
+      else
+	  BX_PIT_THIS console->beep_off();
 /*??? only on AT+ */
       set_GATE(2, value & 0x01);
 #if BX_CPU_LEVEL < 2
