@@ -5908,5 +5908,5 @@ bx_dbg_info_flags(void)
   dbg_printf ("CF");
  dbg_printf ("\n");
 }
-#endif /* if BX_DEBUGGER */
 
+#endif /* if BX_DEBUGGER */
