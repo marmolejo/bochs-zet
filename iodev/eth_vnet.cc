@@ -18,7 +18,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
-#if BX_SUPPORT_NE2K
+#if BX_NETWORKING
 
 #include "eth.h"
 
@@ -1056,4 +1056,4 @@ bx_vnet_pktmover_c::udpipv4_dhcp_handler_ns(
 
 
 
-#endif /* if BX_SUPPORT_NE2K */
+#endif /* if BX_NETWORKING */

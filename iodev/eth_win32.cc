@@ -42,7 +42,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
-#if BX_SUPPORT_NE2K
+#if BX_NETWORKING && defined(ETH_WIN32)
 
 #include "eth.h"
 
@@ -357,4 +357,4 @@ void bx_win32_pktmover_c::rx_timer_handler (void *this_ptr)
     }
 }
 
-#endif /* if BX_SUPPORT_NE2K */
+#endif /* if BX_NETWORKING && defined ETH_WIN32 */

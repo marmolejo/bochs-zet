@@ -54,7 +54,7 @@
 #define BX_PLUGGABLE
  
 #include "iodev.h"
-#if BX_SUPPORT_NE2K && defined(ETH_FBSD)
+#if BX_NETWORKING && defined(ETH_FBSD)
 
 #include "eth.h"
 
@@ -383,5 +383,5 @@ bx_fbsd_pktmover_c::rx_timer(void)
   }  
 }
 
-#endif /* if BX_SUPPORT_NE2K && defined(ETH_FBSD) */
+#endif /* if BX_NETWORKING && defined(ETH_FBSD) */
 

@@ -46,7 +46,7 @@
 #define BX_PLUGGABLE
  
 #include "iodev.h"
-#if BX_SUPPORT_NE2K && defined (ETH_LINUX)
+#if BX_NETWORKING && defined (ETH_LINUX)
 
 #include "eth.h"
 
@@ -285,4 +285,4 @@ bx_linux_pktmover_c::rx_timer(void)
     (*rxh)(rxarg, rxbuf, nbytes);
 //  }
 }
-#endif /* if BX_SUPPORT_NE2K && defined ETH_LINUX */
+#endif /* if BX_NETWORKING && defined ETH_LINUX */

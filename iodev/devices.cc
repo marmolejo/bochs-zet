@@ -187,8 +187,8 @@ bx_devices_c::init(BX_MEM_C *newmem)
 #if BX_SUPPORT_PCIDEV
     PLUG_load_plugin(pcidev, PLUGTYPE_OPTIONAL);
 #endif
-#if BX_SUPPORT_PCIPNIC && BX_SUPPORT_NE2K
-  if (bx_options.ne2k.Opresent->get ()) {
+#if BX_SUPPORT_PCIPNIC
+  if (bx_options.pnic.Oenabled->get ()) {
     PLUG_load_plugin(pcipnic, PLUGTYPE_OPTIONAL);
   }
 #endif

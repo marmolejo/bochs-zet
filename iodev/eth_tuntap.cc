@@ -32,7 +32,7 @@
 #define BX_PLUGGABLE
  
 #include "iodev.h"
-#if BX_SUPPORT_NE2K
+#if BX_NETWORKING && defined(HAVE_TUNTAP)
 
 #include "eth.h"
 
@@ -384,4 +384,4 @@ int tun_alloc(char *dev)
   return fd;
 }              
 
-#endif /* if BX_SUPPORT_NE2K */
+#endif /* if BX_NETWORKING && defined HAVE_TUNTAP */
