@@ -36,7 +36,7 @@
 
 
   void
-BX_CPU_C::MUL_ALEb(BxInstruction_t *i)
+BX_CPU_C::MUL_ALEb(bxInstruction_c *i)
 {
   Bit8u op2, op1;
   Bit16u product_16;
@@ -45,8 +45,8 @@ BX_CPU_C::MUL_ALEb(BxInstruction_t *i)
   op1 = AL;
 
   /* op2 is a register or memory reference */
-  if (i->mod == 0xc0) {
-    op2 = BX_READ_8BIT_REGx(i->rm,i->extend8bit);
+  if (i->mod() == 0xc0) {
+    op2 = BX_READ_8BIT_REGx(i->rm(),i->extend8bit);
     }
   else {
     /* pointer, segment address pair */
@@ -69,7 +69,7 @@ BX_CPU_C::MUL_ALEb(BxInstruction_t *i)
 
 
   void
-BX_CPU_C::IMUL_ALEb(BxInstruction_t *i)
+BX_CPU_C::IMUL_ALEb(bxInstruction_c *i)
 {
   Bit8s op2, op1;
   Bit16s product_16;
@@ -79,8 +79,8 @@ BX_CPU_C::IMUL_ALEb(BxInstruction_t *i)
   op1 = AL;
 
   /* op2 is a register or memory reference */
-  if (i->mod == 0xc0) {
-    op2 = BX_READ_8BIT_REGx(i->rm,i->extend8bit);
+  if (i->mod() == 0xc0) {
+    op2 = BX_READ_8BIT_REGx(i->rm(),i->extend8bit);
     }
   else {
     /* pointer, segment address pair */
@@ -110,7 +110,7 @@ BX_CPU_C::IMUL_ALEb(BxInstruction_t *i)
 
 
   void
-BX_CPU_C::DIV_ALEb(BxInstruction_t *i)
+BX_CPU_C::DIV_ALEb(bxInstruction_c *i)
 {
   Bit8u op2, quotient_8l, remainder_8;
   Bit16u quotient_16, op1;
@@ -119,8 +119,8 @@ BX_CPU_C::DIV_ALEb(BxInstruction_t *i)
   op1 = AX;
 
   /* op2 is a register or memory reference */
-  if (i->mod == 0xc0) {
-    op2 = BX_READ_8BIT_REGx(i->rm,i->extend8bit);
+  if (i->mod() == 0xc0) {
+    op2 = BX_READ_8BIT_REGx(i->rm(),i->extend8bit);
     }
   else {
     /* pointer, segment address pair */
@@ -154,7 +154,7 @@ BX_CPU_C::DIV_ALEb(BxInstruction_t *i)
 
 
   void
-BX_CPU_C::IDIV_ALEb(BxInstruction_t *i)
+BX_CPU_C::IDIV_ALEb(bxInstruction_c *i)
 {
   Bit8s op2, quotient_8l, remainder_8;
   Bit16s quotient_16, op1;
@@ -164,8 +164,8 @@ BX_CPU_C::IDIV_ALEb(BxInstruction_t *i)
 
 
   /* op2 is a register or memory reference */
-  if (i->mod == 0xc0) {
-    op2 = BX_READ_8BIT_REGx(i->rm,i->extend8bit);
+  if (i->mod() == 0xc0) {
+    op2 = BX_READ_8BIT_REGx(i->rm(),i->extend8bit);
     }
   else {
     /* pointer, segment address pair */

@@ -514,7 +514,7 @@ BX_CPU_C::TLB_flush(Boolean invalidateGlobal)
 }
 
   void
-BX_CPU_C::INVLPG(BxInstruction_t* i)
+BX_CPU_C::INVLPG(bxInstruction_c* i)
 {
 #if BX_CPU_LEVEL >= 4
   Bit32u   TLB_index;
@@ -523,7 +523,7 @@ BX_CPU_C::INVLPG(BxInstruction_t* i)
   invalidate_prefetch_q();
 
   // Operand must not be a register
-  if (i->mod == 0xc0) {
+  if (i->mod() == 0xc0) {
     BX_INFO(("INVLPG: op is a register"));
     UndefinedOpcode(i);
     }
@@ -1383,7 +1383,7 @@ BX_CPU_C::access_linear(Bit32u laddr, unsigned length, unsigned pl,
 }
 
   void
-BX_CPU_C::INVLPG(BxInstruction_t* i)
+BX_CPU_C::INVLPG(bxInstruction_c* i)
 {}
 
 #endif  // BX_SUPPORT_PAGING

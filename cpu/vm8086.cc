@@ -127,7 +127,7 @@ BX_CPU_C::stack_return_to_v86(Bit32u new_eip, Bit32u raw_cs_selector,
 
 
   void
-BX_CPU_C::stack_return_from_v86(BxInstruction_t *i)
+BX_CPU_C::stack_return_from_v86(bxInstruction_c *i)
 {
   if (BX_CPU_THIS_PTR get_IOPL() != 3) {
     // trap to virtual 8086 monitor

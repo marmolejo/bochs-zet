@@ -115,7 +115,7 @@ extern void REGISTER_IADDR(bx_addr addr);
 BX_CPU_C::cpu_loop(Bit32s max_instr_count)
 {
   unsigned ret;
-  BxInstruction_t i;
+  bxInstruction_c i;
 
 #if BX_DEBUGGER
   BX_CPU_THIS_PTR break_point = 0;
