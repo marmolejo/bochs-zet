@@ -1034,7 +1034,6 @@ bx_gui_c::set_clipboard_text(char *text_snapshot, Bit32u len)
     wxString string (text_snapshot, len);
     wxTheClipboard->SetData (new wxTextDataObject (string));
     wxTheClipboard->Close ();
-    wxMutexGuiLeave ();
     ret = 1;
   }
   wxMutexGuiLeave ();
