@@ -30,8 +30,6 @@
 #include <assert.h>
 #include "state_file.h"
 
-static char *divider = "========================================================================";
-
 // Just for the iofunctions
 
 #define LOG_THIS this->log->
@@ -473,6 +471,7 @@ logfunctions::fatal (const char *prefix, const char *fmt, va_list ap)
 {
   bx_atexit();
 #if !BX_WITH_WX
+  static char *divider = "========================================================================";
   fprintf (stderr, "%s\n", divider);
   fprintf (stderr, "Bochs is exiting with the following message:\n");
   fprintf (stderr, "%s ", prefix);
