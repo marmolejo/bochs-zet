@@ -63,6 +63,11 @@ extern "C" {
 
 // win32 has snprintf though with different name.
 #define snprintf _snprintf
+#define vsnprintf _vsnprintf
+#undef BX_HAVE_SNPRINTF
+#undef BX_HAVE_VSNPRINTF
+#define BX_HAVE_SNPRINTF 1
+#define BX_HAVE_VSNPRINTF 1
 #else    /* ifnndef __MINGW32__ */
 #define FMT_LL "%ll"
 #endif  /* ifnndef __MINGW32__ */
@@ -98,8 +103,13 @@ extern "C" {
 //////////////////////////////////////////////////////////////////////
 
 #if !BX_HAVE_SNPRINTF
-#define snprintf bx_snprintf
+  #define snprintf bx_snprintf
   extern int bx_snprintf (char *s, size_t maxlen, const char *format, ...);
+#endif
+
+#if !BX_HAVE_VSNPRINTF
+  #define vsnprintf bx_vsnprintf
+  extern int bx_vsnprintf (char *s, size_t maxlen, const char *format, va_list arg);
 #endif
 
 #if BX_HAVE_STRTOULL
