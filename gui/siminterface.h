@@ -1095,7 +1095,11 @@ enum {
 #define BX_FLOPPY_2_88   13 // 2.88M 3.5"
 #define BX_FLOPPY_720K   14 // 720K  3.5"
 #define BX_FLOPPY_360K   15 // 360K  5.25"
-#define BX_FLOPPY_LAST   15 // last legal value of floppy type
+#define BX_FLOPPY_160K   16 // 160K  5.25"
+#define BX_FLOPPY_180K   17 // 180K  5.25"
+#define BX_FLOPPY_320K   18 // 320K  5.25"
+#define BX_FLOPPY_LAST   18 // last legal value of floppy type
+
 #define BX_FLOPPY_GUESS  20 // decide based on image size
 
 #define BX_ATA_DEVICE_DISK      0
