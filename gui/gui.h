@@ -104,7 +104,8 @@ private:
   unsigned user_bmap_id, user_hbar_id;
 
   unsigned char vga_charmap[0x2000];
-  Boolean charmap_changed[256];
+  Boolean charmap_updated;
+  Boolean char_changed[256];
   };
 
 

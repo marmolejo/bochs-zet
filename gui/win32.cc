@@ -784,14 +784,17 @@ void bx_gui_c::text_update(Bit8u *old_text, Bit8u *new_text,
   unsigned nchars, ncols;
   unsigned char data[64];
 
-  for (unsigned c = 0; c<256; c++) {
-    if (bx_gui.charmap_changed[c]) {
-      memset(data, 0, sizeof(data));
-      for (unsigned i=0; i<32; i++)
-        data[i*2] = bx_gui.vga_charmap[c*32+i];
-      SetBitmapBits(vgafont[c], 64, data);
-      bx_gui.charmap_changed[c] = 0;
+  if (bx_gui.charmap_updated) {
+    for (unsigned c = 0; c<256; c++) {
+      if (bx_gui.char_changed[c]) {
+        memset(data, 0, sizeof(data));
+        for (unsigned i=0; i<32; i++)
+          data[i*2] = bx_gui.vga_charmap[c*32+i];
+        SetBitmapBits(vgafont[c], 64, data);
+        bx_gui.char_changed[c] = 0;
+      }
     }
+    bx_gui.charmap_updated = 0;
   }
 
   cs_start = (cursor_state >> 8) & 0x3f;
