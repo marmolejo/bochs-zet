@@ -30,8 +30,10 @@
 
 #if BX_USE_PCIUSB_SMF
 #  define BX_USB_THIS theUSBDevice->
+#  define BX_USB_THIS_PTR theUSBDevice
 #else
 #  define BX_USB_THIS this->
+#  define BX_USB_THIS_PTR this
 #endif
 
 #define BX_USB_MAXDEV   1
@@ -41,7 +43,7 @@
 
 typedef struct {
 
-  Bit16u base_ioaddr;
+  Bit32u base_ioaddr;
   Bit8u  irq;
   int    timer_index;
 

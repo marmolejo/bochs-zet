@@ -48,7 +48,7 @@ private:
 
   struct {
     Bit8u pci_conf[256];
-    Bit16u bmide_addr;
+    Bit32u bmide_addr;
     Bit8u bmide_regs[16];
     } s;
 
