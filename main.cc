@@ -43,6 +43,10 @@
 #endif
 #endif
 
+#if BX_WITH_CARBON
+#include <Carbon/Carbon.h>
+#endif
+
 int bochsrc_include_count = 0;
 
 extern "C" {
@@ -1555,6 +1559,41 @@ bx_init_main (int argc, char *argv[])
     }
     arg++;
   }
+#if BX_PLUGINS && BX_WITH_CARBON
+  // if there is no stdin, then we must create our own LTDL_LIBRARY_PATH.
+  // also if there is no LTDL_LIBRARY_PATH, but we have a bundle since we're here
+  // This is here so that it is available whenever --with-carbon is defined but
+  // the above code might be skipped, as in --with-sdl --with-carbon
+  if(!isatty(STDIN_FILENO) || !getenv("LTDL_LIBRARY_PATH"))
+  {
+    CFBundleRef mainBundle;
+    CFURLRef libDir;
+    char libDirPath[4096];
+    if(!isatty(STDIN_FILENO))
+    {
+      // there is no stdin/stdout so disable the text-based config interface.
+      SIM->get_param_bool(BXP_QUICK_START)->set (1);
+    }
+    BX_INFO (("fixing default lib location ..."));
+    // locate the lib directory within the application bundle.
+    // our libs have been placed in bochs.app/Contents/(current platform aka MacOS)/lib
+    // This isn't quite right, but they are platform specific and we haven't put
+    // our plugins into true frameworks and bundles either
+    mainBundle = CFBundleGetMainBundle();
+    BX_ASSERT(mainBundle != NULL);
+    libDir = CFBundleCopyAuxiliaryExecutableURL( mainBundle, CFSTR("lib"));
+    BX_ASSERT(libDir != NULL);
+    // translate this to a unix style full path
+    if(!CFURLGetFileSystemRepresentation(libDir, true, libDirPath, 4096))
+    {
+      BX_PANIC(("Unable to work out ltdl library path within bochs bundle! (Most likely path too long!)"));
+      return -1;
+    }
+    setenv("LTDL_LIBRARY_PATH", libDirPath, 1);
+    BX_INFO (("now my LTDL_LIBRARY_PATH is %s", libDirPath));
+    CFRelease(libDir);
+  }
+#endif
   int norcfile = 1;
   /* always parse configuration file and command line arguments */
   if (bochsrc_filename == NULL) bochsrc_filename = bx_find_bochsrc ();

@@ -1693,7 +1693,11 @@ if test "$with_carbon" = yes; then
   AC_DEFINE(BX_WITH_CARBON, 1)
   SPECIFIC_GUI_OBJS="$SPECIFIC_GUI_OBJS \$(GUI_OBJS_CARBON)"
   GUI_LINK_OPTS="$GUI_LINK_OPTS \$(GUI_LINK_OPTS_CARBON)"
-  PRIMARY_TARGET=bochs.app/.build   # only for carbon application
+  if test "$bx_plugins" = 1; then
+    PRIMARY_TARGET=bochs.app/.build_plugins   # only for carbon application
+  else
+    PRIMARY_TARGET=bochs.app/.build   # only for carbon application
+  fi
 fi
 
 if test "$with_term" = yes; then
