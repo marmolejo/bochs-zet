@@ -1399,7 +1399,7 @@ union {
   bx_global_segment_reg_t gdtr; /* global descriptor table register */
   bx_global_segment_reg_t idtr; /* interrupt descriptor table register */
 #endif
-  bx_segment_reg_t        ldtr; /* interrupt descriptor table register */
+  bx_segment_reg_t        ldtr; /* local descriptor table register */
   bx_segment_reg_t        tr;   /* task register */
 
 
