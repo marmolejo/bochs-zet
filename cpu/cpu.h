@@ -1484,6 +1484,8 @@ public: // for now...
   BX_SMF void disable_paging(void);
   BX_SMF void CR3_change(Bit32u value32);
   BX_SMF void pagingWPChanged(void);
+  BX_SMF void pagingA20Changed(void);
+
   BX_SMF void reset(unsigned source);
 
   BX_SMF void jump_protected(BxInstruction_t *, Bit16u cs, Bit32u disp32);
