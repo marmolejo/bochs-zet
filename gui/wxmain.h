@@ -79,6 +79,7 @@ enum
   ID_Heads,
   ID_SPT,
   ID_Megs,
+  ID_ComputeGeometry,
 };
 
 
