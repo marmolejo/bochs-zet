@@ -1153,6 +1153,7 @@ bx_ne2k_c::rx_frame(const void *buf, unsigned io_len)
   }
 
   if ((io_len < 60) && !BX_NE2K_THIS s.RCR.runts_ok) {
+    BX_DEBUG(("rejected small packet, length %d", io_len));
     return;
   }
 
