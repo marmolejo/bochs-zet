@@ -51,7 +51,7 @@ BX_CPU_C::load_seg_reg(bx_segment_reg_t *seg, Bit16u new_value)
     seg->cache.segment = 1; /* regular segment */
     if (seg == &BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS]) {
       seg->cache.u.segment.executable = 1; /* code segment */
-#if BX_SupportICache
+#if BX_SUPPORT_ICACHE
       BX_CPU_THIS_PTR iCache.fetchModeMask =
           BX_CPU_THIS_PTR iCache.createFetchModeMask(BX_CPU_THIS);
 #endif
@@ -334,7 +334,7 @@ BX_CPU_C::load_seg_reg(bx_segment_reg_t *seg, Bit16u new_value)
     BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.avl   = 0;
 #endif
 
-#if BX_SupportICache
+#if BX_SUPPORT_ICACHE
       BX_CPU_THIS_PTR iCache.fetchModeMask =
           BX_CPU_THIS_PTR iCache.createFetchModeMask(BX_CPU_THIS);
 #endif
@@ -555,7 +555,7 @@ BX_CPU_C::load_cs(bx_selector_t *selector, bx_descriptor_t *descriptor,
     }
 #endif
 
-#if BX_SupportICache
+#if BX_SUPPORT_ICACHE
   BX_CPU_THIS_PTR iCache.fetchModeMask =
       BX_CPU_THIS_PTR iCache.createFetchModeMask(BX_CPU_THIS);
 #endif

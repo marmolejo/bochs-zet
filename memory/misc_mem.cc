@@ -396,7 +396,7 @@ BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op)
       return(NULL); // Vetoed!  ROMs
 #endif
 
-#if BX_SupportICache
+#if BX_SUPPORT_ICACHE
     cpu->iCache.decWriteStamp(cpu, a20Addr);
 #endif
 

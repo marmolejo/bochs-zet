@@ -1293,9 +1293,9 @@ else
 fi
 
 if test "$speedup_iCache" = 1; then
-  AC_DEFINE(BX_SupportICache, 1)
+  AC_DEFINE(BX_SUPPORT_ICACHE, 1)
 else
-  AC_DEFINE(BX_SupportICache, 0)
+  AC_DEFINE(BX_SUPPORT_ICACHE, 0)
 fi
 
 if test "$speedup_host_specific_asms" = 1; then

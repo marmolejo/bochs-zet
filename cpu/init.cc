@@ -459,7 +459,7 @@ void BX_CPU_C::init(BX_MEM_C *addrspace)
   }
 #endif
 
-#if BX_SupportICache
+#if BX_SUPPORT_ICACHE
   iCache.alloc(mem->len);
   iCache.fetchModeMask = 0; // KPL: fixme!!!
 #endif

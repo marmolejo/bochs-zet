@@ -831,7 +831,7 @@ bx_init_hardware()
   BX_INFO(("Optimization configuration"));
   BX_INFO(("  Guest2HostTLB support: %s",BX_SupportGuest2HostTLB?"yes":"no"));
   BX_INFO(("  RepeatSpeedups support: %s",BX_SupportRepeatSpeedups?"yes":"no"));
-  BX_INFO(("  Icache support: %s",BX_SupportICache?"yes":"no"));
+  BX_INFO(("  Icache support: %s",BX_SUPPORT_ICACHE?"yes":"no"));
   BX_INFO(("  Host Asm support: %s",BX_SupportHostAsms?"yes":"no"));
 
   // set up memory and CPU objects
