@@ -158,7 +158,7 @@ bx_fbsd_pktmover_c::bx_fbsd_pktmover_c(const char *netif,
   } while (this->bpf_fd == -1);
   
   if (this->bpf_fd == -1) {
-    BX_ERROR(("eth_freebsd: could not open packet filter"));
+    BX_PANIC(("eth_freebsd: could not open packet filter"));
     return;
   }
 
