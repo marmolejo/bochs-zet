@@ -2981,4 +2981,5 @@ typedef enum _show_flags {
 // Can be used as LHS or RHS.
 #define RMAddr(i)  (BX_CPU_THIS_PTR address_xlation.rm_addr)
 
+
 #endif  // #ifndef BX_CPU_H

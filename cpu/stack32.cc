@@ -110,6 +110,7 @@ BX_CPU_C::PUSH_ES(bxInstruction_c *i)
   void
 BX_CPU_C::PUSH_FS(bxInstruction_c *i)
 {
+BailBigRSP("push_fs");
   if (i->os32L())
     push_32(BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS].selector.value);
   else
@@ -118,6 +119,7 @@ BX_CPU_C::PUSH_FS(bxInstruction_c *i)
   void
 BX_CPU_C::PUSH_GS(bxInstruction_c *i)
 {
+BailBigRSP("push_gs");
   if (i->os32L())
     push_32(BX_CPU_THIS_PTR sregs[BX_SEG_REG_GS].selector.value);
   else
@@ -164,6 +166,7 @@ BX_CPU_C::POP_ES(bxInstruction_c *i)
   void
 BX_CPU_C::POP_FS(bxInstruction_c *i)
 {
+BailBigRSP("pop_fs");
   if (i->os32L()) {
     Bit32u fs;
     pop_32(&fs);
@@ -178,6 +181,7 @@ BX_CPU_C::POP_FS(bxInstruction_c *i)
   void
 BX_CPU_C::POP_GS(bxInstruction_c *i)
 {
+BailBigRSP("pop_gs");
   if (i->os32L()) {
     Bit32u gs;
     pop_32(&gs);
