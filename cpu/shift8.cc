@@ -162,7 +162,7 @@ BX_CPU_C::RCL_Eb(bxInstruction_c *i)
 
   if (count) {
     result_8 = (op1_8 << count) |
-             (get_CF() << (count - 1)) |
+             (getB_CF() << (count - 1)) |
              (op1_8 >> (9 - count));
 
     /* now write result back to destination */
@@ -210,7 +210,7 @@ BX_CPU_C::RCR_Eb(bxInstruction_c *i)
 
   if (count) {
     result_8 = (op1_8 >> count) |
-             (get_CF() << (8 - count)) |
+             (getB_CF() << (8 - count)) |
              (op1_8 << (9 - count));
 
     /* now write result back to destination */

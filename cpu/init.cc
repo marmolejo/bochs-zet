@@ -488,7 +488,7 @@ BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR lf_flags_status = 0x000000;
 
   // status and control flags register set
-  BX_CPU_THIS_PTR eflags.val32 = 0x2; // Bit1 is always set
+  BX_CPU_THIS_PTR setEFlags(0x2); // Bit1 is always set
   BX_CPU_THIS_PTR clear_IF ();
 #if BX_CPU_LEVEL >= 3
   BX_CPU_THIS_PTR clear_RF ();

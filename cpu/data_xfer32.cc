@@ -309,10 +309,10 @@ BX_CPU_C::CMOV_GdEd(bxInstruction_c *i)
     case 0x149: condition = !get_SF(); break;
     case 0x14A: condition = get_PF(); break;
     case 0x14B: condition = !get_PF(); break;
-    case 0x14C: condition = get_SF() != get_OF(); break;
-    case 0x14D: condition = get_SF() == get_OF(); break;
-    case 0x14E: condition = get_ZF() || (get_SF() != get_OF()); break;
-    case 0x14F: condition = !get_ZF() && (get_SF() == get_OF()); break;
+    case 0x14C: condition = getB_SF() != getB_OF(); break;
+    case 0x14D: condition = getB_SF() == getB_OF(); break;
+    case 0x14E: condition = get_ZF() || (getB_SF() != getB_OF()); break;
+    case 0x14F: condition = !get_ZF() && (getB_SF() == getB_OF()); break;
     default:
       condition = 0;
       BX_PANIC(("CMOV_GdEd: default case"));
