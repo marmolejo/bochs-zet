@@ -958,8 +958,8 @@ bx_init_hardware()
   // SMP initialization
   bx_mem_array[0] = new BX_MEM_C ();
   bx_mem_array[0]->init_memory(bx_options.memory.Osize->get () * 1024*1024);
-  bx_mem_array[0]->load_ROM(bx_options.rom.Opath->getptr (), bx_options.rom.address->get ());
-  bx_mem_array[0]->load_ROM(bx_options.vgarom.Opath, 0xc0000);
+  bx_mem_array[0]->load_ROM(bx_options.rom.Opath->getptr (), bx_options.rom.Oaddress->get ());
+  bx_mem_array[0]->load_ROM(bx_options.vgarom.Opath->getptr (), 0xc0000);
   for (int i=0; i<BX_SMP_PROCESSORS; i++) {
     BX_CPU(i) = new BX_CPU_C ();
     BX_CPU(i)->init (bx_mem_array[0]);
