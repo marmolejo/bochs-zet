@@ -7125,6 +7125,7 @@ Shall I remove the redolog afterwards?
         </section>
         <section id="guest-minix"> <title>Minix</title>
                   <para>
+Please see the <ulink url="http://minix1.hampshire.edu/faq/bxmxhowto.html">Minix on Bochs on Windows How-To</ulink> by Al Woodhull.
                   </para>
         </section>
           <section id="guest-openbsd"><title>OpenBSD</title>
