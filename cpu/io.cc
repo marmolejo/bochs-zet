@@ -366,7 +366,13 @@ BX_CPU_C::OUTSB_DXXb(BxInstruction_t *i)
 
   BX_OUTP(DX, value8, 1);
 
-  if (i->as_32) {
+  if (i->as_64) {
+    if (BX_CPU_THIS_PTR get_DF ())
+      RSI -= 1;
+    else
+      RSI += 1;
+    }
+  else if (i->as_32) {
     if (BX_CPU_THIS_PTR get_DF ())
       RSI -= 1;
     else
@@ -584,7 +590,7 @@ doIncr:
 #endif
 #endif
 
-  if (i->as_64) { // Was coded as  if (i->as_32)
+  if (i->as_64) {
     if (BX_CPU_THIS_PTR get_DF ())
       RSI = RSI - incr;
     else
