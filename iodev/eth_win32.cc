@@ -133,21 +133,24 @@ struct bpf_hdr {
 
 #define MAX_LINK_NAME_LENGTH 64
 
+// Why don't these definitions come from including winpcap.h or something?
+// -Bryce
 typedef struct _ADAPTER {
 	HANDLE hFile;
 	TCHAR  SymbolicLink[MAX_LINK_NAME_LENGTH];
 	int NumWrites;
 	HANDLE ReadEvent;
+	UINT ReadTimeOut; // WARNING: maybe invalid before winpcap 2.2
 } ADAPTER, *LPADAPTER;
 
 typedef struct _PACKET {  
 	HANDLE       hEvent;
-    OVERLAPPED   OverLapped;
-    PVOID        Buffer;
-    UINT         Length;
+	OVERLAPPED   OverLapped;
+	PVOID        Buffer;
+	UINT         Length;
 	UINT         ulBytesReceived;
 	BOOLEAN      bIoComplete;
-}  PACKET, *LPPACKET;
+} PACKET, *LPPACKET;
 
 HINSTANCE hPacket;
 LPADAPTER lpAdapter = 0;
