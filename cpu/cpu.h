@@ -1991,6 +1991,7 @@ union {
   BX_SMF void FDECSTP(bxInstruction_c *);
   BX_SMF void FINCSTP(bxInstruction_c *);
   BX_SMF void FFREE_STi(bxInstruction_c *);
+  BX_SMF void FFREEP_STi(bxInstruction_c *);
 
   BX_SMF void F2XM1(bxInstruction_c *);
   BX_SMF void FYL2X(bxInstruction_c *);
