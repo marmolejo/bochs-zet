@@ -748,6 +748,7 @@ Bit32u keymap_de[][2] = {
   { XK_Meta_L              , BX_KEY_ALT_L }, 
   { XK_Mode_switch         , BX_KEY_ALT_R }, 
   { XK_Multi_key           , BX_KEY_ALT_R }, 
+  { XK_Control_R           , BX_KEY_CTRL_R },
 };
 
 extern Bit8u graphics_snapshot[32 * 1024];
