@@ -1391,7 +1391,7 @@ bx_dbg_lbreakpoint_symbol_command(char *Symbol)
 }
 
 Bit32u
-bx_dbg_get_symbol_value(const char *Symbol)
+bx_dbg_get_symbol_value(char *Symbol)
 {
  return 0;
 }
