@@ -300,10 +300,10 @@ bx_hard_drive_c::init(void)
             channels[channel].drives[device].hard_drive = new undoable_image_t(disk_size);
             break;
 
-          case BX_ATA_MODE_GROWABLE:
-            BX_INFO(("HD on ata%d-%d: '%s' 'growable' mode ", channel, device, 
+          case BX_ATA_MODE_GROWING:
+            BX_INFO(("HD on ata%d-%d: '%s' 'growing' mode ", channel, device, 
                                     bx_options.atadevice[channel][device].Opath->getptr ()));
-            channels[channel].drives[device].hard_drive = new growable_image_t(disk_size);
+            channels[channel].drives[device].hard_drive = new growing_image_t(disk_size);
             break;
 
           case BX_ATA_MODE_VOLATILE:
@@ -4049,6 +4049,7 @@ redolog_t::make_header (const char* type, Bit64u size)
 {
         Bit32u entries, extent_size, bitmap_size;
         Bit64u maxsize;
+        Bit32u flip=0;
 
         // Set standard header values
         strcpy((char*)header.standard.magic, STANDARD_HEADER_MAGIC);
@@ -4062,8 +4063,6 @@ redolog_t::make_header (const char* type, Bit64u size)
 
         // Compute #entries and extent size values
         do {
-                static Bit32u flip=0;
-                
                 extent_size = 8 * bitmap_size * 512;
 
                 header.specific.catalog = htod32(entries);
@@ -4406,37 +4405,37 @@ redolog_t::write (const void* buf, size_t count)
 }
 
 
-/*** growable_image_t function definitions ***/
+/*** growing_image_t function definitions ***/
 
-growable_image_t::growable_image_t(Bit64u _size)
+growing_image_t::growing_image_t(Bit64u _size)
 {
         redolog = new redolog_t();
         size = _size;
 }
 
-int growable_image_t::open (const char* pathname)
+int growing_image_t::open (const char* pathname)
 {
-        return redolog->open(pathname,REDOLOG_SUBTYPE_GROWABLE,size);
+        return redolog->open(pathname,REDOLOG_SUBTYPE_GROWING,size);
 }
 
-void growable_image_t::close ()
+void growing_image_t::close ()
 {
         redolog->close();
 }
 
-off_t growable_image_t::lseek (off_t offset, int whence)
+off_t growing_image_t::lseek (off_t offset, int whence)
 {
       return redolog->lseek(offset, whence);
 }
 
-ssize_t growable_image_t::read (void* buf, size_t count)
+ssize_t growing_image_t::read (void* buf, size_t count)
 {
       memset(buf, 0, count);
       redolog->read((char*) buf, count);
       return count;
 }
 
-ssize_t growable_image_t::write (const void* buf, size_t count)
+ssize_t growing_image_t::write (const void* buf, size_t count)
 {
       return redolog->write((char*) buf, count);
 }

@@ -451,7 +451,7 @@ int n_keyboard_type_names = 3;
 
 char *atadevice_type_names[] = { "disk", "cdrom", NULL };
 int n_atadevice_type_names = 2;
-char *atadevice_mode_names[] = { "flat", "concat", "external", "dll", "sparse", "vmware3", "split", "undoable", "growable", "volatile", "z-undoable", "z-volatile", NULL };
+char *atadevice_mode_names[] = { "flat", "concat", "external", "dll", "sparse", "vmware3", "split", "undoable", "growing", "volatile", "z-undoable", "z-volatile", NULL };
 int n_atadevice_mode_names = 12;
 char *atadevice_status_names[] = { "ejected", "inserted", NULL };
 int n_atadevice_status_names = 2;

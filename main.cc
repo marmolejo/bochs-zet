@@ -2842,8 +2842,8 @@ parse_line_formatted(char *context, int num_params, char *params[])
       else if (!strcmp(params[i], "mode=undoable")) {
         bx_options.atadevice[channel][slave].Omode->set (BX_ATA_MODE_UNDOABLE);
         }
-      else if (!strcmp(params[i], "mode=growable")) {
-        bx_options.atadevice[channel][slave].Omode->set (BX_ATA_MODE_GROWABLE);
+      else if (!strcmp(params[i], "mode=growing")) {
+        bx_options.atadevice[channel][slave].Omode->set (BX_ATA_MODE_GROWING);
         }
       else if (!strcmp(params[i], "mode=volatile")) {
         bx_options.atadevice[channel][slave].Omode->set (BX_ATA_MODE_VOLATILE);
@@ -3786,8 +3786,8 @@ bx_write_atadevice_options (FILE *fp, Bit8u channel, Bit8u drive, bx_atadevice_o
         case BX_ATA_MODE_UNDOABLE:
           fprintf (fp, ", mode=undoable");
           break;
-        case BX_ATA_MODE_GROWABLE:
-          fprintf (fp, ", mode=growable");
+        case BX_ATA_MODE_GROWING:
+          fprintf (fp, ", mode=growing");
           break;
         case BX_ATA_MODE_VOLATILE:
           fprintf (fp, ", mode=volatile");

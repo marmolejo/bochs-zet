@@ -1133,7 +1133,7 @@ enum {
 #define BX_ATA_MODE_VMWARE3     5
 #define BX_ATA_MODE_SPLIT       6
 #define BX_ATA_MODE_UNDOABLE    7
-#define BX_ATA_MODE_GROWABLE    8
+#define BX_ATA_MODE_GROWING     8
 #define BX_ATA_MODE_VOLATILE    9
 #define BX_ATA_MODE_Z_UNDOABLE  10
 #define BX_ATA_MODE_Z_VOLATILE  11
