@@ -145,7 +145,7 @@ public:
   void OnPaint(wxPaintEvent& event);
   void OnMouse(wxMouseEvent& event);
   void MyRefresh ();
-  void ToggleMouse ();
+  void ToggleMouse (bool fromToolbar);
 private:
   wxCursor *blankCursor;
   bool needRefresh;
