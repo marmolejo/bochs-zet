@@ -32,7 +32,6 @@ typedef Bit64s s64;
 #include <cpu/i387.h>
 
 /* bbd: include ported linux headers after config.h for GCC_ATTRIBUTE macro */
-#include <linux/kernel.h>
 #include <linux/mm.h>
 #include <linux/types.h>
 
