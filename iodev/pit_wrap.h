@@ -78,6 +78,7 @@ private:
     Bit64u total_sec;
     Bit64u last_time;
     Bit64u last_sec_usec;
+    Bit64u max_ticks;
 #else
     Bit64u total_usec;
 #endif
