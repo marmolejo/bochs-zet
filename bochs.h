@@ -392,6 +392,11 @@ BOCHSAPI extern logfunc_t *genlog;
 #define uint16  Bit16u
 #define uint32  Bit32u
 
+#if BX_SUPPORT_X86_64
+#define FMT_ADDRX FMT_LL "x"
+#else
+#define FMT_ADDRX "%08x"
+#endif
 
 #if BX_PROVIDE_CPU_MEMORY==1
 #  include "cpu/cpu.h"

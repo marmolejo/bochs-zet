@@ -164,7 +164,7 @@ void BX_CPU_C::init(BX_MEM_C *addrspace)
   // BX_CPU_C constructor
   BX_CPU_THIS_PTR set_INTR (0);
 #if BX_SUPPORT_APIC
-  local_apic.init ();
+  BX_CPU_THIS_PTR local_apic.init ();
 #endif
   // in SMP mode, the prefix of the CPU will be changed to [CPUn] in 
   // bx_local_apic_c::set_id as soon as the apic ID is assigned.
@@ -779,7 +779,6 @@ void BX_CPU_C::reset(unsigned source)
 #if BX_CPU_LEVEL >= 5
   /* APIC Address, APIC enabled and BSP is default, we'll fill in the rest later */
   BX_CPU_THIS_PTR msr.apicbase = APIC_BASE_ADDR;
-  BX_CPU_THIS_PTR msr.apicbase <<= 12;
 #if BX_SUPPORT_APIC
   BX_CPU_THIS_PTR msr.apicbase |= 0x900;
 #else
