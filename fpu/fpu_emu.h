@@ -64,8 +64,6 @@
 
 #include "fpu_system.h"
 
-typedef struct bx_fpu_reg_t FPU_REG;
-
 /*
 #define RE_ENTRANT_CHECKING
  */
