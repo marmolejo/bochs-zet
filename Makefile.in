@@ -486,6 +486,9 @@ all-clean: clean
 	cd fpu @COMMAND_SEPARATOR@
 	$(MAKE) clean
 	@CD_UP_ONE@
+	cd doc/docbook @COMMAND_SEPARATOR@
+	$(MAKE) clean
+	@CD_UP_TWO@
 
 dist-clean: local-dist-clean
 	cd iodev @COMMAND_SEPARATOR@
@@ -518,6 +521,9 @@ dist-clean: local-dist-clean
 	cd fpu @COMMAND_SEPARATOR@
 	$(MAKE) dist-clean
 	@CD_UP_ONE@
+	cd doc/docbook @COMMAND_SEPARATOR@
+	$(MAKE) clean
+	@CD_UP_TWO@
 	@RMCOMMAND@ Makefile
 
 ###########################################
