@@ -164,7 +164,7 @@ bx_tap_pktmover_c::bx_tap_pktmover_c(const char *netif,
   memset( &ifr, 0, sizeof(ifr) );
   strncpy( ifr.ifr_name, netif, sizeof(ifr.ifr_name) );
   if( ioctl( sock, SIOCGIFFLAGS, &ifr ) < 0 ){
-    BX_PANIC (("SIOCGIFFLAGS: %s", strerror (errno)));
+    BX_PANIC (("SIOCGIFFLAGS on %s: %s", netif, strerror (errno)));
     close(sock);
     return;
   }
