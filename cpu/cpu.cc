@@ -255,7 +255,7 @@ BX_CPU_C::cpu_loop(Bit32s max_instr_count)
       ret = fetchDecode(fetchPtr, i, maxFetch);
       }
 
-    BxExecutePtr_t resolveModRM = i->ResolveModrm; // Get function pointers as early
+    BxExecutePtr_t resolveModRM = i->ResolveModrm; // Get function pointers early.
     if (ret==0) {
 #if BX_SupportICache
       // Invalidate entry, since fetch-decode failed with partial updates
