@@ -307,7 +307,9 @@ logfunctions::panic(char *fmt, ...)
 	assert (this != NULL);
 	assert (this->logio != NULL);
 
-	if(!onoff[LOGLEV_PANIC]) return;
+	// Special case for panics since they are so important.  Always print
+	// the panic to the log, no matter what the log action says.
+	//if(!onoff[LOGLEV_PANIC]) return;
 
 	va_start(ap, fmt);
 	this->logio->out(this->type,LOGLEV_PANIC,this->prefix, fmt, ap);
