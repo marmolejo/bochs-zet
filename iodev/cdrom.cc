@@ -393,13 +393,13 @@ cdrom_interface::read_toc(uint8* buf, int* length, bool msf, int start_track)
      #define IOCTL_CDROM_READ_TOC         CTL_CODE(IOCTL_CDROM_BASE, 0x0000, METHOD_BUFFERED, FILE_READ_ACCESS)
      unsigned long iBytesReturned;
      DeviceIoControl(hFile, IOCTL_CDROM_READ_TOC, NULL, 0, NULL, 0, &iBytesReturned, NULL);       */
-    BX_ERROR (("WARNING: read_toc is not implemented, just returning 0"));
+    BX_ERROR (("WARNING: read_toc is not implemented, just returning length=1"));
     *length = 1;
     return true;
   }
 #elif __linux__ || defined(__sun)
   if (using_file) {
-    BX_ERROR (("WARNING: read_toc is not implemented, just returning 0"));
+    BX_ERROR (("WARNING: read_toc is not implemented, just returning length=1"));
     *length = 1;
     return true;
   } else {
