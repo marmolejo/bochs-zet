@@ -71,8 +71,8 @@
 #endif //BX_SUPPORT_VBE
 #define CGA_TEXT_ADDR(row, column) (0x18000 + ((row)*80 + (column))*2)
 
-#define X_TILESIZE 16
-#define Y_TILESIZE 16
+#define X_TILESIZE 8
+#define Y_TILESIZE 8
 #define BX_NUM_X_TILES (BX_MAX_XRES /X_TILESIZE)
 #define BX_NUM_Y_TILES (BX_MAX_YRES /Y_TILESIZE)
 
