@@ -302,6 +302,7 @@ bx_gui_c::power_handler(void)
 {
   // the user pressed power button, so there's no doubt they want bochs
   // to quit.  Change panics to fatal for the GUI and then do a panic.
+  bx_user_quit = 1;
   LOG_THIS setonoff(LOGLEV_PANIC, ACT_FATAL);
   BX_PANIC (("POWER button turned off."));
   // shouldn't reach this point, but if you do, QUIT!!!
