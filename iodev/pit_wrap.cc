@@ -494,7 +494,7 @@ bx_pit_c::periodic( Bit32u   usec_delta )
   Bit32u ticks_delta = 0;
 
 #ifdef BX_SCHEDULED_DIE_TIME
-  if (bx_virt_timer.time_ticks() > BX_SCHEDULED_DIE_TIME) {
+  if (bx_pc_system.time_ticks() > BX_SCHEDULED_DIE_TIME) {
     BX_ERROR (("ticks exceeded scheduled die time, quitting"));
     BX_EXIT (2);
   }
