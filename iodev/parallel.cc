@@ -93,7 +93,8 @@ bx_parallel_c::init(bx_devices_c *d)
     if (strlen(bx_options.par[0].Ooutfile->getptr ()) > 0) {
       OUTPUT = fopen(bx_options.par[0].Ooutfile->getptr (), "wb");
       if (!OUTPUT)
-        BX_PANIC (("Could not open '%s' to write parport1 output"));
+        BX_PANIC (("Could not open '%s' to write parport1 output",
+                   bx_options.par[0].Ooutfile->getptr ()));
     }
   }
 }

@@ -563,7 +563,7 @@ bx_floppy_ctrl_c::write(Bit32u address, Bit32u value, unsigned io_len)
       break;
 
    default:
-      BX_ERROR(("io_write ignored: 0x%04h = 0x%02h", (unsigned) address, (unsigned) value));
+      BX_ERROR(("io_write ignored: 0x%04x = 0x%02x", (unsigned) address, (unsigned) value));
       break;
 #endif  // #if BX_DMA_FLOPPY_IO
     }
