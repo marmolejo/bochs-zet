@@ -734,7 +734,7 @@ static BxOpcodeInfo_t BxOpcodeInfo64[512*3] = {
   /* 0F 0A */  { 0,  &BX_CPU_C::BxError },
   /* 0F 0B */  { 0,  &BX_CPU_C::BxError },
   /* 0F 0C */  { 0,  &BX_CPU_C::BxError },
-  /* 0F 0D */  { 0,  &BX_CPU_C::BxError },
+  /* 0F 0D */  { BxAnother,  &BX_CPU_C::NOP }, // PREFETCH L1
   /* 0F 0E */  { 0,  &BX_CPU_C::BxError },
   /* 0F 0F */  { 0,  &BX_CPU_C::BxError },
   /* 0F 10 */  { 0,  &BX_CPU_C::BxError },
@@ -1250,7 +1250,7 @@ static BxOpcodeInfo_t BxOpcodeInfo64[512*3] = {
   /* 0F 0A */  { 0,  &BX_CPU_C::BxError },
   /* 0F 0B */  { 0,  &BX_CPU_C::BxError },
   /* 0F 0C */  { 0,  &BX_CPU_C::BxError },
-  /* 0F 0D */  { 0,  &BX_CPU_C::BxError },
+  /* 0F 0D */  { BxAnother,  &BX_CPU_C::NOP }, // PREFETCH L1
   /* 0F 0E */  { 0,  &BX_CPU_C::BxError },
   /* 0F 0F */  { 0,  &BX_CPU_C::BxError },
   /* 0F 10 */  { 0,  &BX_CPU_C::BxError },
@@ -1765,7 +1765,7 @@ static BxOpcodeInfo_t BxOpcodeInfo64[512*3] = {
   /* 0F 0A */  { 0,  &BX_CPU_C::BxError },
   /* 0F 0B */  { 0,  &BX_CPU_C::BxError },
   /* 0F 0C */  { 0,  &BX_CPU_C::BxError },
-  /* 0F 0D */  { 0,  &BX_CPU_C::BxError },
+  /* 0F 0D */  { BxAnother,  &BX_CPU_C::NOP }, // PREFETCH L1
   /* 0F 0E */  { 0,  &BX_CPU_C::BxError },
   /* 0F 0F */  { 0,  &BX_CPU_C::BxError },
   /* 0F 10 */  { 0,  &BX_CPU_C::BxError },
