@@ -1681,6 +1681,8 @@ void BX_CPU_C::WRMSR(bxInstruction_c *i)
     goto do_exception;
   }
 
+  BX_INSTR_WRMSR(BX_CPU_ID, ECX, ((Bit64u) EDX << 32) + EAX);
+
   /* ECX has the MSR to write to */
   switch(ECX) {
 

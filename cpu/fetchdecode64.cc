@@ -31,19 +31,6 @@
 
 #if BX_SUPPORT_X86_64
 
-#if 0
-// KPL.  A number of cases are testing field values after they have
-// been 16-register extended, but should be testing the pre-extension
-// value.  Or, are causing use of extended values on 32-bit case arrays
-// which are only 8-registers wide.
-#define ExtendedFieldCheck(panicCondition) { \
-  if ( panicCondition ) \
-    BX_PANIC(("Extended Field Check macro, extended field found.")); \
-  }
-#else
-#define ExtendedFieldCheck(panicCondition) 
-#endif
-
 ///////////////////////////
 // prefix bytes
 // opcode bytes

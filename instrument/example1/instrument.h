@@ -179,9 +179,9 @@ extern bxInstrumentation icpu[BX_SMP_PROCESSORS];
 #  define BX_INSTR_PREFETCH_HINT(cpu_id, what, seg, offset)
 
 /* execution */
-#  define BX_INSTR_BEFORE_EXECUTION(cpu_id)
-#  define BX_INSTR_AFTER_EXECUTION(cpu_id)
-#  define BX_INSTR_REPEAT_ITERATION(cpu_id)
+#  define BX_INSTR_BEFORE_EXECUTION(cpu_id, i)
+#  define BX_INSTR_AFTER_EXECUTION(cpu_id, i)
+#  define BX_INSTR_REPEAT_ITERATION(cpu_id, i)
 
 /* memory access */
 #  define BX_INSTR_LIN_READ(cpu_id, lin, phy, len)
@@ -199,6 +199,9 @@ extern bxInstrumentation icpu[BX_SMP_PROCESSORS];
 #  define BX_INSTR_INP2(addr, len, val)
 #  define BX_INSTR_OUTP(addr, len)
 #  define BX_INSTR_OUTP2(addr, len, val)
+
+/* wrmsr callback */
+#  define BX_INSTR_WRMSR(cpu_id, addr, value)
 
 #else   
 
@@ -249,9 +252,9 @@ extern bxInstrumentation icpu[BX_SMP_PROCESSORS];
 #  define BX_INSTR_PREFETCH_HINT(cpu_id, what, seg, offset)
 
 /* execution */
-#  define BX_INSTR_BEFORE_EXECUTION(cpu_id)
-#  define BX_INSTR_AFTER_EXECUTION(cpu_id)
-#  define BX_INSTR_REPEAT_ITERATION(cpu_id)
+#  define BX_INSTR_BEFORE_EXECUTION(cpu_id, i)
+#  define BX_INSTR_AFTER_EXECUTION(cpu_id, i)
+#  define BX_INSTR_REPEAT_ITERATION(cpu_id, i)
 
 /* memory access */
 #  define BX_INSTR_LIN_READ(cpu_id, lin, phy, len)
@@ -269,5 +272,8 @@ extern bxInstrumentation icpu[BX_SMP_PROCESSORS];
 #  define BX_INSTR_INP2(addr, len, val)
 #  define BX_INSTR_OUTP(addr, len)
 #  define BX_INSTR_OUTP2(addr, len, val)
+
+/* wrmsr callback */
+#  define BX_INSTR_WRMSR(cpu_id, addr, value)
 
 #endif  
