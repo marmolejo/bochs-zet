@@ -26,7 +26,7 @@ int FPU_normalize_nuo(FPU_REG *x, int bias)
 	{
 	  if ( x->sigl == 0 )
 	    {
-	      x->exp = EXP_UNDER;
+	      x->exp = 0;
 	      return TAG_Zero;
 	    }
 	  x->sigh = x->sigl;

@@ -1171,7 +1171,7 @@ FPU_round_to_int(FPU_REG *r, u_char tag)
   very_big = !(~(r->sigh) | ~(r->sigl));  /* test for 0xfff...fff */
 #define	half_or_more	(eax & 0x80000000)
 #define	frac_part	(eax)
-#define more_than_half  ((eax & 0x80000001) == 0x80000001)
+#define more_than_half  (eax > 0x80000000)
   switch (control_word & CW_RC)
     {
     case RC_RND:
