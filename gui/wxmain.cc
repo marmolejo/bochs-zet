@@ -139,7 +139,9 @@ IMPLEMENT_APP(MyApp)
 bool MyApp::OnInit()
 {
   //wxLog::AddTraceMask (_T("mime"));
+#ifdef __WXDEBUG__
   wxLog::SetActiveTarget (new wxLogStderr ());
+#endif
   bx_init_siminterface ();
   // install callback function to handle anything that occurs before the
   // simulation begins.
