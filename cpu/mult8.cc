@@ -153,7 +153,7 @@ BX_CPU_C::IDIV_ALEb(bxInstruction_c *i)
     exception(BX_DE_EXCEPTION, 0, 0);
 
   /* check MIN_INT divided by -1 case */
-  if (op1 == BX_MIN_BIT16S && op2 == -1)
+  if ((op1 == ((Bit16s)0x8000)) && (op2 == -1))
     exception(BX_DE_EXCEPTION, 0, 0);
 
   quotient_16 = op1 / op2;

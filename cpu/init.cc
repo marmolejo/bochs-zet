@@ -744,12 +744,12 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR realMode = 1;
 
 #if BX_CPU_LEVEL >= 4
-  BX_CPU_THIS_PTR cr0.cd = 1; // caching disabled
-  BX_CPU_THIS_PTR cr0.nw = 1; // not write-through
+  BX_CPU_THIS_PTR cr0.cd = 0;
+  BX_CPU_THIS_PTR cr0.nw = 0;
   BX_CPU_THIS_PTR cr0.am = 0; // disable alignment check
   BX_CPU_THIS_PTR cr0.wp = 0; // disable write-protect
   BX_CPU_THIS_PTR cr0.ne = 0; // ndp exceptions through int 13H, DOS compat
-  BX_CPU_THIS_PTR cr0.val32 |= 0x60000000;
+  BX_CPU_THIS_PTR cr0.val32 |= 0x00000000;
 #endif
 
 #if BX_SUPPORT_X86_64

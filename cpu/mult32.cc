@@ -157,7 +157,7 @@ BX_CPU_C::IDIV_EAXEd(bxInstruction_c *i)
       exception(BX_DE_EXCEPTION, 0, 0);
 
     /* check MIN_INT divided by -1 case */
-    if (op1_64 == BX_MIN_BIT64S && op2_32 == -1)
+    if ((op1_64 == ((Bit64s)BX_CONST64(0x8000000000000000))) && (op2_32 == -1))
       exception(BX_DE_EXCEPTION, 0, 0);
 
     quotient_64  = op1_64 / op2_32;

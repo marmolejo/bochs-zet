@@ -151,7 +151,7 @@ BX_CPU_C::IDIV_AXEw(bxInstruction_c *i)
       exception(BX_DE_EXCEPTION, 0, 0);
 
     /* check MIN_INT divided by -1 case */
-    if (op1_32 == BX_MIN_BIT32S && op2_16 == -1)
+    if ((op1_32 == ((Bit32s)0x80000000)) && (op2_16 == -1))
       exception(BX_DE_EXCEPTION, 0, 0);
 
     quotient_32  = op1_32 / op2_16;

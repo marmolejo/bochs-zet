@@ -227,8 +227,6 @@ BX_CPU_C::DAS(bxInstruction_c *)
     AL = AL - 0x60;
     tmpCF = 1;
   }
-  else
-    tmpCF = 0;
 
   set_OF(0);	/* undocumented flag modification */
   set_SF(AL >= 0x80);

@@ -1654,6 +1654,10 @@ another_byte:
     instruction->modRMForm.modRMData |= (nnn<<8);
     instruction->modRMForm.modRMData |= rm;
 
+    // MOVs with CRx and DRx always use register ops and ignore the mod field.
+    if ( (b1 & ~3) == 0x120 )
+      mod = 0xc0;
+
     if (mod == 0xc0) { // mod == 11b
       instruction->metaInfo |= (1<<22); // (modC0)
       goto modrm_done;

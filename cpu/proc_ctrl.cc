@@ -71,7 +71,7 @@ void BX_CPU_C::HLT(bxInstruction_c *i)
   }
 
   if (! BX_CPU_THIS_PTR get_IF ()) {
-    BX_INFO(("WARNING: HLT instruction with IF=0!"));
+    BX_PANIC(("WARNING: HLT instruction with IF=0!"));
   }
 
   // stops instruction execution and places the processor in a
@@ -242,7 +242,7 @@ void BX_CPU_C::MOV_DdRd(bxInstruction_c *i)
 #endif
       // Some sanity checks...
       if ( val_32 & 0x00002000 ) {
-        BX_PANIC(("MOV_DdRd: GD bit not supported yet"));
+        BX_INFO(("MOV_DdRd: GD bit not supported yet"));
         // Note: processor clears GD upon entering debug exception
         // handler, to allow access to the debug registers
       }
