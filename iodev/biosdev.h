@@ -55,9 +55,11 @@ private:
   struct {
     Bit8u bios_message[BX_BIOS_MESSAGE_SIZE];
     unsigned int bios_message_i;
+    bx_bool bios_panic_flag;
 
     Bit8u vgabios_message[BX_BIOS_MESSAGE_SIZE];
     unsigned int vgabios_message_i;
+    bx_bool vgabios_panic_flag;
     } s;  // state information
 
   };
