@@ -165,6 +165,8 @@ bx_gui_c::init(int argc, char **argv, unsigned tilewidth, unsigned tileheight)
     bx_pc_system.register_timer(this, bx_gui_c::snapshot_checker, (unsigned) 1000000, 1, 1, "snap_chk");
   }
 
+  BX_GUI_THIS charmap_updated = 0;
+
   show_headerbar();
 }
 
