@@ -646,7 +646,7 @@ bx_hard_drive_c::read(Bit32u address, unsigned io_len)
       channel = 0;
       port = address - 0x03e0;
     }
-    }
+  }
 
 #if BX_PDC20230C_VLBIDE_SUPPORT
 // pdc20230c is only available for first ata channel
@@ -1245,7 +1245,8 @@ BX_DEBUG(("IO write to %04x = %02x", (unsigned) address, (unsigned) value));
   switch (port) {
     case 0x00: // 0x1f0
       if (io_len == 1) {
-        BX_PANIC(("byte IO write to 0x%04x", address));
+        BX_ERROR(("byte IO write to 0x%04x ignored", address));
+        return;
         }
       switch (BX_SELECTED_CONTROLLER(channel).current_command) {
         case 0x30: // WRITE SECTORS
