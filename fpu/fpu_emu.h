@@ -88,11 +88,11 @@ typedef void (*FUNC)(void);
 typedef void (*FUNC_ST0)(FPU_REG *st0_ptr, u_char st0_tag);
 
 typedef struct { u_char address_size, operand_size, segment; }
-        GCC_ATTRIBUTE((packed)) overrides;
+        overrides GCC_ATTRIBUTE((packed));
 /* This structure is 32 bits: */
 typedef struct { overrides override;
 		 u_char default_mode; } 
-    GCC_ATTRIBUTE((packed)) fpu_addr_modes;
+    fpu_addr_modes GCC_ATTRIBUTE((packed));
 #if defined(__MWERKS__) && defined(macintosh)
 #pragma options align=reset
 #endif
