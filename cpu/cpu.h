@@ -2294,6 +2294,9 @@ union {
   BX_SMF void JCXZ64_Jb(bxInstruction_c *);
 #endif  // #if BX_SUPPORT_X86_64
 
+  BX_SMF void FXSAVE(bxInstruction_c *i);
+  BX_SMF void FXRSTOR(bxInstruction_c *i);
+
   // mch added
   BX_SMF void INVLPG(bxInstruction_c *);
   BX_SMF void wait_for_interrupt();

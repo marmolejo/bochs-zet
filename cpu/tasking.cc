@@ -984,7 +984,7 @@ BX_CPU_C::get_RSP_from_TSS(unsigned pl, Bit64u *rsp)
     BX_PANIC(("get_RSP_from_TSS: TR.cache invalid"));
 
   // 32-bit TSS
-  Bit32u TSSstackaddr, save_upper;
+  Bit32u TSSstackaddr;
 
   TSSstackaddr = 8*pl + 4;
   if ( (TSSstackaddr+7) >

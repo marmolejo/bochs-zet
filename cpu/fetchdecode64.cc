@@ -509,8 +509,8 @@ static BxOpcodeInfo_t BxOpcodeInfo64G9[8] = {
   };
 
 static BxOpcodeInfo_t BxOpcodeInfo64G15[8] = {
-  /* 0 */  { 0,  &BX_CPU_C::BxError },
-  /* 1 */  { 0,  &BX_CPU_C::BxError },
+  /* 0 */  { 0,  &BX_CPU_C::FXSAVE },
+  /* 1 */  { 0,  &BX_CPU_C::FXRSTOR },
   /* 2 */  { 0,  &BX_CPU_C::BxError },
   /* 3 */  { 0,  &BX_CPU_C::BxError },
   /* 4 */  { 0,  &BX_CPU_C::BxError },
@@ -1055,7 +1055,7 @@ static BxOpcodeInfo_t BxOpcodeInfo64[512*3] = {
   /* 0F E4 */  { 0,  &BX_CPU_C::BxError },
   /* 0F E5 */  { BxAnotherMMX,  &BX_CPU_C::PMULHW_PqQq }, /* MMX */
   /* 0F E6 */  { 0,  &BX_CPU_C::BxError },
-  /* 0F E7 */  { 0,  &BX_CPU_C::BxError },
+  /* 0F E7 */  { BxAnother,     &BX_CPU_C::NOP }, // MOVNTQ
   /* 0F E8 */  { BxAnotherMMX,  &BX_CPU_C::PSUBSB_PqQq }, /* MMX */
   /* 0F E9 */  { BxAnotherMMX,  &BX_CPU_C::PSUBSW_PqQq }, /* MMX */
   /* 0F EA */  { 0,  &BX_CPU_C::BxError },
@@ -1577,7 +1577,7 @@ static BxOpcodeInfo_t BxOpcodeInfo64[512*3] = {
   /* 0F E4 */  { 0,  &BX_CPU_C::BxError },
   /* 0F E5 */  { BxAnotherMMX,  &BX_CPU_C::PMULHW_PqQq }, /* MMX */
   /* 0F E6 */  { 0,  &BX_CPU_C::BxError },
-  /* 0F E7 */  { 0,  &BX_CPU_C::BxError },
+  /* 0F E7 */  { BxAnother,     &BX_CPU_C::NOP }, // MOVNTQ
   /* 0F E8 */  { BxAnotherMMX,  &BX_CPU_C::PSUBSB_PqQq }, /* MMX */
   /* 0F E9 */  { BxAnotherMMX,  &BX_CPU_C::PSUBSW_PqQq }, /* MMX */
   /* 0F EA */  { 0,  &BX_CPU_C::BxError },
@@ -2098,7 +2098,7 @@ static BxOpcodeInfo_t BxOpcodeInfo64[512*3] = {
   /* 0F E4 */  { 0,  &BX_CPU_C::BxError },
   /* 0F E5 */  { BxAnotherMMX,  &BX_CPU_C::PMULHW_PqQq }, /* MMX */
   /* 0F E6 */  { 0,  &BX_CPU_C::BxError },
-  /* 0F E7 */  { 0,  &BX_CPU_C::BxError },
+  /* 0F E7 */  { BxAnother,     &BX_CPU_C::NOP }, // MOVNTQ
   /* 0F E8 */  { BxAnotherMMX,  &BX_CPU_C::PSUBSB_PqQq }, /* MMX */
   /* 0F E9 */  { BxAnotherMMX,  &BX_CPU_C::PSUBSW_PqQq }, /* MMX */
   /* 0F EA */  { 0,  &BX_CPU_C::BxError },
