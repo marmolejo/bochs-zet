@@ -1280,6 +1280,7 @@ void bx_init_options ()
 #ifdef ETH_ARPBACK
     "arpback",
 #endif
+    "vnet",
     NULL
   };
   bx_options.ne2k.Oethmod = new bx_param_enum_c (BXP_NE2K_ETHMOD,
