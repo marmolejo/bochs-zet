@@ -55,14 +55,6 @@ extern void math_emulate_init(void);
 extern unsigned fpu_get_ds(void);
 extern void fpu_set_ax(u16);
 
-struct info {
-#ifdef BX_NO_EMPTY_STRUCTS
-  unsigned char donotindexme;
-#endif
-  };
-
-#define FPU_info ((struct info *) NULL)
-
 #define SIGSEGV  11
 
 extern struct i387_t *current_i387;

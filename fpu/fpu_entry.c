@@ -173,7 +173,7 @@ math_emulate(fpu_addr_modes addr_modes,
        */
 do_the_FPU_interrupt:
 
-      math_abort(FPU_info, SIGFPE);
+      math_abort(NULL, SIGFPE);
       }
     }
 
@@ -199,7 +199,7 @@ do_the_FPU_interrupt:
                 {
                   /* This table works for 16 and 32 bit protected mode */
                   if (access_limit < data_sizes_16[(byte1 >> 1) & 3])
-                    math_abort(FPU_info, SIGSEGV);
+                    math_abort(NULL, SIGSEGV);
                 }
 #endif
               unmasked = 0;  /* Do this here to stop compiler warnings. */

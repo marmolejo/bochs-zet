@@ -78,12 +78,12 @@ int FPU_load_store(u_char type, fpu_addr_modes addr_modes,
       if ( addr_modes.default_mode == SEG32 )
 	{
 	  if ( access_limit < data_sizes_32[type] )
-	    math_abort(FPU_info,SIGSEGV);
+	    math_abort(NULL,SIGSEGV);
 	}
       else if ( addr_modes.default_mode == PM16 )
 	{
 	  if ( access_limit < data_sizes_16[type] )
-	    math_abort(FPU_info,SIGSEGV);
+	    math_abort(NULL,SIGSEGV);
 	}
 #ifdef PARANOID
       else

@@ -79,7 +79,7 @@ void Un_impl(void)
    */
 void FPU_illegal(void)
 {
-  math_abort(FPU_info,SIGILL);
+  math_abort(NULL, SIGILL);
 }
 
 
