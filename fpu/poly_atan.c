@@ -11,7 +11,6 @@
  |                                                                           |
  +---------------------------------------------------------------------------*/
 
-#include "exception.h"
 #include "reg_constant.h"
 #include "fpu_emu.h"
 #include "fpu_system.h"
@@ -226,5 +225,4 @@ void	poly_atan(FPU_REG *st0_ptr, u_char st0_tag,
 
   set_precision_flag_up();  /* We do not really know if up or down,
 			       use this as the default. */
-
 }

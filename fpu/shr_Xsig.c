@@ -37,6 +37,4 @@ void shr_Xsig(Xsig *arg, const int nr)
   arg->lsw = (arg->lsw >> n) | (arg->midw << (32-n));
   arg->midw = (arg->midw >> n) | (arg->msw << (32-n));
   arg->msw >>= n;
-
 }
-

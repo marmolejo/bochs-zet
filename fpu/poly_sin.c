@@ -13,11 +13,11 @@
  +---------------------------------------------------------------------------*/
 
 
-#include "exception.h"
 #include "reg_constant.h"
 #include "fpu_emu.h"
 #include "fpu_system.h"
 #include "control_w.h"
+#include "status_w.h"
 #include "poly.h"
 
 

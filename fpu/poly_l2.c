@@ -12,11 +12,11 @@
  +---------------------------------------------------------------------------*/
 
 
-#include "exception.h"
 #include "reg_constant.h"
 #include "fpu_emu.h"
 #include "fpu_system.h"
 #include "control_w.h"
+#include "status_w.h"
 #include "poly.h"
 
 
@@ -269,5 +269,4 @@ static void log2_kernel(FPU_REG const *arg, u_char argsign, Xsig *accum_result,
   accum_result->lsw = accumulator.lsw;
   accum_result->midw = accumulator.midw;
   accum_result->msw = accumulator.msw;
-
 }

@@ -19,7 +19,6 @@
  |    one was raised, or -1 on internal error.                               |
  +---------------------------------------------------------------------------*/
 
-#include "exception.h"
 #include "fpu_emu.h"
 #include "control_w.h"
 

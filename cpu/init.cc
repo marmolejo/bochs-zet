@@ -868,7 +868,7 @@ BX_CPU_C::reset(unsigned source)
 
   // Init the Floating Point Unit
 #if BX_SUPPORT_FPU
-  fpu_init();
+  BX_CPU_THIS_PTR the_i387.init();
 #endif
 
 #if (BX_SMP_PROCESSORS > 1)
@@ -973,6 +973,11 @@ BX_CPU_C::sanity_checks(void)
     BX_PANIC(("data type Bit32u or Bit32s is not of length 4 bytes!"));
   if (sizeof(Bit64u) != 8  ||  sizeof(Bit64s) != 8)
     BX_PANIC(("data type Bit64u or Bit64u is not of length 8 bytes!"));
+
+#if BX_SUPPORT_FPU
+  if (sizeof(floatx80) != 10)
+    BX_PANIC(("extended precision floating point is not of length 10 bytes!"));
+#endif
 
   BX_DEBUG(( "#(%u)all sanity checks passed!", BX_SIM_ID ));
 }

@@ -19,7 +19,6 @@
  |   Result is rounded to nearest 53 or 64 bits, using "nearest or even".    |
  +---------------------------------------------------------------------------*/
 
-#include "exception.h"
 #include "fpu_emu.h"
 #include "control_w.h"
 

@@ -26,7 +26,6 @@
  |                                                                           |
  +---------------------------------------------------------------------------*/
 
-#include "exception.h"
 #include "fpu_emu.h"
 #include "poly.h"
 
@@ -181,6 +180,4 @@ void div_Xsig(const Xsig *aa, const Xsig *b, Xsig *dest)
   /* Hey! we're done. */
 
   *dest = result;
-
 }
-

@@ -129,5 +129,3 @@ void polynomial_Xsig(Xsig *accum, const u64 *x, const u64 terms[], const int n)
     }
   accum->msw += acc.msw;
 }
-
-

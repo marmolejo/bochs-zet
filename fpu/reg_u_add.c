@@ -23,7 +23,6 @@
  |    Basic checks are performed if PARANOID is defined.
  */
 
-#include "exception.h"
 #include "fpu_emu.h"
 #include "control_w.h"
 

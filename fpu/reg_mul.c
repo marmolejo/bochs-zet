@@ -16,8 +16,6 @@
  | The destination may be any FPU_REG, including one of the source FPU_REGs. |
  +---------------------------------------------------------------------------*/
 
-#include "fpu_emu.h"
-#include "exception.h"
 #include "reg_constant.h"
 #include "fpu_system.h"
 

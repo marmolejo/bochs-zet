@@ -89,8 +89,3 @@ int norm_Xsig(Xsig *x)
 
   return -n;
 }
-
-
-
-
-
