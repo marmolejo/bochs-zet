@@ -1041,7 +1041,7 @@ public:
   virtual void debug_break () {}
   virtual void debug_interpret_cmd (char *cmd) {}
   virtual char *debug_get_next_command () {return NULL;}
-  virtual void debug_fputs (const char *cmd) {}
+  virtual void debug_fputs (const char *text) {}
 #endif
 };
 

@@ -224,11 +224,7 @@ void dbg_printf (const char *fmt, ...)
   char *buf = new char[1024];
   vsprintf (buf, fmt, ap);
   va_end(ap);
-#if BX_WITH_WX
   SIM->debug_fputs (buf); // send to debugger, which will free buf when done.
-#else
-  fputs (stderr, buf);
-#endif
 }
 
   int

@@ -551,12 +551,17 @@ char *bx_real_sim_c::debug_get_next_command ()
   return NULL;
 }
 
-void bx_real_sim_c::debug_fputs (const char *cmd)
+void bx_real_sim_c::debug_fputs (const char *text)
 {
+#if BX_WITH_WX
+  // send message to the GUI
   BxEvent *event = new BxEvent ();
   event->type = BX_ASYNC_EVT_DBG_MSG;
-  event->u.logmsg.msg = cmd;
+  event->u.logmsg.msg = text;
   sim_to_ci_event (event);
+#else
+  fputs (text, stderr);
+#endif
 }
 #endif
 
