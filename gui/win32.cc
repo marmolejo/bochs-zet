@@ -144,6 +144,7 @@ static unsigned x_edge=0, y_edge=0, y_caption=0;
 static int xChar = 8, yChar = 16;
 static unsigned int text_rows=25, text_cols=80;
 static BOOL BxTextMode = TRUE;
+static BOOL legacyF12 = FALSE;
 #if !BX_USE_WINDOWS_FONTS
 static Bit8u h_panning = 0, v_panning = 0;
 #else
@@ -571,8 +572,12 @@ void terminateEmul(int reason) {
 //     it's height is defined by this parameter.
 
 void bx_win32_gui_c::specific_init(int argc, char **argv, unsigned
-			     tilewidth, unsigned tileheight,
-			     unsigned headerbar_y) {
+                                   tilewidth, unsigned tileheight,
+                                   unsigned headerbar_y) {
+  char *ptr;
+  char string[512];
+  int i, string_i;
+
   put("WGUI");
   static RGBQUAD black_quad={ 0, 0, 0, 0};
   stInfo.kill = 0;
@@ -650,6 +655,24 @@ void bx_win32_gui_c::specific_init(int argc, char **argv, unsigned
   if(bx_options.keyboard.OuseMapping->get()) {
     bx_keymap.loadKeymap(NULL);  // I have no function to convert X windows symbols
     }
+
+  // parse win32 specific options
+  if (argc == 2) {
+    ptr = strtok(argv[1], ",");
+    while (ptr) {
+      string_i = 0;
+      for (i=0; i<strlen(ptr); i++) {
+        if (!isspace(ptr[i])) string[string_i++] = ptr[i];
+      }
+      string[string_i] = '\0';
+      if (!strcmp(string, "legacyF12")) {
+        legacyF12 = TRUE;
+      } else {
+        BX_PANIC(("Unknown win32 option '%s'", string));
+      }
+      ptr = strtok(NULL, ",");
+    }
+  }
 }
 
 
@@ -996,6 +1019,11 @@ LRESULT CALLBACK simWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
   case WM_KEYDOWN:
   case WM_SYSKEYDOWN:
+    if (legacyF12 && (wParam == VK_F12)) {
+      mouseCaptureMode = !mouseCaptureMode;
+      SetMouseCapture();
+      return 0;
+    }
     EnterCriticalSection(&stInfo.keyCS);
     enq_key_event(HIWORD (lParam) & 0x01FF, BX_KEY_PRESSED);
     LeaveCriticalSection(&stInfo.keyCS);
