@@ -561,6 +561,8 @@ bx_amigaos_gui_c::get_clipboard_text(Bit8u **bytes, Bit32s *nbytes)
 		freeiff(iff);
 		return 0;
 	}
+
+    freeiff(iff);
 	
 	return 1;
 }
