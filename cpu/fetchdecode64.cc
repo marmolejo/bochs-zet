@@ -604,8 +604,8 @@ static BxOpcodeInfo_t BxOpcodeInfo64[512*3] = {
   /* 2D */  { BxImmediate_Iv, &BX_CPU_C::SUB_AXIw },
   /* 2E */  { BxPrefix | BxAnother, &BX_CPU_C::BxError }, // CS:
   /* 2F */  { 0, &BX_CPU_C::BxError },
-  /* 30 */  { BxAnother, &BX_CPU_C::XOR_EbGb },
-  /* 31 */  { BxAnother, &BX_CPU_C::XOR_EwGw },
+  /* 30 */  { BxAnother | BxLockable, &BX_CPU_C::XOR_EbGb },
+  /* 31 */  { BxAnother | BxLockable, &BX_CPU_C::XOR_EwGw },
   /* 32 */  { BxAnother, &BX_CPU_C::XOR_GbEb },
   /* 33 */  { BxAnother, &BX_CPU_C::XOR_GwEw },
   /* 34 */  { BxImmediate_Ib, &BX_CPU_C::XOR_ALIb },
