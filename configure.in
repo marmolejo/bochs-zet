@@ -1821,6 +1821,7 @@ case "$target" in
     CXXFP="/Tp"
     CFP="/Tc"
     OFP="/Fo"
+    MAKE=nmake
     MAKELIB="lib.exe /nologo /subsystem:console /machine:I386 /verbose /out:\$@"
     RMCOMMAND="-del"
     RANLIB="echo"
