@@ -73,6 +73,7 @@ private:
   static void reset_handler(void);
   static void power_handler(void);
   static void snapshot_handler(void);
+  static void config_handler(void);
   static void toggle_mouse_enable(void);
 
   Boolean floppyA_status;
@@ -82,12 +83,13 @@ private:
   unsigned power_bmap_id,    power_hbar_id;
   unsigned reset_bmap_id,    reset_hbar_id;
   unsigned snapshot_bmap_id, snapshot_hbar_id;
+  unsigned config_bmap_id, config_hbar_id;
   unsigned mouse_bmap_id, nomouse_bmap_id, mouse_hbar_id;
   };
 
 
-#define BX_MAX_PIXMAPS 9
-#define BX_MAX_HEADERBAR_ENTRIES 6
+#define BX_MAX_PIXMAPS 10
+#define BX_MAX_HEADERBAR_ENTRIES 7
 #define BX_HEADER_BAR_Y 32
 
 // align pixmaps towards left or right side of header bar
