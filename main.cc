@@ -1976,7 +1976,7 @@ bx_atexit(void)
 
 #if BX_PCI_SUPPORT
   if (bx_options.Oi440FXSupport->get ()) {
-    bx_devices.pci->print_i440fx_state();
+    bx_devices.pluginPciBridge->print_i440fx_state();
     }
 #endif
 
