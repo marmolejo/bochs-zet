@@ -1582,6 +1582,14 @@ public: // for now...
   bx_local_apic_c local_apic;
   Boolean int_from_local_apic;
 #endif
+
+  #if BX_FETCHDECODE_CACHE
+    Bit32u fdcache_ip[BX_FDCACHE_SIZE]; // will store operation's IP
+    // NOTE: This struct should really be aligned!
+    BxInstruction_t fdcache_i[BX_FDCACHE_SIZE]; // stores decoded instruction
+    Boolean fdcache_is32[BX_FDCACHE_SIZE];
+  #endif // #if BX_FETCHDECODE_CACHE
+                                              
   };
 
 
