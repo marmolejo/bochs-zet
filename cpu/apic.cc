@@ -226,10 +226,13 @@ bx_generic_apic_c::deliver (Bit8u dest, Bit8u dest_mode, Bit8u delivery_mode, Bi
         if (deliver_bitmask & (1<<bit))
           apic_index[bit]->startup_msg (vector);
       return true;
+    case 7:   // ExtINT we can deliver this as fixed. In theory this requires
+	      // extra work from a connected PIC such as an 8259A but we can
+	      // skip all of that since all our pins are wired to the IOAPIC
+      break;
     case 2:  // SMI
     case 3:  // reserved
     case 4:  // NMI
-    case 7:  // ExtINT (I/O apic only)
     default:
       BX_PANIC(("APIC delivery mode %d not implemented", delivery_mode));
   }
