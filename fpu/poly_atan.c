@@ -114,15 +114,6 @@ void	poly_atan(FPU_REG *st0_ptr, u_char st0_tag,
 
       if ( exponent >= 0 )
 	{
-#ifdef PARANOID
-	  if ( !( (exponent == 0) && 
-		 (argSignif.lsw == 0) && (argSignif.midw == 0) &&
-		 (argSignif.msw == 0x80000000) ) )
-	    {
-	      INTERNAL(0x104);  /* There must be a logic error */
-	      return;
-	    }
-#endif /* PARANOID */
 	  argSignif.msw = 0;   /* Make the transformed arg -> 0.0 */
 	}
       else
@@ -220,7 +211,6 @@ void	poly_atan(FPU_REG *st0_ptr, u_char st0_tag,
 
   tag = FPU_round(st1_ptr, 1, FULL_PRECISION, sign2);
   FPU_settagi(1, tag);
-
 
   set_precision_flag_up();  /* We do not really know if up or down,
 			       use this as the default. */

@@ -8,7 +8,6 @@
  |                       W. Metzenthen, 22 Parker St, Ormond, Vic 3163,      |
  |                       Australia.  E-mail   billm@melbpc.org.au            |
  |                                                                           |
- |                                                                           |
  +---------------------------------------------------------------------------*/
 
 #include "fpu_system.h"
@@ -16,9 +15,6 @@
 #include "status_w.h"
 #include "control_w.h"
 
-/* bbd: make CONST_PI2 non-const so that you can write "&CONST_PI2" when
-   calling a function.  Otherwise you get const warnings.  Surely there's
-   a better way. */
 static FPU_REG const CONST_PI   = MAKE_REG(POS,  1, 0x2168c235, 0xc90fdaa2);
 static FPU_REG const CONST_PI2  = MAKE_REG(POS,  0, 0x2168c235, 0xc90fdaa2);
 static FPU_REG const CONST_PI4  = MAKE_REG(POS, -1, 0x2168c235, 0xc90fdaa2);
