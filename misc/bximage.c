@@ -30,6 +30,15 @@ char *fdsize_menu = "\nChoose the size of floppy disk image to create, in megaby
 char *fdsize_choices[] = { "0.36","0.72","1.2","1.44","2.88" };
 int fdsize_n_choices = 5;
 
+void myexit (int code)
+{
+#ifdef WIN32
+  printf ("\nPress any key to continue\n");
+  getch();
+#endif
+  exit(code);
+}
+
 /* stolen from main.cc */
 void bx_center_print (FILE *file, char *line, int maxwidth)
 {
@@ -54,11 +63,7 @@ print_banner ()
 void fatal (char *c)
 {
   printf ("%s\n", c);
-#ifdef WIN32
-  printf ("\nPress any key to continue\n");
-  getch();
-#endif
-  exit (1);
+  myexit (1);
 }
 
 /* remove leading spaces, newline junk at end.  returns pointer to 
@@ -302,5 +307,5 @@ int main()
   printf ("\nI wrote %lld bytes to %s.\n", sectors*512, filename);
   printf ("\nThe following line should appear in your bochsrc:\n");
   printf ("  %s\n", bochsrc_line);
-  return 0;
+  myexit(0);
 }
