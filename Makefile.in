@@ -577,7 +577,7 @@ $(SCRIPT_COMPILED_RSRC): $(SCRIPT_R) $(SCRIPT_APPLESCRIPT)
 	$(CP) -f $(SCRIPT_DATA) tmpscript
 	$(REZ) -append $(SCRIPT_R) -o tmpscript
 	$(OSACOMPILE) -o tmpscript $(SCRIPT_APPLESCRIPT)
-	$(CP) tmpscript/rsrc rsrc
+	$(CP) tmpscript/rsrc $(SCRIPT_COMPILED_RSRC)
 	$(RM) -f tmpscript
 
 # Step 2 (can be done locally or remotely on MacOSX)
