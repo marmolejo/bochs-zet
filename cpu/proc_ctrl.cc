@@ -59,7 +59,7 @@ BX_CPU_C::HLT(BxInstruction_t *i)
     return;
     }
 
-  if ( ! BX_CPU_THIS_PTR eflags.if_ ) {
+  if ( ! GetEFlagsIFLogical() ) {
     BX_INFO(("WARNING: HLT instruction with IF=0!"));
     }
 

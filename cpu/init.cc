@@ -266,32 +266,16 @@ BX_CPU_C::reset(unsigned source)
 
   // all status flags at known values, use BX_CPU_THIS_PTR eflags structure
   BX_CPU_THIS_PTR lf_flags_status = 0x000000;
-  BX_CPU_THIS_PTR lf_pf = 0;
 
   // status and control flags register set
-  BX_CPU_THIS_PTR set_CF(0);
-  BX_CPU_THIS_PTR eflags.bit1 = 1;
-  BX_CPU_THIS_PTR set_PF(0);
-  BX_CPU_THIS_PTR eflags.bit3 = 0;
-  BX_CPU_THIS_PTR set_AF(0);
-  BX_CPU_THIS_PTR eflags.bit5 = 0;
-  BX_CPU_THIS_PTR set_ZF(0);
-  BX_CPU_THIS_PTR set_SF(0);
-  BX_CPU_THIS_PTR eflags.tf = 0;
-  BX_CPU_THIS_PTR eflags.if_ = 0;
-  BX_CPU_THIS_PTR eflags.df = 0;
-  BX_CPU_THIS_PTR set_OF(0);
-#if BX_CPU_LEVEL >= 2
-  BX_CPU_THIS_PTR eflags.iopl = 0;
-  BX_CPU_THIS_PTR eflags.nt = 0;
-#endif
-  BX_CPU_THIS_PTR eflags.bit15 = 0;
+  BX_CPU_THIS_PTR eflags.val32 = 0x2; // Bit1 is always set
+  ClearEFlagsIF();
 #if BX_CPU_LEVEL >= 3
-  BX_CPU_THIS_PTR eflags.rf = 0;
-  BX_CPU_THIS_PTR eflags.vm = 0;
+  ClearEFlagsRF();
+  ClearEFlagsVM();
 #endif
 #if BX_CPU_LEVEL >= 4
-  BX_CPU_THIS_PTR eflags.ac = 0;
+  ClearEFlagsAC();
 #endif
 
   BX_CPU_THIS_PTR inhibit_mask = 0;

@@ -92,7 +92,7 @@ BX_CPU_C::CLI(BxInstruction_t *i)
 #endif
 #endif
 
-  BX_CPU_THIS_PTR eflags.if_ = 0;
+  ClearEFlagsIF();
 }
 
   void
@@ -117,8 +117,8 @@ BX_CPU_C::STI(BxInstruction_t *i)
 #endif
 #endif
 
-  if (!BX_CPU_THIS_PTR eflags.if_) {
-    BX_CPU_THIS_PTR eflags.if_ = 1;
+  if (!GetEFlagsIFLogical()) {
+    SetEFlagsIF();
     BX_CPU_THIS_PTR inhibit_mask |= BX_INHIBIT_INTERRUPTS;
     BX_CPU_THIS_PTR async_event = 1;
     }
@@ -127,13 +127,13 @@ BX_CPU_C::STI(BxInstruction_t *i)
   void
 BX_CPU_C::CLD(BxInstruction_t *i)
 {
-  BX_CPU_THIS_PTR eflags.df = 0;
+  ClearEFlagsDF();
 }
 
   void
 BX_CPU_C::STD(BxInstruction_t *i)
 {
-  BX_CPU_THIS_PTR eflags.df = 1;
+  SetEFlagsDF();
 }
 
   void
