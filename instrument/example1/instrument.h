@@ -75,7 +75,7 @@ public:
   struct {
     bx_address laddr; // linear address
     bx_address paddr; // physical address
-    unsigned op;      // BX_READ or BX_WRITE
+    unsigned op;      // BX_READ, BX_WRITE or BX_RW
     unsigned size;    // 1 .. 8
   } data_access[MAX_DATA_ACCESSES];
 
