@@ -82,6 +82,9 @@ private:
     Bit64u stored_delta;
     Bit64u total_usec;
     Bit64u use_realtime;
+    Bit64u em_last_realtime;
+    Bit64u last_realtime_delta;
+    Bit64u last_realtime_ticks;
     } s;
 
   static void timer_handler(void *this_ptr);
