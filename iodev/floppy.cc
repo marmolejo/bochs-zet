@@ -1636,8 +1636,12 @@ bx_floppy_ctrl_c::evaluate_media(unsigned type, char *path, floppy_t *media)
     media->type              = type;
 #ifdef __linux__
     if (ioctl(media->fd, FDGETPRM, &floppy_geom) < 0) {
-      BX_ERROR(("cannot determine media geometry"));
-      return(0);
+      BX_ERROR(("cannot determine media geometry, trying to use defaults"));
+      media->tracks            = floppy_type[idx].trk;
+      media->heads             = floppy_type[idx].hd;
+      media->sectors_per_track = floppy_type[idx].spt;
+      media->sectors           = floppy_type[idx].sectors;
+      return(1);
     }
     media->tracks            = floppy_geom.track;
     media->heads             = floppy_geom.head;
