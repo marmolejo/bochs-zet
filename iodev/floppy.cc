@@ -1316,6 +1316,7 @@ bx_floppy_ctrl_c::set_media_status(unsigned drive, unsigned status)
       BX_FD_THIS s.media[drive].fd = -1;
       }
     BX_FD_THIS s.media_present[drive] = 0;
+    bx_options.floppya.Oinitial_status->set(BX_EJECTED);
     BX_FD_THIS s.DIR |= 0x80; // disk changed line
     return(0);
     }
@@ -1331,11 +1332,13 @@ bx_floppy_ctrl_c::set_media_status(unsigned drive, unsigned status)
       }
     if (evaluate_media(type, path, & BX_FD_THIS s.media[drive])) {
       BX_FD_THIS s.media_present[drive] = 1;
+      bx_options.floppya.Oinitial_status->set(BX_INSERTED);
       BX_FD_THIS s.DIR |= 0x80; // disk changed line
       return(1);
       }
     else {
       BX_FD_THIS s.media_present[drive] = 0;
+      bx_options.floppya.Oinitial_status->set(BX_EJECTED);
       return(0);
       }
     }
