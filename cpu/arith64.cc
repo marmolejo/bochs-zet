@@ -719,7 +719,7 @@ BX_CPU_C::CMP_EqId(bxInstruction_c *i)
     /* for 64 bit operand size mode */
     Bit64u op2_64, op1_64, diff_64;
 
-    op2_64 = i->Id();
+    op2_64 = (Bit32s) i->Id();
 
     /* op1_64 is a register or memory reference */
     if (i->modC0()) {
