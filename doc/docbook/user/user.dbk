@@ -2689,6 +2689,12 @@ Examples:
 </screen>
 </para>
 
+<note><para>
+wxWindows provides both a configuration interface and a display library.
+So if you use the "wx" configuration interface, you must also use
+the "wx" display library.
+</para></note>
+
 </section>
 
 <section><title>log</title>
