@@ -1502,60 +1502,11 @@ bx_floppy_ctrl_c::evaluate_media(unsigned type, char *path, floppy_t *media)
            ) {
     // character or block device
     // assume media is formatted to typical geometry for drive
-    switch (type) {
-      // use CMOS reserved types
-      case BX_FLOPPY_160K: // 160K 5.25"
-        media->type              = BX_FLOPPY_160K;
-        media->sectors_per_track = 8;
-        media->tracks            = 40;
-        media->heads             = 1;
-        break;
-      case BX_FLOPPY_180K: // 180K 5.25"
-        media->type              = BX_FLOPPY_180K;
-        media->sectors_per_track = 9;
-        media->tracks            = 40;
-        media->heads             = 1;
-        break;
-      case BX_FLOPPY_320K: // 320K 5.25"
-        media->type              = BX_FLOPPY_320K;
-        media->sectors_per_track = 8;
-        media->tracks            = 40;
-        media->heads             = 2;
-        break;
-
-      case BX_FLOPPY_360K: // 360K 5.25"
-        media->type              = BX_FLOPPY_360K;
-        media->sectors_per_track = 9;
-        media->tracks            = 40;
-        media->heads             = 2;
-        break;
-      case BX_FLOPPY_720K: // 720K 3.5"
-        media->type              = BX_FLOPPY_720K;
-        media->sectors_per_track = 9;
-        media->tracks            = 80;
-        media->heads             = 2;
-        break;
-      case BX_FLOPPY_1_2: // 1.2M 5.25"
-        media->type              = BX_FLOPPY_1_2;
-        media->sectors_per_track = 15;
-        media->tracks            = 80;
-        media->heads             = 2;
-        break;
-      case BX_FLOPPY_1_44: // 1.44M 3.5"
-        media->type              = BX_FLOPPY_1_44;
-        media->sectors_per_track = 18;
-        media->tracks            = 80;
-        media->heads             = 2;
-        break;
-      case BX_FLOPPY_2_88: // 2.88M 3.5"
-        media->type              = BX_FLOPPY_2_88;
-        media->sectors_per_track = 36;
-        media->tracks            = 80;
-        media->heads             = 2;
-        break;
-      default:
-        BX_PANIC(("evaluate_media: unknown media type"));
-      }
+    media->type              = type;
+    media->tracks            = floppy_type[idx].trk;
+    media->heads             = floppy_type[idx].hd;
+    media->sectors_per_track = floppy_type[idx].spt;
+    media->sectors           = floppy_type[idx].sectors;
     media->sectors = media->heads * media->tracks * media->sectors_per_track;
     return(1); // success
     }
