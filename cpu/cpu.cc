@@ -515,7 +515,7 @@ BX_CPU_C::handleAsyncEvent(void)
       if (BX_CPU_INTR && BX_CPU_THIS_PTR get_IF ()) {
         break;
         }
-      if (BX_CPU_THIS_PTR async_event == 0) {
+      if (BX_CPU_THIS_PTR async_event == 2) {
         BX_INFO(("decode: reset detected in halt state"));
         break;
         }

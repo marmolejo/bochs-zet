@@ -877,7 +877,7 @@ BX_CPU_C::reset(unsigned source)
     async_event = 1;
   }
 #else
-  BX_CPU_THIS_PTR async_event = 0;
+    BX_CPU_THIS_PTR async_event=2;
 #endif
   BX_CPU_THIS_PTR kill_bochs_request = 0;
 
