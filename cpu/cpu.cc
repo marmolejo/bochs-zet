@@ -745,10 +745,10 @@ BX_CPU_C::prefetch(void)
   // Sanity checks
   if ( !BX_CPU_THIS_PTR eipFetchPtr ) {
     if ( pAddr >= BX_CPU_THIS_PTR mem->len ) {
-      BX_PANIC(("prefetch: running in bogus memory"));
+      BX_PANIC(("prefetch : running in bogus memory, pAddr=0x%X", pAddr));
       }
     else {
-      BX_PANIC(("prefetch: getHostMemAddr vetoed direct read, pAddr=0x%x.", pAddr));
+      BX_PANIC(("prefetch: getHostMemAddr vetoed direct read, pAddr=0x%X", pAddr));
       }
     }
 
