@@ -63,7 +63,7 @@ BX_CPU_C::POP_Ed(BxInstruction_t *i)
   void
 BX_CPU_C::PUSH_ERX(BxInstruction_t *i)
 {
-  push_32(BX_CPU_THIS_PTR gen_reg[i->b1 & 0x07].erx);
+  push_32(BX_CPU_THIS_PTR gen_reg[i->b1 & 0x07].dword.erx);
 }
 
   void
@@ -72,7 +72,7 @@ BX_CPU_C::POP_ERX(BxInstruction_t *i)
   Bit32u erx;
 
   pop_32(&erx);
-  BX_CPU_THIS_PTR gen_reg[i->b1 & 0x07].erx = erx;
+  BX_CPU_THIS_PTR gen_reg[i->b1 & 0x07].dword.erx = erx;
 }
 
 

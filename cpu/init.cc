@@ -451,10 +451,10 @@ BX_CPU_C::reset(unsigned source)
   /* instruction pointer */
 #if BX_CPU_LEVEL < 2
   BX_CPU_THIS_PTR prev_eip =
-  BX_CPU_THIS_PTR eip = 0x00000000;
+  EIP = 0x00000000;
 #else /* from 286 up */
   BX_CPU_THIS_PTR prev_eip =
-  BX_CPU_THIS_PTR eip = 0x0000FFF0;
+  BX_CPU_THIS_PTR dword.eip = 0x0000FFF0;
 #endif
 
 

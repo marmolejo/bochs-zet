@@ -38,7 +38,7 @@ BX_CPU_C::INC_ERX(BxInstruction_t *i)
 {
   Bit32u erx;
 
-  erx = ++ BX_CPU_THIS_PTR gen_reg[i->b1 & 0x07].erx;
+  erx = ++ BX_CPU_THIS_PTR gen_reg[i->b1 & 0x07].dword.erx;
   SET_FLAGS_OSZAP_32(0, 0, erx, BX_INSTR_INC32);
 }
 
@@ -47,7 +47,7 @@ BX_CPU_C::DEC_ERX(BxInstruction_t *i)
 {
   Bit32u erx;
 
-  erx = -- BX_CPU_THIS_PTR gen_reg[i->b1 & 0x07].erx;
+  erx = -- BX_CPU_THIS_PTR gen_reg[i->b1 & 0x07].dword.erx;
   SET_FLAGS_OSZAP_32(0, 0, erx, BX_INSTR_DEC32);
 }
 

@@ -99,7 +99,7 @@ BX_CPU_C::INT1(BxInstruction_t *i)
   interrupt(1, 1, 0, 0);
   BX_INSTR_FAR_BRANCH(BX_INSTR_IS_INT,
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value,
-                      BX_CPU_THIS_PTR eip);
+                      EIP);
 }
 
   void
@@ -115,7 +115,7 @@ BX_CPU_C::INT3(BxInstruction_t *i)
   interrupt(3, 1, 0, 0);
   BX_INSTR_FAR_BRANCH(BX_INSTR_IS_INT,
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value,
-                      BX_CPU_THIS_PTR eip);
+                      EIP);
 }
 
 
@@ -144,7 +144,7 @@ if ( (imm8 == 0x21) && (AH == 0x4c) ) {
   interrupt(imm8, 1, 0, 0);
   BX_INSTR_FAR_BRANCH(BX_INSTR_IS_INT,
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value,
-                      BX_CPU_THIS_PTR eip);
+                      EIP);
 }
 
 
@@ -163,6 +163,6 @@ BX_CPU_C::INTO(BxInstruction_t *i)
     interrupt(4, 1, 0, 0);
     BX_INSTR_FAR_BRANCH(BX_INSTR_IS_INT,
                         BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value,
-                        BX_CPU_THIS_PTR eip);
+                        EIP);
     }
 }

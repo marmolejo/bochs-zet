@@ -138,7 +138,7 @@ BX_CPU_C::read_virtual_checks(bx_segment_reg_t *seg, Bit32u offset,
       //BX_ERROR(("CS: %04x", (unsigned)
       //   BX_CPU_THIS_PTR sregs[1].selector.value));
       //BX_ERROR(("IP: %04x", (unsigned) BX_CPU_THIS_PTR prev_eip));
-      //debug(BX_CPU_THIS_PTR eip);
+      //debug(EIP);
       exception(BX_GP_EXCEPTION, 0, 0);
       return;
       }

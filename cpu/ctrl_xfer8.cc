@@ -95,7 +95,7 @@ BX_CPU_C::LOOPNE_Jb(BxInstruction_t *i)
         exception(BX_GP_EXCEPTION, 0, 0);
         }
       }
-    BX_CPU_THIS_PTR eip = new_EIP;
+    EIP = new_EIP;
     BX_INSTR_CNEAR_BRANCH_TAKEN(new_EIP);
     revalidate_prefetch_q();
     }
@@ -135,7 +135,7 @@ BX_CPU_C::LOOPE_Jb(BxInstruction_t *i)
         exception(BX_GP_EXCEPTION, 0, 0);
         }
       }
-    BX_CPU_THIS_PTR eip = new_EIP;
+    EIP = new_EIP;
     BX_INSTR_CNEAR_BRANCH_TAKEN(new_EIP);
     revalidate_prefetch_q();
     }
@@ -175,7 +175,7 @@ BX_CPU_C::LOOP_Jb(BxInstruction_t *i)
         exception(BX_GP_EXCEPTION, 0, 0);
         }
       }
-    BX_CPU_THIS_PTR eip = new_EIP;
+    EIP = new_EIP;
     BX_INSTR_CNEAR_BRANCH_TAKEN(new_EIP);
     revalidate_prefetch_q();
     }

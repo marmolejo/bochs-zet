@@ -424,11 +424,7 @@ extern logfunc_t *genlog;
 
 
 #if BX_PROVIDE_CPU_MEMORY==1
-#  if BX_SUPPORT_X86_64
-#    include "cpu64/cpu.h"
-#  else
-#    include "cpu/cpu.h"
-#  endif
+#  include "cpu/cpu.h"
 #endif
 
 #if BX_DISASM

@@ -146,7 +146,7 @@ BX_CPU_C::stack_return_from_v86(BxInstruction_t *i)
     pop_32(&eflags_tmp);
 
     load_seg_reg(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS], (Bit16u) ecs_raw);
-    BX_CPU_THIS_PTR eip = eip;
+    EIP = eip;
     write_eflags(eflags_tmp, /*IOPL*/ 0, /*IF*/ 1, /*VM*/ 0, /*RF*/ 1);
     }
   else {
@@ -163,7 +163,7 @@ BX_CPU_C::stack_return_from_v86(BxInstruction_t *i)
     pop_16(&flags);
 
     load_seg_reg(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS], cs_raw);
-    BX_CPU_THIS_PTR eip = (Bit32u) ip;
+    EIP = (Bit32u) ip;
     write_flags(flags, /*IOPL*/ 0, /*IF*/ 1);
     }
 }

@@ -41,14 +41,14 @@ BX_CPU_C::XCHG_ERXEAX(BxInstruction_t *i)
   Bit32u temp32;
 
   temp32 = EAX;
-  EAX = BX_CPU_THIS_PTR gen_reg[i->b1 & 0x07].erx;
-  BX_CPU_THIS_PTR gen_reg[i->b1 & 0x07].erx = temp32;
+  EAX = BX_CPU_THIS_PTR gen_reg[i->b1 & 0x07].dword.erx;
+  BX_CPU_THIS_PTR gen_reg[i->b1 & 0x07].dword.erx = temp32;
 }
 
   void
 BX_CPU_C::MOV_ERXId(BxInstruction_t *i)
 {
-  BX_CPU_THIS_PTR gen_reg[i->b1 & 0x07].erx = i->Id;
+  BX_CPU_THIS_PTR gen_reg[i->b1 & 0x07].dword.erx = i->Id;
 }
 
   void
