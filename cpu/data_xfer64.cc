@@ -392,7 +392,7 @@ BX_CPU_C::MOVSX_GqEd(bxInstruction_c *i)
     }
 
     /* sign extend word op2 into qword op1 */
-    BX_WRITE_64BIT_REG(i->nnn(), (Bit16s) op2_32);
+    BX_WRITE_64BIT_REG(i->nnn(), (Bit32s) op2_32);
 #endif /* BX_CPU_LEVEL < 3 */
 }
 
