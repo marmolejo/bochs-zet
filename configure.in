@@ -631,6 +631,22 @@ AC_ARG_ENABLE(host-specific-asms,
     ]
   )
 
+AC_MSG_CHECKING(whether to ignore bad MSR references)
+AC_ARG_ENABLE(ignore-bad-msr,
+  [  --enable-ignore-bad-msr           ignore bad MSR references ],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_IGNORE_BAD_MSR, 1)
+   else
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_IGNORE_BAD_MSR, 0)
+   fi],
+  [
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_IGNORE_BAD_MSR, 0)
+    ]
+  )
+
 AC_MSG_CHECKING(for port e9 hack)
 AC_ARG_ENABLE(port-e9-hack,
   [  --enable-port-e9-hack             writes to port e9 go to console],
