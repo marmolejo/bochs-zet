@@ -1872,7 +1872,7 @@ bx_dbg_continue_command(void)
       // set stop flag if a guard found other than icount or halted
       unsigned long found = BX_CPU(cpu)->guard_found.guard_found;
       stop_reason_t reason = (stop_reason_t) BX_CPU(cpu)->stop_reason;
-      if (found & BX_DBG_GUARD_ICOUNT) {
+      if (found == BX_DBG_GUARD_ICOUNT) {
         // I expected this guard, don't stop
       } else if (found!=0) {
         stop = 1;

@@ -514,6 +514,24 @@ logfunctions::ask (int level, const char *prefix, const char *fmt, va_list ap)
       // instruction, it should notice the user interrupt and return to
       // the debugger.
       bx_guard.interrupt_requested = 1;
+
+      // actually, if this is a panic, it's very likely the caller will
+      // not be able to cope gracefully if we return and try to keep
+      // executing.  so longjmp back to the cpu loop immediately.
+      if (level == LOGLEV_PANIC) {
+      BX_CPU_THIS_PTR stop_reason = STOP_CPU_PANIC;
+        bx_guard.special_unwind_stack = 1;
+        in_ask_already = 0;
+        longjmp(BX_CPU_THIS_PTR jmp_buf_env, 1); // go back to main decode loop
+      }
+      break;
+#endif
+#if BX_GDBSTUB
+    case BX_LOG_ASK_CHOICE_ENTER_DEBUG:
+      // user chose debugger (we're using gdb)
+      in_ask_already = 0;
+      BX_CPU_THIS_PTR ispanic = 1;
+      longjmp(BX_CPU_THIS_PTR jmp_buf_env, 1); // go back to main decode loop
       break;
 #endif
     default:

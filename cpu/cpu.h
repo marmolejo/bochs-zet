@@ -1380,6 +1380,10 @@ union {
   bx_guard_found_t guard_found;
 #endif
 
+#if BX_GDBSTUB
+  Bit8u ispanic;
+#endif
+
 #if BX_SUPPORT_X86_64
 #define TLB_GENERATION_MAX (BX_TLB_SIZE-1)
 #endif

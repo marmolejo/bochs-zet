@@ -623,7 +623,7 @@ int bx_write_rc (char *rc)
 }
 
 char *log_action_ask_choices[] = { "cont", "alwayscont", "die", "abort", "debug" };
-int log_action_n_choices = 4 + (BX_DEBUGGER?1:0);
+int log_action_n_choices = 4 + (BX_DEBUGGER||BX_GDBSTUB?1:0);
 
 BxEvent *
 config_interface_notify_callback (void *unused, BxEvent *event)
@@ -680,6 +680,10 @@ config_interface_notify_callback (void *unused, BxEvent *event)
 #if BX_DEBUGGER
       fprintf (stderr, "  debug      - continue and return to bochs debugger\n");
 #endif
+#if BX_GDBSTUB
+      fprintf (stderr, "  debug      - hand control to gdb\n");
+#endif
+
       int choice;
 ask:
       if (ask_menu ("Choose one of the actions above: [%s] ", 

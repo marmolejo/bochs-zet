@@ -127,6 +127,11 @@ BX_CPU_C::cpu_loop(Bit32s max_instr_count)
     // only from exception function can we get here ...
     BX_INSTR_NEW_INSTRUCTION(BX_CPU_ID);
   }
+#elif BX_GDBSTUB
+  if (setjmp( BX_CPU_THIS_PTR jmp_buf_env ))
+  {
+    return;
+  }
 #else
   (void) setjmp( BX_CPU_THIS_PTR jmp_buf_env );
 #endif
@@ -136,6 +141,7 @@ BX_CPU_C::cpu_loop(Bit32s max_instr_count)
   // the debugger may request that control is returned to it so that
   // the situation may be examined.
   if (bx_guard.special_unwind_stack) {
+printf("CPU_LOOP %d\n", bx_guard.special_unwind_stack);
     return;
     }
 #endif
