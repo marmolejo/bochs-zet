@@ -869,11 +869,11 @@ static void rem_kernel(u64 st0, u64 *y, u64 st1, u64 q, int n)
 
   work = st1 >> 32;
   work *= (u32)q;
-  x -= work;
+  x -= work << 32;
 
   work = (u32)st1;
   work *= q >> 32;
-  x -= work;
+  x -= work << 32;
   
 #else
   int dummy;
