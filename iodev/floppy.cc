@@ -1084,6 +1084,9 @@ bx_floppy_ctrl_c::timer()
       raise_interrupt();
       BX_FD_THIS s.reset_sensei = 4;
       break;
+    
+    case 0x00: // nothing pending?
+      break;
 
     default:
       BX_PANIC(("floppy:timer(): unknown case %02x",
