@@ -204,7 +204,6 @@ bx_unmapped_c::write(Bit32u address, Bit32u value, unsigned io_len)
 
 // ???
 
-
   if (address >= 0x02e0 && address <= 0x02ef)
 	goto return_from_write;
 
@@ -233,6 +232,7 @@ bx_unmapped_c::write(Bit32u address, Bit32u value, unsigned io_len)
       fflush(stdout);
       break;
 #endif
+
     case 0xed: // Dummy port used as I/O delay
 	  break;
     case 0xee: // ???
@@ -264,6 +264,11 @@ bx_unmapped_c::write(Bit32u address, Bit32u value, unsigned io_len)
         case 'o': if (BX_UM_THIS s.shutdown == 5) BX_UM_THIS s.shutdown = 6; break;
         case 'w': if (BX_UM_THIS s.shutdown == 6) BX_UM_THIS s.shutdown = 7; break;
         case 'n': if (BX_UM_THIS s.shutdown == 7) BX_UM_THIS s.shutdown = 8; break;
+#if BX_DEBUGGER 
+        // Very handy for debugging:
+	// output 'D' to port 8900, and bochs quits to debugger
+        case 'D': bx_debug_break (); break;
+#endif
 	default :  BX_UM_THIS s.shutdown = 0; break;
         }
       if (BX_UM_THIS s.shutdown == 8) {
