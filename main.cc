@@ -1629,7 +1629,7 @@ void RedirectIOToConsole ()
   GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),
   &coninfo);
   coninfo.dwSize.Y = MAX_CONSOLE_LINES;
-  SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), coninfo.dwSize);
+//  SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), coninfo.dwSize);
   // redirect unbuffered STDOUT to the console
   lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
   hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
