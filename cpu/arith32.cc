@@ -436,8 +436,7 @@ BX_CPU_C::CMP_EAXId(bxInstruction_c *i)
 BX_CPU_C::CWDE(bxInstruction_c *i)
 {
   /* CBW: no flags are effected */
-  Bit32u temp = (Bit16s) AX;
-  RAX = temp;
+  RAX = (Bit16s) AX;
 }
 
   void
