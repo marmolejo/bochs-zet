@@ -2540,6 +2540,7 @@ union {
   BX_SMF void write_flags(Bit16u flags, Boolean change_IOPL, Boolean change_IF);
   BX_SMF void write_eflags(Bit32u eflags, Boolean change_IOPL, Boolean change_IF,
                     Boolean change_VM, Boolean change_RF);
+  BX_SMF void writeEFlags(Bit32u eflags, Bit32u changeMask); // Newer variant.
   BX_SMF Bit16u read_flags(void);
   BX_SMF Bit32u read_eflags(void);
   BX_SMF Bit32u get_segment_base(unsigned seg);
