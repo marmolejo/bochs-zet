@@ -52,7 +52,7 @@ BX_CPU_C::MUL_ALEb(bxInstruction_c *i)
   Bit8u product_8h =  product_16 >> 8;
 
   /* set EFLAGS */
-  SET_FLAGS_OSZAPC_S1S2_8(product_8l, product_8h, BX_INSTR_MUL8);
+  SET_FLAGS_OSZAPC_S1S2_8(product_8l, product_8h, BX_INSTR_MUL_AL);
 
   /* now write product back to destination */
   AX = product_16;
@@ -76,21 +76,17 @@ BX_CPU_C::IMUL_ALEb(bxInstruction_c *i)
 
   Bit16s product_16 = op1 * op2;
 
-  /* now write product back to destination */
-  AX = product_16;
+  Bit8u product_8l = (product_16 & 0xFF);
+  Bit8u product_8h =  product_16 >> 8;
 
   /* set EFLAGS:
-   * IMUL affects the following flags: C,O
    * IMUL r/m8: condition for clearing CF & OF:
    *   AL = sign-extend of AL to 16 bits
    */
-  Bit16u upper_bits = AX & 0xff80;
-  if (upper_bits==0xff80  ||  upper_bits==0x0000) {
-    SET_FLAGS_OxxxxC(0, 0);
-    }
-  else {
-    SET_FLAGS_OxxxxC(1, 1);
-    }
+  SET_FLAGS_OSZAPC_S1S2_8(product_8l, product_8h, BX_INSTR_IMUL_AL);
+
+  /* now write product back to destination */
+  AX = product_16;
 }
 
   void

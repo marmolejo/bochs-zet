@@ -3357,7 +3357,6 @@ typedef enum _show_flags {
     BX_CPU_THIS_PTR eflags.val32 &= ~((1<<11) | (1<<0)); \
     BX_CPU_THIS_PTR eflags.val32 |= ((!!new_of)<<11) | ((!!new_cf)<<0); \
     BX_CPU_THIS_PTR lf_flags_status &= 0x0ffff0; \
-    /* could also mark other bits undefined here ? */ \
     }
 
 #endif  // #ifndef BX_CPU_H
