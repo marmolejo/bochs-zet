@@ -308,4 +308,8 @@ int main()
   printf ("\nThe following line should appear in your bochsrc:\n");
   printf ("  %s\n", bochsrc_line);
   myexit(0);
+
+  // make picky compilers (c++, gcc) happy,
+  // even though we leave via 'myexit' just above 
+  return 0;
 }
