@@ -340,7 +340,7 @@ process_sim2:
 
 
   if (bx_debug_rc_fname[0] == '\0') {
-    BX_INFO(("Warning: no rc file specified.", argv[0]));
+    BX_INFO(("Warning: no rc file specified."));
     }
   else {
     BX_INFO (("%s: using rc file '%s'.", argv[0], bx_debug_rc_fname));
@@ -2681,6 +2681,16 @@ bx_dbg_dump_cpu_command(void)
   dbg_printf ( "done\n");
 }
 
+  static void
+bx_print_char (Bit8u ch)
+{
+  if (ch < 10)
+    dbg_printf (" \\%d  ", ch);
+  else if (isprint(ch))
+    dbg_printf ("  %c  ", ch);
+  else
+    dbg_printf (" \\x%02X", ch);
+}
 
   void
 bx_dbg_examine_command(char *command, char *format, bx_bool format_passed,
@@ -2869,7 +2879,9 @@ bx_dbg_examine_command(char *command, char *format, bx_bool format_passed,
               if (biti==0) break;
               }
             break;
-	  case 'c': dbg_printf ( "  %c",data8); break;
+          case 'c': 
+            bx_print_char (data8);
+            break;
           }
         break;
 
@@ -2892,7 +2904,10 @@ bx_dbg_examine_command(char *command, char *format, bx_bool format_passed,
               if (biti==0) break;
               }
             break;
-	  case 'c': dbg_printf ( "  %c  %c",data16>>8,data16&0xff); break;
+	  case 'c': 
+            bx_print_char (data16>>8);
+            bx_print_char (data16 & 0xff);
+            break;
           }
         break;
 
@@ -2917,8 +2932,10 @@ bx_dbg_examine_command(char *command, char *format, bx_bool format_passed,
               }
             break;
 	  case 'c': 
-	    dbg_printf ( "  %c  %c",data32>>24,(data32>>16)&0xff); 
-	    dbg_printf ( "  %c  %c",(data32>>8)&0xff,data32&0xff); 
+            bx_print_char (0xff & (data32>>24));
+            bx_print_char (0xff & (data32>>16));
+            bx_print_char (0xff & (data32>> 8));
+            bx_print_char (0xff & (data32>> 0));
 	    break;
           }
         break;
