@@ -387,6 +387,13 @@ cdrom_interface::read_toc(uint8* buf, int* length, bool msf, int start_track)
     BX_PANIC(("cdrom: read_toc: file not open."));
     }
 
+  if (using_file) {
+    BX_ERROR (("WARNING: read_toc on a file is not implemented, just returning length=1"));
+    *length = 1;
+    return true;
+  }
+  // all these implementations below are the platform-dependent code required
+  // to read the TOC from a physical cdrom.
 #ifdef WIN32
   {
 /*     #define IOCTL_CDROM_BASE                 FILE_DEVICE_CD_ROM
@@ -398,11 +405,7 @@ cdrom_interface::read_toc(uint8* buf, int* length, bool msf, int start_track)
     return true;
   }
 #elif __linux__ || defined(__sun)
-  if (using_file) {
-    BX_ERROR (("WARNING: read_toc is not implemented, just returning length=1"));
-    *length = 1;
-    return true;
-  } else {
+  {
   struct cdrom_tochdr tochdr;
   if (ioctl(fd, CDROMREADTOCHDR, &tochdr))
     BX_PANIC(("cdrom: read_toc: READTOCHDR failed."));
