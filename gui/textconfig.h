@@ -21,6 +21,22 @@ enum {
   BX_CI_N_MENUS
 };
 
+enum {
+  BX_CI_RT_FLOPPYA = 1,
+  BX_CI_RT_FLOPPYB,
+  BX_CI_RT_CDROM1,
+  BX_CI_RT_CDROM2,
+  BX_CI_RT_CDROM3,
+  BX_CI_RT_CDROM4,
+  BX_CI_RT_IPS,
+  BX_CI_RT_LOGOPTS1,
+  BX_CI_RT_LOGOPTS2,
+  BX_CI_RT_INST_TR,
+  BX_CI_RT_MISC,
+  BX_CI_RT_CONT,
+  BX_CI_RT_QUIT
+};
+
 int init_text_config_interface ();
 
 #endif
