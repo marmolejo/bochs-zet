@@ -2056,6 +2056,9 @@ bx_init_hardware()
   alarm( 1 );
 #endif
 
+  // update headerbar buttons since drive status can change during init
+  bx_gui->update_drive_status_buttons ();
+
   return(0);
 }
 
