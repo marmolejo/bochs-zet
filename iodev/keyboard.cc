@@ -179,6 +179,8 @@ bx_keyb_c::init(bx_devices_c *d, bx_cmos_c *cmos)
   BX_KEY_THIS pastebuf = NULL;
   BX_KEY_THIS pastebuf_len = 0;
   BX_KEY_THIS pastebuf_ptr = 0;
+  BX_KEY_THIS pastedelay = bx_options.Okeyboard_paste_delay->get()/TIMER_DELTA;
+  BX_INFO(("will paste characters every %d keyboard ticks",BX_KEY_THIS pastedelay));
 
   // mouse port installed on system board
   cmos->s.reg[0x14] |= 0x04;
@@ -1071,6 +1073,7 @@ bx_keyb_c::kbd_ctrl_to_kbd(Bit8u   value)
 bx_keyb_c::periodic( Bit32u   usec_delta )
 {
   static int multiple=0;
+  static int count_before_paste=0;
   Bit8u   retval;
 
   UNUSED( usec_delta );
@@ -1080,6 +1083,15 @@ bx_keyb_c::periodic( Bit32u   usec_delta )
     multiple=0;
     bx_gui.handle_events();
   }
+
+  if (BX_KEY_THIS s.kbd_controller.kbd_clock_enabled ) {
+  // if queue is empty, add more data from the paste buffer, if it exists.
+    if(++count_before_paste>=BX_KEY_THIS pastedelay) {
+      BX_KEY_THIS service_paste_buf ();
+      count_before_paste=0;
+    }
+  }
+
   retval = BX_KEY_THIS s.kbd_controller.irq1_requested | (BX_KEY_THIS s.kbd_controller.irq12_requested << 1);
   BX_KEY_THIS s.kbd_controller.irq1_requested = 0;
   BX_KEY_THIS s.kbd_controller.irq12_requested = 0;
@@ -1140,10 +1152,6 @@ bx_keyb_c::periodic( Bit32u   usec_delta )
     else {
       BX_DEBUG(("service_keyboard(): no keys waiting"));
     }
-  }
-  if (BX_KEY_THIS s.kbd_internal_buffer.num_elements == 0 ) {
-    // if queue is empty, add more data from the paste buffer, if it exists.
-    BX_KEY_THIS service_paste_buf ();
   }
   return(retval);
 }

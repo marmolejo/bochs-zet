@@ -36,9 +36,6 @@
  */
 #define BASE_MEMORY_IN_K  640
 
-// call periodic timers every N useconds
-#define TIMER_DELTA 100
-//#define TIMER_DELTA 10
 
 bx_devices_c bx_devices;
 
