@@ -855,6 +855,7 @@ public: // for now...
   Bit32u max_phy_addr;
 
 #if BX_DEBUGGER
+  Bit32u watchpoint;
   Bit8u break_point;
 #ifdef MAGIC_BREAKPOINT
   Bit8u magic_break;
