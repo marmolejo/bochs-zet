@@ -39,7 +39,7 @@
 #  include <Disks.h>
 #endif
 
-#ifdef BX_WITH_X11
+#if BX_WITH_X11
 #include <X11/Xlib.h>
 #endif
 
