@@ -49,8 +49,11 @@
 
 #define status_word() \
   ((partial_status & ~SW_Top & 0xffff) | ((top << SW_Top_Shift) & SW_Top))
-// bbd: use do {...} while (0) structure instead of using curly brackets
-// inside parens, which most compilers do not like.
+
+/*
+ * bbd: use do {...} while (0) structure instead of using curly brackets
+ * inside parens, which most compilers do not like.
+ */
 #define setcc(cc) do { \
   partial_status &= ~(SW_C0|SW_C1|SW_C2|SW_C3); \
   partial_status |= (cc) & (SW_C0|SW_C1|SW_C2|SW_C3); } while(0)
