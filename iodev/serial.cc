@@ -797,7 +797,7 @@ bx_serial_c::rx_timer(void)
         }
       }
     } else {
-      bdrate = (int) (1000000.0 / 100); // Poll frequency is 100ms
+      bdrate = (int) (1000000.0 / 100000); // Poll frequency is 100ms
     }
   } else {
     // Poll at 4x baud rate to see if the next-char can
