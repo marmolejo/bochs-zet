@@ -190,7 +190,7 @@ bx_real_sim_c::get_default_rc (char *path, int len)
 int 
 bx_real_sim_c::read_rc (char *rc)
 {
-  return bx_read_configuration (rc, 0, NULL);
+  return bx_read_configuration (rc);
 }
 
 // return values:
