@@ -373,6 +373,8 @@ MyPanel::fillBxKeyEvent_GTK (wxKeyEvent& wxev, BxKeyEvent& bxev, Boolean release
         bx_key = BX_KEY_KP_LEFT; break;
 
       case GDK_KP_5:
+      /* I get 0xFF9D (GDK_KP_Begin?) on my keyboard. -bbd */
+      case GDK_KP_Begin: 
         bx_key = BX_KEY_KP_5; break;
 
       case GDK_KP_6:
