@@ -15,7 +15,7 @@
 #include "fpu_emu.h"
 
 
-int  __attribute__((regparm(2)))
+int  BX_CPP_AttrRegparmN(2)
 FPU_to_exp16(FPU_REG const *a, FPU_REG *x)
 {
   int sign = getsign(a);
