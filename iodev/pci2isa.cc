@@ -361,6 +361,8 @@ bx_pci2isa_c::pci_write(Bit8u address, Bit32u value, unsigned io_len)
 
   Bit8u value8;
 
+  if ((address >= 0x10) && (address < 0x34))
+    return;
   if (io_len <= 4) {
     for (unsigned i=0; i<io_len; i++) {
       value8 = (value >> (i*8)) & 0xFF;
