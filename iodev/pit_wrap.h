@@ -81,6 +81,7 @@ private:
     Bit64u max_ticks;
     Bit64u stored_delta;
     Bit64u total_usec;
+    Bit64u use_realtime;
     } s;
 
   static void timer_handler(void *this_ptr);
