@@ -135,6 +135,7 @@ bool MyApp::OnInit()
 //////////////////////////////////////////////////////////////////////
 
 BEGIN_EVENT_TABLE(MyFrame, wxFrame)
+  EVT_MENU(ID_Config_New, MyFrame::OnConfigNew)
   EVT_MENU(ID_Config_Read, MyFrame::OnConfigRead)
   EVT_MENU(ID_Config_Save, MyFrame::OnConfigSave)
   EVT_MENU(ID_Quit, MyFrame::OnQuit)
@@ -308,6 +309,13 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size, 
   SetSizer (sz);
 
   thePanel = panel;
+}
+
+void MyFrame::OnConfigNew(wxCommandEvent& WXUNUSED(event))
+{
+  int answer = wxMessageBox ("This will reset all settings back to their default values.\nAre you sure you want to do this?",
+    "Are you sure?", wxYES_NO | wxCENTER);
+  if (answer == wxYES) SIM->reset_all_param ();
 }
 
 void MyFrame::OnConfigRead(wxCommandEvent& WXUNUSED(event))

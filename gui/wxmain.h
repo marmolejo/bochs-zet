@@ -121,6 +121,7 @@ public:
   MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size, const long style);
   enum StatusChange { Start, Stop, Pause, Resume };
   void simStatusChanged (StatusChange change, Boolean popupNotify=false);
+  void OnConfigNew(wxCommandEvent& event);
   void OnConfigRead(wxCommandEvent& event);
   void OnConfigSave(wxCommandEvent& event);
   void OnQuit(wxCommandEvent& event);
