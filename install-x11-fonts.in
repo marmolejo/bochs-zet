@@ -92,7 +92,7 @@ for f in $FONTS; do
     if test ! $? = 0; then
       echo ERROR: Copy failed; die
     fi
-    echo Compressing the font with gzip.
+    echo Compressing the font with gzip...
     gzip $fontpath/misc/$f
     if test ! $? = 0; then
       echo ERROR: Failed to gzip the font.; die
@@ -100,7 +100,7 @@ for f in $FONTS; do
   else
     echo "ok    (it was already there)"
   fi
-  chmod a+r $fontpath/misc/$f
+  chmod a+r $fontpath/misc/$f.gz
 done
 
 echo Running mkfontdir...
