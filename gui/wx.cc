@@ -50,7 +50,7 @@
 #include <wx/image.h>
 #include <wx/clipbrd.h>
 
-#include "gui/icon_bochs.h"
+//#include "gui/icon_bochs.h"
 #include "osdep.h"
 #include "font/vga.bitmap.h"
 

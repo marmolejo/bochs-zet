@@ -75,6 +75,9 @@
 #include "bitmaps/mouse.xpm"
 //#include "bitmaps/configbutton.xpm"
 #include "bitmaps/userbutton.xpm"
+#ifdef __WXGTK__
+#include "icon_bochs.xpm"
+#endif
 
 // FIXME: ugly global variables that the bx_gui_c object in wx.cc can use
 // to access the MyFrame and the MyPanel.
@@ -400,6 +403,8 @@ END_EVENT_TABLE()
 MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size, const long style)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size, style)
 {
+  SetIcon(wxICON(icon_bochs));
+
   // init variables
   sim_thread = NULL;
   start_bochs_times = 0;
