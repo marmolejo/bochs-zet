@@ -1855,7 +1855,6 @@ union {
 
   BX_SMF void FWAIT(bxInstruction_c *);
 
-#ifdef BX_SUPPORT_FPU
 #undef FSCALE
   BX_SMF void FLD_STi(bxInstruction_c *);  
   BX_SMF void FLD_SINGLE_REAL(bxInstruction_c *);
@@ -2015,7 +2014,6 @@ union {
   BX_SMF void FNCLEX(bxInstruction_c *);
   BX_SMF void FNINIT(bxInstruction_c *);
   BX_SMF void FFREE_STi(bxInstruction_c *);
-#endif
 
   /* MMX */
   BX_SMF void PUNPCKLBW_PqQd(bxInstruction_c *i);
