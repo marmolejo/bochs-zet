@@ -43,7 +43,7 @@ bx_extfpuirq_c *theExternalFpuIrq = NULL;
 libextfpuirq_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   theExternalFpuIrq = new bx_extfpuirq_c ();
-  bx_devices.pluginPci2IsaBridge = theExternalFpuIrq;
+  bx_devices.pluginExtFpuIrq = theExternalFpuIrq;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, theExternalFpuIrq, BX_PLUGIN_EXTFPUIRQ);
   return(0); // Success
 }
