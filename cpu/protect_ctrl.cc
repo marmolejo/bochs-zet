@@ -508,6 +508,7 @@ BX_CPU_C::LTR_Ew(bxInstruction_c *i)
       access_linear(BX_CPU_THIS_PTR gdtr.base + selector.index*8 + 8, 4, 0,
         BX_READ, &dword3);
       descriptor.u.tss386.base |= ((Bit64u)dword3 << 32);
+      BX_INFO(("64 bit tss base = %08x%08x\n",(Bit32u)(descriptor.u.tss386.base >> 32),(Bit32u)descriptor.u.tss386.base));
       }
 #endif
 
