@@ -646,9 +646,8 @@ BX_CPU_C::NEG_Ew(bxInstruction_c *i)
     Write_RMW_virtual_word(diff_16);
     }
 
-  SET_FLAGS_OSZAPC_16(op1_16, 0, diff_16, BX_INSTR_NEG16);
+  SET_FLAGS_OSZAPC_S1_16(op1_16, diff_16, BX_INSTR_NEG16);
 }
-
 
   void
 BX_CPU_C::INC_Ew(bxInstruction_c *i)

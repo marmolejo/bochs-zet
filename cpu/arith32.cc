@@ -660,7 +660,7 @@ BX_CPU_C::NEG_Ed(bxInstruction_c *i)
     Write_RMW_virtual_dword(diff_32);
     }
 
-  SET_FLAGS_OSZAPC_32(op1_32, 0, diff_32, BX_INSTR_NEG32);
+  SET_FLAGS_OSZAPC_S1_32(op1_32, diff_32, BX_INSTR_NEG32);
 }
 
 

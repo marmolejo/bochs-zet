@@ -631,7 +631,7 @@ BX_CPU_C::NEG_Eq(bxInstruction_c *i)
       Write_RMW_virtual_qword(diff_64);
       }
 
-    SET_FLAGS_OSZAPC_64(op1_64, 0, diff_64, BX_INSTR_NEG64);
+    SET_FLAGS_OSZAPC_S1_64(op1_64, diff_64, BX_INSTR_NEG64);
 }
 
   void
