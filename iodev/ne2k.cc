@@ -1274,10 +1274,6 @@ bx_ne2k_c::init(void)
 {
   BX_DEBUG(("Init $Id$"));
 
-
-  // Bring the register state into power-up state
-  theNE2kDevice->reset(BX_RESET_HARDWARE);
-
   // Read in values from config file
   BX_NE2K_THIS s.base_address = bx_options.ne2k.Oioaddr->get ();
   BX_NE2K_THIS s.base_irq     = bx_options.ne2k.Oirq->get ();
@@ -1345,6 +1341,9 @@ bx_ne2k_c::init(void)
     if (BX_NE2K_THIS ethdev == NULL)
       BX_PANIC(("could not locate null module"));
   }
+
+  // Bring the register state into power-up state
+  theNE2kDevice->reset(BX_RESET_HARDWARE);
 }
 
 #if BX_DEBUGGER
