@@ -8,7 +8,6 @@
  |                       W. Metzenthen, 22 Parker St, Ormond, Vic 3163,      |
  |                       Australia.  E-mail billm@melbpc.org.au              |
  |                                                                           |
- |                                                                           |
  +---------------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------------+
@@ -22,7 +21,6 @@
  | prevent overflow.                                                         |
  |                                                                           |
  |  .aaaaaaaaaaaaaa / .bbbbbbbbbbbbb  ->  .dddddddddddd                      |
- |                                                                           |
  |                                                                           |
  +---------------------------------------------------------------------------*/
 
@@ -178,6 +176,5 @@ void div_Xsig(const Xsig *aa, const Xsig *b, Xsig *dest)
   result.lsw -= a.lsw;
 
   /* Hey! we're done. */
-
   *dest = result;
 }
