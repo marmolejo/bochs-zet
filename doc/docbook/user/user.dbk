@@ -4535,7 +4535,7 @@ Make sure there is a /dev/net/tun device.
 </note>
 </para>
 <para>
-In the same way, to use masquerading, you need a kernel wth the following options :
+In the same way, to use masquerading, you need a kernel with the following options :
 <screen>
  CONFIG_IP_NF_CONNTRACK (Connection tracking)
  CONFIG_IP_NF_IPTABLES (IP tables support)
