@@ -222,7 +222,7 @@ bx_linux_pktmover_c::bx_linux_pktmover_c(const char *netif,
 
   this->rxh   = rxh;
   this->rxarg = rxarg;
-  BX_INFO(("eth_linux: enabled NE2K emulation on interface %s\n", netif));
+  BX_INFO(("eth_linux: enabled NE2K emulation on interface %s", netif));
 }
 
 // the output routine - called with pre-formatted ethernet frame.
