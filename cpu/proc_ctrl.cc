@@ -1406,6 +1406,11 @@ void BX_CPU_C::SetCR4(Bit32u val_32)
   allowMask |= (1<<5);
 #endif
 
+#if BX_CPU_LEVEL >= 5
+  // NOTE: exception 18 never appears in Bochs
+  allowMask |= (1<<6);   /* MCE */
+#endif
+
 #if BX_CPU_LEVEL >= 6
   allowMask |= (1<<9);   /* OSFXSR */
 #endif
