@@ -1060,6 +1060,8 @@ public:
   bx_bool equals (const char *buf);
   bx_param_num_c *get_options () { return options; }
   void set_separator (char sep) {separator = sep; }
+  char get_separator () {return separator; }
+  int get_maxsize () {return maxsize; }
 #if BX_UI_TEXT
   virtual void text_print (FILE *fp);
   virtual int text_ask (FILE *fpin, FILE *fpout);
