@@ -129,6 +129,7 @@ bx_real_sim_c::register_param (bx_id id, bx_param_c *it)
   BX_ASSERT (id >= BXP_NULL && id < BXP_THIS_IS_THE_LAST);
   int index = (int)id - BXP_NULL;
   this->param_registry[index] = it;
+  return 0;
 }
 
 int 
@@ -155,7 +156,7 @@ void
 bx_real_sim_c::set_log_action (int mod, int level, int action)
 {
   logfunc_t *logfn = io->get_logfn (mod);
-  return logfn->setonoff (level, action);
+  logfn->setonoff (level, action);
 }
 
 char *

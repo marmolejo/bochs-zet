@@ -143,7 +143,7 @@ public:
   int getint () {return -1;}
 #if BX_UI_TEXT
   virtual void text_print (FILE *fp) {}
-  virtual int text_ask (FILE *fpin, FILE *fpout) {}
+  virtual int text_ask (FILE *fpin, FILE *fpout) {return -1;}
 #endif
 };
 
