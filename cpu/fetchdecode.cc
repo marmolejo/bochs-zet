@@ -989,7 +989,7 @@ static BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
   /* 0F FE */  { BxAnother | BxPrefixSSE, NULL, BxOpcodeGroupSSE_0ffe }, 
   /* 0F FF */  { 0, &BX_CPU_C::BxError },
 
-  // 512 entries for 32bit mod
+  // 512 entries for 32bit mode
   /* 00 */  { BxAnother | BxLockable, &BX_CPU_C::ADD_EbGb },
   /* 01 */  { BxAnother | BxLockable, &BX_CPU_C::ADD_EdGd },
   /* 02 */  { BxAnother, &BX_CPU_C::ADD_GbEb },
