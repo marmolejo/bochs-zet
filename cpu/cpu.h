@@ -1561,7 +1561,7 @@ union {
 #endif
 
 #if BX_EXTERNAL_DEBUGGER
-  void ask (int level, const char *prefix, const char *fmt, va_list ap);
+  virtual void ask (int level, const char *prefix, const char *fmt, va_list ap);
 #endif
 
 #define ArithmeticalFlag(flag, lfMaskShift, eflagsBitShift) \
