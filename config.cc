@@ -1150,8 +1150,8 @@ void bx_init_options ()
       "Mouse type", 
       "The mouse type can be one of these: 'none', 'ps2', 'imps2', 'serial', 'serial_wheel'", 
       mouse_type_list,
-      0,
-      0);
+      BX_MOUSE_TYPE_PS2,
+      BX_MOUSE_TYPE_NONE);
   bx_options.com[i].Omode->set_ask_format ("Choose the type of mouse [%s] ");
 
   bx_options.Oips = new bx_param_num_c (BXP_IPS, 

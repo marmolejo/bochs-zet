@@ -1224,8 +1224,8 @@ bx_keyb_c::kbd_ctrl_to_mouse(Bit8u   value)
 {
   // if we are not using a ps2 mouse, some of the following commands need to return different values
   bx_bool is_ps2 = 0;
-  if ((bx_options.Omouse_type->get() == MOUSE_TYPE_PS2) ||
-      (bx_options.Omouse_type->get() == MOUSE_TYPE_IMPS2)) is_ps2 = 1;
+  if ((bx_options.Omouse_type->get() == BX_MOUSE_TYPE_PS2) ||
+      (bx_options.Omouse_type->get() == BX_MOUSE_TYPE_IMPS2)) is_ps2 = 1;
 
   BX_DEBUG(("MOUSE: kbd_ctrl_to_mouse(%02xh)", (unsigned) value));
   BX_DEBUG(("  enable = %u", (unsigned) BX_KEY_THIS s.mouse.enable));
@@ -1248,7 +1248,7 @@ bx_keyb_c::kbd_ctrl_to_mouse(Bit8u   value)
         } else if ((value == 100) && (BX_KEY_THIS s.mouse.im_request == 1)) {
           BX_KEY_THIS s.mouse.im_request = 2;
         } else if ((value == 80) && (BX_KEY_THIS s.mouse.im_request == 2)) {
-          if (BX_KEY_THIS s.mouse.type == MOUSE_TYPE_IMPS2) {
+          if (BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_IMPS2) {
             BX_INFO(("wheel mouse mode enabled"));
             BX_KEY_THIS s.mouse.im_mode = 1;
           } else {
@@ -1538,8 +1538,8 @@ bx_keyb_c::mouse_motion(int delta_x, int delta_y, int delta_z, unsigned button_s
     return;
 
   // redirect mouse data to the serial device
-  if ((BX_KEY_THIS s.mouse.type == MOUSE_TYPE_SERIAL) ||
-      (BX_KEY_THIS s.mouse.type == MOUSE_TYPE_SERIAL_WHEEL)) {
+  if ((BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_SERIAL) ||
+      (BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_SERIAL_WHEEL)) {
     DEV_serial_mouse_enq(delta_x, delta_y, delta_z, button_state);
     return;
   }
