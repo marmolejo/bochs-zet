@@ -143,7 +143,6 @@ BX_CPU_C::ADD_EAXId(bxInstruction_c *i)
 
   op1_32 = EAX;
   op2_32 = i->Id();
-
   sum_32 = op1_32 + op2_32;
 
   RAX = sum_32;
@@ -277,6 +276,8 @@ BX_CPU_C::SBB_EAXId(bxInstruction_c *i)
 
   RAX = diff_32;
 
+  SET_FLAGS_OSZAPC_32(op1_32, op2_32, diff_32, 
+	       (temp_CF) ? BX_INSTR_SBB32 : BX_INSTR_SUB32);
 }
 
   void
