@@ -631,6 +631,10 @@ cdrom_interface::insert_cdrom(char *dev)
     hFile=CreateFile((char *)&drive, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_FLAG_RANDOM_ACCESS, NULL); 
     if (hFile !=(void *)0xFFFFFFFF)
       fd=1;
+    if (!using_file) {
+      DWORD lpBytesReturned;
+      DeviceIoControl(hFile, IOCTL_STORAGE_LOAD_MEDIA, NULL, 0, NULL, 0, &lpBytesReturned, NULL);
+    }
   }
 #elif defined(__APPLE__)
       if(strcmp(path, "drive") == 0)
