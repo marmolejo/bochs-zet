@@ -242,10 +242,9 @@ BX_CPU_C::pop_64(Bit64u *value64_ptr)
 BX_CPU_C::can_push(bx_descriptor_t *descriptor, Bit32u esp, Bit32u bytes)
 {
 #if BX_SUPPORT_X86_64
-#if KPL64Hacks
-  if ( BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64 )
-    return(1); // SS segment is ignore in long mode, to my knowlege. (KPL)
-#endif
+  if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64) {
+    return(1);
+    }
 #endif
 
   if ( real_mode() ) { /* code not needed ??? */
@@ -336,10 +335,9 @@ BX_CPU_C::can_pop(Bit32u bytes)
   Bit32u temp_ESP, expand_down_limit;
 
 #if BX_SUPPORT_X86_64
-#if KPL64Hacks
-  if ( BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64 )
-    return(1); // SS segment is ignore in long mode, to my knowlege. (KPL)
-#endif
+  if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64) {
+    return(1);
+    }
 #endif
 
   /* ??? */

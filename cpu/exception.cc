@@ -236,7 +236,7 @@ BX_CPU_THIS_PTR save_esp = ESP;
 
       // load new RSP values from TSS
 
-      load_ss_null(&ss_selector, &ss_descriptor, cs_descriptor.dpl);
+      load_ss(&ss_selector, &ss_descriptor, cs_descriptor.dpl);
 
       RSP = RSP_for_cpl_x;
 
