@@ -29,9 +29,6 @@
 #define _PCDMA_H
 
 
-#define BX_KBD_ELEMENTS 16
-#define BX_MOUSE_BUFF_SIZE 48
-
 
 #if BX_USE_DMA_SMF
 #  define BX_DMA_SMF  static
