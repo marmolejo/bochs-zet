@@ -276,7 +276,7 @@ static char *startup_menu_prompt =
 "press return three times to accept the default choices (shown in\n"
 "square brackets).\n"
 "\n"
-"You can also start bochs with the -nocp option to skip these menus.\n";
+"You can also start bochs with the -nocp option to skip these menus.\n"
 "\n"
 "1. Read options from...\n"
 "2. Edit options\n"
