@@ -226,6 +226,7 @@ BX_KEY_ALT_L                                  none       XK_Alt_L
 BX_KEY_ALT_L                                  none       XK_Meta_L
 BX_KEY_SPACE                                  space      XK_space
 BX_KEY_SPACE+BX_KEY_ALT_R                     none       XK_nobreakspace
+BX_KEY_ALT_R                                  none       XK_Alt_R
 BX_KEY_ALT_R                                  none       XK_Mode_switch
 BX_KEY_ALT_R                                  none       XK_Multi_key
 BX_KEY_WIN_R                                  none       XK_Super_R

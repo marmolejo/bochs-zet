@@ -124,6 +124,7 @@ BX_KEY_F11                                    none       XK_F11
 BX_KEY_F12                                    none       XK_F12
 BX_KEY_ALT_L                                  none       XK_Alt_L
 BX_KEY_ALT_L                                  none       XK_Meta_L
+BX_KEY_ALT_R                                  none       XK_Alt_R
 BX_KEY_ALT_R                                  none       XK_Mode_switch
 BX_KEY_ALT_R                                  none       XK_Multi_key
 BX_KEY_BACKSLASH                              none       XK_Ccedilla
