@@ -344,7 +344,7 @@ public:
 
 protected:
 	int n_logfn;
-#define MAX_LOGFNS 64
+#define MAX_LOGFNS 128
 	logfunc_t *logfn_list[MAX_LOGFNS];
 	char *logfn;
 
