@@ -6,8 +6,6 @@
 
 #if BX_USE_TEXTCONFIG && defined(WIN32)
 
-#ifdef WIN32
-
 extern "C" {
 #include <stdio.h>
 #include <windows.h>
