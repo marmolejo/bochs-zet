@@ -55,6 +55,11 @@ bx_ioapic_c::init ()
 }
 
 void 
+bx_ioapic_c::reset () 
+{
+}
+
+void 
 bx_ioapic_c::read_aligned(Bit32u address, Bit32u *data, unsigned len)
 {
   BX_DEBUG( ("I/O APIC read_aligned addr=%08x, len=%d", address, len));

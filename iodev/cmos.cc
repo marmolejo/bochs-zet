@@ -162,7 +162,7 @@ bx_cmos_c::init(bx_devices_c *d)
 }
 
 	void
-bx_cmos_c::reset(void)
+bx_cmos_c::reset(unsigned type)
 {
 	BX_CMOS_THIS s.cmos_mem_address = 0;
 

@@ -62,6 +62,7 @@ public:
   bx_parallel_c(void);
   ~bx_parallel_c(void);
   BX_PAR_SMF void   init(bx_devices_c *);
+  BX_PAR_SMF void   reset(unsigned type);
 
 private:
   bx_par_t s;

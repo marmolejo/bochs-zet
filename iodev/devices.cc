@@ -42,7 +42,7 @@ bx_devices_c bx_devices;
 
 
 
-  // constructor for bx_devices_c
+// constructor for bx_devices_c
 bx_devices_c::bx_devices_c(void)
 {
   put("DEV");
@@ -231,13 +231,41 @@ bx_devices_c::init(BX_MEM_C *newmem)
 
 
   void
-bx_devices_c::reset(void)
+bx_devices_c::reset(unsigned type)
 {
 #if BX_PCI_SUPPORT
-  pci->reset();
+  pci->reset(type);
 #endif
-  cmos->reset();
-  floppy->reset(BX_RESET_HARDWARE);
+#if BX_SUPPORT_IOAPIC
+  ioapic->reset (type);
+#endif
+  biosdev->reset(type);
+  cmos->reset(type);
+  dma->reset(type);
+  hard_drive->reset(type);
+  floppy->reset(type);
+#if BX_SUPPORT_SB16
+  sb16->reset(type);
+#endif
+#if BX_SUPPORT_VGA
+  vga->reset(type);
+#else
+  // reset hga hardware?
+#endif
+  pic->reset(type);
+  pit->reset(type);
+#if BX_USE_SLOWDOWN_TIMER
+  bx_slowdown_timer.reset(type);
+#endif
+  keyboard->reset(type);
+#if BX_IODEBUG_SUPPORT
+  iodebug->reset(type);
+#endif
+  parallel->reset(type);
+  serial->reset(type);
+#if BX_NE2K_SUPPORT
+  ne2k->reset(type);
+#endif
 }
 
 

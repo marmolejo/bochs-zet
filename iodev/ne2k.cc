@@ -52,12 +52,12 @@ bx_ne2k_c::~bx_ne2k_c(void)
 }
 
 //
-// reset_device - restore state to power-up, cancelling all i/o
+// reset - restore state to power-up, cancelling all i/o
 //
 void
-bx_ne2k_c::reset_device(void)
+bx_ne2k_c::reset(unsigned type)
 {
-  BX_DEBUG (("reset_device"));
+  BX_DEBUG (("reset"));
   // Zero out registers and memory
   memset( & BX_NE2K_THIS s.CR,  0, sizeof(BX_NE2K_THIS s.CR) );
   memset( & BX_NE2K_THIS s.ISR, 0, sizeof(BX_NE2K_THIS s.ISR));
@@ -318,7 +318,7 @@ bx_ne2k_c::asic_read(Bit32u offset, unsigned int io_len)
     break;
 
   case 0xf:  // Reset register
-    reset_device();
+    reset(BX_RESET_HARDWARE);
     break;
 
   default:
@@ -365,7 +365,7 @@ bx_ne2k_c::asic_write(Bit32u offset, Bit32u value, unsigned io_len)
     break;
 
   case 0xf:  // Reset register
-    reset_device();
+    reset(BX_RESET_HARDWARE);
     break;
 
   default: // this is invalid, but happens under win95 device detection
@@ -1251,7 +1251,7 @@ bx_ne2k_c::init(bx_devices_c *d)
 
   if (bx_options.ne2k.Ovalid->get ()) {
     // Bring the register state into power-up state
-    reset_device();
+    reset(BX_RESET_HARDWARE);
 
     // Read in values from config file
     BX_NE2K_THIS s.base_address = bx_options.ne2k.Oioaddr->get ();

@@ -32,8 +32,8 @@ bx_slowdown_timer_c::bx_slowdown_timer_c() {
   s.timer_handle=BX_NULL_TIMER_HANDLE;
 }
 
-int
-bx_slowdown_timer_c::init() {
+void
+bx_slowdown_timer_c::init(bx_devices_c *dev) {
   s.MAXmultiplier=MAXMULT;
   s.Q=Qval;
 
@@ -46,7 +46,11 @@ bx_slowdown_timer_c::init() {
   s.timer_handle=bx_pc_system.register_timer(this, timer_handler, 100 , 1, 1);
   bx_pc_system.deactivate_timer(s.timer_handle);
   bx_pc_system.activate_timer(s.timer_handle,(Bit32u)s.Q,0);
-  return 0;
+}
+
+void
+bx_slowdown_timer_c::reset(unsigned type)
+{
 }
 
 void

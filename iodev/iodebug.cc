@@ -61,7 +61,9 @@ int bx_iodebug_c::init( bx_devices_c *d )
   return(1);
 }
 
-
+int bx_iodebug_c::reset(unsigned type)
+{
+}
 
 
 Bit32u bx_iodebug_c::read_handler(void *this_ptr, Bit32u addr, unsigned io_len)

@@ -46,6 +46,7 @@ public:
   ~bx_dma_c(void);
 
   BX_DMA_SMF void     init(bx_devices_c *);
+  BX_DMA_SMF void     reset(unsigned type);
   BX_DMA_SMF void     raise_HLDA(void);
   BX_DMA_SMF void     set_DRQ(unsigned channel, Boolean val);
   BX_DMA_SMF unsigned get_TC(void);

@@ -356,6 +356,11 @@ bx_hard_drive_c::init(bx_devices_c *d, bx_cmos_c *cmos)
   }
 }
 
+  void
+bx_hard_drive_c::reset(unsigned type)
+{
+}
+
 
 #define GOTO_RETURN_VALUE  if(io_len==4){\
                              goto return_value32;\

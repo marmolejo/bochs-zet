@@ -268,6 +268,7 @@ public:
   ~bx_hard_drive_c(void);
   BX_HD_SMF void   close_harddrive(void);
   BX_HD_SMF void   init(bx_devices_c *d, bx_cmos_c *cmos);
+  BX_HD_SMF void   reset(unsigned type);
   BX_HD_SMF unsigned get_cd_media_status(void);
   BX_HD_SMF unsigned set_cd_media_status(unsigned status);
 

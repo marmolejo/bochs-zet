@@ -178,6 +178,9 @@ void pit_82C54::print_cnum(Bit8u cnum) {
     init();
   }
 
+  void pit_82C54::reset (unsigned type) {
+  }
+
 void pit_82C54::decrement_multiple(counter_type & thisctr, Bit32u cycles) {
   while(cycles>0) {
     if(cycles<=thisctr.count_binary) {

@@ -63,6 +63,10 @@ bx_g2h_c::init(bx_devices_c *d)
   memset(&bx_g2h.s, 0, sizeof(bx_g2h.s));
 }
 
+  void
+bx_g2h_c::reset(unsigned type)
+{
+}
 
   unsigned
 bx_g2h_c::aquire_channel(bx_g2h_callback_t f)

@@ -187,6 +187,11 @@ bx_keyb_c::init(bx_devices_c *d, bx_cmos_c *cmos)
 }
 
   void
+bx_keyb_c::reset(unsigned type)
+{
+}
+
+  void
 bx_keyb_c::paste_delay_changed()
 {
   BX_KEY_THIS pastedelay = bx_options.Okeyboard_paste_delay->get()/BX_IODEV_HANDLER_PERIOD;

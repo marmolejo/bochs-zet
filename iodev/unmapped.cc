@@ -62,6 +62,10 @@ bx_unmapped_c::init(bx_devices_c *d)
     }
 }
 
+  void
+bx_unmapped_c::reset(unsigned type)
+{
+}
 
   // static IO port read callback handler
   // redirects to non-static class handler to avoid virtual functions

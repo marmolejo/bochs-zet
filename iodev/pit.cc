@@ -223,10 +223,8 @@ bx_pit_c::init( bx_devices_c *d )
   return(1);
 }
 
-
-
-
-
+void bx_pit_c::reset(unsigned type) {
+}
 
   // static IO port read callback handler
   // redirects to non-static class handler to avoid virtual functions

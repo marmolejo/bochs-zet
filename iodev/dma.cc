@@ -185,6 +185,10 @@ bx_dma_c::init(bx_devices_c *d)
   BX_INFO(("channel 4 used by cascade"));
 }
 
+  void
+bx_dma_c::reset(unsigned type)
+{
+}
 
 
   // index to find channel from register number (only [0],[1],[2],[6] used)

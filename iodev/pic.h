@@ -72,6 +72,7 @@ public:
   bx_pic_c(void);
   ~bx_pic_c(void);
   BX_PIC_SMF void   init(bx_devices_c *);
+  BX_PIC_SMF void   reset(unsigned type);
   BX_PIC_SMF void   lower_irq(unsigned irq_no);
   BX_PIC_SMF void   raise_irq(unsigned irq_no);
   BX_PIC_SMF Bit8u  IAC(void);

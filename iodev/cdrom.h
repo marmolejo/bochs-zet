@@ -33,6 +33,7 @@ public:
   cdrom_interface(char *dev);
   ~cdrom_interface(void);
   void init(void);
+  void reset (unsigned type);
 
   // Load CD-ROM. Returns false if CD is not ready.
   bool insert_cdrom(char *dev = NULL);

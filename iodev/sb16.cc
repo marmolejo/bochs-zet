@@ -258,6 +258,10 @@ void bx_sb16_c::init(bx_devices_c *d)
   MPU.current_timer = 0;
 }
 
+void bx_sb16_c::reset(unsigned type)
+{
+}
+
   // the timer functions
 void bx_sb16_c::mpu_timer (void *this_ptr)
 {

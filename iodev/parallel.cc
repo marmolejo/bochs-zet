@@ -99,6 +99,11 @@ bx_parallel_c::init(bx_devices_c *d)
 }
 
   void
+bx_parallel_c::reset(unsigned type)
+{
+}
+
+  void
 bx_parallel_c::virtual_printer(void)
 {
   if (BX_PAR_THIS s.STATUS.slct) {

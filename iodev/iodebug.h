@@ -17,6 +17,7 @@ public:
   bx_iodebug_c( void );
   ~bx_iodebug_c( void );
   int init( bx_devices_c * );
+  void reset (unsigned type);
   static void mem_write( BX_CPU_C *cpu, Bit32u addr, unsigned len, void *data);
   static void mem_read( BX_CPU_C *cpu, Bit32u addr, unsigned len, void *data);
 

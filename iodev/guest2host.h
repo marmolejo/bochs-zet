@@ -47,6 +47,7 @@ public:
   bx_g2h_c(void);
   ~bx_g2h_c(void);
   static void   init(bx_devices_c *d);
+  void reset (unsigned type);
   unsigned aquire_channel(bx_g2h_callback_t);
   unsigned deaquire_channel(unsigned channel);
 

@@ -158,6 +158,10 @@ bx_pit_c::init( bx_devices_c *d )
   return(1);
 }
 
+  void
+bx_pit_c::reset(unsigned type)
+{
+}
 
 void
 bx_pit_c::timer_handler(void *this_ptr) {

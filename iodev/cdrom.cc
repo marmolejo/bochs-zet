@@ -223,6 +223,11 @@ cdrom_interface::~cdrom_interface(void)
 	BX_DEBUG(("Exit"));
 }
 
+void
+cdrom_interface::reset(unsigned type) {
+}
+
+
   bool
 cdrom_interface::insert_cdrom(char *dev)
 {

@@ -43,6 +43,7 @@ public:
   ~bx_biosdev_c(void);
 
   BX_BIOS_SMF void init(bx_devices_c *d);
+  BX_BIOS_SMF void reset (unsigned type);
 
 private:
 

@@ -68,6 +68,7 @@ public:
   bx_pit_c( void );
   ~bx_pit_c( void );
   BX_PIT_SMF int init( bx_devices_c *);
+  BX_PIT_SMF void reset( unsigned type);
   BX_PIT_SMF Boolean periodic( Bit32u   usec_delta );
 
   BX_PIT_SMF int SaveState( class state_file *fd );

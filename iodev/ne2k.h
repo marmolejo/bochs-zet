@@ -198,6 +198,7 @@ public:
   bx_ne2k_c(void);
   ~bx_ne2k_c(void);
   BX_NE2K_SMF void   init(bx_devices_c *);
+  BX_NE2K_SMF void   reset(unsigned type);
   void print_info (FILE *file, int page, int reg, int nodups);
 
 private:
@@ -207,7 +208,6 @@ private:
 
   eth_pktmover_c *ethdev;
 
-  BX_NE2K_SMF void   reset_device(void);
   BX_NE2K_SMF Bit32u read_cr(void);
   BX_NE2K_SMF void   write_cr(Bit32u value);
 

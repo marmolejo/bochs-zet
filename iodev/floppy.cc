@@ -234,7 +234,7 @@ bx_floppy_ctrl_c::init(bx_devices_c *d, bx_cmos_c *cmos)
 
 
   void
-bx_floppy_ctrl_c::reset(unsigned source)
+bx_floppy_ctrl_c::reset(unsigned type)
 {
   Bit32u i;
 
@@ -257,7 +257,7 @@ bx_floppy_ctrl_c::reset(unsigned source)
   BX_FD_THIS s.status_reg3 = 0;
 
   // software reset (via DOR port 0x3f2 bit 2) does not change DOR
-  if (source == BX_RESET_HARDWARE) {
+  if (type == BX_RESET_HARDWARE) {
     BX_FD_THIS s.DOR = 0x0c;
     // motor off, drive 3..0
     // DMA/INT enabled

@@ -195,6 +195,7 @@ public:
   bx_sb16_c(void);
   ~bx_sb16_c(void);
   BX_SB16_SMF void init(bx_devices_c *);
+  BX_SB16_SMF void reset(unsigned type);
 
       /* DMA input and output, 8 and 16 bit, have to be public */
   BX_SB16_SMF void   dma_write8(Bit8u *data_byte);

@@ -56,7 +56,7 @@ public:
   bx_pci_c(void);
   ~bx_pci_c(void);
   BX_PCI_SMF void   init(bx_devices_c *);
-  BX_PCI_SMF void   reset(void);
+  BX_PCI_SMF void   reset(unsigned type);
   Boolean register_pci_handlers(void *this_ptr, bx_pci_read_handler_t f1,
                                 bx_pci_write_handler_t f2, Bit8u devfunc,
                                 const char *name);

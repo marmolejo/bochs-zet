@@ -110,6 +110,7 @@ private:
 
 public:
   void init (void);
+  void reset (unsigned type);
   pit_82C54 (void);
 
   void clock_all(Bit32u cycles);

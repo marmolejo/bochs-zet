@@ -44,7 +44,7 @@ public:
 
   BX_CMOS_SMF void init(bx_devices_c *);
   BX_CMOS_SMF void checksum_cmos(void);
-  BX_CMOS_SMF void reset(void);
+  BX_CMOS_SMF void reset(unsigned type);
 
   struct {
     int     periodic_timer_index;

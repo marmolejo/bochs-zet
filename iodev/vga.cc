@@ -229,6 +229,10 @@ bx_vga_c::init(bx_devices_c *d, bx_cmos_c *cmos)
 #endif  
 }
 
+  void
+bx_vga_c::reset(unsigned type)
+{
+}
 
 
   void

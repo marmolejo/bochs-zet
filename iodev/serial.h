@@ -154,6 +154,7 @@ public:
   bx_serial_c(void);
   ~bx_serial_c(void);
   BX_SER_SMF void   init(bx_devices_c *);
+  BX_SER_SMF void   reset(unsigned type);
 #if USE_RAW_SERIAL
   serial_raw* raw;
 #endif // USE_RAW_SERIAL
