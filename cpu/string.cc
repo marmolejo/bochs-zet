@@ -38,13 +38,6 @@
 #endif
 
 
-#if BX_SUPPORT_X86_64
-#define IsLongMode() (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)
-#else
-#define IsLongMode() (0)
-#endif
-
-
 /* MOVSB ES:[EDI], DS:[ESI]   DS may be overridden
  *   mov string from DS:[ESI] into ES:[EDI]
  */

@@ -39,13 +39,6 @@
 #endif
 
 
-#if BX_SUPPORT_X86_64
-#define IsLongMode() (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)
-#else
-#define IsLongMode() (0)
-#endif
-
-
   void
 BX_CPU_C::INSB_YbDX(bxInstruction_c *i)
 {

@@ -30,12 +30,10 @@
 #define LOG_THIS BX_CPU_THIS_PTR
 
 #if BX_SUPPORT_X86_64
-#define IsLongMode() (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)
 #define LPFOf(laddr) ((laddr) & BX_CONST64(0xfffffffffffff000))
-#define BX_CANONICAL_BITS     48
-#define IsCanonical(offset)   ((Bit64u)((((Bit64s)(offset)) >> (BX_CANONICAL_BITS-1)) + 1) < 2)
+#define BX_CANONICAL_BITS   (48)
+#define IsCanonical(offset) ((Bit64u)((((Bit64s)(offset)) >> (BX_CANONICAL_BITS-1)) + 1) < 2)
 #else
-#define IsLongMode() (0)
 #define LPFOf(laddr) ((laddr) & 0xfffff000)
 #define IsCanonical(offset) (0)
 #endif
