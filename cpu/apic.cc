@@ -250,7 +250,7 @@ bx_local_apic_c::init ()
   base_addr = 0xfee00000;
   err_status = 0;
   log_dest = 0;
-  dest_format = 0xff;
+  dest_format = 0xf;
   for (int bit=0; bit<BX_LOCAL_APIC_MAX_INTS; bit++) {
     irr[bit] = isr[bit] = tmr[bit] = 0;
   }
