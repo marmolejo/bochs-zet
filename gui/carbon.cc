@@ -1458,6 +1458,10 @@ void bx_carbon_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight,
   }
         
   windowUpdatesPending = true;
+
+  host_xres = x;
+  host_yres = y;
+  host_bpp = bpp;
 }
 
 

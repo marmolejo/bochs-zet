@@ -1137,6 +1137,10 @@ void bx_macintosh_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheig
                 width = x;
                 height = y;
         }
+
+  host_xres = x;
+  host_yres = y;
+  host_bpp = bpp;
 }
 
 
