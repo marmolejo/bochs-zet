@@ -806,11 +806,14 @@ BX_CPU_C::exception(unsigned vector, Bit16u error_code, Boolean is_INT)
   Bit8u    exception_type;
   unsigned prev_errno;
 
+  invalidate_prefetch_q();
+  UNUSED(is_INT);
+
 #if BX_DEBUGGER
   if (bx_guard.special_unwind_stack) {
     BX_INFO (("exception() returning early because special_unwind_stack is set"));
-    return;
-  }
+    longjmp(BX_CPU_THIS_PTR jmp_buf_env, 1); // go back to main decode loop
+    }
 #endif
 
 #if BX_EXTERNAL_DEBUGGER
@@ -822,11 +825,7 @@ BX_CPU_C::exception(unsigned vector, Bit16u error_code, Boolean is_INT)
   //trap_debugger(1);
 #endif
 
-
   BX_INSTR_EXCEPTION(CPU_ID, vector);
-  invalidate_prefetch_q();
-
-  UNUSED(is_INT);
 
   BX_DEBUG(("exception(%02x h)", (unsigned) vector));
 
@@ -846,7 +845,7 @@ BX_CPU_C::exception(unsigned vector, Bit16u error_code, Boolean is_INT)
 #if BX_DEBUGGER
     bx_guard.special_unwind_stack = true;
 #endif
-    return;
+    longjmp(BX_CPU_THIS_PTR jmp_buf_env, 1); // go back to main decode loop
     }
 
   /* careful not to get here with curr_exception[1]==DOUBLE_FAULT */
@@ -859,7 +858,7 @@ BX_CPU_C::exception(unsigned vector, Bit16u error_code, Boolean is_INT)
 #if BX_DEBUGGER
     bx_guard.special_unwind_stack = true;
 #endif
-    return;
+    longjmp(BX_CPU_THIS_PTR jmp_buf_env, 1); // go back to main decode loop
     }
 
   /* ??? this is not totally correct, should be done depending on

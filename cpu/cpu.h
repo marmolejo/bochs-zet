@@ -2515,7 +2515,8 @@ union {
   BX_SMF void interrupt(Bit8u vector, Boolean is_INT, Boolean is_error_code,
                  Bit16u error_code);
 #if BX_CPU_LEVEL >= 2
-  BX_SMF void exception(unsigned vector, Bit16u error_code, Boolean is_INT);
+  BX_SMF void exception(unsigned vector, Bit16u error_code, Boolean is_INT)
+                  BX_CPP_AttrNoReturn();
 #endif
   BX_SMF int  int_number(bx_segment_reg_t *seg);
   BX_SMF void shutdown_cpu(void);
