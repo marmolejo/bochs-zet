@@ -43,6 +43,7 @@
 #include "bochs.h"
 #include "icon_bochs.h"
 #include "font/vga.bitmap.h"
+#include "bxversion.h"
 
 // MAC OS INCLUDES
 #include <Carbon/Carbon.h>
@@ -409,7 +410,6 @@ pascal OSStatus CEvtHandleApplicationMenus (EventHandlerCallRef nextHandler,
 
 	OSErr		err = noErr;
 	short		i;
-	DialogPtr	theDlog;
 
 	GetEventParameter (theEvent, kEventParamDirectObject,
             typeHICommand, NULL, sizeof(HICommand),
@@ -418,9 +418,32 @@ pascal OSStatus CEvtHandleApplicationMenus (EventHandlerCallRef nextHandler,
 	switch(commandStruct.commandID)
 	{
             case kHICommandAbout:
-                theDlog = GetNewDialog(128, NULL, (WindowPtr)-1);
-                ModalDialog(NULL, &i);
-                DisposeDialog(theDlog);
+                {
+                    DialogRef       aboutDialog;
+                    DialogItemIndex index;
+                    CFStringRef     cf_version;
+                    char            version[256];
+                    sprintf(version, "Bochs x86 Emulator version %s (MacOS X port)", VER_STRING);
+                    cf_version = CFStringCreateWithCString(NULL, version, kCFStringEncodingASCII);
+                    
+                    AlertStdCFStringAlertParamRec aboutParam = {0};
+                    aboutParam.version       = kStdCFStringAlertVersionOne;
+                    aboutParam.position      = kWindowDefaultPosition;
+                    aboutParam.defaultButton = kAlertStdAlertOKButton;
+
+                    CreateStandardAlert(
+                                         kAlertNoteAlert,
+                                         cf_version,
+                                         NULL,            /* can be NULL */
+                                         &aboutParam,     /* can be NULL */
+                                         &aboutDialog);
+
+                    RunStandardAlert(
+                                      aboutDialog,
+                                      NULL,       /* can be NULL */
+                                      &index);
+                    CFRelease( cf_version );
+                }
                 break;
 
             case kHICommandQuit:
