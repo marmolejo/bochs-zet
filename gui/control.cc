@@ -653,6 +653,9 @@ ask:
       event->retcode = choice;
     }
     return event;
+  case BX_ASYNC_EVT_REFRESH:
+    // ignore refresh events
+    return event;
   default:
     fprintf (stderr, "Control panel: notify callback called with event type %04x\n", event->type);
     return event;

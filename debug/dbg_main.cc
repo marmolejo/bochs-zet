@@ -428,6 +428,7 @@ bx_dbg_user_input_loop(void)
   unsigned include_cmd_len = strlen(BX_INCLUDE_CMD);
 
   while ( 1 ) {
+    SIM->refresh_ci ();
     bx_get_command();
     if ( (*tmp_buf_ptr == '\n') || (*tmp_buf_ptr == 0) ) {
       if (bx_infile_stack_index == 0)
