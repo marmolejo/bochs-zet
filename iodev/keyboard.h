@@ -65,6 +65,9 @@ public:
   BX_KEY_SMF unsigned periodic( Bit32u   usec_delta );
   BX_KEY_SMF void     put_scancode( unsigned char *code, int count );
 
+  // update the paste delay based on bx_options.Okeyboard_paste_delay
+  BX_KEY_SMF void     paste_delay_changed ();
+
 private:
 
   static Bit32u read_handler(void *this_ptr, Bit32u address, unsigned io_len);
