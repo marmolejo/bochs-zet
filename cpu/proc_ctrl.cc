@@ -1576,7 +1576,7 @@ BX_CPU_C::SetCR0(Bit32u val_32)
       BX_CPU_THIS_PTR msr.lma = 1;
       BX_CPU_THIS_PTR cpu_mode = BX_MODE_LONG_COMPAT;
 #if BX_EXTERNAL_DEBUGGER
-      trap_debugger(0);
+      //trap_debugger(0);
 #endif
       }
     }
@@ -1588,7 +1588,7 @@ BX_CPU_C::SetCR0(Bit32u val_32)
       BX_CPU_THIS_PTR msr.lma = 0;
       BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32;
 #if BX_EXTERNAL_DEBUGGER
-      trap_debugger(0);
+      //trap_debugger(0);
 #endif
       }
     }
