@@ -377,6 +377,7 @@ BX_CPU_C::CMOV_GwEw(BxInstruction_t *i)
     BX_WRITE_16BIT_REG(i->nnn, op2_16);
     }
 #else
-  BX_PANIC(("cmov_gwew called"));
+  BX_INFO(("cmov_gwew called"));
+  UndefinedOpcode(i);
 #endif
 }

@@ -317,6 +317,7 @@ BX_CPU_C::CMOV_GdEd(BxInstruction_t *i)
     BX_WRITE_32BIT_REG(i->nnn, op2_32);
     }
 #else
-  BX_PANIC(("cmov_gded called"));
+  BX_INFO(("cmov_gded called"));
+  UndefinedOpcode(i);
 #endif
 }
