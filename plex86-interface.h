@@ -34,7 +34,7 @@ extern unsigned     plex86MemSize;
 extern Bit8u       *plex86PrintBuffer;
 extern guest_cpu_t *plex86GuestCPU;
 
-extern int      plex86Open(void);
+extern unsigned plex86CpuInfo(BX_CPU_C *cpu);
 extern unsigned char * plex86AllocateMemory(unsigned nMegs);
 extern unsigned plex86TearDown(void);
 extern unsigned plex86ExecuteInVM(BX_CPU_C *cpu);

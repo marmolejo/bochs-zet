@@ -80,8 +80,9 @@ typedef union {
   } __attribute__ ((packed)) cr4_t;
 
 typedef struct {
-  Bit32u maxval; /* maximum val to pass to CPUID instruction */
-  Bit8u  vendorID[12+1]; /* 12 packed Vendor ID string bytes plus null */
+  Bit32u vendorDWord0;
+  Bit32u vendorDWord1;
+  Bit32u vendorDWord2;
   union {
     Bit32u raw;
     struct {
