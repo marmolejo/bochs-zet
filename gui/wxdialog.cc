@@ -1846,10 +1846,13 @@ CpuRegistersDialog::CpuRegistersDialog(
   AddParamList (testList, column);
 
   // add buttons
+#if BX_DEBUGGER
+  // only show these if debugger is enabled
   AddButton (ID_Debug_Continue, BTNLABEL_DEBUG_CONTINUE);
   AddButton (ID_Debug_Stop, BTNLABEL_DEBUG_STOP);
   AddButton (ID_Debug_Step, BTNLABEL_DEBUG_STEP);
   AddButton (ID_Debug_Commit, BTNLABEL_DEBUG_COMMIT);
+#endif
   AddButton (ID_Close, BTNLABEL_DEBUG_CLOSE);
 }
 

@@ -695,11 +695,13 @@ void MyFrame::OnShowKeyboard(wxCommandEvent& WXUNUSED(event))
 void
 MyFrame::DebugBreak ()
 {
+#if BX_DEBUGGER
   if (debugCommand) {
     delete debugCommand;
     debugCommand = NULL;
   }
   SIM->debug_break ();
+#endif
 }
 
 void
