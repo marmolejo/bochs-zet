@@ -5773,6 +5773,7 @@ bx_dbg_step_over_command ()
                  BX_CPU (dbg_cpu)->get_EIP ();
   Bit32u Paddr;
   bx_bool paddr_valid;
+  bx_address remainingInPage;
 
   BX_CPU (dbg_cpu)->dbg_xlate_linear2phy (Laddr, &Paddr, &paddr_valid);
 
@@ -5782,9 +5783,11 @@ bx_dbg_step_over_command ()
   }
   fetchPtr = BX_CPU (dbg_cpu)->mem->getHostMemAddr (BX_CPU(dbg_cpu), Paddr, BX_READ);
   unsigned ret = BX_CPU (dbg_cpu)->fetchDecode (fetchPtr, i, 15);
+  remainingInPage = BX_CPU(dbg_cpu)->eipPageWindowSize - 
+		    (BX_CPU(dbg_cpu)->dword.eip + BX_CPU(dbg_cpu)->eipPageBias);
 
   if (ret == 0)
-    BX_CPU (dbg_cpu)->boundaryFetch (i);
+    BX_CPU (dbg_cpu)->boundaryFetch (fetchPtr, remainingInPage, i);
 
   unsigned b1 = i->b1 ();
 
