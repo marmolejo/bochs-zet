@@ -1374,14 +1374,25 @@ BX_DEBUG(("IO write to %04x = %02x", (unsigned) address, (unsigned) value));
       //     b5 1
       // b4: DRV
       // b3..0 HD3..HD0
+      {
       if ( (value & 0xa0) != 0xa0 ) // 1x1xxxxx
         BX_INFO(("IO write 1f6 (%02x): not 1x1xxxxxb", (unsigned) value));
-      BX_HD_THIS drive_select = (value >> 4) & 0x01;
+      Bit32u drvsel = BX_HD_THIS drive_select = (value >> 4) & 0x01;
       WRITE_HEAD_NO(value & 0xf);
       if (BX_SELECTED_CONTROLLER.lba_mode == 0 && ((value >> 6) & 1) == 1)
-	    BX_INFO(("enabling LBA mode"));
+        BX_INFO(("enabling LBA mode"));
       WRITE_LBA_MODE((value >> 6) & 1);
+      if (!drvsel && !bx_options.diskc.Opresent->get ()) {
+        BX_ERROR (("device set to 0 which does not exist"));
+        BX_SELECTED_CONTROLLER.error_register = 0x04; // aborted
+        BX_SELECTED_CONTROLLER.status.err = 1;
+      } else if (drvsel && !bx_options.diskd.Opresent->get ()) {
+        BX_ERROR (("device set to 1 which does not exist"));
+        BX_SELECTED_CONTROLLER.error_register = 0x04; // aborted
+        BX_SELECTED_CONTROLLER.status.err = 1;
+      }
       break;
+      }
 
     case 0x1f7: // hard disk command
 	  // (mch) Writes to the command register with drive_select != 0
