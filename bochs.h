@@ -516,9 +516,10 @@ extern bx_devices_c   bx_devices;
 #define BX_RESET_SOFTWARE 10
 #define BX_RESET_HARDWARE 11
 
-// call periodic timers every N useconds
-#define TIMER_DELTA 100
-//#define TIMER_DELTA 10
+// This value controls how often each I/O device's periodic() method
+// gets called.  The timer is set up in iodev/devices.cc.
+#define BX_IODEV_HANDLER_PERIOD 100    // microseconds
+//#define BX_IODEV_HANDLER_PERIOD 10    // microseconds
 
 char *bx_find_bochsrc (void);
 int bx_parse_cmdline (int arg, int argc, char *argv[]);

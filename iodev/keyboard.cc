@@ -179,7 +179,7 @@ bx_keyb_c::init(bx_devices_c *d, bx_cmos_c *cmos)
   BX_KEY_THIS pastebuf = NULL;
   BX_KEY_THIS pastebuf_len = 0;
   BX_KEY_THIS pastebuf_ptr = 0;
-  BX_KEY_THIS pastedelay = bx_options.Okeyboard_paste_delay->get()/TIMER_DELTA;
+  BX_KEY_THIS pastedelay = bx_options.Okeyboard_paste_delay->get()/BX_IODEV_HANDLER_PERIOD;
   BX_INFO(("will paste characters every %d keyboard ticks",BX_KEY_THIS pastedelay));
 
   // mouse port installed on system board
