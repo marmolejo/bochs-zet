@@ -336,7 +336,7 @@ install_win32: download_dlx
 # install target for unix
 #####################################################################
 
-install_unix: install_bin @INSTALL_PLUGINS_VAR@ install_man install_share install_doc
+install_unix: install_bin @INSTALL_PLUGINS_VAR@ install_man install_share install_doc @INSTALL_DOCBOOK_VAR@
 
 install_bin::
 	for i in $(DESTDIR)$(bindir); do mkdir -p $$i && test -d $$i && test -w $$i; done
@@ -621,7 +621,7 @@ $(APP)/.build_plugins: $(APP)/.build bochs_plugins
 	$(LIBTOOL) --finish $(STANDALONE_LIBDIR);
 	touch $(APP)/.build_plugins
 
-install_macosx: all download_dlx
+install_macosx: all download_dlx @INSTALL_DOCBOOK_VAR@
 	-mkdir -p $(prefix)
 	for i in $(INSTALL_LIST_MACOSX); do if test -e $$i; then $(CPMAC) -r $$i $(prefix); else $(CPMAC) -r $(srcdir)/$$i $(prefix); fi; done
 	$(CPMAC) $(srcdir)/.bochsrc $(prefix)/bochsrc-sample.txt
