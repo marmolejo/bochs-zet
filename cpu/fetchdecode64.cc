@@ -2645,7 +2645,7 @@ static BxOpcodeInfo_t BxOpcodeInfo64[512*3] = {
   /* C0 */  { BxAnother | BxGroup2 | BxImmediate_Ib, NULL, BxOpcodeInfo64G2Eb },
   /* C1 */  { BxAnother | BxGroup2 | BxImmediate_Ib, NULL, BxOpcodeInfo64G2Eq },
   /* C2 */  { BxImmediate_Iw, &BX_CPU_C::RETnear64_Iw },
-  /* C3 */  { 0,             &BX_CPU_C::RETnear64 },
+  /* C3 */  { 0,              &BX_CPU_C::RETnear64 },
   /* C4 */  { 0, &BX_CPU_C::BxError },
   /* C5 */  { 0, &BX_CPU_C::BxError },
   /* C6 */  { BxAnother | BxImmediate_Ib, &BX_CPU_C::MOV_EbIb },

@@ -18,6 +18,7 @@
  |    other processes using the emulator while swapping is in progress.      |
  +---------------------------------------------------------------------------*/
 
+#ifndef USE_WITH_CPU_SIM
 
 #include <linux/stddef.h>
 
@@ -444,3 +445,5 @@ void *FPU_get_address_16(u_char FPU_modrm, u32 *fpu_eip,
 
   return (void *)address ;
 }
+
+#endif

@@ -67,8 +67,10 @@ int FPU_load_store(u_char type, fpu_addr_modes addr_modes,
   u_char st0_tag = TAG_Empty;  /* This is just to stop a gcc warning. */
   u_char loaded_tag;
 
-  st0_ptr = (FPU_REG*) NULL;    /* Initialized just to stop compiler warnings. */
+  st0_ptr = (FPU_REG*) NULL;   /* Initialized just to stop compiler warnings. */
 
+#ifndef USE_WITH_CPU_SIM
+  /* memory access limits checked in FPU_verify_area */
   if ( addr_modes.default_mode & PROTECTED )
     {
       if ( addr_modes.default_mode == SEG32 )
@@ -86,6 +88,7 @@ int FPU_load_store(u_char type, fpu_addr_modes addr_modes,
 	EXCEPTION(EX_INTERNAL|0x140);
 #endif /* PARANOID */
     }
+#endif
 
   switch ( type_table[type] )
     {
