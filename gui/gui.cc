@@ -325,7 +325,9 @@ bx_gui_c::make_text_snapshot (char **snapshot, Bit32u *length)
     }
     while ((txt_addr > 0) && (clean_snap[txt_addr-1] == ' ')) txt_addr--;
 #ifdef WIN32
-    clean_snap[txt_addr++] = 13;
+    if(!(bx_options.Otext_snapshot_check->get())) {
+      clean_snap[txt_addr++] = 13;
+    }
 #endif
     clean_snap[txt_addr++] = 10;
   }
