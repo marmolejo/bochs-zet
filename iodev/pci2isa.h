@@ -49,8 +49,13 @@ private:
   struct {
     Bit8u pci_conf[256];
     Bit8u elcr1;
-    Bit8u elcr2; 
+    Bit8u elcr2;
+    Bit8u irq_registry[16];
+    Bit32u irq_level[16];
     } s;
+
+  static void pci_register_irq(unsigned pirq, unsigned irq);
+  static void pci_unregister_irq(unsigned pirq);
 
   static Bit32u read_handler(void *this_ptr, Bit32u address, unsigned io_len);
   static void   write_handler(void *this_ptr, Bit32u address, Bit32u value, unsigned io_len);
