@@ -261,7 +261,7 @@ int main()
     printf ("  total size=%.2f megabytes\n", (float)sectors*512.0/1024.0/1024.0);
     if (ask_string ("\nWhat should I name the image?\n[c.img] ", "c.img", filename) < 0)
       fatal (EOF_ERR);
-    sprintf (bochsrc_line, "diskc: file=\"%s\", cyl=%d, heads=%d, spt=%d", filename, cyl, heads, spt);
+    sprintf (bochsrc_line, "ata0-master: type=disk, path=\"%s\", cylinders=%d, heads=%d, spt=%d", filename, cyl, heads, spt);
   } else {
     int fdsize, cyl=0, heads=0, spt=0;
     char *name = NULL;
