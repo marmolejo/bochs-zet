@@ -642,7 +642,7 @@ bx_local_apic_c::acknowledge_int ()
     BX_INFO(("Status after setting isr:"));
     print_status ();
   }
-  cpu->INTR = 0;
+  cpu->set_INTR (0);
   cpu->int_from_local_apic = 0;
   service_local_apic ();  // will set INTR again if another is ready
   return vector;
