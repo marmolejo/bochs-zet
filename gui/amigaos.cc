@@ -664,9 +664,12 @@ bx_amigaos_gui_c::graphics_tile_update(Bit8u *tile, unsigned x0, unsigned y0)
 
 
   void
-bx_amigaos_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight, unsigned fwidth)
+bx_amigaos_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight, unsigned fwidth, unsigned bpp)
 {
 
+	if (bpp > 8) {
+		BX_PANIC(("%d bpp graphics mode not supported yet", bpp));
+	}
 	int xdiff = w - x;
 
 	if (fheight > 0) {
