@@ -13,8 +13,10 @@ Detailed description:
   * "hardwired" code in dma.cc removed
   * all DMA related code in devices.cc and iodev.h removed
   * DMA related code in pc_system.* removed except HRQ handling
-  * macros for DMA functions defined
+  * macros for DMA functions defined in bochs.h
   * floppy and SB16 code modified to use the changes described above
+
+  The changes are present in CVS now.
 
 Patch was created with:
   diff -u
