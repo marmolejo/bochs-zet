@@ -459,7 +459,10 @@ BX_CPU_C::LTR_Ew(bxInstruction_c *i)
     bx_descriptor_t  descriptor;
     bx_selector_t    selector;
     Bit16u raw_selector;
-    Bit32u dword1, dword2, dword3;
+    Bit32u dword1, dword2;
+#if BX_SUPPORT_X86_64
+    Bit32u dword3;
+#endif
 
 
     /* #GP(0) if the current privilege level is not 0 */
