@@ -126,7 +126,7 @@ ask_uint (char *prompt, Bit32u min, Bit32u max, Bit32u the_default, Bit32u *out,
       *out = the_default;
       return 0;
     }
-    char *format = (base==10) ? "%d" : "%x";
+    const char *format = (base==10) ? "%d" : "%x";
     illegal = (1 != sscanf (buffer, format, &n));
     if (illegal || n<min || n>max) {
       printf ("Your choice (%s) was not an integer between %u and %u.\n\n",
