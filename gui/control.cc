@@ -624,9 +624,6 @@ config_interface_notify_callback (void *unused, BxEvent *event)
     case BX_SYNC_EVT_ASK_PARAM:
       fprintf (stderr, "BX_SYNC_EVT_ASK_PARAM\n");
       return event;
-    case BX_ASYNC_EVT_SHUTDOWN_GUI:
-      fprintf (stderr, "BX_ASYNC_EVT_SHUTDOWN_GUI\n");
-      return event;
     case BX_SYNC_EVT_LOG_ASK:
     {
       int level = event->u.logmsg.level;

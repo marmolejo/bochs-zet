@@ -313,7 +313,6 @@ typedef enum {
   BX_ASYNC_EVT_SET_PARAM,         // CUI -> simulator
   BX_ASYNC_EVT_LOG_MSG,           // simulator -> CUI
   BX_ASYNC_EVT_VALUE_CHANGED,     // simulator -> CUI
-  BX_ASYNC_EVT_SHUTDOWN_GUI,      // simulator -> CUI
   BX_ASYNC_EVT_TOOLBAR            // CUI -> simulator
 } BxEventType;
 
