@@ -242,9 +242,10 @@ int main()
     fatal (EOF_ERR);
   if (hd) {
     int hdsize, cyl, heads=16, spt=63;
-    if (ask_int ("\nEnter the hard disk size in megabytes, between 1 and 65535\n[10] ", 1, 65535, 10, &hdsize) < 0)
+    if (ask_int ("\nEnter the hard disk size in megabytes, between 1 and 32255\n[10] ", 1, 32255, 10, &hdsize) < 0)
       fatal (EOF_ERR);
     cyl = hdsize*1024*1024/16/63/512;
+    assert (cyl < 65536);
     sectors = cyl*heads*spt;
     printf ("\nI will create a hard disk image with\n");
     printf ("  cyl=%d\n", cyl);
