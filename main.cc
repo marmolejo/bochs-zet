@@ -2215,6 +2215,9 @@ bx_atexit(void)
   if (been_here) return 1;   // protect from reentry
   been_here = 1;
 
+  // in case we ended up in simulation mode, change back to config mode
+  // so that the user can see any messages left behind on the console.
+  SIM->set_display_mode (DISP_MODE_CONFIG);
 
 #if BX_PROVIDE_DEVICE_MODELS==1
   bx_pc_system.exit();
