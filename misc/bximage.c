@@ -183,8 +183,6 @@ int make_image (int sec, char *filename)
 {
   FILE *fp;
   char buffer[1024];
-  int i;
-  unsigned int n;
 
   // check if it exists before trashing someone's disk image
   fp = fopen (filename, "r");
