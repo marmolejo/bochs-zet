@@ -1242,6 +1242,27 @@ AC_ARG_ENABLE(sb16,
 AC_SUBST(SB16_OBJS)
 
 
+AC_MSG_CHECKING(for gdb stub enable)
+AC_ARG_ENABLE(gdb-stub,
+  [  --enable-gdb-stub                 enable gdb stub support],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_GDBSTUB, 1)
+    GDBSTUB_VAR='$(GDBSTUB_OBJS)'
+   else
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_GDBSTUB, 0)
+    GDBSTUB_VAR=''
+   fi],
+  [
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_GDBSTUB, 0)
+    GDBSTUB_VAR=''
+    ]
+  )
+AC_SUBST(GDBSTUB_VAR)
+
+
 AC_ARG_ENABLE(hga-dumps,
   [  --enable-hga-dumps=Nmicroseconds  copy memory to HGA video buffer every N useconds],
   AC_DEFINE_UNQUOTED(BX_EMULATE_HGA_DUMPS, $enableval),
