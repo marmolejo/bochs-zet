@@ -88,10 +88,11 @@ bx_pcipnic_c::init(void)
   }
   BX_PNIC_THIS s.base_ioaddr = base_ioaddr;
 
+  Bit8u devfunc = 0x00;
   DEV_register_pci_handlers(this,
                             pci_read_handler,
                             pci_write_handler,
-                            BX_PCI_DEVICE(1,2),
+                            &devfunc, BX_PLUGIN_PCIPNIC,
                             "Experimental PCI Pseudo NIC");
 
   for (unsigned i=0; i<256; i++) {

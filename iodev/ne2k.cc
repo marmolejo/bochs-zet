@@ -1296,11 +1296,12 @@ bx_ne2k_c::init(void)
 
 #if BX_PCI_SUPPORT
   if ((bx_options.Oi440FXSupport->get()) &&
-      (BX_NE2K_THIS s.base_address >= 0x1000)) {
+      (DEV_is_pci_device(BX_PLUGIN_NE2K))) {
     BX_NE2K_THIS s.pci_enabled = 1;
     strcpy(devname, "NE2000 PCI NIC");
+    Bit8u devfunc = 0x00;
     DEV_register_pci_handlers(this, pci_read_handler, pci_write_handler,
-                              BX_PCI_DEVICE(3,0), devname);
+                              &devfunc, BX_PLUGIN_NE2K, devname);
 
     for (unsigned i=0; i<256; i++)
       BX_NE2K_THIS s.pci_conf[i] = 0x0;
@@ -1338,7 +1339,7 @@ bx_ne2k_c::init(void)
                                      devname, 3);
   DEV_register_ioread_handler(BX_NE2K_THIS_PTR, read_handler,
                               BX_NE2K_THIS s.base_address + 0x10,
-                              devname, BX_PCI_SUPPORT ? 7 : 3);
+                              devname, BX_NE2K_THIS s.pci_enabled ? 7 : 3);
   DEV_register_iowrite_handler(BX_NE2K_THIS_PTR, write_handler,
                                BX_NE2K_THIS s.base_address + 0x10,
                                devname, BX_PCI_SUPPORT ? 7 : 3);

@@ -72,8 +72,9 @@ bx_pci_ide_c::init(void)
 {
   // called once when bochs initializes
 
+  Bit8u devfunc = BX_PCI_DEVICE(1,1);
   DEV_register_pci_handlers(this, pci_read_handler, pci_write_handler,
-                            BX_PCI_DEVICE(1,1), "PIIX3 PCI IDE controller");
+                            &devfunc, BX_PLUGIN_PCI_IDE, "PIIX3 PCI IDE controller");
 
   for (unsigned i=0; i<256; i++)
     BX_PIDE_THIS s.pci_conf[i] = 0x0;

@@ -95,10 +95,11 @@ bx_pciusb_c::init(void)
   }
   BX_USB_THIS hub[0].base_ioaddr = base_ioaddr;
 
+  Bit8u devfunc = BX_PCI_DEVICE(1,2);
   DEV_register_pci_handlers(this,
                             pci_read_handler,
                             pci_write_handler,
-                            BX_PCI_DEVICE(1,2),
+                            &devfunc, BX_PLUGIN_PCIUSB,
                             "Experimental PCI USB");
 
   for (unsigned i=0; i<256; i++) {
