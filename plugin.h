@@ -103,7 +103,9 @@ extern "C" {
 
 ///////// keyboard macros
 #define DEV_mouse_motion(dx, dy, state) \
-    (bx_devices.pluginKeyboard->mouse_motion(dx, dy, state))
+    (bx_devices.pluginKeyboard->mouse_motion(dx, dy, 0, state))
+#define DEV_mouse_motion_ext(dx, dy, dz, state) \
+    (bx_devices.pluginKeyboard->mouse_motion(dx, dy, dz, state))
 #define DEV_kbd_gen_scancode(key) \
     (bx_devices.pluginKeyboard->gen_scancode(key))
 #define DEV_kbd_paste_bytes(bytes, count) \
@@ -195,8 +197,8 @@ extern "C" {
 #define DEV_speaker_beep_off() bx_devices.pluginSpeaker->beep_off()
 
 ///////// Serial macro
-#define DEV_serial_mouse_enq(dx, dy, state) \
-    (bx_devices.pluginSerialDevice->serial_mouse_enq(dx, dy, state))
+#define DEV_serial_mouse_enq(dx, dy, dz, state) \
+    (bx_devices.pluginSerialDevice->serial_mouse_enq(dx, dy, dz, state))
 
 //////// Memory macros
 #define DEV_register_memory_handlers(rh,rp,wh,wp,b,e) \

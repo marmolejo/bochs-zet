@@ -197,14 +197,16 @@ public:
   ~bx_serial_c(void);
   virtual void   init(void);
   virtual void   reset(unsigned type);
-  virtual void   serial_mouse_enq(int delta_x, int delta_y, unsigned button_state);
+  virtual void   serial_mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state);
 
 private:
   bx_serial_t s[BX_SERIAL_MAXDEV];
 
+  int   detect_mouse;
   int   mouse_port;
   int   mouse_delayed_dx;
   int   mouse_delayed_dy;
+  int   mouse_delayed_dz;
   struct {
     int     num_elements;
     Bit8u   buffer[BX_MOUSE_BUFF_SIZE];
