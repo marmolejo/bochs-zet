@@ -5262,7 +5262,7 @@ Some of the other options in this group is probably also needed,
         Create the <replaceable>/path/to/tunconfig</replaceable> script :
         <screen>
         #!/bin/bash
-        /sbin/ifconfig $1 192.168.1.1
+        /sbin/ifconfig ${1##/*/} 192.168.1.1
         </screen>
         The script get the interface name as the first parameter. Linux
         will forward incoming packets between interfaces.
