@@ -1294,7 +1294,7 @@ bx_floppy_ctrl_c::evaluate_media(unsigned type, char *path, floppy_t *media)
   ret = fstat(media->fd, &stat_buf);
 #endif
   if (ret) {
-    BX_PANIC(("fstat()'ing floppy 0 drive image file returns error!"));
+    BX_PANIC(("fstat floppy 0 drive image file returns error: %s", strerror(errno)));
     return(0);
     }
 
