@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
+//  Copyright (C) 2002  MandrakeSoft S.A.
 //
 //    MandrakeSoft S.A.
 //    43, rue d'Aboukir
@@ -61,6 +61,8 @@ private:
   Bit32u   read( Bit32u   address, unsigned io_len);
   void     write(Bit32u   address, Bit32u   value, unsigned io_len);
 #endif
+  BX_DMA_SMF void control_HRQ(Boolean ma_sl);
+
   struct {
     Boolean mask[4];
     Boolean flip_flop;
