@@ -2100,7 +2100,7 @@ bx_vga_c::vbe_mem_read(Bit32u addr)
   if (addr >= VBE_DISPI_LFB_PHYSICAL_ADDRESS)
   {
     // LFB read
-    offset = offset - VBE_DISPI_LFB_PHYSICAL_ADDRESS;
+    offset = addr - VBE_DISPI_LFB_PHYSICAL_ADDRESS;
   }
   else
   {
@@ -2124,7 +2124,7 @@ bx_vga_c::vbe_mem_write(Bit32u addr, Bit8u value)
   if (addr >= VBE_DISPI_LFB_PHYSICAL_ADDRESS)
   {
     // LFB write
-    offset = offset - VBE_DISPI_LFB_PHYSICAL_ADDRESS;
+    offset = addr - VBE_DISPI_LFB_PHYSICAL_ADDRESS;
   }
   else
   {
