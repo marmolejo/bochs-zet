@@ -200,4 +200,7 @@ public:
   bx_bool get_enable_a20(void);
   void    exit(void);
 
+  // Cpu and System Reset
+  int ResetCpus( unsigned type );
+  int ResetSystem( unsigned type );
   };
