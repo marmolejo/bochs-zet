@@ -258,6 +258,8 @@ bx_floppy_ctrl_c::reset(unsigned source)
 
   BX_FD_THIS s.floppy_buffer_index = 0;
 
+  BX_FD_THIS devices->pic->lower_irq(6);
+  bx_pc_system.set_DRQ(FLOPPY_DMA_CHAN, 0);
 }
 
 
