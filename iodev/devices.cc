@@ -157,6 +157,9 @@ bx_devices_c::init(BX_MEM_C *newmem)
   pit = & bx_pit;
   pit->init(this);
 
+#ifdef BX_USE_SLOWDOWN_TIMER
+  bx_slowdown_timer.init();
+#endif
 
   dma = &bx_dma;
   dma->init(this);
@@ -284,9 +287,11 @@ bx_devices_c::timer()
 {
   unsigned retval;
 
+#if (BX_USE_NEW_PIT==0)
   if ( pit->periodic( TIMER_DELTA ) ) {
     pic->trigger_irq(0);
     }
+#endif
 
   retval = keyboard->periodic( TIMER_DELTA );
   if (retval & 0x01) {
