@@ -536,8 +536,8 @@ if ( quantumsMax == 0)
                 value32 |= (BX_SELECTED_CONTROLLER(channel).buffer[BX_SELECTED_CONTROLLER(channel).buffer_index+1] << 8);
                 value32 |=  BX_SELECTED_CONTROLLER(channel).buffer[BX_SELECTED_CONTROLLER(channel).buffer_index];
               }
+            BX_SELECTED_CONTROLLER(channel).buffer_index += io_len;
             }
-          BX_SELECTED_CONTROLLER(channel).buffer_index += io_len;
 
           // if buffer completely read
           if (BX_SELECTED_CONTROLLER(channel).buffer_index >= 512) {
@@ -1024,7 +1024,6 @@ if ( quantumsMax == 0)
                 BX_SELECTED_CONTROLLER(channel).buffer[BX_SELECTED_CONTROLLER(channel).buffer_index+1] = (Bit8u)(value >> 8);
                 BX_SELECTED_CONTROLLER(channel).buffer[BX_SELECTED_CONTROLLER(channel).buffer_index]   = (Bit8u) value;
               }
-
             BX_SELECTED_CONTROLLER(channel).buffer_index += io_len;
             }
 
