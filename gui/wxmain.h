@@ -131,6 +131,7 @@ public:
   void OnKillSim(wxCommandEvent& event);
   void OnSim2CIEvent(wxCommandEvent& event);
   void OnEditBoot(wxCommandEvent& event);
+  void OnEditNet(wxCommandEvent& event);
   void OnOtherEvent(wxCommandEvent& event);
   static bool editFloppyValidate (FloppyConfigDialog *dialog);
   void editFloppyConfig (int drive);
