@@ -43,9 +43,7 @@ void mul32_Xsig(Xsig *x, const u32 ba)
     y.msw ++;
 
   *x = y;
-
 }
-
 
 void mul64_Xsig(Xsig *x, const u64 *b)
 {
@@ -67,9 +65,7 @@ void mul64_Xsig(Xsig *x, const u64 *b)
       if ( x->midw == 0 )
 	x->msw ++;
     }
-
 }
-
 
 void mul_Xsig_Xsig(Xsig *x, const Xsig *b)
 {
@@ -93,4 +89,3 @@ void mul_Xsig_Xsig(Xsig *x, const Xsig *b)
 	x->msw ++;
     }
 }
-

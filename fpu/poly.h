@@ -39,8 +39,6 @@ typedef struct {
 #pragma options align=reset
 #endif
 
-asmlinkage void mul64(u64 const *a, u64 const *b,
-		      u64 *result);
 asmlinkage void polynomial_Xsig(Xsig *, const u64 *x,
 				const u64 terms[], const int n);
 

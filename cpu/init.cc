@@ -866,9 +866,9 @@ BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR trace_reg = 0;
 #endif
 
-  // Init the Floating Point Unit
+  // Reset the Floating Point Unit
 #if BX_SUPPORT_FPU
-  BX_CPU_THIS_PTR the_i387.init();
+  BX_CPU_THIS_PTR the_i387.reset();
 #endif
 
 #if (BX_SMP_PROCESSORS > 1)

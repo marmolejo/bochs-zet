@@ -24,9 +24,10 @@ static FPU_REG const CONST_PI2extra = MAKE_REG(NEG, -66,
 					 0xfc8f8cbb, 0xece675d1);
 
 
-#define BETTER_THAN_486
+//#define BETTER_THAN_486
 
-#define FCOS  4
+#define FSIN   0
+#define FCOS   4
 #define FPTAN  8
 
 /* Used only by fptan, fsin, fcos, and fsincos. */
@@ -412,7 +413,7 @@ int fsin(FPU_REG *st0_ptr, u_char tag)
 
       if (exponent(st0_ptr) > -40)
 	{
-	  if ((q = trig_arg(st0_ptr, 0)) == -1)
+	  if ((q = trig_arg(st0_ptr, FSIN)) == -1)
 	    {
 	      /* Operand is out of range */
 	      return 1;
