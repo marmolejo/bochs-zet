@@ -1516,7 +1516,7 @@ union {
 
 #define ArithmeticalFlag(flag, lfMaskShift, eflagsBitShift) \
   BX_SMF Boolean get_##flag##Lazy(void); \
-  BX_SMF Boolean getB_##flag##(void) { \
+  BX_SMF Boolean getB_##flag(void) { \
     if ( (BX_CPU_THIS_PTR lf_flags_status & (0xf<<lfMaskShift)) == \
          ((Bit32u) (BX_LF_INDEX_KNOWN<<lfMaskShift)) ) \
       return (BX_CPU_THIS_PTR eflags.val32 >> eflagsBitShift) & 1; \
