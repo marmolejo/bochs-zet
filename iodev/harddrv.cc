@@ -230,7 +230,7 @@ bx_hard_drive_c::init(bx_devices_c *d, bx_cmos_c *cmos)
     }
 
     //set up cmos for second hard drive
-    if (bx_options.diskd.Opresent->get ()) {
+    if (bx_options.diskd.Opresent->get () && !bx_options.cdromd.Opresent->get ()) {
       BX_DEBUG(("1: I will put 0xf into the second hard disk field"));
       // fill in lower 4 bits of 0x12 for second HD
       cmos->s.reg[0x12] = (cmos->s.reg[0x12] & 0xf0) | 0x0f;
