@@ -518,9 +518,9 @@ get_term_char(Bit8u vga_char[])
 	void
 bx_term_gui_c::text_update(Bit8u *old_text, Bit8u *new_text,
 	unsigned long cursor_x, unsigned long cursor_y,
-	Bit16u cursor_state, unsigned nrows)
+	bx_vga_tminfo_t tm_info, unsigned nrows)
 {
-	UNUSED(cursor_state);
+	UNUSED(tm_info);
 	chtype ch;
 
 	unsigned ncols = 4000/nrows/2;

@@ -1068,7 +1068,7 @@ void bx_carbon_gui_c::clear_screen(void)
 
 void bx_carbon_gui_c::text_update(Bit8u *old_text, Bit8u *new_text,
   unsigned long cursor_x, unsigned long cursor_y,
-  Bit16u cursor_state, unsigned nrows)
+  bx_vga_tminfo_t tm_info, unsigned nrows)
 {
   int           i;
   unsigned char achar;

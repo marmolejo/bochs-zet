@@ -974,14 +974,14 @@ DrawBochsBitmap(int x, int y, int width, int height, char *bmap, char color, int
 
 void bx_wx_gui_c::text_update(Bit8u *old_text, Bit8u *new_text,
                       unsigned long cursor_x, unsigned long cursor_y,
-          Bit16u cursor_state, unsigned nrows)
+          bx_vga_tminfo_t tm_info, unsigned nrows)
 {
   IFDBG_VGA(wxLogDebug (wxT ("text_update")));
   //static Bit32u counter = 0;
   //BX_INFO (("text_update executed %d times", ++counter));
 
-  Bit8u cs_start = (cursor_state >> 8) & 0x3f;
-  Bit8u cs_end = cursor_state & 0x1f;
+  Bit8u cs_start = tm_info.cs_start;
+  Bit8u cs_end = tm_info.cs_end;
   unsigned char cChar;
   unsigned int ncols = wxScreenX / 8;
   unsigned int nchars = ncols * nrows;
