@@ -1199,7 +1199,6 @@ AC_ARG_ENABLE(external-debugger,
 AC_SUBST(BX_EXTERNAL_DEBUGGER)
 
 AC_MSG_CHECKING(for magic breakpoints)
-EXT_DEBUG_OBJS=''
 AC_ARG_ENABLE(magic-breakpoints,
   [  --enable-magic-breakpoints        enable magic debugger breakpoints],
   [if test "$enableval" = yes; then
