@@ -339,6 +339,7 @@ bx_keyb_c::write( Bit32u   address, Bit32u   value, unsigned io_len)
   UNUSED(this_ptr);
 #endif  // !BX_USE_KEY_SMF
   Bit8u   command_byte;
+  static int kbd_initialized=0;
 
   if (io_len > 1)
     BX_PANIC(("kbd: io write to address %08x, len=%u",
@@ -479,6 +480,12 @@ bx_keyb_c::write( Bit32u   address, Bit32u   value, unsigned io_len)
           break;
         case 0xaa: // motherboard controller self test
           BX_DEBUG(("Self Test"));
+	  if( kbd_initialized == 0 )
+	  {
+	    BX_KEY_THIS s.controller_Qsize = 0;
+	    BX_KEY_THIS s.kbd_controller.outb = 0;
+	    kbd_initialized++;
+	  }
           // controller output buffer must be empty
           if (BX_KEY_THIS s.kbd_controller.outb) {
 		BX_ERROR(("kbd: OUTB set and command 0x%02x encountered", value));
