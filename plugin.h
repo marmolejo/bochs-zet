@@ -147,6 +147,12 @@ extern "C" {
 #define DEV_vga_set_update_interval(val) \
   (bx_devices.pluginVgaDevice->set_update_interval(val))
 
+///////// PCI macros
+#define DEV_register_pci_handlers(b,c,d,e,f) \
+  (bx_pci.register_pci_handlers(b,c,d,e,f))
+#define DEV_pci_rd_memtype(addr) bx_pci.rd_memType(addr)
+#define DEV_pci_wr_memtype(addr) bx_pci.wr_memType(addr)
+
 
 #if BX_HAVE_DLFCN_H
 #include <dlfcn.h>

@@ -212,7 +212,7 @@ BX_MEM_C::load_ROM(const char *path, Bit32u romaddress)
 BX_MEM_C::pci_fetch_ptr(Bit32u addr)
 {
   if (bx_options.Oi440FXSupport->get ()) {
-    switch (bx_devices.pci->rd_memType (addr)) {
+    switch (DEV_pci_rd_memtype (addr)) {
       case 0x1:   // Read from ShadowRAM
         return (&BX_MEM_THIS shadow[addr - 0xc0000]);
 
@@ -250,7 +250,7 @@ BX_MEM_C::dbg_fetch_mem(Bit32u addr, unsigned len, Bit8u *buf)
 #else
       if ( bx_options.Oi440FXSupport->get () &&
           ((addr >= 0x000C0000) && (addr <= 0x000FFFFF)) ) {
-        switch (bx_devices.pci->rd_memType (addr)) {
+        switch (DEV_pci_rd_memtype (addr)) {
           case 0x1:  // Fetch from ShadowRAM
             *buf = shadow[addr - 0xc0000];
 //          BX_INFO(("Fetching from ShadowRAM %06x, len %u !", (unsigned)addr, (unsigned)len));
@@ -342,7 +342,7 @@ BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op)
               || (!bx_options.Oi440FXSupport->get ()) )
       return( (Bit8u *) & vector[a20Addr] );
     else {
-      switch (bx_devices.pci->rd_memType (a20Addr)) {
+      switch (DEV_pci_rd_memtype (a20Addr)) {
         case 0x0:   // Read from ROM
           return ( (Bit8u *) & vector[a20Addr]);
         case 0x1:   // Read from ShadowRAM
@@ -366,7 +366,7 @@ BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op)
 #else
     else if ( (a20Addr < 0xc0000) || (!bx_options.Oi440FXSupport->get ()) )
       return(NULL); // Vetoed!  Mem mapped IO (VGA) and ROMs
-    else if (bx_devices.pci->wr_memType (a20Addr) == 1) {
+    else if (DEV_pci_wr_memtype (a20Addr) == 1) {
       // Write to ShadowRAM
       retAddr = (Bit8u *) & shadow[a20Addr - 0xc0000];
       }
