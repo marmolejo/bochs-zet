@@ -1186,12 +1186,9 @@ bx_do_text_config_interface (int argc, char *argv[])
   char *bochsrc = NULL;
   int norcfile = 1;
 
-  // detect -q, -qf, -nocontrolpanel or -nocp argument before anything else
+  // detect -q, -qf argument before anything else
   int arg = 1;
-  if ((argc > 1) && 
-       ((!strcmp ("-nocontrolpanel", argv[1]))
-        || (!strcmp ("-nocp", argv[1]))
-        || (!strncmp ("-q", argv[1], 2)))) {
+  if ((argc > 1) && !strncmp ("-q", argv[1], 2)) {
     // skip the configuration interface
     arg++;
     enable_config_interface = 0;
