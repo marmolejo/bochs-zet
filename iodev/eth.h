@@ -40,7 +40,7 @@ typedef void (*eth_rx_handler_t)(void *arg, const void *buf, unsigned len);
 // system, an NDIS driver in promisc mode on WinNT, or maybe
 // a simulated network that talks to another process.
 //
-class eth_pktmover_c : public logfunctions {
+class eth_pktmover_c {
 public:
   virtual void sendpkt(void *buf, unsigned io_len) = 0;
   virtual ~eth_pktmover_c (void) {}

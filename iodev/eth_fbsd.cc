@@ -50,7 +50,7 @@
 
 #include "bochs.h"
 #ifdef ETH_FBSD
-#define LOG_THIS this->
+#define LOG_THIS bx_ne2k.
 
 extern "C" {
 #include <fcntl.h>
