@@ -32,7 +32,7 @@ class bx_real_sim_c : public bx_simulator_interface_c {
   int enabled;
 public:
   bx_real_sim_c ();
-  ~bx_real_sim_c ();
+  virtual ~bx_real_sim_c ();
   virtual int get_init_done () { return init_done; }
   virtual int set_init_done (int n) { init_done = n; return 0;}
   virtual int register_param (bx_id id, bx_param_c *it);
