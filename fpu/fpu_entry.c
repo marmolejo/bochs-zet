@@ -129,7 +129,7 @@ static u_char const type_table[64] = {
 
   asmlinkage void
 math_emulate(fpu_addr_modes addr_modes,
-              u_char  FPU_modrm,
+              u_char FPU_modrm,
               u_char byte1,
               bx_address data_address,
               struct address data_sel_off,
@@ -295,8 +295,7 @@ do_the_FPU_interrupt:
                 case 3:         /* fcomp */
 		  /* bbd: used to typecase to int first, but this corrupted the
 		     pointer on 64 bit machines. */
-                  if (!FPU_compare_st_data(&loaded_data, loaded_tag)
-                       && !unmasked)
+                  if (!FPU_compare_st_data(&loaded_data, loaded_tag) && !unmasked)
                     FPU_pop();
                   break;
                 case 4:         /* fsub */

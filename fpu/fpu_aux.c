@@ -200,4 +200,3 @@ void fstp_i()
   FPU_copy_to_regi(&st(0), FPU_gettag0(), FPU_rm);
   FPU_pop();
 }
-
