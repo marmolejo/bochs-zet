@@ -551,8 +551,8 @@ void bx_log_options (int individual)
       if (ask_menu (prompt, log_level_n_choices_normal+1, log_level_choices, default_action, &action)<0)
 	return;
       if (action < 3) {
-	for (int i=0; i<SIM->get_n_log_modules (); i++)
-          SIM->set_log_action (i, level, action);
+	SIM->set_default_log_action (level, action);
+	SIM->set_log_action (-1, level, action);
       }
     }
   }
