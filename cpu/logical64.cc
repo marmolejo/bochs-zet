@@ -383,7 +383,7 @@ BX_CPU_C::TEST_RAXId(bxInstruction_c *i)
     /* op1 is RAX register */
     op1_64 = RAX;
 
-    /* op2 is imm64 */
+    /* op2 is imm32 */
     op2_64 = (Bit32s) i->Id();
 
     result_64 = op1_64 & op2_64;

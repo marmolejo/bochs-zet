@@ -82,6 +82,14 @@
 #define BX_32BIT_REG_ESI 6
 #define BX_32BIT_REG_EDI 7
 
+#define BX_64BIT_REG_RAX 0
+#define BX_64BIT_REG_RCX 1
+#define BX_64BIT_REG_RDX 2
+#define BX_64BIT_REG_RBX 3
+#define BX_64BIT_REG_RSP 4
+#define BX_64BIT_REG_RBP 5
+#define BX_64BIT_REG_RSI 6
+#define BX_64BIT_REG_RDI 7
 
 #if defined(NEED_CPU_REG_SHORTCUTS)
 

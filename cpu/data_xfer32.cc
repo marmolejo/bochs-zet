@@ -101,7 +101,7 @@ BX_CPU_C::LEA_GdM(bxInstruction_c *i)
   void
 BX_CPU_C::MOV_EAXOd(bxInstruction_c *i)
 {
-  BX_CLEAR_64BIT_HIGH(BX_32BIT_REG_EAX);   /* RAX register */
+  BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RAX);
 
   /* read from memory address */
   if (!BX_NULL_SEG_REG(i->seg())) {
