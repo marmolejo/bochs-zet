@@ -230,13 +230,15 @@ private:
     int memdst_needed;
     Bit8u memsrc[CIRRUS_BLT_CACHESIZE];
     Bit8u memdst[CIRRUS_BLT_CACHESIZE];
-    Bit16u pos_x;
-    Bit16u pos_y;
-    } bitblt;
+  } bitblt;
 
   struct {
     Bit16u x, y, size;
-    } hw_cursor;
+  } hw_cursor;
+
+  struct {
+    Bit16u x, y, w, h;
+  } redraw;
 
   bx_bool is_unlocked() { return svga_unlock_special; }
 
