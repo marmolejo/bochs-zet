@@ -213,6 +213,9 @@ class BOCHSAPI bx_pic_stub_c : public bx_devmodel_c {
   virtual Bit8u IAC(void) {
     STUBFUNC(pic, IAC); return 0;
   }
+  virtual void show_pic_state(void) {
+    STUBFUNC(pic, show_pic_state);
+  }
 };
 
 class BOCHSAPI bx_vga_stub_c : public bx_devmodel_c {

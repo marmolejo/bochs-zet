@@ -77,6 +77,7 @@ extern "C" {
 #include <ctype.h>
 #include <string.h>
 #include <fcntl.h>
+#include <limits.h>
 #ifdef macintosh
 #  define SuperDrive "[fd:]"
 #endif

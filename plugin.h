@@ -140,6 +140,7 @@ extern "C" {
 #define DEV_pic_lower_irq(b)  (bx_devices.pluginPicDevice->lower_irq(b))
 #define DEV_pic_raise_irq(b)  (bx_devices.pluginPicDevice->raise_irq(b))
 #define DEV_pic_iac()         (bx_devices.pluginPicDevice->IAC())
+#define DEV_pic_show_pic_state() (bx_devices.pluginPicDevice->show_pic_state())
 
 ///////// VGA macros
 #define DEV_vga_mem_read(addr) (bx_devices.pluginVgaDevice->mem_read(addr))

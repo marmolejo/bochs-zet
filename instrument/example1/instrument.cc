@@ -48,7 +48,7 @@ void bxInstrumentation::bx_instr_new_instruction()
   {
     char disasm_tbuf[512];	// buffer for instruction disassembly
     unsigned length = opcode_size, n;
-    bx_disassemble.disasm(is32, 0, opcode, disasm_tbuf);
+    bx_disassemble.disasm(is32, 0, 0, opcode, disasm_tbuf);
     if(length != 0)	
     {
       fprintf(stderr, "----------------------------------------------------------\n");
