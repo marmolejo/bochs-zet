@@ -65,6 +65,15 @@ bx_cmos_c *theCmosDevice = NULL;
 #define  REG_IBM_CENTURY_BYTE        0x32  /* alternatives */
 #define  REG_IBM_PS2_CENTURY_BYTE    0x37  /* alternatives */
 
+// Bochs CMOS map (to be completed)
+//
+// Idx  Len   Description
+// 0x15   2   Base memory in 1k
+// 0x17   2   Memory size above 1M in 1k
+// 0x30   2   Memory size above 1M in 1k
+// 0x34   2   Memory size above 16M in 64k
+//
+
 // check that BX_NUM_CMOS_REGS is 64 or 128
 #if (BX_NUM_CMOS_REGS == 64)
 #elif (BX_NUM_CMOS_REGS == 128)
