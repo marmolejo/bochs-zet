@@ -3044,13 +3044,13 @@ diff -u -r1.19 harddrv.h
 +{
 +
 +// Format of a sparse file:
-+// 512 byte header, containing details such as page size and number of pages
++// 256 byte header, containing details such as page size and number of pages
 +// Page indirection table, mapping virtual pages to physical pages within file
 +// Physical pages till end of file
 +
 +#define SPARSE_HEADER_MAGIC  (0x02468ace)
 +#define SPARSE_HEADER_VERSION  1
-+#define HEADER_SIZE        (512) // Plenty of room for later
++#define HEADER_SIZE        (256) // Plenty of room for later
 +#define PAGE_NOT_ALLOCATED (0xffffffff)
 +
 + typedef struct
