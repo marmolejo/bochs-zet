@@ -316,7 +316,11 @@
 //    +---------------> Current CR0.wp value
 
 
+#ifndef _MSC_VER
+// MSC++ doesn't understand a #warning
 #warning "Move priv_check to CPU fields, or init.cc"
+#endif
+
 unsigned priv_check[BX_PRIV_CHECK_SIZE];
 
 
