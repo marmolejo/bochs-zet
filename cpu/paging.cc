@@ -977,7 +977,11 @@ page_fault_not_present:
   // Invalidate TLB entry.
   BX_CPU_THIS_PTR TLB.entry[TLB_index].lpf = BX_INVALID_TLB_ENTRY;
 #if BX_EXTERNAL_DEBUGGER
-  printf("page fault for address %08x%08x\n",(Bit32u)(laddr >> 32),(Bit32u)(laddr & 0xffffffff));  
+#if BX_SUPPORT_X86_64
+  printf("page fault for address %08x%08x\n",(Bit32u)(laddr >> 32),(Bit32u)(laddr & 0xffffffff));
+#else
+  printf("page fault for address %08xx\n",(laddr >> 32));
+#endif
 #endif
   exception(BX_PF_EXCEPTION, error_code, 0);
   return(0); // keep compiler happy

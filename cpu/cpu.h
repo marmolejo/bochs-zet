@@ -1544,7 +1544,9 @@ union {
   //Bit32s daddr_upper;    // upper bits must be canonical  (-virtmax --> + virtmax)
   // instruction upper 32 bits - not used any longer
   //Bit32s iaddr_upper;    // upper bits must be canonical  (-virtmax --> + virtmax)
+#endif
 
+#if BX_EXTERNAL_DEBUGGER
   void ask (int level, const char *prefix, const char *fmt, va_list ap);
 #endif
 

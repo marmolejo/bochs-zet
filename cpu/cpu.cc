@@ -865,21 +865,17 @@ BX_CPU_C::revalidate_prefetch_q(void)
 #endif
 
 
-#if BX_SUPPORT_X86_64
+#if BX_EXTERNAL_DEBUGGER
+
   void
 BX_CPU_C::ask (int level, const char *prefix, const char *fmt, va_list ap)
 {
-#if BX_EXTERNAL_DEBUGGER
   char buf1[1024];
   vsprintf (buf1, fmt, ap);
   printf ("%s %s\n", prefix, buf1);
   trap_debugger(1);
-#else
-  this->logfunctions::ask(level,prefix,fmt,ap);
-#endif
+  //this->logfunctions::ask(level,prefix,fmt,ap);
 }
-
-#if BX_EXTERNAL_DEBUGGER
 
   void
 BX_CPU_C::trap_debugger (bx_bool callnow)
@@ -890,10 +886,7 @@ BX_CPU_C::trap_debugger (bx_bool callnow)
   }
 }
 
-#endif
-
-#endif  // #if BX_SUPPORT_X86_64
-
+#endif  // #if BX_EXTERNAL_DEBUGGER
 
 
 #if BX_DEBUGGER
