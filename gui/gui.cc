@@ -286,9 +286,9 @@ bx_gui_c::copy_handler(void)
   // copy to clipboard using gui dependent code.
 #ifdef WIN32
   if (OpenClipboard(NULL)) {
-    hMem = GlobalAlloc(GMEM_ZEROINIT, txHeight*(txWidth+2)+1);
+    HANDLE hMem = GlobalAlloc(GMEM_ZEROINIT, len);
     EmptyClipboard();
-    lstrcpy((char *)hMem, snapshot_txt);
+    lstrcpy((char *)hMem, text_snapshot);
     SetClipboardData(CF_TEXT, hMem);
     CloseClipboard();
     GlobalFree(hMem);
