@@ -51,7 +51,6 @@ extern unsigned fpu_get_user(void *ptr, unsigned len) BX_CPP_AttrRegparmN(2);
 extern void fpu_put_user(unsigned val, void *ptr, unsigned len) BX_CPP_AttrRegparmN(2);
 
 extern void fpu_verify_area(unsigned what, void *ptr, unsigned n) BX_CPP_AttrRegparmN(3);
-extern void math_emulate_init(void);
 extern unsigned fpu_get_ds(void);
 extern void fpu_set_ax(u16);
 

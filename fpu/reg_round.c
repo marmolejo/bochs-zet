@@ -534,6 +534,3 @@ int FPU_round(FPU_REG *x, u32 extent, int dummy, u16 control_w, u8 sign)
   return tag;
 
 }
-
-
-
