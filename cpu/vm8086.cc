@@ -125,7 +125,13 @@ BX_CPU_C::stack_return_to_v86(Bit32u new_eip, Bit32u raw_cs_selector,
   void
 BX_CPU_C::stack_return_from_v86(BxInstruction_t *i)
 {
-  BX_ERROR(("stack_return_from_v86 may not be implemented right!"));
+  static Bit32u times = 0;
+  times++;
+  if (times<100) {
+    BX_ERROR(("stack_return_from_v86 may not be implemented right!"));
+  } else if (times==100) {
+    BX_ERROR(("stack_return_from_v86 called 100 times. I won't print this error any more"));
+  }
   //exception(BX_GP_EXCEPTION, 0, 0);
 
 #if 1
