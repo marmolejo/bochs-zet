@@ -603,8 +603,6 @@ typedef struct {
   bx_param_num_c    *Okeyboard_serial_delay;
   bx_param_num_c    *Ofloppy_command_delay;
   bx_param_num_c    *Oips;
-  bx_param_num_c    *Omax_ips;
-  bx_param_bool_c   *Osystem_clock_sync;
   bx_param_bool_c   *Omouse_enabled;
   bx_param_bool_c   *Oprivate_colormap;
 #if BX_WITH_AMIGAOS
