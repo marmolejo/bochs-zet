@@ -645,6 +645,7 @@ typedef struct {
 typedef void * (*BxVoidFPtr_t)(void);
 class BX_CPU_C;
 
+
 typedef struct BxInstruction_tag {
   // prefix stuff here...
   unsigned attr; // attribute from fetchdecode
@@ -652,33 +653,40 @@ typedef struct BxInstruction_tag {
   unsigned os_32, as_32; // OperandSize/AddressSize is 32bit
   unsigned rep_used;
   unsigned seg;
-  unsigned modrm; // mod-nnn-r/m byte
-    unsigned mod;
-    unsigned nnn;
-    unsigned rm;
-  Bit16u displ16u; // for 16-bit modrm forms
-  Bit32u displ32u; // for 32-bit modrm forms
-  unsigned sib; // scale-index-base (2nd modrm byte)
-    unsigned scale;
-    unsigned index;
-    unsigned base;
-  Bit32u   addr_displacement; // address displacement
-  bx_address   rm_addr;
-  Bit32u   Id;
-  Bit16u   Iw;
-  Bit8u    Ib;
-  Bit8u    Ib2; // for ENTER_IwIb
-  Bit16u   Iw2; // for JMP_Ap
 #if BX_SUPPORT_X86_64
-  Bit64u   Iq; // for MOV Rx,imm64
   unsigned os_64, as_64; // OperandSize/AddressSize is 64bit (overrides os_32/as_32)
   unsigned extend8bit;
 #else
   enum { os_64=0, as_64=0 };  // x86-32: hardcode to 0.
-  //static const unsigned extend8bit=0;     // x86-32: hardcode to 0.
 #endif
+
+  unsigned modrm; // mod-nnn-r/m byte
+    unsigned mod;
+    unsigned nnn;
+    unsigned rm;
+  unsigned sib; // scale-index-base (2nd modrm byte)
+    unsigned scale;
+    unsigned index;
+    unsigned base;
+  union {
+    Bit16u displ16u; // for 16-bit modrm forms
+    Bit32u displ32u; // for 32-bit modrm forms
+    };
+  union {
+#if BX_SUPPORT_X86_64
+    Bit64u   Iq;  // for MOV Rx,imm64
+#endif
+    Bit32u   Id;
+    Bit16u   Iw;
+    Bit8u    Ib;
+    };
+  union {
+    Bit8u    Ib2; // for ENTER_IwIb
+    Bit16u   Iw2; // for JMP_Ap
+    };
+
+  bx_address   rm_addr;
   unsigned ilen; // instruction length
-  unsigned flags_in, flags_out; // flags needed, flags modified
 
 #if BX_USE_CPU_SMF
   void (*ResolveModrm)(BxInstruction_tag *);
@@ -687,16 +695,8 @@ typedef struct BxInstruction_tag {
   void (BX_CPU_C::*ResolveModrm)(BxInstruction_tag *);
   void (BX_CPU_C::*execute)(BxInstruction_tag *);
 #endif
-
-#if BX_DYNAMIC_TRANSLATION
-  BxVoidFPtr_t DTResolveModrm;
-#endif
-#if BX_DYNAMIC_TRANSLATION
-  unsigned DTAttr;
-  Bit8u *   (*DTFPtr)(Bit8u *, BxInstruction_tag *);
-  unsigned DTMemRegsUsed;
-#endif
   } BxInstruction_t;
+
 
 #if BX_USE_CPU_SMF
 typedef void (*BxExecutePtr_t)(BxInstruction_t *);

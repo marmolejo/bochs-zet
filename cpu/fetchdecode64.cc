@@ -2664,8 +2664,6 @@ BX_INFO(("b1 was %x", b1));
 
   instruction->b1 = b1;
   instruction->ilen = ilen;
-  //instruction->flags_in  = 0; // for now
-  //instruction->flags_out = 0; // for now
   return(1);
 }
 
