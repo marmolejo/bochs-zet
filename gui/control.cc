@@ -645,6 +645,8 @@ ask:
 	return SIM->notify_return(-1);
       // return 0 for continue, 1 for alwayscontinue, 2 for die, 3 for debug.
       if (!BX_HAVE_ABORT && choice==3) goto ask;
+      fflush(stdout);
+      fflush(stderr);
       SIM->notify_return(choice);
     }
     break;
