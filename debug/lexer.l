@@ -51,6 +51,7 @@ registers       { bxlval.sval = strdup(bxtext); return(BX_TOKEN_REGISTERS); }
 fpu             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_FPU); }
 all             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_ALL); }
 idt		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_IDT); }
+ivt		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_IVT); }
 gdt		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_GDT); }
 ldt		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_LDT); }
 tss		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_TSS); }

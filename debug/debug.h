@@ -141,7 +141,7 @@ extern bx_bool watchpoint_continue;
 void bx_dbg_linux_syscall ();
 void bx_dbg_info_ne2k(int page, int reg);
 void bx_dbg_help_command(char* command);
-
+void bx_dbg_info_ivt_command(bx_num_range);
 #ifdef __cplusplus
 }
 #endif
