@@ -355,7 +355,7 @@ bx_amigaos_gui_c::specific_init(int argc, char **argv, unsigned tilewidth, unsig
 	BX_PANIC(("Amiga: Failed to open diskfont.library v38 or later!"));
 
 	IFFParseBase = OpenLibrary("iffparse.library", 39);
-	if (DiskfontBase == NULL)
+	if (IFFParseBase == NULL)
 	BX_PANIC(("Amiga: Failed to open iffparse.library v39 or later!"));
 
 	open_screen();
