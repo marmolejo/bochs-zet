@@ -5517,6 +5517,10 @@ but in general it should work ok (we have run several test programs, the XFree86
 </para>
 
 <para>
+NOTE: you will need to use the LGPL'ed VGABIOS in order for application to correctly detect VESA support.
+</para>
+
+<para>
 Current limitations:
 <itemizedlist>
 	<listitem> <para> only 8bpp modes are supported (no 16bpp, 24bpp or 32bpp!)</para> </listitem>
