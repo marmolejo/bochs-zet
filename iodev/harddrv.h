@@ -179,7 +179,8 @@ typedef struct {
     Bit16u   byte_count;
   };
   Bit8u    buffer[2048];
-  unsigned buffer_index;
+  Bit32u   buffer_index;
+  Bit32u   drq_index;
   Bit8u    current_command;
   Bit8u    sectors_per_block;
   Bit8u    lba_mode;
