@@ -72,6 +72,7 @@ enum
   ID_Filename,
   ID_FilenameText,
   ID_Browse,
+  ID_Create,
   // dialog box: HDConfigDialog
   ID_Enable,
   ID_Cylinders,
