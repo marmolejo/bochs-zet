@@ -1140,7 +1140,12 @@ void bx_init_options ()
   bx_options.Ovga_extension = new bx_param_string_c (BXP_VGA_EXTENSION,
                 "VGA Extension", 
                 "Name of the VGA extension",
-                (BX_SUPPORT_CLGD54XX==1)?"cirrus":"vbe", BX_PATHNAME_LEN);
+                "none", BX_PATHNAME_LEN);
+#if BX_SUPPORT_VBE
+  bx_options.Ovga_extension->set("vbe");
+#elif BX_SUPPORT_CLGD54XX
+  bx_options.Ovga_extension->set("cirrus");
+#endif
 
   bx_options.Omouse_enabled = new bx_param_bool_c (BXP_MOUSE_ENABLED,
       "Enable the mouse",
