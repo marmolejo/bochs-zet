@@ -690,9 +690,6 @@ BX_CPU_C::SGDT_Ms(bxInstruction_c *i)
   Bit16u limit_16;
   Bit32u base_32;
 
-  // ams says it works ok in v8086 mode
-  // if (v8086_mode()) BX_PANIC(("protect_ctrl: v8086 mode unsupported"));
-
   /* op1 is a register or memory reference */
   if (i->modC0()) {
     /* undefined opcode exception */
