@@ -558,7 +558,11 @@ int AskFilename(HWND hwnd, bx_param_filename_c *param, const char *ext)
     if (errcode == 0) {
       ret = -1;
     } else {
-      wsprintf(errtext, "CommDlgExtendedError returns 0x%04x", errcode);
+      if (errcode == 0x3002) {
+        wsprintf(errtext, "CommDlgExtendedError: illegal filename");
+      } else {
+        wsprintf(errtext, "CommDlgExtendedError returns 0x%04x", errcode);
+      }
       MessageBox(hwnd, errtext, "Error", MB_ICONERROR);
     }
   }
