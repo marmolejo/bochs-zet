@@ -1384,7 +1384,9 @@ BX_CPU_C::CPUID(bxInstruction_c *i)
       //   [24]    FXSR: FSAVE/FXRSTOR
       //   [25]    SSE: SSE Extensions
       //   [26]    SSE2: SSE2 Extensions
+      //   [28]    Reserved
       //   [29]    TM: Therm Monitor
+      //   [31:30] Reserved
 
       features = 0; // start with none
       type = 0; // OEM
