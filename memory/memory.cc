@@ -323,6 +323,8 @@ inc_one:
     for (i = 0; i < len; i++) {
       if (a20addr < BX_MEM_THIS len)
         *data_ptr = vector[a20addr];
+      else if (a20addr >= 0xfffe0000)
+        *data_ptr = rom[a20addr & 0x3ffff];
       else
         *data_ptr = 0xff;
       addr++;
