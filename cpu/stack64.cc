@@ -287,14 +287,14 @@ BX_CPU_C::ENTER64_IwIb(bxInstruction_c *i)
     while (--level) {
       Bit64u temp64;
 
-      RBP -= 4;
+      RBP -= 8;
       read_virtual_qword(BX_SEG_REG_SS, RBP, &temp64);
-      ESP -= 4;
+      ESP -= 8;
       write_virtual_qword(BX_SEG_REG_SS, RSP, &temp64);
       } /* while (--level) */
 
     /* push(frame pointer) */
-    RSP -= 4;
+    RSP -= 8;
     write_virtual_qword(BX_SEG_REG_SS, RSP, &frame_ptr64);
     } /* if (level > 0) ... */
 
