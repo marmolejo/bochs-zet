@@ -838,7 +838,7 @@ int control_panel_notify_callback (int code)
       fprintf (stderr, "Event type: %s\n", SIM->get_log_level_name (level));
       fprintf (stderr, "Device: %s\n", prefix);
       fprintf (stderr, "Message: %s\n\n", msg);
-      fprintf (stderr, "A panic has occurred.  Do you want to:\n");
+      fprintf (stderr, "A %s has occurred.  Do you want to:\n", SIM->get_log_level_name (level));
       fprintf (stderr, "  cont       - continue execution\n");
       fprintf (stderr, "  alwayscont - continue execution, and don't ask again.\n");
       fprintf (stderr, "               This affects only %s events from device %s\n", SIM->get_log_level_name (level), prefix);
