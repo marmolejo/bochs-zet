@@ -60,6 +60,10 @@ extern "C" {
 }
 #endif /* __sun */
 
+#ifdef __BEOS__
+#define BX_CD_FRAMESIZE 2048
+#endif
+
 #if (defined(__OpenBSD__) || defined(__FreeBSD__))
 // OpenBSD pre version 2.7 may require extern "C" { } structure around
 // all the includes, because the i386 sys/disklabel.h contains code which 
