@@ -441,10 +441,10 @@ win32_snap:
 	$(SHELL) ./build/win32/cpp2cc
 
 tar:
-	NAME=`pwd|$(SED) 's/.*\///'`; (cd ..; tar cf - $$NAME | $(GZIP) > $$NAME.tar.gz); ls -l ../$$NAME.tar.gz
+	NAME=`pwd|$(SED) 's/.*\///'`; (cd ..; $(RM) -f $$NAME.zip; tar cf - $$NAME | $(GZIP) > $$NAME.tar.gz); ls -l ../$$NAME.tar.gz
 
 zip:
-	NAME=`pwd|$(SED) 's/.*\///'`; (cd ..; $(ZIP) $$NAME.zip -r $$NAME -x \*CVS\* -x \*.cvsignore ); ls -l ../$$NAME.zip
+	NAME=`pwd|$(SED) 's/.*\///'`; (cd ..; $(RM) -f $$NAME.zip; $(ZIP) $$NAME.zip -r $$NAME -x \*CVS\* -x \*.cvsignore ); ls -l ../$$NAME.zip
 
 clean:
 	@RMCOMMAND@ *.o
