@@ -54,7 +54,6 @@
 
 #define SWITCH_MAGIC 0xfeedface
 
-//#define VDE_VIRTUAL_HW_ADDR             0xDEADBEEF
 #define BX_ETH_VDE_LOGGING 0
 #define BX_PACKET_BUFSIZ 2048	// Enough for an ether frame
 
