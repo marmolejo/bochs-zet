@@ -210,6 +210,9 @@
 #define BX_WRITE_64BIT_REG(index, val) {\
   BX_CPU_THIS_PTR gen_reg[index].rrx = val; \
   }
+#define BX_CLEAR_64BIT_HIGH(index) {\
+  BX_CPU_THIS_PTR gen_reg[index].dword.hrx = 0; \
+  }
 
 #else
 
@@ -229,6 +232,8 @@
 #define BX_WRITE_32BIT_REGZ(index, val) {\
   BX_CPU_THIS_PTR gen_reg[index].dword.erx = (Bit32u) val; \
   }
+
+#define BX_CLEAR_64BIT_HIGH(index)
 
 #endif
 
