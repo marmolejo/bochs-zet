@@ -99,7 +99,7 @@ for f in $FONTS; do
 done
 
 echo Running mkfontdir...
-mkfontdir $fontpath
+mkfontdir $fontpath/misc
 ret=$?
 if test $ret != 0; then
   echo ERROR: mkfontdir returned $ret
