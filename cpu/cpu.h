@@ -605,9 +605,10 @@ typedef struct {
 
 #if BX_SUPPORT_X86_64
   // x86-64 EFER bits
-  bx_bool sce;
-  bx_bool lme;
-  bx_bool lma;
+  bx_bool sce;		// system call extensions
+  bx_bool lme;		// long mode enable
+  bx_bool lma;		// long mode active
+  bx_bool ffxsr;	// fast FXSAVE/FXRSTOR
 
   Bit64u star;
   Bit64u lstar;
