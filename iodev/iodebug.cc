@@ -4,7 +4,7 @@
 
 
 #include "iodev.h"
-#if BX_IODEBUG_SUPPORT
+#if BX_SUPPORT_IODEBUG
 
 
 
@@ -299,4 +299,4 @@ void bx_iodebug_c::add_range( Bit32u addr_start, Bit32u addr_end )
 //  fprintf(stderr, "IODEBUG unable to register memory range, all slots taken\n");
 }
 
-#endif /* if BX_IODEBUG_SUPPORT */
+#endif /* if BX_SUPPORT_IODEBUG */

@@ -27,7 +27,7 @@
 #define BX_PLUGGABLE
  
 #include "iodev.h"
-#if BX_NE2K_SUPPORT
+#if BX_SUPPORT_NE2K
 
 #define LOG_THIS bx_devices.pluginNE2kDevice->
 
@@ -336,4 +336,4 @@ static int send_fd(char *name, int fddata, struct sockaddr_un *datasock, int gro
       return fd;
   }              
 
-#endif /* if BX_NE2K_SUPPORT */
+#endif /* if BX_SUPPORT_NE2K */

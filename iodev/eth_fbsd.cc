@@ -54,7 +54,7 @@
 #define BX_PLUGGABLE
  
 #include "iodev.h"
-#if BX_NE2K_SUPPORT && defined(ETH_FBSD)
+#if BX_SUPPORT_NE2K && defined(ETH_FBSD)
 
 #define LOG_THIS bx_devices.pluginNE2kDevice->
 
@@ -381,5 +381,5 @@ bx_fbsd_pktmover_c::rx_timer(void)
   }  
 }
 
-#endif /* if BX_NE2K_SUPPORT && defined(ETH_FBSD) */
+#endif /* if BX_SUPPORT_NE2K && defined(ETH_FBSD) */
 

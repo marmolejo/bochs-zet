@@ -233,7 +233,7 @@ BX_MEM_C::load_ROM(const char *path, Bit32u romaddress, Bit8u type)
 }
 #endif // #if BX_PROVIDE_CPU_MEMORY
 
-#if BX_PCI_SUPPORT
+#if BX_SUPPORT_PCI
   Bit8u* BX_CPP_AttrRegparmN(1)
 BX_MEM_C::pci_fetch_ptr(Bit32u addr)
 {
@@ -269,7 +269,7 @@ BX_MEM_C::dbg_fetch_mem(Bit32u addr, unsigned len, Bit8u *buf)
       *buf = DEV_vga_mem_read(addr);
       }
     else {
-#if BX_PCI_SUPPORT == 0
+#if BX_SUPPORT_PCI == 0
       *buf = vector[addr];
 #else
       if ( bx_options.Oi440FXSupport->get () &&
@@ -290,7 +290,7 @@ BX_MEM_C::dbg_fetch_mem(Bit32u addr, unsigned len, Bit8u *buf)
         }
       else
         *buf = vector[addr];
-#endif  // #if BX_PCI_SUPPORT == 0
+#endif  // #if BX_SUPPORT_PCI == 0
       }
     buf++;
     addr++;
@@ -357,7 +357,7 @@ BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op)
   if (op == BX_READ) {
     if ( (a20Addr > 0x9ffff) && (a20Addr < 0xc0000) )
       return(NULL); // Vetoed!  Mem mapped IO (VGA)
-#if !BX_PCI_SUPPORT
+#if !BX_SUPPORT_PCI
     return( (Bit8u *) & vector[a20Addr] );
 #else
     else if ( (a20Addr < 0xa0000) || (a20Addr > 0xfffff)
@@ -382,7 +382,7 @@ BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op)
     if ( (a20Addr < 0xa0000) || (a20Addr > 0xfffff) ) {
       retAddr = (Bit8u *) & vector[a20Addr];
       }
-#if !BX_PCI_SUPPORT
+#if !BX_SUPPORT_PCI
     else
       return(NULL); // Vetoed!  Mem mapped IO (VGA) and ROMs
 #else

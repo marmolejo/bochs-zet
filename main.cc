@@ -36,7 +36,7 @@
 // since SDL redefines main() to SDL_main(), we must include SDL.h so that the
 // C language prototype is found.  Otherwise SDL_main() will get its name 
 // mangled and not match what the SDL library is expecting.
-#include <SDL/SDL.h>
+#include <SDL.h>
 
 #if defined(macintosh)
 // Work around a bug in SDL 1.2.4 on MacOS X, which redefines getenv to
@@ -984,7 +984,7 @@ bx_atexit(void)
   }
 #endif
 
-#if BX_PCI_SUPPORT
+#if BX_SUPPORT_PCI
   if (bx_options.Oi440FXSupport->get ()) {
     bx_devices.pluginPciBridge->print_i440fx_state();
     }

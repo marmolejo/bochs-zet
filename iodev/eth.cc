@@ -35,7 +35,7 @@
 #define BX_PLUGGABLE
  
 #include "iodev.h"
-#if BX_NE2K_SUPPORT
+#if BX_SUPPORT_NE2K
 
 #define LOG_THIS /* not needed */
 
@@ -205,4 +205,4 @@ int execute_script( char* scriptname, char* arg1 )
 
 #endif // (HAVE_ETHERTAP==1) || (HAVE_TUNTAP==1)
 
-#endif /* if BX_NE2K_SUPPORT */
+#endif /* if BX_SUPPORT_NE2K */

@@ -9,7 +9,7 @@
  
 #include "iodev.h"
 
-#if BX_NE2K_SUPPORT && defined(ETH_ARPBACK)
+#if BX_SUPPORT_NE2K && defined(ETH_ARPBACK)
 
 #include "eth_packetmaker.h"
 
@@ -181,4 +181,4 @@ eth_ARPmaker::sendpacket(const eth_packet& outpacket) {
   }
 }
 
-#endif /* if BX_NE2K_SUPPORT && defined(ETH_ARPBACK) */
+#endif /* if BX_SUPPORT_NE2K && defined(ETH_ARPBACK) */

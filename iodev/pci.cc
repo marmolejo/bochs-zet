@@ -34,7 +34,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
-#if BX_PCI_SUPPORT
+#if BX_SUPPORT_PCI
 
 #define LOG_THIS thePciBridge->
 
@@ -568,4 +568,4 @@ bx_pci_c::pci_set_base_io(void *this_ptr, bx_read_handler_t f1, bx_write_handler
   *addr = baseaddr;
 }
 
-#endif /* BX_PCI_SUPPORT */
+#endif /* BX_SUPPORT_PCI */

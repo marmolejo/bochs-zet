@@ -36,9 +36,9 @@
 #if BX_WITH_SDL
 
 #include <stdlib.h>
-#include <SDL/SDL.h>
-#include <SDL/SDL_endian.h>
-#include <SDL/SDL_thread.h>
+#include <SDL.h>
+#include <SDL_endian.h>
+#include <SDL_thread.h>
 
 #include "icon_bochs.h"
 #include "sdl.h"

@@ -85,7 +85,7 @@
 #define BX_PLUGGABLE
  
 #include "iodev.h"
-#if BX_NE2K_SUPPORT
+#if BX_SUPPORT_NE2K
 
 #define LOG_THIS bx_devices.pluginNE2kDevice->
 
@@ -367,4 +367,4 @@ void bx_tap_pktmover_c::rx_timer ()
   (*rxh)(rxarg, rxbuf, nbytes);
 }
 
-#endif /* if BX_NE2K_SUPPORT */
+#endif /* if BX_SUPPORT_NE2K */

@@ -42,7 +42,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
-#if BX_NE2K_SUPPORT
+#if BX_SUPPORT_NE2K
 
 // windows.h included by bochs.h
 #define LOG_THIS bx_devices.pluginNE2kDevice->
@@ -356,4 +356,4 @@ void bx_win32_pktmover_c::rx_timer_handler (void *this_ptr)
     }
 }
 
-#endif /* if BX_NE2K_SUPPORT */
+#endif /* if BX_SUPPORT_NE2K */
