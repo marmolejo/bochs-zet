@@ -3,9 +3,7 @@
 /////////////////////////////////////////////////////////////////////////
 //
 
-#if BX_USE_SLOWDOWN_TIMER
-
-class bx_slowdown_timer_c {
+class bx_slowdown_timer_c : public logfunctions {
 
 private:
   struct {
@@ -32,6 +30,4 @@ public:
 };
 
 extern bx_slowdown_timer_c bx_slowdown_timer;
-
-#endif
 

@@ -151,10 +151,16 @@ bx_cmos_c::init(void)
   BX_CMOS_THIS s.timeval = BX_USE_SPECIFIED_TIME0;
 #endif
 
-  if (bx_options.cmos.Otime0->get () == 1)
+  // localtime
+  if (bx_options.clock.Otime0->get () == BX_CLOCK_TIME0_LOCAL)
        BX_CMOS_THIS s.timeval = time(NULL);
-  else if (bx_options.cmos.Otime0->get () != 0)
-       BX_CMOS_THIS s.timeval = bx_options.cmos.Otime0->get ();
+  // utc
+  if (bx_options.clock.Otime0->get () == BX_CLOCK_TIME0_UTC) {
+       BX_ERROR(("Using UTC time is not supported yet"));
+       BX_CMOS_THIS s.timeval = time(NULL);
+  }
+  else if (bx_options.clock.Otime0->get () != 0)
+       BX_CMOS_THIS s.timeval = bx_options.clock.Otime0->get ();
 
   char *tmptime;
   while( (tmptime =  strdup(ctime(&(BX_CMOS_THIS s.timeval)))) == NULL) {

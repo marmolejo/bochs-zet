@@ -208,9 +208,7 @@ bx_devices_c::init(BX_MEM_C *newmem)
 
   bx_virt_timer.init();
 
-#if BX_USE_SLOWDOWN_TIMER
   bx_slowdown_timer.init();
-#endif
 
 #if BX_IODEBUG_SUPPORT
   iodebug = &bx_iodebug;
@@ -306,9 +304,7 @@ bx_devices_c::reset(unsigned type)
   pluginVgaDevice->reset(type);
   pluginPicDevice->reset(type);
   pit->reset(type);
-#if BX_USE_SLOWDOWN_TIMER
   bx_slowdown_timer.reset(type);
-#endif
 #if BX_IODEBUG_SUPPORT
   iodebug->reset(type);
 #endif
