@@ -37,7 +37,9 @@
 
 #include "bochs.h"
 
+#if BX_HAVE_SYS_MMAN_H
 #include <sys/mman.h>
+#endif
 
 #define LOG_THIS theHardDrive->
 
@@ -3551,7 +3553,7 @@ int sparse_image_t::open (const char* pathname0)
  if ((lastchar >= '0') && (lastchar <= '9'))
  {
    struct stat stat_buf;
-   if (0 == lstat(parentpathname, &stat_buf))
+   if (0 == stat(parentpathname, &stat_buf))
    {
      parent_image = new sparse_image_t();
      int ret = parent_image->open(parentpathname);
@@ -4514,16 +4516,7 @@ int volatile_image_t::open (const char* pathname)
         redolog_name = (char*)malloc(strlen(pathname) + strlen(".XXXXXX") + 1);
         sprintf (redolog_name, "%s%s", pathname, ".XXXXXX");
 
-#if BX_HAVE_MKSTEMP
         filedes = mkstemp (redolog_name);
-#else // BX_HAVE_MKSTEMP
-        mktemp(redolog_name);
-        filedes = ::open(redolog_name, O_RDWR | O_CREAT | O_TRUNC
-#  ifdef O_BINARY
-            | O_BINARY
-#  endif
-              , S_IWUSR | S_IRUSR | S_IRGRP | S_IWGRP);
-#endif // BX_HAVE_MKSTEMP
 
         if (filedes < 0)
         {
@@ -4714,16 +4707,7 @@ int z_volatile_image_t::open (const char* pathname)
         redolog_name = (char*)malloc(strlen(pathname) + strlen(".XXXXXX") + 1);
         sprintf (redolog_name, "%s%s", pathname, ".XXXXXX");
 
-#if BX_HAVE_MKSTEMP
         filedes = mkstemp (redolog_name);
-#else // BX_HAVE_MKSTEMP
-        mktemp(redolog_name);
-        filedes = ::open(redolog_name, O_RDWR | O_CREAT | O_TRUNC
-#  ifdef O_BINARY
-            | O_BINARY
-#  endif
-              , S_IWUSR | S_IRUSR | S_IRGRP | S_IWGRP);
-#endif // BX_HAVE_MKSTEMP
 
         if (filedes < 0)
         {
