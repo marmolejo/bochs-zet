@@ -70,6 +70,7 @@ private:
   void     write(Bit32u   address, Bit32u   value, unsigned io_len);
 #endif
   BX_DMA_SMF void control_HRQ(Boolean ma_sl);
+  BX_DMA_SMF void reset_controller(unsigned num);
 
   struct {
     Boolean DRQ[4];  // DMA Request
