@@ -154,11 +154,11 @@ BX_CPU_C::debug(Bit32u offset)
 
   static disassembler bx_disassemble;
 
-  if (BX_CPU_THIS_PTR protectedMode) { // 16bit & 32bit protected mode
-   Base=BX_CPU_THIS_PTR get_segment_base(BX_SEG_REG_CS);
+  if (BX_CPU_THIS_PTR protected_mode()) { // 16bit & 32bit protected mode
+    Base=BX_CPU_THIS_PTR get_segment_base(BX_SEG_REG_CS);
   }
   else {
-   Base=BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value<<4;
+    Base=BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value<<4;
   }
 
   dbg_xlate_linear2phy(BX_CPU_THIS_PTR get_segment_base(BX_SEG_REG_CS) + offset,
@@ -172,10 +172,10 @@ BX_CPU_C::debug(Bit32u offset)
     for (unsigned j=0; j<isize; j++)
       BX_INFO((">> %02x", (unsigned) instr_buf[j]));
     BX_INFO((">> : %s", char_buf));
-    }
+  }
   else {
     BX_INFO(("(instruction unavailable) page not present"));
-    }
+  }
 #else
   UNUSED(offset);
 #endif  // #if BX_DISASM
