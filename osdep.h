@@ -97,6 +97,11 @@ extern "C" {
   extern char *bx_strdup(const char *str);
 #endif
 
+#if !BX_HAVE_STRREV
+#define strrev bx_strrev
+  extern char *bx_strrev(char *str);
+#endif
+
 #if !BX_HAVE_SOCKLEN_T
 // needed on MacOS X 10.1
 typedef int socklen_t;
