@@ -224,7 +224,7 @@ void dbg_printf (const char *fmt, ...)
   char *buf = new char[1024];
   vsprintf (buf, fmt, ap);
   va_end(ap);
-  SIM->debug_fputs (buf); // send to debugger, which will free buf when done.
+  SIM->debug_puts (buf); // send to debugger, which will free buf when done.
 }
 
   int
