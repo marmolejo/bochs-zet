@@ -90,6 +90,8 @@ public:
 
   void dma_write8(unsigned channel, Bit8u *data);
   void dma_read8(unsigned channel, Bit8u *data);
+  void dma_write16(unsigned channel, Bit16u *data);
+  void dma_read16(unsigned channel, Bit16u *data);
   void drq(unsigned channel, Boolean val);
   void raise_hlda(void);
   static void timer_handler(void *);

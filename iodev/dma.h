@@ -81,7 +81,7 @@ private:
       Bit16u  current_count;
       Bit8u   page_reg;
       } chan[4]; /* DMA channels 0..3 */
-    } s;  // state information
+    } s[2];  // state information DMA-1 / DMA-2
 
   bx_devices_c *devices;
   };
