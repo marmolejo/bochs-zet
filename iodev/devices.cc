@@ -202,6 +202,8 @@ bx_devices_c::init(BX_MEM_C *newmem)
   pit = & bx_pit;
   pit->init();
 
+  bx_virt_timer.init();
+
 #if BX_USE_SLOWDOWN_TIMER
   bx_slowdown_timer.init();
 #endif
