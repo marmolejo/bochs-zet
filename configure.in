@@ -1663,6 +1663,8 @@ if test ! -d build/linux; then mkdir build/linux; fi
 if test "$use_x86_64" = 1; then
   # For x86-64, force support of the Physical Address Extension (PAE),
   # and Page Global Extension (PGE.
+  echo 'Because X86-64 is enabled, enabling Physical Address Extension (PAE).'
+  echo 'Because X86-64 is enabled, enabling Page Global Extension (PGE).'
   AC_DEFINE(BX_SupportPAE, 1)
   AC_DEFINE(BX_SupportGlobalPages, 1)
 else
