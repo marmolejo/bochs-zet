@@ -140,6 +140,8 @@ AC_CHECK_FUNCS(abort, AC_DEFINE(BX_HAVE_ABORT))
 AC_CHECK_FUNCS(gettimeofday, AC_DEFINE(BX_HAVE_GETTIMEOFDAY))
 AC_CHECK_TYPE(socklen_t, AC_DEFINE(BX_HAVE_SOCKLEN_T), , [#include <sys/types.h>
 #include <sys/socket.h>])
+AC_CHECK_MEMBER(struct sockaddr_in.sin_len, AC_DEFINE(BX_HAVE_SOCKADDR_IN_SIN_LEN), , [#include <sys/socket.h>
+#include <netinet/in.h> ])
 
 dnl As of autoconf 2.53, the standard largefile test fails for Linux/gcc.
 dnl It does not put the largefiles arguments into CFLAGS, even though Linux/gcc
