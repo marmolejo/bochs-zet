@@ -212,7 +212,7 @@ int make_image (int sec, char *filename)
   printf ("\nWriting: [");
 
   /*
-   * seek to sec*512-1 and write a signle character.
+   * seek to sec*512-1 and write a single character.
    * can't just do: fseek(fp, 512*sec-1, SEEK_SET)
    * because 512*sec may be too large for signed int.
    */
