@@ -414,7 +414,8 @@ cdrom_interface::read_toc(uint8* buf, int* length, bool msf, int start_track)
 #else
   if (using_file) {
 #endif
-    if ((start_track != 1) && (start_track != 0xaa))
+    // From atapi specs : start track can be 0-63, AA
+    if ((start_track > 1) && (start_track != 0xaa)) 
       return false;
 
     buf[2] = 1;
