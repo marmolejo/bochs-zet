@@ -51,9 +51,9 @@ void BX_CPU_C::prepareFPU(void)
 
 void BX_CPU_C::ESC0(bxInstruction_c *i)
 {
+#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU();
 
-#if BX_SUPPORT_FPU
   fpu_execute(i);
 #else
   BX_INFO(("FPU: ESC0 not implemented, use --enable-fpu"));
@@ -62,9 +62,9 @@ void BX_CPU_C::ESC0(bxInstruction_c *i)
 
 void BX_CPU_C::ESC1(bxInstruction_c *i)
 {
+#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU();
 
-#if BX_SUPPORT_FPU
   fpu_execute(i);
 #else
   BX_INFO(("FPU: ESC1 not implemented, use --enable-fpu"));
@@ -73,9 +73,9 @@ void BX_CPU_C::ESC1(bxInstruction_c *i)
 
 void BX_CPU_C::ESC2(bxInstruction_c *i)
 {
+#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU();
 
-#if BX_SUPPORT_FPU
   fpu_execute(i);
 #else
   BX_INFO(("FPU: ESC2 not implemented, use --enable-fpu"));
@@ -84,9 +84,9 @@ void BX_CPU_C::ESC2(bxInstruction_c *i)
 
 void BX_CPU_C::ESC3(bxInstruction_c *i)
 {
+#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU();
 
-#if BX_SUPPORT_FPU
   fpu_execute(i);
 #else
   BX_INFO(("FPU: ESC3 not implemented, use --enable-fpu"));
@@ -95,9 +95,9 @@ void BX_CPU_C::ESC3(bxInstruction_c *i)
 
 void BX_CPU_C::ESC4(bxInstruction_c *i)
 {
+#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU();
 
-#if BX_SUPPORT_FPU
   fpu_execute(i);
 #else
   BX_INFO(("FPU: ESC4 not implemented, use --enable-fpu"));
@@ -106,9 +106,9 @@ void BX_CPU_C::ESC4(bxInstruction_c *i)
 
 void BX_CPU_C::ESC5(bxInstruction_c *i)
 {
+#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU();
 
-#if BX_SUPPORT_FPU
   fpu_execute(i);
 #else
   BX_INFO(("FPU: ESC5 not implemented, use --enable-fpu"));
@@ -117,9 +117,9 @@ void BX_CPU_C::ESC5(bxInstruction_c *i)
 
 void BX_CPU_C::ESC6(bxInstruction_c *i)
 {
+#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU();
 
-#if BX_SUPPORT_FPU
   fpu_execute(i);
 #else
   BX_INFO(("FPU: ESC6 not implemented, use --enable-fpu"));
@@ -128,9 +128,9 @@ void BX_CPU_C::ESC6(bxInstruction_c *i)
 
 void BX_CPU_C::ESC7(bxInstruction_c *i)
 {
+#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU();
 
-#if BX_SUPPORT_FPU
   fpu_execute(i);
 #else
   BX_INFO(("FPU: ESC7 not implemented, use --enable-fpu"));
@@ -146,9 +146,9 @@ void BX_CPU_C::FWAIT(bxInstruction_c *i)
   BX_PANIC(("FWAIT: not implemented for < 386"));
 #else // BX_CPU_LEVEL >= 3
 
+#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU();
 
-#if BX_SUPPORT_FPU
   if (FPU_PARTIAL_STATUS & FPU_SW_SUMMARY)
       exception(BX_MF_EXCEPTION, 0, 0);
 #else
