@@ -1538,7 +1538,7 @@ AC_ARG_ENABLE(clgd54xx,
     ]
   )
 
-if test "$bx_support_vbe" = 1 && test "$bx_suppot_clgd54xx" = 1; then
+if test "$bx_support_vbe" = 1 && test "$bx_support_clgd54xx" = 1; then
   AC_MSG_ERROR([[--enable-vbe and --enable-clgd54xx are mutually exclusive]])
 fi
 
