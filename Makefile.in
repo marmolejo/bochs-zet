@@ -258,7 +258,7 @@ libbochs_cpu.a: @DEBUGGER_VAR@ $(BX_OBJS)
 
 # for wxWindows port, on win32 platform
 wxbochs_resources.o: wxbochs.rc
-	windres $(srcdir)/wxbochs.rc -o $@ --include-dir=`wx-config --prefix`/include
+	windres $(srcdir)/wxbochs.rc -o $@ --include-dir=`@WX_CONFIG@ --prefix`/include
 
 #####################################################################
 # Install target for all platforms.
