@@ -355,7 +355,7 @@ bx_gui_c::snapshot_handler(void)
 #if BX_WITH_WX
   int ret = SIM->ask_filename (filename, sizeof(filename),
     "Save snapshot as...", "snapshot.txt",
-	bx_param_string_c::BX_SAVE_FILE_DIALOG);
+	bx_param_string_c::SAVE_FILE_DIALOG);
   if (ret < 0) { // cancelled
     free(text_snapshot);
     return;
