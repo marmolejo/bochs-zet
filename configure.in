@@ -20,12 +20,12 @@ AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
 AC_MSG_CHECKING(if you are configuring for another platform)
-if test "$target" = "$build"; then
-  AC_MSG_RESULT(no)
-  cross_configure=0
-else
+if test "$cross_compiling" = yes -o "$target_os" = "windows"; then
   AC_MSG_RESULT(yes)
   cross_configure=1
+else
+  AC_MSG_RESULT(no)
+  cross_configure=0
 fi
 
 # this case statement defines the compile flags which are needed to
@@ -1947,7 +1947,7 @@ if test $build_docbook = 1; then
   AC_MSG_RESULT(yes)
   BUILD_DOCBOOK_VAR=build_docbook
   INSTALL_DOCBOOK_VAR=install_docbook
-  if test "$DOCBOOK2HTML" == not_found; then
+  if test "$DOCBOOK2HTML" = not_found; then
     echo "ERROR: docbook2html must be installed to build the documentation"
     exit 1
   fi
