@@ -215,7 +215,7 @@ void BX_CPU_C::debug(bx_address offset)
         Base, 
         EIP, instr_buf, char_buf);
 #if BX_SUPPORT_X86_64
-    isize = 16;
+    if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64) isize = 16;
 #endif
     for (unsigned j=0; j<isize; j++)
       BX_INFO((">> %02x", (unsigned) instr_buf[j]));

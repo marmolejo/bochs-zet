@@ -451,10 +451,12 @@ typedef struct {
     }                                                                        \
   }                                                                          \
   BX_CPP_INLINE void BX_CPU_C::clear_VM() {                                  \
-    BX_CPU_THIS_PTR eflags.val32 &= ~(1<<bitnum);                            \
-    BX_CPU_THIS_PTR eflags.VM_cached = 0;                                    \
-    if (BX_CPU_THIS_PTR cr0.pe) {                                            \
-      BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_PROTECTED;                     \
+    if (BX_CPU_THIS_PTR eflags.VM_cached) {                                  \
+      BX_CPU_THIS_PTR eflags.val32 &= ~(1<<bitnum);                          \
+      BX_CPU_THIS_PTR eflags.VM_cached = 0;                                  \
+      if (BX_CPU_THIS_PTR cr0.pe) {                                          \
+        BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_PROTECTED;                   \
+      }                                                                      \
     }                                                                        \
   }                                                                          \
   BX_CPP_INLINE Bit32u  BX_CPU_C::get_VM() {                                 \
