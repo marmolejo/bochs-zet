@@ -164,14 +164,14 @@ all: @PRIMARY_TARGET@  bximage@EXE@
 @EXTERNAL_DEPENDENCY@
 
 bochs@EXE@: @IODEV_LIB_VAR@ @DEBUGGER_VAR@ \
-           cpu/libcpu.a @CPU32LIB@ memory/libmemory.a gui/libgui.a \
+           cpu/libcpu.a memory/libmemory.a gui/libgui.a \
            @DISASM_VAR@ @INSTRUMENT_VAR@ $(BX_OBJS) \
            $(SIMX86_OBJS) \
            $(FPU_LIB)
 	@LINK@ $(BX_OBJS) \
                 $(SIMX86_OBJS) \
 		iodev/libiodev.a \
-		cpu/libcpu.a @CPU32LIB@ \
+		cpu/libcpu.a \
 		memory/libmemory.a gui/libgui.a \
 		@DEBUGGER_VAR@ @DISASM_VAR@ @INSTRUMENT_VAR@ \
 		$(FPU_LIB) \
