@@ -128,8 +128,15 @@ BX_CPU_C::cpu_loop(Bit32s max_instr_count)
   BX_CPU_THIS_PTR stop_reason = STOP_NO_REASON;
 #endif
 
-
+#if BX_INSTRUMENTATION
+  if (setjmp( BX_CPU_THIS_PTR jmp_buf_env )) 
+  { 
+    // only from exception function can we get here ...
+    BX_INSTR_NEW_INSTRUCTION(CPU_ID);
+  }
+#else
   (void) setjmp( BX_CPU_THIS_PTR jmp_buf_env );
+#endif
 
   // We get here either by a normal function call, or by a longjmp
   // back from an exception() call.  In either case, commit the
