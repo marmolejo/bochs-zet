@@ -65,7 +65,6 @@ Section "Bochs Program (required)" SecCore
 
   File "${SRCDIR}\*.exe"
   File "${SRCDIR}\*.txt"
-  File "${SRCDIR}\*.htm"
   File "*.ico"
 
   ; Install keymaps
@@ -329,7 +328,6 @@ Section "Uninstall"
   Delete "${DESKTOP_DLXLINK}"
 
   Delete "$INSTDIR\*.exe"
-  Delete "$INSTDIR\*.htm"
   Delete "$INSTDIR\*.txt"
   Delete "$INSTDIR\*.ico"
   Delete "$INSTDIR\keymaps\*"
