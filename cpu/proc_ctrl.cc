@@ -1782,7 +1782,6 @@ BX_CPU_C::RDMSR(bxInstruction_c *i)
 			BX_PANIC(("RDMSR: Unknown register %#x", ECX));
 #endif
 			goto do_exception;
-#endif
 
 	}
 #endif	/* BX_CPU_LEVEL >= 5 */
@@ -1888,7 +1887,6 @@ BX_CPU_C::WRMSR(bxInstruction_c *i)
 			BX_PANIC(("WRMSR: Unknown register %#x", ECX));
 #endif
 			goto do_exception;
-#endif
 
 	}
 #endif	/* BX_CPU_LEVEL >= 5 */
