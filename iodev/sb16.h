@@ -208,6 +208,7 @@ private:
   int currentirq;
   int currentdma8;
   int currentdma16;
+  Bit8u gameport;
 
   // the MPU 401 relevant variables
   struct bx_sb16_mpu_struct {
