@@ -202,7 +202,12 @@ class bx_param_string_c : public bx_param_c {
   int maxsize;
   char *val, *initial_val;
   param_string_event_handler handler;
+  bx_param_num_c *options;
+  char separator;
 public:
+  enum {
+    BX_RAW_BYTES = 1,
+  } bx_string_opt_bits;
   bx_param_string_c (bx_id id,
       char *name,
       char *description,
@@ -213,6 +218,8 @@ public:
   Bit32s get (char *buf, int len);
   char *getptr () {return val; }
   void set (char *buf);
+  bx_param_num_c *get_options () { return options; }
+  void set_separator (char sep) {separator = sep; }
 #if BX_UI_TEXT
   virtual void text_print (FILE *fp);
   virtual int text_ask (FILE *fpin, FILE *fpout);
