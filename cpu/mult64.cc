@@ -228,16 +228,12 @@ BX_CPU_C::MUL_RAXEq(bxInstruction_c *i)
 
     long_mul(&product_128,op1_64,op2_64);
 
+    /* set EFLAGS */
+    SET_FLAGS_OSZAPC_S1S2_64(product_128.lo, product_128.hi, BX_INSTR_MUL64);
+
     /* now write product back to destination */
     RAX = product_128.lo;
     RDX = product_128.hi;
-
-    /* set eflags:
-     * MUL affects the following flags: C,O
-     */
-
-    bx_bool temp_flag = (product_128.hi != 0);
-    SET_FLAGS_OxxxxC(temp_flag, temp_flag);
 }
 
   void

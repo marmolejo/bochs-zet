@@ -94,6 +94,11 @@
 #define BX_INSTR_SAR32          51
 #define BX_INSTR_SAR64          52
 
+#define BX_INSTR_MUL8           53
+#define BX_INSTR_MUL16          54
+#define BX_INSTR_MUL32          55
+#define BX_INSTR_MUL64          56
+
 #define BX_LF_INDEX_OSZAPC  1
 #define BX_LF_INDEX_OSZAP   2
 
