@@ -1200,6 +1200,8 @@ public:
   // telling it that bochs has stopped.
   virtual void quit_sim (int code) {}
 
+  virtual int get_exit_code () { return 0; }
+
   virtual int get_default_rc (char *path, int len) {return -1;}
   virtual int read_rc (char *path) {return -1;}
   virtual int write_rc (char *rc, int overwrite) {return -1;}

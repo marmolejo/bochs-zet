@@ -1532,7 +1532,7 @@ int bxmain () {
   char buf[16];
   fgets (buf, sizeof(buf), stdin);
 #endif
-  return 0;
+  return SIM->get_exit_code ();
 }
 
 #if defined(__WXMSW__)
