@@ -796,7 +796,7 @@ bx_param_enum_c::text_ask (FILE *fpin, FILE *fpout)
 
 int parse_raw_bytes (char *dest, char *src, int destsize, char separator)
 {
-  printf ("parsing src='%s'\n", src);
+  //printf ("parsing src='%s'\n", src);
   int i;
   unsigned int n;
   for (i=0; i<destsize; i++) 
@@ -807,7 +807,7 @@ int parse_raw_bytes (char *dest, char *src, int destsize, char separator)
     if (*src == 0) break;
     // try to read a byte of hex
     if (sscanf (src, "%02x", &n) == 1) {
-      printf ("found a byte %02x\n", n);
+      //printf ("found a byte %02x\n", n);
       dest[i] = n;
       src+=2;
     } else {
