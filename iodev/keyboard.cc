@@ -965,7 +965,7 @@ bx_keyb_c::kbd_ctrl_to_kbd(Bit8u   value)
 
     case 0xed: // LED Write
       BX_KEY_THIS s.kbd_internal_buffer.expecting_led_write = 1;
-      kbd_enQ(0xFA); // send ACK %%%
+      kbd_enQ_imm(0xFA); // send ACK %%%
       return;
       break;
 
