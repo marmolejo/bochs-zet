@@ -616,7 +616,7 @@ int control_panel_notify_callback (int code)
       fprintf (stderr, "               This affects only %s events from device %s\n", SIM->get_log_level_name (level), prefix);
       fprintf (stderr, "  die        - stop execution now\n");
 #if BX_DEBUGGER
-      fprintf (stderr, "  debug      - continue and return to debugger\n");
+      fprintf (stderr, "  debug      - continue and return to bochs debugger\n");
 #endif
       int choice;
       if (ask_menu ("Choose cont, alwayscont, or die. [%s] ", 
