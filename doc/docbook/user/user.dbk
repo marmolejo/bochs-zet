@@ -1585,8 +1585,7 @@ adjust the configure options.  Then, type:
 <screen>
   su root
   Password:     <replaceable>type root password</replaceable>
-  sh .conf.linux
-  make rpm
+  ./build/redhat/make-rpm
 </screen>
 
 When this command completes, you will have a source RPM and a binary RPM
