@@ -22,7 +22,7 @@ private:
 public:
   bx_slowdown_timer_c();
 
-  void init(bx_devices_c *d);
+  void init(void);
   void reset(unsigned type);
 
   static void timer_handler(void * this_ptr);

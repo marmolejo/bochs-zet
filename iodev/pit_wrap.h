@@ -49,7 +49,7 @@ class bx_pit_c : public logfunctions {
 public:
   bx_pit_c( void );
   ~bx_pit_c( void );
-  BX_PIT_SMF int init( bx_devices_c *);
+  BX_PIT_SMF int init( void );
   BX_PIT_SMF void reset( unsigned type);
   BX_PIT_SMF Boolean periodic( Bit32u   usec_delta );
 
@@ -82,8 +82,6 @@ private:
     Bit64u stored_delta;
     Bit64u total_usec;
     } s;
-
-  bx_devices_c *devices;
 
   static void timer_handler(void *this_ptr);
   BX_PIT_SMF void handle_timer();

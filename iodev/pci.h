@@ -54,7 +54,7 @@ class bx_pci_c : public logfunctions {
 public:
   bx_pci_c(void);
   ~bx_pci_c(void);
-  BX_PCI_SMF void   init(bx_devices_c *);
+  BX_PCI_SMF void   init(void);
   BX_PCI_SMF void   reset(unsigned type);
   Boolean register_pci_handlers(void *this_ptr, bx_pci_read_handler_t f1,
                                 bx_pci_write_handler_t f2, Bit8u devfunc,
@@ -64,8 +64,6 @@ public:
   BX_PCI_SMF Bit8u wr_memType (Bit32u addr);
 
 private:
-  bx_devices_c *devices;
-
   Bit8u pci_handler_id[0x100];  // 256 devices/functions
   struct {
     bx_pci_read_handler_t  read;

@@ -158,10 +158,8 @@ bx_pit_c::~bx_pit_c( void )
 
 
   int
-bx_pit_c::init( bx_devices_c *d )
+bx_pit_c::init( void )
 {
-  BX_PIT_THIS devices = d;
-
   BX_PIT_THIS devices->register_irq(0, "8254 PIT");
   BX_PIT_THIS devices->register_io_read_handler(this, read_handler, 0x0040, "8254 PIT");
   BX_PIT_THIS devices->register_io_read_handler(this, read_handler, 0x0041, "8254 PIT");

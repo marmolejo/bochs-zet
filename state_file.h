@@ -33,7 +33,7 @@
 #include <stddef.h>
 
 
-class state_file {
+class BOCHSAPI state_file {
   void init(void);
 public:
   FILE *file;

@@ -41,11 +41,10 @@ bx_iodebug_c::~bx_iodebug_c( void )
 
 
 
-int bx_iodebug_c::init( bx_devices_c *d )
+int bx_iodebug_c::init( void )
 {
   int i;
 
-  BX_IODEBUG_THIS devices = d;
   BX_IODEBUG_THIS devices->register_io_read_handler(this, read_handler, 0x8A00,"BOCHS IODEBUG");
   BX_IODEBUG_THIS devices->register_io_write_handler(this, write_handler, 0x8A00,"BOCHS IODEBUG");
   BX_IODEBUG_THIS devices->register_io_write_handler(this, write_handler, 0x8A01,"BOCHS IODEBUG");

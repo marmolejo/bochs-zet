@@ -50,14 +50,14 @@ bx_g2h_c::~bx_g2h_c(void)
 }
 
   void
-bx_g2h_c::init(bx_devices_c *d)
+bx_g2h_c::init(void)
 {
   BX_DEBUG(("Init $Id$"));
   // Reserve a dword port for this interface
   for (Bit32u addr=BX_G2H_PORT; addr<=(BX_G2H_PORT+3); addr++) {
-    d->register_io_read_handler(&bx_g2h,
+    bx_devices.register_io_read_handler(&bx_g2h,
       inp_handler, addr, "g2h");
-    d->register_io_write_handler(&bx_g2h,
+    bx_devices.register_io_write_handler(&bx_g2h,
       outp_handler, addr, "g2h");
     }
   memset(&bx_g2h.s, 0, sizeof(bx_g2h.s));

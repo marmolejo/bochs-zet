@@ -212,7 +212,7 @@ bx_pc_system_c::ResetSignal( PCS_OP operation )
   BX_ERROR(( "# bx_pc_system_c::ResetSignal() called" ));
   for (int i=0; i<BX_SMP_PROCESSORS; i++)
     BX_CPU(i)->reset(BX_RESET_SOFTWARE);
-  bx_devices.reset(BX_RESET_SOFTWARE);
+  DEV_reset_devices(BX_RESET_SOFTWARE);
   return(0);
 }
 
@@ -220,16 +220,18 @@ bx_pc_system_c::ResetSignal( PCS_OP operation )
   Bit8u
 bx_pc_system_c::IAC(void)
 {
-  return( bx_devices.pic->IAC() );
+  return( DEV_pic_iac() );
 }
 
   void
 bx_pc_system_c::exit(void)
 {
-  if (bx_devices.hard_drive)
-    bx_devices.hard_drive->close_harddrive();
-  BX_INFO(("Last time is %u", (unsigned) bx_cmos.s.timeval));
-  bx_gui.exit();
+  if (DEV_hd_present())
+    DEV_hd_close_harddrive();
+
+  BX_INFO(("Last time is %u", (unsigned) DEV_cmos_get_timeval()));
+
+  if (bx_gui) bx_gui->exit();
 }
 
 

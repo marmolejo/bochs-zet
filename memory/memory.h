@@ -40,7 +40,7 @@
 // alignment of memory vector, must be a power of 2
 #define BX_MEM_VECTOR_ALIGN 4096
 
-class BX_MEM_C : public logfunctions {
+class BOCHSAPI BX_MEM_C : public logfunctions {
 
 public:
   Bit8u   *actual_vector;
@@ -82,9 +82,9 @@ public:
 #if BX_PROVIDE_CPU_MEMORY==1
 
 #if BX_SMP_PROCESSORS==1
-extern BX_MEM_C    bx_mem;
+BOCHSAPI extern BX_MEM_C    bx_mem;
 #else
-extern BX_MEM_C    *bx_mem_array[BX_ADDRESS_SPACES];
+BOCHSAPI extern BX_MEM_C    *bx_mem_array[BX_ADDRESS_SPACES];
 #endif  /* BX_SMP_PROCESSORS */
 
 #endif  /* BX_PROVIDE_CPU_MEMORY==1 */

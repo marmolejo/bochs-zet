@@ -39,13 +39,13 @@ extern unsigned long ips_count;
 typedef void (*bx_timer_handler_t)(void *);
 
 
-extern class bx_pc_system_c bx_pc_system;
+BOCHSAPI extern class bx_pc_system_c bx_pc_system;
 
 #ifdef PROVIDE_M_IPS
 extern double m_ips;
 #endif
 
-class bx_pc_system_c : private logfunctions {
+class BOCHSAPI bx_pc_system_c : private logfunctions {
 private:
 
   // ===============================

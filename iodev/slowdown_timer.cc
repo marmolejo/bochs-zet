@@ -33,7 +33,7 @@ bx_slowdown_timer_c::bx_slowdown_timer_c() {
 }
 
 void
-bx_slowdown_timer_c::init(bx_devices_c *dev) {
+bx_slowdown_timer_c::init(void) {
   s.MAXmultiplier=MAXMULT;
   s.Q=Qval;
 
