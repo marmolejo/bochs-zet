@@ -265,7 +265,7 @@ bx_devices_c::reset(unsigned type)
   pluginDmaDevice->reset(type);
   pluginFloppyDevice->reset(type);
 #if BX_SUPPORT_SB16
-  pluginSB16Device->reset(type);
+  if (pluginSB16Device) pluginSB16Device->reset(type);
 #endif
   pluginVgaDevice->reset(type);
   pluginPicDevice->reset(type);
