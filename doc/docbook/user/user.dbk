@@ -1782,20 +1782,24 @@ RPM stands for "RedHat Package Manager."  An RPM is a compressed file
 containing files to be installed on your system.  Bochs 
 has a special shell script called <filename>make-rpm</filename> that helps
 to build an RPM of Bochs.  Start with a clean source directory.  Edit
-.conf.linux first if you want to adjust the configure options.  Then, type:
+.conf.linux first if you want to adjust the configure options.  
+Then, type:
 
 <screen>
-  su root
-  Password:     <replaceable>type root password</replaceable>
-  ./build/redhat/make-rpm
+  ./build/redhat/make-rpm | tee /tmp/build.txt
 </screen>
 
-When this command completes, you will have a source RPM and a binary RPM
-of Bochs, probably under <filename>/usr/src/redhat/RPMS</filename>.  The
-output of the <command>make rpm</command> will tell you the exact location
-of these new files.  Instructions for installing an RPM are <link
-linkend="linuxrpm">here</link>.
+When this command completes, you should have a source RPM and a binary RPM of
+Bochs in the current directory.  The <command>tee</command> part of the 
+command (optional) saves a transcript of the build process into /tmp/build.txt,
+which is very useful if anything goes wrong.  Instructions for installing an
+RPM are <link linkend="linuxrpm">here</link>.
 </para>
+
+<note><para>
+In the past, you had to build rpms as root, but as of version 2.0 you can build
+them as a normal user.
+</para></note>
 
 </section> <!-- end of Building an RPM -->
 
