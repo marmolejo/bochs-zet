@@ -5489,7 +5489,7 @@ nuf_help:
 void
 bx_dbg_calc_command(Bit64u value)
 {
- dbg_printf ("0x" FMT_LL "x\n", value);
+ dbg_printf ("0x" FMT_LL "x " FMT_LL "d\n", value, value);
 }
 
 Bit32u
