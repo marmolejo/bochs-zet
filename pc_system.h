@@ -189,7 +189,8 @@ public:
 
   int IntEnabled( void );
   int InterruptSignal( PCS_OP operation );
-  int ResetSignal( PCS_OP operation );
+  // Cpu and System Reset
+  int Reset( unsigned type );
   Bit8u  IAC(void);
 
   bx_pc_system_c(void);
@@ -199,7 +200,4 @@ public:
   void    set_enable_a20(Bit8u value) BX_CPP_AttrRegparmN(1);
   bx_bool get_enable_a20(void);
   void    exit(void);
-
-  // Cpu and System Reset
-  int Reset( unsigned type );
   };

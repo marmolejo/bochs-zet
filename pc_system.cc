@@ -208,19 +208,6 @@ bx_pc_system_c::get_enable_a20(void)
 }
 
   int
-bx_pc_system_c::ResetSignal( PCS_OP operation )
-{
-  UNUSED( operation );
-  // Reset the processor.
-
-  BX_ERROR(( "bx_pc_system_c::ResetSignal() called" ));
-  for (int i=0; i<BX_SMP_PROCESSORS; i++)
-    BX_CPU(i)->reset(BX_RESET_SOFTWARE);
-  DEV_reset_devices(BX_RESET_SOFTWARE);
-  return(0);
-}
-
-  int
 bx_pc_system_c::Reset( unsigned type )
 {
   // type is BX_RESET_HARDWARE or BX_RESET_SOFTWARE

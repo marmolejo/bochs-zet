@@ -647,7 +647,6 @@ BX_PANIC(("kbd: OUTB set and command 0x%02x encountered", value));
 
         case 0xfe: // System (cpu?) Reset, transition to real mode
           BX_INFO(("io write 0x64: command 0xfe: reset cpu"));
-          //bx_pc_system.ResetSignal( PCS_SET ); /* XXX is this right? */
           bx_pc_system.Reset( BX_RESET_SOFTWARE );
           break;
 

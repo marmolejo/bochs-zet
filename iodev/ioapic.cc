@@ -140,7 +140,7 @@ bx_ioapic_c::write(Bit32u address, Bit32u *value, unsigned len)
   }
 }
 
-void bx_ioapic_c::trigger_irq (unsigned vector, unsigned from) 
+void bx_ioapic_c::raise_irq (unsigned vector, unsigned from) 
 {
   BX_DEBUG(("IOAPIC: received interrupt %d", vector));
   if (vector >= 0 && vector < BX_IOAPIC_NUM_PINS) {
@@ -152,7 +152,7 @@ void bx_ioapic_c::trigger_irq (unsigned vector, unsigned from)
   } else BX_PANIC(("IOAPIC: vector %d out of range", vector));
 }
 
-void bx_ioapic_c::untrigger_irq (unsigned num, unsigned from) 
+void bx_ioapic_c::lower_irq (unsigned num, unsigned from) 
 {
   BX_DEBUG(("IOAPIC: interrupt %d went away", num));
 }

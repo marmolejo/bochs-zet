@@ -215,6 +215,9 @@ class BOCHSAPI bx_pic_stub_c : public bx_devmodel_c {
   virtual void lower_irq(unsigned irq_no) {
     STUBFUNC(pic, lower_irq); 
   }
+  virtual void set_mode(bx_bool ma_sl, Bit8u mode) {
+    STUBFUNC(pic, set_mode); 
+  }
   virtual Bit8u IAC(void) {
     STUBFUNC(pic, IAC); return 0;
   }

@@ -63,6 +63,7 @@ typedef struct {
   bx_bool special_mask;
   bx_bool polled;            /* Set when poll command is issued. */
   bx_bool rotate_on_autoeoi; /* Set when should rotate in auto-eoi mode. */
+  Bit8u edge_level; /* bitmap for irq mode (0=edge, 1=level) */
   } bx_pic_t;
 
 
@@ -75,6 +76,7 @@ public:
   virtual void   reset(unsigned type);
   virtual void   lower_irq(unsigned irq_no);
   virtual void   raise_irq(unsigned irq_no);
+  virtual void   set_mode(bx_bool ma_sl, Bit8u mode);
   virtual Bit8u  IAC(void);
   virtual void   show_pic_state(void);
 

@@ -155,6 +155,7 @@ extern "C" {
 ///////// PIC macros
 #define DEV_pic_lower_irq(b)  (bx_devices.pluginPicDevice->lower_irq(b))
 #define DEV_pic_raise_irq(b)  (bx_devices.pluginPicDevice->raise_irq(b))
+#define DEV_pic_set_mode(a,b) (bx_devices.pluginPicDevice->set_mode(a,b))
 #define DEV_pic_iac()         (bx_devices.pluginPicDevice->IAC())
 #define DEV_pic_show_pic_state() (bx_devices.pluginPicDevice->show_pic_state())
 
@@ -296,9 +297,6 @@ BOCHSAPI extern void     (*pluginDeactivateTimer)(unsigned id);
 /* === HRQ stuff === */
 BOCHSAPI extern void     (*pluginSetHRQ)(unsigned val);
 BOCHSAPI extern void     (*pluginSetHRQHackCallback)( void (*callback)(void) );
-
-/* === Reset stuff === */
-BOCHSAPI extern void     (*pluginResetSignal)(unsigned sig);
 
 /* === PCI stuff === */
 BOCHSAPI extern bx_bool  (*pluginRegisterPCIDevice)(void *this_ptr,

@@ -33,8 +33,6 @@
 void  (*pluginRegisterIRQ)(unsigned irq, const char* name) = 0;
 void  (*pluginUnregisterIRQ)(unsigned irq, const char* name) = 0;
 
-void  (* pluginResetSignal)(unsigned sig) = 0;
-
 void (*pluginSetHRQ)(unsigned val) = 0;
 void (*pluginSetHRQHackCallback)( void (*callback)(void) ) = 0;
 
@@ -117,12 +115,6 @@ builtinSetHRQHackCallback( void (*callback)(void) )
 #else
   pluginHRQHackCallback = callback;
 #endif
-}
-
-  static void
-builtinResetSignal( unsigned )
-{
-  pluginlog->panic("builtinResetSignal called, no plugin loaded?");
 }
 
   static int
@@ -462,8 +454,6 @@ plugin_startup(void)
 {
   pluginRegisterIRQ = builtinRegisterIRQ;
   pluginUnregisterIRQ = builtinUnregisterIRQ;
-
-  pluginResetSignal = builtinResetSignal;
 
   pluginSetHRQHackCallback = builtinSetHRQHackCallback;
   pluginSetHRQ = builtinSetHRQ;
