@@ -64,7 +64,6 @@ RMDIR=rmdir
 TAR=tar
 RPM=rpm
 CHMOD=chmod
-CHOWN=chown
 GZIP=gzip
 GUNZIP=gunzip
 ZIP=zip
@@ -330,7 +329,6 @@ install_dlx::
 	test -d $(BOCHSDIR)/dlxlinux
 	$(GZIP) $(BOCHSDIR)/dlxlinux/hd10meg.img
 	(cd $(BOCHSDIR)/dlxlinux; $(MV) bochsrc.txt bochsrc.txt.orig; $(SED) -e "s/1\.1\.2/$(VERSION)/g"  -e 's,/usr/local,$(prefix),g' < bochsrc.txt.orig > bochsrc.txt; rm -f bochsrc.txt.orig)
-	$(CHOWN) -R root.root $(BOCHSDIR)/dlxlinux
 	$(CHMOD) 755 $(BOCHSDIR)/dlxlinux
 	$(CHMOD) 644 $(BOCHSDIR)/dlxlinux/*
 	for i in bochs-dlx; do cp $(srcdir)/build/linux/$$i $(bindir)/$$i; $(CHMOD) 755 $(bindir)/$$i; done
