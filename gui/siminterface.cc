@@ -250,6 +250,8 @@ char *floppy_bootdisk_names[] = { "floppy", "hard", NULL };
 int n_floppy_bootdisk_names = 2;
 char *loader_os_names[] = { "none", "linux", "nullkernel", NULL };
 int n_loader_os_names = 3;
+char *keyboard_type_names[] = { "xt", "at", "mf", NULL };
+int n_keyboard_tupe_names = 3;
 
 char *
 bx_real_sim_c::get_floppy_type_name (int type)

@@ -32,6 +32,7 @@ typedef enum {
   BXP_ROM_ADDRESS,
   BXP_VGA_ROM_PATH,
   BXP_KBD_SERIAL_DELAY,
+  BXP_KBD_TYPE,
   BXP_FLOPPY_CMD_DELAY,
   BXP_FLOPPYA_PATH,
   BXP_FLOPPYA_TYPE,
@@ -301,6 +302,8 @@ extern char *floppy_bootdisk_names[];
 extern int n_floppy_bootdisk_names;
 extern char *loader_os_names[];
 extern int n_loader_os_names;
+extern char *keyboard_type_names[];
+extern int n_keyboard_type_names;
 
 typedef struct {
   bx_param_string_c *Opath;
