@@ -295,8 +295,8 @@ bx_keyb_c::read(Bit32u   address, unsigned io_len)
           (BX_KEY_THIS s.kbd_controller.sysf << 2)  |
           (BX_KEY_THIS s.kbd_controller.inpb << 1)  |
           BX_KEY_THIS s.kbd_controller.outb;
-    BX_KEY_THIS devices->pic->untrigger_irq(1);
-    BX_KEY_THIS devices->pic->untrigger_irq(12);
+    BX_KEY_THIS devices->pic->lower_irq(1);
+    BX_KEY_THIS devices->pic->lower_irq(12);
     RETURN(val);
     }
 

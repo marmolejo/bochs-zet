@@ -733,7 +733,7 @@ bx_hard_drive_c::read(Bit32u address, unsigned io_len)
         BX_SELECTED_CONTROLLER.status.index_pulse_count = 0;
         }
       }
-      if (address == 0x1f7) BX_HD_THIS devices->pic->untrigger_irq(14);
+      if (address == 0x1f7) BX_HD_THIS devices->pic->lower_irq(14);
       goto return_value8;
       break;
 
@@ -2579,7 +2579,7 @@ bx_hard_drive_c::raise_interrupt()
 	    Bit32u irq = 14;  // always 1st IDE controller
 	    // for second controller, you would want irq 15
 		BX_DEBUG(("Raising interrupt %d {%s}", irq, DEVICE_TYPE_STRING));
-	    BX_HD_THIS devices->pic->trigger_irq(irq);
+	    BX_HD_THIS devices->pic->raise_irq(irq);
       } else {
 	    if (bx_dbg.disk || (CDROM_SELECTED && bx_dbg.cdrom))
 		  BX_INFO(("Interrupt masked {%s}", DEVICE_TYPE_STRING));
