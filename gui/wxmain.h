@@ -52,7 +52,7 @@ enum
   ID_Simulate_Speed,
   ID_Debug_ShowCpu,
   ID_Debug_ShowKeyboard,
-  ID_Debug_Log,
+  ID_Debug_Console,
   ID_Debug_ShowMemory,
   ID_Log_View,
   ID_Log_Prefs,
