@@ -30,7 +30,6 @@
 #if BX_USE_NEW_PIT
 
 #include "pit_wrap.h"
-#include "iodev.h"
 
 //Important constant #defines:
 #define USEC_PER_SECOND (1000000)
