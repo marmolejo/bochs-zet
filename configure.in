@@ -1010,6 +1010,23 @@ AC_ARG_ENABLE(port-e9-hack,
   )
 
 
+AC_MSG_CHECKING(whether to reset on triple fault)
+AC_ARG_ENABLE(reset-on-triple-fault,
+  [  --enable-reset-on-triple-fault    reset when cpu detects a triple fault],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_RESET_ON_TRIPLE_FAULT, 1)
+   else
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_RESET_ON_TRIPLE_FAULT, 0)
+   fi],
+  [
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_RESET_ON_TRIPLE_FAULT, 1)
+    ]
+  )
+
+
 AC_MSG_CHECKING(for use of .cpp as suffix)
 AC_ARG_ENABLE(cpp,
   [  --enable-cpp                      use .cpp as C++ suffix],
