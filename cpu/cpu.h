@@ -2205,7 +2205,6 @@ union {
   BX_SMF void CVTTPD2DQ_VqWpd(bxInstruction_c *i);
   BX_SMF void CVTPD2DQ_VqWpd(bxInstruction_c *i);
   BX_SMF void CVTDQ2PD_VpdWq(bxInstruction_c *i);
-  BX_SMF void MOVNTDQ_MdqVdq(bxInstruction_c *i);
   BX_SMF void PSUBSB_VdqWdq(bxInstruction_c *i);
   BX_SMF void PSUBSW_VdqWdq(bxInstruction_c *i);
   BX_SMF void PMINSW_VdqWdq(bxInstruction_c *i);
