@@ -1180,6 +1180,7 @@ bx_init_main (int argc, char *argv[])
 #endif
 }
 
+#if !BX_WITH_WX
 static void
 bx_do_text_config_interface (int argc, char *argv[])
 {
@@ -1246,11 +1247,10 @@ bx_do_text_config_interface (int argc, char *argv[])
       io->set_log_action (level, action);
     }
     // Display the pre-simulation configuration interface.
-#if !BX_WITH_WX
     bx_config_interface (BX_CI_START_MENU);
-#endif
   }
 }
+#endif
 
 int
 bx_continue_after_config_interface (int argc, char *argv[])
