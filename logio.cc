@@ -356,8 +356,21 @@ logfunctions::ask (int level, char *prefix, char *fmt, va_list ap)
       break;
     case 2:   // user chose die
       fatal (prefix, fmt, ap);
+    case 3: // user chose abort
+      fprintf (stderr, "User chose to dump core...\n");
+#if BX_HAVE_ABORT
+      abort ();
+#else
+      // do something highly illegal that should kill the process.
+      // Hey, this is fun!
+      {
+      char *crashptr = (char *)0; char c = *crashptr;
+      }
+      fprintf (stderr, "Sorry, I couldn't find your abort() function.  Exiting.");
+      exit (0);
+#endif
 #if BX_DEBUGGER
-    case 3:
+    case 4:
       // user chose debugger.  To "drop into the debugger" we just set the
       // interrupt_requested bit and continue execution.  Before the next
       // instruction, it should notice the user interrupt and return to
