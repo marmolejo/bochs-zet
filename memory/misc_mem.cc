@@ -77,7 +77,7 @@ BX_MEM_C::BX_MEM_C(size_t memsize)
 BX_MEM_C::~BX_MEM_C(void)
 {
   if (this-> vector != NULL) {
-    delete this->vector;
+    delete [] this->vector;
     }
   else {
     BX_DEBUG(("(%u)   memory not freed as it wasn't allocated!", BX_SIM_ID));
