@@ -735,6 +735,28 @@ bx_floppy_ctrl_c::floppy_command(void)
       if (head > 1)
         BX_PANIC(("io: bad head #"));
 
+      // check that head number in command[1] bit two matches the head
+      // reported in the head number field.  Real floppy drives are
+      // picky about this, as reported in SF bug #439945, (Floppy drive 
+      // read input error checking).
+      if (head != (BX_FD_THIS s.command[1]>>2)&1) {
+        BX_ERROR(("head number in command[1] doesn't match head field"));
+        BX_FD_THIS s.result_size = 7;
+        BX_FD_THIS s.result_index = 0;
+        BX_FD_THIS s.result[0] = 0x40 | (BX_FD_THIS s.head[drive]<<2) | drive; // abnormal termination
+        BX_FD_THIS s.result[1] = 0x04; // 0000 0100
+        BX_FD_THIS s.result[2] = 0x00; // 0000 0000
+        BX_FD_THIS s.result[3] = BX_FD_THIS s.cylinder[drive];
+        BX_FD_THIS s.result[4] = BX_FD_THIS s.head[drive];
+        BX_FD_THIS s.result[5] = BX_FD_THIS s.sector[drive];
+        BX_FD_THIS s.result[6] = 2; // sector size = 512
+
+        BX_FD_THIS s.pending_command = 0;
+        BX_FD_THIS s.main_status_reg = FD_MS_MRQ | FD_MS_DIO | FD_MS_BUSY;
+        BX_FD_THIS devices->pic->trigger_irq(6);
+        return;
+      }
+
       if ( BX_FD_THIS s.media_present[drive] == 0 ) {
         // media not in drive, return error
 
