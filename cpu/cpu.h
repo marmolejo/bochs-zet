@@ -1855,7 +1855,6 @@ union {
 
   BX_SMF void FWAIT(bxInstruction_c *);
 
-#undef FSCALE
   BX_SMF void FLD_STi(bxInstruction_c *);  
   BX_SMF void FLD_SINGLE_REAL(bxInstruction_c *);
   BX_SMF void FLD_DOUBLE_REAL(bxInstruction_c *);
@@ -2008,6 +2007,7 @@ union {
   BX_SMF void FSQRT(bxInstruction_c *);
   BX_SMF void FSINCOS(bxInstruction_c *);
   BX_SMF void FRNDINT(bxInstruction_c *);
+#undef FSCALE            // <sys/param.h> is #included on Mac OS X from bochs.h
   BX_SMF void FSCALE(bxInstruction_c *);
   BX_SMF void FSIN(bxInstruction_c *);
   BX_SMF void FCOS(bxInstruction_c *);
