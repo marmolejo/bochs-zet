@@ -97,6 +97,7 @@ public:
   void   init_ips(Bit32u ips);
   int    register_timer( void *this_ptr, bx_timer_handler_t, Bit32u useconds,
                          Boolean continuous, Boolean active, const char *id);
+  unsigned unregisterTimer(int timerID);
   void   start_timers(void);
   void   activate_timer( unsigned timer_index, Bit32u useconds,
                          Boolean continuous );
