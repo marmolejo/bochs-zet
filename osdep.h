@@ -77,10 +77,6 @@ extern "C" {
 // that it might be cleaner to conditionally disable the function call!
 //////////////////////////////////////////////////////////////////////
 
-#if !BX_HAVE_WSPRINTF
-#define wsprintf sprintf
-#endif
-
 #if !BX_HAVE_SNPRINTF
 #define snprintf bx_snprintf
   extern int bx_snprintf (char *s, size_t maxlen, const char *format, ...);
