@@ -3100,6 +3100,23 @@ speed.</para></footnote>.
 
 </section>
 
+<section><title>pit</title>
+<para>
+The PIT is the programmable interval timer.  Bochs's PIT modelw as written by
+Greg Alexander.  It has a real-time option that tries to keep the PIT in sync
+with the host time.  This feature is still experimental, but it may be useful
+if you want to prevent Bochs from running too fast, for example a DOS video
+game.  Be aware that with the realtime pit option, your simulation will not be
+repeatable; this can a problem if you are debugging.
+
+Examples:
+<screen>
+  pit: realtime=0
+  pit: realtime=1
+</screen>
+</para>
+</section>
+
 <section><title>mouse</title>
 <para>
 Examples:
