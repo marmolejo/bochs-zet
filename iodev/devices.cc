@@ -47,7 +47,6 @@ bx_devices_c::bx_devices_c(void)
 {
   put("DEV");
   settype(DEVLOG);
-  unsigned i;
 
 #if BX_PCI_SUPPORT
   pci = NULL;
@@ -70,7 +69,25 @@ bx_devices_c::bx_devices_c(void)
 #if BX_IODEBUG_SUPPORT
   iodebug = NULL;
 #endif
+}
 
+
+bx_devices_c::~bx_devices_c(void)
+{
+  // nothing needed for now
+  BX_DEBUG(("Exit."));
+}
+
+
+  void
+bx_devices_c::init(BX_MEM_C *newmem)
+{
+  unsigned i;
+
+  BX_DEBUG(("Init $Id$"));
+  mem = newmem;
+
+  /* no read / write handlers defined */
   num_read_handles = 0;
   num_write_handles = 0;
 
@@ -90,21 +107,7 @@ bx_devices_c::bx_devices_c(void)
     }
 
   timer_handle = BX_NULL_TIMER_HANDLE;
-}
 
-
-bx_devices_c::~bx_devices_c(void)
-{
-  // nothing needed for now
-  BX_DEBUG(("Exit."));
-}
-
-
-  void
-bx_devices_c::init(BX_MEM_C *newmem)
-{
-  BX_DEBUG(("Init $Id$"));
-  mem = newmem;
   // Start with all IO port address registered to unmapped handler
   // MUST be called first
   unmapped = &bx_unmapped;
@@ -130,7 +133,6 @@ bx_devices_c::init(BX_MEM_C *newmem)
   // CMOS RAM & RTC
   cmos = &bx_cmos;
   cmos->init(this);
-  cmos->reset();
 
   /*--- 8237 DMA ---*/
   dma = &bx_dma;
@@ -234,6 +236,7 @@ bx_devices_c::reset(void)
 #if BX_PCI_SUPPORT
   pci->reset();
 #endif
+  cmos->reset();
   floppy->reset(BX_RESET_HARDWARE);
 }
 
