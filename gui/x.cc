@@ -1176,8 +1176,7 @@ bx_x_gui_c::text_update(Bit8u *old_text, Bit8u *new_text,
         }
 
         vgafont[c]=XCreateBitmapFromData(bx_x_display, win, 
-                        (const char*)cell,
-                        font_width, font_height);
+                        (const char*)cell, 9, font_height);
             if(vgafont[c] == None)
               BX_PANIC(("Can't create vga font [%d]", c));
         char_changed[c] = 0;
