@@ -11,6 +11,9 @@ class MyPanel;
 class SimThread;
 class FloppyConfigDialog;
 class ParamDialog;
+#if BX_DEBUGGER
+class DebugLogDialog;
+#endif
 
 //hack alert; yuck; FIXME
 extern MyFrame *theFrame;

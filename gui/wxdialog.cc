@@ -874,7 +874,7 @@ void DebugLogDialog::CheckLogLength ()
   if (len > lengthMax + lengthTolerance) {
     // Truncate the string.  Start from length - lengthMax, search 
     // forward until we find the first \n.
-    for (int i = len - lengthMax; i<len-1; i++) {
+    for (int i = len - lengthMax; i<(int)(len-1); i++) {
       if (str.GetChar (i) == '\n') {
 	// remove the \n and everything before it.  Done.
 	//printf ("truncating from 0 to %d\n", i+1);
