@@ -5225,7 +5225,7 @@ bx_dbg_help_command(char* command)
     dbg_printf("-*- Execution control -*-\n");
     dbg_printf("    c|cont, s|step|stepi, p|n|next, modebp\n");
     dbg_printf("-*- Breakpoint management -*-\n");
-    dbg_printf("    v|vbreak, lb|lbreak, pb|pbreak|b|break, sb, sba, blist,\n");
+    dbg_printf("    vb|vbreak, lb|lbreak, pb|pbreak|b|break, sb, sba, blist,\n");
     dbg_printf("    bpe, bpd, d|del|delete\n");
     dbg_printf("-*- CPU and memory contents -*-\n");
     dbg_printf("    x, xp, u|disas|disassemble, r|reg|registers, setpmem, crc, info, dump_cpu,\n");
