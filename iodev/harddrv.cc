@@ -1939,7 +1939,10 @@ if (channel == 0) {
 
         case 0x10: // CALIBRATE DRIVE
 	  if (!BX_SELECTED_IS_HD(channel))
-		BX_PANIC(("calibrate drive issued to non-disk"));
+		BX_INFO(("calibrate drive issued to non-disk"));
+
+          // FIXME Maybe we should signal an error in case of cdrom
+          // if (!BX_SELECTED_IS_PRESENT(channel) || !BX_SELECTED_IS_HD(channel))
           if (!BX_SELECTED_IS_PRESENT(channel)) {
             BX_SELECTED_CONTROLLER(channel).error_register = 0x02; // Track 0 not found
             BX_SELECTED_CONTROLLER(channel).status.busy = 0;
@@ -2147,6 +2150,7 @@ if (channel == 0) {
 	    case 0x55: //  Disable look-ahead cache.
 	    case 0xCC: // Enable and
 	    case 0x66: //  Disable reverting to power-on default
+            case 0x03: // Set Transfer Mode
 	      BX_INFO(("SET FEATURES subcommand 0x%02x not supported by disk.", (unsigned) BX_SELECTED_CONTROLLER(channel).features));
 	      command_aborted(channel, value);
 	    break;
