@@ -65,6 +65,9 @@ bx_devices_c::bx_devices_c(void)
   sb16 = NULL;
   ne2k = NULL;
   g2h = NULL;
+#if BX_IODEBUG_SUPPORT
+  iodebug = NULL;
+#endif
 
   num_read_handles = 0;
   num_write_handles = 0;
@@ -166,6 +169,11 @@ bx_devices_c::init(BX_MEM_C *newmem)
 
   keyboard = &bx_keyboard;
   keyboard->init(this, cmos);
+
+#if BX_IODEBUG_SUPPORT
+  iodebug = &bx_iodebug;
+  iodebug->init(this);
+#endif
 
   /*--- PARALLEL PORT ---*/
   parallel = &bx_parallel;
