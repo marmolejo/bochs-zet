@@ -225,8 +225,10 @@ bx_keymap_c::loadKeymap(Bit32u stringToSymbol(const char*), const char* filename
 	BX_PANIC (("keymap line %d: X windows symbol '%s' must start with XK_", lineCount, xwinSym));
       }
       modKey = convertStringToBXKey(modSym);
-      xwinKey = stringToSymbol(xwinSym + 3);  // skip over the "XK_"
-      
+	  xwinKey = 0;
+	  if (stringToSymbol != NULL)
+        xwinKey = stringToSymbol(xwinSym + 3);  // skip over the "XK_"
+	       
       // Check if data is valid
       if( baseKey==BX_KEYMAP_UNKNOWN ) {
         BX_PANIC (("line %d: unknown BX_KEY constant '%s'",lineCount,baseSym));

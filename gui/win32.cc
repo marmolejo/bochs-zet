@@ -336,6 +336,11 @@ void bx_gui_c::specific_init(bx_gui_c *th, int argc, char **argv, unsigned
 
   if (bx_options.Oprivate_colormap->get ())
     BX_INFO(( "private_colormap option ignored."));
+
+  // load keymap tables
+  if(bx_options.keyboard.OuseMapping->get()) {
+    bx_keymap.loadKeymap(NULL);  // I have no function to convert X windows symbols
+    }
 }
 
 
