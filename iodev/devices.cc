@@ -165,6 +165,7 @@ bx_devices_c::init(BX_MEM_C *newmem)
 #if BX_SUPPORT_GAME
   PLUG_load_plugin(gameport, PLUGTYPE_OPTIONAL);
 #endif
+  PLUG_load_plugin(speaker, PLUGTYPE_OPTIONAL);
 
   // Start with registering the default (unmapped) handler
   pluginUnmapped->init ();
