@@ -53,6 +53,7 @@ private:
   // ===============================
 
   struct {
+    Boolean inUse;      // Timer slot is in-use (currently registered).
     Bit64u  period;     // Timer periodocity in cpu ticks.
     Bit64u  timeToFire; // Time to fire next (in absolute ticks).
     Boolean active;     // 0=inactive, 1=active.
