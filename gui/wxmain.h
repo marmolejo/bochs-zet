@@ -41,6 +41,7 @@ enum
   ID_Edit_Speed,
   ID_Edit_Sound,
   ID_Edit_Cmos,
+  ID_Edit_Clock,
   ID_Edit_Network,
   ID_Edit_Keyboard,
   ID_Edit_Serial_Parallel,
@@ -181,6 +182,7 @@ public:
   void OnEditSpeed(wxCommandEvent& event);
   void OnEditSound(wxCommandEvent& event);
   void OnEditCmos(wxCommandEvent& event);
+  void OnEditClock(wxCommandEvent& event);
   void OnEditNet(wxCommandEvent& event);
   void OnEditKeyboard(wxCommandEvent& event);
   void OnEditSerialParallel(wxCommandEvent& event);
