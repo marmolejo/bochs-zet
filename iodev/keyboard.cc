@@ -991,7 +991,7 @@ bx_keyb_c::kbd_ctrl_to_kbd(Bit8u   value)
       case 3: BX_INFO(("setting delay to 1000 mS (unused)")); break;
       }
     BX_KEY_THIS s.kbd_internal_buffer.repeat_rate = value & 0x1f;
-    double cps = 1 /((8 + (value & 0x07)) * exp(log(2) * ((value >> 3) & 0x03)) * 0.00417);
+    double cps = 1 /((double)(8 + (value & 0x07)) * (double)exp(log((double)2) * (double)((value >> 3) & 0x03)) * 0.00417);
     BX_INFO(("setting repeat rate to %.1f cps (unused)", cps));
     kbd_enQ(0xFA); // send ACK
     return;
