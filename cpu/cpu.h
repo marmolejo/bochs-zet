@@ -32,13 +32,6 @@
 
 #include "cpu/lazy_flags.h"
 
-#if BX_SUPPORT_X86_64
-typedef Bit64u bx_address;
-#else
-typedef Bit32u bx_address;
-#endif
-
-
 #define BX_SREG_ES    0
 #define BX_SREG_CS    1
 #define BX_SREG_SS    2
