@@ -1428,7 +1428,7 @@ get_std_cpuid_features()
 BX_CPU_C::CPUID(bxInstruction_c *i)
 {
 #if BX_CPU_LEVEL >= 4
-  unsigned type, family, model, stepping, features;
+  unsigned family, model, stepping, features;
 #endif
 
   invalidate_prefetch_q();
