@@ -2396,6 +2396,8 @@ bx_begin_simulation (int argc, char *argv[])
 
   // update headerbar buttons since drive status can change during init
   bx_gui->update_drive_status_buttons ();
+  // iniialize statusbar and set all items inactive
+  bx_gui->statusbar_setitem(-1, 0);
 
   // The set handler for mouse_enabled does not actually update the gui
   // until init_done is set.  This forces the set handler to be called,

@@ -476,13 +476,17 @@ bx_floppy_ctrl_c::write(Bit32u address, Bit32u value, unsigned io_len)
   switch (address) {
 #if BX_DMA_FLOPPY_IO
     case 0x3F2: /* diskette controller digital output register */
-      motor_on_drive1 = value & 0x20;
       motor_on_drive0 = value & 0x10;
+      motor_on_drive1 = value & 0x20;
       /* set status bar conditions for Floppy 0 and Floppy 1 */
-      if (BX_FD_THIS s.statusbar_id[0] >= 0)
-        bx_gui->statusbar_setitem(BX_FD_THIS s.statusbar_id[0], motor_on_drive0);
-      if (BX_FD_THIS s.statusbar_id[1] >= 0)
-        bx_gui->statusbar_setitem(BX_FD_THIS s.statusbar_id[1], motor_on_drive1);
+      if (BX_FD_THIS s.statusbar_id[0] >= 0) {
+        if (motor_on_drive0 != (BX_FD_THIS s.DOR & 0x10))
+          bx_gui->statusbar_setitem(BX_FD_THIS s.statusbar_id[0], motor_on_drive0);
+      }
+      if (BX_FD_THIS s.statusbar_id[1] >= 0) {
+        if (motor_on_drive1 != (BX_FD_THIS s.DOR & 0x20))
+          bx_gui->statusbar_setitem(BX_FD_THIS s.statusbar_id[1], motor_on_drive1);
+      }
       dma_and_interrupt_enable = value & 0x08;
       if (!dma_and_interrupt_enable)
         BX_DEBUG(("DMA and interrupt capabilities disabled"));
