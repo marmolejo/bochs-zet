@@ -36,6 +36,8 @@ extern "C" {
 
 #define LOG_THIS bx_gui.
 
+Boolean initialized = 0;
+
 static short curses_color[8] = {
   /* 0 */ COLOR_BLACK,
   /* 1 */ COLOR_BLUE,
@@ -165,6 +167,7 @@ bx_gui_c::specific_init(bx_gui_c *th, int argc, char **argv, unsigned tilewidth,
 
 	if (bx_options.Oprivate_colormap->get ())
 		BX_ERROR(("WARNING: private_colormap option ignored."));
+	initialized = 1;
 }
 
 
@@ -394,7 +397,8 @@ bx_gui_c::handle_events(void)
 	void
 bx_gui_c::flush(void)
 {
-	refresh();
+	if (initialized)
+	  refresh();
 }
 
 
@@ -683,6 +687,7 @@ bx_gui_c::replace_bitmap(unsigned hbar_id, unsigned bmap_id)
 	void
 bx_gui_c::exit(void)
 {
+	if (!initialized) return;
 	clear();
 	flush();
 	endwin();
