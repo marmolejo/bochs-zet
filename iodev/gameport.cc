@@ -45,11 +45,13 @@
 
 #elif defined(WIN32)
 
+#ifndef JOY_BUTTON1
 #define JOY_BUTTON1 1
 #define JOY_BUTTON2 2
-#define JOYSTICKID1 0
-
 UINT STDCALL joyGetPos(UINT, LPJOYINFO);
+#endif
+
+#define JOYSTICKID1 0
 
 #endif
 
