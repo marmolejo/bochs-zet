@@ -48,19 +48,19 @@ typedef Bit8u u_char;
  */
 #endif
 
-extern unsigned fpu_get_user(bx_address ptr, unsigned len) BX_CPP_AttrRegparmN(2);
-extern void fpu_put_user(unsigned val, bx_address ptr, unsigned len) BX_CPP_AttrRegparmN(3);
+extern u32 fpu_get_user(bx_address ptr, unsigned len) BX_CPP_AttrRegparmN(2);
+extern void fpu_put_user(u32 val, bx_address ptr, unsigned len) BX_CPP_AttrRegparmN(3);
 extern void fpu_verify_area(unsigned what, bx_address ptr, unsigned n) BX_CPP_AttrRegparmN(3);
 extern unsigned fpu_get_ds(void);
-extern void fpu_set_ax(u16);
+extern void fpu_set_ax(u16 ax);
+extern u32 fpu_get_eflags();
+extern void fpu_set_eflags(u32 eflags);
 
 #define SIGSEGV  11
 
 extern struct i387_t *current_i387;
 
 #define i387     (*current_i387)
-
-#define SET_AX(val16)           fpu_set_ax(val16);
 
 #define no_ip_update            (*(u_char *)&(i387.no_update))
 #define FPU_rm                  (*(u_char *)&(i387.rm))

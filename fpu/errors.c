@@ -612,8 +612,3 @@ void FPU_stack_underflow_pop(int i)
 
   EXCEPTION(EX_StackUnder);
 }
-
-int printk(const char * fmt, ...)
-{
-  return(0);
-}
