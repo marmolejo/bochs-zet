@@ -206,7 +206,7 @@ bx_devices_c::init(BX_MEM_C *newmem)
   }
 
   // NE2000 NIC
-  if (bx_options.ne2k.Opresent->get ()) {
+  if (bx_options.ne2k.Oenabled->get ()) {
 #if BX_SUPPORT_NE2K
     PLUG_load_plugin(ne2k, PLUGTYPE_OPTIONAL);
 #else
@@ -233,7 +233,7 @@ bx_devices_c::init(BX_MEM_C *newmem)
   pluginFloppyDevice->init();
 
   //--- SOUND ---
-  if (bx_options.sb16.Opresent->get ()) {
+  if (bx_options.sb16.Oenabled->get ()) {
 #if BX_SUPPORT_SB16
     PLUG_load_plugin(sb16, PLUGTYPE_OPTIONAL);
 #else

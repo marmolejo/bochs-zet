@@ -543,7 +543,7 @@ typedef struct {
   } bx_clock_options;
 
 typedef struct {
-  bx_param_bool_c *Opresent;
+  bx_param_bool_c *Oenabled;
   bx_param_num_c *Oioaddr;
   bx_param_num_c *Oirq;
   bx_param_string_c *Omacaddr;
@@ -576,7 +576,7 @@ typedef struct {
 } bx_log_options;
 
 typedef struct {
-  bx_param_bool_c *Opresent;
+  bx_param_bool_c *Oenabled;
   bx_param_string_c *Omidifile;
   bx_param_string_c *Owavefile;
   bx_param_string_c *Ologfile;
