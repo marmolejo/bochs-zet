@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
+//  Copyright (C) 2002  MandrakeSoft S.A.
 //
 //    MandrakeSoft S.A.
 //    43, rue d'Aboukir
@@ -35,7 +35,7 @@ public:
   void init(void);
 
   // Load CD-ROM. Returns false if CD is not ready.
-  bool insert_cdrom();
+  bool insert_cdrom(char *dev = NULL);
 
   // Logically eject the CD.
   void eject_cdrom();

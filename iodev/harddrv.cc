@@ -2617,6 +2617,52 @@ bx_hard_drive_c::command_aborted(unsigned value)
   raise_interrupt();
 }
 
+  unsigned
+bx_hard_drive_c::get_cd_media_status(void)
+{
+  return( BX_HD_THIS s[1].cdrom.ready );
+}
+
+  unsigned
+bx_hard_drive_c::set_cd_media_status(unsigned status)
+{
+  // if setting to the current value, nothing to do
+  if (status == BX_HD_THIS s[1].cdrom.ready)
+    return(status);
+  // return 0 if no cdromd is present
+  if (!bx_options.cdromd.Opresent->get())
+    return(0);
+
+  if (status == 0) {
+    // eject cdrom if not locked by guest OS
+    if (BX_HD_THIS s[1].cdrom.locked) return(1);
+    else {
+#ifdef LOWLEVEL_CDROM
+      BX_HD_THIS s[1].cdrom.cd->eject_cdrom();
+#endif
+      BX_HD_THIS s[1].cdrom.ready = 0;
+      bx_options.cdromd.Oinserted->set(BX_EJECTED);
+      }
+    }
+  else {
+    // insert cdrom
+#ifdef LOWLEVEL_CDROM
+    if (BX_HD_THIS s[1].cdrom.cd->insert_cdrom(bx_options.cdromd.Opath->getptr())) {
+      BX_INFO(( "Media present in CD-ROM drive"));
+      BX_HD_THIS s[1].cdrom.ready = 1;
+      BX_HD_THIS s[1].cdrom.capacity = BX_HD_THIS s[1].cdrom.cd->capacity();
+      bx_options.cdromd.Oinserted->set(BX_INSERTED);
+      }
+    else {		    
+      BX_INFO(( "Could not locate CD-ROM, continuing with media not present"));
+      BX_HD_THIS s[1].cdrom.ready = 0;
+      bx_options.cdromd.Oinserted->set(BX_EJECTED);
+      }
+#endif
+    }
+  return( BX_HD_THIS s[1].cdrom.ready );
+}
+
 
 /*** default_image_t function definitions ***/
 
