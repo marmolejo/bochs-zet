@@ -508,8 +508,7 @@ BX_CPU_C::reset(unsigned source)
 
   /* instruction pointer */
 #if BX_CPU_LEVEL < 2
-  BX_CPU_THIS_PTR prev_eip =
-  EIP = 0x00000000;
+  BX_CPU_THIS_PTR prev_eip = EIP = 0x00000000;
 #else /* from 286 up */
   BX_CPU_THIS_PTR prev_eip =
 #if BX_SUPPORT_X86_64
@@ -565,7 +564,6 @@ BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.avl = 0;
 #endif
 
-
   /* SS (Stack Segment) and descriptor cache */
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].selector.value =     0x0000;
 #if BX_CPU_LEVEL >= 2
@@ -592,7 +590,6 @@ BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.d_b = 0; /* 16bit default size */
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.avl = 0;
 #endif
-
 
   /* DS (Data Segment) and descriptor cache */
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_DS].selector.value =     0x0000;
@@ -621,7 +618,6 @@ BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_DS].cache.u.segment.avl = 0;
 #endif
 
-
   /* ES (Extra Segment) and descriptor cache */
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_ES].selector.value =     0x0000;
 #if BX_CPU_LEVEL >= 2
@@ -649,7 +645,6 @@ BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_ES].cache.u.segment.avl = 0;
 #endif
 
-
   /* FS and descriptor cache */
 #if BX_CPU_LEVEL >= 3
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS].selector.value =     0x0000;
@@ -674,7 +669,6 @@ BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS].cache.u.segment.d_b = 0; /* 16bit default size */
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS].cache.u.segment.avl = 0;
 #endif
-
 
   /* GS and descriptor cache */
 #if BX_CPU_LEVEL >= 3
@@ -845,7 +839,6 @@ BX_CPU_C::reset(unsigned source)
 #endif
 
   BX_CPU_THIS_PTR EXT = 0;
-  //BX_INTR = 0;
 
 #if BX_SUPPORT_PAGING
 #if BX_USE_TLB
