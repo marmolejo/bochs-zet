@@ -968,6 +968,8 @@ BX_CPU_C::sanity_checks(void)
     BX_PANIC(("data type Bit16u or Bit16s is not of length 2 bytes!"));
   if (sizeof(Bit32u) != 4  ||  sizeof(Bit32s) != 4)
     BX_PANIC(("data type Bit32u or Bit32s is not of length 4 bytes!"));
+  if (sizeof(Bit64u) != 8  ||  sizeof(Bit64s) != 8)
+    BX_PANIC(("data type Bit64u or Bit64u is not of length 8 bytes!"));
 
   BX_DEBUG(( "#(%u)all sanity checks passed!", BX_SIM_ID ));
 }
