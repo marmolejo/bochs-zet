@@ -4219,10 +4219,10 @@ redolog_t::open (const char* filename, const char *type, Bit64u size)
         extent_next = 0;
         for (Bit32u i=0; i < dtoh32(header.specific.catalog); i++)
         {
-                if (dtoh32(catalog[extent_index]) != REDOLOG_PAGE_NOT_ALLOCATED)
+                if (dtoh32(catalog[i]) != REDOLOG_PAGE_NOT_ALLOCATED)
                 {
-                        if (dtoh32(catalog[extent_index]) >= extent_next)
-                                extent_next = dtoh32(catalog[extent_index]) + 1;
+                        if (dtoh32(catalog[i]) >= extent_next)
+                                extent_next = dtoh32(catalog[i]) + 1;
                 }
         }
         BX_INFO(("redolog : next extent will be at index %d",extent_next));
