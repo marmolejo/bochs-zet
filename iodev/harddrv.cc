@@ -1622,6 +1622,13 @@ BX_DEBUG(("IO write to %04x = %02x", (unsigned) address, (unsigned) value));
 	  BX_SELECTED_CONTROLLER.sector_count = 0xff; // Active or Idle mode
 	  raise_interrupt();
 	  break;
+	
+	// win2K uses 0xe7, but what is it???
+	// This can be used temporarily to avoid panics.
+	case 0xe7:
+	  BX_INFO(("IO write(1f7h): command 0xe7 : WHAT IS THIS?"));
+          command_aborted(value);
+          break;
 
         default:
           BX_PANIC(("IO write(1f7h): command 0x%02x", (unsigned) value));
