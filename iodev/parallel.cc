@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
+//  Copyright (C) 2002  MandrakeSoft S.A.
 //
 //    MandrakeSoft S.A.
 //    43, rue d'Aboukir
@@ -109,6 +109,9 @@ bx_parallel_c::virtual_printer(void)
     BX_PAR_THIS s.STATUS.ack = 0;
     BX_PAR_THIS s.STATUS.busy = 1;
     }
+  else {
+    BX_ERROR(("data is valid, but printer is offline"));
+    }
 }
 
   // static IO port read callback handler
@@ -153,6 +156,9 @@ bx_parallel_c::read(Bit32u address, unsigned io_len)
 		    (BX_PAR_THIS s.STATUS.error << 3));
 	  if (BX_PAR_THIS s.STATUS.ack == 0) {
 	    BX_PAR_THIS s.STATUS.ack = 1;
+            if (BX_PAR_THIS s.CONTROL.irq == 1) {
+              BX_PAR_THIS devices->pic->untrigger_irq(7);
+	      }
 	    }
 	  if (BX_PAR_THIS initmode == 1) {
 	    BX_PAR_THIS s.STATUS.busy  = 1;
