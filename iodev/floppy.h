@@ -54,8 +54,6 @@ public:
   ~bx_floppy_ctrl_c(void);
   virtual void   init(void);
   virtual void   reset(unsigned type);
-  BX_FD_SMF void   dma_write(Bit8u *data_byte);
-  BX_FD_SMF void   dma_read(Bit8u *data_byte);
   virtual unsigned set_media_status(unsigned drive, unsigned status);
   virtual unsigned get_media_status(unsigned drive);
 
@@ -124,6 +122,8 @@ private:
   Bit32u read(Bit32u address, unsigned io_len);
   void   write(Bit32u address, Bit32u value, unsigned io_len);
 #endif
+  BX_FD_SMF void   dma_write(Bit8u *data_byte);
+  BX_FD_SMF void   dma_read(Bit8u *data_byte);
   BX_FD_SMF void   floppy_command(void);
   BX_FD_SMF void   floppy_xfer(Bit8u drive, Bit32u offset, Bit8u *buffer, Bit32u bytes, Bit8u direction);
   BX_FD_SMF void   raise_interrupt(void);
