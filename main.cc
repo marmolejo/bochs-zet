@@ -1234,6 +1234,8 @@ bx_init_hardware()
     io->init_log(bx_options.log.Ofilename->getptr ());
   }
 
+  io->set_log_prefix(bx_options.log.Oprefix->getptr());
+
   // set up memory and CPU objects
 #if BX_SUPPORT_APIC
   memset(apic_index, 0, sizeof(apic_index[0]) * APIC_MAX_ID);

@@ -287,7 +287,6 @@ class iofunctions {
 	class logfunctions *log;
 	void init(void);
 	void flush(void);
-	void setlogprefix(void);
 // Log Class defines
 #define    IOLOG           0
 #define    FDLOG           1
@@ -351,6 +350,7 @@ public:
 	void init_log(const char *fn);
 	void init_log(int fd);
 	void init_log(FILE *fs);
+	void set_log_prefix(const char *prefix);
 	int get_n_logfns () { return n_logfn; }
 	logfunc_t *get_logfn (int index) { return logfn_list[index]; }
 	void add_logfn (logfunc_t *fn);
