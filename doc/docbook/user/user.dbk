@@ -5712,7 +5712,7 @@ Some of the other options in this group is probably also needed,
         Make it executable :<screen>chmod 755 <replaceable>/path/to/tunconfig</replaceable></screen>
         </para>
         <para>
-        Run Bochs, install the guest OS, and set the following network parameters :
+        Run Bochs, install the guest OS, and set the following network parameters in the guest OS:
         <screen>
         IP: 192.168.1.2
         netmask: 255.255.255.0
@@ -5725,7 +5725,7 @@ Some of the other options in this group is probably also needed,
         script won't have root privileges otherwise).
         </para>
         </note>
-        You may also have to edit /etc/hosts.allow and add :
+        You may also have to edit /etc/hosts.allow in the host OS and add :
         <screen>
         ALL: 192.168.1.2
         </screen>
