@@ -851,7 +851,7 @@ void bx_init_options ()
   bx_options.Okeyboard_paste_delay = new bx_param_num_c (BXP_KBD_PASTE_DELAY,
       "keyboard_paste_delay",
       "Approximate time in microseconds between attemps to paste characters to the keyboard controller.",
-      0, BX_MAX_INT,
+      1000, BX_MAX_INT,
       100000);
   bx_options.Ofloppy_command_delay = new bx_param_num_c (BXP_FLOPPY_CMD_DELAY,
       "floppy_command_delay",
