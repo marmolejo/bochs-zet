@@ -762,7 +762,7 @@ bx_serial_c::write(Bit32u address, Bit32u value, unsigned io_len)
       BX_SER_THIS s[port].modem_cntl.out1 = new_b2;
       BX_SER_THIS s[port].modem_cntl.out2 = new_b3;
 
-      if (new_b7 != BX_SER_THIS s[port].modem_cntl.local_loopback) {
+      if (new_b4 != BX_SER_THIS s[port].modem_cntl.local_loopback) {
         BX_SER_THIS s[port].modem_cntl.local_loopback = new_b4;
         if (BX_SER_THIS s[port].modem_cntl.local_loopback) {
           /* transition to loopback mode */
