@@ -587,6 +587,9 @@ BX_PANIC(("kbd: OUTB set and command 0x%02x encountered", value));
           set_kbd_clock_enable(1);
           BX_DEBUG(("keyboard enabled"));
           break;
+        case 0xaf: // get controller version
+          BX_INFO(("'get controller version' not supported yet"));
+          break;
         case 0xc0: // read input port
           // controller output buffer must be empty
           if (BX_KEY_THIS s.kbd_controller.outb) {
