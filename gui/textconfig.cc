@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-// This is code for a text-mode configuration interfac.  Note that this file
+// This is code for a text-mode configuration interface.  Note that this file
 // does NOT include bochs.h.  Instead, it does all of its contact with
 // the simulator through an object called SIM, defined in siminterface.cc
 // and siminterface.h.  This separation adds an extra layer of method
@@ -686,7 +686,7 @@ ask:
 	    log_action_n_choices, log_action_ask_choices, 2, &choice) < 0) 
 	event->retcode = -1;
       // return 0 for continue, 1 for alwayscontinue, 2 for die, 3 for debug.
-      if (!BX_HAVE_ABORT && choice==3) goto ask;
+      if (!BX_HAVE_ABORT && choice==BX_LOG_ASK_CHOICE_DUMP_CORE) goto ask;
       fflush(stdout);
       fflush(stderr);
       event->retcode = choice;

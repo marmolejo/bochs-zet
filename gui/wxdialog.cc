@@ -139,10 +139,10 @@ void LogMsgAskDialog::OnEvent(wxCommandEvent& event)
   int id = event.GetId ();
   int ret = -1;
   switch (id) {
-    case ID_Continue:   ret = CONT;  break;
-    case ID_Die:        ret = DIE;   break;
-    case ID_DumpCore:   ret = DUMP;  break;
-    case ID_Debugger:   ret = DEBUG; break;
+    case ID_Continue:   ret = BX_LOG_ASK_CHOICE_CONTINUE;  break;
+    case ID_Die:        ret = BX_LOG_ASK_CHOICE_DIE;   break;
+    case ID_DumpCore:   ret = BX_LOG_ASK_CHOICE_DUMP_CORE;  break;
+    case ID_Debugger:   ret = BX_LOG_ASK_CHOICE_ENTER_DEBUG; break;
     case wxID_HELP: ShowHelp (); return;
     default:
       return;  // without EndModal

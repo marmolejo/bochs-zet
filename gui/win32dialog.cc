@@ -74,7 +74,7 @@ static BOOL CALLBACK LogAskProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
       SetFocus(GetDlgItem(hDlg, IDASKLIST));
       return FALSE;
     case WM_CLOSE:
-      EndDialog(hDlg, 2);
+      EndDialog(hDlg, BX_LOG_ASK_CHOICE_DIE);
       break;
     case WM_COMMAND:
       switch (LOWORD(wParam)) {
@@ -82,7 +82,7 @@ static BOOL CALLBACK LogAskProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
           EndDialog(hDlg, SendMessage(GetDlgItem(hDlg, IDASKLIST), LB_GETCURSEL, 0, 0));
           break;
         case IDCANCEL:
-          EndDialog(hDlg, 2);
+          EndDialog(hDlg, BX_LOG_ASK_CHOICE_DIE);
           break;
     }
   }
