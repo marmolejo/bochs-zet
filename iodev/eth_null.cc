@@ -31,6 +31,11 @@
 // rfc0826: arp
 // rfc0903: rarp
 
+// Define BX_PLUGGABLE in files that can be compiled into plugins.  For
+// platforms that require a special tag on exported symbols, BX_PLUGGABLE 
+// is used to know when we are exporting symbols and when we are importing.
+#define BX_PLUGGABLE
+ 
 #include "bochs.h"
 #if BX_NE2K_SUPPORT
 
