@@ -541,7 +541,7 @@ static Bit32u sdl_sym_to_bx_key (SDLKey sym)
     case SDLK_LCTRL:                return BX_KEY_CTRL_L;
     case SDLK_RALT:                 return BX_KEY_ALT_R;
     case SDLK_LALT:                 return BX_KEY_ALT_L;
-//  case SDLK_RMETA:                return BX_KEY_RMETA;
+    case SDLK_RMETA:                return BX_KEY_ALT_R;
 //  case SDLK_LMETA:                return BX_KEY_LMETA;
     case SDLK_LSUPER:               return BX_KEY_WIN_L;
     case SDLK_RSUPER:               return BX_KEY_WIN_R;
