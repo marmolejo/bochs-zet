@@ -567,16 +567,15 @@ BX_CPU_C::load_ss(bx_selector_t *selector, bx_descriptor_t *descriptor, Bit8u cp
 #if BX_SUPPORT_X86_64
   if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64) {
     INIT_64_DESCRIPTOR(BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache);
+    return;
     }
-  else{
 #endif
-    if ( (BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].selector.value & 0xfffc) == 0 )
-      BX_PANIC(("load_ss(): null selector passed"));
+  if ( (BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].selector.value & 0xfffc) == 0 )
+    BX_PANIC(("load_ss(): null selector passed"));
 
-    if ( !BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.valid ) {
-      BX_PANIC(("load_ss(): invalid selector/descriptor passed."));
-      }
-  }
+  if ( !BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.valid ) {
+    BX_PANIC(("load_ss(): invalid selector/descriptor passed."));
+    }
 }
 
 #if BX_CPU_LEVEL >= 2
