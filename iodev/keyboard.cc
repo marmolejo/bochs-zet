@@ -999,6 +999,8 @@ bx_keyb_c::kbd_ctrl_to_kbd(Bit8u   value)
         kbd_enQ(0xFF); // send ERROR
       }
     } else {
+      // Send ACK (SF patch #1159626)
+      kbd_enQ(0xFA);
       // Send current scancodes set to port 0x60
       kbd_enQ( 1 + (BX_KEY_THIS s.kbd_controller.current_scancodes_set) ); 
     }
