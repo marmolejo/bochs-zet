@@ -2,6 +2,7 @@
 Patch name: patch.extfpuirq
 Author: Christpohe Bothamy
 Date: Mon Jan  6 01:48:51 CET 2003
+Status: applied to main code
 
 Detailed description:
   This patch adds msdos compatibility FPU exception support. (irq 13)
