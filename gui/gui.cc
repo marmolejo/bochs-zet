@@ -39,6 +39,10 @@
 #  include <Disks.h>
 #endif
 
+#ifdef BX_WITH_X11
+#include <X11/Xlib.h>
+#endif
+
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -266,6 +270,11 @@ bx_gui_c::snapshot_handler(void)
       CloseClipboard();
       GlobalFree(hMem);
     }
+#elif BX_WITH_X11
+    extern Display *bx_x_display;
+    // this writes data to the clipboard.
+    BX_INFO (("storing %d bytes to X windows clipboard", txt_addr));
+    XStoreBytes (bx_x_display, snapshot_txt, txt_addr);
 #else
     OUTPUT = fopen("snapshot.txt", "w");
     fwrite(snapshot_txt, 1, strlen(snapshot_txt), OUTPUT);
