@@ -435,7 +435,7 @@ Boolean
 MyPanel::fillBxKeyEvent_GTK (wxKeyEvent& wxev, BxKeyEvent& bxev, Boolean release)
 {
 #if defined (wxHAS_RAW_KEY_CODES) && defined(__WXGTK__)
-  IFDBG_KEY(wxLogDebug ("fillBxKeyEvent_GTK. key code %d, raw codes %d %d", wxev.m_keyCode, wxev.m_rawCode, wxev.m_rawFlags));
+  IFDBG_KEY(wxLogDebug ("fillBxKeyEvent_GTK. key code %ld, raw codes %d %d", wxev.m_keyCode, wxev.m_rawCode, wxev.m_rawFlags));
   // GTK has only 16bit key codes
   Bit16u keysym = (Bit32u) wxev.m_rawCode;
   Bit32u bx_key = 0;
@@ -589,7 +589,7 @@ MyPanel::fillBxKeyEvent (wxKeyEvent& wxev, BxKeyEvent& bxev, Boolean release)
 
   // otherwise fall back to using portable WXK_* keycodes.  Not all keys
   // can be mapped correctly using WXK_* codes but it should be usable.
-  IFDBG_KEY (wxLogDebug ("fillBxKeyEvent. key code %d", wxev.m_keyCode));
+  IFDBG_KEY (wxLogDebug ("fillBxKeyEvent. key code %ld", wxev.m_keyCode));
   Bit32u key = wxev.m_keyCode;
   Bit32u bx_key;
   
