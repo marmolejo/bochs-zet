@@ -81,9 +81,9 @@ if ($TEST_GUIS) {
 if ($TEST_CPU) {
 # test with various cpu options
 add_configuration ('i386',
-  '--enable-cpu-level=3');
+  '--enable-cpu-level=3 --disable-mmx');
 add_configuration ('i486',
-  '--enable-cpu-level=4');
+  '--enable-cpu-level=4 --disable-mmx');
 add_configuration ('i586',
   '--enable-cpu-level=5');
 add_configuration ('i686',
