@@ -89,9 +89,9 @@ BX_CPU_C::INT1(bxInstruction_c *i)
 
 #if BX_EXTERNAL_DEBUGGER
   trap_debugger(0);
-#else
-  interrupt(1, 1, 0, 0);
 #endif
+
+  interrupt(1, 1, 0, 0);
   BX_INSTR_FAR_BRANCH(BX_CPU_ID, BX_INSTR_IS_INT,
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value,
                       EIP);

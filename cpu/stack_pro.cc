@@ -52,7 +52,7 @@ BailBigRSP("push_16");
 #endif
       temp_ESP = SP;
     if (!can_push(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache, temp_ESP, 2)) {
-      BX_PANIC(("push_16(): push outside stack limits"));
+      BX_DEBUG(("push_16(): push outside stack limits"));
       exception(BX_SS_EXCEPTION, 0, 0);
       return;
       }
