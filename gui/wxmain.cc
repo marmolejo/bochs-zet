@@ -16,7 +16,7 @@
 //
 // The separation between wxmain.cc and wx.cc is as follows:
 // - wxmain.cc implements a Bochs configuration interface (CI),
-//   which is the wxWindows equivalent of control.cc.  wxmain creates
+//   which is the wxWindows equivalent of textconfig.cc. wxmain creates
 //   a frame with several menus and a toolbar, and allows the user to
 //   choose the machine configuration and start the simulation.  Note
 //   that wxmain.cc does NOT include bochs.h.  All interactions
@@ -500,7 +500,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size, 
   // Omit config button because the whole wxWindows interface is like
   // one really big config button.
   //BX_ADD_TOOL(ID_Toolbar_Config, configbutton_xpm, "Runtime Configuration");
-  BX_ADD_TOOL(ID_Toolbar_Mouse_en, mouse_xpm, "Enable/disable mouse capture\nThere are also two shortcuts for this: F12 and the middle mouse button.");
+  BX_ADD_TOOL(ID_Toolbar_Mouse_en, mouse_xpm, "Enable/disable mouse capture\nThere is also a shortcut for this: a CTRL key + the middle mouse button.");
   BX_ADD_TOOL(ID_Toolbar_User, userbutton_xpm, "Keyboard shortcut");
 
   tb->Realize();
