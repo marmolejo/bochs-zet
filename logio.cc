@@ -366,6 +366,8 @@ logfunctions::ask (int level, char *prefix, char *fmt, va_list ap)
       break;
 #endif
     default:
+      // this happens if panics happen before the callback is initialized
+      // in gui/control.cc.
       fprintf (stderr, "WARNING: LOCAL_log_msg returned unexpected value %d\n", val);
   }
 }
