@@ -49,7 +49,8 @@
 //
 
 #include "bochs.h"
-#ifdef ETH_FBSD
+#if BX_NE2K_SUPPORT && defined(ETH_FBSD)
+
 #define LOG_THIS bx_ne2k.
 
 extern "C" {
@@ -374,5 +375,6 @@ bx_fbsd_pktmover_c::rx_timer(void)
 	bhdr = (struct bpf_hdr*) ((char*) bhdr + BPF_WORDALIGN(bhdr->bh_hdrlen + bhdr->bh_caplen));
   }  
 }
-#endif
+
+#endif /* if BX_NE2K_SUPPORT && defined(ETH_FBSD) */
 

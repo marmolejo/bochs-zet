@@ -6,6 +6,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "debug.h"
+
+#if BX_DEBUGGER
+/*
+NOTE: The #if comes from parser.y.  The makefile will add the matching #endif
+at the end of parser.c.  I don't know any way to ask yacc to put it at the end.
+*/
+
 // %left '-' '+'
 // %left '*' '/'
 // %right

@@ -37,6 +37,8 @@
 // Download it from http://netgroup-serv.polito.it/winpcap
 
 #include "bochs.h"
+#if BX_NE2K_SUPPORT
+
 // windows.h included by bochs.h
 #define LOG_THIS bx_ne2k.
 
@@ -349,3 +351,5 @@ void bx_win32_pktmover_c::rx_timer_handler (void *this_ptr)
 		}
     }
 }
+
+#endif /* if BX_NE2K_SUPPORT */

@@ -33,6 +33,7 @@
 #include "bochs.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
+#if BX_SUPPORT_X86_64
 
 
 
@@ -437,3 +438,5 @@ BX_CPU_C::TEST_EqId(bxInstruction_c *i)
 
     SET_FLAGS_OSZAPC_64(op1_64, op2_64, result_64, BX_INSTR_TEST64);
 }
+
+#endif /* if BX_SUPPORT_X86_64 */

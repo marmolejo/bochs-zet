@@ -31,6 +31,7 @@
 #define BX_PLUGGABLE
 
 #include "bochs.h"
+#if BX_WITH_AMIGAOS
 #include "icon_bochs.h"
 #include "amigagui.h"
 
@@ -697,3 +698,4 @@ bx_amigaos_gui_c::mouse_enabled_changed_specific (bx_bool val)
     show_pointer();
   }
 }
+#endif /* if BX_WITH_AMIGAOS */

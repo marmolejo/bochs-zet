@@ -31,12 +31,14 @@
 // is used to know when we are exporting symbols and when we are importing.
 #define BX_PLUGGABLE
 
+#include "bochs.h"
+#if BX_WITH_SDL
+
 #include <stdlib.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_endian.h>
 #include <SDL/SDL_thread.h>
 
-#include "bochs.h"
 #include "icon_bochs.h"
 #include "sdl.h"
 
@@ -1150,3 +1152,5 @@ static Bit32u convertStringToSDLKey (const char *string)
   }
   return BX_KEYMAP_UNKNOWN;
 }
+
+#endif /* if BX_WITH_SDL */

@@ -32,6 +32,8 @@
 // rfc0903: rarp
 
 #include "bochs.h"
+#if BX_NE2K_SUPPORT
+
 #define LOG_THIS bx_ne2k.
 
 
@@ -153,3 +155,5 @@ void bx_null_pktmover_c::rx_timer_handler (void *this_ptr)
   }
 #endif
 }
+
+#endif /* if BX_NE2K_SUPPORT */

@@ -4,7 +4,7 @@
 //
 #include "bochs.h"
 
-#ifdef ETH_ARPBACK
+#if BX_NE2K_SUPPORT && defined(ETH_ARPBACK)
 
 #include "eth_packetmaker.h"
 
@@ -176,5 +176,4 @@ eth_ARPmaker::sendpacket(const eth_packet& outpacket) {
   }
 }
 
-#endif
-
+#endif /* if BX_NE2K_SUPPORT && defined(ETH_ARPBACK) */

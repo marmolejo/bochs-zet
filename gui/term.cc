@@ -32,6 +32,8 @@
 #define BX_PLUGGABLE
 
 #include "bochs.h"
+#if BX_WITH_TERM
+
 #include "icon_bochs.h"
 
 extern "C" {
@@ -715,3 +717,4 @@ bx_term_gui_c::exit(void)
 bx_term_gui_c::mouse_enabled_changed_specific (bx_bool val)
 {
 }
+#endif /* if BX_WITH_TERM */

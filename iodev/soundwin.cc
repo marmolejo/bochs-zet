@@ -26,14 +26,14 @@
 
 // This file (SOUNDWIN.CC) written and donated by Josef Drexler
 
-#if defined(WIN32)
-
 // Define BX_PLUGGABLE in files that can be compiled into plugins.  For
 // platforms that require a special tag on exported symbols, BX_PLUGGABLE 
 // is used to know when we are exporting symbols and when we are importing.
 #define BX_PLUGGABLE
 
 #include "bochs.h"
+#if defined(WIN32) && BX_SUPPORT_SB16
+
 #define LOG_THIS bx_devices.pluginSB16Device->
 
 bx_sound_windows_c::bx_sound_windows_c(bx_sb16_c *sb16)

@@ -4,6 +4,7 @@
 //
 #include <stdio.h>
 #include "bochs.h"
+#if BX_DEBUGGER
 
 #define LOG_THIS genlog->
 
@@ -160,3 +161,4 @@ void bx_dbg_linux_syscall () {
   char *name = syscall_names.get_name (cpu.eax);
   fprintf (stderr, "linux system call %s (#%d)\n", name, cpu.eax);
 }
+#endif /* if BX_DEBUGGER */

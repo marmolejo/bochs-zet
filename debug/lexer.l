@@ -6,7 +6,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "debug.h"
+#if BX_DEBUGGER
+
 #include "parser.h"
+
 
 int bx_yyinput(char *buf, int max_size);
 #undef YY_INPUT
@@ -170,3 +173,5 @@ bx_add_lex_input(char *buf)
 
   bx_flush_buffer( YY_CURRENT_BUFFER );
 }
+
+#endif /* if BX_DEBUGGER */

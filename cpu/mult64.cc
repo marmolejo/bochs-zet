@@ -33,6 +33,7 @@
 #include "bochs.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
+#if BX_SUPPORT_X86_64
 
 unsigned partial_add(Bit32u *sum,Bit32u b)
 {
@@ -489,3 +490,5 @@ BX_CPU_C::IMUL_GqEq(bxInstruction_c *i)
       }
 #endif
 }
+
+#endif /* if BX_SUPPORT_X86_64 */

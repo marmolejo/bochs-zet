@@ -29,6 +29,8 @@
 #include "bochs.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
+#if BX_SUPPORT_X86_64
+
 #if 0
 // KPL.  A number of cases are testing field values after they have
 // been 16-register extended, but should be testing the pre-extension
@@ -3685,3 +3687,4 @@ BX_INFO(("b1 was %x", b1));
   return(1);
 }
 
+#endif /* if BX_SUPPORT_X86_64 */

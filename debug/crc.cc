@@ -28,6 +28,7 @@
 
 
 #include "bochs.h"
+#if BX_DEBUGGER
 
 unsigned long crc32_table[256];
 /* Initialized first time "crc32()" is called. If you prefer, you can
@@ -68,3 +69,4 @@ init_crc32(void)
                 crc32_table[i] = c;
         }
 }
+#endif /* if BX_DEBUGGER */

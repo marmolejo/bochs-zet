@@ -41,7 +41,7 @@
 //
 
 #include "bochs.h"
-#ifdef ETH_LINUX
+#if BX_NE2K_SUPPORT && defined (ETH_LINUX)
 #define LOG_THIS bx_ne2k.
 
 extern "C" {
@@ -277,4 +277,4 @@ bx_linux_pktmover_c::rx_timer(void)
     (*rxh)(rxarg, rxbuf, nbytes);
 //  }
 }
-#endif
+#endif /* if BX_NE2K_SUPPORT && defined ETH_LINUX */

@@ -34,6 +34,8 @@
 #define BX_PLUGGABLE
 
 #include "bochs.h"
+#if BX_PCI_SUPPORT
+
 #define LOG_THIS thePci2IsaBridge->
 
 bx_pci2isa_c *thePci2IsaBridge = NULL;
@@ -298,3 +300,5 @@ bx_pci2isa_c::pci_write(Bit8u address, Bit32u value, unsigned io_len)
       }
     }
 }
+
+#endif /* BX_PCI_SUPPORT */

@@ -4,6 +4,7 @@
 //
 #define NEED_CPU_REG_SHORTCUTS 1
 #include "bochs.h"
+#if BX_SUPPORT_APIC
 
 #define LOG_THIS this->
 
@@ -795,3 +796,4 @@ bx_local_apic_c::periodic(void) // KPL: changed prototype
     bx_pc_system.deactivate_timer(timer_handle); // Make sure.
     }
 }
+#endif /* if BX_SUPPORT_APIC */

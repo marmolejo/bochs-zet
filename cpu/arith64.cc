@@ -32,6 +32,8 @@
 #include "bochs.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
+#if BX_SUPPORT_X86_64
+
 
 /* I don't think these versions accessible in 64 bit mode
   void
@@ -868,3 +870,4 @@ BX_CPU_C::CMPXCHG_EqGq(bxInstruction_c *i)
 }
 
 
+#endif /* if BX_SUPPORT_X86_64 */

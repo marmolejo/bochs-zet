@@ -29,6 +29,8 @@ extern "C" {
 }
 
 #include "bochs.h"
+#if BX_DEBUGGER
+
 #define LOG_THIS genlog->
 
 #if HAVE_LIBREADLINE
@@ -4954,3 +4956,4 @@ bx_dbg_help_command(char* command)
   return;
 }
 
+#endif /* if BX_DEBUGGER */

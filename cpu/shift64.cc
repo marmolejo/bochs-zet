@@ -33,6 +33,7 @@
 #include "bochs.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
+#if BX_SUPPORT_X86_64
 
   void
 BX_CPU_C::SHLD_EqGq(bxInstruction_c *i)
@@ -463,3 +464,5 @@ BX_CPU_C::SAR_Eq(bxInstruction_c *i)
       set_OF(0);
     set_PF_base(result_64);
 }
+
+#endif /* if BX_SUPPORT_X86_64 */

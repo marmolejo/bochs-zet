@@ -34,6 +34,8 @@
 #define BX_PLUGGABLE
 
 #include "bochs.h"
+#if BX_PCI_SUPPORT
+
 #define LOG_THIS thePciBridge->
 
 bx_pci_c *thePciBridge = NULL;
@@ -470,3 +472,4 @@ bx_pci_c::register_pci_handlers( void *this_ptr, bx_pci_read_handler_t f1,
     return false; // device/function not available, return false.
     }
 }
+#endif /* BX_PCI_SUPPORT */

@@ -41,6 +41,9 @@
 
 // BOCHS INCLUDES
 #include "bochs.h"
+
+#if BX_WITH_CARBON
+
 #include "icon_bochs.h"
 #include "font/vga.bitmap.h"
 #include "bxversion.h"
@@ -1993,3 +1996,4 @@ static BxEvent * CarbonSiminterfaceCallback (void *theClass, BxEvent *event)
 #endif
   return event;
 }
+#endif /* if BX_WITH_CARBON */

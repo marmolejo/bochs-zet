@@ -80,6 +80,8 @@
 // 
 
 #include "bochs.h"
+#if BX_NE2K_SUPPORT
+
 #define LOG_THIS bx_ne2k.
 
 #include <signal.h>
@@ -328,3 +330,5 @@ void bx_tap_pktmover_c::rx_timer ()
   }
   (*rxh)(rxarg, rxbuf, nbytes);
 }
+
+#endif /* if BX_NE2K_SUPPORT */

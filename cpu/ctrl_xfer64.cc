@@ -31,6 +31,7 @@
 #define LOG_THIS BX_CPU_THIS_PTR
 
 
+#if BX_SUPPORT_X86_64
 
 
 
@@ -584,3 +585,4 @@ BX_CPU_C::LOOP64_Jb(bxInstruction_c *i)
 #endif
     }
 }
+#endif /* if BX_SUPPORT_X86_64 */

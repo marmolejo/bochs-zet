@@ -38,6 +38,7 @@
 #define BX_PLUGGABLE
 
 #include "bochs.h"
+#if BX_SUPPORT_CDROM
 
 #define LOG_THIS /* no SMF tricks here, not needed */
 
@@ -1291,3 +1292,4 @@ cdrom_interface::read_block(uint8* buf, int lba)
     }
 }
 
+#endif /* if BX_SUPPORT_CDROM */

@@ -27,6 +27,7 @@
 
 
 #include "bochs.h"
+#if BX_DISASM
 
 
 
@@ -837,3 +838,5 @@ bx_disassemble_c::eDI(void)
     dis_sprintf("DI");
     }
 }
+
+#endif /* if BX_DISASM */

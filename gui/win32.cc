@@ -34,6 +34,8 @@
 #define BX_PLUGGABLE
 
 #include "bochs.h"
+#if BX_WITH_WIN32
+
 #include "icon_bochs.h"
 #include "font/vga.bitmap.h"
 // windows.h is included by bochs.h
@@ -1400,3 +1402,4 @@ void DestroyFont(void)
     DeleteObject(hFont[i]);
   }
 }
+#endif /* if BX_WITH_WIN32 */

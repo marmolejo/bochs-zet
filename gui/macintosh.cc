@@ -36,6 +36,10 @@
 
 // BOCHS INCLUDES
 #include "bochs.h"
+
+// decide whether to enable this file or not
+#if BX_WITH_MACOS
+
 #include "icon_bochs.h"
 #include "font/vga.bitmap.h"
 
@@ -1564,3 +1568,4 @@ unsigned char reverse_bitorder(unsigned char b)
 bx_macintosh_gui_c::mouse_enabled_changed_specific (bx_bool val)
 {
 }
+#endif /* if BX_WITH_MACOS */

@@ -30,6 +30,8 @@
 // NE2000/ether stuff.
 
 #include "bochs.h"
+#if BX_NE2K_SUPPORT
+
 #define LOG_THIS /* not needed */
 
 eth_locator_c *eth_locator_c::all;
@@ -141,3 +143,5 @@ eth_locator_c::create(const char *type, const char *netif,
 
   return (NULL);
 }
+
+#endif /* if BX_NE2K_SUPPORT */

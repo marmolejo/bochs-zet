@@ -32,6 +32,8 @@
 #include "bochs.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
+#if BX_SUPPORT_X86_64
+
 #if BX_USE_CPU_SMF
 #define this (BX_CPU(0))
 #endif
@@ -315,3 +317,5 @@ BX_CPU_C::LEAVE64(bxInstruction_c *i)
   RBP = temp64;
   }
 }
+
+#endif /* if BX_SUPPORT_X86_64 */

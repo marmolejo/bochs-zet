@@ -32,6 +32,9 @@
 // is used to know when we are exporting symbols and when we are importing.
 #define BX_PLUGGABLE
 
+#include "bochs.h"
+#if BX_WITH_X11
+
 extern "C" {
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -40,7 +43,6 @@ extern "C" {
 #include <X11/keysym.h>
 }
 
-#include "bochs.h"
 #include "icon_bochs.h"
 
 class bx_x_gui_c : public bx_gui_c {
@@ -1558,3 +1560,5 @@ void bx_x_gui_c::sim_is_idle () {
 }
 #endif
 #endif /* BX_USE_IDLE_HACK */  
+
+#endif /* if BX_WITH_X11 */

@@ -29,6 +29,8 @@
 
 
 #include "bochs.h"
+#if BX_NE2K_SUPPORT
+
 #define LOG_THIS bx_ne2k.
 
 bx_ne2k_c bx_ne2k;
@@ -1573,3 +1575,5 @@ bx_ne2k_c::print_info (FILE *fp, int page, int reg, int brief)
 }
 
 #endif
+
+#endif /* if BX_NE2K_SUPPORT */

@@ -33,7 +33,7 @@
 
 #include "bochs.h"
 
-#ifdef ETH_ARPBACK
+#if BX_NE2K_SUPPORT && defined(ETH_ARPBACK)
 
 #include "crc32.h"
 #include "eth_packetmaker.h"
@@ -205,5 +205,5 @@ void bx_arpback_pktmover_c::rx_timer (void)
   }
 }
 
-#endif
+#endif /* if BX_NE2K_SUPPORT && defined(ETH_ARPBACK) */
 

@@ -26,9 +26,9 @@
 
 // This file (SOUNDLNX.CC) written and donated by Josef Drexler
 
-#if defined(linux)
 
 #include "bochs.h"
+#if defined(linux) && BX_SUPPORT_SB16
 #define LOG_THIS bx_sb16.
 
 #include <errno.h>

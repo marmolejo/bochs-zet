@@ -32,6 +32,8 @@
 #define BX_PLUGGABLE
 
 #include "bochs.h"
+#if BX_SUPPORT_SB16
+
 #define LOG_THIS theSB16Device->
 
 bx_sb16_c *theSB16Device = NULL;
@@ -3509,3 +3511,5 @@ int bx_sound_output_c::closewaveoutput()
 {
   return BX_SOUND_OUTPUT_OK;
 }
+
+#endif /* if BX_SUPPORT_SB16 */

@@ -4,6 +4,7 @@
 //
 #include <stdio.h>
 #include  "bochs.h"
+#if BX_SUPPORT_APIC
 
 class bx_ioapic_c bx_ioapic;
 #define LOG_THIS  bx_ioapic.
@@ -170,3 +171,5 @@ void bx_ioapic_c::service_ioapic ()
     }
   }
 }
+
+#endif /* if BX_SUPPORT_APIC */
