@@ -1400,7 +1400,6 @@ if (channel == 0) {
 					  atapi_cmd_nop(channel);
 					  raise_interrupt(channel);
 				    } else if (!LoEj && Start) { // start (spin up) the disc
-                                          if (BX_SELECTED_DRIVE(channel).cdrom.ready) {
 #ifdef LOWLEVEL_CDROM
 					  BX_SELECTED_DRIVE(channel).cdrom.cd->start_cdrom();
 #endif
