@@ -136,12 +136,13 @@ bx_gui_c::clear_screen(void)
   void
 bx_gui_c::text_update(Bit8u *old_text, Bit8u *new_text,
                       unsigned long cursor_x, unsigned long cursor_y,
-                      unsigned nrows)
+                      Bit16u cursor_state, unsigned nrows)
 {
   UNUSED(old_text);
   UNUSED(new_text);
   UNUSED(cursor_x);
   UNUSED(cursor_y);
+  UNUSED(cursor_state);
   UNUSED(nrows);
 }
 

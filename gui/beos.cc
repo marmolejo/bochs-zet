@@ -332,7 +332,7 @@ bx_gui_c::clear_screen(void)
   void
 bx_gui_c::text_update(Bit8u *old_text, Bit8u *new_text,
                       unsigned long cursor_x, unsigned long cursor_y,
-                      unsigned nrows)
+                      Bit16u cursor_state, unsigned nrows)
 {
   unsigned i, x, y;
   BPoint point;

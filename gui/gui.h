@@ -34,7 +34,7 @@ public:
                  unsigned x_tilesize, unsigned y_tilesize, unsigned header_bar_y);
   static void text_update(Bit8u *old_text, Bit8u *new_text,
                           unsigned long cursor_x, unsigned long cursor_y,
-                          unsigned rows);
+                          Bit16u cursor_state, unsigned rows);
   static void graphics_update(Bit8u *snapshot);
   static void graphics_tile_update(Bit8u *snapshot, unsigned x, unsigned y);
   static void handle_events(void);
