@@ -467,7 +467,7 @@ bx_keyb_c::write( Bit32u   address, Bit32u   value, unsigned io_len)
           BX_DEBUG(("Self Test"));
           // controller output buffer must be empty
           if (BX_KEY_THIS s.kbd_controller.outb) {
-		BX_PANIC(("kbd: OUTB set and command 0x%02x encountered", value));
+		BX_ERROR(("kbd: OUTB set and command 0x%02x encountered", value));
             break;
             }
 	  // (mch) Why is this commented out??? Enabling
