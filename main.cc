@@ -3715,7 +3715,7 @@ bx_write_log_options (FILE *fp, bx_log_options *opt)
       io->getaction(logfunctions::get_default_action (LOGLEV_INFO)));
   fprintf (fp, "debug: action=%s\n",
       io->getaction(logfunctions::get_default_action (LOGLEV_DEBUG)));
-  fprintf (fp, "debug: action=%s\n",
+  fprintf (fp, "pass: action=%s\n",
       io->getaction(logfunctions::get_default_action (LOGLEV_PASS)));
   return 0;
 }
