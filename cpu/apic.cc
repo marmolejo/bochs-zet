@@ -72,7 +72,7 @@ bx_generic_apic_c::is_selected (Bit32u addr, Bit32u len)
 {
   if ((addr & ~0xfff) == get_base ()) {
     if ((addr & 0xf != 0) || (len != 4))
-      BX_INFO(("warning: misaligned or wrong-size APIC write"));
+      BX_INFO(("warning: misaligned or wrong-size APIC write. addr=%08x, len=%d", addr, len));
     return true;
   }
   return false;
