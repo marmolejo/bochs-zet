@@ -96,6 +96,7 @@ protected:
   static void copy_handler(void);
   static void paste_handler(void);
   static void snapshot_handler(void);
+  static void snapshot_checker(void *);
   static void config_handler(void);
   static void toggle_mouse_enable(void);
   static void userbutton_handler(void);
