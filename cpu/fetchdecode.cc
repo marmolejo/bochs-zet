@@ -39,30 +39,6 @@
 ///////////////////////////
 
 
-// sign extended to osize:
-//   6a push ib
-//   6b imul gvevib
-//   70..7f jo..jnle
-//   83 G1 0..7 ADD..CMP Evib
-
-// is 6b imul_gvevib sign extended?  don't think
-//   I'm sign extending it properly in old decode/execute
-
-// check all the groups.  Make sure to add duplicates rather
-// than error.
-
-// mark instructions as changing control transfer, then
-// don't always load from fetch_ptr, etc.
-
-// cant use immediate as another because of Group3 where
-// some have immediate and some don't, and those won't
-// be picked up by logic until indirection.
-
-// get attr and execute ptr at same time
-
-// maybe move 16bit only i's like  MOV_EwSw, MOV_SwEw
-// to 32 bit modules.
-
 // UD2 opcode (according to Intel manuals):
 // Use the 0F0B opcode (UD2 instruction) or the 0FB9H opcode when deliberately 
 // trying to generate an invalid opcode exception (#UD).
