@@ -48,6 +48,14 @@
 #define  BX_SER_RXPOLL  1
 #define  BX_SER_RXWAIT  2
 
+enum {
+  BX_SER_INT_IER,
+  BX_SER_INT_RXDATA,
+  BX_SER_INT_TXHOLD,
+  BX_SER_INT_RXLSTAT,
+  BX_SER_INT_MODSTAT,
+};
+
 typedef struct {
   /*
    * UART internal state
@@ -162,6 +170,7 @@ private:
     bx_serial_t s[BX_SERIAL_MAXDEV];
 
   static void lower_interrupt(Bit8u port);
+  static void raise_interrupt(Bit8u port, int type);
 
   static void tx_timer_handler(void *);
   BX_SER_SMF void tx_timer(void);
