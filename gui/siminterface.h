@@ -473,6 +473,7 @@ typedef enum {
 #endif
   BXP_SEL_CONFIG_INTERFACE,
   BXP_SEL_DISPLAY_LIBRARY,
+  BXP_DISPLAYLIB_OPTIONS,
   BXP_THIS_IS_THE_LAST    // used to determine length of list
 } bx_id;
 

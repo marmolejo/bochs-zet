@@ -681,6 +681,7 @@ typedef struct BOCHSAPI {
   bx_gdbstub_t      gdbstub;
   bx_param_enum_c *Osel_config;
   bx_param_enum_c *Osel_displaylib;
+  bx_param_string_c *Odisplaylib_options;
   } bx_options_t;
 
 BOCHSAPI extern bx_options_t bx_options;
