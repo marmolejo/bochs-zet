@@ -2588,7 +2588,7 @@ modrm_done:
              OpcodeInfoPtr = &(OpcodeInfoPtr->AnotherArray[mod==0xc0]);
              break;
          case BxFPGroup:
-             if (mod != 0xc0)  // mod == 11b
+             if (mod != 0xc0)  // mod != 11b
                 OpcodeInfoPtr = &(OpcodeInfoPtr->AnotherArray[nnn]);
              else
              {
