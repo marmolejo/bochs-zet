@@ -29,7 +29,7 @@
 #if defined(WIN32)
 
 #include "bochs.h"
-#define LOG_THIS bx_sb16.
+#define LOG_THIS bx_devices.pluginSB16Device->
 
 bx_sound_windows_c::bx_sound_windows_c(bx_sb16_c *sb16)
   :bx_sound_output_c(sb16)
