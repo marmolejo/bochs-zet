@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
+//  Copyright (C) 2002  MandrakeSoft S.A.
 //
 //    MandrakeSoft S.A.
 //    43, rue d'Aboukir
@@ -185,6 +185,8 @@ private:
   static void   timer_handler(void *);
   BX_VGA_SMF void   timer(void);
   BX_VGA_SMF void set_update_interval (unsigned interval);
+  BX_VGA_SMF void  get_text_snapshot(Bit8u **text_snapshot, unsigned *txHeight,
+                                                            unsigned *txWidth);
   private:
   BX_VGA_SMF void   update(void);
   BX_VGA_SMF void   dump_status(void);
