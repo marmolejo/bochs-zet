@@ -580,12 +580,6 @@ typedef struct {
 
 #if BX_CPU_LEVEL >= 5
 typedef struct {
-  Bit8u p5_mc_addr;
-  Bit8u p5_mc_type;
-  Bit8u tsc;
-  Bit8u cesr;
-  Bit8u ctr0;
-  Bit8u ctr1;
   Bit64u apicbase;
 
 #if BX_SUPPORT_X86_64
