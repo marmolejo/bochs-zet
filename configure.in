@@ -918,23 +918,6 @@ fi
 AC_SUBST(NETLOW_OBJS)
 
 
-AC_MSG_CHECKING(for Promise DC2300 VLB-IDE support)
-AC_ARG_ENABLE(dc2300-vlb-ide,
-  [  --enable-dc2300-vlb-ide           enable Promise DC2300 VLB-IDE support],
-  [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_PDC20230C_VLBIDE_SUPPORT, 1)
-   else
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_PDC20230C_VLBIDE_SUPPORT, 0)
-   fi],
-  [
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_PDC20230C_VLBIDE_SUPPORT, 0)
-    ]
-  )
-
-
 AC_MSG_CHECKING(for 4Meg pages support)
 AC_ARG_ENABLE(4meg-pages,
   [  --enable-4meg-pages               support 4Megabyte pages extensions],

@@ -758,16 +758,6 @@ private:
 
   int iolight_timer_index;
 
-#if BX_PDC20230C_VLBIDE_SUPPORT
-// pdc20630c is only available for 1st ata channel
-  struct pdc20630c_t {
-    bx_bool prog_mode;
-    Bit8u   prog_count;
-    Bit32u  p1f3_value;
-    Bit32u  p1f4_value;
-    } pdc20230c;
-#endif
-
   };
 #endif // INCLUDE_ONLY_SPARSE_HEADER
 
