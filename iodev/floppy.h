@@ -70,7 +70,10 @@ private:
     Boolean command_complete;
     Bit8u   pending_command;
 
+    Boolean multi_track;
     Boolean pending_irq;
+    Bit8u   format_count;
+    Bit8u   format_fillbyte;
 
     Bit8u   result[10];
     Bit8u   result_index;
