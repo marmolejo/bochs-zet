@@ -1,4 +1,4 @@
-  ///////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
@@ -833,7 +833,7 @@ bx_floppy_ctrl_c::floppy_command(void)
       // reported in the head number field.  Real floppy drives are
       // picky about this, as reported in SF bug #439945, (Floppy drive
       // read input error checking).
-      if (head != (BX_FD_THIS s.command[1]>>2)&1) {
+      if (head != ((BX_FD_THIS s.command[1]>>2)&1)) {
         BX_ERROR(("head number in command[1] doesn't match head field"));
         BX_FD_THIS s.result_size = 7;
         BX_FD_THIS s.result_index = 0;
