@@ -266,7 +266,7 @@ bx_tap_pktmover_c::sendpkt(void *buf, unsigned io_len)
   // dump packet in hex into an ascii log file
   fprintf (txlog_txt, "NE2K transmitting a packet, length %u\n", io_len);
   Bit8u *charbuf = (Bit8u *)buf;
-  for (n=0; n<io_len; n++) {
+  for (n=0; n<(int)io_len; n++) {
     if (((n % 16) == 0) && n>0)
       fprintf (txlog_txt, "\n");
     fprintf (txlog_txt, "%02x ", charbuf[n]);

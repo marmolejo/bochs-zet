@@ -236,10 +236,11 @@ bx_linux_pktmover_c::sendpkt(void *buf, unsigned io_len)
 {
   int status;
 
-  if (this->fd != -1)
+  if (this->fd != -1) {
     status = write(this->fd, buf, io_len);
-  if (status == -1)
-    BX_INFO(("eth_linux: write failed: %s", strerror(errno)));
+    if (status == -1)
+      BX_INFO(("eth_linux: write failed: %s", strerror(errno)));
+  }
 }
 
 // The receive poll process
@@ -258,7 +259,7 @@ bx_linux_pktmover_c::rx_timer(void)
   Bit8u rxbuf[BX_PACKET_BUFSIZ]; 
   struct sockaddr_ll sll;
   socklen_t fromlen;
-  static unsigned char bcast_addr[6] = {0xff,0xff,0xff,0xff,0xff,0xff};
+//static unsigned char bcast_addr[6] = {0xff,0xff,0xff,0xff,0xff,0xff};
 
   if (this->fd == -1)
     return;

@@ -160,11 +160,11 @@ bx_tuntap_pktmover_c::bx_tuntap_pktmover_c(const char *netif,
 				       void *rxarg)
 {
   int flags;
-  char filename[BX_PATHNAME_LEN];
   if (strncmp (netif, "tun", 3) != 0) {
     BX_PANIC (("eth_tuntap: interface name (%s) must be tun", netif));
   }
 #ifdef NEVERDEF
+  char filename[BX_PATHNAME_LEN];
   sprintf (filename, "/dev/net/%s", netif);
 
   // check if the TUN/TAP devices is running, and turn on ARP.  This is based
