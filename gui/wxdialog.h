@@ -89,6 +89,38 @@ DECLARE_EVENT_TABLE()
 // GetCapacity to see what the user did.  If the validation function
 // sets parameters, this may be unnecessary.
 //
+// Volker reminded me that I wasn't paying much attention to
+// the distinction between configuring the device (pre-boot) and 
+// configuring the media which can be done anytime.  Here's a proposal
+// to fix that...  -Bryce
+// +-----Configure Floppy Drive A----------------------------------+
+// |                                                               |
+// | +-- Device -----------------------------------------------+   |
+// | |                                                         |   |
+// | |  [ ] Enable Emulated Drive A                            |   |
+// | |                                                         |   |
+// | |  Drive capacity [1.44 MB]                               |   |
+// | |                                                         |   |
+// | +---------------------------------------------------------+   |
+// |                                                               |
+// | +-- Media: Where does the data come from? ----------------+   |
+// | |                                                         |   |
+// | | Bochs can use a physical floppy drive as the data       |   |
+// | | source, or use an image file.                           |   |
+// | |                                                         |   |
+// | |  [X]  Physical floppy drive A:                          |   |
+// | |  [ ]  Physical floppy drive B:                          |   |
+// | |  [ ]  Disk image file: [____________________] [Browse]  |   |
+// | |                                                         |   |
+// | | Media size [1.44 MB]                                    |   |
+// | |                                                         |   |
+// | | Hint: To create a disk image, choose the name and       |   |
+// | | capacity above, then click Ok.                          |   |
+// | |                                        [ Create Image ] |   |
+// | +---------------------------------------------------------+   |
+// |                                                               |
+// |                                    [ Help ] [ Cancel ] [ Ok ] |
+// +---------------------------------------------------------------+
 //////////////////////////////////////////////////////////////////////
 
 class FloppyConfigDialog: public wxDialog
@@ -184,5 +216,6 @@ public:
   void SetGeomRange (int n, int min, int max) { geom[n]->SetRange (min, max); }
   void ComputeMegs ();
   void SetEnable (bool val) { enable->SetValue (val); }
+  bool GetEnable () { return enable->GetValue (); }
 DECLARE_EVENT_TABLE()
 };
