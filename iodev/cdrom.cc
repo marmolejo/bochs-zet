@@ -63,7 +63,7 @@ extern "C" {
 }
 #endif
 
-#ifdef macintosh
+#if BX_WITH_MACOS
 #define BX_CD_FRAMESIZE 2048
 #define CD_FRAMESIZE 2048
 #endif
