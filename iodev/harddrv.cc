@@ -1742,6 +1742,8 @@ if ( quantumsMax == 0)
 			      case 0xba: // scan
 			      case 0xbb: // set cd speed
 			      case 0x4e: // stop play/scan
+			      case 0x46: // ???
+			      case 0x4a: // ???
 			        BX_ERROR(("ATAPI command 0x%x not implemented yet",
 			                  atapi_command));
 			        atapi_cmd_error(channel, SENSE_ILLEGAL_REQUEST, ASC_INV_FIELD_IN_CMD_PACKET);
@@ -1750,6 +1752,9 @@ if ( quantumsMax == 0)
 			      default:
 				    BX_PANIC(("Unknown ATAPI command 0x%x (%d)",
 					     atapi_command, atapi_command));
+                                    // We'd better signal the error if the user chose to continue
+			            atapi_cmd_error(channel, SENSE_ILLEGAL_REQUEST, ASC_INV_FIELD_IN_CMD_PACKET);
+			            raise_interrupt(channel);
 				    break;
 			}
 		  }
@@ -2050,6 +2055,8 @@ if ( quantumsMax == 0)
 
 	    default:
 	      BX_PANIC(("SET FEATURES with unknown subcommand: 0x%02x", (unsigned) BX_SELECTED_CONTROLLER(channel).features ));
+              // We'd better signal the error if the user chose to continue
+	      command_aborted(channel, value);
 	  }
 	  break;
 

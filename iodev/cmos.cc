@@ -63,6 +63,9 @@ libcmos_LTX_plugin_fini(void)
 
 bx_cmos_c::bx_cmos_c(void)
 {
+  put("CMOS");
+  settype(CMOSLOG);
+
   unsigned i;
   for (i=0; i<BX_NUM_CMOS_REGS; i++)
     s.reg[i] = 0;
@@ -245,6 +248,11 @@ bx_cmos_c::read(Bit32u address, unsigned io_len)
 
 
   switch (address) {
+    case 0x0070:
+      BX_INFO(("CMOS read of CMOS index. returning 0x%02x", BX_CMOS_THIS s.cmos_mem_address));
+      ret8 = BX_CMOS_THIS s.cmos_mem_address;
+      return(ret8);
+      break;
     case 0x0071:
       if (BX_CMOS_THIS s.cmos_mem_address >= BX_NUM_CMOS_REGS) {
      BX_PANIC(("unsupported cmos io read, register(0x%02x)!",
