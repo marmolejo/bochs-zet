@@ -2034,16 +2034,3 @@ BX_CPU_C::hwdebug_compare(Bit32u laddr_0, unsigned size,
   return(0);
 }
 #endif
-
-/*
-  void
-BX_CPU_C::FXSAVE(bxInstruction_c *i)
-{
-  BX_ERROR(("FXSAVE is only a stub."));
-}
-  void
-BX_CPU_C::FXRSTOR(bxInstruction_c *i)
-{
-  BX_ERROR(("FXRSTOR is only a stub."));
-}
-*/
