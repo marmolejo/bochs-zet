@@ -1150,7 +1150,7 @@ static BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
   /* 84 */  { BxAnother, &BX_CPU_C::TEST_EbGb },
   /* 85 */  { BxAnother, &BX_CPU_C::TEST_EdGd },
   /* 86 */  { BxAnother | BxLockable, &BX_CPU_C::XCHG_EbGb },
-  /* 87 */  { BxAnother | BxLockable, &BX_CPU_C::XCHG_EwGw },
+  /* 87 */  { BxAnother | BxLockable, &BX_CPU_C::XCHG_EdGd },
   /* 88 */  { BxAnother | BxSplitMod11b, NULL, opcodesMOV_EbGb },
   /* 89 */  { BxAnother | BxSplitMod11b, NULL, opcodesMOV_EdGd },
   /* 8A */  { BxAnother | BxSplitMod11b, NULL, opcodesMOV_GbEb },
