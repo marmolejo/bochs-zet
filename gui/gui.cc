@@ -111,7 +111,10 @@ bx_gui_c::init(int argc, char **argv, unsigned tilewidth, unsigned tileheight)
     BX_GUI_THIS floppyB_hbar_id = headerbar_bitmap(BX_GUI_THIS floppyB_eject_bmap_id,
                           BX_GRAVITY_LEFT, floppyB_handler);
 
-  // CDROM
+  // CDROM, 
+  // valgrinds says that the harddrive object is not be initialised yet, 
+  // so we just set the bitmap to ejected for now
+#if 0
   if (DEV_hd_present()) {
     Bit32u handle = DEV_hd_get_first_cd_handle();
     BX_GUI_THIS cdromD_status = DEV_hd_get_cd_media_status(handle);
@@ -121,6 +124,7 @@ bx_gui_c::init(int argc, char **argv, unsigned tilewidth, unsigned tileheight)
     BX_GUI_THIS cdromD_hbar_id = headerbar_bitmap(BX_GUI_THIS cdromD_bmap_id,
                           BX_GRAVITY_LEFT, cdromD_handler);
   else
+#endif
     BX_GUI_THIS cdromD_hbar_id = headerbar_bitmap(BX_GUI_THIS cdromD_eject_bmap_id,
                           BX_GRAVITY_LEFT, cdromD_handler);
 
