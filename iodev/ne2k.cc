@@ -35,6 +35,10 @@
 #include "bochs.h"
 #if BX_NE2K_SUPPORT
 
+//Never completely fill the ne2k ring so that we never
+// hit the unclear completely full buffer condition.
+#define BX_NE2K_NEVER_FULL_RING (1)
+
 #define LOG_THIS theNE2kDevice->
 
 bx_ne2k_c *theNE2kDevice = NULL;
@@ -1177,7 +1181,11 @@ bx_ne2k_c::rx_frame(const void *buf, unsigned io_len)
   // Avoid getting into a buffer overflow condition by not attempting
   // to do partial receives. The emulation to handle this condition
   // seems particularly painful.
-  if (avail < pages) {
+  if ((avail < pages) 
+#if BX_NE2K_NEVER_FULL_RING
+      || (avail == pages)
+#endif
+      ) {
     return;
   }
 
