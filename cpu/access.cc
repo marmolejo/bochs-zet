@@ -1158,7 +1158,7 @@ accessOK:
 }
 
 
-#if BX_SUPPORT_SSE
+#if BX_SUPPORT_SSE != 0
 
 // Some macro defs to make things cleaner for endian-ness issues.
 // The following routines access a double qword, ie 16-bytes.
