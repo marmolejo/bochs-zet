@@ -22,9 +22,9 @@
 #define PLUGIN_PATH ""
 
 #ifndef WIN32
-#define PLUGIN_FILENAME_FORMAT "lib%s.la"
+#define PLUGIN_FILENAME_FORMAT "libbx_%s.la"
 #else
-#define PLUGIN_FILENAME_FORMAT "%s.dll"
+#define PLUGIN_FILENAME_FORMAT "bx_%s.dll"
 #endif
 
 
