@@ -3626,6 +3626,16 @@ Up to 3 keys can be pressed at a time.
 </para>
 </section>
 
+<section><title>cmosimage</title>
+<para>
+Example:
+<screen>
+  cmosimage: cmos.img
+</screen>
+This defines image file that can be loaded into the CMOS RAM at startup.
+</para>
+</section>
+
 </section> <!--end of bochsrc section-->
 
 <section id="sb16-emulation"> <!-- start of SB16 section-->
@@ -5991,7 +6001,7 @@ This should work for any key combination.
 </para>
 <para>
 You can also define one
-user key combination (up to three keys from "alt", "ctrl", "del", 
+user key combination (up to three keys from "alt", "bksp", "ctrl", "del", 
 "esc", "f1", "f4", "tab", "win") in your configuration file.
 This key combination is sent to the guest os when you press the user short-cut
 gui button.
