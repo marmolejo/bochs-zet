@@ -841,7 +841,8 @@ send_keyboard_mouse_status(void)
   void
 bx_gui_c::flush(void)
 {
-  XFlush(bx_x_display);
+  if (bx_x_display)
+    XFlush(bx_x_display);
 }
 
 
