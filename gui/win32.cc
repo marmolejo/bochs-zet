@@ -605,8 +605,8 @@ void bx_gui_c::handle_events(void) {
       headerbar_click(LOWORD(key));
     }
     else {
-      // Its an extended key
-      if (key & 0x0100) {
+      if (((key & 0x0100) && ((key & 0x01ff) != 0x0145)) | ((key & 0x01ff) == 0x45)) {
+        // Its an extended key
         scancode = 0xE0;
         bx_devices.keyboard->put_scancode(&scancode, 1);
       }
