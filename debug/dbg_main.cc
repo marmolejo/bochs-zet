@@ -3533,7 +3533,7 @@ bx_dbg_instrument_command(char *comm)
     BX_INSTR_STOP ();
     }
   else if ( !strcmp(comm, "reset") ) {
-    BX_INSTR_RESET ();
+    BX_INSTR_RESET (dbg_cpu);
     }
   else if ( !strcmp(comm, "print") ) {
     BX_INSTR_PRINT ();
