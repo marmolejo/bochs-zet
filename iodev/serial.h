@@ -83,11 +83,6 @@ typedef struct {
   int  rx_timer_index;
   int  fifo_timer_index;
 
-#define RX_CB_SIZE  80
-  int  rx_cb_start;
-  int  rx_cb_end;
-  unsigned char rx_cbuf[RX_CB_SIZE];
-
   /*
    * Register definitions
    */
