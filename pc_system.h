@@ -160,9 +160,9 @@ public:
   Bit64u time_usec();
   Bit64u time_ticks();
 
-  void dma_write8(Bit32u phy_addr, unsigned channel);
+  void dma_write8(Bit32u phy_addr, unsigned channel, Boolean verify);
   void dma_read8(Bit32u phy_addr, unsigned channel);
-  void dma_write16(Bit32u phy_addr, unsigned channel);
+  void dma_write16(Bit32u phy_addr, unsigned channel, Boolean verify);
   void dma_read16(Bit32u phy_addr, unsigned channel);
 
   Bit32u  inp(Bit16u addr, unsigned io_len);
