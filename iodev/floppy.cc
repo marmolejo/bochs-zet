@@ -828,7 +828,8 @@ bx_floppy_ctrl_c::floppy_command(void)
         // media not in drive, return error
 
         BX_INFO(("attempt to read/write sector %u,"
-                     " sectors/track=%u", (unsigned) sector,
+                     " sectors/track=%u with media not present", 
+		     (unsigned) sector,
                      (unsigned) BX_FD_THIS s.media[drive].sectors_per_track));
         BX_FD_THIS s.status_reg0 = 0x40 | (BX_FD_THIS s.head[drive]<<2) | drive; // abnormal termination
         BX_FD_THIS s.status_reg1 = 0x25; // 0010 0101
