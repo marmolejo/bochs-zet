@@ -979,7 +979,7 @@ BX_CPU_C::itranslate_linear(bx_address laddr, unsigned pl)
 }
 
 
-#if BX_DEBUGGER || BX_DISASM || BX_INSTRUMENTATION
+#if BX_DEBUGGER || BX_DISASM || BX_INSTRUMENTATION || BX_GDBSTUB
 
 #if BX_SUPPORT_X86_64
 #warning "Fix dbg_xlate_linear2phy for 64-bit and new features."
