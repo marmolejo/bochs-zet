@@ -44,7 +44,6 @@
 typedef struct {
 
   Bit32u base_ioaddr;
-  Bit8u  irq;
   int    timer_index;
 
   // Registers
