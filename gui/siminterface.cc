@@ -245,8 +245,8 @@ bx_real_sim_c::quit_sim (int code) {
   // in wxWindows, the whole simulator is running in a separate thread.
   // our only job is to end the thread as soon as possible, NOT to shut
   // down the whole application with an exit.
-  BX_CPU_THIS_PTR async_event = 1;
-  BX_CPU_THIS_PTR kill_bochs_request = 1;
+  BX_CPU(0)->async_event = 1;
+  BX_CPU(0)->kill_bochs_request = 1;
   // the cpu loop will exit very soon after this condition is set.
 #else
   // just a single thread.  Use exit() to stop the application.
