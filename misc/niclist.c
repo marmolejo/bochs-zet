@@ -116,6 +116,8 @@ int main(int argc, char **argv)
 		PacketGetAdapterNames = (BOOLEAN (*)(PTSTR, PULONG))GetProcAddress(hPacket, "PacketGetAdapterNames");
 	} else {
 		printf("Could not load WinPCap driver!\n");
+		printf ("You can download them for free from\n");
+		printf ("http://netgroup-serv.polito.it/winpcap\n");
 		return 1;
 	}
 	
