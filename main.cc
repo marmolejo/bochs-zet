@@ -1184,7 +1184,9 @@ bx_init_main (int argc, char *argv[])
 #endif
     help = 1;
   } else {
+#if !BX_WITH_WX
     bx_print_header ();
+#endif
   }
   bx_init_bx_dbg ();
   bx_init_options ();
