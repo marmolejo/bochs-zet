@@ -236,7 +236,7 @@ bx_ne2k_c::write_cr(Bit32u value)
 // The first 16 bytes contains the MAC address at even locations,
 // and there is 16K of buffer memory starting at 16K
 //
-Bit32u
+Bit32u BX_CPP_AttrRegparmN(2)
 bx_ne2k_c::chipmem_read(Bit32u address, unsigned int io_len)
 {
   Bit32u retval = 0;
@@ -266,7 +266,7 @@ bx_ne2k_c::chipmem_read(Bit32u address, unsigned int io_len)
   return (0xff);
 }
 
-void
+void BX_CPP_AttrRegparmN(3)
 bx_ne2k_c::chipmem_write(Bit32u address, Bit32u value, unsigned io_len)
 {
   if ((io_len == 2) && (address & 0x1)) 
@@ -290,7 +290,7 @@ bx_ne2k_c::chipmem_write(Bit32u address, Bit32u value, unsigned io_len)
 // after that, insw/outsw instructions can be used to move
 // the appropriate number of bytes to/from the device.
 //
-Bit32u
+Bit32u BX_CPP_AttrRegparmN(2)
 bx_ne2k_c::asic_read(Bit32u offset, unsigned int io_len)
 {
   Bit32u retval = 0;

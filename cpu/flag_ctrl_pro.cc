@@ -32,7 +32,7 @@
 
 
 
-  void
+  void BX_CPP_AttrRegparmN(2)
 BX_CPU_C::writeEFlags(Bit32u flags, Bit32u changeMask)
 {
   Bit32u supportMask, newEFlags;
@@ -58,7 +58,7 @@ BX_CPU_C::writeEFlags(Bit32u flags, Bit32u changeMask)
 }
 
 
-  void
+  void BX_CPP_AttrRegparmN(3)
 BX_CPU_C::write_flags(Bit16u flags, bx_bool change_IOPL, bx_bool change_IF)
 {
   Bit32u changeMask = 0x0dd5;

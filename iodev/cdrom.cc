@@ -1250,7 +1250,7 @@ cdrom_interface::capacity()
 #endif
 }
 
-  void
+  void BX_CPP_AttrRegparmN(2)
 cdrom_interface::read_block(uint8* buf, int lba)
 {
   // Read a single block from the CD

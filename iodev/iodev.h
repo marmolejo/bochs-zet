@@ -287,8 +287,8 @@ public:
   bx_bool register_irq(unsigned irq, const char *name);
   bx_bool unregister_irq(unsigned irq, const char *name);
   void iodev_init(void);
-  Bit32u inp(Bit16u addr, unsigned io_len);
-  void   outp(Bit16u addr, Bit32u value, unsigned io_len);
+  Bit32u inp(Bit16u addr, unsigned io_len) BX_CPP_AttrRegparmN(2);
+  void   outp(Bit16u addr, Bit32u value, unsigned io_len) BX_CPP_AttrRegparmN(3);
 
   static void timer_handler(void *);
   void timer(void);

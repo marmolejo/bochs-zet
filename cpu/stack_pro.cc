@@ -36,7 +36,7 @@
 
 
 
-  void
+  void BX_CPP_AttrRegparmN(1)
 BX_CPU_C::push_16(Bit16u value16)
 {
 BailBigRSP("push_16");
@@ -240,7 +240,7 @@ BX_CPU_C::pop_64(Bit64u *value64_ptr)
 
 
 #if BX_CPU_LEVEL >= 2
-  bx_bool
+  bx_bool BX_CPP_AttrRegparmN(3)
 BX_CPU_C::can_push(bx_descriptor_t *descriptor, Bit32u esp, Bit32u bytes)
 {
 #if BX_SUPPORT_X86_64

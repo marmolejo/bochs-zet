@@ -106,11 +106,11 @@ public:
   virtual void   mem_write(Bit32u addr, Bit8u value);
   virtual void   trigger_timer(void *this_ptr);
 
-#if BX_SUPPORT_VBE 
-  BX_VGA_SMF Bit8u  vbe_mem_read(Bit32u addr);
-  BX_VGA_SMF void   vbe_mem_write(Bit32u addr, Bit8u value);  
+#if BX_SUPPORT_VBE
+  BX_VGA_SMF Bit8u  vbe_mem_read(Bit32u addr) BX_CPP_AttrRegparmN(1);
+  BX_VGA_SMF void   vbe_mem_write(Bit32u addr, Bit8u value) BX_CPP_AttrRegparmN(2);
 #endif
-  
+
   virtual void   redraw_area(unsigned x0, unsigned y0,
                              unsigned width, unsigned height);
 

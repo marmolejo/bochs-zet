@@ -94,17 +94,17 @@ private:
 
   void set_OUT (counter_type & thisctr, bool data);
 
-  void set_count (counter_type & thisctr, Bit32u data);
+  void set_count (counter_type & thisctr, Bit32u data) BX_CPP_AttrRegparmN(2);
 
-  void set_count_to_binary (counter_type & thisctr);
+  void set_count_to_binary (counter_type & thisctr) BX_CPP_AttrRegparmN(1);
 
-  void set_binary_to_count (counter_type & thisctr);
+  void set_binary_to_count (counter_type & thisctr) BX_CPP_AttrRegparmN(1);
 
-  void decrement (counter_type & thisctr);
+  void decrement (counter_type & thisctr) BX_CPP_AttrRegparmN(1);
 
-  void decrement_multiple(counter_type & thisctr, Bit32u cycles);
+  void decrement_multiple(counter_type & thisctr, Bit32u cycles) BX_CPP_AttrRegparmN(2);
 
-  void clock(Bit8u cnum);
+  void clock(Bit8u cnum) BX_CPP_AttrRegparmN(1);
 
   void print_counter(counter_type & thisctr);
 

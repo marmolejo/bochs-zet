@@ -785,7 +785,7 @@ bx_keyb_c::gen_scancode(Bit32u   key)
 
 
 
-  void
+  void BX_CPP_AttrRegparmN(1)
 bx_keyb_c::set_kbd_clock_enable(Bit8u   value)
 {
   bx_bool prev_kbd_clock_enabled;
@@ -930,7 +930,7 @@ bx_keyb_c::kbd_enQ(Bit8u   scancode)
 //BX_DEBUG(( "#   out_buffer = %u", (unsigned) BX_KEY_THIS s.kbd_controller.kbd_output_buffer);
 }
 
-  bx_bool
+  bx_bool BX_CPP_AttrRegparmN(3)
 bx_keyb_c::mouse_enQ_packet(Bit8u   b1, Bit8u   b2, Bit8u   b3)
 {
   if ((BX_KEY_THIS s.mouse_internal_buffer.num_elements + 3) >= BX_MOUSE_BUFF_SIZE) {

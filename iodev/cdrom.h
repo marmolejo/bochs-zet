@@ -47,7 +47,7 @@ public:
   uint32 capacity();
 
   // Read a single block from the CD
-  void read_block(uint8* buf, int lba);
+  void read_block(uint8* buf, int lba) BX_CPP_AttrRegparmN(2);
 
 private:
   int fd;

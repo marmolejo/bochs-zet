@@ -128,7 +128,7 @@ bx_pc_system_c::set_INTR(bx_bool value)
 // Read from the IO memory address space
 //
 
-  Bit32u
+  Bit32u BX_CPP_AttrRegparmN(2)
 bx_pc_system_c::inp(Bit16u addr, unsigned io_len)
 {
   Bit32u ret;
@@ -143,13 +143,13 @@ bx_pc_system_c::inp(Bit16u addr, unsigned io_len)
 // Write to the IO memory address space.
 //
 
-  void
+  void BX_CPP_AttrRegparmN(3)
 bx_pc_system_c::outp(Bit16u addr, Bit32u value, unsigned io_len)
 {
   bx_devices.outp(addr, value, io_len);
 }
 
-  void
+  void BX_CPP_AttrRegparmN(1)
 bx_pc_system_c::set_enable_a20(Bit8u value)
 {
 #if BX_CPU_LEVEL < 2

@@ -209,14 +209,14 @@ private:
   BX_NE2K_SMF Bit32u read_cr(void);
   BX_NE2K_SMF void   write_cr(Bit32u value);
 
-  BX_NE2K_SMF Bit32u chipmem_read(Bit32u address, unsigned io_len);
-  BX_NE2K_SMF Bit32u asic_read(Bit32u offset, unsigned io_len);
+  BX_NE2K_SMF Bit32u chipmem_read(Bit32u address, unsigned io_len) BX_CPP_AttrRegparmN(2);
+  BX_NE2K_SMF Bit32u asic_read(Bit32u offset, unsigned io_len) BX_CPP_AttrRegparmN(2);
   BX_NE2K_SMF Bit32u page0_read(Bit32u offset, unsigned io_len);
   BX_NE2K_SMF Bit32u page1_read(Bit32u offset, unsigned io_len);
   BX_NE2K_SMF Bit32u page2_read(Bit32u offset, unsigned io_len);
   BX_NE2K_SMF Bit32u page3_read(Bit32u offset, unsigned io_len);
 
-  BX_NE2K_SMF void chipmem_write(Bit32u address, Bit32u value, unsigned io_len);
+  BX_NE2K_SMF void chipmem_write(Bit32u address, Bit32u value, unsigned io_len) BX_CPP_AttrRegparmN(3);
   BX_NE2K_SMF void asic_write(Bit32u address, Bit32u value, unsigned io_len);
   BX_NE2K_SMF void page0_write(Bit32u address, Bit32u value, unsigned io_len);
   BX_NE2K_SMF void page1_write(Bit32u address, Bit32u value, unsigned io_len);

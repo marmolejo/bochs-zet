@@ -37,7 +37,7 @@
 
 
 
-  Bit16u
+  Bit16u BX_CPP_AttrRegparmN(1)
 BX_CPU_C::inp16(Bit16u addr)
 {
   Bit16u ret16;
@@ -54,7 +54,7 @@ BX_CPU_C::inp16(Bit16u addr)
   return( ret16 );
 }
 
-  void
+  void BX_CPP_AttrRegparmN(2)
 BX_CPU_C::outp16(Bit16u addr, Bit16u value)
 {
   /* If CPL <= IOPL, then all IO addresses are accessible.
@@ -72,7 +72,7 @@ BX_CPU_C::outp16(Bit16u addr, Bit16u value)
   BX_OUTP(addr, value, 2);
 }
 
-  Bit32u
+  Bit32u BX_CPP_AttrRegparmN(1)
 BX_CPU_C::inp32(Bit16u addr)
 {
   Bit32u ret32;
@@ -89,7 +89,7 @@ BX_CPU_C::inp32(Bit16u addr)
   return( ret32 );
 }
 
-  void
+  void BX_CPP_AttrRegparmN(2)
 BX_CPU_C::outp32(Bit16u addr, Bit32u value)
 {
   /* If CPL <= IOPL, then all IO addresses are accessible.
@@ -107,7 +107,7 @@ BX_CPU_C::outp32(Bit16u addr, Bit32u value)
   BX_OUTP(addr, value, 4);
 }
 
-  Bit8u
+  Bit8u BX_CPP_AttrRegparmN(1)
 BX_CPU_C::inp8(Bit16u addr)
 {
   Bit8u ret8;
@@ -125,7 +125,7 @@ BX_CPU_C::inp8(Bit16u addr)
 }
 
 
-  void
+  void BX_CPP_AttrRegparmN(2)
 BX_CPU_C::outp8(Bit16u addr, Bit8u value)
 {
   /* If CPL <= IOPL, then all IO addresses are accessible.

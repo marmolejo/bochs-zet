@@ -63,7 +63,7 @@ BX_MEM_C::BX_MEM_C(void)
 
 
 #if BX_PROVIDE_CPU_MEMORY
-void
+void BX_CPP_AttrRegparmN(2)
 BX_MEM_C::alloc_vector_aligned (size_t bytes, size_t alignment)
 {
   if (actual_vector != NULL) {
@@ -196,7 +196,7 @@ BX_MEM_C::load_ROM(const char *path, Bit32u romaddress)
 #endif // #if BX_PROVIDE_CPU_MEMORY
 
 #if BX_PCI_SUPPORT
-  Bit8u*
+  Bit8u* BX_CPP_AttrRegparmN(1)
 BX_MEM_C::pci_fetch_ptr(Bit32u addr)
 {
   if (bx_options.Oi440FXSupport->get ()) {
@@ -306,7 +306,7 @@ BX_MEM_C::dbg_crc32(unsigned long (*f)(unsigned char *buf, int len),
 }
 
 
-  Bit8u *
+  Bit8u * BX_CPP_AttrRegparmN(3)
 BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op)
   // Return a host address corresponding to the guest physical memory
   // address (with A20 already applied), given that the calling

@@ -35,7 +35,7 @@
 
 #if BX_PROVIDE_CPU_MEMORY
 
-  void
+  void BX_CPP_AttrRegparmN(3)
 BX_MEM_C::writePhysicalPage(BX_CPU_C *cpu, Bit32u addr, unsigned len, void *data)
 {
   Bit8u *data_ptr;
@@ -232,7 +232,7 @@ inc_one:
 }
 
 
-  void
+  void BX_CPP_AttrRegparmN(3)
 BX_MEM_C::readPhysicalPage(BX_CPU_C *cpu, Bit32u addr, unsigned len, void *data)
 {
   Bit8u *data_ptr;
