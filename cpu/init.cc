@@ -780,6 +780,7 @@ void BX_CPU_C::reset(unsigned source)
   /* APIC Address, APIC enabled and BSP is default, we'll fill in the rest later */
   BX_CPU_THIS_PTR msr.apicbase = APIC_BASE_ADDR;
 #if BX_SUPPORT_APIC
+  BX_CPU_THIS_PTR local_apic.init ();
   BX_CPU_THIS_PTR msr.apicbase |= 0x900;
 #else
   BX_CPU_THIS_PTR msr.apicbase |= 0x100;
