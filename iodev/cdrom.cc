@@ -36,6 +36,8 @@
 
 #define LOG_THIS /* no SMF tricks here, not needed */
 
+#include <errno.h>
+
 #ifdef __linux__
 extern "C" {
 #include <sys/ioctl.h>
@@ -193,8 +195,8 @@ cdrom_interface::cdrom_interface(char *dev)
 }
 void
 cdrom_interface::init(void) {
-    BX_DEBUG(("Init $Id$"));
-	BX_INFO(("file = '%s'",path));
+  BX_DEBUG(("Init $Id$"));
+  BX_INFO(("file = '%s'",path));
 }
 
 cdrom_interface::~cdrom_interface(void)
@@ -287,7 +289,7 @@ cdrom_interface::insert_cdrom()
 
 			}
 		} else {
-			BX_PANIC(("Could not load ASPI drivers."));
+			BX_PANIC(("Could not load ASPI drivers, so cdrom access will fail"));
 		}
 		fd=1;
 	} else {
@@ -297,10 +299,11 @@ cdrom_interface::insert_cdrom()
         fd=1;
 	}
 #else
+      // all platforms except win32
       fd = open(path, O_RDONLY);
 #endif
     if (fd < 0) {
-       BX_INFO(( "::cdrom_interface: open failed on dev '%s'.", path));
+       BX_ERROR(( "open cd failed on dev '%s': %s", path, strerror(errno)));
        return(false);
     }
 
@@ -681,7 +684,7 @@ cdrom_interface::capacity()
 	  }
   }
 #else
-  BX_INFO(( "capacity: your OS is not supported yet." ));
+  BX_ERROR(( "capacity: your OS is not supported yet." ));
   return(0);
 #endif
 }
