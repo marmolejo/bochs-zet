@@ -2709,7 +2709,7 @@ bx_find_bochsrc ()
     case 3:
       {
       char *ptr = getenv("HOME");
-      if (ptr) sprintf (rcfile, "%s/.bochsrc", ptr);
+      if (ptr) snprintf (rcfile, sizeof(rcfile), "%s/.bochsrc", ptr);
       }
       break;
      case 4: strcpy (rcfile, "/etc/bochsrc"); break;
