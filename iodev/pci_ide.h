@@ -28,9 +28,11 @@
 #if BX_USE_PIDE_SMF
 #  define BX_PIDE_SMF  static
 #  define BX_PIDE_THIS thePciIdeController->
+#  define BX_PIDE_THIS_PTR thePciIdeController
 #else
 #  define BX_PIDE_SMF
 #  define BX_PIDE_THIS this->
+#  define BX_PIDE_THIS_PTR this
 #endif
 
 

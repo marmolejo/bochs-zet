@@ -109,7 +109,7 @@ bx_pcivga_c::reset(unsigned type)
     unsigned      addr;
     unsigned char val;
   } reset_vals[] = {
-      { 0x04, 0x01 }, { 0x05, 0x00 },	// command_io
+      { 0x04, 0x03 }, { 0x05, 0x00 },	// command_io + command_mem
       { 0x06, 0x00 }, { 0x07, 0x02 }	// status_devsel_medium
   };
   for (unsigned i = 0; i < sizeof(reset_vals) / sizeof(*reset_vals); ++i) {
