@@ -37,6 +37,7 @@ typedef struct {
   Bit16u	base_ioaddr;
   Bit8u		irq;
   Bit8u		macaddr[6];
+  Bit8u		irqEnabled;
 
   Bit16u	rCmd;		// Command register
   Bit16u	rStatus;	// Status register
