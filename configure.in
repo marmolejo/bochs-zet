@@ -127,6 +127,12 @@ AC_CHECK_FUNCS(gettimeofday, AC_DEFINE(BX_HAVE_GETTIMEOFDAY))
 AC_CHECK_TYPE(socklen_t, AC_DEFINE(BX_HAVE_SOCKLEN_T), , [#include <sys/types.h>
 #include <sys/socket.h>])
 
+AC_SYS_LARGEFILE
+# Warning: wxwindows uses their own macro to test for largefile usability,
+# because they found bugs in the standard autoconf test that affect Linux/gcc.
+# We may need to do something similar.  See aclocal.m4 in wxWindows sources, at
+# http://cvs.wxwindows.org/cgi-bin/viewcvs.cgi/wxWindows/aclocal.m4
+
 AC_MSG_CHECKING(for struct timeval)
 AC_TRY_COMPILE([#include <sys/time.h>],
     [struct timeval x;], 
