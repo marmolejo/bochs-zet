@@ -323,6 +323,7 @@ public:
   bx_ioapic_c       *ioapic;
   bx_pci_stub_c     *pluginPciBridge;
   bx_devmodel_c     *pluginPci2IsaBridge;
+  bx_devmodel_c     *pluginPciIdeController;
   bx_devmodel_c     *pluginPciVgaAdapter;
   bx_devmodel_c     *pluginPciDevAdapter;
   bx_devmodel_c     *pluginPciUSBAdapter;
@@ -411,6 +412,7 @@ private:
 #if BX_PCI_SUPPORT
 #include "iodev/pci.h"
 #include "iodev/pci2isa.h"
+#include "iodev/pci_ide.h"
 #if BX_PCI_VGA_SUPPORT
 #include "iodev/pcivga.h"
 #endif
