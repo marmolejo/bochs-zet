@@ -129,6 +129,8 @@ BX_MEM_C::load_ROM(const char *path, Bit32u romaddress)
   int fd, ret;
   unsigned long size, offset;
 
+  if (*path == '\0')
+    return;
   // read in ROM BIOS image file
   fd = open(path, O_RDONLY
 #ifdef O_BINARY
