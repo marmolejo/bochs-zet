@@ -126,6 +126,8 @@ public:
   Bit32u get_clock_event_time(Bit8u cnum);
   Bit32u get_next_event_time(void);
 
+  void print_cnum(Bit8u cnum);
+
 };
 
 #endif
