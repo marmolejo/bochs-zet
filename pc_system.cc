@@ -78,6 +78,7 @@ bx_pc_system_c::bx_pc_system_c(void)
   currCountdown       = NullTimerInterval;
   currCountdownPeriod = NullTimerInterval;
   numTimers = 1; // So far, only the nullTimer.
+  triggeredTimer = 0;
   lastTimeUsec = 0;
   usecSinceLast = 0;
 }
@@ -372,7 +373,9 @@ bx_pc_system_c::countdownEvent(void)
     // Call requested timer function.  It may request a different
     // timer period or deactivate etc.
     if (triggered[i]) {
+      triggeredTimer = i;
       timer[i].funct(timer[i].this_ptr);
+      triggeredTimer = 0;
       }
     }
 }
