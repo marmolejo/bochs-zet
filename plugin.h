@@ -205,14 +205,16 @@ extern "C" {
 #define DEV_bus_mouse_enq(dx, dy, dz, state) \
     (bx_devices.pluginBusMouse->bus_mouse_enq(dx, dy, 0, state))
 
-///////// USB mouse macro
+///////// USB device macros
 #if BX_SUPPORT_PCIUSB
-	#define DEV_usb_mouse_enq(dx, dy, dz, state) \
+#define DEV_usb_mouse_enq(dx, dy, dz, state) \
     (bx_devices.pluginPciUSBAdapter->usb_mouse_enq(dx, dy, dz, state))
-	#define DEV_usb_mouse_enable(enable) \
+#define DEV_usb_mouse_enable(enable) \
     (bx_devices.pluginPciUSBAdapter->usb_mouse_enable(enable))
-	#define DEV_usb_key_enq(key) \
-    (bx_devices.pluginPciUSBAdapter->usb_key_enq(key))
+#define DEV_usb_key_enq(scan_code) \
+    (bx_devices.pluginPciUSBAdapter->usb_key_enq(scan_code))
+#define DEV_usb_keyboard_connected() \
+    (bx_devices.pluginPciUSBAdapter->usb_keyboard_connected())
 #endif
 
 //////// Memory macros
