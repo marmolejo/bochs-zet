@@ -852,6 +852,7 @@ public:
   void set_label (char *text) {label = text;}
   char *get_label () {return label;}
   void set_runtime_param (int val) { runtime_param = val; }
+  int get_runtime_param () { return runtime_param; }
   char *get_name () { return name; }
   char *get_description () { return description; }
   int get_enabled () { return enabled; }

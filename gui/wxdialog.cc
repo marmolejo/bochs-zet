@@ -1162,6 +1162,7 @@ ParamDialog::ParamDialog(
   idHash = new wxHashTable (wxKEY_INTEGER);
   paramHash = new wxHashTable (wxKEY_INTEGER);
   nbuttons = 0;
+  runtime = 0;
 
   // top level objects
   mainSizer = new wxBoxSizer (wxVERTICAL);
@@ -1535,6 +1536,10 @@ void ParamDialog::EnableChanged ()
       EnableChanged (pstr);
     if (pstr->param->get_type () == BXT_PARAM_ENUM)
       EnumChanged (pstr);
+    if (runtime) {
+      if ((pstr->param->get_type() != BXT_LIST) && !pstr->param->get_runtime_param ())
+        EnableParam (pstr->param->get_id (),  false);
+    }
     // special cases that can't be handled in the usual way
   }
 }
