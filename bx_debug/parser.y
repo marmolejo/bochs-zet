@@ -164,9 +164,14 @@
 %left '*' '/' '&' BX_TOKEN_LSHIFT BX_TOKEN_RSHIFT
 %left NOT NEG
 
-%start command
+%start commands
 
 %%
+commands:
+      comamnds command
+    | command
+;
+
 command:
       continue_command
     | stepN_command
