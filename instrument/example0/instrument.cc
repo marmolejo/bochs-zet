@@ -135,7 +135,7 @@ static void branch_taken(unsigned cpu, bx_address new_eip)
   }
 
   // find linear address
-  laddr = BX_CPU(cpu)->get_segment_base(BX_SREG_CS) + new_eip;
+  laddr = BX_CPU(cpu)->get_segment_base(BX_SEG_REG_CS) + new_eip;
 
   instruction[cpu].is_branch = 1;
   instruction[cpu].is_taken = 1;
