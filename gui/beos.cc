@@ -435,9 +435,12 @@ bx_beos_gui_c::palette_change(unsigned index, unsigned red, unsigned green, unsi
 
 
   void
-bx_beos_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight)
+bx_beos_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight, unsigned fwidth)
 {
   if (fheight > 0) {
+    if (fwidth != 8) {
+      x = x * 8 / fwidth;
+    }
     if (fheight != 16) {
       y = y * 16 / fheight;
     }

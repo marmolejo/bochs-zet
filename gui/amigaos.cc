@@ -664,12 +664,15 @@ bx_amigaos_gui_c::graphics_tile_update(Bit8u *tile, unsigned x0, unsigned y0)
 
 
   void
-bx_amigaos_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight)
+bx_amigaos_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight, unsigned fwidth)
 {
 
 	int xdiff = w - x;
 
 	if (fheight > 0) {
+	  if (fwidth != 8) {
+		x = x * 8 / fwidth;
+	  }
 	  if (fheight != 16) {
 		y = y * 16 / fheight;
 	  }

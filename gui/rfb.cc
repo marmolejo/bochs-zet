@@ -640,11 +640,12 @@ void bx_rfb_gui_c::graphics_tile_update(Bit8u *tile, unsigned x0, unsigned y0)
 // y: new VGA y size (add headerbar_y parameter from ::specific_init().
 
   void
-bx_rfb_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight)
+bx_rfb_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight, unsigned fwidth)
 {
   UNUSED(x);
   UNUSED(y);
   UNUSED(fheight);
+  UNUSED(fwidth);
 }
 
 

@@ -1083,14 +1083,17 @@ void bx_wx_gui_c::graphics_tile_update(Bit8u *tile, unsigned x0, unsigned y0)
 // x: new VGA x size
 // y: new VGA y size (add headerbar_y parameter from ::specific_init().
 
-void bx_wx_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight)
+void bx_wx_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight, unsigned fwidth)
 {
   IFDBG_VGA(wxLogDebug (wxT ("MyPanel::dimension_update trying to get lock. wxScreen=%p", wxScreen)));
   wxScreen_lock.Enter ();
   IFDBG_VGA(wxLogDebug (wxT ("MyPanel::dimension_update got lock. wxScreen=%p", wxScreen)));
   BX_INFO (("dimension update x=%d y=%d fontheight=%d", x, y, fheight));
   if (fheight > 0) {
-  wxFontY = fheight;
+    if (fwidth != 8) {
+      x = x * 8 / fwidth;
+    }
+    wxFontY = fheight;
   }
   wxScreenX = x;
   wxScreenY = y;
