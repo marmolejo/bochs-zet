@@ -647,7 +647,7 @@ config_interface_notify_callback (void *unused, BxEvent *event)
         opts = sparam->get_options()->get();
         if (opts & sparam->IS_FILENAME) {
           if (param->get_id() == BXP_NULL) {
-            event->retcode = AskFilename((bx_param_filename_c *)sparam);
+            event->retcode = AskFilename(GetBochsWindow(), (bx_param_filename_c *)sparam);
           } else {
             event->retcode = FloppyDialog((bx_param_filename_c *)sparam);
           }
