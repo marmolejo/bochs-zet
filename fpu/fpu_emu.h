@@ -107,4 +107,7 @@ asmlinkage int FPU_round(FPU_REG *arg, u32 extent,
 #define INTERNAL(x)     FPU_internal(x)
 #define EXCEPTION(x)    FPU_exception(x)
 
+extern FPU_REG const CONST_Z;
+extern FPU_REG const CONST_INF;
+
 #endif /* !defined _FPU_EMU_H_ */

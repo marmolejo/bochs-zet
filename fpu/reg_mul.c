@@ -16,9 +16,8 @@
  | The destination may be any FPU_REG, including one of the source FPU_REGs. |
  +---------------------------------------------------------------------------*/
 
-#include "reg_constant.h"
+#include "fpu_emu.h"
 #include "fpu_system.h"
-
 
 /*
   Multiply two registers to give a register result.
@@ -34,7 +33,6 @@ int FPU_mul(FPU_REG const *b, u_char tagb, int deststnr, int control_w)
   u_char saved_sign = getsign(dest);
   u_char sign = (getsign(a) ^ getsign(b));
   int tag;
-
 
   if ( !(taga | tagb) )
     {
