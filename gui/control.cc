@@ -341,7 +341,7 @@ static char *runtime_menu_prompt =
 "10. Continue simulation\n"
 "11. Quit now\n"
 "\n"
-"Please choose one:  [9] ";
+"Please choose one:  [10] ";
 
 char *menu_prompt_list[BX_CPANEL_N_MENUS] = {
   ask_about_control_panel,
