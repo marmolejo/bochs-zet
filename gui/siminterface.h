@@ -64,6 +64,7 @@ typedef enum {
   BXP_LOAD32BITOS_PATH,
   BXP_LOAD32BITOS_IOLOG,
   BXP_LOAD32BITOS_INITRD,
+  BXP_LOAD32BITOS,
   BXP_BOOTDRIVE,
   BXP_MENU_MAIN,
   BXP_MENU_MEMORY,
@@ -287,6 +288,8 @@ extern char *floppy_status_names[];
 extern int n_floppy_status_names;
 extern char *floppy_bootdisk_names[];
 extern int n_floppy_bootdisk_names;
+extern char *loader_os_names[];
+extern int n_loader_os_names;
 
 typedef struct {
   bx_param_string_c *Opath;
