@@ -2232,7 +2232,5 @@ AC_OUTPUT(Makefile iodev/Makefile debug/Makefile bios/Makefile \
 	 cpu/Makefile memory/Makefile gui/Makefile \
 	 disasm/Makefile ${INSTRUMENT_DIR}/Makefile misc/Makefile \
 	 fpu/Makefile install-x11-fonts build/linux/bochs-dlx \
-	 build/linux/bochs-docs bxversion.h \
-	 build/linux/DOC-linux.html \
-	 build/macosx/Info.plist \
+	 bxversion.h build/macosx/Info.plist \
 	 build/win32/nsis/Makefile build/win32/nsis/bochs.nsi)
