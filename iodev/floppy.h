@@ -127,6 +127,8 @@ private:
   BX_FD_SMF void   floppy_command(void);
   BX_FD_SMF void   floppy_xfer(Bit8u drive, Bit32u offset, Bit8u *buffer, Bit32u bytes, Bit8u direction);
   BX_FD_SMF void   raise_interrupt(void);
+  BX_FD_SMF void   enter_idle_phase(void);
+  BX_FD_SMF void   enter_result_phase(void);
   static void   timer_handler(void *);
 
 public:
