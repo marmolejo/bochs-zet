@@ -523,8 +523,12 @@ bx_keyb_c::write( Bit32u   address, Bit32u   value, unsigned io_len)
           BX_KEY_THIS s.kbd_controller.expecting_port60h = 1;
           break;
 
+        case 0xa0:
+          BX_DEBUG(("keyboard BIOS name not supported"));
+          break;
+
         case 0xa1:
-          BX_ERROR(("Dummy out Green PC for now : 0xa1"));
+          BX_DEBUG(("keyboard BIOS version not supported"));
           break;
 
         case 0xa7: // disable the aux device
