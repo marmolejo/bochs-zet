@@ -131,6 +131,9 @@ void bx_instr_mem_data(unsigned cpu, bx_address lin, unsigned size, unsigned rw)
 #  define BX_INSTR_TLB_CNTRL(cpu_id, what, newval)
 #  define BX_INSTR_PREFETCH_HINT(cpu_id, what, seg, offset)
 
+/* execution */
+#  define BX_INSTR_BEFORE_EXECUTION(cpu_id)
+#  define BX_INSTR_AFTER_EXECUTION(cpu_id)
 #  define BX_INSTR_REPEAT_ITERATION(cpu_id)
 
 /* memory access */
@@ -198,6 +201,9 @@ void bx_instr_mem_data(unsigned cpu, bx_address lin, unsigned size, unsigned rw)
 #  define BX_INSTR_TLB_CNTRL(cpu_id, what, newval)
 #  define BX_INSTR_PREFETCH_HINT(cpu_id, what, seg, offset)
 
+/* execution */
+#  define BX_INSTR_BEFORE_EXECUTION(cpu_id)
+#  define BX_INSTR_AFTER_EXECUTION(cpu_id)
 #  define BX_INSTR_REPEAT_ITERATION(cpu_id)
 
 /* memory access */
