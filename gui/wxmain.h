@@ -46,7 +46,7 @@ enum
   ID_Log_Prefs,
   ID_Log_PrefsDevice,
   ID_Help_About,
-  ID_Sim2Cui_Event,
+  ID_Sim2CI_Event,
   // ids for Bochs toolbar
   ID_Toolbar_FloppyA,
   ID_Toolbar_FloppyB,
@@ -125,7 +125,7 @@ public:
   void OnStartSim(wxCommandEvent& event);
   void OnPauseResumeSim(wxCommandEvent& event);
   void OnKillSim(wxCommandEvent& event);
-  void OnSim2CuiEvent(wxCommandEvent& event);
+  void OnSim2CIEvent(wxCommandEvent& event);
   void OnOtherEvent(wxCommandEvent& event);
   static bool editFloppyValidate (FloppyConfigDialog *dialog);
   void editFloppyConfig (int drive);
