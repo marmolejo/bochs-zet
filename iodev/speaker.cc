@@ -126,6 +126,7 @@ DWORD WINAPI BeepThread(LPVOID)
   threadActive = TRUE;
   Beep(beep_info.frequency, beep_info.msec);
   threadActive = FALSE;
+  return 0;
 }
 
 #endif
