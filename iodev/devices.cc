@@ -73,6 +73,7 @@ bx_devices_c::bx_devices_c(void)
   pluginSB16Device = NULL;
   pluginNE2kDevice =&stubNE2k;
   pluginExtFpuIrq = NULL;
+  pluginGameport = NULL;
   g2h = NULL;
 #if BX_IODEBUG_SUPPORT
   iodebug = NULL;
@@ -145,6 +146,7 @@ bx_devices_c::init(BX_MEM_C *newmem)
   if (is_parallel_enabled ()) 
     PLUG_load_plugin(parallel, PLUGTYPE_OPTIONAL);
   PLUG_load_plugin(extfpuirq, PLUGTYPE_OPTIONAL);
+  PLUG_load_plugin(gameport, PLUGTYPE_OPTIONAL);
 
   // Start with registering the default (unmapped) handler
   pluginUnmapped->init ();

@@ -314,6 +314,7 @@ public:
   bx_ne2k_stub_c   *pluginNE2kDevice;
   bx_g2h_c         *g2h;
   bx_devmodel_c    *pluginExtFpuIrq;
+  bx_devmodel_c    *pluginGameport;
 #if BX_IODEBUG_SUPPORT
   bx_iodebug_c	   *iodebug;
 #endif
@@ -417,3 +418,4 @@ private:
 #include "iodev/guest2host.h"
 #include "iodev/slowdown_timer.h"
 #include "iodev/extfpuirq.h"
+#include "iodev/gameport.h"
