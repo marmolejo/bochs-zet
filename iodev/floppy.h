@@ -70,6 +70,8 @@ private:
     Boolean command_complete;
     Bit8u   pending_command;
 
+    Boolean pending_irq;
+
     Bit8u   result[10];
     Bit8u   result_index;
     Bit8u   result_size;
