@@ -163,16 +163,12 @@ bx_cmos_c::init(void)
        
        BX_CMOS_THIS s.timeval = time(NULL);
 
-#if BX_HAVE_LOCALTIME
-       localtime(&BX_CMOS_THIS s.timeval);
-#if BX_HAVE_TIMEZONE
+#if BX_HAVE_GMTIME && BX_HAVE_MKTIME
        utc_ok = 1;
-       BX_CMOS_THIS s.timeval += timezone;
-#endif // BX_HAVE_TIMEZONE
-#if BX_HAVE_DAYLIGHT
-       BX_CMOS_THIS s.timeval -= (daylight*3600);
-#endif // BX_HAVE_DAYLIGHT
-#endif // BX_HAVE_LOCALTIME
+       struct tm *utc_holder = gmtime(&BX_CMOS_THIS s.timeval);
+       utc_holder->tm_isdst = -1;
+       BX_CMOS_THIS s.timeval = mktime(utc_holder);
+#endif // BX_HAVE_GMTIME && BX_HAVE_MKTIME
 
        if (!utc_ok) {
            BX_ERROR(("UTC time is not supported on your platform. Using current localtime"));
