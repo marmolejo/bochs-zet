@@ -439,9 +439,7 @@ zip:
 
 clean:
 	@RMCOMMAND@ *.o
-	@RMCOMMAND@ */*.o
 	@RMCOMMAND@ *.a
-	@RMCOMMAND@ */*.a
 	@RMCOMMAND@ bochs
 	@RMCOMMAND@ bochs.exe
 	@RMCOMMAND@ bximage
