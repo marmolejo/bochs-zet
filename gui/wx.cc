@@ -1032,17 +1032,33 @@ void bx_wx_gui_c::handle_events(void)
 void 
 bx_wx_gui_c::statusbar_setitem(int element, bx_bool active)
 {
+#if defined( __WXMSW__)
+  char status_text[10];
+#endif
+
   if (element < 0) {
     for (unsigned i = 0; i < statusitem_count; i++) {
       if (active) {
+#if defined( __WXMSW__)
+        status_text[0] = 9;
+        strcpy(status_text+1, statusitem_text[i]);
+        theFrame->SetStatusText(status_text, i+1);
+#else
         theFrame->SetStatusText(statusitem_text[i], i+1);
+#endif
       } else {
         theFrame->SetStatusText("", i+1);
       }
     }
   } else if ((unsigned)element < statusitem_count) {
     if (active) {
+#if defined( __WXMSW__)
+        status_text[0] = 9;
+        strcpy(status_text+1, statusitem_text[element]);
+        theFrame->SetStatusText(status_text, element+1);
+#else
       theFrame->SetStatusText(statusitem_text[element], element+1);
+#endif
     } else {
       theFrame->SetStatusText("", element+1);
     }
