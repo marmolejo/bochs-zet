@@ -863,7 +863,7 @@ BX_CPU_C::CMPXCHG8B(bxInstruction_c *i)
     }
 
 #else
-  BX_INFO(("CMPXCHG8B: not implemented yet"));
+  BX_INFO(("CMPXCHG8B: not implemented in CPU_LEVEL < 5"));
   UndefinedOpcode(i);
 #endif
 }
