@@ -530,15 +530,18 @@ bx_get_command(void)
       free (charptr_ret);
       charptr_ret = &tmp_buf[0];
     }
-  }
-#endif
-  else if (bx_infile_stack_index == 0) {
-    dbg_printf ( "%s", prompt);
-  }
-  if (bx_infile_stack_index != 0) {
+  } else {
     charptr_ret = fgets(tmp_buf, 512,
       bx_infile_stack[bx_infile_stack_index].fp);
   }
+#else /* !HAVE_LIBREADLINE */
+  else {
+    if (bx_infile_stack_index == 0)
+      dbg_printf ( "%s", prompt);
+    charptr_ret = fgets(tmp_buf, 512,
+      bx_infile_stack[bx_infile_stack_index].fp);
+  }
+#endif
   if (charptr_ret == NULL) {
     // see if error was due to EOF condition
     if (feof(bx_infile_stack[bx_infile_stack_index].fp)) {
