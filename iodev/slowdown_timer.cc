@@ -16,7 +16,7 @@
 #define nsectousec(a) ((a)/1000)
 
 #if BX_HAVE_USLEEP
-#  define Qval 10000
+#  define Qval 1000
 #else
 #  define Qval SECINUSEC
 #endif
