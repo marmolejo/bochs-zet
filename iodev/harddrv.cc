@@ -1903,7 +1903,7 @@ BX_DEBUG(("IO write to %04x = %02x", (unsigned) address, (unsigned) value));
       Bit32u drvsel = BX_HD_THIS channels[channel].drive_select = (value >> 4) & 0x01;
       WRITE_HEAD_NO(channel,value & 0xf);
       if (BX_SELECTED_CONTROLLER(channel).lba_mode == 0 && ((value >> 6) & 1) == 1)
-        BX_INFO(("enabling LBA mode"));
+        BX_DEBUG(("enabling LBA mode"));
       WRITE_LBA_MODE(channel,(value >> 6) & 1);
       if (!BX_SELECTED_IS_PRESENT(channel)) {
         BX_ERROR (("device set to %d which does not exist",drvsel));
