@@ -1588,6 +1588,7 @@ public: // for now...
     // NOTE: This struct should really be aligned!
     BxInstruction_t fdcache_i[BX_FDCACHE_SIZE]; // stores decoded instruction
     Boolean fdcache_is32[BX_FDCACHE_SIZE];
+    Bit32u fdcache_rpn[BX_FDCACHE_RPN_SIZE];
   #endif // #if BX_FETCHDECODE_CACHE
                                               
   };
