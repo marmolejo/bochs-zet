@@ -2232,6 +2232,9 @@ if test "$display_libs" = " wxWindows"; then
   AC_MSG_RESULT(wxWindows)
   AC_DEFINE(BX_DEFAULT_CONFIG_INTERFACE, "wx")
   AC_DEFINE(BX_DEFAULT_DISPLAY_LIBRARY, "wx")
+  AC_DEFINE(BX_USE_TEXTCONFIG, 0)
+else
+  AC_DEFINE(BX_USE_TEXTCONFIG, 1)
 fi
 
 if test "$bx_plugins" = 1; then
