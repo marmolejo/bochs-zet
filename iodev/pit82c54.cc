@@ -47,7 +47,7 @@ void pit_82C54::print_counter(counter_type & thisctr) {
 }
 
 void pit_82C54::print_cnum(Bit8u cnum) {
-  if((cnum>MAX_COUNTER) || (cnum<0)) {
+  if(cnum>MAX_COUNTER) {
     BX_ERROR(("Bad counter index to print_cnum"));
   } else {
     print_counter(counter[cnum]);
