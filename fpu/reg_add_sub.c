@@ -399,7 +399,7 @@ int add_sub_specials(FPU_REG const *a, u_char taga, u_char signa,
     if (tag == TW_Infinity) return tag;
         
     /* no adjustment needed for real indefinite result */
-    if (dest->exp & 0x7FFF == 0x7FFF)
+    if ((dest->exp & 0x7FFF) == 0x7FFF)
         if (dest->sigh == 0xC0000000)
             if (dest->sigl == 0)
                 return tag;
