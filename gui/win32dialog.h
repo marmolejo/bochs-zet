@@ -6,5 +6,6 @@
 
 void LogAskDialog(BxEvent *event);
 int AskFilename(bx_param_filename_c *param);
+int AskString(bx_param_string_c *param);
 
 #endif
