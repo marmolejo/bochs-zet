@@ -326,7 +326,8 @@ BailBigRSP("CALL32_Ep");
 
     /* op1_32 is a register or memory reference */
     if (i->modC0()) {
-      BX_PANIC(("CALL_Ep: op1 is a register"));
+      BX_INFO(("CALL_Ep: op1 is a register"));
+      exception(BX_UD_EXCEPTION, 0, 0);
       }
 
     /* pointer, segment address pair */
@@ -568,7 +569,8 @@ BailBigRSP("JMP32_Ep");
     /* op1_32 is a register or memory reference */
     if (i->modC0()) {
       /* far indirect must specify a memory address */
-      BX_PANIC(("JMP_Ep(): op1 is a register"));
+      BX_INFO(("JMP_Ep(): op1 is a register"));
+      exception(BX_UD_EXCEPTION, 0, 0);
       }
 
     /* pointer, segment address pair */

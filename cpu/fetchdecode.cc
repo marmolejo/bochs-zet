@@ -743,7 +743,7 @@ static BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
 #if BX_SUPPORT_X86_64
   /* 0F 05 */  { 0, &BX_CPU_C::SYSCALL },
 #else
-  /* 0F 05 */  { 0, &BX_CPU_C::LOADALL },
+  /* 0F 05 */  { 0, &BX_CPU_C::BxError },
 #endif
   /* 0F 06 */  { 0, &BX_CPU_C::CLTS },
 #if BX_SUPPORT_X86_64
@@ -1289,7 +1289,7 @@ static BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
 #if BX_SUPPORT_X86_64
   /* 0F 05 */  { 0, &BX_CPU_C::SYSCALL },
 #else
-  /* 0F 05 */  { 0, &BX_CPU_C::LOADALL },
+  /* 0F 05 */  { 0, &BX_CPU_C::BxError },
 #endif
   /* 0F 06 */  { 0, &BX_CPU_C::CLTS },
 #if BX_SUPPORT_X86_64

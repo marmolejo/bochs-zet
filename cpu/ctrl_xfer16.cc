@@ -269,7 +269,8 @@ BailBigRSP("CALL_16_Ep");
 #endif
 
   if (i->modC0()) {
-    BX_PANIC(("CALL_Ep: op1 is a register"));
+    BX_INFO(("CALL_Ep: op1 is a register"));
+    exception(BX_UD_EXCEPTION, 0, 0);
     }
 
   read_virtual_word(i->seg(), RMAddr(i), &op1_16);
@@ -477,7 +478,8 @@ BailBigRSP("JMP16_Ep");
 
   if (i->modC0()) {
     /* far indirect must specify a memory address */
-    BX_PANIC(("JMP_Ep(): op1 is a register"));
+    BX_INFO(("JMP_Ep(): op1 is a register"));
+    exception(BX_UD_EXCEPTION, 0, 0);
     }
 
   read_virtual_word(i->seg(), RMAddr(i), &op1_16);

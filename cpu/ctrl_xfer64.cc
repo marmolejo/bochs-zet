@@ -248,7 +248,8 @@ BX_CPU_C::CALL64_Ep(bxInstruction_c *i)
 
   /* op1_64 is a register or memory reference */
   if (i->modC0()) {
-    BX_PANIC(("CALL_Ep: op1 is a register"));
+    BX_INFO(("CALL_Ep: op1 is a register"));
+    exception(BX_UD_EXCEPTION, 0, 0);
     }
 
   /* pointer, segment address pair */
@@ -357,7 +358,8 @@ BX_CPU_C::JMP64_Ep(bxInstruction_c *i)
   invalidate_prefetch_q();
 
   if (i->modC0()) {
-    BX_PANIC(("JMP_Ep(): op1 is a register"));
+    BX_INFO(("JMP_Ep(): op1 is a register"));
+    exception(BX_UD_EXCEPTION, 0, 0);
     }
 
   read_virtual_dword(i->seg(), RMAddr(i), &op1_32);

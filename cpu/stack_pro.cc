@@ -169,7 +169,7 @@ BailBigRSP("pop_16");
 #if BX_CPU_LEVEL >= 2
   if (protected_mode()) {
     if ( !can_pop(2) ) {
-      BX_INFO(("pop_16(): can't pop from stack"));
+      BX_ERROR(("pop_16(): can't pop from stack"));
       exception(BX_SS_EXCEPTION, 0, 0);
       return;
       }
@@ -202,7 +202,7 @@ BailBigRSP("pop_32");
   /* 16 bit stack mode: use SS:SP */
   if (protected_mode()) {
     if ( !can_pop(4) ) {
-      BX_PANIC(("pop_32(): can't pop from stack"));
+      BX_ERROR(("pop_32(): can't pop from stack"));
       exception(BX_SS_EXCEPTION, 0, 0);
       return;
       }
@@ -222,7 +222,7 @@ BailBigRSP("pop_32");
 BX_CPU_C::pop_64(Bit64u *value64_ptr)
 {
   if ( !can_pop(8) ) {
-    BX_PANIC(("pop_64(): can't pop from stack"));
+    BX_ERROR(("pop_64(): can't pop from stack"));
     exception(BX_SS_EXCEPTION, 0, 0);
     return;
     }
