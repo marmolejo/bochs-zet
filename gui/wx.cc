@@ -569,14 +569,20 @@ MyPanel::fillBxKeyEvent (wxKeyEvent& wxev, BxKeyEvent& bxev, Boolean release)
 	  case WXK_NUMPAD_DIVIDE:		bx_key = BX_KEY_KP_DIVIDE;    break;
 
 	  // Keys not handled by wxMSW
+	  case 20:  bx_key = BX_KEY_CAPS_LOCK;     break; // =+
+	  case 186: bx_key = BX_KEY_SEMICOLON;     break; // ;:
+	  case 187: bx_key = BX_KEY_EQUALS;        break; // =+
+	  case 188: bx_key = BX_KEY_COMMA;         break; // ,<
+	  case 189: bx_key = BX_KEY_MINUS;         break; // -_
+	  case 190: bx_key = BX_KEY_MINUS;         break; // .>
+	  case 191: bx_key = BX_KEY_SLASH;         break; // /?
 	  case 192: bx_key = BX_KEY_GRAVE;         break; // `~
 	  case 219: bx_key = BX_KEY_LEFT_BRACKET;  break; // [{
 	  case 221: bx_key = BX_KEY_RIGHT_BRACKET; break; // ]}
 	  case 220: bx_key = BX_KEY_BACKSLASH;     break; // \|
-	  case 186: bx_key = BX_KEY_SEMICOLON;     break; // ;:
 	  case 222: bx_key = BX_KEY_SINGLE_QUOTE;  break; // '"
-	  case 188: bx_key = BX_KEY_COMMA;         break; // ,<
-	  case 191: bx_key = BX_KEY_SLASH;         break; // /?
+	  case 305: bx_key = BX_KEY_KP_5;          break; // keypad 5
+	  case 392: bx_key = BX_KEY_KP_ADD;        break; // keypad plus
 
 	  default:
 		  wxLogMessage("Unhandled key event: %i (0x%x)", key, key);
