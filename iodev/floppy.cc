@@ -1284,6 +1284,8 @@ bx_floppy_ctrl_c::set_media_status(unsigned drive, unsigned status)
     else {
       path = bx_options.floppyb.Opath->getptr ();
       }
+    if (!strcmp(path, "none"))
+      return(0);
     if (evaluate_media(type, path, & BX_FD_THIS s.media[drive])) {
       BX_FD_THIS s.media_present[drive] = 1;
       if (drive == 0) {
@@ -1327,6 +1329,8 @@ bx_floppy_ctrl_c::evaluate_media(unsigned type, char *path, floppy_t *media)
   int ret;
 #ifdef WIN32
   char sTemp[1024];
+  bx_bool raw_floppy = 0;
+  char buffer[512];
 #endif
 
   if (type == BX_FLOPPY_NONE)
@@ -1345,7 +1349,8 @@ bx_floppy_ctrl_c::evaluate_media(unsigned type, char *path, floppy_t *media)
   if (strcmp(bx_options.floppya.Opath->getptr (), SuperDrive))
 #endif
 #ifdef WIN32
-    if ( (path[1] == ':') && (strlen(path) == 2) ) {
+    if ( (isalpha(path[0])) && (path[1] == ':') && (strlen(path) == 2) ) {
+      raw_floppy = 1;
       wsprintf(sTemp, "\\\\.\\%s", path);
       media->fd = open(sTemp, BX_RDWR);
     } else {
@@ -1364,8 +1369,7 @@ bx_floppy_ctrl_c::evaluate_media(unsigned type, char *path, floppy_t *media)
   if (strcmp(bx_options.floppya.Opath->getptr (), SuperDrive))
 #endif
 #ifdef WIN32
-    if ( (path[1] == ':') && (strlen(path) == 2) ) {
-      wsprintf(sTemp, "\\\\.\\%s", path);
+    if (raw_floppy == 1) {
       media->fd = open(sTemp, BX_RDONLY);
     } else {
       media->fd = open(path, BX_RDONLY);
@@ -1387,14 +1391,22 @@ bx_floppy_ctrl_c::evaluate_media(unsigned type, char *path, floppy_t *media)
   else
     ret = fstat(media->fd, &stat_buf);
 #elif defined(WIN32)
-//  if ( (path[1] == ':') && (strlen(path) == 2) ) {
+  if (raw_floppy) {
     stat_buf.st_mode = S_IFCHR;
-    // maybe replace with code that sets ret to -1 if the disk is not available
-    ret = 0;
-//  } else {
-//      put code here for disk images
-//      ret = fstat(media->fd, &stat_buf);
-//  }
+    // FIXME: sets size of inserted raw disk.
+    stat_buf.st_size = 1474560;  /* temporary - unused for now */
+    // read first sector from floppy
+    if (::read(media->fd, &buffer, 512) < 1) {
+      close(media->fd);
+      media->fd = -1;
+      media->type = type;
+      return(0);
+    } else {
+      ret = 0;
+    }
+  } else {
+    ret = fstat(media->fd, &stat_buf);
+  }
 #else
   // unix
   ret = fstat(media->fd, &stat_buf);
