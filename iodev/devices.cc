@@ -56,7 +56,10 @@ bx_devices_c::bx_devices_c(void)
 #endif
 #if BX_PCI_USB_SUPPORT
     pluginPciUSBAdapter = NULL;
-#endif                               
+#endif        
+#if BX_PCI_PNIC_SUPPORT
+    pluginPciPNicAdapter = NULL;
+#endif
 #endif
   pit = NULL;
   pluginKeyboard = &stubKeyboard;
@@ -165,6 +168,9 @@ bx_devices_c::init(BX_MEM_C *newmem)
 #endif
 #if BX_PCI_USB_SUPPORT
     PLUG_load_plugin(pciusb, PLUGTYPE_OPTIONAL);
+#endif
+#if BX_PCI_PNIC_SUPPORT
+    PLUG_load_plugin(pcipnic, PLUGTYPE_OPTIONAL);
 #endif
 #else
     BX_ERROR(("Bochs is not compiled with PCI support"));
@@ -290,6 +296,9 @@ bx_devices_c::reset(unsigned type)
 #endif
 #if BX_PCI_USB_SUPPORT
     pluginPciUSBAdapter->reset(type);
+#endif
+#if BX_PCI_PNIC_SUPPORT
+    pluginPciPNicAdapter->reset(type);
 #endif
   }
 #endif
