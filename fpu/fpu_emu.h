@@ -154,11 +154,11 @@ struct fpu__reg {
 } GCC_ATTRIBUTE((aligned(16), packed));
 
 #ifdef EMU_BIG_ENDIAN
-#define MAKE_REG(s,e,l,h) { h, l, \
-                           ((EXTENDED_Ebias+(e)) | ((SIGN_##s != 0)*0x8000)) }
+#define MAKE_REG(s,e,l,h) { 0,0,0, \
+                           ((EXTENDED_Ebias+(e)) | ((SIGN_##s != 0)*0x8000)) , h, l}
 #else
 #define MAKE_REG(s,e,l,h) { l, h, \
-                           ((EXTENDED_Ebias+(e)) | ((SIGN_##s != 0)*0x8000)) }
+                           ((EXTENDED_Ebias+(e)) | ((SIGN_##s != 0)*0x8000)), 0,0,0 }
 #endif
 
 typedef void (*FUNC)(void);
