@@ -251,7 +251,6 @@ printf("CPU_LOOP %d\n", bx_guard.special_unwind_stack);
     BxExecutePtr_tR resolveModRM = i->ResolveModrm; // Get function pointers early.
     if (ret==0) {
 #if BX_SUPPORT_ICACHE
-BX_INFO((" ... fetchdecode returned zero, leave entry invalid"));
       i = &iStorage;	// Leave entry invalid
 #endif
       boundaryFetch(i);
