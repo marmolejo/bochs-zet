@@ -171,10 +171,11 @@ BX_INFO(("len is %u", len));
     BX_PANIC(("allow_io(): TR:io_base <= 103"));
     }
 
-  if (io_base > BX_CPU_THIS_PTR tr.cache.u.tss386.limit_scaled) {
-    BX_INFO(("allow_io(): CPL > IOPL: no IO bitmap defined #GP(0)"));
+  if ( (Bit16s) (addr/8) > (BX_CPU_THIS_PTR tr.cache.u.tss386.limit_scaled - io_base)) {
+    BX_INFO(("allow_io(): IO adr %x outside TSS IO permission map (max port=%x) #GP(0)",
+      addr, 8*(BX_CPU_THIS_PTR tr.cache.u.tss386.limit_scaled - io_base) ));
     return(0);
-    }
+   }
 
   access_linear(BX_CPU_THIS_PTR tr.cache.u.tss386.base + io_base + addr/8,
                    2, 0, BX_READ, &permission16);
