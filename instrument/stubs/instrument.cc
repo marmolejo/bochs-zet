@@ -80,5 +80,5 @@ void bx_instr_mem_data(unsigned cpu, bx_address linear, unsigned size, unsigned 
 void bx_instr_lin_read(unsigned cpu, bx_address lin, bx_address phy, unsigned len) {}
 void bx_instr_lin_write(unsigned cpu, bx_address lin, bx_address phy, unsigned len) {}
 
-void bx_instr_phy_write(bx_address addr, unsigned len) {}
-void bx_instr_phy_read(bx_address addr, unsigned len) {}
+void bx_instr_phy_write(unsigned cpu, bx_address addr, unsigned len) {}
+void bx_instr_phy_read(unsigned cpu, bx_address addr, unsigned len) {}

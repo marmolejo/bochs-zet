@@ -468,7 +468,7 @@ void BX_CPU_C::init(BX_MEM_C *addrspace)
 
 BX_CPU_C::~BX_CPU_C(void)
 {
-  BX_INSTR_SHUTDOWN(CPU_ID);
+  BX_INSTR_SHUTDOWN(BX_CPU_ID);
   BX_DEBUG(( "Exit."));
 }
 
@@ -889,7 +889,7 @@ BX_CPU_C::reset(unsigned source)
 #endif
   BX_CPU_THIS_PTR kill_bochs_request = 0;
 
-  BX_INSTR_RESET(CPU_ID);
+  BX_INSTR_RESET(BX_CPU_ID);
 }
 
 

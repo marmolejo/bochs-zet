@@ -141,8 +141,8 @@ void bx_instr_mem_data(unsigned cpu, bx_address lin, unsigned size, unsigned rw)
 #  define BX_INSTR_MEM_DATA(cpu_id, linear, size, rw)  bx_instr_mem_data(cpu_id, linear, size, rw)
 
 /* called from memory object */
-#  define BX_INSTR_PHY_WRITE(addr, len)
-#  define BX_INSTR_PHY_READ(addr, len)
+#  define BX_INSTR_PHY_WRITE(cpu_id, addr, len)
+#  define BX_INSTR_PHY_READ(cpu_id, addr, len)
 
 /* feedback from device units */
 #  define BX_INSTR_INP(addr, len)
@@ -208,8 +208,8 @@ void bx_instr_mem_data(unsigned cpu, bx_address lin, unsigned size, unsigned rw)
 #  define BX_INSTR_MEM_DATA(cpu_id, linear, size, rw)
 
 /* called from memory object */
-#  define BX_INSTR_PHY_WRITE(addr, len)
-#  define BX_INSTR_PHY_READ(addr, len)
+#  define BX_INSTR_PHY_WRITE(cpu_id, addr, len)
+#  define BX_INSTR_PHY_READ(cpu_id, addr, len)
 
 /* feedback from device units */
 #  define BX_INSTR_INP(addr, len)

@@ -26,7 +26,6 @@
 
 
 #include "bochs.h"
-#include "cpu/cpu.h"
 
 bxInstrumentation icpu[BX_SMP_PROCESSORS];
 

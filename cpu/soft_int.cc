@@ -101,7 +101,7 @@ BX_CPU_C::INT1(bxInstruction_c *i)
 #endif
 
   interrupt(1, 1, 0, 0);
-  BX_INSTR_FAR_BRANCH(CPU_ID, BX_INSTR_IS_INT,
+  BX_INSTR_FAR_BRANCH(BX_CPU_ID, BX_INSTR_IS_INT,
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value,
                       EIP);
 }
@@ -117,7 +117,7 @@ BX_CPU_C::INT3(bxInstruction_c *i)
 
 //BX_PANIC(("INT3: bailing"));
   interrupt(3, 1, 0, 0);
-  BX_INSTR_FAR_BRANCH(CPU_ID, BX_INSTR_IS_INT,
+  BX_INSTR_FAR_BRANCH(BX_CPU_ID, BX_INSTR_IS_INT,
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value,
                       EIP);
 }
@@ -146,7 +146,7 @@ if ( (imm8 == 0x21) && (AH == 0x4c) ) {
 #endif
 
   interrupt(imm8, 1, 0, 0);
-  BX_INSTR_FAR_BRANCH(CPU_ID, BX_INSTR_IS_INT,
+  BX_INSTR_FAR_BRANCH(BX_CPU_ID, BX_INSTR_IS_INT,
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value,
                       EIP);
 }
@@ -165,7 +165,7 @@ BX_CPU_C::INTO(bxInstruction_c *i)
 
   if (get_OF()) {
     interrupt(4, 1, 0, 0);
-    BX_INSTR_FAR_BRANCH(CPU_ID, BX_INSTR_IS_INT,
+    BX_INSTR_FAR_BRANCH(BX_CPU_ID, BX_INSTR_IS_INT,
                         BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value,
                         EIP);
     }

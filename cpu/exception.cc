@@ -67,7 +67,7 @@ BX_CPU_C::interrupt(Bit8u vector, bx_bool is_INT, bx_bool is_error_code,
 
 //BX_DEBUG(( "::interrupt(%u)", vector ));
 
-  BX_INSTR_INTERRUPT(CPU_ID, vector);
+  BX_INSTR_INTERRUPT(BX_CPU_ID, vector);
   invalidate_prefetch_q();
 
   // Discard any traps and inhibits for new context; traps will
@@ -828,7 +828,7 @@ BX_CPU_C::exception(unsigned vector, Bit16u error_code, bx_bool is_INT)
   //trap_debugger(1);
 #endif
 
-  BX_INSTR_EXCEPTION(CPU_ID, vector);
+  BX_INSTR_EXCEPTION(BX_CPU_ID, vector);
 
   BX_DEBUG(("exception(%02x h)", (unsigned) vector));
 

@@ -26,7 +26,6 @@
 
 
 #include "bochs.h"
-#include "cpu/cpu.h"
 
 
 // maximum size of an instruction

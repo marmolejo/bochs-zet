@@ -188,8 +188,8 @@ extern bxInstrumentation icpu[BX_SMP_PROCESSORS];
 #  define BX_INSTR_MEM_DATA(cpu_id, linear, size, rw)   icpu[cpu_id].bx_instr_mem_data(linear, size, rw)
 
 /* called from memory object */
-#  define BX_INSTR_PHY_WRITE(addr, len)
-#  define BX_INSTR_PHY_READ(addr, len)
+#  define BX_INSTR_PHY_WRITE(cpu_id, addr, len)
+#  define BX_INSTR_PHY_READ(cpu_id, addr, len)
 
 /* feedback from device units */
 #  define BX_INSTR_INP(addr, len)
@@ -255,8 +255,8 @@ extern bxInstrumentation icpu[BX_SMP_PROCESSORS];
 #  define BX_INSTR_MEM_DATA(cpu_id, linear, size, rw)
 
 /* called from memory object */
-#  define BX_INSTR_PHY_WRITE(addr, len)
-#  define BX_INSTR_PHY_READ(addr, len)
+#  define BX_INSTR_PHY_WRITE(cpu_id, addr, len)
+#  define BX_INSTR_PHY_READ(cpu_id, addr, len)
 
 /* feedback from device units */
 #  define BX_INSTR_INP(addr, len)
