@@ -2063,6 +2063,8 @@ union {
   BX_SMF void MOVHPS_MqVps(bxInstruction_c *i);
   BX_SMF void MOVAPS_VpsWps(bxInstruction_c *i);
   BX_SMF void MOVAPS_WpsVps(bxInstruction_c *i);
+  BX_SMF void MOVAPD_VpdWpd(bxInstruction_c *i);
+  BX_SMF void MOVAPD_WpdVpd(bxInstruction_c *i);
   BX_SMF void CVTPI2PS_VpsQq(bxInstruction_c *i);
   BX_SMF void CVTSI2SS_VssEd(bxInstruction_c *i);
   BX_SMF void MOVNTPS_MdqVps(bxInstruction_c *i);
