@@ -187,7 +187,6 @@ typedef enum {
 
 
 
-static void bx_debug_ctrlc_handler(int signum);
 void bx_debug_break ();
 
 void bx_dbg_exit(int code);
@@ -197,6 +196,7 @@ void bx_dbg_exit(int code);
 #define bx_dbg_extensions(command) 0
 #endif
 
+void dbg_printf (const char *fmt, ...);
 
 //
 // code for guards...
