@@ -400,7 +400,6 @@ bx_pic_c::write(Bit32u address, Bit32u value, unsigned io_len)
         else if (special_mask == 0x03) { /* set specific mask */
           BX_PIC_THIS s.slave_pic.special_mask = 1;
           service_slave_pic();
-	  BX_ERROR(("Congratulations, you found a test case for bug [ #468340 ] pic:slave: OCW3 not implemented.  The bug has been fixed, but Bryce needs a way to test it.  Please report exactly how you got to this point.  It is perfectly safe to continue."));
           }
         return;
         }
