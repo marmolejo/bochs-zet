@@ -664,6 +664,22 @@ cdrom_interface::insert_cdrom(char *dev)
     return(true);
 }
 
+  int
+cdrom_interface::start_cdrom()
+{
+  // Spin up the cdrom drive.
+
+  if (fd >= 0) {
+#if defined(__NetBSD__)
+    if (ioctl (fd, CDIOCSTART) < 0)
+       BX_DEBUG(( "start_cdrom: start returns error: %s", strerror (errno) ));
+    return(true);
+#else
+    BX_INFO(("start_cdrom: your OS is not supported yet."));
+    return(false); // OS not supported yet, return false always.
+#endif
+    }
+}
 
   void
 cdrom_interface::eject_cdrom()

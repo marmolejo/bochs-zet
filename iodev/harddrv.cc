@@ -1399,8 +1399,8 @@ if (channel == 0) {
 					  BX_ERROR(("FIXME: Stop disc not implemented"));
 					  atapi_cmd_nop(channel);
 					  raise_interrupt(channel);
-				    } else if (!LoEj && Start) { // start the disc and read the TOC
-					  // BX_PANIC(("Start disc not implemented"));
+				    } else if (!LoEj && Start) { // start (spin up) the disc
+					  BX_SELECTED_DRIVE(channel).cdrom.cd->start_cdrom();
 					  BX_ERROR(("FIXME: ATAPI start disc not reading TOC"));
 					  atapi_cmd_nop(channel);
 					  raise_interrupt(channel);

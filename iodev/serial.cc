@@ -57,7 +57,7 @@
 #endif
 #endif
 
-#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__linux__) || defined(__GNU__)
+#if defined(__NetBSD__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__linux__) || defined(__GNU__)
 #define SERIAL_ENABLE
 #endif
 

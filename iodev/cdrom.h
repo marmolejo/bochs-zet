@@ -49,6 +49,9 @@ public:
   // Read a single block from the CD
   void read_block(uint8* buf, int lba) BX_CPP_AttrRegparmN(2);
 
+  // Start (spin up) the CD.
+  int start_cdrom();
+
 private:
   int fd;
   char *path;
