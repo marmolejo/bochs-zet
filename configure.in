@@ -711,6 +711,14 @@ AC_ARG_ENABLE(ne2000,
     NETLOW_OBJS='eth.o eth_null.o'
     AC_CHECK_HEADER(net/bpf.h, NETLOW_OBJS="$NETLOW_OBJS eth_fbsd.o")
     AC_CHECK_HEADER(netpacket/packet.h, NETLOW_OBJS="$NETLOW_OBJS eth_linux.o")
+    AC_CHECK_HEADER(net/if.h, [
+        NETLOW_OBJS="$NETLOW_OBJS eth_tap.o"
+        AC_DEFINE(HAVE_ETHERTAP, 1)
+      ], [],
+      [
+	#include <sys/types.h>
+	#include <sys/socket.h>
+      ])
     AC_CHECK_HEADER(linux/netlink.h, [
         NETLOW_OBJS="$NETLOW_OBJS eth_tap.o"
         AC_DEFINE(HAVE_ETHERTAP, 1)
