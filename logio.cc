@@ -87,7 +87,8 @@ iofunctions::init_log(const char *fn)
 			log->ldebug ("Opened log file '%s'.", fn );
 		} else {
 			// in constructor, genlog might not exist yet, so do it the safe way.
-		  	log->ldebug("Couldn't open log file: %s", fn);
+		  	log->error("Couldn't open log file: %s, using stderr instead", fn);
+		  	newfd = stderr;
 		}
 	}
 	logfd = newfd;
