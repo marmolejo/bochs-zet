@@ -61,7 +61,7 @@ bx_parallel_c::init(bx_devices_c *d)
   BX_DEBUG(("Init $Id$"));
   BX_PAR_THIS devices = d;
 
-  if (bx_options.par[0].Opresent->get ()) {
+  if (bx_options.par[0].Oenabled->get ()) {
 
     /* PARALLEL PORT 1 */
 
