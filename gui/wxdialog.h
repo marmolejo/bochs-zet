@@ -293,7 +293,6 @@ DECLARE_EVENT_TABLE()
 // | |  [ ]  Physical CD-ROM drive /dev/cdrom                  |   |
 // | |  [ ]  Disk image: [_________________________] [Browse]  |   |
 // | |                                                         |   |
-// | |                                        [ Create Image ] |   |
 // | +---------------------------------------------------------+   |
 // |                                                               |
 // |                                    [ Help ] [ Cancel ] [ Ok ] |
