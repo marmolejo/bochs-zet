@@ -26,10 +26,10 @@
 
 
 
-/* maximum number of emulated devices allowed.  floppy, mda, etc...
+/* maximum number of emulated devices allowed.  floppy, vga, etc...
    you can increase this to anything below 256 since an 8-bit handle
    is used for each device */
-#define BX_MAX_IO_DEVICES 21
+#define BX_MAX_IO_DEVICES 30
 
 /* the last device in the array is the "default" I/O device */
 #define BX_DEFAULT_IO_DEVICE   (BX_MAX_IO_DEVICES-1)

@@ -149,20 +149,20 @@ bx_dma_c::init(void)
 
   // 0000..000F
   for (i=0x0000; i<=0x000F; i++) {
-    DEV_register_ioread_handler(this, read_handler, i, "DMA controller", 7);
-    DEV_register_iowrite_handler(this, write_handler, i, "DMA controller", 7);
+    DEV_register_ioread_handler(this, read_handler, i, "DMA controller", 1);
+    DEV_register_iowrite_handler(this, write_handler, i, "DMA controller", 3);
     }
 
   // 00081..008F
   for (i=0x0081; i<=0x008F; i++) {
-    DEV_register_ioread_handler(this, read_handler, i, "DMA controller", 7);
-    DEV_register_iowrite_handler(this, write_handler, i, "DMA controller", 7);
+    DEV_register_ioread_handler(this, read_handler, i, "DMA controller", 1);
+    DEV_register_iowrite_handler(this, write_handler, i, "DMA controller", 3);
     }
 
   // 000C0..00DE
   for (i=0x00C0; i<=0x00DE; i+=2) {
-    DEV_register_ioread_handler(this, read_handler, i, "DMA controller", 7);
-    DEV_register_iowrite_handler(this, write_handler, i, "DMA controller", 7);
+    DEV_register_ioread_handler(this, read_handler, i, "DMA controller", 1);
+    DEV_register_iowrite_handler(this, write_handler, i, "DMA controller", 3);
     }
 
 
@@ -232,12 +232,6 @@ bx_dma_c::read( Bit32u   address, unsigned io_len)
   Bit8u retval;
   Bit8u channel;
   bx_bool ma_sl;
-
-  if (io_len > 1) {
-    BX_ERROR(("io read from address %08x, len=%u",
-             (unsigned) address, (unsigned) io_len));
-	return 0xff;
-    }
 
   BX_DEBUG(("read addr=%04x", (unsigned) address));
 

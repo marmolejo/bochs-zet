@@ -478,7 +478,8 @@ bx_devices_c::register_io_read_handler( void *this_ptr, bx_read_handler_t f,
 
   /* first find existing handle for function or create new one */
   for (handle=0; handle < num_read_handles; handle++) {
-    if (io_read_handler[handle].funct == f) break;
+    if ((io_read_handler[handle].funct == f) &&
+        (io_read_handler[handle].mask == mask)) break;
     }
 
   if (handle >= num_read_handles) {
@@ -519,7 +520,8 @@ bx_devices_c::register_io_write_handler( void *this_ptr, bx_write_handler_t f,
 
   /* first find existing handle for function or create new one */
   for (handle=0; handle < num_write_handles; handle++) {
-    if (io_write_handler[handle].funct == f) break;
+    if ((io_write_handler[handle].funct == f) &&
+        (io_write_handler[handle].mask == mask)) break;
     }
 
   if (handle >= num_write_handles) {
