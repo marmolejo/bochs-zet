@@ -41,7 +41,7 @@ bx_vga_c bx_vga;
 #define this (&bx_vga)
 #endif
 
-unsigned old_iHeight = 0, old_iWidth = 0;
+unsigned old_iHeight = 0, old_iWidth = 0, old_MSL = 0;
 
 bx_vga_c::bx_vga_c(void)
 {
@@ -1579,11 +1579,12 @@ bx_vga_c::update(void)
           BX_PANIC(("text rows>%d: %d",BX_MAX_TEXT_LINES,rows));
 	iWidth = 8 * (BX_VGA_THIS s.CRTC.reg[1] + 1);
 	iHeight = VDE+1;
-	if( (iWidth != old_iWidth) || (iHeight != old_iHeight) )
+	if( (iWidth != old_iWidth) || (iHeight != old_iHeight) || (MSL != old_MSL) )
 	{
 	  bx_gui.dimension_update(iWidth, iHeight, MSL+1);
 	  old_iWidth = iWidth;
 	  old_iHeight = iHeight;
+	  old_MSL = MSL;
 	}
         // pass old text snapshot & new VGA memory contents
         start_address = 2*((BX_VGA_THIS s.CRTC.reg[12] << 8) + BX_VGA_THIS s.CRTC.reg[13]);
