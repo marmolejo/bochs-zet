@@ -271,7 +271,7 @@ install_win32: download_dlx
 	cat $(srcdir)/build/win32/DOC-win32.htm | $(SED) -e 's/@VERSION@/$(VERSION)/g' > $(prefix)/DOC-win32.htm
 	cp $(srcdir)/.bochsrc $(prefix)/bochsrc-sample.txt
 	cp -r $(srcdir)/docs-html $(prefix)
-	mkdir $(prefix)/keymaps
+	-mkdir $(prefix)/keymaps
 	cp $(srcdir)/gui/keymaps/*.map $(prefix)/keymaps
 	cat $(DLXLINUX_TAR) | (cd $(prefix) && tar xzvf -)
 	echo '..\bochs' > $(prefix)/dlxlinux/start.bat
