@@ -2135,16 +2135,30 @@ if test "$with_term" = yes; then
   LIBS="$old_LIBS"
 fi
 
-if test "$with_rfb" = yes -a "$cross_configure" = 0; then
-  # we need the socket function. if cross configuring, don't bother.
-  AC_CHECK_FUNCS(socket, have_socket=yes)
+if test "$with_rfb" = yes; then
+  # we need the socket function
+  case $target in
+    *-pc-windows* | *-pc-winnt* | *-pc-cygwin* | *-pc-mingw32*)
+      AC_CHECK_LIB(wsock32, socket,
+        [
+          RFB_LIBS="$RFB_LIBS -lwsock32"
+          have_socket=yes
+        ])
+      ;;
+    *)
+      AC_CHECK_FUNCS(socket, have_socket=yes)
+      if test "$have_socket" != yes; then
+        AC_CHECK_LIB(socket, socket,
+          [
+            RFB_LIBS="$RFB_LIBS -lsocket"
+            have_socket=yes
+          ])
+      fi
+      ;;
+  esac
   if test "$have_socket" != yes; then
-    AC_CHECK_LIB(socket, socket, 
-      [ RFB_LIBS="$RFB_LIBS -lsocket" ], 
-      [
-        echo 'ERROR: socket function required for RFB compile'
-        exit 1
-      ])
+    echo 'ERROR: socket function required for RFB compile'
+    exit 1
   fi
 fi
 
