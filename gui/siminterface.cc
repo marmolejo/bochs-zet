@@ -537,7 +537,7 @@ bx_real_sim_c::ask_filename (char *filename, int maxlen, char *prompt, char *the
   // implement using ASK_PARAM on a newly created param.  I can't use
   // ask_param because I don't intend to register this param.
   BxEvent event;
-  bx_param_string_c param (BXP_NULL, "filename", prompt, the_default, maxlen);
+  bx_param_string_c param (BXP_NULL, prompt, "filename", the_default, maxlen);
   flags |= param.IS_FILENAME;
   param.get_options()->set (flags);
   event.type = BX_SYNC_EVT_ASK_PARAM;

@@ -652,6 +652,7 @@ void MyFrame::OnEditSound(wxCommandEvent& WXUNUSED(event))
 void MyFrame::OnEditCmos(wxCommandEvent& WXUNUSED(event))
 {
   ParamDialog dlg (this, -1);
+  dlg.SetTitle ("Configure CMOS");
   dlg.AddParam (SIM->get_param (BXP_CMOS_IMAGE));
   dlg.AddParam (SIM->get_param (BXP_CMOS_PATH));
   dlg.ShowModal ();
@@ -1139,8 +1140,7 @@ MyFrame::HandleAskParamString (bx_param_string_c *param)
   bx_param_num_c *opt = param->get_options ();
   wxASSERT (opt != NULL);
   int n_opt = opt->get ();
-  char *msg = param->get_ask_format ();
-  if (!msg) msg = param->get_description ();
+  char *msg = param->get_name ();
   char *newval = NULL;
   wxDialog *dialog = NULL;
   if (n_opt & param->IS_FILENAME) {
