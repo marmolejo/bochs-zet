@@ -214,11 +214,6 @@ cpu/libcpu.a::
 	$(MAKE) $(MDEFINES) libcpu.a
 	@CD_UP_ONE@
 
-cpu64/libcpu.a::
-	cd cpu64 @COMMAND_SEPARATOR@
-	$(MAKE) $(MDEFINES) libcpu.a
-	@CD_UP_ONE@
-
 memory/libmemory.a::
 	cd memory @COMMAND_SEPARATOR@
 	$(MAKE) $(MDEFINES) libmemory.a
@@ -404,9 +399,6 @@ all-clean: clean
 	cd cpu @COMMAND_SEPARATOR@
 	$(MAKE) clean
 	@CD_UP_ONE@
-	cd cpu64 @COMMAND_SEPARATOR@
-	$(MAKE) clean
-	@CD_UP_ONE@
 	cd memory @COMMAND_SEPARATOR@
 	$(MAKE) clean
 	@CD_UP_ONE@
@@ -440,9 +432,6 @@ dist-clean: local-dist-clean
 	$(MAKE) dist-clean
 	@CD_UP_ONE@
 	cd cpu @COMMAND_SEPARATOR@
-	$(MAKE) dist-clean
-	@CD_UP_ONE@
-	cd cpu64 @COMMAND_SEPARATOR@
 	$(MAKE) dist-clean
 	@CD_UP_ONE@
 	cd memory @COMMAND_SEPARATOR@
