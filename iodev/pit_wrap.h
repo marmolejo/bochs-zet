@@ -71,6 +71,8 @@ private:
     int  timer_handle[3];
     Bit64u last_usec;
     Bit32u last_next_event_time;
+    Bit64u total_usec;
+    Bit64u total_ticks;
     } s;
 
   bx_devices_c *devices;
