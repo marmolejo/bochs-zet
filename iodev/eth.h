@@ -29,6 +29,9 @@
 
 //  eth.h  - see eth_null.cc for implementation details
 
+#ifndef BX_ETH_H
+#define BX_ETH_H
+
 typedef void (*eth_rx_handler_t)(void *arg, const void *buf, unsigned len);
 
 static const Bit8u broadcast_macaddr[6] = {0xff,0xff,0xff,0xff,0xff,0xff};
@@ -76,3 +79,4 @@ private:
   const char *type;
 };
 
+#endif

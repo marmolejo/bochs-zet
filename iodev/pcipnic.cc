@@ -27,6 +27,8 @@
 #include "iodev.h"
 #if BX_SUPPORT_PCI && BX_SUPPORT_PCIPNIC
 
+#include "eth.h"
+
 #define LOG_THIS thePNICDevice->
 
 bx_pcipnic_c* thePNICDevice = NULL;
