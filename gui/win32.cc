@@ -578,7 +578,7 @@ void bx_win32_gui_c::specific_init(int argc, char **argv, unsigned
                                    tilewidth, unsigned tileheight,
                                    unsigned headerbar_y)
 {
-  unsigned i;
+  int i;
 
   put("WGUI");
   static RGBQUAD black_quad={ 0, 0, 0, 0};
