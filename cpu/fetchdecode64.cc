@@ -647,7 +647,7 @@ static BxOpcodeInfo_t BxOpcodeGroupSSE_0f7e[4] = {
   /* -- */  { 0, &BX_CPU_C::MOVD_EdPd },
   /* 66 */  { 0, &BX_CPU_C::MOVD_EdVd },
   /* F2 */  { 0, &BX_CPU_C::BxError },
-  /* F3 */  { 0, &BX_CPU_C::MOVD_VqWq },
+  /* F3 */  { 0, &BX_CPU_C::MOVQ_VqWq },
   };
 
 static BxOpcodeInfo_t BxOpcodeGroupSSE_0f7f[4] = {

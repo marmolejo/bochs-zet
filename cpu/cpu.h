@@ -2186,7 +2186,7 @@ union {
   BX_SMF void PCMPEQW_VdqWdq(bxInstruction_c *i);
   BX_SMF void PCMPEQD_VdqWdq(bxInstruction_c *i);
   BX_SMF void MOVD_EdVd(bxInstruction_c *i);
-  BX_SMF void MOVD_VqWq(bxInstruction_c *i);
+  BX_SMF void MOVQ_VqWq(bxInstruction_c *i);
   BX_SMF void MOVDQA_WdqVdq(bxInstruction_c *i);
   BX_SMF void MOVDQU_WdqVdq(bxInstruction_c *i);
   BX_SMF void CMPPD_VpdWpdIb(bxInstruction_c *i);
