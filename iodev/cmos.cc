@@ -85,10 +85,10 @@ bx_cmos_c::init(bx_devices_c *d)
 
 	BX_CMOS_THIS s.periodic_timer_index =
     bx_pc_system.register_timer(this, periodic_timer_handler,
-      1000000, 1,0); // continuous, not-active
+      1000000, 1,0, "cmos"); // continuous, not-active
 	BX_CMOS_THIS s.one_second_timer_index =
     bx_pc_system.register_timer(this, one_second_timer_handler,
-      1000000, 1,0); // continuous, not-active
+      1000000, 1,0, "cmos"); // continuous, not-active
 
 	for (i=0; i<BX_NUM_CMOS_REGS; i++) {
     BX_CMOS_THIS s.reg[i] = 0;

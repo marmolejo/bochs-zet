@@ -301,7 +301,7 @@ bx_win32_pktmover_c::bx_win32_pktmover_c(const char *netif,
      if((pkRecv = PacketAllocatePacket()) == NULL) {
            BX_PANIC(("Could not allocate a recv packet"));
      }
-     rx_timer_index = bx_pc_system.register_timer(this, this->rx_timer_handler, 10000, 1, 1);
+     rx_timer_index = bx_pc_system.register_timer(this, this->rx_timer_handler, 10000, 1, 1, "eth_win32");
 }
 
 void

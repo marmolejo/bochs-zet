@@ -218,7 +218,7 @@ bx_linux_pktmover_c::bx_linux_pktmover_c(const char *netif,
   // Start the rx poll 
   this->rx_timer_index = 
     bx_pc_system.register_timer(this, this->rx_timer_handler, BX_PACKET_POLL,
-				1, 1); // continuous, active
+				1, 1, "eth_linux"); // continuous, active
 
   this->rxh   = rxh;
   this->rxarg = rxarg;

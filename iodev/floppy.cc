@@ -225,7 +225,7 @@ bx_floppy_ctrl_c::init(bx_devices_c *d, bx_cmos_c *cmos)
 
   BX_FD_THIS s.floppy_timer_index =
     bx_pc_system.register_timer( this, timer_handler,
-      bx_options.Ofloppy_command_delay->get (), 0,0);
+      bx_options.Ofloppy_command_delay->get (), 0,0, "floppy");
 
   BX_DEBUG(("bx_options.Ofloppy_command_delay = %u",
     (unsigned) bx_options.Ofloppy_command_delay->get ()));
