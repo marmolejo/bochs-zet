@@ -6,9 +6,6 @@
  * Emulator of an Intel 8254/82C54 Programmable Interval Timer.
  * Greg Alexander <yakovlev@usa.com>
  *
- * This code is not yet linked into Bochs, but has been included so
- * that you can experiment with it.  (bbd)
- *
  * 
  * Things I am unclear on (greg):
  * 1.)What happens if both the status and count registers are latched,
