@@ -109,7 +109,7 @@ fi
 
 # try to run xset
 echo Running xset fp rehash...
-xset >& /dev/null
+xset > /dev/null 2>&1
 XSET_STATUS=$?
 if test $? != 0; then
   echo WARNING: I could not find xset in your path.  This step may not be
