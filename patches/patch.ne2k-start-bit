@@ -17,6 +17,7 @@ working.
 Bryce messed up version 1.1 of this patch.  Version 1.2 should be
 what ecelca@yahoo.com intended.
 
+On November 6, 2001 Todd Fries committed this patch in CVS.
 
 Patch was created with:
   cvs diff -c
