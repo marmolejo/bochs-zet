@@ -343,7 +343,7 @@ bx_dma_c::read( Bit32u   address, unsigned io_len)
   // static IO port write callback handler
   // redirects to non-static class handler to avoid virtual functions
 
-  void BX_CPP_AttrRegparmN(3)
+  void
 bx_dma_c::write_handler(void *this_ptr, Bit32u address, Bit32u value, unsigned io_len)
 {
 #if !BX_USE_DMA_SMF
