@@ -442,6 +442,7 @@ BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op)
           return(NULL);
         case 0x1:   // Write to ShadowRAM
           retAddr = (Bit8u *) & vector[a20Addr];
+          break;
         default:
           BX_PANIC(("getHostMemAddr(): default case"));
           return(0);
