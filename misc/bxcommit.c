@@ -345,8 +345,6 @@ int main()
   char redologname[256];
   int  remove;
 
-  int (*commit_function)(FILE*, Bit64u)=NULL;
- 
   print_banner ();
   filename[0] = 0;
   redologname[0] = 0;
