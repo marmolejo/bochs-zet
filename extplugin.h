@@ -17,7 +17,7 @@
 #ifndef __EXTPLUGIN_H
 #define __EXTPLUGIN_H
 
-#include <ltdl.h>
+#include "ltdl.h"
 
 enum plugintype_t {
   PLUGTYPE_NULL=100,
