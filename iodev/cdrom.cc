@@ -474,8 +474,11 @@ cdrom_interface::init(void) {
 
 cdrom_interface::~cdrom_interface(void)
 {
+#ifdef WIN32
+#else
 	if (fd >= 0)
 		close(fd);
+#endif
 	if (path)
 		free(path);
 	BX_DEBUG(("Exit"));
@@ -684,7 +687,7 @@ if (using_file == 0)
 		DeviceIoControl(hFile, IOCTL_STORAGE_EJECT_MEDIA, NULL, 0, NULL, 0, &lpBytesReturned, NULL);
 	}
 }
-#endif
+#else // WIN32
 
 #if __linux__
   if (!using_file)
@@ -692,6 +695,7 @@ if (using_file == 0)
 #endif
 
     close(fd);
+#endif // WIN32
     fd = -1;
     }
 }
