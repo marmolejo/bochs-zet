@@ -97,6 +97,8 @@ enum
   ID_Close,
   ID_Execute,
   ID_DebugCommand,
+  // advanced log options
+  ID_ApplyDefault,
   // that's all
   ID_LAST_USER_DEFINED
 };
@@ -182,6 +184,7 @@ public:
   void OnEditLoadHack(wxCommandEvent& event);
   void OnEditOther(wxCommandEvent& event);
   void OnLogPrefs(wxCommandEvent& event);
+  void OnLogPrefsDevice(wxCommandEvent& event);
   void OnOtherEvent(wxCommandEvent& event);
   void OnShowCpu(wxCommandEvent& event);
   void OnShowKeyboard(wxCommandEvent& event);
