@@ -204,7 +204,7 @@ MyApp::DefaultCallback2 (BxEvent *event)
     default:
       wxLogDebug ("unknown event type %d", event->type);
   }
-  if (BX_EVT_IS_ASYNC(event-type)) {
+  if (BX_EVT_IS_ASYNC(event->type)) {
     delete event;
     event = NULL;
   }
