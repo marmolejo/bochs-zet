@@ -747,21 +747,18 @@ bx_cmos_c::update_timeval()
      ((BX_CMOS_THIS s.reg[REG_SEC] >> 4) * 10) +
      (BX_CMOS_THIS s.reg[REG_SEC] & 0x0f);
   time_calendar.tm_sec = val_bin;
-  BX_INFO(("sec bin = %d", val_bin));
 
   // update minutes
   val_bin =
      ((BX_CMOS_THIS s.reg[REG_MIN] >> 4) * 10) +
      (BX_CMOS_THIS s.reg[REG_MIN] & 0x0f);
   time_calendar.tm_min = val_bin;
-  BX_INFO(("min bin = %d", val_bin));
 
   // update hours
   val_bin =
      ((BX_CMOS_THIS s.reg[REG_HOUR] >> 4) * 10) +
      (BX_CMOS_THIS s.reg[REG_HOUR] & 0x0f);
   time_calendar.tm_hour = val_bin;
-  BX_INFO(("hour bin = %d", val_bin));
 
   // update day of the month
   val_bin =
