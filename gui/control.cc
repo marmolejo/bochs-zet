@@ -364,7 +364,7 @@ void build_runtime_options_prompt (char *format, char *buf, int size)
      cdromop.Opath->getptr (), cdromop.Opresent->get ()?"":"not ",
      cdromop.Oinserted->get ()?"inserted":"ejected");
   snprintf (buf, size, format, buffer[0], buffer[1], buffer[2], 
-      ips->get (),
+      /* ips->get (), */
       SIM->get_param_num (BXP_VGA_UPDATE_INTERVAL)->get (), 
       SIM->get_param_num (BXP_MOUSE_ENABLED)->get () ? "enabled" : "disabled");
 }
