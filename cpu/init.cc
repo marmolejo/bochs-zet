@@ -554,7 +554,11 @@ BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR cr4 = 0;
 #endif
 
-
+/* initialise MSR registers to defaults */
+#if BX_CPU_LEVEL >= 5
+  /* APIC Address, APIC enabled and BSP is default, we'll fill in the rest later */
+  BX_CPU_THIS_PTR msr.apicbase = (APIC_BASE_ADDR << 12) + 0x900;
+#endif
 
   BX_CPU_THIS_PTR EXT = 0;
   //BX_INTR = 0;
@@ -593,9 +597,13 @@ BX_CPU_C::reset(unsigned source)
   if (BX_BOOTSTRAP_PROCESSOR == apic_id)
   {
     // boot normally
+    BX_CPU_THIS_PTR bsp = 1;
+    BX_CPU_THIS_PTR msr.apicbase |= 0x0100;	/* set bit 8 BSP */
     BX_INFO(("CPU[%d] is the bootstrap processor", apic_id));
   } else {
     // it's an application processor, halt until IPI is heard.
+    BX_CPU_THIS_PTR bsp = 0;
+    BX_CPU_THIS_PTR msr.apicbase &= ~0x0100;	/* clear bit 8 BSP */
     BX_INFO(("CPU[%d] is an application processor. Halting until IPI.", apic_id));
     debug_trap |= 0x80000000;
     async_event = 1;

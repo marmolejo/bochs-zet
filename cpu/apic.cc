@@ -34,6 +34,14 @@ void bx_generic_apic_c::init ()
 {
 }
 
+void bx_local_apic_c::update_msr_apicbase(Bit32u newbase)
+{
+  Bit64u val64;
+  val64 = newbase << 12;	/* push the APIC base address to bits 12:35 */
+  val64 += cpu->msr.apicbase & 0x0900;	/* don't modify other apicbase or reserved bits */
+  cpu->msr.apicbase = val64;
+}
+
 void bx_generic_apic_c::set_base (Bit32u newbase)
 {
   BX_INFO(("relocate APIC id=%d to %8x", id, newbase));
@@ -291,7 +299,8 @@ bx_local_apic_c::init ()
   BX_INFO(("local apic in %s initializing", 
       (cpu && cpu->name) ? cpu->name : "?"));
   // default address for a local APIC, can be moved
-  base_addr = 0xfee00000;
+  base_addr = APIC_BASE_ADDR;
+  update_msr_apicbase(base_addr);
   err_status = 0;
   log_dest = 0;
   dest_format = 0xf;
