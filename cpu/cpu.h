@@ -168,10 +168,13 @@ typedef Bit32u bx_address;
 #define RIP BX_CPU_THIS_PTR rip
 
 // access to 64 bit MSR registers
+#define MSR_FSBASE  (BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS].cache.u.segment.base)
+#define MSR_GSBASE  (BX_CPU_THIS_PTR sregs[BX_SEG_REG_GS].cache.u.segment.base)
 #define MSR_STAR    (BX_CPU_THIS_PTR msr.star)
 #define MSR_LSTAR   (BX_CPU_THIS_PTR msr.lstar)
 #define MSR_CSTAR   (BX_CPU_THIS_PTR msr.cstar)
 #define MSR_FMASK   (BX_CPU_THIS_PTR msr.fmask)
+#define MSR_KERNELGSBASE   (BX_CPU_THIS_PTR msr.kernelgsbase)
 
 #endif
 
@@ -2230,6 +2233,8 @@ union {
 
   BX_SMF void SYSCALL(bxInstruction_c *i);
   BX_SMF void SYSRET(bxInstruction_c *i);
+
+  BX_SMF void SWAPGS(bxInstruction_c *i);
 
 #endif  // #if BX_SUPPORT_X86_64
 

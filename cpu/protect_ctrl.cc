@@ -729,6 +729,17 @@ BX_CPU_C::SGDT_Ms(bxInstruction_c *i)
 
   /* op1 is a register or memory reference */
   if (i->modC0()) {
+
+#if BX_SUPPORT_X86_64
+    if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64) {
+#warning PRT: check this is right. instruction is "0F 01 F8"  see AMD manual.
+      if ((i->rm() == 0) && (i->nnn() == 7)) {
+        BX_CPU_THIS_PTR SWAPGS(i);
+        return;
+        }
+      }
+#endif
+
     /* undefined opcode exception */
     BX_PANIC(("SGDT_Ms: use of register is undefined opcode."));
     UndefinedOpcode(i);
