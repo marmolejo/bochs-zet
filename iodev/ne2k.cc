@@ -97,6 +97,7 @@ bx_ne2k_c::reset(unsigned type)
     BX_NE2K_THIS s.CR.rdma_cmd  = 4;
   BX_NE2K_THIS s.ISR.reset    = 1;
   BX_NE2K_THIS s.DCR.longaddr = 1;
+  BX_NE2K_THIS devices->pic->lower_irq(BX_NE2K_THIS s.base_irq);
 }
 
 //
