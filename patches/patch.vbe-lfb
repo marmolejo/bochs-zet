@@ -8,6 +8,8 @@ Detailed description:
 This patch will (together with an update vgabios) add support for 
 VBE Linear Frame Buffer modes.
 
+TODO: add VBE enabled bios
+
 Patch was created with:
   cvs diff -u
 Apply patch to what version:
