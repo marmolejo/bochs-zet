@@ -626,7 +626,7 @@ typedef struct {
 #define BX_KBD_MF_TYPE        2 
 
 #define BX_N_OPTROM_IMAGES 4
-#define BX_N_SERIAL_PORTS 1
+#define BX_N_SERIAL_PORTS 4
 #define BX_N_PARALLEL_PORTS 1
 #define BX_N_USB_HUBS 1
 

@@ -3347,7 +3347,6 @@ parse_line_formatted(char *context, int num_params, char *params[])
         }
       }
     }
-#if 0
   else if (!strcmp(params[0], "com2")) {
     for (i=1; i<num_params; i++) {
       if (!strncmp(params[i], "enabled=", 8)) {
@@ -3390,7 +3389,6 @@ parse_line_formatted(char *context, int num_params, char *params[])
         }
       }
     }
-#endif
   else if (!strcmp(params[0], "usb1")) {
     for (i=1; i<num_params; i++) {
       if (!strncmp(params[i], "enabled=", 8)) {
