@@ -284,7 +284,7 @@ bx_gui_c::copy_handler(void)
     return;
   }
   // copy to clipboard using gui dependent code.
-#if ( defined(WIN32) || defined(BX_WITH_X11) )
+#if ( defined(WIN32) || BX_WITH_X11)
   set_clipboard_text(text_snapshot, len);
 #else
   FILE *fp = fopen("copy.txt", "w");
