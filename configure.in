@@ -723,6 +723,10 @@ AC_ARG_ENABLE(ne2000,
       *-pc-windows* | *-pc-winnt* | *-pc-cygwin* | *-pc-mingw32*)
       NETLOW_OBJS="$NETLOW_OBJS eth_win32.o"
       ;;
+      *-macosx* | *-darwin*)
+      NETLOW_OBJS="$NETLOW_OBJS eth_tuntap.o"
+      AC_DEFINE(HAVE_TUNTAP, 1)
+      ;;
       *)
       AC_CHECK_HEADER(net/if.h, [
           use_ethertap=yes

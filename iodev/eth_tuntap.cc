@@ -111,7 +111,9 @@
 #include <linux/if_tun.h>
 #else
 #include <net/if.h>
+#ifndef __APPLE__
 #include <net/if_tap.h>
+#endif
 #endif
 #include <assert.h>
 #include <fcntl.h>
