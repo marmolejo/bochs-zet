@@ -41,7 +41,7 @@ private:
 
   static Bit32u pci_read_handler(void *this_ptr, Bit8u address, unsigned io_len);
   static void   pci_write_handler(void *this_ptr, Bit8u address, Bit32u value, unsigned io_len);
-#if !BX_USE_P2I_SMF
+#if !BX_USE_PCIVGA_SMF
   Bit32u pci_read(Bit8u address, unsigned io_len);
   void   pci_write(Bit8u address, Bit32u value, unsigned io_len);
 #endif
