@@ -937,7 +937,7 @@ available at <ulink url="http://www.cygwin.com">www.cygwin.com</ulink>.
   COPYING         configure*    install-x11-fonts*  patches/
   CVS/            configure.in  instrument/         pc_system.cc
   Makefile.in     cpu/          iodev/              pc_system.h
-  README          debug/        load32bitOShack.cc  state_file.cc
+  README          bx_debug/     load32bitOShack.cc  state_file.cc
   TESTFORM.txt    disasm/       logio.cc            state_file.h
   bios/           doc/          macintosh.txt       win32.txt
   bochs.h         docs-html/    main.cc

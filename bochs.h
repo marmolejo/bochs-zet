@@ -84,7 +84,7 @@ extern "C" {
 }
 
 #include "osdep.h"       /* platform dependent includes and defines */ 
-#include "debug/debug.h"
+#include "bx_debug/debug.h"
 #include "bxversion.h"
 
 #include "gui/siminterface.h"

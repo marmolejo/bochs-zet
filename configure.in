@@ -2471,7 +2471,7 @@ AC_SUBST(INSTALL_PLUGINS_VAR)
 AC_PATH_PROG(GZIP, gzip)
 AC_PATH_PROG(TAR, tar)
 
-AC_OUTPUT(Makefile iodev/Makefile debug/Makefile bios/Makefile \
+AC_OUTPUT(Makefile iodev/Makefile bx_debug/Makefile bios/Makefile \
 	 cpu/Makefile memory/Makefile gui/Makefile \
 	 disasm/Makefile ${INSTRUMENT_DIR}/Makefile misc/Makefile \
 	 fpu/Makefile doc/docbook/Makefile \
