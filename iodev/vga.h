@@ -322,13 +322,15 @@ protected:
 #endif
 
   int timer_id;
+  bx_bool extension_init;
+  bx_bool extension_checked;
 
   public:
-  static void   timer_handler(void *);
-  BX_VGA_SMF void   timer(void);
+  static void     timer_handler(void *);
+  BX_VGA_SMF void timer(void);
 
   protected:
-  BX_VGA_SMF void   update(void);
+  BX_VGA_SMF void update(void);
   BX_VGA_SMF void determine_screen_dimensions(unsigned *piHeight,
                                               unsigned *piWidth);
   };

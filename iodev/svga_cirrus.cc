@@ -268,6 +268,7 @@ bx_svga_cirrus_c::init(void)
         svga_read_handler, svga_write_handler);
     BX_CIRRUS_THIS bx_vga_c::init_systemtimer(
         svga_timer_handler);
+    BX_CIRRUS_THIS extension_init = 1;
   } else {
     BX_CIRRUS_THIS bx_vga_c::init_iohandlers(
         bx_vga_c::read_handler, bx_vga_c::write_handler);
