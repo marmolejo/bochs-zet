@@ -1184,7 +1184,6 @@ bx_ne2k_c::rx_frame(const void *buf, unsigned io_len)
   unsigned char pkthdr[4];
   unsigned char *pktbuf = (unsigned char *) buf;
   unsigned char *startptr;
-  static unsigned char bcast_addr[6] = {0xff,0xff,0xff,0xff,0xff,0xff};
 
   BX_DEBUG(("rx_frame with length %d", io_len));
 
@@ -1227,7 +1226,7 @@ bx_ne2k_c::rx_frame(const void *buf, unsigned io_len)
 
   // Do address filtering if not in promiscuous mode
   if (! BX_NE2K_THIS s.RCR.promisc) {
-    if (!memcmp(buf, bcast_addr, 6)) {
+    if (!memcmp(buf, broadcast_macaddr, 6)) {
       if (!BX_NE2K_THIS s.RCR.broadcast) {
 	return;
       }

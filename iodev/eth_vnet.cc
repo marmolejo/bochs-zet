@@ -30,7 +30,6 @@
 // handler to send/receive packets
 /////////////////////////////////////////////////////////////////////////
 
-static const Bit8u broadcast_macaddr[6] = {0xff,0xff,0xff,0xff,0xff,0xff};
 static const Bit8u default_host_ipv4addr[4] = {192,168,10,1};
 static const Bit8u subnetmask_ipv4addr[4] = {0xff,0xff,0xff,0x00};
 static const Bit8u default_guest_ipv4addr[4] = {192,168,10,2};
