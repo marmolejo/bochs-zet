@@ -974,11 +974,6 @@ BX_CPU_C::sanity_checks(void)
   if (sizeof(Bit64u) != 8  ||  sizeof(Bit64s) != 8)
     BX_PANIC(("data type Bit64u or Bit64u is not of length 8 bytes!"));
 
-#if BX_SUPPORT_FPU
-  if (sizeof(floatx80) != 10)
-    BX_PANIC(("extended precision floating point is not of length 10 bytes!"));
-#endif
-
   BX_DEBUG(( "#(%u)all sanity checks passed!", BX_SIM_ID ));
 }
 

@@ -1179,8 +1179,7 @@ typedef struct {
 
 class BX_MEM_C;
 
-#if BX_SUPPORT_FPU || BX_SUPPORT_MMX
-#include "fpu/softfloat.h"
+#if BX_SUPPORT_FPU
 #include "cpu/i387.h"
 #endif
 
@@ -1300,7 +1299,7 @@ union {
 #endif
 
 #if BX_SUPPORT_FPU || BX_SUPPORT_MMX
-  i387_structure_t the_i387;
+  i387_t the_i387;
 #endif
 
 #if BX_SUPPORT_SSE
