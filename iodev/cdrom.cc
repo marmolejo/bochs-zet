@@ -49,7 +49,7 @@ extern "C" {
 }
 #endif
 
-#ifdef __GNU__
+#if defined(__GNU__) || (defined(__CYGWIN32__) && !defined(WIN32))
 extern "C" {
 #include <sys/ioctl.h>
 #define BX_CD_FRAMESIZE 2048
