@@ -506,6 +506,9 @@ all-clean: clean
 	cd doc/docbook @COMMAND_SEPARATOR@
 	$(MAKE) clean
 	@CD_UP_TWO@
+	cd host/linux/pcidev @COMMAND_SEPARATOR@
+	$(MAKE) clean
+	@CD_UP_THREE@
 
 dist-clean: local-dist-clean
 	cd iodev @COMMAND_SEPARATOR@
@@ -541,6 +544,9 @@ dist-clean: local-dist-clean
 	cd doc/docbook @COMMAND_SEPARATOR@
 	$(MAKE) dist-clean
 	@CD_UP_TWO@
+	cd host/linux/pcidev @COMMAND_SEPARATOR@
+	$(MAKE) dist-clean
+	@CD_UP_THREE@
 	@RMCOMMAND@ Makefile
 
 ###########################################

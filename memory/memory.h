@@ -10,6 +10,8 @@
 //    http://www.linux-mandrake.com/
 //    http://www.mandrakesoft.com/
 //
+//  I/O memory handlers API Copyright (C) 2003 by Frank Cornelis
+//
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
 //  License as published by the Free Software Foundation; either
@@ -40,8 +42,23 @@
 // alignment of memory vector, must be a power of 2
 #define BX_MEM_VECTOR_ALIGN 4096
 
+typedef bool (*memory_handler_t)(unsigned long addr, unsigned long len, void *data, void *param);
+
+struct memory_handler_struct {
+	struct memory_handler_struct *next;
+	unsigned long begin;
+	unsigned long end;
+	memory_handler_t read_handler;
+	memory_handler_t write_handler;
+	void *read_param;
+	void *write_param;
+};
+
 class BOCHSAPI BX_MEM_C : public logfunctions {
 
+private:
+  struct memory_handler_struct **memory_handlers;
+  
 public:
   Bit8u   *actual_vector;
   Bit8u   *vector;  // aligned correctly
@@ -77,6 +94,11 @@ public:
     unsigned long (*f)(unsigned char *buf, int len),
     Bit32u addr1, Bit32u addr2, Bit32u *crc);
   BX_MEM_SMF Bit8u * getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op) BX_CPP_AttrRegparmN(3);
+  BX_MEM_SMF bx_bool registerMemoryHandlers(memory_handler_t read_handler, void *read_param, 
+		  memory_handler_t write_handler, void *write_param, 
+		  unsigned long begin_addr, unsigned long end_addr);
+  BX_MEM_SMF bx_bool unregisterMemoryHandlers(memory_handler_t read_handler, memory_handler_t write_handler, 
+		  unsigned long begin_addr, unsigned long end_addr);
   };
 
 #if BX_PROVIDE_CPU_MEMORY==1

@@ -464,4 +464,16 @@ bx_pci_c::register_pci_handlers( void *this_ptr, bx_pci_read_handler_t f1,
     return false; // device/function not available, return false.
     }
 }
+
+
+  Bit8u
+bx_pci_c::find_free_devfunc()
+{
+	int devfunc;
+	for (devfunc = 0; devfunc < 0x100; devfunc += 8) // keep func = 0
+		if (BX_PCI_THIS pci_handler_id[devfunc] == BX_MAX_PCI_DEVICES)
+			return devfunc;
+	return 0; // error
+}
+
 #endif /* BX_PCI_SUPPORT */

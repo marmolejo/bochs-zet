@@ -60,6 +60,7 @@ public:
                                         bx_pci_read_handler_t f1,
                                         bx_pci_write_handler_t f2,
                                         Bit8u devfunc, const char *name);
+  virtual Bit8u find_free_devfunc();
   virtual void   print_i440fx_state(void);
   virtual Bit8u rd_memType (Bit32u addr);
   virtual Bit8u wr_memType (Bit32u addr);
