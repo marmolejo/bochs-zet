@@ -625,17 +625,16 @@ cdrom_interface::insert_cdrom(char *dev)
   // I just see if I can read a sector to verify that a
   // CD is in the drive and readable.
 #ifdef WIN32
-	if(bUseASPI) {
-	  return ReadCDSector(hid, tid, lun, 0, buffer, BX_CD_FRAMESIZE);
-	} else {
-      ReadFile(hFile, (void *) buffer, BX_CD_FRAMESIZE, (unsigned long *) &ret, NULL);
-      if (ret < 0) {
+    if(bUseASPI) {
+      return ReadCDSector(hid, tid, lun, 0, buffer, BX_CD_FRAMESIZE);
+    } else {
+      if (!ReadFile(hFile, (void *) buffer, BX_CD_FRAMESIZE, (unsigned long *) &ret, NULL)) {
          CloseHandle(hFile);
          fd = -1;
          BX_DEBUG(( "insert_cdrom: read returns error." ));
          return(false);
       }
-	}
+    }
 #else
     // do fstat to determine if it's a file or a device, then set using_file.
     struct stat stat_buf;
