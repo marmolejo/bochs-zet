@@ -1090,10 +1090,9 @@ bx_keyb_c::kbd_ctrl_to_kbd(Bit8u   value)
       return;
       break;
 
-    case 0xf4:  // flush scancodes buffer and modes, then enable keyboard
-      resetinternals(0);
-      kbd_enQ(0xFA); // send ACK
+    case 0xf4:  // enable keyboard
       BX_KEY_THIS s.kbd_internal_buffer.scanning_enabled = 1;
+      kbd_enQ(0xFA); // send ACK
       return;
       break;
 
@@ -1133,6 +1132,7 @@ bx_keyb_c::kbd_ctrl_to_kbd(Bit8u   value)
 
     case 0xff:  // reset: internal keyboard reset and afterwards the BAT
       BX_DEBUG(("reset command received"));
+      resetinternals(1);
       kbd_enQ(0xFA); // send ACK
       kbd_enQ(0xAA); // BAT test passed
       return;
