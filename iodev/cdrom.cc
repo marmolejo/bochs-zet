@@ -1191,9 +1191,15 @@ cdrom_interface::capacity()
   {
 	  if(bUseASPI) {
 		  return (GetCDCapacity(hid, tid, lun) / 2352);
-	  } else {
-	    unsigned long FileSize;
-		return (GetFileSize(hFile, &FileSize) / 2048);
+	  } else if(using_file) {
+	    ULARGE_INTEGER FileSize;
+	    FileSize.LowPart = GetFileSize(hFile, &FileSize.HighPart);
+		return (FileSize.QuadPart / 2048);
+	  } else {  /* direct device access */
+	    DWORD SectorsPerCluster;
+	    DWORD TotalNumOfClusters;
+	    GetDiskFreeSpace( path, &SectorsPerCluster, NULL, NULL, &TotalNumOfClusters);
+		return (TotalNumOfClusters * SectorsPerCluster);
 	  }
   }
 #elif defined __APPLE__
@@ -1276,7 +1282,11 @@ cdrom_interface::read_block(uint8* buf, int lba)
 {
   // Read a single block from the CD
 
+#ifdef WIN32
+  LARGE_INTEGER pos;
+#else
   off_t pos;
+#endif
   ssize_t n;
 
 #ifdef WIN32
@@ -1284,9 +1294,10 @@ cdrom_interface::read_block(uint8* buf, int lba)
 	  ReadCDSector(hid, tid, lun, lba, buf, BX_CD_FRAMESIZE);
 	  n = BX_CD_FRAMESIZE;
   } else {
-    pos = SetFilePointer(hFile, lba*BX_CD_FRAMESIZE, NULL, SEEK_SET);
-    if (pos == 0xffffffff) {
-      BX_PANIC(("cdrom: read_block: lseek returned error."));
+    pos.QuadPart = (LONGLONG)lba*BX_CD_FRAMESIZE;
+    pos.LowPart = SetFilePointer(hFile, pos.LowPart, &pos.HighPart, SEEK_SET);
+    if ((pos.LowPart == 0xffffffff) && (GetLastError() != NO_ERROR)) {
+      BX_PANIC(("cdrom: read_block: SetFilePointer returned error."));
 	}
 	ReadFile(hFile, (void *) buf, BX_CD_FRAMESIZE, (unsigned long *) &n, NULL);
   }
