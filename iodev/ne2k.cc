@@ -237,7 +237,7 @@ bx_ne2k_c::chipmem_read(Bit32u address, unsigned int io_len)
     return (retval);
   }
 
-  if ((address >= BX_NE2K_MEMSTART) && (address <= BX_NE2K_MEMEND)) {
+  if ((address >= BX_NE2K_MEMSTART) && (address < BX_NE2K_MEMEND)) {
     retval = BX_NE2K_THIS s.mem[address - BX_NE2K_MEMSTART];
     if (io_len == 2) {
       retval |= (BX_NE2K_THIS s.mem[address - BX_NE2K_MEMSTART + 1] << 8);
@@ -256,7 +256,7 @@ bx_ne2k_c::chipmem_write(Bit32u address, Bit32u value, unsigned io_len)
   if ((io_len == 2) && (address & 0x1)) 
     BX_PANIC(("unaligned chipmem word write"));
 
-  if ((address >= BX_NE2K_MEMSTART) && (address <= BX_NE2K_MEMEND)) {
+  if ((address >= BX_NE2K_MEMSTART) && (address < BX_NE2K_MEMEND)) {
     BX_NE2K_THIS s.mem[address - BX_NE2K_MEMSTART] = value & 0xff;
     if (io_len == 2)
       BX_NE2K_THIS s.mem[address - BX_NE2K_MEMSTART + 1] = value >> 8;
@@ -330,8 +330,10 @@ bx_ne2k_c::asic_write(Bit32u offset, Bit32u value, unsigned io_len)
   switch (offset) {
   case 0x0:  // Data register - see asic_read for a description
 
-    if (io_len != (1 + BX_NE2K_THIS s.DCR.wdsize))
-      BX_PANIC(("dma write, wrong size %d", io_len));
+    if (io_len != (1 + BX_NE2K_THIS s.DCR.wdsize)) {
+      BX_ERROR(("dma write, wrong size %d fixed", io_len));
+      io_len = 1 + BX_NE2K_THIS s.DCR.wdsize;
+      }
 
     if (BX_NE2K_THIS s.remote_bytes == 0)
       BX_PANIC(("ne2K: dma write, byte count 0"));
