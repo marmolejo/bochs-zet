@@ -177,7 +177,9 @@ int bx_sound_osx_c::openwaveoutput(char *device)
     AudioUnitInitialize (WaveOutputUnit);
 
     // Set up a callback function to generate output to the output unit
-    AudioUnitInputCallback input = { inputProc: MyRenderer, inputProcRefCon: (void *) this };
+    AudioUnitInputCallback input;
+    input.inputProc = MyRenderer;
+    input.inputProcRefCon = (void *) this;
     AudioUnitSetProperty (WaveOutputUnit, kAudioUnitProperty_SetInputCallback, 
         kAudioUnitScope_Global, 0, &input, sizeof(input));
 #endif
