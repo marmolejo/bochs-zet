@@ -594,7 +594,7 @@ BX_CPU_C::VERR_Ew(bxInstruction_c *i)
     /* readable, non-conforming code segment */
     if ((descriptor.dpl<CPL) || (descriptor.dpl<selector.rpl)) {
       set_ZF(0); /* inaccessible */
-      BX_INFO(("VERR: non-coforming code not withing priv level"));
+      BX_INFO(("VERR: non-conforming code not withing priv level"));
       return;
       }
     set_ZF(1); /* accessible */
