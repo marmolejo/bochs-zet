@@ -492,9 +492,9 @@ extern bx_debug_t bx_dbg;
 #define BX_FLOPPY_LAST   15 // last one
 
 
-#define BX_READ    10
-#define BX_WRITE   11
-#define BX_RW      12
+#define BX_READ    0
+#define BX_WRITE   1
+#define BX_RW      2
 
 
 
