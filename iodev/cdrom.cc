@@ -422,7 +422,7 @@ cdrom_interface::read_toc(uint8* buf, int* length, bool msf, int start_track)
     buf[3] = 1;
 
     int len = 4;
-    if (start_track == 1) {
+    if (start_track <= 1) {
       buf[len++] = 0; // Reserved
       buf[len++] = 0x14; // ADR, control
       buf[len++] = 1; // Track number
