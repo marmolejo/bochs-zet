@@ -108,7 +108,7 @@ bx_real_sim_c::get_param_string (bx_id id) {
 void init_siminterface ()
 {
   siminterface_log = new logfunctions ();
-  siminterface_log->setprefix ("[CTRL]");
+  siminterface_log->setprefix ("CTRL");
   siminterface_log->settype(CTRLLOG);
   if (SIM == NULL) 
     SIM = new bx_real_sim_c();
