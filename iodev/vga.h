@@ -176,6 +176,7 @@ private:
       Bit8u write_data_cycle; /* 0, 1, 2 */
       Bit8u read_data_register;
       Bit8u read_data_cycle; /* 0, 1, 2 */
+      Bit8u dac_state;
       struct {
         Bit8u red;
         Bit8u green;
