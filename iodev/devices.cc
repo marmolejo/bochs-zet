@@ -173,7 +173,7 @@ bx_devices_c::init(BX_MEM_C *newmem)
   pluginUnmapped->init ();
 
   // NE2000 NIC
-  if (bx_options.ne2k.Opresent->get ()) {
+  if (bx_options.ne2k.Opresent->get ()) > {
 #if BX_NE2K_SUPPORT
     PLUG_load_plugin(ne2k, PLUGTYPE_OPTIONAL);
 #else
@@ -322,7 +322,7 @@ bx_devices_c::reset(unsigned type)
     pluginPciUSBAdapter->reset(type);
 #endif
 #if BX_PCI_PNIC_SUPPORT
-    pluginPciPNicAdapter->reset(type);
+    if (pluginPciPNicAdapter) pluginPciPNicAdapter->reset(type);
 #endif
   }
 #endif
