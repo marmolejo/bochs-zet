@@ -87,6 +87,14 @@ public:
   virtual char *get_floppy_type_name (int type) {return NULL;}
   virtual int get_boot_hard_disk () {return -1;}
   virtual int set_boot_hard_disk (int val) {return -1;}
+  virtual int get_mem_size () {return -1;}
+  virtual int set_mem_size (int megs) {return -1;}
+  virtual int get_rom_path (char *buf, int len) {return -1;}
+  virtual int set_rom_path (char *path) {return -1;}
+  virtual int get_vga_path (char *buf, int len) {return -1;}
+  virtual int set_vga_path (char *path) {return -1;}
+  virtual int get_rom_address () {return -1;}
+  virtual int set_rom_address (int addr) {return -1;}
 };
 
 extern bx_simulator_interface_c *SIM;

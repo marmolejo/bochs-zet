@@ -54,6 +54,14 @@ class bx_real_sim_c : public bx_simulator_interface_c {
   virtual char *get_floppy_type_name (int type);
   virtual int get_boot_hard_disk ();
   virtual int set_boot_hard_disk (int val);
+  virtual int get_mem_size ();
+  virtual int set_mem_size (int megs);
+  virtual int get_rom_path (char *buf, int len);
+  virtual int set_rom_path (char *path);
+  virtual int get_vga_path (char *buf, int len);
+  virtual int set_vga_path (char *path);
+  virtual int get_rom_address ();
+  virtual int set_rom_address (int addr);
 };
 
 void init_siminterface ()
@@ -271,4 +279,58 @@ bx_real_sim_c::set_boot_hard_disk (int val)
 {
   bx_options.bootdrive[0] = val?  'c' : 'a';
   bx_options.bootdrive[1] = 0;
+  return 0;
 }
+
+int 
+bx_real_sim_c::get_mem_size () {
+  return bx_options.memory.megs;
+}
+
+int 
+bx_real_sim_c::set_mem_size (int megs) {
+  bx_options.memory.megs = megs;
+  return 0;
+}
+
+int 
+bx_real_sim_c::get_rom_path (char *buf, int len)
+{
+  strncpy (buf, bx_options.rom.path, len);
+  return 0;
+}
+
+int 
+bx_real_sim_c::set_rom_path (char *path)
+{
+  bx_options.rom.path = strdup (path);
+  return 0;
+}
+
+int 
+bx_real_sim_c::get_vga_path (char *buf, int len)
+{
+  strncpy (buf, bx_options.vgarom.path, len);
+  return 0;
+}
+
+int 
+bx_real_sim_c::set_vga_path (char *path)
+{
+  bx_options.vgarom.path = strdup (path);
+  return 0;
+}
+
+int 
+bx_real_sim_c::get_rom_address ()
+{
+  return bx_options.rom.address;
+}
+
+int 
+bx_real_sim_c::set_rom_address (int addr)
+{
+  bx_options.rom.address = addr;
+  return 0;
+}
+
