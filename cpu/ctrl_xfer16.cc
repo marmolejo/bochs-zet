@@ -173,7 +173,6 @@ BX_CPU_C::RETfar16_Iw(BxInstruction_t *i)
 done:
   BX_INSTR_FAR_BRANCH(BX_INSTR_IS_RET,
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, EIP);
-  return;
 }
 
   void
@@ -202,7 +201,6 @@ BX_CPU_C::RETfar16(BxInstruction_t *i)
 done:
   BX_INSTR_FAR_BRANCH(BX_INSTR_IS_RET,
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, EIP);
-  return;
 }
 
 
@@ -264,7 +262,6 @@ BX_CPU_C::CALL16_Ap(BxInstruction_t *i)
 done:
   BX_INSTR_FAR_BRANCH(BX_INSTR_IS_CALL,
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, EIP);
-  return;
 }
 
   void
@@ -346,7 +343,6 @@ BX_CPU_C::CALL16_Ep(BxInstruction_t *i)
 done:
   BX_INSTR_FAR_BRANCH(BX_INSTR_IS_CALL,
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, EIP);
-  return;
 }
 
 
@@ -492,7 +488,6 @@ BX_CPU_C::JMP16_Ep(BxInstruction_t *i)
 done:
   BX_INSTR_FAR_BRANCH(BX_INSTR_IS_JMP,
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, EIP);
-  return;
 }
 
   void
@@ -532,5 +527,4 @@ BX_CPU_C::IRET16(BxInstruction_t *i)
 done:
   BX_INSTR_FAR_BRANCH(BX_INSTR_IS_IRET,
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, EIP);
-  return;
 }

@@ -261,6 +261,8 @@ typedef Bit32u bx_address;
 #define BX_PF_EXCEPTION  14
 #define BX_MF_EXCEPTION  16
 #define BX_AC_EXCEPTION  17
+#define BX_MC_EXCEPTION  18
+#define BX_XF_EXCEPTION  19
 
 /* MSR registers */
 #define BX_MSR_P5_MC_ADDR	0x0000
