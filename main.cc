@@ -1421,6 +1421,18 @@ void bx_init_options ()
   bx_options.gdbstub.data_base = 0;
   bx_options.gdbstub.bss_base = 0;
 
+  bx_param_c *keyboard_init_list[] = {
+      bx_options.Okeyboard_serial_delay,
+      bx_options.Okeyboard_paste_delay,
+      bx_options.keyboard.OuseMapping,
+      bx_options.keyboard.Okeymap,
+      bx_options.Okeyboard_type,
+      bx_options.Ouser_shortcut,
+      NULL
+  };
+  menu = new bx_list_c (BXP_MENU_KEYBOARD, "Configure Keyboard", "", keyboard_init_list);
+  menu->get_options ()->set (menu->SHOW_PARENT);
+
   bx_param_c *other_init_list[] = {
       bx_options.Okeyboard_serial_delay,
       bx_options.Okeyboard_paste_delay,
