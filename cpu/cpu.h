@@ -819,6 +819,7 @@ public: // for now...
   Bit32u   debug_trap; // holds DR6 value to be set as well
   volatile Boolean async_event;
   volatile Boolean INTR;
+  volatile Boolean kill_bochs_request;
 
   /* wether this CPU is the BSP always set for UP */
   Boolean bsp;

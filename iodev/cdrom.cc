@@ -250,7 +250,7 @@ cdrom_interface::insert_cdrom(char *dev)
     {
       strcpy(drive,path);
       using_file = 1;
-      bUseASPI = FALSE;
+	  bUseASPI = FALSE;
       BX_INFO (("Opening image file as a cd"));
     }
 	if(bUseASPI) {
