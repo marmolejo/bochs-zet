@@ -1296,6 +1296,8 @@ bx_vga_c::update(void)
         }
       }
     
+    old_iWidth = iWidth;
+    old_iHeight = iHeight;
     BX_VGA_THIS s.vga_mem_updated = 0;
     // after a vbe display update, don't try to do any 'normal vga' updates anymore
     return;
