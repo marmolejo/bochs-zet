@@ -3638,7 +3638,7 @@ ne2k: ioaddr=0x240, irq=9, mac=b0:c4:20:00:00:01, ethmod=win32, ethdev=<replacea
 ne2k: ioaddr=0x240, irq=9, mac=fe:fd:00:00:00:01, ethmod=tap, ethdev=tap0
 ne2k: ioaddr=0x240, irq=9, mac=fe:fd:00:00:00:01, ethmod=tuntap, ethdev=/dev/net/tun0, script=./tunconfig
 
-ioaddr, irc: You probably won't need to change ioaddr and irq, unless there
+ioaddr, irq: You probably won't need to change ioaddr and irq, unless there
 are IRQ conflicts.
 
 mac: The MAC address MUST NOT match the address of any machine on the net.
