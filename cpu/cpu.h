@@ -2067,7 +2067,7 @@ union {
 
 #if BX_SUPPORT_SSE
   BX_SMF void prepareSSE(void);
-  BX_SMF void check_exceptionsSSE(int) BX_CPP_AttrRegparmN(1);
+  BX_SMF void check_exceptionsSSE(int);
 #endif
 
 #if BX_SUPPORT_3DNOW
