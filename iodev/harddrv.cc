@@ -3186,7 +3186,10 @@ bx_hard_drive_c::init_mode_sense_single(Bit8u channel, const void* src, int size
       // Header
       BX_SELECTED_CONTROLLER(channel).buffer[0] = (size+6) >> 8;
       BX_SELECTED_CONTROLLER(channel).buffer[1] = (size+6) & 0xff;
-      BX_SELECTED_CONTROLLER(channel).buffer[2] = 0x70; // no media present
+      if (bx_options.atadevice[channel][BX_HD_THIS channels[channel].drive_select].Ostatus->get () == BX_INSERTED)
+        BX_SELECTED_CONTROLLER(channel).buffer[2] = 0x12; // media present 120mm CD-ROM (CD-R) data/audio  door closed
+      else
+        BX_SELECTED_CONTROLLER(channel).buffer[2] = 0x70; // no media present
       BX_SELECTED_CONTROLLER(channel).buffer[3] = 0; // reserved
       BX_SELECTED_CONTROLLER(channel).buffer[4] = 0; // reserved
       BX_SELECTED_CONTROLLER(channel).buffer[5] = 0; // reserved
