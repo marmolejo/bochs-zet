@@ -29,6 +29,8 @@
 #include "reg_constant.h"
 #include "version.h"
 
+int printk(const char * fmt, ...);
+
 /* */
 #undef PRINT_MESSAGES
 /* */
@@ -41,7 +43,6 @@ void FPU_illegal(void)
 {
   math_abort(NULL, SIGILL);
 }
-
 
 #ifndef USE_WITH_CPU_SIM
 void FPU_printall(void)
