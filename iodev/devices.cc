@@ -51,6 +51,9 @@ bx_devices_c::bx_devices_c(void)
 #if BX_PCI_SUPPORT
   pluginPciBridge = &stubPci;
   pluginPci2IsaBridge = NULL;
+#if BX_PCI_VGA_SUPPORT
+    pluginPciVgaAdapter = NULL;
+#endif
 #endif
   pit = NULL;
   pluginKeyboard = &stubKeyboard;
@@ -148,6 +151,9 @@ bx_devices_c::init(BX_MEM_C *newmem)
 #if BX_PCI_SUPPORT
     PLUG_load_plugin(pci, PLUGTYPE_OPTIONAL);
     PLUG_load_plugin(pci2isa, PLUGTYPE_OPTIONAL);
+#if BX_PCI_VGA_SUPPORT
+    PLUG_load_plugin(pcivga, PLUGTYPE_OPTIONAL);
+#endif
 #else
     BX_ERROR(("Bochs is not compiled with PCI support"));
 #endif
@@ -263,6 +269,9 @@ bx_devices_c::reset(unsigned type)
   if (bx_options.Oi440FXSupport->get ()) {
     pluginPciBridge->reset(type);
     pluginPci2IsaBridge->reset(type);
+#if BX_PCI_VGA_SUPPORT
+    pluginPciVgaAdapter->reset(type);
+#endif
   }
 #endif
 #if BX_SUPPORT_IOAPIC
