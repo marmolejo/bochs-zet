@@ -1285,6 +1285,20 @@ void bx_win32_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight, 
   }
   
   bitmap_info->bmiHeader.biBitCount = bpp;
+  if (bpp == 16)
+  {
+    bitmap_info->bmiHeader.biCompression = BI_BITFIELDS;
+    static RGBQUAD red_mask   = {0x00, 0xF8, 0x00, 0x00};
+    static RGBQUAD green_mask = {0xE0, 0x07, 0x00, 0x00};
+    static RGBQUAD blue_mask  = {0x1F, 0x00, 0x00, 0x00};
+    bitmap_info->bmiColors[0] = red_mask;
+    bitmap_info->bmiColors[1] = green_mask;
+    bitmap_info->bmiColors[2] = blue_mask;
+  }
+  else
+  {
+    bitmap_info->bmiHeader.biCompression = BI_RGB;
+  }
 
   SetWindowPos(stInfo.mainWnd, HWND_TOP, 0, 0, stretched_x + x_edge * 2,
               stretched_y + bx_headerbar_y + y_edge * 2 + y_caption,
