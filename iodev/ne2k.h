@@ -215,6 +215,7 @@ private:
 
   BX_NE2K_SMF Bit32u read_cr(void);
   BX_NE2K_SMF void   write_cr(Bit32u value);
+  BX_NE2K_SMF void   set_irq_level(bx_bool level);
 
   BX_NE2K_SMF Bit32u chipmem_read(Bit32u address, unsigned io_len) BX_CPP_AttrRegparmN(2);
   BX_NE2K_SMF Bit32u asic_read(Bit32u offset, unsigned io_len) BX_CPP_AttrRegparmN(2);

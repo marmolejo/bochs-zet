@@ -34,13 +34,14 @@
 #endif
 
 
-class bx_pci2isa_c : public bx_devmodel_c {
+class bx_pci2isa_c : public bx_pci2isa_stub_c {
 
 public:
   bx_pci2isa_c(void);
   ~bx_pci2isa_c(void);
   virtual void   init(void);
   virtual void   reset(unsigned type);
+  virtual void   pci_set_irq(unsigned line, bx_bool level);
 
 private:
 

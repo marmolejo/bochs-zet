@@ -133,7 +133,7 @@ bx_pciusb_c::reset(unsigned type)
     { 0x21, (bx_options.usb[0].Oioaddr->get() >> 8) },
     { 0x22, 0x00 }, { 0x23, 0x00 },
     { 0x3c, bx_options.usb[0].Oirq->get() }, // IRQ
-    { 0x3d, 0x04 },                 // INT
+    { 0x3d, BX_PCI_PIRQD },                 // INT
     { 0x6a, 0x01 },                 // USB clock
     { 0xc1, 0x20 }                  // PIRQ enable
 

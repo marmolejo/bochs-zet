@@ -41,6 +41,11 @@ typedef void   (*bx_pci_write_handler_t)(void *, Bit8u, Bit32u, unsigned);
 #endif
 
 
+#define BX_PCI_PIRQA 1
+#define BX_PCI_PIRQB 2
+#define BX_PCI_PIRQC 3
+#define BX_PCI_PIRQD 4
+
 typedef struct {
   Bit32u confAddr;
   Bit32u confData;

@@ -54,7 +54,7 @@ bx_devices_c::bx_devices_c(void)
   write_port_to_handler = NULL;
 #if BX_PCI_SUPPORT
   pluginPciBridge = &stubPci;
-  pluginPci2IsaBridge = NULL;
+  pluginPci2IsaBridge = &stubPci2Isa;
   pluginPciIdeController = NULL;
 #if BX_PCI_VGA_SUPPORT
     pluginPciVgaAdapter = NULL;
