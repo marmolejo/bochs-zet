@@ -159,7 +159,7 @@ int GetCDCapacity(unsigned int hid, unsigned int tid, unsigned int lun)
 	HANDLE hEventSRB;
 	SRB_ExecSCSICmd srb;
 	DWORD dwStatus;
-	char buf[8];
+	unsigned char buf[8];
 
 	hEventSRB = CreateEvent(NULL, TRUE, FALSE, NULL);
 	
@@ -409,7 +409,11 @@ cdrom_interface::read_toc(uint8* buf, int* length, bool msf, int start_track)
     BX_PANIC(("cdrom: read_toc: file not open."));
     }
 
+#ifdef WIN32
+  if (1) { // This is a hack and works okay if there's one rom track only
+#else
   if (using_file) {
+#endif
     if ((start_track != 1) && (start_track != 0xaa))
       return false;
 
@@ -646,7 +650,7 @@ cdrom_interface::read_toc(uint8* buf, int* length, bool msf, int start_track)
 cdrom_interface::capacity()
 {
   // Return CD-ROM capacity.  I believe you want to return
-  // the number of bytes of capacity the actual media has.
+  // the number of blocks of capacity the actual media has.
 
 #if !defined WIN32
   // win32 has its own way of doing this
@@ -796,10 +800,10 @@ cdrom_interface::capacity()
 #elif defined WIN32
   {
 	  if(bUseASPI) {
-		  return GetCDCapacity(hid, tid, lun);
+		  return (GetCDCapacity(hid, tid, lun) / 2352);
 	  } else {
 	    unsigned long FileSize;
-		return (GetFileSize(hFile, &FileSize));
+		return (GetFileSize(hFile, &FileSize) / 2048);
 	  }
   }
 #else
