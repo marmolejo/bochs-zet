@@ -704,7 +704,7 @@ void MyFrame::OnShowCpu(wxCommandEvent& WXUNUSED(event))
 #endif
     showCpu->Init ();
   } else {
-    showCpu->Refresh ();
+    showCpu->CopyParamToGui ();
   }
   showCpu->Show (TRUE);
 }
@@ -717,7 +717,7 @@ void MyFrame::OnShowKeyboard(wxCommandEvent& WXUNUSED(event))
     showKbd->AddParam (SIM->get_param (BXP_KBD_PARAMETERS));
     showKbd->Init ();
   } else {
-    showKbd->Refresh ();
+    showKbd->CopyParamToGui ();
   }
   showKbd->Show (TRUE);
 }
@@ -726,7 +726,7 @@ void MyFrame::OnShowKeyboard(wxCommandEvent& WXUNUSED(event))
 void MyFrame::OnDebugLog(wxCommandEvent& WXUNUSED(event))
 {
 	wxASSERT (showDebugLog != NULL);
-  showDebugLog->Refresh ();
+  showDebugLog->CopyParamToGui ();
   showDebugLog->Show (TRUE);
 }
 
@@ -1361,8 +1361,8 @@ bool MyFrame::WantRefresh () {
 }
 
 void MyFrame::RefreshDialogs () {
-  if (showCpu!=NULL && showCpu->IsShowing ()) showCpu->Refresh ();
-  if (showKbd!=NULL && showKbd->IsShowing ()) showKbd->Refresh ();
+  if (showCpu!=NULL && showCpu->IsShowing ()) showCpu->CopyParamToGui ();
+  if (showKbd!=NULL && showKbd->IsShowing ()) showKbd->CopyParamToGui ();
 }
 
 //////////////////////////////////////////////////////////////////////
