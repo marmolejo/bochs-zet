@@ -46,6 +46,7 @@ int input_error = -1;
 LONG pmap[256];
 ULONG cmap[256];
 static UWORD *emptypointer;
+char verstr[256];
 
 struct TextAttr vgata = {
         "vga.font",
