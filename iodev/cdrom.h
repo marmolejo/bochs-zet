@@ -41,7 +41,7 @@ public:
   void eject_cdrom();
 
   // Read CD TOC. Returns false if start track is out of bounds.
-  bx_bool read_toc(uint8* buf, int* length, bx_bool msf, int start_track);
+  bx_bool read_toc(uint8* buf, int* length, bx_bool msf, int start_track, int format);
 
   // Return CD-ROM capacity (in 2048 byte frames)
   uint32 capacity();
