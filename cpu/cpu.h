@@ -446,6 +446,9 @@ typedef struct {
     return 3 & (BX_CPU_THIS_PTR eflags.val32 >> 12);                         \
     }
 
+#define EFlagsOSZAPCMask 0x000008d5
+#define EFlagsOSZAPMask  0x000008d4
+
   } bx_flags_reg_t;
 
 
