@@ -120,6 +120,7 @@ bx_ne2k_c::reset(unsigned type)
   BX_NE2K_THIS s.ISR.reset    = 1;
   BX_NE2K_THIS s.DCR.longaddr = 1;
 
+#if BX_PCI_SUPPORT
   if ((type == BX_RESET_HARDWARE) && (BX_NE2K_THIS s.pci_enabled)) {
     // This should be done by the PCI BIOS
     Bit32u baseaddr = bx_options.ne2k.Oioaddr->get ();
@@ -130,6 +131,7 @@ bx_ne2k_c::reset(unsigned type)
     BX_NE2K_THIS s.pci_conf[0x3c] = bx_options.ne2k.Oirq->get ();
     DEV_pci_init_irq(BX_NE2K_THIS s.devfunc, BX_NE2K_THIS s.pci_conf[0x3d], BX_NE2K_THIS s.base_irq);
   }
+#endif
   set_irq_level(0);
 }
 
@@ -1421,7 +1423,9 @@ bx_ne2k_c::init(void)
 bx_ne2k_c::set_irq_level(bx_bool level)
 {
   if (BX_NE2K_THIS s.pci_enabled) {
+#if BX_PCI_SUPPORT
     DEV_pci_set_irq(BX_NE2K_THIS s.devfunc, BX_NE2K_THIS s.pci_conf[0x3d], level);
+#endif
   } else {
     if (level) {
       DEV_pic_raise_irq(BX_NE2K_THIS s.base_irq);
