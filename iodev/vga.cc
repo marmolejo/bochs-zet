@@ -39,6 +39,14 @@
  * support map mask (3c5 reg 02)
  */
 
+/* Notes from cb
+ *
+ * It seems that the vga card should support multi bytes IO reads and write
+ * From my tests, inw(port) return port+1 * 256 + port, except for port 0x3c9
+ * (PEL data register, data cycling). More reverse engineering is needed.
+ * This would fix the gentoo bug.
+ */
+
 // (mch)
 #define VGA_TRACE_FEATURE
 
