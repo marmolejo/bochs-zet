@@ -637,6 +637,7 @@ typedef struct BOCHSAPI {
   bx_param_bool_c   *Orealtime_pit;
   bx_param_bool_c   *Otext_snapshot_check;
   bx_param_bool_c   *Omouse_enabled;
+  bx_param_enum_c   *Omouse_type;
   bx_param_bool_c   *Oprivate_colormap;
 #if BX_WITH_AMIGAOS
   bx_param_bool_c   *Ofullscreen;
