@@ -3103,6 +3103,10 @@ int concat_image_t::open (const char* pathname0)
     if (ret) {
 	  BX_PANIC(("fstat() returns error!"));
     }
+    if (S_ISBLK(stat_buf.st_mode)) {
+      BX_PANIC(("block devices should REALLY NOT be used with --enable-split-hd. "
+                "Please reconfigure with --disable-split-hd"));
+    }
     if ((stat_buf.st_size % 512) != 0) {
       BX_PANIC(("size of disk image must be multiple of 512 bytes"));
     }
