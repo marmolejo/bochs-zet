@@ -35,8 +35,8 @@ all: $(SECTIONS)
 # user.
 $(SECTIONS)::
 	# render the docbook for a section
-	cd $@; docbook2ps $@.dbk
-	cd $@; docbook2pdf $@.dbk
+#	cd $@; docbook2ps $@.dbk
+#	cd $@; docbook2pdf $@.dbk
 	cd $@; docbook2html $@.dbk
 
 # install the stuff on the remote server using ssh the bryce->bdenney
