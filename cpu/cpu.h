@@ -3243,9 +3243,6 @@ IMPLEMENT_EFLAG_ACCESSOR   (TF,  8)
 
 
 
-
-
-
 #define BX_REPE_PREFIX  10
 #define BX_REPNE_PREFIX 11
 

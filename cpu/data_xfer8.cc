@@ -25,10 +25,6 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 
-
-
-
-
 #define NEED_CPU_REG_SHORTCUTS 1
 #include "bochs.h"
 #define LOG_THIS BX_CPU_THIS_PTR
@@ -71,7 +67,6 @@ BX_CPU_C::MOV_GbEEb(bxInstruction_c *i)
 BX_CPU_C::MOV_GbEGb(bxInstruction_c *i)
 {
   Bit8u op2 = BX_READ_8BIT_REGx(i->rm(),i->extend8bitL());
-
   BX_WRITE_8BIT_REGx(i->nnn(), i->extend8bitL(), op2);
 }
 
@@ -93,7 +88,6 @@ BX_CPU_C::MOV_ALOb(bxInstruction_c *i)
   void
 BX_CPU_C::MOV_ObAL(bxInstruction_c *i)
 {
-  Bit8u  temp_8;
   bx_address addr = i->Id();
 
   /* write to memory address and write to register */
