@@ -2309,6 +2309,18 @@ parse_bochsrc(char *rcfile)
   return retval;
 }
 
+  static char *
+get_builtin_variable(char *varname)
+{
+  if (strlen(varname)<1) return NULL;
+  else {
+    if (!strcmp(varname, "BXBIOS")) {
+      return BX_BIOS_DEFAULT_PATH;
+    }
+    return NULL;
+  }
+}
+
   static Bit32s
 parse_line_unformatted(char *context, char *line)
 {
@@ -2355,7 +2367,13 @@ parse_line_unformatted(char *context, char *line)
           }
           *pv = 0;
           if (strlen(varname)<1 || !(value = getenv(varname))) {
-            BX_PANIC (("could not look up environment variable '%s'\n", varname));
+            if ((value = get_builtin_variable(varname))) {
+              // append value to the string
+              for (pv=value; *pv; pv++)
+                  string[string_i++] = *pv;
+            } else {
+              BX_PANIC (("could not look up environment variable '%s'", varname));
+            }
           } else {
             // append value to the string
             for (pv=value; *pv; pv++)
