@@ -320,7 +320,7 @@ BailBigRSP("JMP_Jw");
 BX_CPU_C::JCC_Jw(bxInstruction_c *i)
 {
 BailBigRSP("JCC_Jw");
-  Boolean condition;
+  bx_bool condition;
 
   switch (i->b1() & 0x0f) {
     case 0x00: /* JO */ condition = get_OF(); break;

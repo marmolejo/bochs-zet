@@ -322,7 +322,7 @@ index_name32[7] =  "EDI";
 
 
   unsigned
-bx_disassemble_c::disasm(Boolean is_32, Bit32u ip, Bit8u *instr, char *disbuf)
+bx_disassemble_c::disasm(bx_bool is_32, Bit32u ip, Bit8u *instr, char *disbuf)
 {
   int byte_count;
   Bit8u next_byte;

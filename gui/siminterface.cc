@@ -87,7 +87,7 @@ public:
   virtual int ask_filename (char *filename, int maxlen, char *prompt, char *the_default, int flags);
   // called at a regular interval, currently by the keyboard handler.
   virtual void periodic ();
-  virtual int create_disk_image (const char *filename, int sectors, Boolean overwrite);
+  virtual int create_disk_image (const char *filename, int sectors, bx_bool overwrite);
   virtual void refresh_ci ();
   virtual void refresh_vga () {
     // maybe need to check if something has been initialized yet?
@@ -541,7 +541,7 @@ int
 bx_real_sim_c::create_disk_image (
     const char *filename,
     int sectors,
-    Boolean overwrite) 
+    bx_bool overwrite) 
 {
   FILE *fp;
   if (!overwrite) {
@@ -1032,7 +1032,7 @@ bx_param_bool_c::bx_param_bool_c (bx_id id,
 bx_shadow_bool_c::bx_shadow_bool_c (bx_id id,
       char *name,
       char *description,
-      Boolean *ptr_to_real_val,
+      bx_bool *ptr_to_real_val,
       Bit8u bitnum)
   : bx_param_bool_c (id, name, description, (Bit64s) *ptr_to_real_val)
 {

@@ -144,7 +144,7 @@ typedef struct {
   Bit64u result_64;
 #endif
 
-  Boolean prev_CF;
+  bx_bool prev_CF;
   unsigned instr;
   } bx_lf_flags_entry;
 

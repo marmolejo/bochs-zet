@@ -295,7 +295,7 @@ BX_CPU_C::JMP_Jq(bxInstruction_c *i)
   void
 BX_CPU_C::JCC_Jq(bxInstruction_c *i)
 {
-  Boolean condition;
+  bx_bool condition;
 
   switch (i->b1() & 0x0f) {
     case 0x00: /* JO */ condition = get_OF(); break;

@@ -103,7 +103,7 @@ bx_keymap_c::loadKeymap(Bit32u stringToSymbol(const char*))
 }
 
 
-Boolean 
+bx_bool 
 bx_keymap_c::isKeymapLoaded ()
 {
   return (keymapCount > 0);

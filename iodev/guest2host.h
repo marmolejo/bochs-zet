@@ -60,7 +60,7 @@ private:
   struct {
     struct {
       bx_g2h_callback_t f;
-      Boolean used;
+      bx_bool used;
       } callback[BX_MAX_G2H_CHANNELS];
 
     // Define the data received from the guest OS.

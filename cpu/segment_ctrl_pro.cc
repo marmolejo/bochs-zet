@@ -624,7 +624,7 @@ BX_INFO(("-----------------------------------"));
 
 
 
-  Boolean
+  bx_bool
 BX_CPU_C::fetch_raw_descriptor2(bx_selector_t *selector,
                         Bit32u *dword1, Bit32u *dword2)
 {

@@ -1449,7 +1449,7 @@ bx_floppy_ctrl_c::get_media_status(unsigned drive)
 #define BX_RDWR O_RDWR
 #endif
 
-  Boolean
+  bx_bool
 bx_floppy_ctrl_c::evaluate_media(unsigned type, char *path, floppy_t *media)
 {
   struct stat stat_buf;

@@ -193,7 +193,7 @@ BOCHSAPI void pluginRegisterDevice(deviceInitMem_t init_mem, deviceInitDev_t ini
                           deviceReset_t reset, deviceLoad_t load, 
                           deviceSave_t save, char *name);
 BOCHSAPI void pluginRegisterDeviceDevmodel(plugin_t *plugin, plugintype_t type, bx_devmodel_c *dev, char *name);
-BOCHSAPI Boolean pluginDevicePresent(char *name);
+BOCHSAPI bx_bool pluginDevicePresent(char *name);
 
 /* === IO port stuff === */
 BOCHSAPI extern int (*pluginRegisterIOReadHandler)(void *thisPtr, ioReadHandler_t callback,
@@ -229,10 +229,10 @@ BOCHSAPI extern void  (* pluginVGASetUpdateInterval)(unsigned);
 
 /* === Timer stuff === */
 BOCHSAPI extern int      (*pluginRegisterTimer)(void *this_ptr, void (*funct)(void *),
-                             Bit32u useconds, Boolean continuous,
-                             Boolean active, const char *name);
+                             Bit32u useconds, bx_bool continuous,
+                             bx_bool active, const char *name);
 
-BOCHSAPI extern void     (*pluginActivateTimer)(unsigned id, Bit32u usec, Boolean continuous);
+BOCHSAPI extern void     (*pluginActivateTimer)(unsigned id, Bit32u usec, bx_bool continuous);
 BOCHSAPI extern void     (*pluginDeactivateTimer)(unsigned id);
 
 /* === HRQ stuff === */

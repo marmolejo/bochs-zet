@@ -48,7 +48,7 @@ public:
   void trigger_irq (unsigned num, unsigned from);
   void untrigger_irq (unsigned num, unsigned from);
   void service_ioapic ();
-  virtual Boolean match_logical_addr (Bit8u address) { return false; }
-  virtual Boolean is_local_apic () { return false; }
+  virtual bx_bool match_logical_addr (Bit8u address) { return false; }
+  virtual bx_bool is_local_apic () { return false; }
   virtual bx_apic_type_t get_type () { return APIC_TYPE_IOAPIC; }
 };

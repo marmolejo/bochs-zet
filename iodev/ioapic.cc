@@ -164,7 +164,7 @@ void bx_ioapic_c::service_ioapic ()
       bx_io_redirect_entry_t *entry = ioredtbl + bit;
       if (!entry->masked) {
 	// clear irr bit and deliver
-	Boolean done = deliver (entry->dest, entry->dest_mode, entry->delivery_mode, entry->vector, entry->polarity, entry->trig_mode);
+	bx_bool done = deliver (entry->dest, entry->dest_mode, entry->delivery_mode, entry->vector, entry->polarity, entry->trig_mode);
 	if (done) irr &= ~(1<<bit);
       }
     }

@@ -64,7 +64,7 @@ private:
   FILE *txlog, *txlog_txt;
   //Bit8u arpbuf[MAX_FRAME_SIZE];
   //Bit32u buflen;
-  //Boolean bufvalid;
+  //bx_bool bufvalid;
   //CRC_Generator mycrc;
   eth_ETHmaker packetmaker;
 };

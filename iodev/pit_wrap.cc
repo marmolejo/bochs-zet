@@ -431,11 +431,11 @@ bx_kbd_port61h_write(Bit8u   value)
 #endif
 
 
-  Boolean
+  bx_bool
 bx_pit_c::periodic( Bit32u   usec_delta )
 {
-  Boolean prev_timer0_out = BX_PIT_THIS s.timer.read_OUT(0);
-  Boolean want_interrupt = 0;
+  bx_bool prev_timer0_out = BX_PIT_THIS s.timer.read_OUT(0);
+  bx_bool want_interrupt = 0;
   Bit32u ticks_delta = 0;
 
 #ifdef BX_SCHEDULED_DIE_TIME

@@ -326,7 +326,7 @@ void BX_CPU_C::init(BX_MEM_C *addrspace)
   sprintf (name, "CPU %p", this);
 
 #if BX_WITH_WX
-  static Boolean first_time = 1;
+  static bx_bool first_time = 1;
   if (first_time) {
     first_time = 0;
     // Register some of the CPUs variables as shadow parameters so that
@@ -960,7 +960,7 @@ BX_CPU_C::sanity_checks(void)
 
 
   void
-BX_CPU_C::set_INTR(Boolean value)
+BX_CPU_C::set_INTR(bx_bool value)
 {
   BX_CPU_THIS_PTR INTR = value;
   BX_CPU_THIS_PTR async_event = 1;

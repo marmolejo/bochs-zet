@@ -2320,7 +2320,7 @@ BX_CPU_C::fetchDecode(Bit8u *iptr, bxInstruction_c *instruction,
 {
   // remain must be at least 1
 
-  Boolean is_32;
+  bx_bool is_32;
   unsigned b1, b2, ilen=1, attr, os_32;
   unsigned imm_mode, offset;
   unsigned rm, mod, nnn;

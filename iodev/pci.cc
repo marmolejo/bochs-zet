@@ -436,7 +436,7 @@ bx_pci_c::print_i440fx_state()
 #endif /* DUMP_FULL_I440FX */
 }
 
-  Boolean
+  bx_bool
 bx_pci_c::register_pci_handlers( void *this_ptr, bx_pci_read_handler_t f1,
                                  bx_pci_write_handler_t f2, Bit8u devfunc,
                                  const char *name)

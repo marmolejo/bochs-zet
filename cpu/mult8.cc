@@ -40,7 +40,7 @@ BX_CPU_C::MUL_ALEb(bxInstruction_c *i)
 {
   Bit8u op2, op1;
   Bit16u product_16;
-  Boolean temp_flag;
+  bx_bool temp_flag;
 
   op1 = AL;
 

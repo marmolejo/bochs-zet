@@ -230,7 +230,7 @@ BX_MEM_C::pci_fetch_ptr(Bit32u addr)
 
 
 #if ( BX_DEBUGGER || BX_DISASM || BX_GDBSTUB)
-  Boolean
+  bx_bool
 BX_MEM_C::dbg_fetch_mem(Bit32u addr, unsigned len, Bit8u *buf)
 {
   if ( (addr + len) > this->len ) {
@@ -276,7 +276,7 @@ BX_MEM_C::dbg_fetch_mem(Bit32u addr, unsigned len, Bit8u *buf)
 #endif
 
 #if BX_DEBUGGER || BX_GDBSTUB
-  Boolean
+  bx_bool
 BX_MEM_C::dbg_set_mem(Bit32u addr, unsigned len, Bit8u *buf)
 {
   if ( (addr + len) > this->len ) {
@@ -297,7 +297,7 @@ BX_MEM_C::dbg_set_mem(Bit32u addr, unsigned len, Bit8u *buf)
 }
 #endif
 
-  Boolean
+  bx_bool
 BX_MEM_C::dbg_crc32(unsigned long (*f)(unsigned char *buf, int len),
     Bit32u addr1, Bit32u addr2, Bit32u *crc)
 {

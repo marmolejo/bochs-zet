@@ -144,7 +144,7 @@ BX_CPU_C::outp8(Bit16u addr, Bit8u value)
 }
 
 
-  Boolean
+  bx_bool
 BX_CPU_C::allow_io(Bit16u addr, unsigned len)
 {
   Bit16u io_base, permission16;

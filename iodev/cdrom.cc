@@ -226,7 +226,7 @@ cdrom_interface::~cdrom_interface(void)
 	BX_DEBUG(("Exit"));
 }
 
-  bool
+  bx_bool
 cdrom_interface::insert_cdrom(char *dev)
 {
   unsigned char buffer[BX_CD_FRAMESIZE];
@@ -412,8 +412,8 @@ if (using_file == 0)
 }
 
 
-  bool
-cdrom_interface::read_toc(uint8* buf, int* length, bool msf, int start_track)
+  bx_bool
+cdrom_interface::read_toc(uint8* buf, int* length, bx_bool msf, int start_track)
 {
   // Read CD TOC. Returns false if start track is out of bounds.
 

@@ -576,7 +576,7 @@ bx_cmos_c::one_second_timer()
   // compare CMOS user copy of time/date to alarm time/date here
   if (BX_CMOS_THIS s.reg[0x0b] & 0x20) {
     // Alarm interrupts enabled
-    Boolean alarm_match = 1;
+    bx_bool alarm_match = 1;
     if ( (BX_CMOS_THIS s.reg[0x01] & 0xc0) != 0xc0 ) {
       // seconds alarm not in dont care mode
       if (BX_CMOS_THIS s.reg[0x00] != BX_CMOS_THIS s.reg[0x01])

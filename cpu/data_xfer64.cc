@@ -428,7 +428,7 @@ BX_CPU_C::CMOV_GqEq(bxInstruction_c *i)
   //       of whether condition is true or not.  Thus, exceptions may
   //       occur even if the MOV does not take place.
 
-  Boolean condition;
+  bx_bool condition;
   Bit64u op2_64;
 
 

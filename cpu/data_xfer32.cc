@@ -296,7 +296,7 @@ BX_CPU_C::CMOV_GdEd(bxInstruction_c *i)
   //       of whether condition is true or not.  Thus, exceptions may
   //       occur even if the MOV does not take place.
 
-  Boolean condition;
+  bx_bool condition;
   Bit32u op2_32;
 
 

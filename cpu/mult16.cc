@@ -41,7 +41,7 @@ BX_CPU_C::MUL_AXEw(bxInstruction_c *i)
 {
     Bit16u op1_16, op2_16, product_16h, product_16l;
     Bit32u product_32;
-    Boolean temp_flag;
+    bx_bool temp_flag;
 
     op1_16 = AX;
 

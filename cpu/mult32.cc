@@ -46,7 +46,7 @@ BX_CPU_C::MUL_EAXEd(bxInstruction_c *i)
 {
     Bit32u op1_32, op2_32, product_32h, product_32l;
     Bit64u product_64;
-    Boolean temp_flag;
+    bx_bool temp_flag;
 
     op1_32 = EAX;
 

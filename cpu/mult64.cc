@@ -136,7 +136,7 @@ long_sub(Bit128u *a,Bit128u *b)
   return(a->hi > t);
 }
 
- Boolean
+ bx_bool
 long_le(Bit128u *a,Bit128u *b)
 {
   if (a->hi == b->hi) {
@@ -235,7 +235,7 @@ BX_CPU_C::MUL_RAXEq(bxInstruction_c *i)
 {
     Bit64u op1_64, op2_64;
     Bit128u product_128;
-    Boolean temp_flag;
+    bx_bool temp_flag;
 
     op1_64 = RAX;
 

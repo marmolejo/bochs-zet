@@ -345,7 +345,7 @@ BX_CPU_C::CMOV_GwEw(bxInstruction_c *i)
   //       of whether condition is true or not.  Thus, exceptions may
   //       occur even if the MOV does not take place.
 
-  Boolean condition;
+  bx_bool condition;
   Bit16u op2_16;
 
   switch (i->b1()) {

@@ -136,7 +136,7 @@ BX_CPU_C::ADD_RAXId(bxInstruction_c *i)
   void
 BX_CPU_C::ADC_EqGq(bxInstruction_c *i)
 {
-  Boolean temp_CF;
+  bx_bool temp_CF;
 
   temp_CF = getB_CF();
 
@@ -174,7 +174,7 @@ BX_CPU_C::ADC_EqGq(bxInstruction_c *i)
   void
 BX_CPU_C::ADC_GqEq(bxInstruction_c *i)
 {
-  Boolean temp_CF;
+  bx_bool temp_CF;
 
   temp_CF = getB_CF();
 
@@ -207,7 +207,7 @@ BX_CPU_C::ADC_GqEq(bxInstruction_c *i)
   void
 BX_CPU_C::ADC_RAXId(bxInstruction_c *i)
 {
-  Boolean temp_CF;
+  bx_bool temp_CF;
 
   temp_CF = getB_CF();
 
@@ -233,7 +233,7 @@ BX_CPU_C::ADC_RAXId(bxInstruction_c *i)
   void
 BX_CPU_C::SBB_EqGq(bxInstruction_c *i)
 {
-  Boolean temp_CF;
+  bx_bool temp_CF;
 
   temp_CF = getB_CF();
 
@@ -271,7 +271,7 @@ BX_CPU_C::SBB_EqGq(bxInstruction_c *i)
   void
 BX_CPU_C::SBB_GqEq(bxInstruction_c *i)
 {
-  Boolean temp_CF;
+  bx_bool temp_CF;
 
   temp_CF = getB_CF();
 
@@ -304,7 +304,7 @@ BX_CPU_C::SBB_GqEq(bxInstruction_c *i)
   void
 BX_CPU_C::SBB_RAXId(bxInstruction_c *i)
 {
-  Boolean temp_CF;
+  bx_bool temp_CF;
 
   temp_CF = getB_CF();
 
@@ -329,7 +329,7 @@ BX_CPU_C::SBB_RAXId(bxInstruction_c *i)
   void
 BX_CPU_C::SBB_EqId(bxInstruction_c *i)
 {
-  Boolean temp_CF;
+  bx_bool temp_CF;
 
   temp_CF = getB_CF();
 
@@ -650,7 +650,7 @@ BX_CPU_C::ADD_EqId(bxInstruction_c *i)
   void
 BX_CPU_C::ADC_EqId(bxInstruction_c *i)
 {
-  Boolean temp_CF;
+  bx_bool temp_CF;
 
   temp_CF = getB_CF();
 

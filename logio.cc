@@ -508,7 +508,7 @@ logfunctions::fatal (const char *prefix, const char *fmt, va_list ap)
 #if !BX_DEBUGGER
   BX_EXIT(1);
 #else
-  static Boolean dbg_exit_called = 0;
+  static bx_bool dbg_exit_called = 0;
   if (dbg_exit_called == 0) {
     dbg_exit_called = 1;
     bx_dbg_exit(1);

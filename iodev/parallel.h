@@ -36,22 +36,22 @@
 typedef struct {
   Bit8u data;
   struct {
-    Boolean error;
-    Boolean slct;
-    Boolean pe;
-    Boolean ack;
-    Boolean busy;
+    bx_bool error;
+    bx_bool slct;
+    bx_bool pe;
+    bx_bool ack;
+    bx_bool busy;
   } STATUS;
   struct {
-    Boolean strobe;
-    Boolean autofeed;
-    Boolean init;
-    Boolean slct_in;
-    Boolean irq;
-    Boolean input;
+    bx_bool strobe;
+    bx_bool autofeed;
+    bx_bool init;
+    bx_bool slct_in;
+    bx_bool irq;
+    bx_bool input;
   } CONTROL;
   FILE *output;
-  Boolean initmode;
+  bx_bool initmode;
 } bx_par_t;
 
 

@@ -61,7 +61,7 @@ public:
 
   void   loadKeymap(Bit32u(*)(const char*));
   void   loadKeymap(Bit32u(*)(const char*),const char *filename);
-  Boolean isKeymapLoaded ();
+  bx_bool isKeymapLoaded ();
 
   BXKeyEntry *findHostKey(Bit32u hostkeynum);
   BXKeyEntry *findAsciiChar(Bit8u ascii);

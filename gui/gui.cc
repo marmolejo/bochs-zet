@@ -475,7 +475,7 @@ bx_gui_c::userbutton_handler(void)
 }
 
   void
-bx_gui_c::mouse_enabled_changed (Boolean val)
+bx_gui_c::mouse_enabled_changed (bx_bool val)
 {
   // This is only called when SIM->get_init_done is 1.  Note that VAL
   // is the new value of mouse_enabled, which may not match the old
