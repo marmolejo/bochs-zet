@@ -229,7 +229,7 @@ BX_CPU_C::MUL_RAXEq(bxInstruction_c *i)
     long_mul(&product_128,op1_64,op2_64);
 
     /* set EFLAGS */
-    SET_FLAGS_OSZAPC_S1S2_64(product_128.lo, product_128.hi, BX_INSTR_MUL_RAX);
+    SET_FLAGS_OSZAPC_S1S2_64(product_128.lo, product_128.hi, BX_INSTR_MUL64);
 
     /* now write product back to destination */
     RAX = product_128.lo;
@@ -267,7 +267,7 @@ BX_CPU_C::IMUL_RAXEq(bxInstruction_c *i)
      * IMUL r/m64: condition for clearing CF & OF:
      *   RDX:RAX = sign-extend of RAX
      */
-    SET_FLAGS_OSZAPC_S1S2_64(product_128.lo, product_128.hi, BX_INSTR_IMUL_RAX);
+    SET_FLAGS_OSZAPC_S1S2_64(product_128.lo, product_128.hi, BX_INSTR_IMUL64);
 }
 
   void
