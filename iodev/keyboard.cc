@@ -132,13 +132,13 @@ bx_keyb_c::init(void)
   DEV_register_irq(12, "8042 Keyboard controller (PS/2 mouse)");
 
   DEV_register_ioread_handler(this, read_handler,
-                                      0x0060, "8042 Keyboard controller", 3);
+                                      0x0060, "8042 Keyboard controller", 1);
   DEV_register_ioread_handler(this, read_handler,
-                                      0x0064, "8042 Keyboard controller", 3);
+                                      0x0064, "8042 Keyboard controller", 1);
   DEV_register_iowrite_handler(this, write_handler,
-                                      0x0060, "8042 Keyboard controller", 3);
+                                      0x0060, "8042 Keyboard controller", 1);
   DEV_register_iowrite_handler(this, write_handler,
-                                      0x0064, "8042 Keyboard controller", 3);
+                                      0x0064, "8042 Keyboard controller", 1);
   BX_KEY_THIS timer_handle = bx_pc_system.register_timer( this, timer_handler,
                                  bx_options.Okeyboard_serial_delay->get(), 1, 1,
 				 "8042 Keyboard controller");
@@ -288,11 +288,6 @@ bx_keyb_c::read(Bit32u   address, unsigned io_len)
   UNUSED(this_ptr);
 #endif  // !BX_USE_KEY_SMF
 
-  if (io_len > 1)
-    BX_PANIC(("kbd: io read to address %08x, len=%u",
-             (unsigned) address, (unsigned) io_len));
-
-
 //BX_DEBUG(( "read from port 0x%04x", (unsigned) address));
 
   if (address == 0x60) { /* output buffer */
@@ -414,15 +409,7 @@ bx_keyb_c::write( Bit32u   address, Bit32u   value, unsigned io_len)
   Bit8u   command_byte;
   static int kbd_initialized=0;
 
-  if (io_len > 1)
-    BX_PANIC(("kbd: io write to address %08x, len=%u",
-             (unsigned) address, (unsigned) io_len));
-
   BX_DEBUG(("keyboard: 8-bit write to %04x = %02x", (unsigned)address, (unsigned)value));
-
-
-//BX_DEBUG(("WRITE(%02x) = %02x", (unsigned) address,
-//      (unsigned) value));
 
   switch (address) {
     case 0x60: // input buffer
