@@ -555,7 +555,11 @@ BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR EXT = 0;
   //BX_INTR = 0;
 
+#if BX_SUPPORT_PAGING
+#if BX_USE_TLB
   TLB_init();
+#endif // BX_USE_TLB
+#endif // BX_SUPPORT_PAGING
 
   BX_CPU_THIS_PTR bytesleft = 0;
   BX_CPU_THIS_PTR fetch_ptr = NULL;
