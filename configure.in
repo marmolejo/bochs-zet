@@ -10,7 +10,7 @@ dnl // Put Bochs version information right here so that it gets substituted
 dnl // into all the right places.
 VERSION="2.0.pre4"
 VER_STRING="2.0.pre4"
-REL_STRING="Build from CVS snapshot on December 13, 2002"
+REL_STRING="Build from CVS snapshot on December 14, 2002"
 
 changequote(<<, >>)
 changequote([, ])
