@@ -1208,7 +1208,7 @@ BX_CPU_C::RDMSR(BxInstruction_t *i)
 			return;
 			
 		default:
-			BX_INFO(("RDMSR: Unknown register!"));
+			BX_PANIC(("RDMSR: Unknown register %#x", ECX));
 			goto do_exception;
 			
 	}
@@ -1274,7 +1274,7 @@ BX_CPU_C::WRMSR(BxInstruction_t *i)
 			return;
 			
 		default:
-			BX_INFO(("WRMSR: Unknown register!"));
+			BX_PANIC(("WRMSR: Unknown register %#x", ECX));
 			goto do_exception;
 			
 	}
