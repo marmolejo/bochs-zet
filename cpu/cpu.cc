@@ -231,7 +231,11 @@ fetch_decode_OK:
 #if BX_DEBUGGER
     if (BX_CPU_THIS_PTR trace) {
       // print the instruction that is about to be executed.
-      bx_dbg_disassemble_current (-1, 1);  // all cpus, print time stamp
+#if (BX_SMP_PROCESSORS==1)
+      bx_dbg_disassemble_current (0, 1);  // only one cpu, print time stamp
+#else
+      bx_dbg_disassemble_current (local_apic.get_id (), 1); // this cpu only
+#endif
     }
 #endif
 
