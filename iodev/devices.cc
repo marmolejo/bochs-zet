@@ -64,7 +64,7 @@ bx_devices_c::bx_devices_c(void)
   pluginVgaDevice = &stubVga;
   pluginPicDevice = &stubPic;
   pluginHardDrive = &stubHardDrive;
-  sb16 = NULL;
+  pluginSB16Device = NULL;
   ne2k = NULL;
   g2h = NULL;
 #if BX_IODEBUG_SUPPORT
@@ -169,8 +169,9 @@ bx_devices_c::init(BX_MEM_C *newmem)
 
 #if BX_SUPPORT_SB16
   //--- SOUND ---
-  sb16 = &bx_sb16;
-  sb16->init();
+  if (bx_options.sb16.Opresent->get ()) {
+    PLUG_load_plugin(sb16, PLUGTYPE_OPTIONAL);
+  }
 #endif
 
   /*--- VGA adapter ---*/
@@ -264,7 +265,7 @@ bx_devices_c::reset(unsigned type)
   pluginDmaDevice->reset(type);
   pluginFloppyDevice->reset(type);
 #if BX_SUPPORT_SB16
-  sb16->reset(type);
+  pluginSB16Device->reset(type);
 #endif
   pluginVgaDevice->reset(type);
   pluginPicDevice->reset(type);

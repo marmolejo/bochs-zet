@@ -43,7 +43,6 @@
 
 class bx_pit_c;
 class bx_keyb_c;
-class bx_sb16_c;
 class bx_ioapic_c;
 class bx_ne2k_c;
 class bx_g2h_c;
@@ -302,7 +301,7 @@ public:
   bx_vga_stub_c    *pluginVgaDevice;
   bx_pic_stub_c    *pluginPicDevice;
   bx_hard_drive_stub_c *pluginHardDrive;
-  bx_sb16_c        *sb16;
+  bx_devmodel_c    *pluginSB16Device;
   bx_ne2k_c        *ne2k;
   bx_g2h_c         *g2h;
 #if BX_IODEBUG_SUPPORT
