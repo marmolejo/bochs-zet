@@ -324,6 +324,8 @@ void MyFrame::OnStartSim(wxCommandEvent& WXUNUSED(event))
   // set up callback for events from simulator thread
   SIM->set_notify_callback (&SimThread::SiminterfaceCallback, sim_thread);
   // fix up menu choices
+  menuConfiguration->Enable (ID_Config_New, FALSE);
+  menuConfiguration->Enable (ID_Config_Read, FALSE);
   menuSimulate->Enable (ID_Simulate_Start, FALSE);
   menuSimulate->Enable (ID_Simulate_PauseResume, TRUE);
   menuSimulate->Enable (ID_Simulate_Stop, TRUE);
