@@ -187,7 +187,7 @@ typedef enum {
 
 
 
-void bx_debug_ctrlc_handler(int signum);
+static void bx_debug_ctrlc_handler(int signum);
 void bx_debug_break ();
 
 void bx_dbg_exit(int code);

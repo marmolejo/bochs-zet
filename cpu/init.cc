@@ -816,22 +816,7 @@ BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR cr3 = 0;
 #endif
 #if BX_CPU_LEVEL >= 4
-#if BX_SUPPORT_X86_64
-  BX_CPU_THIS_PTR cr4.val32 = 0;
-  BX_CPU_THIS_PTR cr4.vme = 0;
-  BX_CPU_THIS_PTR cr4.pvi = 0;
-  BX_CPU_THIS_PTR cr4.tsd = 0;
-  BX_CPU_THIS_PTR cr4.de  = 0;
-  BX_CPU_THIS_PTR cr4.pse = 0;
-  BX_CPU_THIS_PTR cr4.pae = 0;
-  BX_CPU_THIS_PTR cr4.mce = 0;
-  BX_CPU_THIS_PTR cr4.pge = 0;
-  BX_CPU_THIS_PTR cr4.pce = 0;
-  BX_CPU_THIS_PTR cr4.osfxsr = 0;
-  BX_CPU_THIS_PTR cr4.osxmmexcpt = 0;
-#else
-  BX_CPU_THIS_PTR cr4 = 0;
-#endif
+  BX_CPU_THIS_PTR cr4.setRegister(0);
 #endif
 
 #if BX_SUPPORT_X86_64

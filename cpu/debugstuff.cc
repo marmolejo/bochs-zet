@@ -502,7 +502,7 @@ BX_CPU_C::dbg_get_cpu(bx_dbg_cpu_t *cpu)
   cpu->cr1 = 0;
   cpu->cr2 = BX_CPU_THIS_PTR cr2;
   cpu->cr3 = BX_CPU_THIS_PTR cr3;
-  cpu->cr4 = 0;
+  cpu->cr4 = BX_CPU_THIS_PTR cr4.getRegister();
 
   cpu->inhibit_mask = BX_CPU_THIS_PTR inhibit_mask;
 
@@ -896,7 +896,7 @@ BX_CPU_C::dbg_set_cpu(bx_dbg_cpu_t *cpu)
   BX_CPU_THIS_PTR cr2 = cpu->cr2;
   BX_CPU_THIS_PTR cr3 = cpu->cr3;
 #if BX_CPU_LEVEL >= 5
-  BX_CPU_THIS_PTR cr4 = cpu->cr4;
+  BX_CPU_THIS_PTR cr4.setRegister(cpu->cr4);
 #endif
 
   BX_CPU_THIS_PTR inhibit_mask = cpu->inhibit_mask;
