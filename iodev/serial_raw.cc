@@ -66,9 +66,9 @@ serial_raw::set_stop_bits (int val)
 }
 
 void 
-serial_raw::set_parity_mode (int x, int y)
+serial_raw::set_parity_mode (int mode)
 {
-  BX_DEBUG (("set parity %d %d", x, y));
+  BX_DEBUG (("set parity mode %d", mode));
 }
 
 void 
