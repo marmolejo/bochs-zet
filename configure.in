@@ -1257,6 +1257,7 @@ elif test "$with_term" = yes; then
 elif test "$with_wx" = yes; then
   AC_MSG_RESULT(wxWindows)
   AC_DEFINE(BX_WITH_WX, 1)
+  WX_CONFIG=wx-config
   WX_CFLAGS="\`$WX_CONFIG --cflags\`"
   WX_CXXFLAGS="\`$WX_CONFIG --cxxflags\`"
   GUI_LINK_OPTS_WX="\`$WX_CONFIG --libs\`"
