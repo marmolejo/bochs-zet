@@ -1168,6 +1168,24 @@ static struct lt_user_dlloader sys_shl = {
 
 #include <windows.h>
 
+void win32_print_last_error (char *fmtstring)
+{
+	LPVOID lpMsgBuf;
+	FormatMessage(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+		FORMAT_MESSAGE_FROM_SYSTEM | 
+		FORMAT_MESSAGE_IGNORE_INSERTS,
+		NULL,
+		GetLastError(),
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+		(LPTSTR) &lpMsgBuf,
+		0,
+		NULL 
+	);
+    printf (fmtstring, (char*)lpMsgBuf);
+	LocalFree (lpMsgBuf);
+}
+
 /* Forward declaration; required to implement handle search below. */
 static lt_dlhandle handles;
 
@@ -1219,6 +1237,9 @@ sys_wll_open (loader_data, filename)
   }
 #else
   module = LoadLibrary (searchname);
+  if (!module) {
+    win32_print_last_error ("LoadLibrary failed: %s\n");
+  }
 #endif
   LT_DLFREE (searchname);
 
