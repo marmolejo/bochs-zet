@@ -13,6 +13,7 @@
 // this dummy only exists for purposes of log functions.  It would be
 // lovely to get rid of it.
 class siminterface_dummy_c : public logfunctions {
+public:
   siminterface_dummy_c () {
     setprefix("[CTRL]"); // control panel
     settype(CTRLLOG);
