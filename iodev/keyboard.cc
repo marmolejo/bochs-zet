@@ -672,7 +672,7 @@ bx_keyb_c::service_paste_buf ()
     // there room in the buffer for a keypress and a key release.
     // send one keypress and a key release.
     Bit8u byte = BX_KEY_THIS pastebuf[BX_KEY_THIS pastebuf_ptr];
-    BXKeyEntry *entry = bx_keymap.getKeyASCII (byte);
+    BXKeyEntry *entry = bx_keymap.findAsciiChar (byte);
     if (!entry) {
       BX_ERROR (("paste character 0x%02x ignored", byte));
     } else {
