@@ -267,7 +267,7 @@ bx_devices_c::port92_write(Bit32u address, Bit32u value, unsigned io_len)
     (unsigned) value));
   BX_DEBUG(("A20: set_enable_a20() called"));
   BX_SET_ENABLE_A20( (value & 0x02) >> 1 );
-  BX_INFO(("A20: now %u", (unsigned) BX_GET_ENABLE_A20()));
+  BX_DEBUG(("A20: now %u", (unsigned) BX_GET_ENABLE_A20()));
   bx_cpu_reset  = (value & 0x01); /* high speed reset */
   if (bx_cpu_reset) {
     BX_PANIC(("PORT 92h write: CPU reset requested!"));

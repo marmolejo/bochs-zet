@@ -175,13 +175,13 @@ BX_MEM_C::load_ROM(const char *path, Bit32u romaddress)
 			path
 		));
   else
-    BX_INFO(("rom at 0x%06x/%u ('%s')",
+    BX_INFO(("rom at 0x%05x/%u ('%s')",
 			(unsigned) romaddress,
 			(unsigned) stat_buf.st_size,
 			path
 		));
 #else  // #if BX_PCI_SUPPORT
-  BX_INFO(("rom at 0x%06x/%u ('%s')",
+  BX_INFO(("rom at 0x%05x/%u ('%s')",
 			(unsigned) romaddress,
 			(unsigned) stat_buf.st_size,
  			path
