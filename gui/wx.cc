@@ -59,6 +59,9 @@
 //////////////////////////////////////////////////////////////
 // data for wx gui
 //////////////////////////////////////////////////////////////
+// The bits to be displayed on the VGA screen are stored in wxScreen.
+// wxScreen is an array (size=width*height*3) of RGB values.  Each
+// pixel is represented by three bytes, one for red, green, and blue.
 static char *wxScreen = NULL;
 wxCriticalSection wxScreen_lock;
 static long wxScreenX = 0;
@@ -951,7 +954,7 @@ void bx_gui_c::text_update(Bit8u *old_text, Bit8u *new_text,
 // Allocate a color in the native GUI, for this color, and put
 // it in the colormap location 'index'.
 // returns: 0=no screen update needed (color map change has direct effect)
-//          1=screen updated needed (redraw using current colormap)
+//          1=screen update needed (redraw using current colormap)
 
   Boolean
 bx_gui_c::palette_change(unsigned index, unsigned red, unsigned green, unsigned blue)
@@ -960,8 +963,7 @@ bx_gui_c::palette_change(unsigned index, unsigned red, unsigned green, unsigned 
   wxBochsPalette[index].red = red;
   wxBochsPalette[index].green = green;
   wxBochsPalette[index].blue = blue;
-  thePanel->MyRefresh ();
-  return(0);
+  return(1);  // screen update needed
 }
 
 
