@@ -364,10 +364,12 @@ install_share::
 install_doc::
 	for i in $(DESTDIR)$(docdir); do mkdir -p $$i && test -d $$i && test -w $$i; done
 	for i in $(INSTALL_LIST_DOC); do if test -f $$i; then cp $$i $(DESTDIR)$(docdir); else cp $(srcdir)/$$i $(DESTDIR)$(docdir); fi; done
-	$(CP) -r $(srcdir)/docs-html $(DESTDIR)$(docdir)
 	$(RM) -f $(DESTDIR)$(docdir)/README
 	$(CAT) $(srcdir)/build/linux/README.linux-binary $(srcdir)/README > $(DESTDIR)$(docdir)/README
 	$(CP) $(srcdir)/.bochsrc $(DESTDIR)$(docdir)/bochsrc-sample.txt
+
+install_docbook:
+	cd doc/docbook; make install
 
 install_man::
 	-mkdir -p $(DESTDIR)$(man1dir)
