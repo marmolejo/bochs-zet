@@ -751,10 +751,11 @@ static void setupWorkingDirectory (char *path)
     *c = '\0';             /* cut off last part (binary name) */
     
 	/* chdir to the binary app's parent */
-	int n = chdir (parentdir);
+	int n;
+        n = chdir (parentdir);
 	if (n) BX_PANIC (("failed to change dir to parent"));
 	/* chdir to the .app's parent */
-	int n = chdir ("../../../");
+	n = chdir ("../../../");
     if (n) BX_PANIC (("failed to change to ../../.."));
 }
 #endif
