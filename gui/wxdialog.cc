@@ -1528,6 +1528,8 @@ void ParamDialog::EnableChanged ()
     ParamStruct *pstr = (ParamStruct*) node->GetData ();
     if (pstr->param->get_type () == BXT_PARAM_BOOL)
       EnableChanged (pstr);
+    if (pstr->param->get_type () == BXT_PARAM_ENUM)
+      EnumChanged (pstr);
     // special cases that can't be handled in the usual way
   }
 }
