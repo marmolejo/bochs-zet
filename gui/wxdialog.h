@@ -1107,6 +1107,45 @@ speed, or if Bochs is wasting all of your CPU's cycles you could turn
 a dial to some periodic delays to allow other processes a chance to
 complete.
 
+Suggestions from Greg Alexander:
+> I'm using O for radio buttons and [ ] for check boxes.
+> 
+> ---------Basic Configure Timing Dialog--------
+> 
+> Instructions per second:  [_________] (maybe have some default options
+>     and an "other")
+> 
+> Select timing behavior desired:
+> 
+> O Full Speed, Real Time
+>   (NOT Reproducible)
+> O Minimize CPU Use, Real Time
+> O Full speed, NOT Real Time
+> 
+> [Advanced]
+> 
+> -----------------------------------------------
+> The logic for the above would look like this:
+> All options get the New PIT.
+> Option 1 Gets you the Realtime PIT.
+> Option 2 Gets you the Slowdown Timer.
+> Option 3 Gets you neither.
+> 
+> -------Advanced Configure Timing Dialog--------
+> 
+> Instructions per second:  [_________]
+> 
+> Select PIT Model:
+> O Old Model
+> O New Model
+> O Realtime PIT (not reproducible)
+> 
+> Select Optional Realtime Hacks:
+> [ ] Slowdown Timer  Maxmult setting [_________]
+> [ ] Idle Hack (X Windows Only)
+> 
+> ----------------------------------------------
+
 ////////////////////////////////////////////////////////////////////////////
 // OtherOptionsDialog
 ////////////////////////////////////////////////////////////////////////////
