@@ -149,4 +149,34 @@ eth_locator_c::create(const char *type, const char *netif,
   return (NULL);
 }
 
+int execute_script( char* scriptname, char* arg1 )
+{
+  int pid,status;
+
+  if (!(pid=fork())) {
+    char filename[BX_PATHNAME_LEN];
+    if ( scriptname[0]=='/' ) {
+      strcpy (filename, scriptname);
+    }
+    else {
+      getcwd (filename, BX_PATHNAME_LEN);
+      strcat (filename, "/");
+      strcat (filename, scriptname);
+    }
+
+    // execute the script
+    BX_INFO(("Executing script '%s %s'",filename,arg1));
+    execle(filename, scriptname, arg1, NULL, NULL);
+
+    // if we get here there has been a problem
+    exit(-1);
+  }
+
+  wait (&status);
+  if (!WIFEXITED(status)) {
+    return -1;
+  }
+  return WEXITSTATUS(status);
+}
+
 #endif /* if BX_NE2K_SUPPORT */

@@ -31,6 +31,7 @@
 
 typedef void (*eth_rx_handler_t)(void *arg, const void *buf, unsigned len);
 
+int execute_script(char *name, char* arg1);
 
 //
 //  The eth_pktmover class is used by ethernet chip emulations
