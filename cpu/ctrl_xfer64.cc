@@ -180,35 +180,6 @@ BX_CPU_C::CALL_Aq(bxInstruction_c *i)
 }
 
   void
-BX_CPU_C::CALL64_Ap(bxInstruction_c *i)
-{
-  Bit16u cs_raw;
-  Bit32u disp32;
-
-  invalidate_prefetch_q();
-
-#if BX_DEBUGGER
-  BX_CPU_THIS_PTR show_flag |= Flag_call;
-#endif
-
-  disp32 = i->Id();
-  cs_raw = i->Iw2();
-
-  if (protected_mode()) {
-    BX_CPU_THIS_PTR call_protected(i, cs_raw, disp32);
-    goto done;
-    }
-  push_64(BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value);
-  push_64(BX_CPU_THIS_PTR rip);
-  RIP = disp32;
-  load_seg_reg(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS], cs_raw);
-
-done:
-  BX_INSTR_FAR_BRANCH(BX_CPU_ID, BX_INSTR_IS_CALL,
-                      BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, BX_CPU_THIS_PTR rip);
-}
-
-  void
 BX_CPU_C::CALL_Eq(bxInstruction_c *i)
 {
   Bit64u op1_64;
