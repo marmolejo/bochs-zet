@@ -1016,6 +1016,7 @@ void bx_win32_gui_c::dimension_update(unsigned x, unsigned y, unsigned fheight)
   SetWindowPos(stInfo.mainWnd, HWND_TOP, 0, 0, stretched_x + x_edge * 2,
               stretched_y + bx_headerbar_y + y_edge * 2 + y_caption,
                SWP_NOMOVE | SWP_NOZORDER);
+  MoveWindow(hwndTB, 0, 0, stretched_x, bx_headerbar_y, TRUE);
   MoveWindow(stInfo.simWnd, 0, bx_headerbar_y, stretched_x, stretched_y, TRUE);
 }
 
