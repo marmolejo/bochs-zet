@@ -67,7 +67,7 @@ void finit_()
 
 static void fstsw_ax(void)
 {
-  SET_AX(status_word()); // KPL
+  SET_AX(status_word());
   no_ip_update = 1;
 }
 

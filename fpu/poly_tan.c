@@ -18,8 +18,6 @@
 #include "control_w.h"
 #include "poly.h"
 
-//#define DEBUG_POLY_TAN // ***********
-
 #define	HiPOWERop	3	/* odd poly, positive terms */
 static const u64 oddplterm[HiPOWERop] =
 {
