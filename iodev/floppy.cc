@@ -890,7 +890,7 @@ bx_floppy_ctrl_c::floppy_command(void)
         BX_PANIC(("sector_size not 512"));
         }
       if ( cylinder >= BX_FD_THIS s.media[drive].tracks ) {
-		BX_PANIC(("io: norm r/w parms out of range: sec#%02xh cyl#%02xh eot#%02h head#%02xh",
+		BX_PANIC(("io: norm r/w parms out of range: sec#%02xh cyl#%02xh eot#%02xh head#%02xh",
 				(unsigned) sector, (unsigned) cylinder, (unsigned) eot,
 				(unsigned) head));
         return;
@@ -914,7 +914,7 @@ bx_floppy_ctrl_c::floppy_command(void)
         BX_FD_THIS s.status_reg0 = 0x40 | (BX_FD_THIS s.head[drive]<<2) | drive;
         BX_FD_THIS s.result[0] = BX_FD_THIS s.status_reg0;
         // 1000 0101 end of cyl/NDAT/NID
-        BX_FD_THIS s.result[1] = 0x86;
+        BX_FD_THIS s.result[1] = 0x85;
         // 0000 0000
         BX_FD_THIS s.result[2] = 0x00;
         BX_FD_THIS s.result[3] = BX_FD_THIS s.cylinder[drive];
