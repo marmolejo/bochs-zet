@@ -631,7 +631,7 @@ BX_CPU_C::NEG_Eq(bxInstruction_c *i)
       Write_RMW_virtual_qword(diff_64);
       }
 
-    SET_FLAGS_OSZAPC_S1_64(op1_64, diff_64, BX_INSTR_NEG64);
+    SET_FLAGS_OSZAPC_RESULT_64(diff_64, BX_INSTR_NEG64);
 }
 
   void
@@ -707,8 +707,6 @@ BX_CPU_C::CMPXCHG_EqGq(bxInstruction_c *i)
     SET_FLAGS_OSZAPC_64(RAX, op1_64, diff_64, BX_INSTR_COMPARE64);
 
     if (diff_64 == 0) {  // if accumulator == dest
-      // ZF = 1
-      set_ZF(1);
       // dest <-- src
       op2_64 = BX_READ_64BIT_REG(i->nnn());
 
@@ -720,8 +718,6 @@ BX_CPU_C::CMPXCHG_EqGq(bxInstruction_c *i)
         }
       }
     else {
-      // ZF = 0
-      set_ZF(0);
       // accumulator <-- dest
       RAX = op1_64;
     }

@@ -660,7 +660,7 @@ BX_CPU_C::NEG_Ed(bxInstruction_c *i)
     Write_RMW_virtual_dword(diff_32);
     }
 
-  SET_FLAGS_OSZAPC_S1_32(op1_32, diff_32, BX_INSTR_NEG32);
+  SET_FLAGS_OSZAPC_RESULT_32(diff_32, BX_INSTR_NEG32);
 }
 
 
@@ -722,8 +722,6 @@ BX_CPU_C::CMPXCHG_EdGd(bxInstruction_c *i)
   SET_FLAGS_OSZAPC_32(EAX, op1_32, diff_32, BX_INSTR_COMPARE32);
 
   if (diff_32 == 0) {  // if accumulator == dest
-    // ZF = 1
-    set_ZF(1);
     // dest <-- src
     op2_32 = BX_READ_32BIT_REG(i->nnn());
 
@@ -735,8 +733,6 @@ BX_CPU_C::CMPXCHG_EdGd(bxInstruction_c *i)
       }
     }
   else {
-    // ZF = 0
-    set_ZF(0);
     // accumulator <-- dest
     RAX = op1_32;
     }
