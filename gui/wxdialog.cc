@@ -1794,7 +1794,7 @@ void ParamDialog::AddParamList (bx_id *idList, wxFlexGridSizer *sizer, bool plai
 }
 
 // support "legacy" addparam functions. Easier than changing them.
-void ParamDialog::AddParam (bx_param_c *param, wxFlexGridSizer *sizer, bool plain = false)
+void ParamDialog::AddParam (bx_param_c *param, wxFlexGridSizer *sizer, bool plain)
 {
   AddParamContext context;
   context.depth = 0;
