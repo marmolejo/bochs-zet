@@ -430,6 +430,7 @@ struct ParamStruct : public wxObject {
     wxWindow *window;
     wxChoice *choice;
     wxTextCtrl *text;
+    wxSpinCtrl *spin;
     wxCheckBox *checkbox;
     wxStaticBox *staticbox;
     wxNotebook *notebook;
