@@ -91,8 +91,8 @@ static int parse_bochsrc(char *rcfile);
 static void bx_do_text_config_interface (int first_arg, int argc, char *argv[]);
 #endif
 
-static Bit32s
-bx_param_handler (bx_param_c *param, int set, Bit32s val)
+static Bit64s
+bx_param_handler (bx_param_c *param, int set, Bit64s val)
 {
   bx_id id = param->get_id ();
   switch (id) {
