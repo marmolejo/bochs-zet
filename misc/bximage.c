@@ -12,7 +12,7 @@
 #include "config.h"
 
 char *EOF_ERR = "ERROR: End of input";
-char *rcsid = "$Revision$, modified $Date$";
+char *rcsid = "$Id$";
 char *divider = "========================================================================";
 
 /* menu data for choosing floppy/hard disk */
