@@ -1800,6 +1800,13 @@ bx_init_main (int argc, char *argv[])
 	  BX_PLUGIN_PATH));
     setenv("LTDL_LIBRARY_PATH", BX_PLUGIN_PATH, 1);
   }
+  if (getenv("BXBIOS") != NULL) {
+    BX_INFO (("BXBIOS is set to '%s'", getenv("BXBIOS")));
+  } else {
+    BX_INFO (("BXBIOS not set. using compile time default '%s'", 
+	  BX_BIOS_DEFAULT_PATH));
+    setenv("BXBIOS", BX_BIOS_DEFAULT_PATH, 1);
+  }
 #else
   // we don't have getenv or setenv.  Do nothing.
 #endif
