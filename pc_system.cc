@@ -182,6 +182,7 @@ bx_pc_system_c::ResetSignal( PCS_OP operation )
   BX_ERROR(( "# bx_pc_system_c::ResetSignal() called" ));
   for (int i=0; i<BX_SMP_PROCESSORS; i++)
     BX_CPU(i)->reset(BX_RESET_SOFTWARE);
+  bx_devices.reset();
   return(0);
 }
 

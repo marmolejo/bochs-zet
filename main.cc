@@ -1366,6 +1366,7 @@ bx_init_hardware()
 
 #if BX_DEBUGGER == 0
   bx_devices.init(BX_MEM(0));
+  bx_devices.reset();
   bx_gui.init_signal_handlers ();
   bx_pc_system.start_timers();
 #endif

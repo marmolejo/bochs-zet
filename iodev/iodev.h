@@ -80,6 +80,7 @@ public:
   bx_devices_c(void);
   ~bx_devices_c(void);
   void init(BX_MEM_C *);
+  void reset(void);
   BX_MEM_C *mem;  // address space associated with these devices
   Boolean register_io_read_handler(void *this_ptr, bx_read_handler_t f, Bit32u addr, const char *name );
   Boolean register_io_write_handler(void *this_ptr, bx_write_handler_t f, Bit32u addr, const char *name );

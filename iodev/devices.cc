@@ -114,7 +114,6 @@ bx_devices_c::init(BX_MEM_C *newmem)
   // PCI logic (i440FX)
   pci = & bx_pci;
   pci->init(this);
-  pci->reset();
 #endif
 
 #if BX_SUPPORT_APIC
@@ -144,7 +143,6 @@ bx_devices_c::init(BX_MEM_C *newmem)
   //--- FLOPPY ---
   floppy = &bx_floppy;
   floppy->init(this, cmos);
-  floppy->reset(BX_RESET_HARDWARE);
 
 #if BX_SUPPORT_SB16
   //--- SOUND ---
@@ -227,6 +225,16 @@ bx_devices_c::init(BX_MEM_C *newmem)
 
   timer_handle = bx_pc_system.register_timer( this, timer_handler,
     (unsigned) BX_IODEV_HANDLER_PERIOD, 1, 1);
+}
+
+
+  void
+bx_devices_c::reset(void)
+{
+#if BX_PCI_SUPPORT
+  pci->reset();
+#endif
+  floppy->reset(BX_RESET_HARDWARE);
 }
 
 
