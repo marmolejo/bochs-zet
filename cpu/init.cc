@@ -519,7 +519,15 @@ BX_CPU_C::reset(unsigned source)
 #endif
 #endif
 
+#if BX_SUPPORT_SSE >= 1
+  for(unsigned index=0; index < BX_XMM_REGISTERS; index++)
+  {
+    BX_CPU_THIS_PTR xmm[index].xmm64u(0) = 0;
+    BX_CPU_THIS_PTR xmm[index].xmm64u(1) = 0;
+  }
 
+  BX_CPU_THIS_PTR mxcsr.mxcsr = MXCSR_RESET;
+#endif
 
   /* CS (Code Segment) and descriptor cache */
   /* Note: on a real cpu, CS initially points to upper memory.  After
