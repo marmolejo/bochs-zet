@@ -5859,6 +5859,16 @@ disk accesses are _VERY_ slow.
 
 <section><title>concat</title>
 <para>
+&FIXME; temporary text from old enable-split-hd option
+<screen>
+      When enabled, this allows a series of partial hard disk image files to be
+      treated as if it was one large file.  The .bochsrc specifies the first
+      partial HD image (example win95-1) and then bochs searches for the other
+      partial images in as a sequence (win95-2, win95-3, etc.) and opens them
+      all.  Then, it treats the series as if there was a single large file
+      created by "cat win95-1 win95-2 win95-3".  This trick works for both
+      diskc and diskd.  All files must be a multiple of 512 bytes.
+</screen>
 </para>
 </section>
 
