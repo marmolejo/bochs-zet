@@ -138,6 +138,7 @@ public:
   void OnEditBoot(wxCommandEvent& event);
   void OnEditMemory(wxCommandEvent& event);
   void OnEditNet(wxCommandEvent& event);
+  void OnEditKeyboard(wxCommandEvent& event);
   void OnLogPrefs(wxCommandEvent& event);
   void OnOtherEvent(wxCommandEvent& event);
   static bool editFloppyValidate (FloppyConfigDialog *dialog);
