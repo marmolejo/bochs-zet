@@ -32,13 +32,6 @@
 
 #include "cpu/lazy_flags.h"
 
-#define BX_SREG_ES    0
-#define BX_SREG_CS    1
-#define BX_SREG_SS    2
-#define BX_SREG_DS    3
-#define BX_SREG_FS    4
-#define BX_SREG_GS    5
-
 // segment register encoding
 #define BX_SEG_REG_ES    0
 #define BX_SEG_REG_CS    1

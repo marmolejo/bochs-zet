@@ -306,7 +306,7 @@ BX_CPU_C::cpu_loop(Bit32s max_instr_count)
       BX_CPU_THIS_PTR prev_eip = RIP; // commit new EIP
       BX_CPU_THIS_PTR prev_esp = RSP; // commit new ESP
 #ifdef REGISTER_IADDR
-      REGISTER_IADDR(RIP + BX_CPU_THIS_PTR sregs[BX_SREG_CS].cache.u.segment.base);
+      REGISTER_IADDR(RIP + BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.base);
 #endif
 
       BX_TICK1_IF_SINGLE_PROCESSOR();
@@ -381,7 +381,7 @@ repeat_loop:
       // shouldn't get here from above
 repeat_not_done:
 #ifdef REGISTER_IADDR
-      REGISTER_IADDR(RIP + BX_CPU_THIS_PTR sregs[BX_SREG_CS].cache.u.segment.base);
+      REGISTER_IADDR(RIP + BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.base);
 #endif
 
       BX_INSTR_REPEAT_ITERATION(CPU_ID);
@@ -405,7 +405,7 @@ repeat_done:
       BX_CPU_THIS_PTR prev_eip = RIP; // commit new EIP
       BX_CPU_THIS_PTR prev_esp = RSP; // commit new ESP
 #ifdef REGISTER_IADDR
-      REGISTER_IADDR(RIP + BX_CPU_THIS_PTR sregs[BX_SREG_CS].cache.u.segment.base);
+      REGISTER_IADDR(RIP + BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.base);
 #endif
 
       BX_INSTR_REPEAT_ITERATION(CPU_ID);

@@ -182,7 +182,7 @@ BX_CPU_C::INSW_YvDX(bxInstruction_c *i)
         bx_segment_reg_t *dstSegPtr;
         int pointerDelta;
 
-        dstSegPtr = &BX_CPU_THIS_PTR sregs[BX_SREG_ES];
+        dstSegPtr = &BX_CPU_THIS_PTR sregs[BX_SEG_REG_ES];
 
         // Do segment checks for the 1st word.  We do not want to
         // trip an exception beyond this, because the address would

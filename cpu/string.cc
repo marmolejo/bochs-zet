@@ -156,7 +156,7 @@ BX_CPU_C::MOVSB_XbYb(bxInstruction_c *i)
         Bit32u     paddrDst, paddrSrc;
 
         srcSegPtr = &BX_CPU_THIS_PTR sregs[seg];
-        dstSegPtr = &BX_CPU_THIS_PTR sregs[BX_SREG_ES];
+        dstSegPtr = &BX_CPU_THIS_PTR sregs[BX_SEG_REG_ES];
 
         // Do segment checks for the 1st word.  We do not want to
         // trip an exception beyond this, because the address would
@@ -468,7 +468,7 @@ BX_CPU_C::MOVSW_XvYv(bxInstruction_c *i)
         Bit32u     paddrDst, paddrSrc;
 
         srcSegPtr = &BX_CPU_THIS_PTR sregs[seg];
-        dstSegPtr = &BX_CPU_THIS_PTR sregs[BX_SREG_ES];
+        dstSegPtr = &BX_CPU_THIS_PTR sregs[BX_SEG_REG_ES];
 
         // Do segment checks for the 1st word.  We do not want to
         // trip an exception beyond this, because the address would
@@ -726,7 +726,7 @@ doIncr32:
         Bit32u     paddrDst, paddrSrc;
 
         srcSegPtr = &BX_CPU_THIS_PTR sregs[seg];
-        dstSegPtr = &BX_CPU_THIS_PTR sregs[BX_SREG_ES];
+        dstSegPtr = &BX_CPU_THIS_PTR sregs[BX_SEG_REG_ES];
 
         // Do segment checks for the 1st word.  We do not want to
         // trip an exception beyond this, because the address would
@@ -1664,7 +1664,7 @@ BX_CPU_C::STOSB_YbAL(bxInstruction_c *i)
         bx_address laddrDst;
         Bit32u     paddrDst;
 
-        dstSegPtr = &BX_CPU_THIS_PTR sregs[BX_SREG_ES];
+        dstSegPtr = &BX_CPU_THIS_PTR sregs[BX_SEG_REG_ES];
 
         // Do segment checks for the 1st word.  We do not want to
         // trip an exception beyond this, because the address would
