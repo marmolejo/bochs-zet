@@ -249,7 +249,7 @@ AC_SUBST(BX_USE_IDLE_HACK)
 
 AC_MSG_CHECKING(for number of processors)
 AC_ARG_ENABLE(processors,
-  [  --enable-processors               select number of processors (1,2,4)],
+  [  --enable-processors               select number of processors (1,2,4,8)],
   [case "$enableval" in
      1)
        AC_MSG_RESULT(1)
@@ -280,7 +280,7 @@ AC_ARG_ENABLE(processors,
        ;;
      *)
        echo " "
-       echo "WARNING: processors != [1,2,4] can work, but you need to modify rombios.c manually"
+       echo "WARNING: processors != [1,2,4,8] can work, but you need to modify rombios.c manually"
        AC_MSG_RESULT($enable_val)
        AC_DEFINE(BX_SMP_PROCESSORS, $enable_val)
        AC_DEFINE(BX_BOOTSTRAP_PROCESSOR, 0)
