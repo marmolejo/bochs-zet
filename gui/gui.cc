@@ -340,7 +340,6 @@ bx_gui_c::snapshot_handler(void)
 {
   char *text_snapshot;
   Bit32u len;
-  int flag;
   if (make_text_snapshot (&text_snapshot, &len) < 0) {
     BX_ERROR(( "snapshot button failed, mode not implemented"));
     return;
@@ -480,4 +479,11 @@ bx_gui_c::init_signal_handlers ()
       signal (sig, bx_signal_handler);
   }
 #endif
+}
+
+  void
+bx_gui_c::set_text_charmap(Bit8u *fbuffer)
+{
+  memcpy(& BX_GUI_THIS vga_charmap, fbuffer, 0x2000);
+  BX_GUI_THIS charmap_changed = 1;
 }
