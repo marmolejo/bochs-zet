@@ -1322,17 +1322,17 @@ bx_ne2k_c::init(void)
     BX_NE2K_THIS s.macaddr[i] = 0x57;
     
   // Attach to the simulated ethernet dev
-  BX_NE2K_THIS ethdev = eth_locator_c::create(bx_options.ne2k.Oethmod->getptr (), 
+  char *ethmod = bx_options.ne2k.Oethmod->get_choice(bx_options.ne2k.Oethmod->get());
+  BX_NE2K_THIS ethdev = eth_locator_c::create(ethmod,
                                               bx_options.ne2k.Oethdev->getptr (),
                                               (const char *) bx_options.ne2k.Omacaddr->getptr (),
                                               rx_handler, 
                                               this);
 
   if (BX_NE2K_THIS ethdev == NULL) {
-    BX_PANIC(("could not find eth module %s", bx_options.ne2k.Oethmod->getptr ()));
+    BX_PANIC(("could not find eth module %s", ethmod));
     // if they continue, use null.
-    BX_INFO(("could not find eth module %s - using null instead",
-             bx_options.ne2k.Oethmod->getptr ()));
+    BX_INFO(("could not find eth module %s - using null instead", ethmod));
 
     BX_NE2K_THIS ethdev = eth_locator_c::create("null", NULL,
                                                 (const char *) bx_options.ne2k.Omacaddr->getptr (),
