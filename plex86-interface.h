@@ -29,9 +29,6 @@
 
 extern unsigned     plex86State;
 extern int          plex86FD;
-extern unsigned     plex86MemSize;
-extern Bit8u       *plex86PrintBuffer;
-extern guest_cpu_t *plex86GuestCPU;
 
 extern unsigned plex86CpuInfo(BX_CPU_C *cpu);
 extern unsigned plex86TearDown(void);
