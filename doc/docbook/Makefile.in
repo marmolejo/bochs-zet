@@ -15,6 +15,8 @@ WGET = wget
 TARGZ = bochsdoc.tar.gz
 RENDERED_DOC_URL = http://bochs.sf.net/doc/docbook/$(TARGZ)
 
+DESTDIR=
+
 # name of the major documentation sections
 SECTIONS=user documentation development
 SECTION_HTML=$(SECTIONS:%=%/book1.html)
