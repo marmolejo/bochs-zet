@@ -354,7 +354,7 @@ process_sim2:
 #endif
 
   // parse any remaining args in the usual way
-  bx_parse_cmdline (bochs_argc, bochs_argv);
+  bx_parse_cmdline (1, bochs_argc, bochs_argv);
 
   // initialize hardware
   bx_init_hardware();   // doesn't this duplicate things?
