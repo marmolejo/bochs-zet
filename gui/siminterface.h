@@ -95,6 +95,8 @@ public:
   virtual int set_vga_path (char *path) {return -1;}
   virtual int get_rom_address () {return -1;}
   virtual int set_rom_address (int addr) {return -1;}
+  virtual int get_private_colormap () { return -1; }
+  virtual void set_private_colormap (int en) {}
 };
 
 extern bx_simulator_interface_c *SIM;
