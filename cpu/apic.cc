@@ -698,7 +698,7 @@ void bx_local_apic_c::print_status () {
       BX_INFO(("vec 0x%x: irr=%d, isr=%d", vec, (int)irr[vec], (int)isr[vec]));
     }
   }
-  BX_INFO(("}", cpu->name));
+  BX_INFO(("}"));
 }
 
 bx_bool bx_local_apic_c::match_logical_addr (Bit8u address) 
