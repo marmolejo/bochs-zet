@@ -726,9 +726,7 @@ bx_serial_c::tx_timer(void)
     BX_SER_THIS raw->transmit(BX_SER_THIS s[0].txbuffer);
 #endif
 #if defined(SERIAL_ENABLE)
-    {
-      BX_DEBUG(("write: '%c'", BX_SER_THIS s[0].txbuffer));
-    }
+    BX_DEBUG(("write: '%c'", BX_SER_THIS s[0].txbuffer));
     if (tty_id >= 0) write(tty_id, (bx_ptr_t) & BX_SER_THIS s[0].txbuffer, 1);
 #endif
   }
