@@ -27,13 +27,15 @@
 #define BX_MAX_STATUSITEMS 10
 
 typedef struct {
-  Bit8u cs_start;
-  Bit8u cs_end;
-  Bit16u line_offset;
-  Bit16u line_compare;
-  Bit8u h_panning;
-  Bit8u v_panning;
+  Bit16u  start_address;
+  Bit8u   cs_start;
+  Bit8u   cs_end;
+  Bit16u  line_offset;
+  Bit16u  line_compare;
+  Bit8u   h_panning;
+  Bit8u   v_panning;
   bx_bool line_graphics;
+  bx_bool split_hpanning;
 } bx_vga_tminfo_t;
 
 
