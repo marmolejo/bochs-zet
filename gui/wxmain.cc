@@ -72,6 +72,16 @@
 MyFrame *theFrame = NULL;
 MyPanel *thePanel = NULL;
 
+bool isSimThread () {
+  wxThread *current = wxThread::This ();
+  if (current == (wxThread*) theFrame->GetSimThread ()) {
+    wxLogDebug ("isSimThread? yes");
+    return true;
+  }
+  wxLogDebug ("isSimThread? no");
+  return false;
+}
+
 //////////////////////////////////////////////////////////////////////
 // class declarations
 //////////////////////////////////////////////////////////////////////

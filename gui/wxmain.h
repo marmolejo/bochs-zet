@@ -161,6 +161,7 @@ public:
 
   // called from the sim thread's OnExit() method.
   void OnSimThreadExit ();
+  SimThread *GetSimThread () { return sim_thread; }
 
 private:
   wxCriticalSection sim_thread_lock;
