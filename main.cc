@@ -29,6 +29,13 @@
 #include <assert.h>
 #include "state_file.h"
 
+#if BX_WITH_SDL
+// since SDL redefines main() to SDL_main(), we must include SDL.h so that the
+// C language prototype is found.  Otherwise SDL_main() will get its name 
+// mangled and not match what the SDL library is expecting.
+#include <SDL/SDL.h>
+#endif
+
 int enable_config_interface = 1;
 int bochsrc_include_count = 0;
 
