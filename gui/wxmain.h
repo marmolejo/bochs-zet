@@ -142,8 +142,6 @@ public:
   void OnPaint(wxPaintEvent& event);
   void OnMouse(wxMouseEvent& event);
   void MyRefresh ();
-  void ReadConfiguration ();
-  void SaveConfiguration ();
   void ToggleMouse ();
 private:
   wxCursor *blankCursor;
@@ -177,6 +175,7 @@ public:
   void OnPauseResumeSim(wxCommandEvent& event);
   void OnKillSim(wxCommandEvent& event);
   void OnSim2CIEvent(wxCommandEvent& event);
+  void OnLogMsg(BxEvent *logMsgEvent);
   void OnEditBoot(wxCommandEvent& event);
   void OnEditMemory(wxCommandEvent& event);
   void OnEditSound(wxCommandEvent& event);
