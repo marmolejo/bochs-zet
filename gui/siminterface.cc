@@ -442,14 +442,17 @@ int n_floppy_type_names = 9;
 
 char *floppy_status_names[] = { "ejected", "inserted", NULL };
 int n_floppy_status_names = 2;
-char *floppy_bootdisk_names[] = { "floppy", "hard","cdrom", NULL };
+char *floppy_bootdisk_names[] = { "floppy", "disk","cdrom", NULL };
 int n_floppy_bootdisk_names = 3;
 char *loader_os_names[] = { "none", "linux", "nullkernel", NULL };
 int n_loader_os_names = 3;
 char *keyboard_type_names[] = { "xt", "at", "mf", NULL };
 int n_keyboard_type_names = 3;
-char *atadevice_type_names[] = { "hard disk", "cdrom", NULL };
+
+char *atadevice_type_names[] = { "disk", "cdrom", NULL };
 int n_atadevice_type_names = 2;
+char *atadevice_mode_names[] = { "flat", "concat", "external", "dll", "sparse", "vmware3", "split", "undoable", "growable", "volatile", "z-undoable", "z-volatile", NULL };
+int n_atadevice_mode_names = 12;
 char *atadevice_status_names[] = { "ejected", "inserted", NULL };
 int n_atadevice_status_names = 2;
 char *atadevice_biosdetect_names[] = { "none", "auto", "cmos", NULL };
