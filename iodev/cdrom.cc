@@ -89,7 +89,7 @@ extern "C" {
 #endif
 
 #ifdef WIN32
-#include <windows.h>
+// windows.h included by bochs.h
 #include <winioctl.h>
 #include "aspi-win32.h"
 #include "scsidefs.h"

@@ -31,7 +31,7 @@
 #include "bochs.h"
 #include "icon_bochs.h"
 #include "font/vga.bitmap.h"
-#include <windows.h>
+// windows.h is included by bochs.h
 #include <commctrl.h>
 #include <process.h>
 

@@ -36,8 +36,8 @@
 // For ethernet support under win32 to work, you must install WinPCap.
 // Download it from http://netgroup-serv.polito.it/winpcap
 
-#include <windows.h>
 #include "bochs.h"
+// windows.h included by bochs.h
 #define LOG_THIS bx_ne2k.
 
 #define NDIS_PACKET_TYPE_PROMISCUOUS			0x0020
