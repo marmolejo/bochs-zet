@@ -309,11 +309,11 @@ typedef Bit32u bx_address;
 #define BX_MSR_FSBASE           0xc0000100
 #define BX_MSR_GSBASE           0xc0000101
 #define BX_MSR_KERNELGSBASE     0xc0000102
+#endif
 
 #define BX_MODE_IA32            0x0
 #define BX_MODE_LONG_COMPAT     0x1
 #define BX_MODE_LONG_64         0x2
-#endif
 
 class BX_CPU_C;
 
@@ -1143,6 +1143,10 @@ union {
 #if BX_SUPPORT_X86_64
   // for x86-64  (MODE_IA32,MODE_LONG,MODE_64)
   unsigned cpu_mode;
+#else
+  // x86-32 is always in IA32 mode.  Let compiler optimize if-then-else
+  // statements.
+  static const unsigned cpu_mode=BX_MODE_IA32;
 #endif
 
 #if BX_DEBUGGER
