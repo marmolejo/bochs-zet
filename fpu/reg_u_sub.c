@@ -189,12 +189,12 @@ int  FPU_u_sub(const FPU_REG *arg1, const FPU_REG *arg2, FPU_REG *dest,
 	    }
 	  dest->sigh = extent;
 	  dest->sigl = extent = 0;
-          dest->exp -= 64;
-          if (arg1->sigh == 0x80000000 && arg2->sigh == 0x80000000)
-            dest->exp++;
-          dest->exp &= 0x7FFF;
-          dest->exp -= EXTENDED_Ebias;
-          return FPU_round(dest, extent, 0, control_w, sign);
+     dest->exp &= 0x7FFF;
+     dest->exp -= 64;
+     if (arg1->sigh == 0x80000000 && arg2->sigh == 0x80000000)
+         dest->exp++;
+     dest->exp -= EXTENDED_Ebias;
+     return FPU_round(dest, extent, 0, control_w, sign);
 	}
       else
 	{
