@@ -739,7 +739,7 @@ bx_keyb_c::gen_scancode(Bit32u key)
   unsigned char *scancode;
   Bit8u  i;
 
-  BX_DEBUG(( "gen_scancode(): BX_KEY %d %s", key & 0x7ffffff, (key & 0x80000000)?"released":"pressed"));
+  BX_DEBUG(( "gen_scancode(): %s %s", bx_keymap.getBXKeyName(key), (key >> 31)?"released":"pressed"));
 
   if (!BX_KEY_THIS s.kbd_controller.scancodes_translate)
 	BX_DEBUG(("keyboard: gen_scancode with scancode_translate cleared"));

@@ -65,6 +65,7 @@ public:
 
   BXKeyEntry *findHostKey(Bit32u hostkeynum);
   BXKeyEntry *findAsciiChar(Bit8u ascii);
+  char *getBXKeyName(Bit32u key);
 
 private:
   Bit32u convertStringToBXKey(const char *);
