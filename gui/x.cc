@@ -935,11 +935,15 @@ xkeypress(KeySym keysym, int press_release)
       break;
       }
     }
-  else /* use mapping */
-   if((key_event=bx_keymap.getBXKey(keysym))==BX_KEY_UNHANDLED){
-        BX_ERROR(( "xkeypress(): keysym %x unhandled!", (unsigned) keysym ));
-        return;
+  else {
+   /* use mapping */
+   BXKeyEntry *entry = bx_keymap.getKeyXwin (keysym);
+   if (!entry) {
+     BX_ERROR(( "xkeypress(): keysym %x unhandled!", (unsigned) keysym ));
+     return;
    }
+   key_event = entry->baseKey;
+ }
 
   if (press_release)
     key_event |= BX_KEY_RELEASED;
