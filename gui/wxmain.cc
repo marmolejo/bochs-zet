@@ -38,14 +38,14 @@
 //////////////////////////////////////////////////////////////////////
 
 // For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
 #ifdef __BORLANDC__
 #pragma hdrstop
 #endif
 #ifndef WX_PRECOMP
-#include "wx/wx.h"
+#include <wx/wx.h>
 #endif
-#include "wx/image.h"
+#include <wx/image.h>
 
 #include "config.h"              // definitions based on configure script
 #include "osdep.h"               // workarounds for missing stuff

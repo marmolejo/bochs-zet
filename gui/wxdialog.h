@@ -4,7 +4,7 @@
 //
 // wxWindows dialogs for Bochs
 
-#include "wx/spinctrl.h"
+#include <wx/spinctrl.h>
 
 ////////////////////////////////////////////////////////////////////
 // text messages used in several places
