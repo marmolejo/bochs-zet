@@ -103,14 +103,12 @@ DWORD (*GetASPI32DLLVersion)(void);
 
 
 static BOOL bUseASPI = FALSE;
-static BOOL bHaveDev = FALSE;
-static int hid = 0;
-static int tid = 0;
-static int lun = 0;
+static BOOL bHaveDev;
+static UINT cdromCount = 0;
+static HINSTANCE hASPI = NULL;
 
 #define BX_CD_FRAMESIZE 2048
 #define CD_FRAMESIZE	2048
-HANDLE hFile = NULL;
 #endif
 
 
@@ -249,7 +247,7 @@ cdrom_interface::insert_cdrom(char *dev)
         BX_INFO (("Using direct access for cdrom."));
         // This trick only works for Win2k and WinNT, so warn the user of that.
 	  } else {
-		  BX_INFO(("Using ASPI for cdrom."));
+		  BX_INFO(("Using ASPI for cdrom. Drive letters are unused yet."));
           bUseASPI = TRUE;
 	  }
     }
@@ -262,17 +260,21 @@ cdrom_interface::insert_cdrom(char *dev)
     }
 	if(bUseASPI) {
 		DWORD d;
-		int cnt, max;
+		int cdr, cnt, max;
 		int i, j, k;
 		SRB_HAInquiry sh;
 		SRB_GDEVBlock sd;
-		HINSTANCE hASPI = LoadLibrary("WNASPI32.DLL");
+		if (!hASPI) {
+		  hASPI = LoadLibrary("WNASPI32.DLL");
+		}
 		if(hASPI) {
             SendASPI32Command      = (DWORD(*)(LPSRB))GetProcAddress( hASPI, "SendASPI32Command" );
 			GetASPI32DLLVersion    = (DWORD(*)(void))GetProcAddress( hASPI, "GetASPI32DLLVersion" );
 			GetASPI32SupportInfo   = (DWORD(*)(void))GetProcAddress( hASPI, "GetASPI32SupportInfo" );
-			BX_INFO(("Using first CDROM.  Please upgrade your ASPI drivers to version 4.01 or later if you wish to specify a cdrom driver."));
+//			BX_INFO(("Using first CDROM.  Please upgrade your ASPI drivers to version 4.01 or later if you wish to specify a cdrom driver."));
 			
+			cdr = 0;
+			bHaveDev = FALSE;
 			d = GetASPI32SupportInfo();
 			cnt = LOBYTE(LOWORD(d));
 			for(i = 0; i < cnt; i++) {
@@ -294,10 +296,14 @@ cdrom_interface::insert_cdrom(char *dev)
 						SendASPI32Command((LPSRB)&sd);
 						if(sd.SRB_Status == SS_COMP) {
 							if(sd.SRB_DeviceType == DTYPE_CDROM) {
-								hid = i;
-								tid = j;
-								lun = k;
-								bHaveDev = TRUE;
+								cdr++;
+								if(cdr > cdromCount) {
+									hid = i;
+									tid = j;
+									lun = k;
+									cdromCount++;
+									bHaveDev = TRUE;
+								}
 							}
 						}
 						if(bHaveDev) break;
