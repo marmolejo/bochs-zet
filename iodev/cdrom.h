@@ -58,6 +58,7 @@ private:
 
   int using_file;
 #ifdef WIN32
+  BOOL bUseASPI;
   HANDLE hFile;
   int hid;
   int tid;
