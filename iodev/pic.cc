@@ -722,15 +722,15 @@ bx_pic_c::service_master_pic(void)
       /* for special mode, since we're looking at all IRQ's, skip if
        * current IRQ is already in-service
        */
-      if ( BX_PIC_THIS s.master_pic.special_mask && ((BX_PIC_THIS s.master_pic.isr >> irq) & 0x01) )
-        continue;
-      if (unmasked_requests & (1 << irq)) {
-        BX_DEBUG(("signalling IRQ(%u)", (unsigned) irq));
-        BX_PIC_THIS s.master_pic.INT = 1;
-        BX_SET_INTR(1);
-        BX_PIC_THIS s.master_pic.irq = irq;
-        return;
-        } /* if (unmasked_requests & ... */
+      if ( ! (BX_PIC_THIS s.master_pic.special_mask && ((BX_PIC_THIS s.master_pic.isr >> irq) & 0x01)) ) {
+        if (unmasked_requests & (1 << irq)) {
+          BX_DEBUG(("signalling IRQ(%u)", (unsigned) irq));
+          BX_PIC_THIS s.master_pic.INT = 1;
+          BX_SET_INTR(1);
+          BX_PIC_THIS s.master_pic.irq = irq;
+          return;
+          } /* if (unmasked_requests & ... */
+        } 
 
       irq ++;
       if(irq > 7)
@@ -786,16 +786,16 @@ bx_pic_c::service_slave_pic(void)
       /* for special mode, since we're looking at all IRQ's, skip if
        * current IRQ is already in-service
        */
-      if ( BX_PIC_THIS s.slave_pic.special_mask && ((BX_PIC_THIS s.slave_pic.isr >> irq) & 0x01) )
-        continue;
-      if (unmasked_requests & (1 << irq)) {
-        BX_DEBUG(("slave: signalling IRQ(%u)", (unsigned) 8 + irq));
+      if ( ! (BX_PIC_THIS s.slave_pic.special_mask && ((BX_PIC_THIS s.slave_pic.isr >> irq) & 0x01)) ) {
+        if (unmasked_requests & (1 << irq)) {
+          BX_DEBUG(("slave: signalling IRQ(%u)", (unsigned) 8 + irq));
 
-        BX_PIC_THIS s.slave_pic.INT = 1;
-        BX_PIC_THIS s.slave_pic.irq = irq;
-        raise_irq(2); /* request IRQ 2 on master pic */
-        return;
-        } /* if (unmasked_requests & ... */
+          BX_PIC_THIS s.slave_pic.INT = 1;
+          BX_PIC_THIS s.slave_pic.irq = irq;
+          raise_irq(2); /* request IRQ 2 on master pic */
+          return;
+          } /* if (unmasked_requests & ... */
+        }
 
         irq ++;
         if(irq > 7)
