@@ -1114,7 +1114,7 @@ AC_ARG_ENABLE(port-e9-hack,
   )
 
 AC_MSG_CHECKING(show IPS)
-AC_ARG_ENABLE(show_ips,
+AC_ARG_ENABLE(show-ips,
   [  --enable-show-ips                 show IPS],
   [if test "$enableval" = yes; then
     AC_MSG_RESULT(yes)
