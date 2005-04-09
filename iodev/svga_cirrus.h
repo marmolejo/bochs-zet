@@ -218,11 +218,8 @@ private:
 #else
     void (*bitblt_ptr)(void *this_ptr);
 #endif // BX_USE_CIRRUS_SMF
-    int async_xbytes;
-    int async_y;
     Bit8u *memsrc_ptr; // CPU -> video
     Bit8u *memsrc_endptr;
-    int memsrc_bytesperline;
     int memsrc_needed;
     Bit8u *memdst_ptr; // video -> CPU
     Bit8u *memdst_endptr;
