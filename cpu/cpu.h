@@ -343,7 +343,7 @@
 #if BX_SUPPORT_APIC
 #define BX_CPU_INTR  (BX_CPU_THIS_PTR INTR || BX_CPU_THIS_PTR local_apic.INTR)
 #else
-#define BX_CPU_INTR  BX_CPU_THIS_PTR INTR
+#define BX_CPU_INTR  (BX_CPU_THIS_PTR INTR)
 #endif
 
 class BX_CPU_C;

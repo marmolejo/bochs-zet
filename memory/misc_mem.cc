@@ -470,7 +470,7 @@ BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op)
     }
 
 #if BX_SUPPORT_ICACHE
-    cpu->iCache.decWriteStamp(a20Addr);
+    pageWriteStampTable.decWriteStamp(a20Addr);
 #endif
 
     return(retAddr);

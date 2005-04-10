@@ -848,8 +848,14 @@ bx_init_hardware()
     BX_ERROR(("No romimage to load. Is your bochsrc file loaded/valid ?"));
   }
 
+  Bit32u memSize = bx_options.memory.Osize->get ()*1024*1024;
+
+#if BX_SUPPORT_ICACHE
+  pageWriteStampTable.alloc(memSize);
+#endif`
+
 #if BX_SMP_PROCESSORS==1
-  BX_MEM(0)->init_memory(bx_options.memory.Osize->get () * 1024*1024);
+  BX_MEM(0)->init_memory(memSize);
 
   // First load the BIOS and VGABIOS
   BX_MEM(0)->load_ROM(bx_options.rom.Opath->getptr (), bx_options.rom.Oaddress->get (), 0);
@@ -876,7 +882,7 @@ bx_init_hardware()
 #else
   // SMP initialization
   bx_mem_array[0] = new BX_MEM_C ();
-  bx_mem_array[0]->init_memory(bx_options.memory.Osize->get () * 1024*1024);
+  bx_mem_array[0]->init_memory(memSize);
 
   // First load the BIOS and VGABIOS
   bx_mem_array[0]->load_ROM(bx_options.rom.Opath->getptr (), bx_options.rom.Oaddress->get (), 0);

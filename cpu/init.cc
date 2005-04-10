@@ -416,10 +416,6 @@ void BX_CPU_C::init(BX_MEM_C *addrspace)
     bx_param_num_c::set_default_format (oldfmt);
   }
 #endif
-
-#if BX_SUPPORT_ICACHE
-  iCache.alloc(mem->len);
-#endif
 }
 
 BX_CPU_C::~BX_CPU_C(void)
