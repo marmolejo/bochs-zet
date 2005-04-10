@@ -205,7 +205,7 @@ bx_yyinput(char *buf, int max_size)
     }
 
   len = strlen(lex_input_ptr);
-  if (len > max_size)
+  if (max_size > len)
     max_size = len;
 
   memcpy(buf, lex_input_ptr, max_size);
