@@ -577,6 +577,7 @@ BX_CPU_C::load_cs(bx_selector_t *selector, bx_descriptor_t *descriptor,
   invalidate_prefetch_q();
 }
 
+#if BX_SUPPORT_X86_64
   void BX_CPP_AttrRegparmN(1)
 BX_CPU_C::load_ss64(Bit8u cpl)
 {
@@ -593,6 +594,7 @@ BX_CPU_C::load_ss64(Bit8u cpl)
 
   loadSRegLMNominal(BX_SEG_REG_SS, selector.value, 0, cpl);
 }
+#endif
 
   void BX_CPP_AttrRegparmN(3)
 BX_CPU_C::load_ss(bx_selector_t *selector, bx_descriptor_t *descriptor, Bit8u cpl)
