@@ -852,7 +852,7 @@ bx_init_hardware()
 
 #if BX_SUPPORT_ICACHE
   pageWriteStampTable.alloc(memSize);
-#endif`
+#endif
 
 #if BX_SMP_PROCESSORS==1
   BX_MEM(0)->init_memory(memSize);
