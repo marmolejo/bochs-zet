@@ -1934,6 +1934,26 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::branch_near32(Bit32u new_EIP)
   revalidate_prefetch_q();
 }
 
+#if BX_SUPPORT_X86_64
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::branch_near64(bxInstruction_c *i)
+{
+  Bit64u new_RIP = RIP + (Bit32s) i->Id();
+
+  if (! i->os32L()) {
+    new_RIP &= 0xffff; // For 16-bit opSize, upper 48 bits of RIP are cleared.
+  }
+  else {
+    if (! IsCanonical(new_RIP)) {
+      BX_ERROR(("branch_near64: canonical RIP violation"));
+      exception(BX_GP_EXCEPTION, 0, 0);
+    }
+  }
+
+  RIP = new_RIP;
+  revalidate_prefetch_q();
+}
+#endif
+
 void BX_CPU_C::validate_seg_regs(void)
 {
   Bit8u cs_dpl = BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.dpl;
