@@ -31,13 +31,9 @@
 
 #if BX_SUPPORT_X86_64
 #define LPFOf(laddr) ((laddr) & BX_CONST64(0xfffffffffffff000))
-#define BX_CANONICAL_BITS   (48)
-#define IsCanonical(offset) ((Bit64u)((((Bit64s)(offset)) >> (BX_CANONICAL_BITS-1)) + 1) < 2)
 #else
 #define LPFOf(laddr) ((laddr) & 0xfffff000)
-#define IsCanonical(offset) (0)
 #endif
-
 
   void BX_CPP_AttrRegparmN(3)
 BX_CPU_C::write_virtual_checks(bx_segment_reg_t *seg, bx_address offset,

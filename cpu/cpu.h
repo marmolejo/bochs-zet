@@ -334,10 +334,18 @@
 #define BX_MODE_LONG_COMPAT     0x3   // EFER.LMA = 0, EFER.LME = 1, CR0.PE=1
 #define BX_MODE_LONG_64         0x4   // EFER.LMA = 1, EFER.LME = 1, CR0.PE=1
 
+#define BX_CANONICAL_BITS   (48)
+
 #if BX_SUPPORT_X86_64
 #define IsLongMode() (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)
 #else
 #define IsLongMode() (0)
+#endif
+
+#if BX_SUPPORT_X86_64
+#define IsCanonical(offset) ((Bit64u)((((Bit64s)(offset)) >> (BX_CANONICAL_BITS-1)) + 1) < 2)
+#else
+#define IsCanonical(offset) (0)
 #endif
 
 #if BX_SUPPORT_APIC
