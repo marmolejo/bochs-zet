@@ -1719,7 +1719,7 @@ void BX_CPU_C::WRMSR(bxInstruction_c *i)
 #endif  /* BX_CPU_LEVEL == 5 */
 
     case BX_MSR_TSC:
-      BX_INFO("WRMSR: writing to BX_MSR_TSC still not implemented");
+      BX_INFO(("WRMSR: writing to BX_MSR_TSC still not implemented"));
       return;
 
     /* MSR_APICBASE
