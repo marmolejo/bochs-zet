@@ -758,7 +758,7 @@ AC_SUBST(PCI_OBJ)
 #
 AC_MSG_CHECKING(for PCI host device mapping support)
 AC_ARG_ENABLE(pcidev,
-  [  --enable-pcidev                   enable PCI host device mapping support],
+  [  --enable-pcidev                   enable PCI host device mapping support (linux host only)],
   [
     if test "$enableval" = "yes"; then
       AC_MSG_RESULT(yes)
@@ -1091,7 +1091,7 @@ AC_ARG_ENABLE(port-e9-hack,
 
 AC_MSG_CHECKING(show IPS)
 AC_ARG_ENABLE(show-ips,
-  [  --enable-show-ips                 show IPS],
+  [  --enable-show-ips                 show IPS in Bochs log file],
   [if test "$enableval" = yes; then
     AC_MSG_RESULT(yes)
     AC_DEFINE(BX_SHOW_IPS, 1)
