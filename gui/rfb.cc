@@ -39,7 +39,11 @@
 
 #include "icon_bochs.h"
 #include "font/vga.bitmap.h"
+#if BX_WITH_SDL
+extern unsigned char sdl_font8x8[256][8];
+#else
 #include "sdl.h" // 8x8 font for status text
+#endif
 
 class bx_rfb_gui_c : public bx_gui_c {
 public:
