@@ -1592,7 +1592,7 @@ void BX_CPU_C::RDMSR(bxInstruction_c *i)
 
     /* MSR_APICBASE
        0:7    Reserved
-       8    This is set if its the BSP
+       8     This is set if its the BSP
        9:10    Reserved
        11    APIC Global Enable bit (1=enabled 0=disabled)
        12:35  APIC Base Address
