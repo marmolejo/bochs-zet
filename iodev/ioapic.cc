@@ -41,7 +41,7 @@ bx_ioapic_c::~bx_ioapic_c () {}
 void bx_ioapic_c::init () 
 {
   bx_generic_apic_c::init ();
-  BX_DEBUG(("initializing I/O APIC"));
+  BX_INFO(("initializing I/O APIC"));
   base_addr = 0xfec00000;
   set_id(BX_IOAPIC_DEFAULT_ID);
   ioregsel = 0;
