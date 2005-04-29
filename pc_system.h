@@ -142,9 +142,6 @@ public:
     return bx_pc_system.ticksTotal +
       Bit64u(bx_pc_system.currCountdownPeriod - bx_pc_system.currCountdown);
   }
-  static BX_CPP_INLINE Bit64u getTicksTotal(void) {
-    return bx_pc_system.ticksTotal;
-  }
 
   static BX_CPP_INLINE Bit32u  getNumCpuTicksLeftNextEvent(void) {
     return bx_pc_system.currCountdown;
