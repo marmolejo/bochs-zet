@@ -1276,18 +1276,19 @@ cdrom_interface::capacity()
   }
 #elif defined WIN32
   {
-	  if(bUseASPI) {
-		  return (GetCDCapacity(hid, tid, lun) / 2352);
-	  } else if(using_file) {
-	    ULARGE_INTEGER FileSize;
-	    FileSize.LowPart = GetFileSize(hFile, &FileSize.HighPart);
-		return (FileSize.QuadPart / 2048);
-	  } else {  /* direct device access */
-	    DWORD SectorsPerCluster;
-	    DWORD TotalNumOfClusters;
-	    GetDiskFreeSpace( path, &SectorsPerCluster, NULL, NULL, &TotalNumOfClusters);
-		return (TotalNumOfClusters * SectorsPerCluster);
-	  }
+    if(bUseASPI) {
+      return (GetCDCapacity(hid, tid, lun) / 2352);
+    } else if(using_file) {
+      ULARGE_INTEGER FileSize;
+      FileSize.LowPart = GetFileSize(hFile, &FileSize.HighPart);
+      return (FileSize.QuadPart / 2048);
+    } else {  /* direct device access */
+      ULARGE_INTEGER FreeBytesForCaller;
+      ULARGE_INTEGER TotalNumOfBytes;
+      ULARGE_INTEGER TotalFreeBytes;
+      GetDiskFreeSpaceEx( path, &FreeBytesForCaller, &TotalNumOfBytes, &TotalFreeBytes);
+      return (TotalNumOfBytes.QuadPart / 2048);
+    }
   }
 #elif defined __APPLE__
 // Find the size of the first data track on the cd.  This has produced
