@@ -1029,9 +1029,11 @@ LRESULT CALLBACK simWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
     if (!mouseModeChange) {
       // WM_MOUSEWHEEL returns x and y relative to the main screen.
       // WM_MOUSEMOVE below returns x and y relative to the current view.
-      RECT rect;
-      GetWindowRect(stInfo.simWnd, &rect);
-      processMouseXY( LOWORD(lParam) - rect.left, HIWORD(lParam) - rect.top, (Bit16s) HIWORD(wParam) / 120, LOWORD(wParam), 0);
+      POINT pt;
+      pt.x = LOWORD(lParam);
+      pt.y = HIWORD(lParam);
+      ScreenToClient(stInfo.simWnd, &pt);
+      processMouseXY( pt.x, pt.y, (Bit16s) HIWORD(wParam) / 120, LOWORD(wParam), 0);
     }
     return 0;
 
