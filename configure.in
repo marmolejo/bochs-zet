@@ -2379,7 +2379,8 @@ case "$target" in
     LINK="link $L_OPT /nologo /subsystem:console /incremental:no /machine:I386 /out:\$@ BINMODE.OBJ"
     LINK_CONSOLE=$LINK
     EXE=".exe"
-	PRIMARY_TARGET="bochs.exe"
+    PRIMARY_TARGET="bochs.exe"
+    BXIMAGE_LINK_OPTS="user32.lib"
     # also compile niclist if networking is on
     if test "$networking" = yes; then
       PRIMARY_TARGET="$PRIMARY_TARGET niclist.exe"
@@ -2408,8 +2409,15 @@ case "$target" in
   *-pc-cygwin*)
     EXE=".exe"
     PRIMARY_TARGET="bochs.exe"
+    BXIMAGE_LINK_OPTS="-luser32"
     if test "$networking" = yes; then
       PRIMARY_TARGET="$PRIMARY_TARGET niclist.exe"
+    fi
+    ;;
+  *-pc-mingw*)
+    BXIMAGE_LINK_OPTS="-luser32"
+    if test "$networking" = yes; then
+      PRIMARY_TARGET="$PRIMARY_TARGET niclist"
     fi
     ;;
   *-beos*)
@@ -2718,6 +2726,7 @@ AC_SUBST(DEVICE_LINK_OPTS)
 AC_SUBST(GUI_LINK_OPTS)
 AC_SUBST(GUI_LINK_OPTS_TERM)
 AC_SUBST(GUI_LINK_OPTS_WX)
+AC_SUBST(BXIMAGE_LINK_OPTS)
 AC_SUBST(DASH)
 AC_SUBST(SLASH)
 AC_SUBST(CXXFP)
