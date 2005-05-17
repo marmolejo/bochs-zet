@@ -843,7 +843,7 @@ void BX_CPU_C::MOV_CqRq(bxInstruction_c *i)
       SetCR4(val_64);
       break;
 #if BX_SUPPORT_APIC
-    case 7: // CR8
+    case 8: // CR8
       // CR8 is aliased to APIC->TASK PRIORITY register
       //   APIC.TPR[7:4] = CR8[3:0]
       //   APIC.TPR[3:0] = 0
@@ -915,7 +915,7 @@ void BX_CPU_C::MOV_RqCq(bxInstruction_c *i)
       val_64 = BX_CPU_THIS_PTR cr4.getRegister();
       break;
 #if BX_SUPPORT_APIC
-    case 7: // CR8
+    case 8: // CR8
       // CR8 is aliased to APIC->TASK PRIORITY register
       //   APIC.TPR[7:4] = CR8[3:0]
       //   APIC.TPR[3:0] = 0
@@ -2280,3 +2280,7 @@ Bit32u BX_CPU_C::hwdebug_compare(Bit32u laddr_0, unsigned size,
 }
 
 #endif
+
+void BX_CPU_C::LFENCE(bxInstruction_c *i) {}
+void BX_CPU_C::MFENCE(bxInstruction_c *i) {}
+void BX_CPU_C::SFENCE(bxInstruction_c *i) {}
