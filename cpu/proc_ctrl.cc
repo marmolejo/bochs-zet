@@ -2281,6 +2281,8 @@ Bit32u BX_CPU_C::hwdebug_compare(Bit32u laddr_0, unsigned size,
 
 #endif
 
+/*
 void BX_CPU_C::LFENCE(bxInstruction_c *i) {}
 void BX_CPU_C::MFENCE(bxInstruction_c *i) {}
 void BX_CPU_C::SFENCE(bxInstruction_c *i) {}
+*/
