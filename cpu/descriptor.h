@@ -148,6 +148,13 @@ union {
 
 } bx_descriptor_t;
 
+
+#if BX_SUPPORT_X86_64
+  #define IS_LONG64_SEGMENT(descriptor)  (descriptor.u.segment.l)
+#else
+  #define IS_LONG64_SEGMENT(descriptor)  (0)
+#endif
+
 typedef struct {
   bx_selector_t    selector;
   bx_descriptor_t  cache;

@@ -99,10 +99,13 @@ BX_CPU_C::jump_protected(bxInstruction_c *i, Bit16u cs_raw, bx_address dispBig)
     }
 
     /* instruction pointer must be in code segment limit else #GP(0) */
-    if (!IsLongMode() && dispBig > descriptor.u.segment.limit_scaled) {
-      BX_ERROR(("jump_protected: EIP > limit"));
-      exception(BX_GP_EXCEPTION, 0, 0);
-      return;
+    if (! IS_LONG64_SEGMENT(descriptor))
+    {
+      if (dispBig > descriptor.u.segment.limit_scaled) {
+        BX_ERROR(("jump_protected: EIP > limit"));
+        exception(BX_GP_EXCEPTION, 0, 0);
+        return;
+      }
     }
 
     /* Load CS:IP from destination pointer */
