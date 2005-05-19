@@ -508,14 +508,14 @@ BX_CPU_C::call_protected(bxInstruction_c *i, Bit16u cs_raw, bx_address dispBig)
     gate_selector   = cs_selector;
 
     // descriptor DPL must be >= CPL else #GP(gate selector)
-    if (descriptor.dpl < CPL) {
+    if (gate_descriptor.dpl < CPL) {
       BX_ERROR(("jump_protected: descriptor.dpl < CPL"));
       exception(BX_GP_EXCEPTION, cs_raw & 0xfffc, 0);
       return;
     }
 
     // descriptor DPL must be >= gate selector RPL else #GP(gate selector)
-    if (descriptor.dpl < selector.rpl) {
+    if (gate_descriptor.dpl < gate_selector.rpl) {
       BX_ERROR(("jump_protected: descriptor.dpl < selector.rpl"));
       exception(BX_GP_EXCEPTION, cs_raw & 0xfffc, 0);
       return;
