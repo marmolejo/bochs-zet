@@ -199,7 +199,6 @@ BX_CPU_C::load_seg_reg(bx_segment_reg_t *seg, Bit16u new_value)
       bx_descriptor_t descriptor;
       Bit32u dword1, dword2;
 
-
       if ((new_value & 0xfffc) == 0) { /* null selector */
         seg->selector.index = 0;
         seg->selector.ti = 0;
