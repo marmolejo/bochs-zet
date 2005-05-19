@@ -2439,6 +2439,8 @@ public: // for now...
   BX_SMF void LOOPE64_Jb(bxInstruction_c *);
   BX_SMF void LOOP64_Jb(bxInstruction_c *);
   BX_SMF void JCXZ64_Jb(bxInstruction_c *);
+
+  BX_SMF void CMPXCHG16B(bxInstruction_c *);
 #endif  // #if BX_SUPPORT_X86_64
 
   // mch added
