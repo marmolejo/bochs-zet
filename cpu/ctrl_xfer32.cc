@@ -183,10 +183,10 @@ void BX_CPU_C::CALL_Ed(bxInstruction_c *i)
 
   if (i->modC0()) {
     op1_32 = BX_READ_32BIT_REG(i->rm());
-    }
+  }
   else {
     read_virtual_dword(i->seg(), RMAddr(i), &op1_32);
-    }
+  }
 
   if (op1_32 > BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.limit_scaled)
   {
@@ -295,7 +295,7 @@ void BX_CPU_C::JZ_Jd(bxInstruction_c *i)
 #if BX_INSTRUMENTATION
   else {
     BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(BX_CPU_ID);
-    }
+  }
 #endif
 }
 
