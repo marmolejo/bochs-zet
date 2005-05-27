@@ -134,8 +134,6 @@ void BX_CPU_C::INVD(bxInstruction_c *i)
 
 void BX_CPU_C::WBINVD(bxInstruction_c *i)
 {
-  BX_INFO(("WBINVD: (ignoring)"));
-
 #if BX_CPU_LEVEL >= 4
   invalidate_prefetch_q();
 
