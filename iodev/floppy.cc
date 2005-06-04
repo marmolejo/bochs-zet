@@ -1006,7 +1006,7 @@ bx_floppy_ctrl_c::floppy_xfer(Bit8u drive, Bit32u offset, Bit8u *buffer,
     {
       // don't need to seek the file if we are using Win95 type direct access
       if (!BX_FD_THIS s.media[drive].raw_floppy_win95) {
-        ret = lseek(BX_FD_THIS s.media[drive].fd, offset, SEEK_SET);
+        ret = (int)lseek(BX_FD_THIS s.media[drive].fd, offset, SEEK_SET);
         if (ret < 0) {
           BX_PANIC(("could not perform lseek() to %d on floppy image file", offset));
           return;

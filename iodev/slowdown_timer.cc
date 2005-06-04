@@ -123,7 +123,7 @@ bx_slowdown_timer_c::handle_timer() {
 #endif
   } else {
     bx_pc_system.deactivate_timer(s.timer_handle);
-    bx_pc_system.activate_timer(s.timer_handle,s.Q,0);
+    bx_pc_system.activate_timer(s.timer_handle,(Bit32u)s.Q,0);
 #if BX_SLOWDOWN_PRINTF_FEEDBACK
     printf("running at NORMAL speed\n");
 #endif

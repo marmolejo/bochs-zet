@@ -409,7 +409,8 @@ bx_virt_timer_c::init(void) {
 
   register_timer(this, nullTimer, (Bit32u)NullTimerInterval, 1, 1, "Null Timer");
 
-  system_timer_id = bx_pc_system.register_timer(this, pc_system_timer_handler,virtual_next_event_time , 0, 1, "Virtual Timer");
+  system_timer_id = bx_pc_system.register_timer(this, pc_system_timer_handler,
+                                                (Bit32u)virtual_next_event_time, 0, 1, "Virtual Timer");
 
   //Real time variables:
 #if BX_HAVE_REALTIME_USEC
