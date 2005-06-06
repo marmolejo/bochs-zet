@@ -146,7 +146,7 @@ bx_slowdown_timer_c::handle_timer() {
 #if BX_HAVE_USLEEP
     usleep(s.Q);
 #elif BX_HAVE_MSLEEP
-    msleep(usectomsec(s.Q));
+    msleep(usectomsec((Bit32u)s.Q));
 #elif BX_HAVE_SLEEP
     sleep(usectosec(s.Q));
 #else

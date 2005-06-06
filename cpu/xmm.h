@@ -154,7 +154,7 @@ typedef union bx_xmm_reg_t {
 
 #define MXCSR_RESET 0x00001F80  /* reset value of the MXCSR register */
 
-struct bx_mxcsr_t 
+struct BOCHSAPI bx_mxcsr_t 
 {
   Bit32u mxcsr;
 
