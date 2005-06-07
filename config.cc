@@ -66,7 +66,7 @@ bx_param_handler (bx_param_c *param, int set, Bit64s val)
     case BXP_VGA_UPDATE_INTERVAL:
       // if after init, notify the vga device to change its timer.
       if (set && SIM->get_init_done ())
-        DEV_vga_set_update_interval (val);
+        DEV_vga_set_update_interval ((unsigned int)val);
       break;
     case BXP_MOUSE_ENABLED:
       // if after init, notify the GUI

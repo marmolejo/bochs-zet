@@ -888,6 +888,8 @@ cdrom_interface::read_toc(uint8* buf, int* length, bx_bool msf, int start_track,
     *length = iBytesReturned;
 
     return true;
+  } else {
+    return false;
   }
 #elif __linux__ || defined(__sun)
   {
@@ -1281,13 +1283,13 @@ cdrom_interface::capacity()
     } else if(using_file) {
       ULARGE_INTEGER FileSize;
       FileSize.LowPart = GetFileSize(hFile, &FileSize.HighPart);
-      return (FileSize.QuadPart / 2048);
+      return (Bit32u)(FileSize.QuadPart / 2048);
     } else {  /* direct device access */
       ULARGE_INTEGER FreeBytesForCaller;
       ULARGE_INTEGER TotalNumOfBytes;
       ULARGE_INTEGER TotalFreeBytes;
       GetDiskFreeSpaceEx( path, &FreeBytesForCaller, &TotalNumOfBytes, &TotalFreeBytes);
-      return (TotalNumOfBytes.QuadPart / 2048);
+      return (Bit32u)(TotalNumOfBytes.QuadPart / 2048);
     }
   }
 #elif defined __APPLE__
