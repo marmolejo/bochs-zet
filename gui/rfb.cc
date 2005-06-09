@@ -1697,7 +1697,7 @@ void rfbMouseMove(int x, int y, int bmask)
   static int oldy = -1;
   int xorigin;
 
-  if (oldx == oldy == -1) {
+  if ((oldx == 1) && (oldy == -1)) {
     oldx = x;
     oldy = y;
     return;
