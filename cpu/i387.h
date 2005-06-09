@@ -47,7 +47,7 @@ extern int FPU_tagof(const floatx80 &reg);
 //
 // Minimal i387 structure
 //
-struct BOCHSAPI i387_t 
+struct BOCHSAPI_MSVCONLY i387_t 
 {
     i387_t() {}
 
