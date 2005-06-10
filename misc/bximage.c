@@ -587,6 +587,7 @@ int parse_cmdline (int argc, char *argv[])
   }
   if (bx_hdimage == -1) {
     bx_hdimage = 1;
+    bx_fdsize_idx = 3;
     bx_interactive = 1;
   }
   if (bx_hdimage == 1) {
