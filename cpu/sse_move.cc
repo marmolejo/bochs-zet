@@ -279,7 +279,7 @@ void BX_CPU_C::FXRSTOR(bxInstruction_c *i)
   {
       if(tag_byte & tag_byte_mask) {
          const floatx80 &fpu_reg = BX_FPU_REG(index);
-         twd = FPU_tagof(fpu_reg);
+         twd |= FPU_tagof(fpu_reg);
       }
       else {
          twd |= FPU_Tag_Empty;
