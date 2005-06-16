@@ -2720,6 +2720,7 @@ public: // for now...
 #if BX_SUPPORT_FPU || BX_SUPPORT_SSE >= 1
   BX_SMF void write_eflags_fpu_compare(int float_relation);
 #endif
+  BX_SMF Bit32u force_flags(void);
   BX_SMF Bit16u read_flags(void);
   BX_SMF Bit32u read_eflags(void);
 
