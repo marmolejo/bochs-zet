@@ -86,26 +86,13 @@ void BX_CPU_C::LEA_GdM(bxInstruction_c *i)
 
 void BX_CPU_C::MOV_EAXOd(bxInstruction_c *i)
 {
-  /* read from memory address */
-  if (!BX_NULL_SEG_REG(i->seg())) {
-    read_virtual_dword(i->seg(), i->Id(), &EAX);
-  }
-  else {
-    read_virtual_dword(BX_SEG_REG_DS, i->Id(), &EAX);
-  }
-
+  read_virtual_dword(i->seg(), i->Id(), &EAX);
   BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RAX);
 }
 
 void BX_CPU_C::MOV_OdEAX(bxInstruction_c *i)
 {
-  /* write to memory address */
-  if (!BX_NULL_SEG_REG(i->seg())) {
-    write_virtual_dword(i->seg(), i->Id(), &EAX);
-  }
-  else {
-    write_virtual_dword(BX_SEG_REG_DS, i->Id(), &EAX);
-  }
+  write_virtual_dword(i->seg(), i->Id(), &EAX);
 }
 
 void BX_CPU_C::MOV_EdId(bxInstruction_c *i)

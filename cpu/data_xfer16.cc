@@ -144,24 +144,12 @@ void BX_CPU_C::LEA_GwM(bxInstruction_c *i)
 
 void BX_CPU_C::MOV_AXOw(bxInstruction_c *i)
 {
-  /* read from memory address */
-  if (!BX_NULL_SEG_REG(i->seg())) {
-    read_virtual_word(i->seg(), i->Id(), &AX);
-  }
-  else {
-    read_virtual_word(BX_SEG_REG_DS, i->Id(), &AX);
-  }
+  read_virtual_word(i->seg(), i->Id(), &AX);
 }
 
 void BX_CPU_C::MOV_OwAX(bxInstruction_c *i)
 {
-  /* write to memory address */
-  if (!BX_NULL_SEG_REG(i->seg())) {
-    write_virtual_word(i->seg(), i->Id(), &AX);
-  }
-  else {
-    write_virtual_word(BX_SEG_REG_DS, i->Id(), &AX);
-  }
+  write_virtual_word(i->seg(), i->Id(), &AX);
 }
 
 void BX_CPU_C::MOV_EwIw(bxInstruction_c *i)

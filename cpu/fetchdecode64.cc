@@ -2602,12 +2602,13 @@ modrm_done:
         }
         else {
           if ((ilen+3) < remain) {
-            // Sign extend ???
-            instruction->IqForm.Iq = FetchDWORD(iptr);
+            instruction->IqForm.Iq = (Bit64u) FetchDWORD(iptr);
             ilen += 4;
           }
           else return(0);
         }
+        if (BX_NULL_SEG_REG(instruction->seg()))
+          instruction->setSeg(BX_SEG_REG_DS);
         break;
       case BxImmediate_Iw:
       case BxImmediate_IwIb:
