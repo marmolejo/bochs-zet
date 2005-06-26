@@ -1790,11 +1790,11 @@ static void disable_cursor ()
 	     mask_width = 16,
 	     mask_height = 16;
 
-      static uint32 shape_bits[(16*16)/32] = {
+      static Bit32u shape_bits[(16*16)/32] = {
 	    0x00000000, 0x00000000, 0x00000000, 0x00000000,
 	    0x00000000, 0x00000000, 0x00000000, 0x00000000,
       };
-      static uint32 mask_bits[(16*16)/32] = {
+      static Bit32u mask_bits[(16*16)/32] = {
 	    0x00000000, 0x00000000, 0x00000000, 0x00000000,
 	    0x00000000, 0x00000000, 0x00000000, 0x00000000,
       };
