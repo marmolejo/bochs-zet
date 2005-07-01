@@ -304,4 +304,5 @@ void BX_CPU_C::v8086_message(void)
   BX_INFO(("  to use virtual-8086 mode features."));
   BX_PANIC(("Bummer!"));
 }
+
 #endif // BX_SUPPORT_V8086_MODE

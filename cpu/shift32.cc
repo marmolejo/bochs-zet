@@ -399,7 +399,7 @@ void BX_CPU_C::SAR_Ed(bxInstruction_c *i)
 
   if (!count) return;
 
-    /* count < 32, since only lower 5 bits used */
+  /* count < 32, since only lower 5 bits used */
   if (op1_32 & 0x80000000) {
     result_32 = (op1_32 >> count) | (0xffffffff << (32 - count));
   }

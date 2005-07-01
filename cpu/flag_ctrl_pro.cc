@@ -73,9 +73,8 @@ BX_CPU_C::write_flags(Bit16u flags, bx_bool change_IOPL, bx_bool change_IF)
 
 
 #if BX_CPU_LEVEL >= 3
-  void
-BX_CPU_C::write_eflags(Bit32u eflags_raw, bx_bool change_IOPL, bx_bool change_IF,
-                bx_bool change_VM, bx_bool change_RF)
+void BX_CPU_C::write_eflags(Bit32u eflags_raw, bx_bool change_IOPL, 
+                bx_bool change_IF, bx_bool change_VM, bx_bool change_RF)
 {
   Bit32u changeMask = 0x4dd5;
 

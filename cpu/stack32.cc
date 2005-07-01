@@ -404,8 +404,6 @@ void BX_CPU_C::LEAVE(bxInstruction_c *i)
 #else
   Bit32u temp_EBP;
 
-//invalidate_prefetch_q();
-
 #if BX_CPU_LEVEL >= 3
   if (BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.d_b)
     temp_EBP = EBP;

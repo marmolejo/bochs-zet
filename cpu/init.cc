@@ -603,8 +603,8 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_ES].cache.u.segment.avl = 0;
 #endif
 
-  /* FS and descriptor cache */
 #if BX_CPU_LEVEL >= 3
+  /* FS and descriptor cache */
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS].selector.value = 0x0000;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS].selector.index = 0x0000;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS].selector.ti    = 0;
@@ -626,10 +626,8 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS].cache.u.segment.g   = 0; /* byte granular */
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS].cache.u.segment.d_b = 0; /* 16bit default size */
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS].cache.u.segment.avl = 0;
-#endif
 
   /* GS and descriptor cache */
-#if BX_CPU_LEVEL >= 3
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_GS].selector.value = 0x0000;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_GS].selector.index = 0x0000;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_GS].selector.ti    = 0;
