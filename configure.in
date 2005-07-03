@@ -67,7 +67,7 @@ case "$target" in
     DEFAULT_GUI=amigaos               # amigaos or morphos defaults to amigaos gui
     ;;
   *-solaris*)
-    ADD_FLAGS="-D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED=1 -D__EXTENSIONS__"      # required for correct function prototypes
+    ADD_FLAGS="-D_XOPEN_SOURCE_EXTENDED=1 -D__EXTENSIONS__"      # required for correct function prototypes
     DEFAULT_GUI=x11
     ;;
   *)
@@ -867,6 +867,7 @@ if test "$networking" = yes; then
     *)
     AC_CHECK_HEADER(net/if.h, [
         use_ethertap=yes
+        AC_DEFINE(BX_HAVE_NET_IF_H, 1)
       ], [],
       [
       #include <sys/types.h>

@@ -102,12 +102,12 @@
 #include <sys/socket.h>
 #include <sys/uio.h>
 #include <sys/wait.h>
-#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__APPLE__)  // Should be fixed for other *BSD
-#include <net/if.h>
-#elif defined(__linux__)
+#if defined(__linux__)
 #include <asm/types.h>
 #include <linux/netlink.h>
 #include <linux/if.h>
+#elif BX_HAVE_NET_IF_H
+#include <net/if.h>
 #endif
 #include <assert.h>
 #include <fcntl.h>
