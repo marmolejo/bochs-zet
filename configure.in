@@ -2424,6 +2424,7 @@ case "$target" in
     AC_DEFINE(BX_HAVE_SYS_MMAN_H, 0)
     AC_DEFINE(BX_HAVE_USLEEP, 0)
     AC_DEFINE(HAVE_ETHERTAP, 0)
+    AC_DEFINE(BX_HAVE_SELECT, 1)
     ;;
   *-pc-cygwin*)
     EXE=".exe"
@@ -2432,12 +2433,14 @@ case "$target" in
     if test "$networking" = yes; then
       PRIMARY_TARGET="$PRIMARY_TARGET niclist.exe"
     fi
+    AC_DEFINE(BX_HAVE_SELECT, 1)
     ;;
   *-pc-mingw*)
     BXIMAGE_LINK_OPTS="-luser32"
     if test "$networking" = yes; then
       PRIMARY_TARGET="$PRIMARY_TARGET niclist"
     fi
+    AC_DEFINE(BX_HAVE_SELECT, 1)
     ;;
   *-beos*)
     PRIMARY_TARGET=.bochs_beos_target
