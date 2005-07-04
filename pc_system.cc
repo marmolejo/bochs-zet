@@ -37,10 +37,6 @@
 #endif
 #endif
 
-#if BX_SHOW_IPS
-unsigned long ips_count=0;
-#endif
-
 #if defined(PROVIDE_M_IPS)
 double     m_ips; // Millions of Instructions Per Second
 #endif
