@@ -2660,6 +2660,22 @@ public: // for now...
   BX_SMF void branch_near64(bxInstruction_c *i) BX_CPP_AttrRegparmN(1);
 #endif
 
+#if BX_SupportRepeatSpeedups
+  BX_SMF Bit32u FastRepMOVSB(bxInstruction_c *i, unsigned srcSeg, bx_address srcOff,
+       unsigned dstSeg, bx_address dstOff, Bit32u count);
+  BX_SMF Bit32u FastRepMOVSW(bxInstruction_c *i, unsigned srcSeg, bx_address srcOff,
+       unsigned dstSeg, bx_address dstOff, Bit32u count);
+  BX_SMF Bit32u FastRepMOVSD(bxInstruction_c *i, unsigned srcSeg, bx_address srcOff,
+       unsigned dstSeg, bx_address dstOff, Bit32u count);
+
+  BX_SMF Bit32u FastRepSTOSB(bxInstruction_c *i, unsigned dstSeg, bx_address dstOff,
+       Bit8u  val, Bit32u count);
+  BX_SMF Bit32u FastRepSTOSW(bxInstruction_c *i, unsigned dstSeg, bx_address dstOff,
+       Bit16u val, Bit32u count);
+  BX_SMF Bit32u FastRepSTOSD(bxInstruction_c *i, unsigned dstSeg, bx_address dstOff,
+       Bit32u val, Bit32u count);
+#endif
+
   BX_SMF void access_linear(bx_address address, unsigned length, unsigned pl,
                      unsigned rw, void *data) BX_CPP_AttrRegparmN(3);
   BX_SMF Bit32u  translate_linear(bx_address laddr, 
