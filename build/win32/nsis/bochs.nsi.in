@@ -29,6 +29,7 @@
 !define SRCDIR bochs-${VERSION}
 !define PGDIR "$SMPROGRAMS\Bochs ${VERSION}"
 !define DESKTOP_DLXLINK "$DESKTOP\Linux Demo in ${NAME}.lnk"
+!define DESKTOP_DLX_PIF "$DESKTOP\Linux Demo in ${NAME}.pif"
 
 ;--------------------------------
 
@@ -247,10 +248,12 @@ Section "Uninstall"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${NAME}"
 
   Delete "${PGDIR}\*.lnk"
+  Delete "${PGDIR}\*.pif"
   Delete "${PGDIR}\*.url"
   RMDir "${PGDIR}"
 
   Delete "${DESKTOP_DLXLINK}"
+  Delete "${DESKTOP_DLX_PIF}"
 
   Delete "$INSTDIR\*.exe"
   Delete "$INSTDIR\*.txt"
