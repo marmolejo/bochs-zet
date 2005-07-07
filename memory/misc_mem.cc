@@ -242,8 +242,8 @@ void BX_MEM_C::load_ROM(const char *path, Bit32u romaddress, Bit8u type)
     checksum += BX_MEM_THIS rom[romaddress - 0xc0000 + i];
   }
   if (checksum != 0) {
-    if (type < 2) {
-      BX_PANIC(( "ROM: checksum error in BIOS image: '%s'",path));
+    if (type == 1) {
+      BX_PANIC(( "ROM: checksum error in VGABIOS image: '%s'",path));
     } else {
       BX_ERROR(( "ROM: checksum error in BIOS image: '%s'",path));
     }
