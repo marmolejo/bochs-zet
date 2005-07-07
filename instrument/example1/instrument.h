@@ -123,6 +123,7 @@ extern bxInstrumentation icpu[BX_SMP_PROCESSORS];
 #  define BX_INSTR_INIT(cpu_id)	           icpu[cpu_id].set_cpu_id(cpu_id)
 #  define BX_INSTR_SHUTDOWN(cpu_id)
 #  define BX_INSTR_RESET(cpu_id)           icpu[cpu_id].bx_instr_reset()
+#  define BX_INSTR_HLT(cpu_id)
 #  define BX_INSTR_NEW_INSTRUCTION(cpu_id) icpu[cpu_id].bx_instr_new_instruction()
 
 /* called from command line debugger */
@@ -187,6 +188,7 @@ extern bxInstrumentation icpu[BX_SMP_PROCESSORS];
 #  define BX_INSTR_INIT(cpu_id)
 #  define BX_INSTR_SHUTDOWN(cpu_id)
 #  define BX_INSTR_RESET(cpu_id)
+#  define BX_INSTR_HLT(cpu_id)
 #  define BX_INSTR_NEW_INSTRUCTION(cpu_id)
 
 /* called from command line debugger */

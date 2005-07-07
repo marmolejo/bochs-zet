@@ -31,6 +31,7 @@
 void bx_instr_init(unsigned cpu) {}
 void bx_instr_shutdown(unsigned cpu) {}
 void bx_instr_reset(unsigned cpu) {}
+void bx_instr_hlt(unsigned cpu) {}
 void bx_instr_new_instruction(unsigned cpu) {}
 
 void bx_instr_debug_promt() {}

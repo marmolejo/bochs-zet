@@ -86,13 +86,14 @@ void BX_CPU_C::HLT(bxInstruction_c *i)
   // will remain in a halt state until one of the above conditions
   // is met.
 
+  BX_INSTR_HLT(BX_CPU_ID);
+
 #if BX_USE_IDLE_HACK  
   bx_gui->sim_is_idle ();
 #endif /* BX_USE_IDLE_HACK */  
 }
 
-  void
-BX_CPU_C::CLTS(bxInstruction_c *i)
+void BX_CPU_C::CLTS(bxInstruction_c *i)
 {
 #if BX_CPU_LEVEL < 2
   BX_PANIC(("CLTS: not implemented for < 286"));
