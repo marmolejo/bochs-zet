@@ -390,7 +390,7 @@ BX_CPU_C::LLDT_Ew(bxInstruction_c *i)
   }
 
   /* #NP(selector) if LDT descriptor is not present */
-  if (descriptor.p==0) {
+  if (! IS_PRESENT(descriptor)) {
     BX_ERROR(("LLDT: LDT descriptor not present!"));
     exception(BX_NP_EXCEPTION, raw_selector & 0xfffc, 0);
   }
@@ -486,7 +486,7 @@ void BX_CPU_C::LTR_Ew(bxInstruction_c *i)
   }
 
   /* #NP(selector) if TSS descriptor is not present */
-  if (descriptor.p==0) {
+  if (! IS_PRESENT(descriptor)) {
     BX_ERROR(("LTR: LDT descriptor not present!"));
     exception(BX_NP_EXCEPTION, raw_selector & 0xfffc, 0);
     return;
