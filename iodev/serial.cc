@@ -40,6 +40,7 @@
 #include "iodev.h"
 #ifndef WIN32
 #include <sys/socket.h>
+#include <netinet/in.h>
 #include <netdb.h>
 #endif
 
@@ -317,6 +318,9 @@ bx_serial_c::init(void)
         }
 
         memset ((char*) &sin, 0, sizeof (sin));
+#if BX_HAVE_SOCKADDR_IN_SIN_LEN
+       sin.sin_len = sizeof sin;
+#endif
         memcpy ((char*) &(sin.sin_addr), hp->h_addr, hp->h_length);
         sin.sin_family = hp->h_addrtype;
         sin.sin_port = htons (port);
