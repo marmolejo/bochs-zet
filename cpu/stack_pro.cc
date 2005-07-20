@@ -123,7 +123,7 @@ void BX_CPU_C::push_64(Bit64u value64)
   if (!can_push(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache, RSP, 8)) {
     BX_INFO(("push_64(): push outside stack limits"));
     exception(BX_SS_EXCEPTION, 0, 0); /* #SS(0) */
-    }
+  }
 #endif
 
   write_virtual_qword(BX_SEG_REG_SS, RSP-8, &value64);

@@ -292,11 +292,8 @@ void BX_CPU_C::JCC_Jw(bxInstruction_c *i)
     case 0x0B: /* JNP */ condition = !get_PF(); break;
     case 0x0C: /* JL */ condition = getB_SF() != getB_OF(); break;
     case 0x0D: /* JNL */ condition = getB_SF() == getB_OF(); break;
-    case 0x0E: /* JLE */ condition = get_ZF() || (getB_SF() != getB_OF());
-      break;
-    case 0x0F: /* JNLE */ condition = (getB_SF() == getB_OF()) &&
-                            !get_ZF();
-      break;
+    case 0x0E: /* JLE */ condition = get_ZF() || (getB_SF() != getB_OF()); break;
+    case 0x0F: /* JNLE */ condition = (getB_SF() == getB_OF()) && !get_ZF(); break;
     default:
       condition = 0; // For compiler...all targets should set condition.
       break;

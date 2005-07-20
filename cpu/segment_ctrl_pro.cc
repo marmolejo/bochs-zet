@@ -623,12 +623,9 @@ BX_CPU_C::fetch_raw_descriptor(bx_selector_t *selector,
 {
   if (selector->ti == 0) { /* GDT */
     if ((selector->index*8 + 7) > BX_CPU_THIS_PTR gdtr.limit) {
-BX_INFO(("-----------------------------------"));
-BX_INFO(("selector->index*8 + 7 = %u", (unsigned) selector->index*8 + 7));
-BX_INFO(("gdtr.limit = %u", (unsigned) BX_CPU_THIS_PTR gdtr.limit));
-      BX_INFO(("fetch_raw_descriptor: GDT: index > limit"));
-debug(BX_CPU_THIS_PTR prev_eip);
-BX_INFO(("-----------------------------------"));
+      BX_ERROR(("fetch_raw_descriptor: GDT: index (%x)%x > limit (%x)",
+          (selector->index*8 + 7), selector->index,
+          BX_CPU_THIS_PTR gdtr.limit));
       exception(exception_no, selector->value & 0xfffc, 0);
       return;
     }
@@ -672,6 +669,10 @@ BX_CPU_C::fetch_raw_descriptor2(bx_selector_t *selector,
     return(1);
   }
   else { /* LDT */
+    if (BX_CPU_THIS_PTR ldtr.cache.valid==0) {
+      BX_PANIC(("fetch_raw_descriptor2: LDTR.valid=0"));
+      return(0);
+    }
     if ((selector->index*8 + 7) > BX_CPU_THIS_PTR ldtr.cache.u.ldt.limit)
       return(0);
     access_linear(BX_CPU_THIS_PTR ldtr.cache.u.ldt.base + selector->index*8,     4, 0,
