@@ -86,23 +86,26 @@ void BX_CPU_C::MOV_EbIb(bxInstruction_c *i)
 
 void BX_CPU_C::XLAT(bxInstruction_c *i)
 {
-  Bit32u offset_32;
+  bx_address offset;
 
-#if BX_CPU_LEVEL >= 3
-  if (i->as32L()) {
-    offset_32 = EBX + AL;
+#if BX_SUPPORT_X86_64
+  if (i->as64L()) {
+    offset = RBX + AL;
   }
   else
-#endif /* BX_CPU_LEVEL >= 3 */
-  {
-    offset_32 = BX + AL;
+#endif
+  if (i->as32L()) {
+    offset = EBX + AL;
+  }
+  else {
+    offset = BX  + AL;
   }
 
   if (!BX_NULL_SEG_REG(i->seg())) {
-    read_virtual_byte(i->seg(), offset_32, &AL);
+    read_virtual_byte(i->seg(), offset, &AL);
   }
   else {
-    read_virtual_byte(BX_SEG_REG_DS, offset_32, &AL);
+    read_virtual_byte(BX_SEG_REG_DS, offset, &AL);
   }
 }
 
