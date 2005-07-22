@@ -33,6 +33,7 @@
 #if BX_SUPPORT_X86_64==0
 // Make life easier merging cpu64 & cpu code.
 #define RIP EIP
+#define RSP ESP
 #endif
 
 
