@@ -109,7 +109,11 @@ extern "C" {
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
+#if defined (__GNUC__) && ( __GNUC__ >= 4 )
+#include <sys/disk.h>
+#else
 #include <dev/disk.h>
+#endif
 #include <errno.h>
 #include <paths.h>
 #include <sys/param.h>

@@ -159,7 +159,7 @@ unsigned        bx_bitmap_right_xorigin = 2+TOOL_SPACING; // pixels from right
 //PixMapHandle  bx_pixmap[BX_MAX_PIXMAPS];
 CIconHandle     bx_cicn[BX_MAX_PIXMAPS];
 
-struct {
+struct __bx_tool_pixmap {
 //  CIconHandle cicn;
 //  PixMapHandle pm;
   ControlRef control;
