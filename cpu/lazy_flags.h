@@ -38,10 +38,10 @@
 #define BX_INSTR_ADC32          7
 #define BX_INSTR_ADC64          8
 
-#define BX_INSTR_ADD_ADC8(cf)  (1 + (cf<<2))
-#define BX_INSTR_ADD_ADC16(cf) (2 + (cf<<2))
-#define BX_INSTR_ADD_ADC32(cf) (3 + (cf<<2))
-#define BX_INSTR_ADD_ADC64(cf) (4 + (cf<<2))
+#define BX_INSTR_ADD_ADC8(cf)  (1 + ((cf)<<2))
+#define BX_INSTR_ADD_ADC16(cf) (2 + ((cf)<<2))
+#define BX_INSTR_ADD_ADC32(cf) (3 + ((cf)<<2))
+#define BX_INSTR_ADD_ADC64(cf) (4 + ((cf)<<2))
 
 #define BX_INSTR_SUB8           9
 #define BX_INSTR_SUB16          10
@@ -54,10 +54,10 @@
 #define BX_INSTR_SBB32          15
 #define BX_INSTR_SBB64          16
 
-#define BX_INSTR_SUB_SBB8(cf)  (9  + (cf<<2))
-#define BX_INSTR_SUB_SBB16(cf) (10 + (cf<<2))
-#define BX_INSTR_SUB_SBB32(cf) (11 + (cf<<2))
-#define BX_INSTR_SUB_SBB64(cf) (12 + (cf<<2))
+#define BX_INSTR_SUB_SBB8(cf)  (9  + ((cf)<<2))
+#define BX_INSTR_SUB_SBB16(cf) (10 + ((cf)<<2))
+#define BX_INSTR_SUB_SBB32(cf) (11 + ((cf)<<2))
+#define BX_INSTR_SUB_SBB64(cf) (12 + ((cf)<<2))
 
 #define BX_INSTR_INC8           17
 #define BX_INSTR_INC16          18
