@@ -2426,6 +2426,7 @@ case "$target" in
     AC_DEFINE(BX_HAVE_USLEEP, 0)
     AC_DEFINE(HAVE_ETHERTAP, 0)
     AC_DEFINE(BX_HAVE_SELECT, 1)
+    AC_DEFINE(BX_HAVE_SOCKLEN_T, 0)
     ;;
   *-pc-cygwin*)
     EXE=".exe"
