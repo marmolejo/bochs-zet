@@ -381,7 +381,7 @@ BX_CPU_C::loadSRegLMNominal(unsigned segI, unsigned selector, bx_address base,
   // Load a segment register in long-mode with nominal values,
   // so descriptor cache values are compatible with existing checks.
   seg->cache.u.segment.base = base;
-  // (KPL) I doubt we need limit_scaled.  If we do, it should be
+  // I doubt we need limit_scaled.  If we do, it should be
   // of type bx_addr and be maxed to 64bits, not 32.
   seg->cache.u.segment.limit_scaled = 0xffffffff;
   seg->cache.valid = 1;
@@ -544,13 +544,13 @@ BX_CPU_C::load_ldtr(bx_selector_t *selector, bx_descriptor_t *descriptor)
 BX_CPU_C::load_cs(bx_selector_t *selector, bx_descriptor_t *descriptor,
            Bit8u cpl)
 {
-  BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector     = *selector;
-  BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache        = *descriptor;
+  BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector = *selector;
+  BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache    = *descriptor;
 
   /* caller may request different CPL then in selector */
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.rpl = cpl;
-  BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.valid = 1; /* ??? */
-  // (BW) Added cpl to the selector value.
+  BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.valid  = 1;
+  // Added cpl to the selector value.
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value =
     (0xfffc & BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value) | cpl;
 
