@@ -39,12 +39,6 @@
 #undef getenv
 #endif
 
-// BX_SHARE_PATH should be defined by the makefile.  If not, give it
-// a value of NULL to avoid compile problems.
-#ifndef BX_SHARE_PATH
-#define BX_SHARE_PATH NULL
-#endif
-
 
 int bochsrc_include_count = 0;
 
