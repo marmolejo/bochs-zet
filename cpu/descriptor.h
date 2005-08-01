@@ -39,6 +39,7 @@ typedef struct { /* bx_selector_t */
 #endif
 } bx_selector_t;
 
+#define BX_SELECTOR_RPL(selector) ((selector) & 0x03)
 #define BX_SELECTOR_RPL_MASK (0xfffc)
 
 typedef struct

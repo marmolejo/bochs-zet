@@ -234,7 +234,7 @@ void BX_CPU_C::INSW_YvDX(bxInstruction_c *i)
             if ( !(dstSegPtr->cache.valid & SegAccessWOK) ) {
               goto noAcceleration;
             }
-            if ( !IsLongMode() ) {
+            if (BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64) {
               // Now make sure transfer will fit within the constraints of the
               // segment boundaries, 0..limit for non expand-down.  We know
               // wordCount >= 1 here.
@@ -538,7 +538,7 @@ void BX_CPU_C::OUTSW_DXXv(bxInstruction_c *i)
             if ( !(srcSegPtr->cache.valid & SegAccessROK) ) {
               goto noAcceleration;
             }
-            if ( !IsLongMode() ) {
+            if (BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64) {
               // Now make sure transfer will fit within the constraints of the
               // segment boundaries, 0..limit for non expand-down.  We know
               // wordCount >= 1 here.
