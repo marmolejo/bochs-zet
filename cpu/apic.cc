@@ -415,7 +415,9 @@ void bx_local_apic_c::init ()
 
   BX_INFO(("local apic in %s initializing",
       (cpu && cpu->name) ? cpu->name : "?"));
-  local_apic_index[id] = this;
+
+  if (id!=APIC_UNKNOWN_ID)
+      local_apic_index[id] = this;
 
   // default address for a local APIC, can be moved
   base_addr = APIC_BASE_ADDR;
