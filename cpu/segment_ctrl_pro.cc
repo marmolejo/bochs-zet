@@ -382,6 +382,17 @@ void BX_CPU_C::validate_seg_regs(void)
 {
   Bit8u cs_dpl = BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.dpl;
 
+  /*
+     FOR (seg = ES, DS, FS, GS)
+     DO
+       IF ((seg.attr.dpl < CPL) && ((seg.attr.type = 'data')
+                || (seg.attr.type = 'non-conforming-code')))
+       {
+          seg = NULL // can't use lower dpl data segment at higher cpl
+       }
+     END
+  */
+
   if (BX_CPU_THIS_PTR sregs[BX_SEG_REG_ES].cache.dpl < cs_dpl)
   {
     BX_CPU_THIS_PTR sregs[BX_SEG_REG_ES].cache.valid = 0;

@@ -113,9 +113,12 @@ BX_CPU_C::iret_protected(bxInstruction_c *i)
 
     return;
   }
+
 #if BX_SUPPORT_X86_64
-  else if (BX_CPU_THIS_PTR msr.lma) {         // LONG MODE
-    //BX_DEBUG (("LONG mode IRET"));
+  if (BX_CPU_THIS_PTR msr.lma)
+  {
+    BX_DEBUG (("LONG MODE IRET"));
+
     /* NT = 0: INTERRUPT RETURN ON STACK -or STACK_RETURN_TO_V86 */
     Bit16u top_nbytes_same, top_nbytes_outer;
     Bit64u cs_offset, ss_offset;
