@@ -2796,7 +2796,6 @@ public: // for now...
 #if BX_SUPPORT_X86_64
   BX_SMF  void   fetch_raw_descriptor64(bx_selector_t *selector,
                          Bit32u *dword1, Bit32u *dword2, Bit32u *dword3, Bit8u exception_no);
-  BX_SMF void    load_ss64(Bit8u cpl) BX_CPP_AttrRegparmN(1);
   BX_SMF void    loadSRegLMNominal(unsigned seg, unsigned selector,
                                    bx_address base, unsigned dpl);
 #endif

@@ -562,25 +562,6 @@ BX_CPU_C::load_ldtr(bx_selector_t *selector, bx_descriptor_t *descriptor)
   BX_CPU_THIS_PTR ldtr.cache.valid = 1;
 }
 
-#if BX_SUPPORT_X86_64
-  void BX_CPP_AttrRegparmN(1)
-BX_CPU_C::load_ss64(Bit8u cpl)
-{
-  bx_selector_t selector;
-  bx_descriptor_t descriptor;
-
-  // set up a null descriptor
-  parse_selector(0, &selector);
-  parse_descriptor(0, 0, &descriptor);
-
-  BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].selector = selector;
-  BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache = descriptor;
-  BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].selector.rpl = cpl;
-
-  loadSRegLMNominal(BX_SEG_REG_SS, selector.value, 0, cpl);
-}
-#endif
-
   void BX_CPP_AttrRegparmN(3)
 BX_CPU_C::load_ss(bx_selector_t *selector, bx_descriptor_t *descriptor, Bit8u cpl)
 {
