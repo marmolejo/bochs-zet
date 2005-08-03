@@ -233,7 +233,7 @@ BX_CPU_C::return_protected(bxInstruction_c *i, Bit16u pop_bytes)
 
     if ((raw_ss_selector & 0xfffc) == 0) {
       if (IsLongMode()) {
-        if (! IS_LONG64_SEGMENT(cs_descriptor) || (ss_selector.rpl == 3)) {
+        if (! IS_LONG64_SEGMENT(cs_descriptor) || (cs_selector.rpl == 3)) {
           BX_ERROR(("return_protected: SS selector null"));
           exception(BX_GP_EXCEPTION, 0, 0);
         }
@@ -274,7 +274,7 @@ BX_CPU_C::return_protected(bxInstruction_c *i, Bit16u pop_bytes)
 
     /* segment must be present else #SS(selector) */
     if (! IS_PRESENT(ss_descriptor)) {
-      BX_ERROR(("ss.present == 0"));
+      BX_ERROR(("return_protected: ss.present == 0"));
       exception(BX_SS_EXCEPTION, raw_ss_selector & 0xfffc, 0);
     }
 
