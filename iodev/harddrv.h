@@ -140,6 +140,7 @@ class device_image_t
       unsigned cylinders;
       unsigned heads;
       unsigned sectors;
+      off_t    hd_size;
 };
 
 // FLAT MODE
