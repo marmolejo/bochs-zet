@@ -302,8 +302,8 @@ void BX_CPU_C::ENTER_IwIb(bxInstruction_c *i)
           read_virtual_word(BX_SEG_REG_SS, ebp, &temp16);
         }
         push_16(temp16);
-        }
-      } /* while (--level) */
+      }
+    } /* while (--level) */
 
     /* push(frame pointer) */
     if (i->os32L()) {

@@ -1951,7 +1951,7 @@ void BX_CPU_C::MASKMOVQ_PqPRq(bxInstruction_c *i)
     mask = BX_READ_MMX_REG(i->rm());
 
 #if BX_SUPPORT_X86_64
-  if (i->as64L()) { 	/* 64 bit operand size mode */
+  if (i->as64L()) { 	/* 64 bit address mode */
       rdi = RDI;
   } 
   else

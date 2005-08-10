@@ -753,7 +753,7 @@ void BX_CPU_C::MASKMOVDQU_VdqVRdq(bxInstruction_c *i)
     mask = BX_READ_XMM_REG(i->rm());
 
 #if BX_SUPPORT_X86_64
-  if (i->as64L()) { 	/* 64 bit operand size mode */
+  if (i->as64L()) { 	/* 64 bit address mode */
       rdi = RDI;
   } 
   else
@@ -761,7 +761,7 @@ void BX_CPU_C::MASKMOVDQU_VdqVRdq(bxInstruction_c *i)
   if (i->as32L()) {
       rdi = EDI;
   }
-  else {   /* 16 bit address mode */
+  else {                /* 16 bit address mode */
       rdi = DI;
   }
 
