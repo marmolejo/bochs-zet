@@ -1217,6 +1217,7 @@ public: // for now...
   Bit8u     *eipFetchPtr;
   Bit32u     pAddrA20Page; // Guest physical address of current instruction
                            // page with A20() already applied.
+  const Bit32u *currPageWriteStampPtr;
   unsigned cpu_mode;
 
 #if BX_DEBUGGER
