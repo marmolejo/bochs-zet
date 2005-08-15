@@ -356,6 +356,8 @@ typedef struct bx_guard_found_t {
   Bit32u   laddr;
   bx_bool  is_32bit_code; // CS seg size at guard point
   bx_bool  ctrl_c; // simulator stopped due to Ctrl-C request
+  
+  Bit64u   time_tick; //time tick when guard reached
 } bx_guard_found_t;
 
 extern bx_guard_t        bx_guard;
