@@ -5396,6 +5396,11 @@ mformat c:
 And you now have a formatted disk image containing a single DOS
 partition.
 </para>
+<note><para>
+The mpartition command doesn't handle images larger than 1024 cylinders properly.
+The partition size reported by fdisk is okay, but mformat reports only 504 MB
+(tested with mtools 3.9.9).
+</para></note>
 </section>
 </section> <!-- end of Unix: How to make a disk image -->
 
