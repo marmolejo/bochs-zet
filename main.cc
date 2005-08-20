@@ -387,6 +387,9 @@ int main (int argc, char *argv[])
   // if SDL/win32, try to create a console window.
   RedirectIOToConsole ();
 #endif
+#if defined(WIN32)
+  SetConsoleTitle("Bochs for Windows - Console");
+#endif
   return bxmain ();
 }
 #endif
