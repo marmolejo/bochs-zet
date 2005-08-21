@@ -726,6 +726,7 @@ private:
   BX_HD_SMF void init_mode_sense_single(Bit8u channel, const void* src, int size);
   BX_HD_SMF void atapi_cmd_nop(Bit8u channel) BX_CPP_AttrRegparmN(1);
   BX_HD_SMF bx_bool bmdma_present(void);
+  BX_HD_SMF void set_signature(Bit8u channel);
 
   // FIXME:
   // For each ATA channel we should have one controller struct
