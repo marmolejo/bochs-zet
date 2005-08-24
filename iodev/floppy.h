@@ -113,7 +113,7 @@ private:
     Bit8u    floppy_buffer[512+2]; // 2 extra for good measure
     unsigned floppy_buffer_index;
     int      floppy_timer_index;
-    bx_bool  media_present[2];
+    bx_bool  media_present[4];
     Bit8u    device_type[4];
     Bit8u    DIR[4]; // Digital Input Register:
                   // b7: 0=diskette is present and has not been changed
