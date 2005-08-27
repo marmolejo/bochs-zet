@@ -3661,7 +3661,7 @@ are in the usual "property=value" format.
    loglevel: 
    <screen>
    0 = No log.
-   1 = Only midi program and bank changes.
+   1 = Resource changes, midi program and bank changes.
    2 = Severe errors.
    3 = All errors.
    4 = All errors plus all port accesses.
