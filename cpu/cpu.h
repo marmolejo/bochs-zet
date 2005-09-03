@@ -2797,7 +2797,8 @@ public: // for now...
 #endif
   BX_SMF void init_v8086_mode(void);
   BX_SMF void v8086_message(void);
-  BX_SMF void task_switch_load_selector(bx_segment_reg_t *seg, Bit16u raw_selector, Bit8u cs_rpl);
+  BX_SMF void task_switch_load_selector(bx_segment_reg_t *seg,
+                 bx_selector_t *selector, Bit16u raw_selector, Bit8u cs_rpl);
   BX_SMF void task_switch(bx_selector_t *selector, bx_descriptor_t *descriptor,
                      unsigned source, Bit32u dword1, Bit32u dword2);
   BX_SMF void get_SS_ESP_from_TSS(unsigned pl, Bit16u *ss, Bit32u *esp);
