@@ -44,6 +44,7 @@ public:
   virtual void   init(void);
   virtual void   reset(unsigned type);
   virtual bx_bool bmdma_present(void);
+  virtual void   bmdma_set_irq(Bit8u channel);
 
   static void timer_handler(void *);
   BX_PIDE_SMF void timer(void);

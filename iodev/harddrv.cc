@@ -391,7 +391,7 @@ bx_hard_drive_c::init(void)
           } else {
             // Autodetect number of cylinders
             disk_size = BX_HD_THIS channels[channel].drives[device].hard_drive->hd_size;
-            cyl = disk_size / (heads * spt * 512);
+            cyl = (int)(disk_size / (heads * spt * 512));
             BX_HD_THIS channels[channel].drives[device].hard_drive->cylinders = cyl;
             bx_options.atadevice[channel][device].Ocylinders->set (cyl);
             BX_INFO(("ata%d-%d: autodetect geometry: CHS=%d/%d/%d", channel, device, cyl, heads, spt));
@@ -3180,6 +3180,9 @@ bx_hard_drive_c::raise_interrupt(Bit8u channel)
       if (!BX_SELECTED_CONTROLLER(channel).control.disable_irq) {
           Bit32u irq = BX_HD_THIS channels[channel].irq; 
           BX_DEBUG(("Raising interrupt %d {%s}", irq, BX_SELECTED_TYPE_STRING(channel)));
+#if BX_SUPPORT_PCI
+          DEV_ide_bmdma_set_irq(channel);
+#endif
           DEV_pic_raise_irq(irq);
       } else {
           if (bx_dbg.disk || (BX_SELECTED_IS_CD(channel) && bx_dbg.cdrom))
