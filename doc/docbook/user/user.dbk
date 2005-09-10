@@ -2389,22 +2389,6 @@ turn it off.
       </entry>
     </row>
     <row>
-      <entry>--enable-time0=n</entry>
-      <entry>no</entry>
-      <entry>
-      Start CMOS clock at at time0 of <replaceable>n</replaceable> instead of using time(). You likely
-      don't want this option.  When debugging, it is very helpful to have
-      deterministic execution, and the clock is something that can skew
-      determinism.  If you supply this option, pass it a value returned by the
-      time(NULL) call, relating to the time you want bochs to start the CMOS
-      clock from.  For instance, '--enable-time0=917385580'.  If you use this
-      option but don't provide a value, configure uses a default value.  Note
-      that the <link linkend="bochsopt-time0">time0 option</link> in <filename>bochsrc</filename> will override this value.  Without this
-      option, the CMOS clock uses a time0 based on the value of time(NULL),
-      which is probably what you want.
-      </entry>
-    </row>
-    <row>
       <entry>--enable-xpm</entry>
       <entry>yes</entry>
       <entry>
