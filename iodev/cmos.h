@@ -25,9 +25,6 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 
-// Number of CMOS registers (64 or 128)
-#define BX_NUM_CMOS_REGS 64
-
 #if BX_USE_CMOS_SMF
 #  define BX_CMOS_SMF  static
 #  define BX_CMOS_THIS theCmosDevice->
@@ -66,8 +63,8 @@ public:
     bx_bool timeval_change;
     bx_bool rtc_mode_12hour;
 
-    Bit8u   reg[BX_NUM_CMOS_REGS];
-    } s;  // state information
+    Bit8u   reg[128];
+  } s;  // state information
 
 private:
   static Bit32u read_handler(void *this_ptr, Bit32u address, unsigned io_len);
