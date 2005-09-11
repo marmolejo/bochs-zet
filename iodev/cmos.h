@@ -62,6 +62,7 @@ public:
     Bit8u   cmos_mem_address;
     bx_bool timeval_change;
     bx_bool rtc_mode_12hour;
+    bx_bool rtc_mode_binary;
 
     Bit8u   reg[128];
   } s;  // state information
