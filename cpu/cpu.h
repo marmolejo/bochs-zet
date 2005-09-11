@@ -415,8 +415,11 @@ typedef struct {
   BX_CPP_INLINE void BX_CPU_C::setEFlags(Bit32u val) {                       \
     BX_CPU_THIS_PTR eflags.val32 = val;                                      \
     BX_CPU_THIS_PTR eflags.VM_cached = val & (1<<17);                        \
-    if (BX_CPU_THIS_PTR cr0.pe && BX_CPU_THIS_PTR eflags.VM_cached) {        \
-      BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_V8086;                         \
+    if (BX_CPU_THIS_PTR cr0.pe) {                                            \
+      if (BX_CPU_THIS_PTR eflags.VM_cached)                                  \
+        BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_V8086;                       \
+      else                                                                   \
+        BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_PROTECTED;                   \
     }                                                                        \
   }
 
@@ -481,8 +484,11 @@ typedef struct {
     BX_CPU_THIS_PTR eflags.val32 =                                           \
       (BX_CPU_THIS_PTR eflags.val32&~(1<<bitnum)) | (val ? (1<<bitnum) : 0); \
     BX_CPU_THIS_PTR eflags.VM_cached = val;                                  \
-    if (BX_CPU_THIS_PTR cr0.pe && BX_CPU_THIS_PTR eflags.VM_cached) {        \
-      BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_V8086;                         \
+    if (BX_CPU_THIS_PTR cr0.pe) {                                            \
+      if (BX_CPU_THIS_PTR eflags.VM_cached)                                  \
+        BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_V8086;                       \
+      else                                                                   \
+        BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_PROTECTED;                   \
     }                                                                        \
   }
 
