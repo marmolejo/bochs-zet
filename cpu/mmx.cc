@@ -785,7 +785,7 @@ void BX_CPU_C::PEXTRW_PqEdIb(bxInstruction_c *i)
   BxPackedMmxRegister op = BX_READ_MMX_REG(i->rm());
   Bit32u result = (Bit32u) op.mmx16u(i->Ib() & 0x3);
 
-  BX_WRITE_32BIT_REG(i->nnn(), result);
+  BX_WRITE_32BIT_REGZ(i->nnn(), result);
 #else
   BX_INFO(("PEXTRW_PqEdIb: required SSE or 3DNOW, use --enable-sse or --enable-3dnow options"));
   UndefinedOpcode(i);
@@ -975,7 +975,7 @@ void BX_CPU_C::PMOVMSKB_GdPRq(bxInstruction_c *i)
   if(MMXUB7(op) & 0x80) result |= 0x80;
 
   /* now write result back to destination */
-  BX_WRITE_32BIT_REG(i->nnn(), result);
+  BX_WRITE_32BIT_REGZ(i->nnn(), result);
   
 #else
   BX_INFO(("PMOVMSKB_GdPRq: required SSE or 3DNOW, use --enable-sse or --enable-3dnow options"));

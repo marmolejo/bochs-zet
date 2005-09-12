@@ -374,7 +374,7 @@ void BX_CPU_C::PEXTRW_VdqEdIb(bxInstruction_c *i)
   Bit8u count = i->Ib() & 0x7;
   Bit32u result = (Bit32u) op.xmm16u(count);
 
-  BX_WRITE_32BIT_REG(i->nnn(), result);
+  BX_WRITE_32BIT_REGZ(i->nnn(), result);
 #else
   BX_INFO(("PEXTRW_VdqEdIb: required SSE2, use --enable-sse option"));
   UndefinedOpcode(i);
@@ -601,7 +601,7 @@ void BX_CPU_C::PMOVMSKB_GdVRdq(bxInstruction_c *i)
   if(op.xmmubyte(0xF) & 0x80) result |= 0x8000; 
 
   /* now write result back to destination */
-  BX_WRITE_32BIT_REG(i->nnn(), result);
+  BX_WRITE_32BIT_REGZ(i->nnn(), result);
   
 #else
   BX_INFO(("PMOVMSKB_GdVRdq: required SSE2, use --enable-sse option"));
