@@ -2384,8 +2384,6 @@ parse_line_formatted(char *context, int num_params, char *params[])
         mode = BX_ATA_MODE_SPARSE;
       } else if (!strcmp(params[i], "mode=vmware3")) {
         mode = BX_ATA_MODE_VMWARE3;
-//      } else if (!strcmp(params[i], "mode=split")) {
-//        mode = BX_ATA_MODE_SPLIT;
       } else if (!strcmp(params[i], "mode=undoable")) {
         mode = BX_ATA_MODE_UNDOABLE;
       } else if (!strcmp(params[i], "mode=growing")) {
@@ -3341,9 +3339,6 @@ bx_write_atadevice_options (FILE *fp, Bit8u channel, Bit8u drive, bx_atadevice_o
         case BX_ATA_MODE_VMWARE3:
           fprintf (fp, ", mode=vmware3");
           break;
-//        case BX_ATA_MODE_SPLIT:
-//          fprintf (fp, ", mode=split");
-//          break;
         case BX_ATA_MODE_UNDOABLE:
           fprintf (fp, ", mode=undoable");
           break;
