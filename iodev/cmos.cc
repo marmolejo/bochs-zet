@@ -227,7 +227,7 @@ bx_cmos_c::init(void)
       bx_options.cmosimage.Opath->getptr ()));
     BX_CMOS_THIS s.rtc_mode_12hour = ((BX_CMOS_THIS s.reg[REG_STAT_B] & 0x02) == 0);
     BX_CMOS_THIS s.rtc_mode_binary = ((BX_CMOS_THIS s.reg[REG_STAT_B] & 0x04) != 0);
-    if (bx_options.cmosimage.Ouse_rtc->get ()) {
+    if (bx_options.cmosimage.Ortc_init->get ()) {
       update_timeval();
     } else {
       update_clock();

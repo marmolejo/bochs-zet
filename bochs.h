@@ -544,7 +544,7 @@ typedef struct {
 typedef struct {
   bx_param_bool_c *Oenabled;
   bx_param_string_c *Opath;
-  bx_param_bool_c *Ouse_rtc;
+  bx_param_bool_c *Ortc_init;
 } bx_cmosimage_options;
 
 typedef struct {
