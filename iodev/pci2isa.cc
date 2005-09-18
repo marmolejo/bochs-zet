@@ -382,7 +382,7 @@ bx_pci2isa_c::pci_write(Bit8u address, Bit32u value, unsigned io_len)
           break;
         default:
           BX_P2I_THIS s.pci_conf[address+i] = value8;
-          BX_DEBUG(("PIIX3 PCI-to-ISA write register 0x%02x value 0x%02x", address,
+          BX_DEBUG(("PIIX3 PCI-to-ISA write register 0x%02x value 0x%02x", address+i,
                     value8));
         }
       }

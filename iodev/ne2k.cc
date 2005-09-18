@@ -1519,7 +1519,7 @@ bx_ne2k_c::pci_write(Bit8u address, Bit32u value, unsigned io_len)
           baseaddr_change |= (value8 != oldval);
         default:
           BX_NE2K_THIS s.pci_conf[address+i] = value8;
-          BX_DEBUG(("NE2000 PCI NIC write register 0x%02x value 0x%02x", address,
+          BX_DEBUG(("NE2000 PCI NIC write register 0x%02x value 0x%02x", address+i,
                     value8));
       }
     }
