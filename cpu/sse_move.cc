@@ -800,7 +800,7 @@ void BX_CPU_C::MOVMSKPS_GdVRps(bxInstruction_c *i)
 }
 
 /* 66 0F 50 */
-void BX_CPU_C::MOVMSKPD_EdVRpd(bxInstruction_c *i)
+void BX_CPU_C::MOVMSKPD_GdVRpd(bxInstruction_c *i)
 {
 #if BX_SUPPORT_SSE >= 2
   BX_CPU_THIS_PTR prepareSSE();
@@ -813,7 +813,7 @@ void BX_CPU_C::MOVMSKPD_EdVRpd(bxInstruction_c *i)
  
   BX_WRITE_32BIT_REGZ(i->rm(), val32);
 #else
-  BX_INFO(("MOVMSKPD_EdVRpd: required SSE2, use --enable-sse option"));
+  BX_INFO(("MOVMSKPD_GdVRpd: required SSE2, use --enable-sse option"));
   UndefinedOpcode(i);
 #endif
 }

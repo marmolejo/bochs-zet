@@ -1092,7 +1092,7 @@ static BxOpcodeInfo_t BxOpcodeGroupSSE_0f29[4] = {
 
 static BxOpcodeInfo_t BxOpcodeGroupSSE_0f2a[4] = {
   /* -- */  { 0, &BX_CPU_C::CVTPI2PS_VpsQq },
-  /* 66 */  { 0, &BX_CPU_C::CVTPI2PD_VpdQd },
+  /* 66 */  { 0, &BX_CPU_C::CVTPI2PD_VpdQq },
   /* F2 */  { 0, &BX_CPU_C::CVTSI2SD_VsdEd },
   /* F3 */  { 0, &BX_CPU_C::CVTSI2SS_VssEd }
   };
@@ -1134,7 +1134,7 @@ static BxOpcodeInfo_t BxOpcodeGroupSSE_0f2f[4] = {
 
 static BxOpcodeInfo_t BxOpcodeGroupSSE_0f50[4] = {
   /* -- */  { 0, &BX_CPU_C::MOVMSKPS_GdVRps },
-  /* 66 */  { 0, &BX_CPU_C::MOVMSKPD_EdVRpd },
+  /* 66 */  { 0, &BX_CPU_C::MOVMSKPD_GdVRpd },
   /* F2 */  { 0, &BX_CPU_C::BxError },
   /* F3 */  { 0, &BX_CPU_C::BxError }
   };
@@ -1434,8 +1434,8 @@ static BxOpcodeInfo_t BxOpcodeGroupSSE_0fc4[4] = {
   };
 
 static BxOpcodeInfo_t BxOpcodeGroupSSE_0fc5[4] = {
-  /* -- */  { BxImmediate_Ib, &BX_CPU_C::PEXTRW_PqEdIb  },
-  /* 66 */  { BxImmediate_Ib, &BX_CPU_C::PEXTRW_VdqEdIb },
+  /* -- */  { BxImmediate_Ib, &BX_CPU_C::PEXTRW_GdPqIb   },
+  /* 66 */  { BxImmediate_Ib, &BX_CPU_C::PEXTRW_GdVRdqIb },
   /* F2 */  { 0, &BX_CPU_C::BxError },
   /* F3 */  { 0, &BX_CPU_C::BxError }
   };

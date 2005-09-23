@@ -125,7 +125,7 @@ void BX_CPU_C::CVTPI2PS_VpsQq(bxInstruction_c *i)
  * Convert two 32bit signed integers from MMX/MEM to two double precision FP
  * Possible floating point exceptions: -
  */
-void BX_CPU_C::CVTPI2PD_VpdQd(bxInstruction_c *i)
+void BX_CPU_C::CVTPI2PD_VpdQq(bxInstruction_c *i)
 {
 #if BX_SUPPORT_SSE >= 2
   BX_CPU_THIS_PTR prepareSSE();

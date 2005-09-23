@@ -182,22 +182,6 @@ void BX_CPU_C::MOVZX_GwEb(bxInstruction_c *i)
   BX_WRITE_16BIT_REG(i->nnn(), (Bit16u) op2_8);
 }
 
-void BX_CPU_C::MOVZX_GwEw(bxInstruction_c *i)
-{
-  Bit16u op2_16;
-
-  if (i->modC0()) {
-    op2_16 = BX_READ_16BIT_REG(i->rm());
-  }
-  else {
-    /* pointer, segment address pair */
-    read_virtual_word(i->seg(), RMAddr(i), &op2_16);
-  }
-
-  /* normal move */
-  BX_WRITE_16BIT_REG(i->nnn(), op2_16);
-}
-
 void BX_CPU_C::MOVSX_GwEb(bxInstruction_c *i)
 {
   Bit8u op2_8;
@@ -212,22 +196,6 @@ void BX_CPU_C::MOVSX_GwEb(bxInstruction_c *i)
 
   /* sign extend byte op2 into word op1 */
   BX_WRITE_16BIT_REG(i->nnn(), (Bit8s) op2_8);
-}
-
-void BX_CPU_C::MOVSX_GwEw(bxInstruction_c *i)
-{
-  Bit16u op2_16;
-
-  if (i->modC0()) {
-    op2_16 = BX_READ_16BIT_REG(i->rm());
-  }
-  else {
-    /* pointer, segment address pair */
-    read_virtual_word(i->seg(), RMAddr(i), &op2_16);
-  }
-
-  /* normal move */
-  BX_WRITE_16BIT_REG(i->nnn(), op2_16);
 }
 #endif
 
