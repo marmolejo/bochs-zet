@@ -1406,6 +1406,10 @@ bx_pciusb_c::pci_write(Bit8u address, Bit32u value, unsigned io_len)
       value8 = (value >> (i*8)) & 0xFF;
       oldval = BX_USB_THIS hub[0].pci_conf[address+i];
       switch (address+i) {
+        case 0x04:
+          value8 &= 0x05;
+          sprintf(szTmp2, "%02x", value8);
+          break;
         case 0x3d: //
         case 0x05: // disallowing write to command hi-byte
         case 0x06: // disallowing write to status lo-byte (is that expected?)

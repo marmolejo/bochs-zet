@@ -1506,7 +1506,7 @@ bx_ne2k_c::pci_write(Bit8u address, Bit32u value, unsigned io_len)
         case 0x3d:
           break;
         case 0x04:
-          BX_NE2K_THIS s.pci_conf[address+i] = value8 & 0x01;
+          BX_NE2K_THIS s.pci_conf[address+i] = value8 & 0x03;
           break;
         case 0x3c:
           if (value8 != oldval) {
