@@ -118,7 +118,7 @@ void BX_CPU_C::DIV_AXEw(bxInstruction_c *i)
    */
 
 #if INTEL_DIV_FLAG_BUG == 1
-  set_CF(1);
+  assert_CF();
 #endif
 
   /* now write quotient back to destination */
@@ -161,7 +161,7 @@ void BX_CPU_C::IDIV_AXEw(bxInstruction_c *i)
    */
 
 #if INTEL_DIV_FLAG_BUG == 1
-  set_CF(1);
+  assert_CF();
 #endif
 
   /* now write quotient back to destination */

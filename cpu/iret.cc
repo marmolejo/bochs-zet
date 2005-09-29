@@ -436,9 +436,9 @@ BX_CPU_C::long_iret(bxInstruction_c *i)
   }
 
   // if VM=1 in flags image on stack then STACK_RETURN_TO_V86
-  if (new_eflags & 0x00020000) {
+  if (new_eflags & EFlagsVMMask) {
     BX_PANIC(("iret64: no V86 mode in x86-64 LONG mode"));
-    return;
+    new_eflags &= ~EFlagsVMMask;
   }
 
   parse_selector(raw_cs_selector, &cs_selector);
