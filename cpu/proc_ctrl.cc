@@ -1822,7 +1822,7 @@ void BX_CPU_C::SYSENTER (bxInstruction_c *i)
     exception (BX_GP_EXCEPTION, 0, 0);
     return;
   }
-  if (BX_CPU_THIS_PTR sysenter_cs_msr == 0) {
+  if (BX_SELECTOR_RPL_MASK(BX_CPU_THIS_PTR sysenter_cs_msr) == 0) {
     BX_INFO (("sysenter with zero sysenter_cs_msr"));
     exception (BX_GP_EXCEPTION, 0, 0);
     return;
@@ -1882,7 +1882,7 @@ void BX_CPU_C::SYSEXIT (bxInstruction_c *i)
     exception (BX_GP_EXCEPTION, 0, 0);
     return;
   }
-  if (BX_CPU_THIS_PTR sysenter_cs_msr == 0) {
+  if (BX_SELECTOR_RPL_MASK(BX_CPU_THIS_PTR sysenter_cs_msr) == 0) {
     BX_INFO (("sysexit with zero sysenter_cs_msr"));
     exception (BX_GP_EXCEPTION, 0, 0);
     return;
