@@ -656,7 +656,6 @@ typedef struct BOCHSAPI {
   bx_cmosimage_options   cmosimage;
   bx_clock_options  clock;
   bx_ne2k_options   ne2k;
-  bx_param_bool_c   *OnewHardDriveSupport;
   bx_load32bitOSImage_t load32bitOSImage;
   bx_log_options    log;
   bx_keyboard_options keyboard;
