@@ -419,7 +419,7 @@ void BX_CPU_C::LTR_Ew(bxInstruction_c *i)
   }
 
   /* if selector is NULL, invalidate and done */
-  if (BX_SELECTOR_RPL_MASK(raw_selector) == 0) {
+  if ((raw_selector & BX_SELECTOR_RPL_MASK) == 0) {
     BX_ERROR(("LTR: loading with NULL selector!"));
     exception(BX_GP_EXCEPTION, 0, 0);
   }
