@@ -2446,6 +2446,8 @@ case $target in
       PRIMARY_TARGET=".win32_dll_plugin_target"
       PLUGIN_LIBNAME_TRANSFORMATION='%.o=bx_%.dll'
       INSTALL_PLUGINS_VAR=install_dll_plugins
+    else
+      LIBS="$LIBS -lcomctl32"
     fi
     DIALOG_OBJS="win32dialog.o"
     EXPORT_DYNAMIC=""
