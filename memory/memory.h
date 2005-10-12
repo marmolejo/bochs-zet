@@ -42,6 +42,10 @@
 
 // alignment of memory vector, must be a power of 2
 #define BX_MEM_VECTOR_ALIGN 4096
+#define BIOSROMSZ (1 << 19)  // 512KB BIOS ROM @0xfff80000, must be a power of 2
+#define EXROMSIZE 0x20000    // ROMs 0xc0000-0xdffff (area 0xe0000-0xfffff=bios mapped)
+#define BIOS_MASK (BIOSROMSZ-1)
+#define EXROM_MASK (EXROMSIZE-1)
 
 typedef bx_bool (*memory_handler_t)(unsigned long addr, unsigned long len, void *data, void *param);
 
@@ -65,7 +69,7 @@ public:
   Bit8u   *vector;   // aligned correctly
   size_t  len;
   size_t  megabytes; // (len in Megabytes)
-  Bit8u   *rom;      // 256k rom space
+  Bit8u   *rom;      // 512k BIOS rom space + 128k expansion rom space
   Bit8u   *bogus;    // 4k for unexisting memory
 #if BX_DEBUGGER
   unsigned char dbg_dirty_pages[(BX_MAX_DIRTY_PAGE_TABLE_MEGS * 1024 * 1024) / 4096];
