@@ -109,6 +109,11 @@
 #define BX_INSTR_IMUL32         55
 #define BX_INSTR_IMUL64         56
 
+//      BX_INSTR_SHRD8          not exists, leave number for alignment
+#define BX_INSTR_SHRD16         58
+#define BX_INSTR_SHRD32         59
+#define BX_INSTR_SHRD64         60
+
 #define BX_INSTR_COMPARE8       BX_INSTR_SUB8
 #define BX_INSTR_COMPARE16      BX_INSTR_SUB16
 #define BX_INSTR_COMPARE32      BX_INSTR_SUB32
