@@ -821,9 +821,9 @@ void BX_CPU_C::exception(unsigned vector, Bit16u error_code, bx_bool is_INT)
   }
 #endif
 
-#if BX_EXTERNAL_DEBUGGER
+//#if BX_EXTERNAL_DEBUGGER
   //trap_debugger(1);
-#endif
+//#endif
 
   BX_INSTR_EXCEPTION(BX_CPU_ID, vector);
 

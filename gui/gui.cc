@@ -807,3 +807,11 @@ bx_gui_c::graphics_tile_update_in_place(unsigned x0, unsigned y0,
     }
   }
 }
+
+  void 
+bx_gui_c::show_ips(Bit32u ips_count)
+{
+#if BX_SHOW_IPS
+  BX_INFO(("ips = %lu", ips_count));
+#endif
+}
