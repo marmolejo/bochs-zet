@@ -345,11 +345,13 @@
 #endif
 
 #if BX_SUPPORT_X86_64
+#define Is64BitMode()       (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)
+#define StackAddrSize64()   (Is64BitMode())
 #define IsLongMode()        (BX_CPU_THIS_PTR msr.lma)
-#define StackAddrSize64()   (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)
 #else
-#define IsLongMode()        (0)
+#define Is64BitMode()       (0)
 #define StackAddrSize64()   (0)
+#define IsLongMode()        (0)
 #endif
 
 #if BX_SUPPORT_APIC
