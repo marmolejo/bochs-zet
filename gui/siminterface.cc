@@ -1309,6 +1309,14 @@ bx_param_string_c::equals (const char *buf)
     return (strncmp (val, buf, maxsize) == 0);
 }
 
+void bx_param_string_c::set_initial_val (char *buf) { 
+  if (options->get () & RAW_BYTES)
+    memcpy (initial_val, buf, maxsize);
+  else
+    strncpy (initial_val, buf, maxsize);
+  set (initial_val);
+}
+
 bx_list_c::bx_list_c (bx_id id, int maxsize)
   : bx_param_c (id, "list", "")
 {

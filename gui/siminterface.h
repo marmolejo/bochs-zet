@@ -1121,6 +1121,7 @@ public:
   void set_separator (char sep) {separator = sep; }
   char get_separator () {return separator; }
   int get_maxsize () {return maxsize; }
+  void set_initial_val (char *buf);
 #if BX_USE_TEXTCONFIG
   virtual void text_print (FILE *fp);
   virtual int text_ask (FILE *fpin, FILE *fpout);
