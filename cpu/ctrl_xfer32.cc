@@ -124,8 +124,6 @@ done:
 
 void BX_CPU_C::CALL_Ad(bxInstruction_c *i)
 {
-BailBigRSP("CALL_Ad");
-
 #if BX_DEBUGGER
   BX_CPU_THIS_PTR show_flag |= Flag_call;
 #endif

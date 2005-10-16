@@ -630,6 +630,12 @@ typedef struct {
 } bx_cr4_t;
 #endif  // #if BX_CPU_LEVEL >= 4
 
+#if BX_SUPPORT_VME
+  #define CR4_VME_ENABLED (BX_CPU_THIS_PTR cr4.get_VME())
+#else
+  #define CR4_VME_ENABLED (0)
+#endif
+
 #if BX_CPU_LEVEL >= 5
 typedef struct {
   Bit64u apicbase;
@@ -2800,7 +2806,6 @@ public: // for now...
   BX_SMF void v86_redirect_interrupt(Bit32u vector);
 #endif
   BX_SMF void init_v8086_mode(void);
-  BX_SMF void v8086_message(void);
   BX_SMF void task_switch_load_selector(bx_segment_reg_t *seg,
                  bx_selector_t *selector, Bit16u raw_selector, Bit8u cs_rpl);
   BX_SMF void task_switch(bx_selector_t *selector, bx_descriptor_t *descriptor,

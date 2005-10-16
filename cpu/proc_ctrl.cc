@@ -1381,6 +1381,10 @@ void BX_CPU_C::SetCR4(Bit32u val_32)
   //   [1]     PVI: Protected-Mode Virtual Interrupts R/W
   //   [0]     VME: Virtual-8086 Mode Extensions R/W
 
+#if BX_SUPPORT_VME
+  allowMask |= (1<<0) | (1<<1);  /* VME */
+#endif
+
 #if BX_CPU_LEVEL >= 5
   allowMask |= (1<<2);   /* TSD */
 #endif

@@ -169,7 +169,7 @@ BX_CPU_C::iret_protected(bxInstruction_c *i)
       4, CPL==3, BX_READ, &new_eflags);
 
     // if VM=1 in flags image on stack then STACK_RETURN_TO_V86
-    if (new_eflags & 0x00020000) {
+    if (new_eflags & EFlagsVMMask) {
       if (CPL == 0) {
         BX_CPU_THIS_PTR stack_return_to_v86(new_eip, raw_cs_selector, new_eflags);
         return;
