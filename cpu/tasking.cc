@@ -460,7 +460,7 @@ void BX_CPU_C::task_switch(bx_selector_t *tss_selector,
   }
 
   BX_CPU_THIS_PTR prev_eip = EIP = newEIP;
-  write_eflags(newEFLAGS, 1,1,1,1);
+  writeEFlags(newEFLAGS, EFlagsValidMask);
   EAX = newEAX;
   ECX = newECX;
   EDX = newEDX;

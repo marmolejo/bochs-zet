@@ -404,7 +404,7 @@ void BX_CPU_C::IRET16(bxInstruction_c *i)
 
   if (v8086_mode()) {
     // IOPL check in stack_return_from_v86()
-    stack_return_from_v86(i);
+    iret16_stack_return_from_v86(i);
     goto done;
   }
 
