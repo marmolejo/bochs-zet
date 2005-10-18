@@ -139,7 +139,15 @@ public:
   }
 
   BX_CPP_INLINE void purgeICacheEntries(void);
+  BX_CPP_INLINE void flushICacheEntries(void);
 };
+
+BX_CPP_INLINE void bxICache_c::flushICacheEntries(void)
+{
+    for (unsigned i=0; i<BxICacheEntries; i++) {
+      entry[i].writeStamp = ICacheWriteStampInvalid;
+    }
+}
 
 BX_CPP_INLINE void bxICache_c::purgeICacheEntries(void)
 {
@@ -157,6 +165,7 @@ BX_CPP_INLINE void bxICache_c::purgeICacheEntries(void)
   }
 }
 
-extern void purgeICache(void);
+extern void purgeICaches(void);
+extern void flushICaches(void);
 
 #endif
