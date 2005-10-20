@@ -2460,7 +2460,9 @@ case $target in
       PLUGIN_LIBNAME_TRANSFORMATION='%.o=bx_%.dll'
       INSTALL_PLUGINS_VAR=install_dll_plugins
     else
-      LIBS="$LIBS -lcomctl32"
+      if test "$with_win32" != yes; then
+        LIBS="$LIBS -lcomctl32"
+      fi
     fi
     DIALOG_OBJS="win32dialog.o"
     EXPORT_DYNAMIC=""
