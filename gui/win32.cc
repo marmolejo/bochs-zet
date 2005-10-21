@@ -678,8 +678,9 @@ void bx_win32_gui_c::specific_init(int argc, char **argv, unsigned
   // load keymap tables
   if(bx_options.keyboard.OuseMapping->get()) {
     bx_keymap.loadKeymap(NULL);  // I have no function to convert X windows symbols
-    }
+  }
 
+  user_dialog = 1;
 }
 
 void resize_main_window()

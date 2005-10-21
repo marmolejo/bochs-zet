@@ -165,7 +165,8 @@ protected:
   Bit16u host_pitch;
   Bit8u host_bpp;
   Bit8u *framebuffer;
-  };
+  bx_bool user_dialog;
+};
 
 
 // Add this macro in the class declaration of each GUI, to define all the
