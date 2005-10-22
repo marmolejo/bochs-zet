@@ -557,7 +557,8 @@ bx_gui_c::userbutton_handler(void)
   strcpy(user_shortcut, bx_options.Ouser_shortcut->getptr());
   if ((ret > 0) && user_shortcut[0] && (strcmp(user_shortcut, "none"))) {
     ptr = strtok(user_shortcut, "-");
-    if (strcmp(ptr, bx_options.Ouser_shortcut->getptr())) {
+    if ((strcmp(ptr, bx_options.Ouser_shortcut->getptr())) ||
+        (strlen(bx_options.Ouser_shortcut->getptr()) < 6)) {
       while (ptr) {
         symbol = get_user_key(ptr);
         if (symbol == BX_KEY_UNKNOWN) {
