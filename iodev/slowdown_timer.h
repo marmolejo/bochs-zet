@@ -14,14 +14,13 @@ private:
     int timer_handle;
 
     float MAXmultiplier;
-    Bit64u Q; // (Q (in seconds))
+    Bit64u Q; // sleep rate in usec
   } s;
 
 public:
   bx_slowdown_timer_c();
 
   void init(void);
-  void reset(unsigned type);
 
   static void timer_handler(void * this_ptr);
 

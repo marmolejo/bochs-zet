@@ -334,7 +334,6 @@ bx_devices_c::reset(unsigned type)
   pluginVgaDevice->reset(type);
   pluginPicDevice->reset(type);
   pit->reset(type);
-  bx_slowdown_timer.reset(type);
 #if BX_SUPPORT_IODEBUG
   iodebug->reset(type);
 #endif
