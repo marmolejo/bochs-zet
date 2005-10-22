@@ -38,6 +38,7 @@
 #if BX_WITH_WIN32
 
 #include "zmouse.h"
+#include "win32dialog.h"
 #include "win32res.h"
 #include "font/vga.bitmap.h"
 // windows.h is included by bochs.h
@@ -680,6 +681,7 @@ void bx_win32_gui_c::specific_init(int argc, char **argv, unsigned
     bx_keymap.loadKeymap(NULL);  // I have no function to convert X windows symbols
   }
 
+  win32_init_notify_callback();
   user_dialog = 1;
 }
 

@@ -42,6 +42,9 @@
 
 #include "icon_bochs.h"
 #include "sdl.h"
+#ifdef WIN32
+#include "win32dialog.h"
+#endif
 
 class bx_sdl_gui_c : public bx_gui_c {
 public:
@@ -298,6 +301,7 @@ void bx_sdl_gui_c::specific_init(
 
   new_gfx_api = 1;
 #ifdef WIN32
+  win32_init_notify_callback();
   user_dialog = 1;
 #endif
 }
