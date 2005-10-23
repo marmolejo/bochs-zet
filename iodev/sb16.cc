@@ -283,13 +283,13 @@ void bx_sb16_c::init(void)
   if (DSP.timer_handle == BX_NULL_TIMER_HANDLE) {
     DSP.timer_handle = bx_pc_system.register_timer
       (BX_SB16_THISP, dsp_dmatimer, 1, 1, 0, "sb16.dsp");
-	// dma timer: inactive, continous, frequency variable
+    // dma timer: inactive, continuous, frequency variable
   }
 
   if (OPL.timer_handle == BX_NULL_TIMER_HANDLE) {
     OPL.timer_handle = bx_pc_system.register_timer
       (BX_SB16_THISP, opl_timer, 80, 1, 0, "sb16.opl");
-	// opl timer: inactive, continuous, frequency 80us
+    // opl timer: inactive, continuous, frequency 80us
   }
 
   writelog(MIDILOG(4), "Timers initialized, midi %d, dma %d, opl %d",
