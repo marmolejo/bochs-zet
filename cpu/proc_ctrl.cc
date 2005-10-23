@@ -688,7 +688,7 @@ void BX_CPU_C::MOV_RdCd(bxInstruction_c *i)
       BX_INFO(("MOV_RdCd: read of CR4 causes #UD"));
       UndefinedOpcode(i);
 #else
-      BX_INFO(("MOV_RdCd: read of CR4"));
+      BX_DEBUG(("MOV_RdCd: read of CR4"));
       val_32 = BX_CPU_THIS_PTR cr4.getRegister();
 #endif
       break;
@@ -834,7 +834,7 @@ void BX_CPU_C::MOV_RqCq(bxInstruction_c *i)
       val_64 = BX_CPU_THIS_PTR cr3;
       break;
     case 4: // CR4
-      BX_INFO(("MOV_RqCq: read of CR4"));
+      BX_DEBUG(("MOV_RqCq: read of CR4"));
       val_64 = BX_CPU_THIS_PTR cr4.getRegister();
       break;
 #if BX_SUPPORT_APIC
