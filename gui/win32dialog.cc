@@ -655,6 +655,10 @@ int AskFilename(HWND hwnd, bx_param_filename_c *param, const char *ext)
   char errtext[80];
 
   param->get(filename, MAX_PATH);
+  // common file dialogs don't accept raw device names
+  if ((isalpha(filename[0])) && (filename[1] == ':') && (strlen(filename) == 2)) {
+    filename[0] = 0;
+  }
   title = param->get_label();
   if (!title) title = param->get_name();
   memset(&ofn, 0, sizeof(OPENFILENAME));
