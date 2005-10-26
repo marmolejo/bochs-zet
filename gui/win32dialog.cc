@@ -11,6 +11,7 @@ extern "C" {
 #include <stdio.h>
 #include <windows.h>
 #include <commctrl.h>
+#include <ctype.h>
 }
 #include "win32res.h"
 #include "siminterface.h"
