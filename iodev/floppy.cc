@@ -941,22 +941,26 @@ bx_floppy_ctrl_c::floppy_command(void)
         BX_FD_THIS s.status_reg2 = 0x00;
         enter_result_phase();
         return;
-        }
+      }
 
       if (cylinder != BX_FD_THIS s.cylinder[drive])
         BX_DEBUG(("io: cylinder request != current cylinder"));
 
-        logical_sector = (cylinder * BX_FD_THIS s.media[drive].heads * BX_FD_THIS s.media[drive].sectors_per_track) +
+      logical_sector = (cylinder * BX_FD_THIS s.media[drive].heads * BX_FD_THIS s.media[drive].sectors_per_track) +
                        (head * BX_FD_THIS s.media[drive].sectors_per_track) +
                        (sector - 1);
 
       if (logical_sector >= BX_FD_THIS s.media[drive].sectors) {
         BX_PANIC(("io: logical sector out of bounds"));
-        }
-
+      }
+      // This hack makes older versions of the Bochs BIOS work
+      if (eot == 0) {
+        eot = BX_FD_THIS s.media[drive].sectors_per_track;
+      }
       BX_FD_THIS s.cylinder[drive] = cylinder;
       BX_FD_THIS s.head[drive]     = head;
       BX_FD_THIS s.sector[drive]   = sector;
+      BX_FD_THIS s.eot[drive]      = eot;
 
       if ((BX_FD_THIS s.command[0] & 0x4f) == 0x46) { // read
         floppy_xfer(drive, logical_sector*512, BX_FD_THIS s.floppy_buffer,
@@ -1334,25 +1338,25 @@ bx_floppy_ctrl_c::increment_sector(void)
   // values after completion of data xfer
   // ??? calculation depends on base_count being multiple of 512
   BX_FD_THIS s.sector[drive] ++;
-  if (BX_FD_THIS s.sector[drive] > BX_FD_THIS s.media[drive].sectors_per_track) {
+  if ((BX_FD_THIS s.sector[drive] > BX_FD_THIS s.eot[drive]) ||
+      (BX_FD_THIS s.sector[drive] > BX_FD_THIS s.media[drive].sectors_per_track)) {
     BX_FD_THIS s.sector[drive] = 1;
     if (BX_FD_THIS s.multi_track) {
       BX_FD_THIS s.head[drive] ++;
       if (BX_FD_THIS s.head[drive] > 1) {
         BX_FD_THIS s.head[drive] = 0;
         BX_FD_THIS s.cylinder[drive] ++;
-        }
       }
-    else {
+    } else {
       BX_FD_THIS s.cylinder[drive] ++;
-      }
+    }
     if (BX_FD_THIS s.cylinder[drive] >= BX_FD_THIS s.media[drive].tracks) {
       // Set to 1 past last possible cylinder value.
       // I notice if I set it to tracks-1, prama linux won't boot.
       BX_FD_THIS s.cylinder[drive] = BX_FD_THIS s.media[drive].tracks;
       BX_INFO(("increment_sector: clamping cylinder to max"));
-      }
     }
+  }
 }
 
   unsigned

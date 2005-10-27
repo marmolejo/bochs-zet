@@ -87,6 +87,7 @@ private:
     Bit8u   cylinder[4]; // really only using 2 drives
     Bit8u   head[4];     // really only using 2 drives
     Bit8u   sector[4];   // really only using 2 drives
+    Bit8u   eot[4];      // really only using 2 drives
 
     /* MAIN STATUS REGISTER
      * b7: MRQ: main request 1=data register ready     0=data register not ready
