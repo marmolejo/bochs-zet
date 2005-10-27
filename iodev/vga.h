@@ -277,6 +277,7 @@ protected:
     Bit16u charmap_address;
     bx_bool x_dotclockdiv2;
     bx_bool y_doublescan;
+    Bit8u last_bpp;
 
 #if BX_SUPPORT_VBE    
     Bit8u vbe_memory[VBE_DISPI_TOTAL_VIDEO_MEMORY_BYTES];
