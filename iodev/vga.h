@@ -280,7 +280,7 @@ protected:
     Bit8u last_bpp;
 
 #if BX_SUPPORT_VBE    
-    Bit8u vbe_memory[VBE_DISPI_TOTAL_VIDEO_MEMORY_BYTES];
+    Bit8u   *vbe_memory;
     Bit16u  vbe_cur_dispi;
     Bit16u  vbe_xres;
     Bit16u  vbe_yres;
