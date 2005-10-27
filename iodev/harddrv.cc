@@ -847,8 +847,11 @@ bx_hard_drive_c::read(Bit32u address, unsigned io_len)
                     bx_gui->statusbar_setitem(BX_SELECTED_DRIVE(channel).statusbar_id, 1);
                   BX_SELECTED_DRIVE(channel).iolight_counter = 5;
                   bx_pc_system.activate_timer( BX_HD_THIS iolight_timer_index, 100000, 0 );
-                  BX_SELECTED_DRIVE(channel).cdrom.cd->read_block(BX_SELECTED_CONTROLLER(channel).buffer,
-                                                                  BX_SELECTED_DRIVE(channel).cdrom.next_lba);
+                  if (!BX_SELECTED_DRIVE(channel).cdrom.cd->read_block(BX_SELECTED_CONTROLLER(channel).buffer,
+                                                                  BX_SELECTED_DRIVE(channel).cdrom.next_lba))
+                  {
+                    BX_PANIC(("CDROM: read block failed"));
+                  }
                   BX_SELECTED_DRIVE(channel).cdrom.next_lba++;
                   BX_SELECTED_DRIVE(channel).cdrom.remaining_blocks--;
 
