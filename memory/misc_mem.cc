@@ -265,8 +265,8 @@ void BX_MEM_C::load_ROM(const char *path, Bit32u romaddress, Bit8u type)
 void BX_MEM_C::load_RAM(const char *path, Bit32u ramaddress, Bit8u type)
 {
   struct stat stat_buf;
-  int fd, ret, i, start_idx, end_idx;
-  unsigned long size, max_size, offset;
+  int fd, ret;
+  unsigned long size, offset;
 
   if (*path == '\0') {
     BX_PANIC(( "RAM: Optional RAM image undefined"));
@@ -294,7 +294,7 @@ void BX_MEM_C::load_RAM(const char *path, Bit32u ramaddress, Bit8u type)
   while (size > 0) {
     ret = read(fd, (bx_ptr_t) &BX_MEM_THIS vector[offset], size);
     if (ret <= 0) {
-      BX_PANIC(( "RAM: read failed on BIOS image: '%s'",path));
+      BX_PANIC(( "RAM: read failed on RAM image: '%s'",path));
     }
     size -= ret;
     offset += ret;
