@@ -87,6 +87,7 @@ public:
   BX_MEM_SMF void    writePhysicalPage(BX_CPU_C *cpu, Bit32u addr,
                                        unsigned len, void *data) BX_CPP_AttrRegparmN(3);
   BX_MEM_SMF void    load_ROM(const char *path, Bit32u romaddress, Bit8u type);
+  BX_MEM_SMF void    load_RAM(const char *path, Bit32u romaddress, Bit8u type);
   BX_MEM_SMF Bit32u  get_memory_in_k(void);
   BX_MEM_SMF bx_bool dbg_fetch_mem(Bit32u addr, unsigned len, Bit8u *buf);
   BX_MEM_SMF bx_bool dbg_set_mem(Bit32u addr, unsigned len, Bit8u *buf);

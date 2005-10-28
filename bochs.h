@@ -630,6 +630,7 @@ typedef struct BOCHSAPI {
   bx_rom_options    rom;
   bx_vgarom_options vgarom;
   bx_rom_options    optrom[BX_N_OPTROM_IMAGES]; // Optional rom images 
+  bx_rom_options    optram[BX_N_OPTROM_IMAGES]; // Optional ram images 
   bx_mem_options    memory;
   bx_parport_options par[BX_N_PARALLEL_PORTS]; // parallel ports
   bx_sb16_options   sb16;

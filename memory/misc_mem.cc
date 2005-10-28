@@ -261,6 +261,50 @@ void BX_MEM_C::load_ROM(const char *path, Bit32u romaddress, Bit8u type)
 			(unsigned) stat_buf.st_size,
  			path));
 }
+
+void BX_MEM_C::load_RAM(const char *path, Bit32u ramaddress, Bit8u type)
+{
+  struct stat stat_buf;
+  int fd, ret, i, start_idx, end_idx;
+  unsigned long size, max_size, offset;
+
+  if (*path == '\0') {
+    BX_PANIC(( "RAM: Optional RAM image undefined"));
+    return;
+    }
+  // read in RAM BIOS image file
+  fd = open(path, O_RDONLY
+#ifdef O_BINARY
+            | O_BINARY
+#endif
+           );
+  if (fd < 0) {
+    BX_PANIC(( "RAM: couldn't open RAM image file '%s'.", path));
+    return;
+    }
+  ret = fstat(fd, &stat_buf);
+  if (ret) {
+    BX_PANIC(( "RAM: couldn't stat RAM image file '%s'.", path));
+    return;
+    }
+
+  size = (unsigned long)stat_buf.st_size;
+
+  offset = ramaddress;
+  while (size > 0) {
+    ret = read(fd, (bx_ptr_t) &BX_MEM_THIS vector[offset], size);
+    if (ret <= 0) {
+      BX_PANIC(( "RAM: read failed on BIOS image: '%s'",path));
+    }
+    size -= ret;
+    offset += ret;
+  }
+  close(fd);
+  BX_INFO(("ram at 0x%05x/%u ('%s')",
+			(unsigned) ramaddress,
+			(unsigned) stat_buf.st_size,
+ 			path));
+}
 #endif // #if BX_PROVIDE_CPU_MEMORY
 
 
