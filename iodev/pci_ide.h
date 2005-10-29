@@ -61,6 +61,9 @@ private:
       Bit32u dtpr;
       Bit32u prd_current;
       int timer_index;
+      Bit8u *buffer;
+      Bit8u *buffer_top;
+      Bit8u *buffer_idx;
     } bmdma[2];
   } s;
 
