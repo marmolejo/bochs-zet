@@ -166,7 +166,7 @@ bx_pci_ide_c::timer()
 {
   int timer_id, count;
   Bit8u channel;
-  Bit32u size;
+  Bit32u size, sector_size = 0;
   struct {
     Bit32u addr;
     Bit32u size;
@@ -191,9 +191,9 @@ bx_pci_ide_c::timer()
     BX_DEBUG(("READ DMA to addr=0x%08x, size=0x%08x", prd.addr, size));
     count = size - (BX_PIDE_THIS s.bmdma[channel].buffer_top - BX_PIDE_THIS s.bmdma[channel].buffer_idx);
     while (count > 0) {
-      if (DEV_hd_bmdma_read_sector(channel, BX_PIDE_THIS s.bmdma[channel].buffer_top)) {
-        BX_PIDE_THIS s.bmdma[channel].buffer_top += 512;
-        count -= 512;
+      if (DEV_hd_bmdma_read_sector(channel, BX_PIDE_THIS s.bmdma[channel].buffer_top, &sector_size)) {
+        BX_PIDE_THIS s.bmdma[channel].buffer_top += sector_size;
+        count -= sector_size;
       } else {
         break;
       }

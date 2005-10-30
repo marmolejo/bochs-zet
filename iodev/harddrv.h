@@ -607,6 +607,7 @@ typedef struct {
   Bit8u    current_command;
   Bit8u    sectors_per_block;
   Bit8u    lba_mode;
+  bx_bool  packet_dma;
   struct {
     bx_bool reset;       // 0=normal, 1=reset controller
     bx_bool disable_irq; // 0=allow irq, 1=disable irq
@@ -688,7 +689,7 @@ public:
   virtual unsigned get_cd_media_status(Bit32u handle);
   virtual unsigned set_cd_media_status(Bit32u handle, unsigned status);
 #if BX_SUPPORT_PCI
-  virtual bx_bool  bmdma_read_sector(Bit8u channel, Bit8u *buffer);
+  virtual bx_bool  bmdma_read_sector(Bit8u channel, Bit8u *buffer, Bit32u *sector_size);
   virtual bx_bool  bmdma_write_sector(Bit8u channel, Bit8u *buffer);
   virtual void     bmdma_complete(Bit8u channel);
 #endif

@@ -149,7 +149,7 @@ class BOCHSAPI bx_hard_drive_stub_c : public bx_devmodel_c {
   {
     STUBFUNC(HD, virt_write_handler);
   }
-  virtual bx_bool bmdma_read_sector(Bit8u channel, Bit8u *buffer) {
+  virtual bx_bool bmdma_read_sector(Bit8u channel, Bit8u *buffer, Bit32u *sector_size) {
     STUBFUNC(HD, bmdma_read_sector); return 0;
   }
   virtual bx_bool bmdma_write_sector(Bit8u channel, Bit8u *buffer) {
