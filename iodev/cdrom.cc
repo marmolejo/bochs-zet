@@ -203,6 +203,7 @@ static HINSTANCE hASPI = NULL;
 
 #define IOCTL_CDROM_BASE              FILE_DEVICE_CD_ROM
 #define IOCTL_CDROM_READ_TOC_EX       CTL_CODE(IOCTL_CDROM_BASE, 0x0015, METHOD_BUFFERED, FILE_READ_ACCESS)
+#define IOCTL_DISK_GET_LENGTH_INFO    CTL_CODE(IOCTL_DISK_BASE, 0x0017, METHOD_BUFFERED, FILE_READ_ACCESS)
 
 typedef struct _CDROM_READ_TOC_EX {
     UCHAR Format    : 4;
@@ -1317,11 +1318,17 @@ cdrom_interface::capacity()
       FileSize.LowPart = GetFileSize(hFile, &FileSize.HighPart);
       return (Bit32u)((FileSize.QuadPart / 2048) + 150);
     } else {  /* direct device access */
-      ULARGE_INTEGER FreeBytesForCaller;
-      ULARGE_INTEGER TotalNumOfBytes;
-      ULARGE_INTEGER TotalFreeBytes;
-      GetDiskFreeSpaceEx( path, &FreeBytesForCaller, &TotalNumOfBytes, &TotalFreeBytes);
-      return (Bit32u)(TotalNumOfBytes.QuadPart / 2048);
+      if (isWindowsXP) {
+        LARGE_INTEGER length;
+        DWORD iBytesReturned;
+        DeviceIoControl(hFile, IOCTL_DISK_GET_LENGTH_INFO, NULL, 0, &length, sizeof(length), &iBytesReturned, NULL);
+        return (Bit32u)(length.QuadPart / 2048);
+      } else {
+        ULARGE_INTEGER FreeBytesForCaller;
+        ULARGE_INTEGER TotalNumOfBytes;
+        ULARGE_INTEGER TotalFreeBytes;
+        GetDiskFreeSpaceEx( path, &FreeBytesForCaller, &TotalNumOfBytes, &TotalFreeBytes);
+        return (Bit32u)(TotalNumOfBytes.QuadPart / 2048);
     }
   }
 #elif defined __APPLE__
