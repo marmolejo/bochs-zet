@@ -601,7 +601,8 @@ typedef struct {
     Bit16u   cylinder_no;
     Bit16u   byte_count;
   };
-  Bit8u    buffer[2048];
+  Bit8u    buffer[2352];
+  Bit32u   buffer_size;
   Bit32u   buffer_index;
   Bit32u   drq_index;
   Bit8u    current_command;
