@@ -1329,6 +1329,7 @@ cdrom_interface::capacity()
         ULARGE_INTEGER TotalFreeBytes;
         GetDiskFreeSpaceEx( path, &FreeBytesForCaller, &TotalNumOfBytes, &TotalFreeBytes);
         return (Bit32u)(TotalNumOfBytes.QuadPart / 2048);
+      }
     }
   }
 #elif defined __APPLE__
