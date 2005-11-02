@@ -219,7 +219,7 @@ cdrom_interface::capacity()
 }
 
   bx_bool
-cdrom_interface::read_block(Bit8u* buf, int lba)
+cdrom_interface::read_block(Bit8u* buf, int lba, int blocksize)
 {
   CDIO->iotd_Req.io_Data    = buf;
   CDIO->iotd_Req.io_Command = CMD_READ;
