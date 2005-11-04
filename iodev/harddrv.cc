@@ -1648,17 +1648,17 @@ bx_hard_drive_c::write(Bit32u address, Bit32u value, unsigned io_len)
                         atapi_cmd_nop(channel);
                         raise_interrupt(channel);
                         break;
+                      case 0xf8:
+                        BX_SELECTED_CONTROLLER(channel).buffer_size = 2352;
                       case 0x10:
-                        init_send_atapi_command(channel, atapi_command, transfer_length * 2048,
-                                                transfer_length * 2048, true);
+                        init_send_atapi_command(channel, atapi_command,
+                                                transfer_length * BX_SELECTED_CONTROLLER(channel).buffer_size,
+                                                transfer_length * BX_SELECTED_CONTROLLER(channel).buffer_size, 1);
                         BX_SELECTED_DRIVE(channel).cdrom.remaining_blocks = transfer_length;
                         BX_SELECTED_DRIVE(channel).cdrom.next_lba = lba;
-                        ready_to_send_atapi(channel);
-                        break;
-                      case 0xf8:
-                        BX_ERROR(("Read CD (raw) not implemented yet"));
-                        atapi_cmd_error(channel, SENSE_ILLEGAL_REQUEST, ASC_INV_FIELD_IN_CMD_PACKET, 1);
-                        raise_interrupt(channel);
+                        if (!BX_SELECTED_CONTROLLER(channel).packet_dma) {
+                          ready_to_send_atapi(channel);
+                        }
                         break;
                       default:
                         BX_ERROR(("Read CD: unknown format"));
