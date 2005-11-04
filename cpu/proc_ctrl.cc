@@ -70,7 +70,7 @@ void BX_CPU_C::HLT(bxInstruction_c *i)
   }
 
   if (! BX_CPU_THIS_PTR get_IF ()) {
-    BX_PANIC(("WARNING: HLT instruction with IF=0!"));
+    BX_INFO(("WARNING: HLT instruction with IF=0!"));
   }
 
   // stops instruction execution and places the processor in a
