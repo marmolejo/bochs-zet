@@ -57,6 +57,9 @@
   BX_USB_THIS hub[0].device[0].function.configs = 1; // only one config in this device
   BX_USB_THIS hub[0].device[0].low_speed = 1;
 
+  BX_USB_THIS hub[0].device[0].in_stall = 0;
+  BX_USB_THIS hub[0].device[0].stall_once = 0;
+
   // device descriptor
   BX_USB_THIS hub[0].device[0].function.device_descr.len = 18;
   BX_USB_THIS hub[0].device[0].function.device_descr.type = DEVICE;
@@ -191,6 +194,9 @@
   BX_USB_THIS hub[0].device[1].endpt = 1;
   BX_USB_THIS hub[0].device[1].function.direction = 0;
   BX_USB_THIS hub[0].device[1].function.configs = 1; // only one config in this device
+
+  BX_USB_THIS hub[0].device[1].in_stall = 0;
+  BX_USB_THIS hub[0].device[1].stall_once = 0;
 
   // device descriptor
   BX_USB_THIS hub[0].device[1].function.device_descr.len = 18;
