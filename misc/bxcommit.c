@@ -45,8 +45,8 @@ int snprintf (char *s, size_t maxlen, const char *format, ...)
 
 #include "../osdep.h"
 
-#define INCLUDE_ONLY_HD_HEADERS 1
-#include "../iodev/harddrv.h"
+#define HDIMAGE_HEADERS_ONLY 1
+#include "../iodev/hdimage.h"
 
 char *EOF_ERR = "ERROR: End of input";
 char *rcsid = "$Id$";

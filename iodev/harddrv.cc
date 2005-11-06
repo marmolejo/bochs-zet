@@ -36,6 +36,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "hdimage.h"
 #include "vmware3.h"
 #include "cdrom.h"
 

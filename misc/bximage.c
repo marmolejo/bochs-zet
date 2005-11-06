@@ -25,8 +25,8 @@
 
 #include "../osdep.h"
 
-#define INCLUDE_ONLY_HD_HEADERS 1
-#include "../iodev/harddrv.h"
+#define HDIMAGE_HEADERS_ONLY 1
+#include "../iodev/hdimage.h"
 
 int bx_hdimage;
 int bx_fdsize_idx;
@@ -304,7 +304,7 @@ void make_redolog_header(redolog_header_t *header, const char* type, Bit64u size
 int make_flat_image_win32(HANDLE hFile, Bit64u sec)
 {
   LARGE_INTEGER pos;
-  DWORD dwCount;
+  DWORD dwCount, errCode;
   USHORT mode;
   char buffer[1024];
 
@@ -321,8 +321,14 @@ int make_flat_image_win32(HANDLE hFile, Bit64u sec)
   memset(buffer, 0, 512);
   if ((pos.u.LowPart == 0xffffffff && GetLastError() != NO_ERROR) || !WriteFile(hFile, buffer, 512, &dwCount, NULL) || dwCount != 512)
   {
+    errCode = GetLastError();
     CloseHandle(hFile);
-    fatal ("ERROR: The disk image is not complete!");
+    if (errCode == ERROR_DISK_FULL) {
+      fatal ("\nERROR: Not enough space on disk for image!");
+    } else {
+      sprintf(buffer, "\nERROR: Disk image creation failed with error code %i!", errCode);
+      fatal (buffer);
+    }
   }
   return 0;
 }
@@ -349,7 +355,7 @@ int make_flat_image(FILE *fp, Bit64u sec)
    if (fputc('\0', fp) == EOF)
    {
      fclose (fp);
-     fatal ("ERROR: The disk image is not complete!");
+     fatal ("\nERROR: The disk image is not complete! (image larger then free space?)");
    }
    return 0;
 }
