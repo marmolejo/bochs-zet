@@ -927,8 +927,11 @@ bx_list_c::text_ask (FILE *fpin, FILE *fpout)
   fprintf (fpout, "\n"); //fprintf (fp, "options=%s\n", options->get ());
   if (options->get () & SERIES_ASK) {
     for (int i=0; i<size; i++) {
-      if (list[i]->get_enabled ())
-        list[i]->text_ask (fpin, fpout);
+      if (list[i]->get_enabled()) {
+        if (!SIM->get_init_done() || list[i]->get_runtime_param()) {
+          list[i]->text_ask (fpin, fpout);
+        }
+      }
     }
   } else {
     if (options->get () & SHOW_PARENT)
