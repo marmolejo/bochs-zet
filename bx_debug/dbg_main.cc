@@ -410,6 +410,11 @@ process_sim2:
   bx_gui->init_signal_handlers ();
   bx_pc_system.start_timers();
 
+  // Just like in main.cc before set_init_done()
+  if (bx_options.load32bitOSImage.OwhichOS->get ()) {
+    void bx_load32bitOSimagehack(void);
+    bx_load32bitOSimagehack();
+  }
   SIM->set_init_done (1);
 
   // update headerbar buttons since drive status can change during init
