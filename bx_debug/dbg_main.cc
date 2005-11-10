@@ -1799,7 +1799,7 @@ one_more:
   bx_guard.special_unwind_stack = 0;
   int stop = 0;
   int which = -1;
-  while (!stop) {
+  while (!stop && !bx_guard.interrupt_requested) {
     // the quantum is an arbitrary number of cycles to run in each
     // processor.  In SMP mode, when this limit is reached, the
     // cpu_loop exits so that another processor can be simulated
