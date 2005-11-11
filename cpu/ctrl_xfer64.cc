@@ -126,7 +126,7 @@ void BX_CPU_C::RETfar64(bxInstruction_c *i)
 
 void BX_CPU_C::CALL_Aq(bxInstruction_c *i)
 {
-  Bit64u new_RIP = RIP + (Bit32s) i->Id();;
+  Bit64u new_RIP = RIP + (Bit32s) i->Id();
 
   //invalidate_prefetch_q();
 
