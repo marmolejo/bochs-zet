@@ -1855,10 +1855,14 @@ bx_hard_drive_c::write(Bit32u address, Bit32u value, unsigned io_len)
                     BX_SELECTED_CONTROLLER(channel).buffer[3] = 0;
 
                     if (sub_q) { // !sub_q == header only
-                      if (data_format == 2) { // UPC / bar code
+                      if ((data_format == 2) || (data_format == 3)) { // UPC or ISRC
                         ret_len = 24;
-                        BX_SELECTED_CONTROLLER(channel).buffer[4] = 2;
-                        BX_SELECTED_CONTROLLER(channel).buffer[0] = 0; // no UPC
+                        BX_SELECTED_CONTROLLER(channel).buffer[4] = data_format;
+                        if (data_format == 3) {
+                          BX_SELECTED_CONTROLLER(channel).buffer[5] = 0x14;
+                          BX_SELECTED_CONTROLLER(channel).buffer[6] = 1;
+                        }
+                        BX_SELECTED_CONTROLLER(channel).buffer[8] = 0; // no UPC, no ISRC
                       } else {
                         BX_ERROR(("Read sub-channel with SubQ not implemented (format=%d)", data_format));
                         atapi_cmd_error(channel, SENSE_ILLEGAL_REQUEST,
