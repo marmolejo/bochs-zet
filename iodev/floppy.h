@@ -121,8 +121,9 @@ private:
                   // b7: 0=diskette is present and has not been changed
                   //     1=diskette missing or changed
     bx_bool  non_dma;
+    Bit8u    SRT; // step rate time
     int      statusbar_id[2]; // IDs of the status LEDs
-    } s;  // state information
+  } s;  // state information
 
   static Bit32u read_handler(void *this_ptr, Bit32u address, unsigned io_len);
   static void   write_handler(void *this_ptr, Bit32u address, Bit32u value, unsigned io_len);
@@ -138,6 +139,7 @@ private:
   BX_FD_SMF void   lower_interrupt(void);
   BX_FD_SMF void   enter_idle_phase(void);
   BX_FD_SMF void   enter_result_phase(void);
+  BX_FD_SMF Bit32u calculate_step_delay(Bit8u drive, Bit8u new_cylinder);
   static void      timer_handler(void *);
 
 public:

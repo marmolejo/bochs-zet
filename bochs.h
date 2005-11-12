@@ -641,7 +641,6 @@ typedef struct BOCHSAPI {
   bx_param_num_c    *Okeyboard_serial_delay;
   bx_param_num_c    *Okeyboard_paste_delay;
   bx_param_enum_c   *Okeyboard_type;
-  bx_param_num_c    *Ofloppy_command_delay;
   bx_param_num_c    *Oips;
   bx_param_bool_c   *Orealtime_pit;
   bx_param_bool_c   *Otext_snapshot_check;
