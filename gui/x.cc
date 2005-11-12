@@ -640,7 +640,7 @@ bx_x_gui_c::specific_init(int argc, char **argv, unsigned tilewidth, unsigned ti
     }
 
   new_gfx_api = 1;
-  user_dialog = 1;
+  dialog_caps |= BX_GUI_DLG_USER;
 }
 
   void

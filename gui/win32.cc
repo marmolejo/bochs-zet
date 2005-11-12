@@ -682,7 +682,7 @@ void bx_win32_gui_c::specific_init(int argc, char **argv, unsigned
   }
 
   win32_init_notify_callback();
-  user_dialog = 1;
+  dialog_caps = BX_GUI_DLG_ALL;
 }
 
 void resize_main_window()

@@ -282,6 +282,7 @@ void bx_rfb_gui_c::specific_init(int argc, char **argv, unsigned tilewidth, unsi
   if (timeout < 0) BX_PANIC(("timeout! no client present"));
 
   new_gfx_api = 1;
+  dialog_caps = 0;
 }
 
 void rfbSetStatusText(int element, const char *text, bx_bool active)

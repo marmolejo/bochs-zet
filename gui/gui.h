@@ -26,6 +26,13 @@
 
 #define BX_MAX_STATUSITEMS 10
 
+#define BX_GUI_DLG_FLOPPY   0x01
+#define BX_GUI_DLG_CDROM    0x02
+#define BX_GUI_DLG_SNAPSHOT 0x04
+#define BX_GUI_DLG_RUNTIME  0x08
+#define BX_GUI_DLG_USER     0x10
+#define BX_GUI_DLG_ALL      0x1F
+
 typedef struct {
   Bit16u  start_address;
   Bit8u   cs_start;
@@ -165,7 +172,7 @@ protected:
   Bit16u host_pitch;
   Bit8u host_bpp;
   Bit8u *framebuffer;
-  bx_bool user_dialog;
+  Bit32u dialog_caps;
 };
 
 

@@ -914,7 +914,7 @@ bx_wx_gui_c::specific_init(int argc, char **argv, unsigned tilewidth, unsigned t
 #endif
 
   new_gfx_api = 1;
-  user_dialog = 1;
+  dialog_caps = BX_GUI_DLG_USER | BX_GUI_DLG_SNAPSHOT;
 }
 
 // ::HANDLE_EVENTS()
