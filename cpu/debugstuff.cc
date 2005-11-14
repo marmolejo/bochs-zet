@@ -213,8 +213,8 @@ void BX_CPU_C::debug(bx_address offset)
     BX_CPU_THIS_PTR mem->dbg_fetch_mem(phy_addr, 16, instr_buf);
     isize = bx_disassemble.disasm(
         BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b,
-        Base, 
-        EIP, instr_buf, char_buf);
+        BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64,
+        Base, EIP, instr_buf, char_buf);
 #if BX_SUPPORT_X86_64
     if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64) isize = 16;
 #endif
