@@ -3283,7 +3283,7 @@ void bx_dbg_disassemble_command(const char *format, bx_num_range range)
 	  dis_size = 32;
       }
       BX_MEM(0)->dbg_fetch_mem(paddr, 16, bx_disasm_ibuf);
-      ilen = bx_disassemble.disasm(dis_size==32, dis_size==32
+      ilen = bx_disassemble.disasm(dis_size==32, dis_size==64,
         0, (Bit32u)range.from, bx_disasm_ibuf, bx_disasm_tbuf);
 
       char *Sym=bx_dbg_disasm_symbolic_address((Bit32u)range.from, 0);
