@@ -226,7 +226,7 @@ void BX_CPU_C::cpu_loop(Bit32s max_instr_count)
 #if BX_INSTRUMENTATION
     // An instruction was found in the iCache.
     BX_INSTR_OPCODE(BX_CPU_ID, BX_CPU_THIS_PTR eipFetchPtr + eipBiased,
-          i->ilen(), BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b);
+       i->ilen(), BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b, Is64BitMode());
 #endif
   }
   else
@@ -280,7 +280,7 @@ void BX_CPU_C::cpu_loop(Bit32s max_instr_count)
 #if BX_INSTRUMENTATION
       // An instruction was either fetched, or found in the iCache.
       BX_INSTR_OPCODE(BX_CPU_ID, fetchPtr, i->ilen(),
-                  BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b);
+           BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b, Is64BitMode());
 #endif
     }
   }
@@ -840,7 +840,7 @@ void BX_CPU_C::boundaryFetch(Bit8u *fetchPtr, unsigned remainingInPage, bxInstru
 BX_CPU_THIS_PTR eipPageWindowSize = 0; // Fixme
 
   BX_INSTR_OPCODE(BX_CPU_ID, fetchBuffer, i->ilen(),
-                  BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b);
+      BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b, Is64BitMode());
 }
 
 
