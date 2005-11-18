@@ -1161,6 +1161,7 @@ void ParamDialog::AddParam (
           txtctrl->SetValue (buffer);
         } else {
           txtctrl->SetValue (param->getptr ());
+          txtctrl->SetMaxLength (param->get_maxsize ());
         }
 	sizer->Add (txtctrl, 0, wxALL, 2);
 	if (!plain) {
