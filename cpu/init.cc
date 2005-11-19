@@ -681,8 +681,8 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR ldtr.selector.ti    = 0;
   BX_CPU_THIS_PTR ldtr.selector.rpl   = 0;
 
-  BX_CPU_THIS_PTR ldtr.cache.valid    = 0; /* not valid */
-  BX_CPU_THIS_PTR ldtr.cache.p        = 0; /* not present */
+  BX_CPU_THIS_PTR ldtr.cache.valid    = 1; /* valid */
+  BX_CPU_THIS_PTR ldtr.cache.p        = 1; /* present */
   BX_CPU_THIS_PTR ldtr.cache.dpl      = 0; /* field not used */
   BX_CPU_THIS_PTR ldtr.cache.segment  = 0; /* system segment */
   BX_CPU_THIS_PTR ldtr.cache.type     = 2; /* LDT descriptor */
@@ -696,13 +696,13 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR tr.selector.ti    = 0;
   BX_CPU_THIS_PTR tr.selector.rpl   = 0;
 
-  BX_CPU_THIS_PTR tr.cache.valid    = 0;
-  BX_CPU_THIS_PTR tr.cache.p        = 0;
+  BX_CPU_THIS_PTR tr.cache.valid    = 1; /* valid */
+  BX_CPU_THIS_PTR tr.cache.p        = 1; /* present */
   BX_CPU_THIS_PTR tr.cache.dpl      = 0; /* field not used */
-  BX_CPU_THIS_PTR tr.cache.segment  = 0;
-  BX_CPU_THIS_PTR tr.cache.type     = 0; /* invalid */
-  BX_CPU_THIS_PTR tr.cache.u.tss286.base     = 0x00000000; /* undefined */
-  BX_CPU_THIS_PTR tr.cache.u.tss286.limit    =     0x0000; /* undefined */
+  BX_CPU_THIS_PTR tr.cache.segment  = 0; /* system segment */
+  BX_CPU_THIS_PTR tr.cache.type     = 2; /* invalid */
+  BX_CPU_THIS_PTR tr.cache.u.tss286.base   = 0x00000000;
+  BX_CPU_THIS_PTR tr.cache.u.tss286.limit  =     0xFFFF;
 #endif
 
   // DR0 - DR7 (Debug Registers)
