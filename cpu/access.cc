@@ -116,8 +116,7 @@ BX_CPU_C::write_virtual_checks(bx_segment_reg_t *seg, bx_address offset,
     if (offset > (seg->cache.u.segment.limit_scaled - length + 1)
           || (length-1 > seg->cache.u.segment.limit_scaled))
     {
-      if (seg == & BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS]) exception(BX_SS_EXCEPTION, 0, 0);
-      else exception(BX_GP_EXCEPTION, 0, 0);
+      exception(int_number(seg), 0, 0);
     }
     if (seg->cache.u.segment.limit_scaled >= 7) {
       // Mark cache as being OK type for succeeding writes. See notes above.
@@ -232,8 +231,7 @@ BX_CPU_C::read_virtual_checks(bx_segment_reg_t *seg, bx_address offset,
     if (offset > (seg->cache.u.segment.limit_scaled - length + 1)
         || (length-1 > seg->cache.u.segment.limit_scaled))
     {
-      if (seg == & BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS]) exception(BX_SS_EXCEPTION, 0, 0);
-      else exception(BX_GP_EXCEPTION, 0, 0);
+      exception(int_number(seg), 0, 0);
     }
     if (seg->cache.u.segment.limit_scaled >= 7) {
       // Mark cache as being OK type for succeeding reads. See notes for
