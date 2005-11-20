@@ -147,6 +147,7 @@ private:
   BX_FD_SMF void   enter_idle_phase(void);
   BX_FD_SMF void   enter_result_phase(void);
   BX_FD_SMF Bit32u calculate_step_delay(Bit8u drive, Bit8u new_cylinder);
+  BX_FD_SMF void   reset_changeline(void);
   static void      timer_handler(void *);
 
 public:
