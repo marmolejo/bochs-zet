@@ -405,6 +405,10 @@ BOCHSAPI extern logfunc_t *genlog;
 #define FMT_ADDRX "%08x"
 #endif
 
+#if BX_DISASM
+#  include "disasm/disasm.h"
+#endif
+
 #if BX_PROVIDE_CPU_MEMORY==1
 #  include "cpu/cpu.h"
 #endif
@@ -426,10 +430,6 @@ int bx_gdbstub_check(unsigned int eip);
 // BX_CPU(n)->dword.eip, etc.
 #endif
 
-#endif
-
-#if BX_DISASM
-#  include "disasm/disasm.h"
 #endif
 
 typedef struct {
