@@ -1936,14 +1936,16 @@ void bx_dbg_disassemble_current (int which_cpu, int print_time)
 
     BX_CPU(which_cpu)->mem->dbg_fetch_mem(phy, 16, bx_disasm_ibuf);
 
-    if (BX_CPU(which_cpu)->cpu_mode == BX_MODE_IA32_PROTECTED) { // 16bit & 32bit protected mode
+    unsigned cpu_mode = BX_CPU(which_cpu)->cpu_mode;
+
+    if (cpu_mode >= BX_MODE_IA32_PROTECTED) { // 16bit & 32bit protected mode
      Base=BX_CPU(which_cpu)->get_segment_base(BX_SEG_REG_CS);
     }
     else {
      Base=BX_CPU(which_cpu)->sregs[BX_SEG_REG_CS].selector.value<<4;
     }
 
-    ilen = bx_disassemble.disasm(BX_CPU(which_cpu)->guard_found.is_32bit_code, 0 /* is_64 */,
+    ilen = bx_disassemble.disasm(BX_CPU(which_cpu)->guard_found.is_32bit_code, cpu_mode == BX_MODE_LONG_64 /* is_64 */,
       Base, BX_CPU(which_cpu)->guard_found.eip, bx_disasm_ibuf, bx_disasm_tbuf);
 
     // Note: it would be nice to display only the modified registers here, the easy
