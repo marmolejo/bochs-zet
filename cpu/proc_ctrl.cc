@@ -1307,6 +1307,12 @@ void BX_CPU_C::SetCR0(Bit32u val_32)
 #endif
   BX_CPU_THIS_PTR cr0.pg = pg;
 
+#if BX_CPU_LEVEL >= 4
+  if (BX_CPU_THIS_PTR cr0.am) {
+    BX_ERROR(("WARNING: Aligment check enabled but not implemented !"));
+  }
+#endif
+
   // handle reserved bits behaviour
 #if BX_CPU_LEVEL == 3
   newCR0 = val_32 | 0x7ffffff0;
