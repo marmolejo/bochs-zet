@@ -153,8 +153,8 @@ private:
 public:
   BX_FD_SMF void   timer(void);
   BX_FD_SMF void   increment_sector(void);
-  BX_FD_SMF bx_bool evaluate_media(unsigned type, char *path, floppy_t *floppy);
-  };
+  BX_FD_SMF bx_bool evaluate_media(Bit8u devtype, Bit8u type, char *path, floppy_t *floppy);
+};
 
 
 #ifdef WIN32
