@@ -449,6 +449,7 @@ void bx_local_apic_c::init ()
 
 void bx_local_apic_c::set_id (Bit8u newid)
 {
+  local_apic_index[id] = NULL;
   bx_generic_apic_c::set_id (newid);
   local_apic_index[id] = this;
   sprintf (cpu->name, "CPU apicid=%02x", (Bit32u)id);
