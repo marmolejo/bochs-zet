@@ -87,12 +87,11 @@ enum
   ID_Filename,
   ID_FilenameText,
   ID_Browse,
-  ID_Browse2,
+  ID_Capacity,
   ID_Create,
-  // dialog box: NetConfigDialog
-  ID_Enable,
   // dialog box: LogOptions
   ID_Advanced,
+  ID_Browse2,
   // dialog box: CpuRegistersDialog
   ID_Debug_Continue,
   ID_Debug_Stop,

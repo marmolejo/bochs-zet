@@ -1223,7 +1223,9 @@ void MyFrame::editFloppyConfig (int drive)
     wxLogError ("floppy params have wrong type");
     return;
   }
-  dlg.AddRadio ("Not Present", "");
+  if (sim_thread == NULL) {
+    dlg.AddRadio ("Not Present", "");
+  }
   dlg.AddRadio ("Ejected", "none");
 #if defined(__linux__)
   dlg.AddRadio ("Physical floppy drive /dev/fd0", "/dev/fd0");
@@ -1240,7 +1242,7 @@ void MyFrame::editFloppyConfig (int drive)
   if (disktype->get() == BX_FLOPPY_NONE) {
     dlg.SetRadio (0);
   } else if (!strcmp ("none", fname->getptr ())) {
-    dlg.SetRadio (1);
+    dlg.SetRadio (sim_thread == NULL);
   } else {
     // otherwise the SetFilename() should have done the right thing.
   }
