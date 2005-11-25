@@ -1833,8 +1833,8 @@ bx_floppy_ctrl_c::enter_result_phase(void)
       break;
   }
 
-  // Print command result
-  char buf[8+(7*5)+1], *p = buf;
+  // Print command result (max. 10 bytes)
+  char buf[8+(10*5)+1], *p = buf;
   p += sprintf(p, "RESULT: ");
   for (i=0; i<BX_FD_THIS s.result_size; i++) {
     p += sprintf(p, "[%02x] ", (unsigned) BX_FD_THIS s.result[i]);
