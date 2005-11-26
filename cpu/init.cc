@@ -29,7 +29,7 @@
 #include "bochs.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
-BX_CPU_C::BX_CPU_C(): bx_cpuid(0)
+BX_CPU_C::BX_CPU_C(unsigned id): bx_cpuid(id)
 #if BX_SUPPORT_APIC
    ,local_apic (this)
 #endif
@@ -158,9 +158,8 @@ cpu_param_handler (bx_param_c *param, int set, Bit64s val)
 
 #endif
 
-void BX_CPU_C::init(BX_MEM_C *addrspace)
+void BX_CPU_C::initialize(BX_MEM_C *addrspace)
 {
-  BX_DEBUG(( "Init $Id$"));
   // BX_CPU_C constructor
   BX_CPU_THIS_PTR set_INTR (0);
 #if BX_SUPPORT_APIC
@@ -283,7 +282,7 @@ void BX_CPU_C::init(BX_MEM_C *addrspace)
 // <TAG-INIT-CPU-END>
 
   mem = addrspace;
-  sprintf (name, "CPU %p", this);
+  sprintf (name, "CPU %d", which_cpu());
 
 #if BX_WITH_WX
   static bx_bool first_time = 1;
