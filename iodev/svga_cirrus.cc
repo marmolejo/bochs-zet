@@ -263,7 +263,7 @@ bx_svga_cirrus_c::init(void)
     BX_CIRRUS_THIS bx_vga_c::init_iohandlers(
         svga_read_handler, svga_write_handler);
     BX_CIRRUS_THIS bx_vga_c::init_systemtimer(
-        svga_timer_handler);
+        svga_timer_handler, svga_param_handler);
 #if BX_SUPPORT_PCI && BX_SUPPORT_CLGD54XX_PCI
     BX_CIRRUS_THIS pci_enabled = DEV_is_pci_device("cirrus");
 #endif
@@ -285,7 +285,7 @@ bx_svga_cirrus_c::init(void)
     BX_CIRRUS_THIS bx_vga_c::init_iohandlers(
         bx_vga_c::read_handler, bx_vga_c::write_handler);
     BX_CIRRUS_THIS bx_vga_c::init_systemtimer(
-        bx_vga_c::timer_handler);
+        bx_vga_c::timer_handler, bx_vga_c::vga_param_handler);
   }
 }
 
@@ -748,12 +748,14 @@ bx_svga_cirrus_c::trigger_timer(void *this_ptr)
   BX_CIRRUS_THIS timer_handler(this_ptr);
 }
 
-  void
-bx_svga_cirrus_c::set_update_interval (unsigned interval)
+Bit64s bx_svga_cirrus_c::svga_param_handler(bx_param_c *param, int set, Bit64s val)
 {
-  BX_INFO (("Changing timer interval to %d", interval));
-  BX_CIRRUS_THIS svga_timer_handler (theSvga);
-  bx_pc_system.activate_timer (BX_CIRRUS_THIS timer_id, interval, 1);
+  if (set) {
+    BX_INFO (("Changing timer interval to %d", (Bit32u)val));
+    BX_CIRRUS_THIS svga_timer_handler (theSvga);
+    bx_pc_system.activate_timer (BX_CIRRUS_THIS timer_id, (Bit32u)val, 1);
+  }
+  return val;
 }
 
   Bit8u

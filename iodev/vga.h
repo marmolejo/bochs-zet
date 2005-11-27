@@ -150,14 +150,13 @@ public:
   virtual void   redraw_area(unsigned x0, unsigned y0,
                              unsigned width, unsigned height);
 
-  virtual void   set_update_interval (unsigned interval);
   virtual void   get_text_snapshot(Bit8u **text_snapshot, unsigned *txHeight,
                                    unsigned *txWidth);
   virtual Bit8u  get_actl_palette_idx(Bit8u index);
 
 protected:
   void init_iohandlers(bx_read_handler_t f_read, bx_write_handler_t f_write);
-  void init_systemtimer(bx_timer_handler_t f_timer);
+  void init_systemtimer(bx_timer_handler_t f_timer, param_event_handler f_param);
 
   static Bit32u read_handler(void *this_ptr, Bit32u address, unsigned io_len);
   static void   write_handler(void *this_ptr, Bit32u address, Bit32u value, unsigned io_len);
@@ -329,6 +328,7 @@ protected:
   public:
   static void     timer_handler(void *);
   BX_VGA_SMF void timer(void);
+  static Bit64s   vga_param_handler(bx_param_c *param, int set, Bit64s val);
 
   protected:
   BX_VGA_SMF void update(void);

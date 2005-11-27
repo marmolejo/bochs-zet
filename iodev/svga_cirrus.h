@@ -74,7 +74,6 @@ public:
   virtual void get_text_snapshot(Bit8u **text_snapshot, 
                                  unsigned *txHeight, unsigned *txWidth);
   virtual void trigger_timer(void *this_ptr);
-  virtual void set_update_interval (unsigned interval);
   virtual Bit8u get_actl_palette_idx(Bit8u index);
 
 private:
@@ -86,6 +85,7 @@ private:
 #endif // !BX_USE_CIRRUS_SMF
 
   static void   svga_timer_handler(void *);
+  static Bit64s svga_param_handler(bx_param_c *param, int set, Bit64s val);
   BX_CIRRUS_SMF void   svga_timer(void);
   BX_CIRRUS_SMF void   svga_modeupdate(void);
   BX_CIRRUS_SMF void   svga_update(void);

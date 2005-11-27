@@ -257,9 +257,6 @@ class BOCHSAPI bx_vga_stub_c : public bx_devmodel_c {
   virtual void trigger_timer(void *this_ptr) {
     STUBFUNC(vga, trigger_timer); 
   }
-  virtual void set_update_interval (unsigned interval) {
-    STUBFUNC(vga, set_update_interval); 
-  }
   virtual Bit8u get_actl_palette_idx(Bit8u index) {
     return 0;
   }
