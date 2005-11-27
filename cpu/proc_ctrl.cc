@@ -119,7 +119,7 @@ void BX_CPU_C::INVD(bxInstruction_c *i)
     }
   }
 
-  BX_INFO(("INVD: Flush caches and TLB !"));
+  BX_DEBUG(("INVD: Flush caches and TLB !"));
   BX_INSTR_CACHE_CNTRL(BX_CPU_ID, BX_INSTR_INVD);
   TLB_flush(1); // 1 = Flush Global entries too
 #if BX_SUPPORT_ICACHE
@@ -144,7 +144,7 @@ void BX_CPU_C::WBINVD(bxInstruction_c *i)
     }
   }
 
-  BX_INFO(("WBINVD: Flush caches and TLB !"));
+  BX_DEBUG(("WBINVD: Flush caches and TLB !"));
   BX_INSTR_CACHE_CNTRL(BX_CPU_ID, BX_INSTR_WBINVD);
   TLB_flush(1); // 1 = Flush Global entries too
 #if BX_SUPPORT_ICACHE
