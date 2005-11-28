@@ -499,7 +499,12 @@ void bx_local_apic_c::write (Bit32u addr, Bit32u *data, unsigned len)
       id = (value>>24) & APIC_ID_MASK;
       break;
     case 0x80: // task priority
-      task_priority = value & 0xff;
+      {
+        Bit32u curr_task_priority = task_priority;
+        task_priority = value & 0xff;
+        if (task_priority < curr_task_priority)
+          service_local_apic();
+      }
       break;
     case 0xb0: // EOI
       receive_EOI(value);
