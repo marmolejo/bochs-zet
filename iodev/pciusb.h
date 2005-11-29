@@ -344,6 +344,7 @@ public:
   virtual bx_bool usb_key_enq(Bit8u *scan_code);
   virtual bx_bool usb_keyboard_connected();
   virtual bx_bool usb_mouse_connected();
+  static char  *usb_param_handler(bx_param_string_c *param, int set, char *val, int maxlen);
 
 private:
 
