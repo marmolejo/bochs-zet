@@ -228,11 +228,6 @@ void bx_vde_pktmover_c::rx_timer ()
 
   rxbuf=buf;
 
-  // hack: TUN/TAP device likes to create an ethernet header which has
-  // the same source and destination address FE:FD:00:00:00:00.
-  // Change the dest address to FE:FD:00:00:00:01.
-  rxbuf[5] = 1;
-
   if (nbytes>0)
     BX_INFO (("vde read returned %d bytes", nbytes));
   if (nbytes<0) {
@@ -272,8 +267,8 @@ void bx_vde_pktmover_c::rx_timer ()
 #define REQ_NEW_CONTROL 0
 
 struct request_v3 {
-	Bit32u_t magic;
-	Bit32u_t version;
+	Bit32u magic;
+	Bit32u version;
 	//enum request_type type;
 	int type;
 	struct sockaddr_un sock;

@@ -859,8 +859,9 @@ if test "$networking" = yes; then
     ])
 
     if test "$use_ethertap" = yes; then
-      NETLOW_OBJS="$NETLOW_OBJS eth_tap.o"
+      NETLOW_OBJS="$NETLOW_OBJS eth_tap.o eth_vde.o"
       AC_DEFINE(HAVE_ETHERTAP, 1)
+      AC_DEFINE(HAVE_VDE, 1)
     fi
 
     AC_CHECK_HEADER(net/if_tun.h, [
