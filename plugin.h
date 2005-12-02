@@ -111,10 +111,6 @@ extern "C" {
     (bx_devices.pluginKeyboard->gen_scancode(key))
 #define DEV_kbd_paste_bytes(bytes, count) \
     (bx_devices.pluginKeyboard->paste_bytes(bytes,count))
-#define DEV_kbd_paste_delay_changed() \
-    (bx_devices.pluginKeyboard->paste_delay_changed())
-#define DEV_mouse_enabled_changed(val) \
-    (bx_devices.pluginKeyboard->mouse_enabled_changed(val))
 
 ///////// hard drive macros
 #define DEV_hd_read_handler(a, b, c) \

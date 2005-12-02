@@ -109,12 +109,6 @@ class BOCHSAPI bx_keyb_stub_c : public bx_devmodel_c {
   virtual void paste_bytes(Bit8u *data, Bit32s length) {
     STUBFUNC(keyboard, paste_bytes);
   }
-  virtual void paste_delay_changed () {
-    STUBFUNC(keyboard, paste_delay_changed);
-  }
-  virtual void mouse_enabled_changed(bool enabled) {
-    STUBFUNC(keyboard, mouse_enabled_changed);
-  }
 };
 
 class BOCHSAPI bx_hard_drive_stub_c : public bx_devmodel_c {
