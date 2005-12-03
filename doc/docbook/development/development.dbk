@@ -1267,7 +1267,7 @@ Each position is a Bit32u entity.
 <title>Parameters
 </title>
 <para>
-The following tables shows what paremeters are used when creating redologs or creating égrowing" images :
+The following tables shows what paremeters are used when creating redologs or creating "growing" images :
 <table>   
 <title>
         How number of entries in the catalog and number of blocks by extents are computed
