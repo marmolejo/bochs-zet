@@ -101,6 +101,7 @@ extern "C" {
 #define DEV_cmos_set_reg(a,b) (bx_devices.pluginCmosDevice->set_reg(a,b))
 #define DEV_cmos_checksum() (bx_devices.pluginCmosDevice->checksum_cmos())
 #define DEV_cmos_get_timeval() (bx_devices.pluginCmosDevice->get_timeval())
+#define DEV_cmos_save_image() (bx_devices.pluginCmosDevice->save_image())
 
 ///////// keyboard macros
 #define DEV_mouse_motion(dx, dy, state) \

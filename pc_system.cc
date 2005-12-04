@@ -221,6 +221,7 @@ Bit8u bx_pc_system_c::IAC(void)
 
 void bx_pc_system_c::exit(void)
 {
+  DEV_cmos_save_image();
   if (DEV_hd_present())
     DEV_hd_close_harddrive();
 

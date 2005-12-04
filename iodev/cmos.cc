@@ -197,7 +197,6 @@ bx_cmos_c::init(void)
 
   // load CMOS from image file if requested.
   if (bx_options.cmosimage.Oenabled->get ()) {
-    // CMOS image file requested
     int fd, ret;
     struct stat stat_buf;
 
@@ -257,8 +256,7 @@ bx_cmos_c::init(void)
   BX_CMOS_THIS s.timeval_change = 0;
 }
 
-  void
-bx_cmos_c::reset(unsigned type)
+void bx_cmos_c::reset(unsigned type)
 {
   BX_CMOS_THIS s.cmos_mem_address = 0;
 
@@ -278,8 +276,26 @@ bx_cmos_c::reset(unsigned type)
   BX_CMOS_THIS CRA_change();
 }
 
-  void
-bx_cmos_c::CRA_change(void)
+void bx_cmos_c::save_image(void)
+{
+  int fd, ret;
+
+  // save CMOS to image file if requested.
+  if (bx_options.cmosimage.Oenabled->get ()) {
+    fd = open(bx_options.cmosimage.Opath->getptr (), O_WRONLY
+#ifdef O_BINARY
+       | O_BINARY
+#endif
+        );
+    ret = ::write(fd, (bx_ptr_t) BX_CMOS_THIS s.reg, 128);
+    if (ret != 128) {
+      BX_PANIC(("CMOS: error writing cmos file."));
+    }
+    close(fd);
+  }
+}
+
+void bx_cmos_c::CRA_change(void)
 {
   Bit8u nibble, dcc;
 

@@ -42,6 +42,7 @@ public:
   virtual void init(void);
   virtual void checksum_cmos(void);
   virtual void reset(unsigned type);
+  virtual void save_image(void);
 
   virtual Bit32u get_reg(unsigned reg) {
     return s.reg[reg];

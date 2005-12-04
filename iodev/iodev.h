@@ -173,11 +173,13 @@ class BOCHSAPI bx_cmos_stub_c : public bx_devmodel_c {
     STUBFUNC(cmos, set_reg);
   }
   virtual time_t get_timeval() {
-    // STUBFUNC(cmos, get_timeval); 
     return 0;
   }
   virtual void checksum_cmos(void) {
     STUBFUNC(cmos, checksum);
+  }
+  virtual void save_image(void) {
+    STUBFUNC(cmos, save_image);
   }
 };
 
