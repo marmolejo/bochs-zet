@@ -79,12 +79,6 @@ void bx_generic_apic_c::reset_all_ids(void)
   }
 }
 
-char *bx_generic_apic_c::get_name(void)
-{
-  BX_PANIC(("get_name called on bx_generic_apic_c base class"));
-  return NULL;
-}
-
 bx_bool bx_generic_apic_c::is_selected (bx_address addr, Bit32u len)
 {
   if ((addr & ~0xfff) == get_base()) {
@@ -469,11 +463,6 @@ void bx_local_apic_c::set_id (Bit8u newid)
     BX_INFO(( "8086" ));
   else
     BX_INFO(( "80%d86", BX_CPU_LEVEL ));
-}
-
-char *bx_local_apic_c::get_name()
-{
-  return cpu->name;
 }
 
 void bx_local_apic_c::set_divide_configuration (Bit32u value)

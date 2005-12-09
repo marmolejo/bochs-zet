@@ -66,7 +66,6 @@ public:
   void set_id (Bit8u newid);
   Bit8u get_id () const { return id; }
   static void reset_all_ids ();
-  virtual char *get_name();
   bx_bool is_selected (bx_address addr, Bit32u len);
   void read (Bit32u addr, void *data, unsigned len);
   virtual void read_aligned(Bit32u address, Bit32u *data, unsigned len) = 0;
@@ -168,7 +167,6 @@ public:
   virtual void init (void);
   BX_CPU_C *get_cpu () { return cpu; }
   void set_id (Bit8u newid);   // redefine to set cpu->name
-  virtual char *get_name();
   virtual void write (Bit32u addr, Bit32u *data, unsigned len);
   virtual void read_aligned(Bit32u address, Bit32u *data, unsigned len);
   void startup_msg (Bit32u vector);
