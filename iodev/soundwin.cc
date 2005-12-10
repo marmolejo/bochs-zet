@@ -31,7 +31,10 @@
 // is used to know when we are exporting symbols and when we are importing.
 #define BX_PLUGGABLE
 
+#define NO_DEVICE_INCLUDES
 #include "iodev.h"
+#include "sb16.h"
+
 #if defined(WIN32) && BX_SUPPORT_SB16
 
 #include "soundwin.h"

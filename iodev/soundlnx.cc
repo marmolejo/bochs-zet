@@ -27,9 +27,13 @@
 // This file (SOUNDLNX.CC) written and donated by Josef Drexler
 
 
+#define NO_DEVICE_INCLUDES
 #include "iodev.h"
+#include "sb16.h"
+
 #if (defined(linux) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__)) && BX_SUPPORT_SB16
-#define LOG_THIS bx_sb16.
+
+#define LOG_THIS bx_devices.pluginSB16Device->
 
 #include "soundlnx.h"
 

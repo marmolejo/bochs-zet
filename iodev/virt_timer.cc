@@ -62,7 +62,8 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
-#include "iodev.h"
+#include "bochs.h"
+#include "virt_timer.h"
 
 #define BX_USE_VIRTUAL_TIMERS 1
 #define BX_VIRTUAL_TIMERS_REALTIME 1

@@ -500,7 +500,7 @@ private:
   bx_bool is_parallel_enabled ();
   };
 
-
+#ifndef NO_DEVICE_INCLUDES
 
 #if BX_SUPPORT_PCI
 #include "iodev/pci.h"
@@ -550,6 +550,8 @@ private:
 #include "iodev/slowdown_timer.h"
 #include "iodev/extfpuirq.h"
 #include "iodev/gameport.h"
+
+#endif /* NO_DEVICE_INCLUDES */
 
 #if ( BX_PROVIDE_DEVICE_MODELS==1 )
 BOCHSAPI extern bx_devices_c   bx_devices;

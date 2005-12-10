@@ -20,6 +20,7 @@
 
 #define BX_PLUGGABLE
 
+#define NO_DEVICE_INCLUDES
 #include "iodev.h"
 #include "speaker.h"
 

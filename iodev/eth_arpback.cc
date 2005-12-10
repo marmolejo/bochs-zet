@@ -36,6 +36,7 @@
 // is used to know when we are exporting symbols and when we are importing.
 #define BX_PLUGGABLE
  
+#define NO_DEVICE_INCLUDES
 #include "iodev.h"
 
 #if BX_NETWORKING && defined(ETH_ARPBACK)

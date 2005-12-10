@@ -32,7 +32,7 @@
 // for your OS if it is not supported yet.
 
 
-#include "iodev.h"
+#include "bochs.h"
 #include "scsi_commands.h"
 #include "cdrom.h"
 
