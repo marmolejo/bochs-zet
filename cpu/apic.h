@@ -30,7 +30,6 @@
 #  define BX_CPU_APIC_H 1
 
 typedef enum {
-  APIC_TYPE_NONE,
   APIC_TYPE_IOAPIC,
   APIC_TYPE_LOCAL_APIC
 } bx_apic_type_t;

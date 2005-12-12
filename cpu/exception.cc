@@ -343,29 +343,26 @@ void BX_CPU_C::protected_mode_int(Bit8u vector, bx_bool is_INT, bx_bool is_error
     parse_selector(raw_tss_selector, &tss_selector);
 
     // must specify global in the local/global bit,
-    //      else #TS(TSS selector)
-    // +++
-    // 486/Pent books say #TSS(selector)
-    // PPro+ says #GP(selector)
+    //      else #GP(TSS selector)
     if (tss_selector.ti) {
       BX_PANIC(("interrupt: tss_selector.ti=1"));
-      exception(BX_TS_EXCEPTION, raw_tss_selector & 0xfffc, 0);
+      exception(BX_GP_EXCEPTION, raw_tss_selector & 0xfffc, 0);
     }
 
     // index must be within GDT limits, else #TS(TSS selector)
     fetch_raw_descriptor(&tss_selector, &dword1, &dword2, BX_TS_EXCEPTION);
 
-    // AR byte must specify available TSS,
-    //   else #TS(TSS selector)
     parse_descriptor(dword1, dword2, &tss_descriptor);
 
+    // AR byte must specify available TSS,
+    //   else #GP(TSS selector)
     if (tss_descriptor.valid==0 || tss_descriptor.segment) {
       BX_PANIC(("exception: TSS selector points to bad TSS"));
-      exception(BX_TS_EXCEPTION, raw_tss_selector & 0xfffc, 0);
+      exception(BX_GP_EXCEPTION, raw_tss_selector & 0xfffc, 0);
     }
     if (tss_descriptor.type!=9 && tss_descriptor.type!=1) {
       BX_INFO(("exception: TSS selector points to bad TSS"));
-      exception(BX_TS_EXCEPTION, raw_tss_selector & 0xfffc, 0);
+      exception(BX_GP_EXCEPTION, raw_tss_selector & 0xfffc, 0);
     }
 
     // TSS must be present, else #NP(TSS selector)
