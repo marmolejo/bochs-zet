@@ -47,12 +47,6 @@ void BX_CPU_C::UndefinedOpcode(bxInstruction_c *i)
 void BX_CPU_C::NOP(bxInstruction_c *i)
 {
   // No operation.
-/*
-  if (i->repUsedL()) {
-//  BX_CPU_THIS_PTR trace = 1;
-    BX_TICKN(128);
-  }
-*/
 }
 
 void BX_CPU_C::PREFETCH(bxInstruction_c *i)
