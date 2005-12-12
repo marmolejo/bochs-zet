@@ -998,6 +998,7 @@ Bit8u bx_local_apic_c::get_apr(void)
 
 bx_bool bx_local_apic_c::is_focus(Bit32u vector)
 {
+  if (focus_disable) return 0;
   return (irr[vector] || isr[vector]) ? 1 : 0;
 }
 

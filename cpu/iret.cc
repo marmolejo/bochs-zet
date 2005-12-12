@@ -44,6 +44,8 @@ BX_CPU_C::iret_protected(bxInstruction_c *i)
   Bit32u dword1, dword2;
   bx_descriptor_t cs_descriptor, ss_descriptor;
 
+  BX_DEBUG(("IRET PROTECTED"));
+
 #if BX_SUPPORT_X86_64
   if (BX_CPU_THIS_PTR msr.lma)
   {
