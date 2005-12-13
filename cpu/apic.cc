@@ -510,7 +510,7 @@ void bx_local_apic_c::write (Bit32u addr, Bit32u *data, unsigned len)
   Bit32u value = *data;
   switch (addr) {
     case 0x20: // local APIC id
-      set_id((value>>24) & APIC_ID_MASK);
+      id = (value>>24) & APIC_ID_MASK;
       break;
     case 0x80: // task priority
       set_tpr(value & 0xff);
