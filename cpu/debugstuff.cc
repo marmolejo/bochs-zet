@@ -69,12 +69,16 @@ void BX_CPU_C::debug(bx_address offset)
   BX_INFO(("| ESP=%08x  EBP=%08x  ESI=%08x  EDI=%08x",
           (unsigned) ESP, (unsigned) EBP, (unsigned) ESI, (unsigned) EDI));
 #endif
-  BX_INFO(("| IOPL=%1u %s %s %s %s %s %s %s %s %s",
+  BX_INFO(("| IOPL=%1u %s %s %s %s %s %s %s %s %s %s %s %s",
     BX_CPU_THIS_PTR get_IOPL(),
+    BX_CPU_THIS_PTR get_VM() ? "VM" : "vm",
+    BX_CPU_THIS_PTR get_RF() ? "RF" : "rf",
     BX_CPU_THIS_PTR get_AC() ? "AC" : "ac",
+    BX_CPU_THIS_PTR get_NT() ? "NT" : "nt",
     BX_CPU_THIS_PTR get_OF() ? "OF" : "of",
     BX_CPU_THIS_PTR get_DF() ? "DF" : "df",
     BX_CPU_THIS_PTR get_IF() ? "IF" : "if",
+    BX_CPU_THIS_PTR get_TF() ? "TF" : "tf",
     BX_CPU_THIS_PTR get_SF() ? "SF" : "sf",
     BX_CPU_THIS_PTR get_ZF() ? "ZF" : "zf",
     BX_CPU_THIS_PTR get_AF() ? "AF" : "af",
