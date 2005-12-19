@@ -2817,6 +2817,9 @@ public: // for now...
   BX_SMF void    sanity_checks(void);
 
   BX_SMF void    debug(bx_address offset);
+#if BX_DISASM
+  BX_SMF void    debug_disasm_instruction(bx_address offset);
+#endif
 
 #if BX_EXTERNAL_DEBUGGER
   BX_SMF void    trap_debugger(bx_bool callnow);
