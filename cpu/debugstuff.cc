@@ -49,9 +49,6 @@ void BX_CPU_C::debug_disasm_instruction(bx_address offset)
         BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64,
         BX_CPU_THIS_PTR get_segment_base(BX_SEG_REG_CS), offset,
         instr_buf, char_buf);
-#if BX_SUPPORT_X86_64
-    if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64) isize = 16;
-#endif
     for (unsigned j=0; j<isize; j++)
       BX_INFO((">> %02x", (unsigned) instr_buf[j]));
     BX_INFO((">> : %s", char_buf));
@@ -100,7 +97,7 @@ void BX_CPU_C::debug(bx_address offset)
   BX_INFO(("| ESP=%08x  EBP=%08x  ESI=%08x  EDI=%08x",
           (unsigned) ESP, (unsigned) EBP, (unsigned) ESI, (unsigned) EDI));
 #endif
-  BX_INFO(("| IOPL=%1u %s %s %s %s %s %s %s %s %s %s %s %s",
+  BX_INFO(("| IOPL=%1u %s %s %s %s %s %s %s %s %s %s %s %s %s",
     BX_CPU_THIS_PTR get_IOPL(),
     BX_CPU_THIS_PTR get_VM() ? "VM" : "vm",
     BX_CPU_THIS_PTR get_RF() ? "RF" : "rf",
