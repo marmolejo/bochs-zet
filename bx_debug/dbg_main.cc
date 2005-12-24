@@ -55,6 +55,7 @@ static unsigned doit = 0;
 
 // default CPU in the debugger.  For commands like "dump_cpu" it will
 // use the default instead of always dumping all cpus.
+
 Bit32u dbg_cpu = 0;
 
 bx_param_bool_c *sim_running;
