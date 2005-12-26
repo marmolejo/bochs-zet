@@ -54,7 +54,5 @@ public:
   void raise_irq (unsigned num, unsigned from);
   void lower_irq (unsigned num, unsigned from);
   void service_ioapic ();
-  virtual bx_bool match_logical_addr (Bit8u address) { return 0; }
-  virtual bx_bool is_local_apic () { return 0; }
   virtual bx_apic_type_t get_type () { return APIC_TYPE_IOAPIC; }
 };
