@@ -490,10 +490,21 @@ static BOOL CALLBACK RTUSBdevDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
   switch (msg) {
     case WM_INITDIALOG:
-      SetDlgItemText(hDlg, IDUSBDEV1, SIM->get_param_string(BXP_USB1_PORT1)->getptr());
-      SetDlgItemText(hDlg, IDUSBOPT1, SIM->get_param_string(BXP_USB1_OPTION1)->getptr());
-      SetDlgItemText(hDlg, IDUSBDEV2, SIM->get_param_string(BXP_USB1_PORT2)->getptr());
-      SetDlgItemText(hDlg, IDUSBOPT2, SIM->get_param_string(BXP_USB1_OPTION2)->getptr());
+      if (SIM->get_param_string(BXP_USB1_PORT1)->get_enabled()) {
+        SetDlgItemText(hDlg, IDUSBDEV1, SIM->get_param_string(BXP_USB1_PORT1)->getptr());
+        SetDlgItemText(hDlg, IDUSBOPT1, SIM->get_param_string(BXP_USB1_OPTION1)->getptr());
+        SetDlgItemText(hDlg, IDUSBDEV2, SIM->get_param_string(BXP_USB1_PORT2)->getptr());
+        SetDlgItemText(hDlg, IDUSBOPT2, SIM->get_param_string(BXP_USB1_OPTION2)->getptr());
+      } else {
+        EnableWindow(GetDlgItem(hDlg, IDUSBLBL1), FALSE);
+        EnableWindow(GetDlgItem(hDlg, IDUSBLBL2), FALSE);
+        EnableWindow(GetDlgItem(hDlg, IDUSBLBL3), FALSE);
+        EnableWindow(GetDlgItem(hDlg, IDUSBLBL4), FALSE);
+        EnableWindow(GetDlgItem(hDlg, IDUSBDEV1), FALSE);
+        EnableWindow(GetDlgItem(hDlg, IDUSBOPT1), FALSE);
+        EnableWindow(GetDlgItem(hDlg, IDUSBDEV2), FALSE);
+        EnableWindow(GetDlgItem(hDlg, IDUSBOPT2), FALSE);
+      }
       changed = FALSE;
       return TRUE;
     case WM_NOTIFY:
