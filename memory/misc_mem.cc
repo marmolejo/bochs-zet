@@ -234,13 +234,17 @@ void BX_MEM_C::load_ROM(const char *path, Bit32u romaddress, Bit8u type)
     return;
   }
   if (type == 0) {
-    if ( (romaddress + size) != 0x100000 && (romaddress + size) ) {
-      close(fd);
-      BX_PANIC(("ROM: System BIOS must end at 0xfffff"));
-      return;
+    if (romaddress > 0) {
+      if ((romaddress + size) != 0x100000 && (romaddress + size)) {
+        close(fd);
+        BX_PANIC(("ROM: System BIOS must end at 0xfffff"));
+        return;
+      }
+    } else {
+      romaddress = (Bit32u)-size;
     }
     offset = romaddress & BIOS_MASK;
-    if (romaddress < 0xf0000 ) {
+    if ((romaddress & 0xf0000) < 0xf0000) {
       BX_MEM_THIS rom_present[64] = 1;
     }
     is_bochs_bios = (strstr(path, "BIOS-bochs-latest") != NULL);
