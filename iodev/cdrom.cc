@@ -1476,4 +1476,11 @@ cdrom_interface::read_block(Bit8u* buf, int lba, int blocksize)
   return (n == BX_CD_FRAMESIZE);
 }
 
+void cdrom_interface::seek(int lba)
+{
+  unsigned char buffer[BX_CD_FRAMESIZE];
+
+  read_block(buffer, lba, BX_CD_FRAMESIZE);
+}
+
 #endif /* if BX_SUPPORT_CDROM */

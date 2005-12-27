@@ -1810,7 +1810,11 @@ bx_hard_drive_c::write(Bit32u address, Bit32u value, unsigned io_len)
                     raise_interrupt(channel);
                     break;
                   }
-                  BX_INFO(("cdrom: SEEK (ignored)"));
+#ifdef LOWLEVEL_CDROM
+                  BX_SELECTED_DRIVE(channel).cdrom.cd->seek(lba);
+#else
+                  BX_PANIC(("Seek with no LOWLEVEL_CDROM"));
+#endif
                   atapi_cmd_nop(channel);
                   raise_interrupt(channel);
                 }
