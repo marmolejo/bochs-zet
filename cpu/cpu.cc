@@ -287,7 +287,7 @@ void BX_CPU_C::cpu_loop(Bit32s max_instr_count)
 
   bx_address next_RIP = RIP + i->ilen();
   if (! Is64BitMode()) {
-    if (((Bit32u) next_RIP) > BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.limit_scaled) {
+    if (((Bit32u) next_RIP - 1) > BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.limit_scaled) {
       BX_ERROR(("GP(0): instruction cross segment boundary !"));
       exception(BX_GP_EXCEPTION, 0, 0);
     }
