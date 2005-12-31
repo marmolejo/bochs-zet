@@ -618,8 +618,9 @@ bx_pic_c::lower_irq(unsigned irq_no)
 {
 #if BX_SUPPORT_APIC
   // forward this function call to the ioapic too
-  if (DEV_ioapic_present())
-    bx_devices.ioapic->lower_irq (irq_no, (unsigned)-1);
+  if (DEV_ioapic_present()) {
+    bx_devices.ioapic->lower_irq(irq_no, BX_IOAPIC_INT_FROM_ISA);
+  }
 #endif
 
   if ((irq_no <= 7) && (BX_PIC_THIS s.master_pic.IRQ_line[irq_no])) {
@@ -647,7 +648,9 @@ bx_pic_c::raise_irq(unsigned irq_no)
 {
 #if BX_SUPPORT_APIC
   // forward this function call to the ioapic too
-  bx_devices.ioapic->raise_irq (irq_no, (unsigned)-1);
+  if (DEV_ioapic_present()) {
+    bx_devices.ioapic->raise_irq(irq_no, BX_IOAPIC_INT_FROM_ISA);
+  }
 #endif
 
   if ((irq_no <= 7) && (!BX_PIC_THIS s.master_pic.IRQ_line[irq_no])) {
