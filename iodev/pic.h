@@ -54,7 +54,7 @@ typedef struct {
   Bit8u irq;               /* current IRQ number */
   Bit8u lowest_priority;   /* current lowest priority irq */
   bx_bool INT;             /* INT request pin of PIC */
-  bx_bool IRQ_line[8];     /* IRQ pins of PIC */
+  Bit8u IRQ_in;            /* IRQ pins of PIC */
   struct {
     bx_bool    in_init;
     bx_bool    requires_4;
@@ -96,5 +96,4 @@ private:
   BX_PIC_SMF void   service_master_pic(void);
   BX_PIC_SMF void   service_slave_pic(void);
   BX_PIC_SMF void   clear_highest_interrupt(bx_pic_t *pic);
-  BX_PIC_SMF void   check_irq_level(bx_pic_t *pic);
-  };
+};
