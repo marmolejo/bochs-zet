@@ -1309,7 +1309,7 @@ void BX_CPU_C::SetCR0(Bit32u val_32)
 
 #if BX_CPU_LEVEL >= 4
   if (BX_CPU_THIS_PTR cr0.am) {
-    BX_ERROR(("WARNING: Aligment check enabled but not implemented !"));
+    BX_DEBUG(("WARNING: Alignment check enabled but not implemented !"));
   }
 #endif
 
