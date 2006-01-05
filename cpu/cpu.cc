@@ -31,16 +31,6 @@
 #include "iodev/iodev.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
-#if BX_SMP_PROCESSORS==1
-// single processor simulation, so there's one of everything
-BOCHSAPI BX_CPU_C    bx_cpu;
-BOCHSAPI BX_MEM_C    bx_mem;
-#else
-// multiprocessor simulation, we need an array of cpus and memories
-BOCHSAPI BX_CPU_C    *bx_cpu_array[BX_SMP_PROCESSORS];
-BOCHSAPI BX_MEM_C    *bx_mem_array[BX_ADDRESS_SPACES];
-#endif
-
 #if BX_SUPPORT_ICACHE
 
 bxPageWriteStampTable pageWriteStampTable;
