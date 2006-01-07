@@ -262,6 +262,7 @@ protected:
       bx_bool chain_four;
       } sequencer;
 
+    bx_bool  vga_enabled;
     bx_bool  vga_mem_updated;
     unsigned x_tilesize;
     unsigned y_tilesize;
