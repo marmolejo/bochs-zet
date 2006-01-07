@@ -2485,9 +2485,7 @@ bx_hard_drive_c::write(Bit32u address, Bit32u value, unsigned io_len)
 	case 0xF9: BX_ERROR(("write cmd 0xF9 (SET MAX ADDRESS) not supported"));command_aborted(channel, 0xF9); break;
 
 	default:
-          BX_PANIC(("IO write(0x%04x): command 0x%02x", address, (unsigned) value));
-	  // if user foolishly decides to continue, abort the command
-	  // so that the software knows the drive didn't understand it.
+          BX_ERROR(("IO write to 0x%04x: unknown command 0x%02x", address, value));
           command_aborted(channel, value);
         }
       break;
