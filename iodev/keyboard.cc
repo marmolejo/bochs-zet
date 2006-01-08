@@ -277,7 +277,7 @@ Bit64s bx_keyb_c::kbd_param_handler(bx_param_c *param, int set, Bit64s val)
         BX_KEY_THIS mouse_enabled_changed(val!=0);
         break;
       case BXP_KBD_PASTE_DELAY:
-        BX_KEY_THIS paste_delay_changed(val);
+        BX_KEY_THIS paste_delay_changed((Bit32u)val);
         break;
       default:
         BX_PANIC(("kbd_param_handler called with unexpected parameter %d", id));

@@ -47,7 +47,9 @@ serial_raw::serial_raw (char *devname)
 {
 #ifdef WIN32
   char portstr[MAX_PATH];
+#ifdef WIN32_RECEIVE_RAW
   DWORD threadID;
+#endif
 #endif
 
   put ("SERR");
