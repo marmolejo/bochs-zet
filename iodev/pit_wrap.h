@@ -95,7 +95,7 @@ private:
   BX_PIT_SMF void  set_GATE(unsigned pit_id, unsigned value);
   BX_PIT_SMF void  start(unsigned timerid);
 
-  BX_PIT_SMF void  second_update_data(void);
+  BX_PIT_SMF void  irq_handler(bx_bool value);
 };
 
 extern bx_pit_c bx_pit;
