@@ -610,7 +610,7 @@ void bx_pic_c::lower_irq(unsigned irq_no)
 {
 #if BX_SUPPORT_APIC
   // forward this function call to the ioapic too
-  if (DEV_ioapic_present() && (irq_no != 0) && (irq_no != 2)) {
+  if (DEV_ioapic_present() && (irq_no != 2)) {
     bx_devices.ioapic->set_irq_level(irq_no, 0);
   }
 #endif
@@ -632,7 +632,7 @@ void bx_pic_c::raise_irq(unsigned irq_no)
 {
 #if BX_SUPPORT_APIC
   // forward this function call to the ioapic too
-  if (DEV_ioapic_present() && (irq_no != 0) && (irq_no != 2)) {
+  if (DEV_ioapic_present() && (irq_no != 2)) {
     bx_devices.ioapic->set_irq_level(irq_no, 1);
   }
 #endif

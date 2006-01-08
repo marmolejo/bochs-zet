@@ -36,6 +36,7 @@ public:
 
 class bx_ioapic_c : public bx_generic_apic_c {
   Bit32u ioregsel;    // selects between various registers
+  Bit32u intin;
   // interrupt request bitmask, not visible from the outside.  Bits in the
   // irr are set when trigger_irq is called, and cleared when the interrupt
   // is delivered to the processor.  If an interrupt is masked, the irr
