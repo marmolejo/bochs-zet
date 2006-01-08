@@ -92,7 +92,7 @@ Section "ROM Images (required)" SecROMs
 
   SetOutPath "$INSTDIR"
 
-  File "${SRCDIR}\BIOS-*"
+  File "${SRCDIR}\BIOS-bochs-latest"
   File "${SRCDIR}\VGABIOS-*"
 SectionEnd
 
@@ -259,7 +259,7 @@ Section "Uninstall"
   Delete "$INSTDIR\*.txt"
   Delete "$INSTDIR\*.ico"
   Delete "$INSTDIR\keymaps\*"
-  Delete "$INSTDIR\BIOS-*"
+  Delete "$INSTDIR\BIOS-bochs-latest"
   Delete "$INSTDIR\VGABIOS-*"
   Delete "$INSTDIR\dlxlinux\*"
   Delete "$INSTDIR\docs\index.html"
