@@ -2754,6 +2754,7 @@ public: // for now...
 #if BX_SUPPORT_X86_64
   BX_SMF void long_iret(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
 #endif
+  BX_SMF void validate_seg_reg(unsigned seg);
   BX_SMF void validate_seg_regs(void);
   BX_SMF void stack_return_to_v86(Bit32u new_eip, Bit32u raw_cs_selector, Bit32u flags32);
   BX_SMF void iret16_stack_return_from_v86(bxInstruction_c *);
