@@ -1427,6 +1427,7 @@ void BX_CPU_C::SetCR4(Bit32u val_32)
 #endif
 
 #if BX_CPU_LEVEL >= 6
+  allowMask |= (1<<8);   /* PCE */
   allowMask |= (1<<9);   /* OSFXSR */
 #endif
 
