@@ -510,8 +510,7 @@ bx_keyb_c::write( Bit32u   address, Bit32u   value, unsigned io_len)
         /* pass byte to keyboard */
         /* ??? should conditionally pass to mouse device here ??? */
         if (BX_KEY_THIS s.kbd_controller.kbd_clock_enabled==0) {
-          BX_ERROR(("keyboard disabled & send of byte %02x to kbd",
-            (unsigned) value));
+          set_kbd_clock_enable(1);
         }
         kbd_ctrl_to_kbd(value);
       }
