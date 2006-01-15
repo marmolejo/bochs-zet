@@ -469,6 +469,14 @@ void bx_dbg_disassemble_current (int which_cpu, int print_time);
 
 int bx_dbg_symbolic_output(void); /* BW */
 
+char* bx_dbg_symbolic_address(Bit32u context, Bit32u eip, Bit32u base);
+char* bx_dbg_symbolic_address_16bit(Bit32u eip, Bit32u cs);
+void bx_dbg_symbol_command(char* filename, bx_bool global, Bit32u offset);
+void bx_dbg_info_symbols_command(char *Symbol);
+int bx_dbg_lbreakpoint_symbol_command(char *Symbol);
+Bit32u bx_dbg_get_symbol_value(char *Symbol);
+char* bx_dbg_disasm_symbolic_address(Bit32u eip, Bit32u base);
+
 #endif // #ifdef __cplusplus
 
 #endif // #if BX_DEBUGGER
