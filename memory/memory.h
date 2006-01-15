@@ -104,11 +104,11 @@ public:
 
 #if BX_PROVIDE_CPU_MEMORY==1
 
-#if BX_SMP_PROCESSORS==1
-BOCHSAPI extern BX_MEM_C    bx_mem;
+#if BX_ADDRESS_SPACES==1
+BOCHSAPI extern BX_MEM_C bx_mem;
 #else
-BOCHSAPI extern BX_MEM_C    *bx_mem_array[BX_ADDRESS_SPACES];
-#endif  /* BX_SMP_PROCESSORS */
+BOCHSAPI extern BX_MEM_C bx_mem_array[BX_ADDRESS_SPACES];
+#endif  /* BX_ADDRESS_SPACES */
 
 #endif  /* BX_PROVIDE_CPU_MEMORY==1 */
 
