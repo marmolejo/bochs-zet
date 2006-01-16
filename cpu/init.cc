@@ -525,6 +525,10 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.avl = 0;
 #endif
 
+#if BX_SUPPORT_ICACHE
+  BX_CPU_THIS_PTR iCache.fetchModeMask = createFetchModeMask(BX_CPU_THIS);
+#endif
+
   /* SS (Stack Segment) and descriptor cache */
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].selector.value = 0x0000;
 #if BX_CPU_LEVEL >= 2

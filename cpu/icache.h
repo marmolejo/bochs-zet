@@ -129,7 +129,7 @@ public:
     for (unsigned i=0; i<BxICacheEntries; i++) {
       entry[i].writeStamp = ICacheWriteStampInvalid;
     }
-    fetchModeMask = 0; // CS is 16-bit, Long Mode disabled, Data page
+    fetchModeMask = iCachePageDataMask; // CS is 16-bit, Long Mode disabled
   }
 
   BX_CPP_INLINE unsigned hash(Bit32u pAddr) const

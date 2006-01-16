@@ -253,6 +253,10 @@ void BX_CPU_C::init_v8086_mode(void)
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.avl          = 0;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.rpl                 = 3;
 
+#if BX_SUPPORT_ICACHE  // update instruction cache
+  BX_CPU_THIS_PTR iCache.fetchModeMask = createFetchModeMask(BX_CPU_THIS);
+#endif
+
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.valid                  = 1;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.p                      = 1;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.dpl                    = 3;
