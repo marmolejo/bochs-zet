@@ -128,7 +128,7 @@ static bx_bool x_init_done = false;
 
 static Pixmap vgafont[256];
 
-struct {
+static struct {
   Pixmap bmap;
   unsigned xdim;
   unsigned ydim;
