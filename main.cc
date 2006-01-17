@@ -101,12 +101,6 @@ BOCHSAPI BX_CPU_C  bx_cpu;
 BOCHSAPI BX_CPU_C *bx_cpu_array[BX_SMP_PROCESSORS];
 #endif
 
-#if BX_ADDRESS_SPACES==1
-BOCHSAPI BX_MEM_C  bx_mem;
-#else
-BOCHSAPI BX_MEM_C  bx_mem_array[BX_ADDRESS_SPACES];
-#endif
-
 char *bochsrc_filename = NULL;
 
 void bx_print_header ()

@@ -31,6 +31,16 @@
 #include "iodev/iodev.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
+#if BX_PROVIDE_CPU_MEMORY==1
+
+#if BX_ADDRESS_SPACES==1
+BOCHSAPI BX_MEM_C bx_mem;
+#else
+BOCHSAPI BX_MEM_C bx_mem_array[BX_ADDRESS_SPACES];
+#endif
+
+#endif
+
 #if BX_SUPPORT_ICACHE
 
 bxPageWriteStampTable pageWriteStampTable;
