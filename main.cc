@@ -93,6 +93,9 @@ bx_pc_system_c bx_pc_system;
 
 bx_debug_t bx_dbg;
 
+// We have to define BX_CPU_C objects AFTER bx_pc_system_c is defined
+// BX_CPU_C::local_apic object defines it own timer in constructor
+// and pc_system_c constructor might overwrite it !
 #if BX_SMP_PROCESSORS==1
 // single processor simulation, so there's one of everything
 BOCHSAPI BX_CPU_C  bx_cpu;
