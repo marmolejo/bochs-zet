@@ -71,9 +71,6 @@ bx_devices_c::bx_devices_c(void)
 #endif
   pit = NULL;
   pluginKeyboard = &stubKeyboard;
-#if BX_SUPPORT_BUSMOUSE
-  pluginBusMouse = &stubBusMouse;
-#endif
   pluginDmaDevice = &stubDma;
   pluginFloppyDevice = &stubFloppy;
   pluginBiosDevice = NULL;
@@ -89,9 +86,14 @@ bx_devices_c::bx_devices_c(void)
   pluginExtFpuIrq = NULL;
   pluginGameport = NULL;
   pluginSpeaker = &stubSpeaker;
-  g2h = NULL;
+#if BX_SUPPORT_BUSMOUSE
+  pluginBusMouse = &stubBusMouse;
+#endif
 #if BX_SUPPORT_IODEBUG
   iodebug = NULL;
+#endif
+#if 0
+  g2h = NULL;
 #endif
 }
 
