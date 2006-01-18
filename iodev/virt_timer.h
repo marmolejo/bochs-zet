@@ -28,7 +28,8 @@
 #ifndef _BX_VIRT_TIMER_H
 #define _BX_VIRT_TIMER_H
 
-#define BX_MAX_VIRTUAL_TIMERS (15+BX_SMP_PROCESSORS)
+// should be adjusted if want to support more SMP processors
+#define BX_MAX_VIRTUAL_TIMERS (32)
 #define BX_NULL_VIRTUAL_TIMER_HANDLE 10000
 
 #define BX_MAX_VIRTUAL_TIME (0x7fffffff)

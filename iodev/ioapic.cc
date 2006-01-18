@@ -38,6 +38,8 @@ bx_ioapic_c::bx_ioapic_c ()
 
 bx_ioapic_c::~bx_ioapic_c () {}
 
+#define BX_IOAPIC_DEFAULT_ID (BX_SMP_PROCESSORS)
+
 void bx_ioapic_c::init () 
 {
   bx_generic_apic_c::init ();

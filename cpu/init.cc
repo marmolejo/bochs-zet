@@ -43,7 +43,7 @@ BX_CPU_C::BX_CPU_C(unsigned id): bx_cpuid(id)
 
 #if BX_WITH_WX
 
-#if BX_SMP_PROCESSORS!=1
+#if BX_SUPPORT_SMP
 #ifdef __GNUC__
 #warning cpu_param_handler only supports parameters for one processor.
 #endif
@@ -841,7 +841,7 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR mxcsr.mxcsr = MXCSR_RESET;
 #endif
 
-#if (BX_SMP_PROCESSORS > 1)
+#if BX_SUPPORT_SMP
   // notice if I'm the bootstrap processor.  If not, do the equivalent of
   // a HALT instruction.
   int apic_id = local_apic.get_id ();
@@ -862,8 +862,8 @@ void BX_CPU_C::reset(unsigned source)
 #else
   BX_CPU_THIS_PTR async_event=2;
 #endif
-  BX_CPU_THIS_PTR kill_bochs_request = 0;
 
+  BX_CPU_THIS_PTR kill_bochs_request = 0;
   BX_INSTR_RESET(BX_CPU_ID);
 }
 
