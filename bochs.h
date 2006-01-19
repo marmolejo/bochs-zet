@@ -405,9 +405,9 @@ BOCHSAPI extern logfunc_t *genlog;
 #endif
 
 #if BX_SUPPORT_X86_64
-#define FMT_ADDRX FMT_LL "x"
+#define FMT_ADDRX FMT_ADDRX64
 #else
-#define FMT_ADDRX "%08x"
+#define FMT_ADDRX FMT_ADDRX32
 #endif
 
 #if BX_DISASM
