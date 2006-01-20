@@ -246,7 +246,6 @@ typedef struct _device_t
     void (*device_load_state)();
     void (*device_save_state)();
 
-    int use_devmodel_interface;  // BBD hack
     class bx_devmodel_c *devmodel;  // BBD hack
 
     struct _device_t *next;
