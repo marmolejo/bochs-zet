@@ -1948,6 +1948,7 @@ There is no uniform way to handle tabs properly.</para></listitem>
 <para>It's really difficult to spot interesting warnings when a compile is littered
 with non-interesting ones.</para></listitem>
 <listitem><para><command>Don't use signed ints where unsigned will do.</command></para></listitem>
+<listitem><para><command>Make sure that contributed code / patches are LGPL compatible.</command></para></listitem>
 </itemizedlist>
 </para>
 </section>
