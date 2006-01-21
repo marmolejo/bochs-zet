@@ -390,7 +390,7 @@ plugin_load (char *name, char *args, plugintype_t type)
       return;
     }
 
-    sprintf (buf, PLUGIN_INIT_FMT_STRING, name);
+    sprintf(buf, PLUGIN_INIT_FMT_STRING, name);
     plugin->plugin_init =  
       (int  (*)(struct _plugin_t *, enum plugintype_t, int, char *[])) /* monster typecast */
       lt_dlsym (plugin->handle, buf);
@@ -399,7 +399,7 @@ plugin_load (char *name, char *args, plugintype_t type)
         plugin_abort ();
     }
 
-sprintf (buf, PLUGIN_FINI_FMT_STRING, name);
+    sprintf(buf, PLUGIN_FINI_FMT_STRING, name);
     plugin->plugin_fini = (void (*)(void)) lt_dlsym (plugin->handle, buf);
     if (plugin->plugin_init == NULL) {
         pluginlog->panic("could not find plugin_fini: %s", lt_dlerror ());
@@ -507,11 +507,6 @@ void pluginRegisterDeviceDevmodel(plugin_t *plugin, plugintype_t type, bx_devmod
     BX_ASSERT (devmodel != NULL);
     device->devmodel = devmodel;
     device->plugin = plugin;  // this can be NULL
-    device->device_init_mem = NULL;  // maybe should use 1 to detect any use?
-    device->device_init_dev = NULL;
-    device->device_reset = NULL;
-    device->device_load_state = NULL;
-    device->device_save_state = NULL;
     device->next = NULL;
 
     // Don't add every kind of device to the list.

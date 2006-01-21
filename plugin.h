@@ -240,11 +240,6 @@ typedef struct _device_t
 {
     const char *name;
     plugin_t *plugin;
-    void (*device_init_mem)(BX_MEM_C *);
-    void (*device_init_dev)();
-    void (*device_reset)(unsigned);
-    void (*device_load_state)();
-    void (*device_save_state)();
 
     class bx_devmodel_c *devmodel;  // BBD hack
 
