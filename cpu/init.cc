@@ -801,6 +801,7 @@ void BX_CPU_C::reset(unsigned source)
 #if BX_SUPPORT_X86_64
   BX_CPU_THIS_PTR msr.lme = BX_CPU_THIS_PTR msr.lma = 0;
 #endif
+  BX_CPU_THIS_PTR set_TSC(0);
 #endif
 
   BX_CPU_THIS_PTR EXT = 0;
