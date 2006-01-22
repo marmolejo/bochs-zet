@@ -160,7 +160,7 @@ void BX_CPU_C::ROL_Ew(bxInstruction_c *i)
     if ( count & 0x10 ) {
       unsigned bit0 = op1_16 & 1;
       set_CF(bit0);
-      set_OF(bit0 ^ (op1_16 >> 15))
+      set_OF(bit0 ^ (op1_16 >> 15));
     }
     return;
   }
