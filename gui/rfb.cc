@@ -52,7 +52,9 @@ public:
   DECLARE_GUI_NEW_VIRTUAL_METHODS()
   void get_capabilities(Bit16u *xres, Bit16u *yres, Bit16u *bpp);
   void statusbar_setitem(int element, bx_bool active);
+#if BX_SHOW_IPS
   void show_ips(Bit32u ips_count);
+#endif
 };
 
 // declare one instance of the gui object and call macro to insert the
@@ -1741,13 +1743,13 @@ bx_rfb_gui_c::get_capabilities(Bit16u *xres, Bit16u *yres, Bit16u *bpp)
   *bpp = 8;
 }
 
+#if BX_SHOW_IPS
 void bx_rfb_gui_c::show_ips(Bit32u ips_count)
 {
-#if BX_SHOW_IPS
   char ips_text[40];
-  sprintf(ips_text, "mIPS: %.3f", (float)ips_count / 1000000.0);
+  sprintf(ips_text, "IPS: %u", ips_count);
   rfbSetStatusText(0, ips_text, 1);
-#endif
 }
+#endif
 
 #endif /* if BX_WITH_RFB */

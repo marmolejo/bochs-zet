@@ -68,7 +68,9 @@ public:
   DECLARE_GUI_VIRTUAL_METHODS()
   DECLARE_GUI_NEW_VIRTUAL_METHODS()
   void statusbar_setitem(int element, bx_bool active);
+#if BX_SHOW_IPS
   void show_ips(Bit32u ips_count);
+#endif
 };
 
 // declare one instance of the gui object and call macro to insert the
@@ -1627,14 +1629,14 @@ bx_wx_gui_c::set_clipboard_text(char *text_snapshot, Bit32u len)
   return ret;
 }
 
+#if BX_SHOW_IPS
 void bx_wx_gui_c::show_ips(Bit32u ips_count)
 {
-#if BX_SHOW_IPS
   char ips_text[40];
-  sprintf(ips_text, "mIPS: %.3f", (float)ips_count / 1000000.0);
+  sprintf(ips_text, "IPS: %u", ips_count);
   theFrame->SetStatusText(ips_text, 0);
-#endif
 }
+#endif
 
 #if defined (wxHAS_RAW_KEY_CODES) && defined(__WXGTK__)
 /* we can use the X keysyms for GTK too */
