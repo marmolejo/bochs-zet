@@ -67,7 +67,8 @@ public:
   bx_wx_gui_c (void) {}
   DECLARE_GUI_VIRTUAL_METHODS()
   DECLARE_GUI_NEW_VIRTUAL_METHODS()
-  virtual void statusbar_setitem(int element, bx_bool active);
+  void statusbar_setitem(int element, bx_bool active);
+  void show_ips(Bit32u ips_count);
 };
 
 // declare one instance of the gui object and call macro to insert the
@@ -1624,6 +1625,15 @@ bx_wx_gui_c::set_clipboard_text(char *text_snapshot, Bit32u len)
   }
   wxMutexGuiLeave ();
   return ret;
+}
+
+void bx_wx_gui_c::show_ips(Bit32u ips_count)
+{
+#if BX_SHOW_IPS
+  char ips_text[40];
+  sprintf(ips_text, "mIPS: %.3f", (float)ips_count / 1000000.0);
+  theFrame->SetStatusText(ips_text, 0);
+#endif
 }
 
 #if defined (wxHAS_RAW_KEY_CODES) && defined(__WXGTK__)
