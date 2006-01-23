@@ -1747,7 +1747,7 @@ bx_rfb_gui_c::get_capabilities(Bit16u *xres, Bit16u *yres, Bit16u *bpp)
 void bx_rfb_gui_c::show_ips(Bit32u ips_count)
 {
   char ips_text[40];
-  sprintf(ips_text, "IPS: %u", ips_count);
+  sprintf(ips_text, "IPS: %9u", ips_count);
   rfbSetStatusText(0, ips_text, 1);
 }
 #endif
