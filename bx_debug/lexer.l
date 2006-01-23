@@ -53,6 +53,7 @@ creg		|
 cregs		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_CONTROL_REGS); }
 r		|
 reg		|
+regs		|
 registers       { bxlval.sval = strdup(bxtext); return(BX_TOKEN_REGISTERS); }
 fpu             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_FPU); }
 cpu             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_CPU); }
