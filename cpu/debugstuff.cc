@@ -297,8 +297,8 @@ bx_bool BX_CPU_C::dbg_set_reg(unsigned reg, Bit32u val)
       BX_CPU_THIS_PTR set_AF(val & 0x01); val >>= 2;
       BX_CPU_THIS_PTR set_ZF(val & 0x01); val >>= 1;
       BX_CPU_THIS_PTR set_SF(val & 0x01); val >>= 2;
-      BX_CPU_THIS_PTR set_IF (val & 0x01); val >>= 1;
-      BX_CPU_THIS_PTR set_DF (val & 0x01); val >>= 1;
+      BX_CPU_THIS_PTR set_IF(val & 0x01); val >>= 1;
+      BX_CPU_THIS_PTR set_DF(val & 0x01); val >>= 1;
       BX_CPU_THIS_PTR set_OF(val & 0x01);
       if (BX_CPU_THIS_PTR get_IF ())
         BX_CPU_THIS_PTR async_event = 1;
