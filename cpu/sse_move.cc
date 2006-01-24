@@ -43,6 +43,16 @@ void BX_CPU_C::prepareSSE(void)
 
 #define BX_MXCSR_REGISTER (BX_CPU_THIS_PTR mxcsr.mxcsr)
 
+void BX_CPU_C::print_state_SSE(void)
+{
+  fprintf(stderr, "MXCSR: %08x\n", BX_MXCSR_REGISTER);
+  for(unsigned i=0;i<BX_XMM_REGISTERS;i++) {
+    BxPackedXmmRegister xmm = BX_READ_XMM_REG(i);
+    fprintf(stderr, "XMM%02u: %08x%08x:%08x%08x\n", i,
+       xmm.xmm32u(3), xmm.xmm32u(2), xmm.xmm32u(1), xmm.xmm32u(0));
+  }
+}
+
 #endif
 
 /* ************************************ */

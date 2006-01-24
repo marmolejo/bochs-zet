@@ -524,7 +524,7 @@ BX_MEM_C::dbg_set_mem(Bit32u addr, unsigned len, Bit8u *buf)
 #endif
 
   bx_bool
-BX_MEM_C::dbg_crc32(unsigned long (*f)(unsigned char *buf, int len),
+BX_MEM_C::dbg_crc32(Bit32u (*f)(const Bit8u *buf, int len),
     Bit32u addr1, Bit32u addr2, Bit32u *crc)
 {
   *crc = 0;
