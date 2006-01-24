@@ -187,7 +187,6 @@ void BX_CPU_C::cpu_loop(Bit32s max_instr_count)
          BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b,
          Is64BitMode()))
     {
-      fprintf(stderr, "back to debugger !!!\n");
       return;
     }
   }
