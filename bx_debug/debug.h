@@ -164,7 +164,6 @@ void bx_dbg_modebp_command(void);
 void bx_dbg_where_command(void);
 void bx_dbg_print_string_command(Bit32u addr);
 void bx_dbg_show_command(char*);
-void enter_playback_entry(void);
 void bx_dbg_print_stack_command(int nwords);
 void bx_dbg_watch(int read, Bit32u address);
 void bx_dbg_unwatch(int read, Bit32u address);
@@ -228,7 +227,7 @@ void bx_dbg_info_ivt_command(bx_num_range);
 // the rest for C++
 #ifdef __cplusplus
 
-// (mch) Read/write watchpoint hack
+// Read/write watchpoint hack
 #define MAX_WRITE_WATCHPOINTS 16
 #define MAX_READ_WATCHPOINTS 16
 extern int num_write_watchpoints;
