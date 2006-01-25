@@ -40,7 +40,7 @@ Bit32u BX_MEM_C::get_memory_in_k(void)
 BX_MEM_C::BX_MEM_C(void)
 {
   char mem[6];
-  snprintf(mem, 6, "MEM%d", BX_SIM_ID);
+  snprintf(mem, 6, "MEM0");
   put(mem);
   settype(MEMLOG);
 
@@ -85,7 +85,7 @@ BX_MEM_C::~BX_MEM_C(void)
     memory_handlers = NULL;
   }
   else {
-    BX_DEBUG(("(%u)   memory not freed as it wasn't allocated!", BX_SIM_ID));
+    BX_DEBUG(("Memory not freed as it wasn't allocated !"));
   }
 }
 

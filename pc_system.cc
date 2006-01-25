@@ -104,15 +104,12 @@ void bx_pc_system_c::set_HRQ(bx_bool val)
     BX_CPU(0)->async_event = 1;
 }
 
-
-#if (BX_NUM_SIMULATORS < 2)
 void bx_pc_system_c::set_INTR(bx_bool value)
 {
   if (bx_dbg.interrupts)
     BX_INFO(("pc_system: Setting INTR=%d on bootstrap processor %d", (int)value, BX_BOOTSTRAP_PROCESSOR));
   BX_CPU(BX_BOOTSTRAP_PROCESSOR)->set_INTR(value);
 }
-#endif
 
 //
 // Read from the IO memory address space

@@ -309,10 +309,8 @@ bx_load_kernel_image(char *path, Bit32u paddr)
     offset += ret;
     }
   close(fd);
-  BX_INFO(( "#(%u) load_kernel_image: '%s', size=%u read into memory at %08x",
-          BX_SIM_ID, path,
-          (unsigned) stat_buf.st_size,
-          (unsigned) paddr ));
+  BX_INFO(("load_kernel_image: '%s', size=%u read into memory at %08x",
+       path, (unsigned) stat_buf.st_size, (unsigned) paddr));
 
   return page_size;
 }

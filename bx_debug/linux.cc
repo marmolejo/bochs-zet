@@ -153,11 +153,11 @@ char *syscall_names_t::get_name (int n)
 
 syscall_names_t syscall_names;
 
-void bx_dbg_linux_syscall () {
-  bx_dbg_cpu_t cpu;
-  bx_dbg_callback[0].get_cpu(&cpu);
-  char *name = syscall_names.get_name (cpu.eax);
-  fprintf (stderr, "linux system call %s (#%d)\n", name, cpu.eax);
+void bx_dbg_linux_syscall (unsigned which_cpu)
+{
+  Bit32u eax = BX_CPU(which_cpu)->get_reg32(BX_32BIT_REG_EAX);
+  char *name = syscall_names.get_name (eax);
+  fprintf (stderr, "linux system call %s (#%d)\n", name, eax);
 }
 
 #endif /* if BX_DEBUGGER */
