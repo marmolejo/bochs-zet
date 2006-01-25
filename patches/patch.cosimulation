@@ -24,12 +24,16 @@ without any conflicts, but do not think it will work or even compile !
 The patch is more FYI s.t. you will be able to look on some cosimulation
 implementation during developing a new one ;)
 
+And just to be sure ... 
+I marked the patch root in CVS with tag bochs-cosimulation-patch-root
+so you always could find some Bochs version to apply it ;)
+
 Patch was created with:
   cvs diff -ubBwNp
 
 Instructions:
   To patch, apply patch to main bochs directory:
-    > patch -p0 < cosim-patch
+    > patch -p1 < cosim-patch
   I skipped automatically generated files from this patch to 
   reduce its absolute size.
   To regenerate configure file:
