@@ -59,11 +59,11 @@ extern "C" {
 #if !defined(_MSC_VER)		// gcc without -mno-cygwin
 #define FMT_LL "%ll"
 #define FMT_TICK "%011llu"
-#define FMT_ADDRX64 "0x%016llx"
+#define FMT_ADDRX64 "%016llx"
 #else
 #define FMT_LL "%I64"
 #define FMT_TICK "%011I64u"
-#define FMT_ADDRX64 "0x%016I64x"
+#define FMT_ADDRX64 "%016I64x"
 #endif
 
 // always return regular file.
