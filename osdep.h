@@ -98,7 +98,7 @@ extern "C" {
 #else    /* not WIN32 definitions */
 #define FMT_LL "%ll"
 #define FMT_TICK "%011llu"
-#define FMT_ADDRX64 "0x%016llx"
+#define FMT_ADDRX64 "%016llx"
 #endif   /* not WIN32 definitions */
 
 #define FMT_ADDRX32 "0x%08x"
