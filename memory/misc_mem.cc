@@ -426,8 +426,7 @@ void BX_MEM_C::load_RAM(const char *path, Bit32u ramaddress, Bit8u type)
 
 
 #if ( BX_DEBUGGER || BX_DISASM || BX_GDBSTUB)
-  bx_bool
-BX_MEM_C::dbg_fetch_mem(Bit32u addr, unsigned len, Bit8u *buf)
+bx_bool BX_MEM_C::dbg_fetch_mem(Bit32u addr, unsigned len, Bit8u *buf)
 {
   bx_bool ret = 1;
 
@@ -488,8 +487,7 @@ BX_MEM_C::dbg_fetch_mem(Bit32u addr, unsigned len, Bit8u *buf)
 #endif
 
 #if BX_DEBUGGER || BX_GDBSTUB
-  bx_bool
-BX_MEM_C::dbg_set_mem(Bit32u addr, unsigned len, Bit8u *buf)
+bx_bool BX_MEM_C::dbg_set_mem(Bit32u addr, unsigned len, Bit8u *buf)
 {
   if ( (addr + len) > this->len ) {
     return(0); // error, beyond limits of memory
@@ -523,20 +521,17 @@ BX_MEM_C::dbg_set_mem(Bit32u addr, unsigned len, Bit8u *buf)
 }
 #endif
 
-  bx_bool
-BX_MEM_C::dbg_crc32(Bit32u (*f)(const Bit8u *buf, int len),
-    Bit32u addr1, Bit32u addr2, Bit32u *crc)
+bx_bool BX_MEM_C::dbg_crc32(Bit32u addr1, Bit32u addr2, Bit32u *crc)
 {
   *crc = 0;
   if (addr1 > addr2)
     return(0);
 
-  if (addr2 >= this->len) {
+  if (addr2 >= this->len)
     return(0); // error, specified address past last phy mem addr
-  }
   
   unsigned len = 1 + addr2 - addr1;
-  *crc = f(vector + addr1, len);
+  *crc = crc32(vector + addr1, len);
 
   return(1);
 }
@@ -676,7 +671,7 @@ BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op)
   bx_bool 
 BX_MEM_C::registerMemoryHandlers(memory_handler_t read_handler, void *read_param,
 		memory_handler_t write_handler, void *write_param,
-		unsigned long begin_addr, unsigned long end_addr)
+		Bit32u begin_addr, Bit32u end_addr)
 {
   if (end_addr < begin_addr)
     return false;
@@ -700,7 +695,7 @@ BX_MEM_C::registerMemoryHandlers(memory_handler_t read_handler, void *read_param
 
   bx_bool 
 BX_MEM_C::unregisterMemoryHandlers(memory_handler_t read_handler, memory_handler_t write_handler,
-		unsigned long begin_addr, unsigned long end_addr)
+		Bit32u begin_addr, Bit32u end_addr)
 {
    bx_bool ret = true;
    for (unsigned page_idx = begin_addr >> 20; page_idx <= end_addr >> 20; page_idx++) {

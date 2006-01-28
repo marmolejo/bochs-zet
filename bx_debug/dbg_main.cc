@@ -2538,7 +2538,7 @@ void bx_dbg_crc_command(Bit32u addr1, Bit32u addr2)
     return;
   }
 
-  if (!BX_MEM(0)->dbg_crc32(crc32, addr1, addr2, &crc1)) {
+  if (!BX_MEM(0)->dbg_crc32(addr1, addr2, &crc1)) {
     dbg_printf("could not CRC memory\n");
     return;
   }

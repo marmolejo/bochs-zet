@@ -91,15 +91,13 @@ public:
   BX_MEM_SMF Bit32u  get_memory_in_k(void);
   BX_MEM_SMF bx_bool dbg_fetch_mem(Bit32u addr, unsigned len, Bit8u *buf);
   BX_MEM_SMF bx_bool dbg_set_mem(Bit32u addr, unsigned len, Bit8u *buf);
-  BX_MEM_SMF bx_bool dbg_crc32(
-    Bit32u (*f)(const Bit8u *buf, int len),
-    Bit32u addr1, Bit32u addr2, Bit32u *crc);
+  BX_MEM_SMF bx_bool dbg_crc32(Bit32u addr1, Bit32u addr2, Bit32u *crc);
   BX_MEM_SMF Bit8u* getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op) BX_CPP_AttrRegparmN(3);
   BX_MEM_SMF bx_bool registerMemoryHandlers(memory_handler_t read_handler, void *read_param, 
 		  memory_handler_t write_handler, void *write_param, 
-		  unsigned long begin_addr, unsigned long end_addr);
+		  Bit32u begin_addr, Bit32u end_addr);
   BX_MEM_SMF bx_bool unregisterMemoryHandlers(memory_handler_t read_handler, memory_handler_t write_handler, 
-		  unsigned long begin_addr, unsigned long end_addr);
+		  Bit32u begin_addr, Bit32u end_addr);
   };
 
 #if BX_PROVIDE_CPU_MEMORY==1
