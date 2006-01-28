@@ -443,8 +443,8 @@ void BX_CPU_C::FNINIT(bxInstruction_c *i)
 void BX_CPU_C::FLDENV(bxInstruction_c *i)
 {
 #if BX_SUPPORT_FPU
-  BX_CPU_THIS_PTR prepareFPU(i, CHECK_PENDING_EXCEPTIONS, !UPDATE_LAST_OPCODE);
   fpu_load_environment(i);
+  BX_CPU_THIS_PTR prepareFPU(i, CHECK_PENDING_EXCEPTIONS, !UPDATE_LAST_OPCODE);
 #else
   BX_INFO(("FLDENV: required FPU, configure --enable-fpu"));
 #endif
