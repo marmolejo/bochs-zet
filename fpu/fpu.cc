@@ -456,6 +456,10 @@ void BX_CPU_C::FNSTENV(bxInstruction_c *i)
 #if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i, !CHECK_PENDING_EXCEPTIONS, !UPDATE_LAST_OPCODE);
   fpu_save_environment(i);
+  /* mask all floating point exceptions */
+  FPU_CONTROL_WORD |= FPU_CW_Exceptions_Mask;
+  /* clear the B and ES bits in the status word */
+  FPU_PARTIAL_STATUS &= ~(FPU_SW_Backward|FPU_SW_Summary);
 #else
   BX_INFO(("FNSTENV: required FPU, configure --enable-fpu"));
 #endif
