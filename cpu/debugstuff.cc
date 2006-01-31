@@ -546,12 +546,6 @@ bx_bool BX_CPU_C::dbg_get_cpu(bx_dbg_cpu_t *cpu)
   cpu->dr6 = BX_CPU_THIS_PTR dr6;
   cpu->dr7 = BX_CPU_THIS_PTR dr7;
 
-  cpu->tr3 = 0;
-  cpu->tr4 = 0;
-  cpu->tr5 = 0;
-  cpu->tr6 = 0;
-  cpu->tr7 = 0;
-
 #if BX_CPU_LEVEL >= 2
   // cr0:32=pg,cd,nw,am,wp,ne,ts,em,mp,pe
   cpu->cr0 = BX_CPU_THIS_PTR cr0.val32;
@@ -940,13 +934,6 @@ bx_bool BX_CPU_C::dbg_set_cpu(bx_dbg_cpu_t *cpu)
   BX_CPU_THIS_PTR dr3 = cpu->dr3;
   BX_CPU_THIS_PTR dr6 = cpu->dr6;
   BX_CPU_THIS_PTR dr7 = cpu->dr7;
-
-  // BX_CPU_THIS_PTR tr3 = cpu->tr3;
-  // BX_CPU_THIS_PTR tr4 = cpu->tr4;
-  // BX_CPU_THIS_PTR tr5 = cpu->tr5;
-  // BX_CPU_THIS_PTR tr6 = cpu->tr6;
-  // BX_CPU_THIS_PTR tr7 = cpu->tr7;
-
 
 #if BX_CPU_LEVEL >= 2
   // cr0, cr1, cr2, cr3, cr4
