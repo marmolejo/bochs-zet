@@ -510,8 +510,8 @@ bx_real_sim_c::log_msg (const char *prefix, int level, const char *msg)
   be.u.logmsg.level = level;
   be.u.logmsg.msg = msg;
   // default return value in case something goes wrong.
-  be.retcode = BX_LOG_ASK_CHOICE_DIE;
-  //fprintf (stderr, "calling notify.\n");
+  be.retcode = BX_LOG_NOTIFY_FAILED;
+  // calling notify
   sim_to_ci_event (&be);
   return be.retcode;
 }

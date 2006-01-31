@@ -469,7 +469,8 @@ void logfunctions::ask (int level, const char *prefix, const char *fmt, va_list 
       setonoff (level, ACT_REPORT);
       break;
     case BX_LOG_ASK_CHOICE_DIE:
-      bx_user_quit = 1;
+    case BX_LOG_NOTIFY_FAILED:
+      bx_user_quit = (val==BX_LOG_ASK_CHOICE_DIE)?1:0;
       in_ask_already = 0;  // because fatal will longjmp out
       fatal (prefix, fmt, ap, 1);
       // should never get here
