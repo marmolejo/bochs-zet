@@ -59,6 +59,8 @@ bx_pc_system_c::bx_pc_system_c(void)
 {
   this->put("SYS");
 
+  BX_ASSERT(numTimers == 0);
+
   // Timer[0] is the null timer.  It is initialized as a special
   // case here.  It should never be turned off or modified, and its
   // duration should always remain the same.
