@@ -90,7 +90,7 @@
 //Minimum number of emulated useconds per second.
 //  Now calculated using BX_MIN_IPS, the minimum number of
 //   instructions per second.
-#define MIN_USEC_PER_SECOND (((((Bit64u)USEC_PER_SECOND)*((Bit64u)BX_MIN_IPS))/((Bit64u)(bx_options.Oips->get())))+(Bit64u)1)
+#define MIN_USEC_PER_SECOND (((((Bit64u)USEC_PER_SECOND)*((Bit64u)BX_MIN_IPS))/((Bit64u)(bx_options.cpu.Oips->get())))+(Bit64u)1)
 
 
 //DEBUG configuration:

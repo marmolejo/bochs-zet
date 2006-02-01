@@ -35,7 +35,7 @@ char* bx_dbg_symbolic_address(Bit32u context, Bit32u eip, Bit32u base)
 {
   static bx_bool first = true;
   if (first) {
-    dbg_printf ( BX_HAVE_HASH_MAP_ERR);
+    dbg_printf(BX_HAVE_HASH_MAP_ERR);
     first = false;
   }
   return "unk. ctxt";
@@ -49,17 +49,17 @@ char* bx_dbg_symbolic_address_16bit(Bit32u eip, Bit32u cs)
 
 void bx_dbg_symbol_command(char* filename, bx_bool global, Bit32u offset)
 {
-  dbg_printf ( BX_HAVE_HASH_MAP_ERR);
+  dbg_printf(BX_HAVE_HASH_MAP_ERR);
 }
 
 void bx_dbg_info_symbols_command(char *Symbol)
 {
-  dbg_printf ( BX_HAVE_HASH_MAP_ERR);
+  dbg_printf(BX_HAVE_HASH_MAP_ERR);
 }
 
 int bx_dbg_lbreakpoint_symbol_command(char *Symbol)
 {
-  dbg_printf ( BX_HAVE_HASH_MAP_ERR);
+  dbg_printf(BX_HAVE_HASH_MAP_ERR);
   return -1;
 }
 

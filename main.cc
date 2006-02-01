@@ -726,7 +726,7 @@ bx_begin_simulation (int argc, char *argv[])
     BX_PANIC (("no gui module was loaded"));
     return 0;
   }
-  bx_cpu_count = bx_options.Ocpu_count->get();
+  bx_cpu_count = bx_options.cpu.Ocpu_count->get();
 #if BX_DEBUGGER
   // If using the debugger, it will take control and call
   // bx_init_hardware() and cpu_loop()
@@ -801,7 +801,7 @@ int bx_init_hardware()
     }
   }
 
-  bx_pc_system.init_ips(bx_options.Oips->get());
+  bx_pc_system.init_ips(bx_options.cpu.Oips->get());
 
   if(bx_options.log.Ofilename->getptr()[0]!='-') {
     BX_INFO (("using log file %s", bx_options.log.Ofilename->getptr()));
