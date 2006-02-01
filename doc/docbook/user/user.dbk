@@ -6353,6 +6353,10 @@ the "instrument/stubs" directory to it, then customize it.  Use:
 </para>
 </section>
 
+<section>
+<title>Other Commands</title>
+<para>
+
 <screen>ptime</screen>
 
 Print the current time (number of ticks since start of simulation).
