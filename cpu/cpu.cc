@@ -995,6 +995,7 @@ bx_bool BX_CPU_C::dbg_is_end_instr_bpoint(Bit16u cs, bx_address eip, bx_address 
       BX_CPU_THIS_PTR guard_found.eip = eip;
       BX_CPU_THIS_PTR guard_found.laddr = laddr;
       BX_CPU_THIS_PTR guard_found.is_32bit_code = is_32;
+      BX_CPU_THIS_PTR guard_found.is_64bit_code = is_64;
       BX_CPU_THIS_PTR guard_found.guard_found = BX_DBG_GUARD_ICOUNT;
       return(1);
     }
