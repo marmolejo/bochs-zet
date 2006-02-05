@@ -990,8 +990,9 @@ void bx_dbg_print_stack_command(unsigned nwords)
         (unsigned) conv_4xBit8u_to_Bit32u(buf+4), 
         (unsigned) conv_4xBit8u_to_Bit32u(buf));
     }
-    else {
+    else
 #endif
+    {
       if (len == 4) {
         dbg_printf(" | STACK 0x%08x [0x%08x]\n", 
           (unsigned) linear_sp, (unsigned) conv_4xBit8u_to_Bit32u(buf));
