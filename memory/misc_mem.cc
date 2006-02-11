@@ -257,7 +257,7 @@ void BX_MEM_C::load_ROM(const char *path, Bit32u romaddress, Bit8u type)
       return;
     }
     if ((romaddress < 0xc0000) ||
-        (((romaddress + size) > 0xdffff) && (romaddress != 0xe0000))) {
+        (((romaddress + size - 1) > 0xdffff) && (romaddress != 0xe0000))) {
       close(fd);
       BX_PANIC(("ROM: ROM address space out of range"));
       return;
