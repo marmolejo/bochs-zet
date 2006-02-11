@@ -479,7 +479,9 @@ typedef struct {
 } bx_vgarom_options;
 
 typedef struct {
-  bx_param_num_c    *Ocpu_count;
+  bx_param_num_c    *Onprocessors;
+  bx_param_num_c    *Oncores;
+  bx_param_num_c    *Onthreads;
   bx_param_num_c    *Oips;
   bx_param_bool_c   *Oreset_on_triple_fault;
 } bx_cpu_options;
