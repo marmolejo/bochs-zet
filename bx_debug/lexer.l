@@ -63,6 +63,7 @@ ivt		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_IVT); }
 gdt		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_GDT); }
 ldt		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_LDT); }
 tss		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_TSS); }
+tab		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_TAB); }
 dirty           { bxlval.sval = strdup(bxtext); return(BX_TOKEN_DIRTY); }
 linux           { bxlval.sval = strdup(bxtext); return(BX_TOKEN_LINUX); }
 dump_cpu        { bxlval.sval = strdup(bxtext); return(BX_TOKEN_DUMP_CPU); }
