@@ -2476,7 +2476,7 @@ void bx_dbg_disassemble_command(const char *format, bx_num_range range)
     if (! bx_dbg_read_linear(dbg_cpu, (Bit32u)range.from, 16, bx_disasm_ibuf)) break;
 
     unsigned ilen = bx_disassemble.disasm(dis_size==32, dis_size==64,
-          0, (Bit32u)range.from, bx_disasm_ibuf, bx_disasm_tbuf);
+       (bx_address)(-1), (bx_address)(-1), bx_disasm_ibuf, bx_disasm_tbuf);
 
     char *Sym=bx_dbg_disasm_symbolic_address((Bit32u)range.from, 0);
 
