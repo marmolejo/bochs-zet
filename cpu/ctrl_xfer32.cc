@@ -393,7 +393,6 @@ void BX_CPU_C::IRET32(bxInstruction_c *i)
 
 #if BX_DEBUGGER
   BX_CPU_THIS_PTR show_flag |= Flag_iret;
-  BX_CPU_THIS_PTR show_eip = EIP;
 #endif
 
   if (v8086_mode()) {

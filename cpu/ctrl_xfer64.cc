@@ -306,7 +306,6 @@ void BX_CPU_C::IRET64(bxInstruction_c *i)
 
 #if BX_DEBUGGER
   BX_CPU_THIS_PTR show_flag |= Flag_iret;
-  BX_CPU_THIS_PTR show_eip = RIP;
 #endif
 
   BX_ASSERT(protected_mode());

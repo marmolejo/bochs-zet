@@ -1026,7 +1026,6 @@ help_command:
          dbg_printf("show mode - show, when processor switch mode\n");
          dbg_printf("show int - show, when interrupt is happens\n");
          dbg_printf("show call - show, when call is happens\n");
-         dbg_printf("show ret - show, when iret is happens\n");
          dbg_printf("show off - toggles off symbolic info\n");
          dbg_printf("show dbg-all - turn on all show flags\n");
          dbg_printf("show dbg-none - turn off all show flags\n");
