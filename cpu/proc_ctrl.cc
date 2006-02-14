@@ -1327,12 +1327,10 @@ void BX_CPU_C::SetCR0(Bit32u val_32)
   BX_CPU_THIS_PTR cr0.val32 = newCR0;
 
   if (prev_pe==0 && BX_CPU_THIS_PTR cr0.pe) {
-    enter_protected_mode();
     BX_DEBUG(("Enter Protected Mode"));
     BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_PROTECTED;
   }
   else if (prev_pe==1 && BX_CPU_THIS_PTR cr0.pe==0) {
-    enter_real_mode();
     BX_DEBUG(("Enter Real Mode"));
     BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_REAL;
   }
@@ -1455,23 +1453,6 @@ void BX_CPU_C::SetCR4(Bit32u val_32)
   pagingCR4Changed(oldCR4, BX_CPU_THIS_PTR cr4.getRegister());
 }
 #endif
-
-void BX_CPU_C::RSM(bxInstruction_c *i)
-{
-#if BX_CPU_LEVEL >= 4
-  invalidate_prefetch_q();
-
-  /* If we are not in System Management Mode, then 
-   * #UD should be generated.
-   *
-   * Bochs has no SMM.
-   */
-
-  BX_INFO(("RSM: System Management Mode not implemented yet"));
-#endif
-
-  UndefinedOpcode(i);
-}
 
 void BX_CPU_C::RDPMC(bxInstruction_c *i)
 {
