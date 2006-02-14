@@ -567,7 +567,7 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
   //   SMI
   //   INIT
   // (bochs doesn't support these)
-  if (BX_CPU_THIS_PTR smi_pending && BX_CPU_THIS_PTR cpu_mode != BX_MODE_IA32_SMM)
+  if (BX_CPU_THIS_PTR smi_pending && ! BX_CPU_THIS_PTR smm_mode())
   {
      BX_PANIC(("SMI: system management mode still not implemented !"));
      // clear SMI pending flag if accepting SMM !
