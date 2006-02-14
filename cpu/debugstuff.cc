@@ -63,7 +63,6 @@ const char* cpu_mode_string(unsigned cpu_mode)
 {
   static const char *cpu_mode_name[] = {
      "real mode",
-     "system management mode",
      "v8086 mode",
      "protected mode",
      "compatibility mode",
@@ -71,7 +70,7 @@ const char* cpu_mode_string(unsigned cpu_mode)
      "unknown mode"
   };
 
-  if(cpu_mode >= 6) cpu_mode = 6;
+  if(cpu_mode >= 5) cpu_mode = 5;
   return cpu_mode_name[cpu_mode];
 }
 
