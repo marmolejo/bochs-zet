@@ -505,18 +505,6 @@ public:
 DECLARE_EVENT_TABLE()
 };
 
-class ConfigMemoryDialog : public ParamDialog
-{
-#define CONFIG_MEMORY_TITLE "Configure Memory"
-#define CONFIG_MEMORY_BOX1_TITLE "Standard Options"
-#define CONFIG_MEMORY_BOX2_TITLE "Optional ROM Images"
-private:
-  wxFlexGridSizer *box1gridSizer, *box2gridSizer;
-public:
-  ConfigMemoryDialog(wxWindow* parent, wxWindowID id);
-DECLARE_EVENT_TABLE()
-};
-
 ////////////////////////////////////////////////////////////////////////////
 // CpuRegistersDialog
 ////////////////////////////////////////////////////////////////////////////
