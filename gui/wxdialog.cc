@@ -1085,8 +1085,14 @@ void ParamDialog::AddParam (
   pstr->label = NULL;
   pstr->u.window = NULL;
   pstr->browseButton = NULL;
-  int type = param_generic->get_type ();
-  char *prompt = pstr->param->get_label ();
+  int type = param_generic->get_type();
+  char *prompt;
+  if (type == BXT_LIST) {
+    bx_list_c *list = (bx_list_c*)pstr->param;
+    prompt = list->get_title()->getptr();
+  } else {
+    prompt = pstr->param->get_label();
+  }
   if (!prompt) prompt = pstr->param->get_name ();
   char *description = pstr->param->get_description ();
   wxASSERT (prompt != NULL);

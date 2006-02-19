@@ -398,8 +398,8 @@ bx_virt_timer_c::next_event_time_update(void) {
 void
 bx_virt_timer_c::init(void) {
 
-  if ( (bx_options.clock.Osync->get ()!=BX_CLOCK_SYNC_REALTIME)
-    && (bx_options.clock.Osync->get ()!=BX_CLOCK_SYNC_BOTH) )
+  if ( (SIM->get_param_enum(BXPN_CLOCK_SYNC)->get()!=BX_CLOCK_SYNC_REALTIME)
+    && (SIM->get_param_enum(BXPN_CLOCK_SYNC)->get()!=BX_CLOCK_SYNC_BOTH) )
     virtual_timers_realtime = 0;
   else
     virtual_timers_realtime = 1;

@@ -448,7 +448,7 @@ bx_hard_drive_c::init(void)
   }
 
   // generate CMOS values for hard drive if not using a CMOS image
-  if (!bx_options.cmosimage.Oenabled->get ()) {
+  if (!SIM->get_param_bool(BXPN_CMOSIMAGE_ENABLED)->get()) {
     DEV_cmos_set_reg(0x12, 0x00); // start out with: no drive 0, no drive 1
 
     if (BX_DRIVE_IS_HD(0,0)) {
