@@ -1932,7 +1932,7 @@ void bx_dbg_dump_cpu_command(void)
   }
 
 #if BX_SUPPORT_PCI
-  if (bx_options.Oi440FXSupport->get ()) {
+  if (SIM->get_param_bool(BXPN_I440FX_SUPPORT)->get()) {
     DEV_pci_print_i440fx_state();
   }
 #endif

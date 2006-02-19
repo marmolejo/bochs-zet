@@ -623,11 +623,11 @@ void MyFrame::OnEditClockCmos(wxCommandEvent& WXUNUSED(event))
 
 void MyFrame::OnEditPCI(wxCommandEvent& WXUNUSED(event))
 {
-  ParamDialog dlg (this, -1);
-  bx_list_c *list = (bx_list_c*) SIM->get_param (BXP_PCI);
-  dlg.SetTitle (list->get_name ());
-  dlg.AddParam (list);
-  dlg.ShowModal ();
+  ParamDialog dlg(this, -1);
+  bx_list_c *list = (bx_list_c*) SIM->get_param("pci");
+  dlg.SetTitle(list->get_title()->getptr());
+  dlg.AddParam(list);
+  dlg.ShowModal();
 }
 
 void MyFrame::OnEditSound(wxCommandEvent& WXUNUSED(event))

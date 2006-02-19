@@ -3319,7 +3319,7 @@ bx_hard_drive_c::set_cd_media_status(Bit32u handle, unsigned status)
 bx_hard_drive_c::bmdma_present(void)
 {
 #if BX_SUPPORT_PCI
-  if (bx_options.Oi440FXSupport->get()) {
+  if (SIM->get_param_bool(BXPN_I440FX_SUPPORT)->get()) {
     return DEV_ide_bmdma_present();
   }
 #endif

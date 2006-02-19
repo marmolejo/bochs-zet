@@ -1325,7 +1325,7 @@ bx_ne2k_c::init(void)
   strcpy(devname, "NE2000 NIC");
 
 #if BX_SUPPORT_PCI
-  if ((bx_options.Oi440FXSupport->get()) &&
+  if ((SIM->get_param_bool(BXPN_I440FX_SUPPORT)->get()) &&
       (DEV_is_pci_device(BX_PLUGIN_NE2K))) {
     BX_NE2K_THIS s.pci_enabled = 1;
     strcpy(devname, "NE2000 PCI NIC");

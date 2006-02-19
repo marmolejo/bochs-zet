@@ -183,7 +183,7 @@ bx_devices_c::init(BX_MEM_C *newmem)
   pluginUnmapped->init ();
 
   // PCI logic (i440FX)
-  if (bx_options.Oi440FXSupport->get ()) {
+  if (SIM->get_param_bool(BXPN_I440FX_SUPPORT)->get()) {
 #if BX_SUPPORT_PCI
     PLUG_load_plugin(pci, PLUGTYPE_CORE);
     PLUG_load_plugin(pci2isa, PLUGTYPE_CORE);
@@ -322,7 +322,7 @@ bx_devices_c::reset(unsigned type)
 {
   pluginUnmapped->reset(type);
 #if BX_SUPPORT_PCI
-  if (bx_options.Oi440FXSupport->get ()) {
+  if (SIM->get_param_bool(BXPN_I440FX_SUPPORT)->get ()) {
     pluginPciBridge->reset(type);
     pluginPci2IsaBridge->reset(type);
   }

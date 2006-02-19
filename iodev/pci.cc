@@ -118,11 +118,15 @@ bx_pci_c::init(void)
 bx_pci_c::reset(unsigned type)
 {
   unsigned i;
+  char devname[80];
+  char *device;
 
   if (!BX_PCI_THIS slots_checked) {
     for (i=0; i<BX_N_PCI_SLOTS; i++) {
-      if (bx_options.pcislot[i].Oused->get() && !BX_PCI_THIS slot_used[i]) {
-        BX_PANIC(("Unknown plugin '%s' at PCI slot #%d", bx_options.pcislot[i].Odevname->getptr(), i+1));
+      sprintf(devname, "pci.slot.%d", i+1);
+      device = SIM->get_param_string(devname)->getptr();
+      if ((strlen(device) > 0) && !BX_PCI_THIS slot_used[i]) {
+        BX_PANIC(("Unknown plugin '%s' at PCI slot #%d", device, i+1));
       }
     }
     BX_PCI_THIS slots_checked = 1;
@@ -465,12 +469,15 @@ bx_pci_c::register_pci_handlers( void *this_ptr, bx_pci_read_handler_t f1,
                                  const char *name, const char *descr)
 {
   unsigned i, handle;
+  char devname[80];
+  char *device;
 
   if (strcmp(name, "pci") && strcmp(name, "pci2isa") && strcmp(name, "pci_ide")
       && (*devfunc == 0x00)) {
     for (i = 0; i < BX_N_PCI_SLOTS; i++) {
-      if (bx_options.pcislot[i].Oused->get() &&
-          !strcmp(name, bx_options.pcislot[i].Odevname->getptr())) {
+      sprintf(devname, "pci.slot.%d", i+1);
+      device = SIM->get_param_string(devname)->getptr();
+      if ((strlen(device) > 0) && (!strcmp(name, device))) {
         *devfunc = (i + 2) << 3;
         BX_PCI_THIS slot_used[i] = 1;
         BX_INFO(("PCI slot #%d used by plugin '%s'", i+1, name));
@@ -507,10 +514,13 @@ bx_pci_c::register_pci_handlers( void *this_ptr, bx_pci_read_handler_t f1,
 bx_pci_c::is_pci_device(const char *name)
 {
   unsigned i;
+  char devname[80];
+  char *device;
 
   for (i = 0; i < BX_N_PCI_SLOTS; i++) {
-    if (bx_options.pcislot[i].Oused->get() &&
-        !strcmp(name, bx_options.pcislot[i].Odevname->getptr())) {
+    sprintf(devname, "pci.slot.%d", i+1);
+    device = SIM->get_param_string(devname)->getptr();
+    if ((strlen(device) > 0) && (!strcmp(name, device))) {
       return 1;
     }
   }
