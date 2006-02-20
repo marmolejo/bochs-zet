@@ -571,7 +571,7 @@ void BX_CPU_C::FBSTP_PACKED_BCD(bxInstruction_c *i)
 /* DF /1 */
 void BX_CPU_C::FISTTP16(bxInstruction_c *i)
 {
-#if BX_SUPPORT_PNI
+#if BX_SUPPORT_SSE >= 3
   BX_CPU_THIS_PTR prepareFPU(i);
 
   Bit16s save_reg = int16_indefinite; /* The masked response */
@@ -607,7 +607,7 @@ void BX_CPU_C::FISTTP16(bxInstruction_c *i)
 /* DB /1 */
 void BX_CPU_C::FISTTP32(bxInstruction_c *i)
 {
-#if BX_SUPPORT_PNI
+#if BX_SUPPORT_SSE >= 3
   BX_CPU_THIS_PTR prepareFPU(i);
 
   Bit32s save_reg = int32_indefinite; /* The masked response */
@@ -643,7 +643,7 @@ void BX_CPU_C::FISTTP32(bxInstruction_c *i)
 /* DD /1 */
 void BX_CPU_C::FISTTP64(bxInstruction_c *i)
 {
-#if BX_SUPPORT_PNI
+#if BX_SUPPORT_SSE >= 3
   BX_CPU_THIS_PTR prepareFPU(i);
 
   Bit64s save_reg = int64_indefinite; /* The masked response */

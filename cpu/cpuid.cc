@@ -120,8 +120,8 @@ Bit32u BX_CPU_C::get_extended_cpuid_features()
 {
   Bit32u features = 0;
 
-#if BX_SUPPORT_PNI
-    features |= 0x01;     // report PNI
+#if BX_SUPPORT_SSE >= 3
+    features |= 0x01;     // report SSE3 (PNI)
 #endif
 
 #if BX_SUPPORT_X86_64

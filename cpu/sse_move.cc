@@ -572,7 +572,7 @@ void BX_CPU_C::MOVLPS_VpsMq(bxInstruction_c *i)
 /* F2 0F 12 */
 void BX_CPU_C::MOVDDUP_VpdWq(bxInstruction_c *i)
 {
-#if BX_SUPPORT_PNI
+#if BX_SUPPORT_SSE >= 3
   BX_CPU_THIS_PTR prepareSSE();
   Bit64u val64;
   BxPackedXmmRegister op;
@@ -600,7 +600,7 @@ void BX_CPU_C::MOVDDUP_VpdWq(bxInstruction_c *i)
 /* F3 0F 12 */
 void BX_CPU_C::MOVSLDUP_VpsWps(bxInstruction_c *i)
 {
-#if BX_SUPPORT_PNI
+#if BX_SUPPORT_SSE >= 3
   BX_CPU_THIS_PTR prepareSSE();
   BxPackedXmmRegister op, result;
 
@@ -629,7 +629,7 @@ void BX_CPU_C::MOVSLDUP_VpsWps(bxInstruction_c *i)
 /* F3 0F 16 */
 void BX_CPU_C::MOVSHDUP_VpsWps(bxInstruction_c *i)
 {
-#if BX_SUPPORT_PNI
+#if BX_SUPPORT_SSE >= 3
   BX_CPU_THIS_PTR prepareSSE();
   BxPackedXmmRegister op, result;
 
@@ -725,7 +725,7 @@ void BX_CPU_C::MOVHPS_MqVps(bxInstruction_c *i)
 /* F2 0F F0 */
 void BX_CPU_C::LDDQU_VdqMdq(bxInstruction_c *i)
 {
-#if BX_SUPPORT_PNI
+#if BX_SUPPORT_SSE >= 3
   BX_CPU_THIS_PTR prepareSSE();
 
   /* source must be memory reference */
