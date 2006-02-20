@@ -487,11 +487,6 @@ typedef struct {
 } bx_ne2k_options;
 
 typedef struct {
-  bx_param_num_c *Ovendor;
-  bx_param_num_c *Odevice;
-} bx_pcidev_options;
-
-typedef struct {
 // These options are used for a special hack to load a
 // 32bit OS directly into memory, so it can be run without
 // any of the 16bit real mode or BIOS assistance.  This
@@ -568,7 +563,6 @@ typedef struct BOCHSAPI {
   bx_param_bool_c   *Ofullscreen;
   bx_param_string_c *Oscreenmode;
 #endif
-  bx_pcidev_options pcidev;
   bx_ne2k_options   ne2k;
   bx_load32bitOSImage_t load32bitOSImage;
   bx_log_options    log;

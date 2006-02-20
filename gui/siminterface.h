@@ -150,6 +150,8 @@ typedef enum {
 #define BXPN_CMOSIMAGE_PATH              "clock_cmos.cmosimage.path"
 #define BXPN_CMOSIMAGE_RTC_INIT          "clock_cmos.cmosimage.rtc_init"
 #define BXPN_I440FX_SUPPORT              "pci.i440fx_support"
+#define BXPN_PCIDEV_VENDOR               "pci.pcidev.vendor"
+#define BXPN_PCIDEV_DEVICE               "pci.pcidev.device"
 
 // base value for generated new parameter id
 #define BXP_NEW_PARAM_ID 1001
@@ -400,9 +402,6 @@ typedef enum {
   BXP_PNIC_SCRIPT,
   BXP_PNIC,
   BXP_NETWORK,
-  BXP_PCIDEV_VENDOR,
-  BXP_PCIDEV_DEVICE,
-  BXP_PCIDEV,
   BXP_SB16_ENABLED,
   BXP_SB16_MIDIFILE,
   BXP_SB16_WAVEFILE,

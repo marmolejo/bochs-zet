@@ -198,7 +198,9 @@ bx_devices_c::init(BX_MEM_C *newmem)
     PLUG_load_plugin(pciusb, PLUGTYPE_OPTIONAL);
 #endif
 #if BX_SUPPORT_PCIDEV
-    PLUG_load_plugin(pcidev, PLUGTYPE_OPTIONAL);
+    if (SIM->get_param_num(BXPN_PCIDEV_VENDOR)->get() != 0xffff) {
+      PLUG_load_plugin(pcidev, PLUGTYPE_OPTIONAL);
+    }
 #endif
 #if BX_SUPPORT_PCIPNIC
   if (bx_options.pnic.Oenabled->get ()) {
