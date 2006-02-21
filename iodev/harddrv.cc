@@ -570,16 +570,16 @@ bx_hard_drive_c::init(void)
 
     // Set the "extended" boot sequence, bytes 0x38 and 0x3D (needed for cdrom booting)
     BX_INFO(("Using boot sequence %s, %s, %s",
-             bx_options.Obootdrive[0]->get_choice(bx_options.Obootdrive[0]->get () - 1),
-             bx_options.Obootdrive[1]->get_choice(bx_options.Obootdrive[1]->get ()),
-             bx_options.Obootdrive[2]->get_choice(bx_options.Obootdrive[2]->get ())
+             bx_options.Obootdrive[0]->get_selected(),
+             bx_options.Obootdrive[1]->get_selected(),
+             bx_options.Obootdrive[2]->get_selected()
 	     ));
-    DEV_cmos_set_reg(0x3d, bx_options.Obootdrive[0]->get () |
-                           (bx_options.Obootdrive[1]->get () << 4));
+    DEV_cmos_set_reg(0x3d, bx_options.Obootdrive[0]->get() |
+                           (bx_options.Obootdrive[1]->get() << 4));
 
     // Set the signature check flag in cmos, inverted for compatibility
     DEV_cmos_set_reg(0x38, bx_options.OfloppySigCheck->get() |
-                           (bx_options.Obootdrive[2]->get () << 4));
+                           (bx_options.Obootdrive[2]->get() << 4));
     BX_INFO(("Floppy boot signature check is %sabled", bx_options.OfloppySigCheck->get() ? "dis" : "en"));
   }
 

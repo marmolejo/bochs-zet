@@ -875,7 +875,7 @@ bx_wx_gui_c::specific_init(int argc, char **argv, unsigned tilewidth, unsigned t
   unsigned char fc, vc;
 
   put("WX  ");
-  if (bx_options.Oprivate_colormap->get ()) {
+  if (SIM->get_param_bool(BXPN_PRIVATE_COLORMAP)->get()) {
     BX_INFO(("private_colormap option ignored."));
   }
 

@@ -258,7 +258,7 @@ bx_svga_cirrus_c::init(void)
 {
   // initialize VGA stuffs.
   BX_CIRRUS_THIS bx_vga_c::init();
-  if (!strcmp(bx_options.Ovga_extension->getptr(), "cirrus")) {
+  if (!strcmp(SIM->get_param_string(BXPN_VGA_EXTENSION)->getptr(), "cirrus")) {
     // initialize SVGA stuffs.
     BX_CIRRUS_THIS bx_vga_c::init_iohandlers(
         svga_read_handler, svga_write_handler);
@@ -372,7 +372,7 @@ bx_svga_cirrus_c::reset(unsigned type)
   // reset VGA stuffs.
   BX_CIRRUS_THIS bx_vga_c::reset(type);
 
-  if (!strcmp(bx_options.Ovga_extension->getptr(), "cirrus")) {
+  if (!strcmp(SIM->get_param_string(BXPN_VGA_EXTENSION)->getptr(), "cirrus")) {
     // reset SVGA stuffs.
     BX_CIRRUS_THIS svga_init_members();
   }

@@ -228,7 +228,7 @@ bx_serial_c::init(void)
       }
 
       BX_SER_THIS s[i].io_mode = BX_SER_MODE_NULL;
-      char *mode = bx_options.com[i].Omode->get_choice(bx_options.com[i].Omode->get());
+      char *mode = bx_options.com[i].Omode->get_selected();
       if (!strcmp(mode, "file")) {
         if (strlen(bx_options.com[i].Odev->getptr ()) > 0) {
           BX_SER_THIS s[i].output = fopen(bx_options.com[i].Odev->getptr (), "wb");

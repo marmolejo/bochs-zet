@@ -218,9 +218,9 @@ bx_term_gui_c::specific_init(int argc, char **argv, unsigned tilewidth, unsigned
 	}
 #endif
 
-	if (bx_options.Oprivate_colormap->get ())
-		BX_ERROR(("WARNING: private_colormap option ignored."));
-	initialized = 1;
+  if (SIM->get_param_bool(BXPN_PRIVATE_COLORMAP)->get())
+    BX_ERROR(("WARNING: private_colormap option ignored."));
+  initialized = 1;
 }
 
 

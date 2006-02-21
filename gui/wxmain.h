@@ -42,9 +42,10 @@ enum
   ID_Edit_Boot,
   ID_Edit_CPU,
   ID_Edit_Memory,
-  ID_Edit_PCI,
-  ID_Edit_Sound,
   ID_Edit_Clock_Cmos,
+  ID_Edit_PCI,
+  ID_Edit_Display,
+  ID_Edit_Sound,
   ID_Edit_Network,
   ID_Edit_Keyboard,
   ID_Edit_Serial_Parallel,
@@ -179,6 +180,7 @@ public:
   void OnEditMemory(wxCommandEvent& event);
   void OnEditClockCmos(wxCommandEvent& event);
   void OnEditPCI(wxCommandEvent& event);
+  void OnEditDisplay(wxCommandEvent& event);
   void OnEditSound(wxCommandEvent& event);
   void OnEditNet(wxCommandEvent& event);
   void OnEditKeyboard(wxCommandEvent& event);

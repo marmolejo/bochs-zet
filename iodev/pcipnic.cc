@@ -86,7 +86,7 @@ bx_pcipnic_c::init(void)
 
   // This code ripped wholesale from ne2k.cc:
   // Attach to the simulated ethernet dev
-  char *ethmod = bx_options.pnic.Oethmod->get_choice(bx_options.pnic.Oethmod->get());
+  char *ethmod = bx_options.pnic.Oethmod->get_selected();
   BX_PNIC_THIS ethdev = eth_locator_c::create(ethmod,
                                               bx_options.pnic.Oethdev->getptr (),
                                               (const char *) bx_options.pnic.Omacaddr->getptr (),

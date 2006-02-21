@@ -252,7 +252,7 @@ void CreateTile(void)
         unsigned  long p_f;
         long      theRowBytes = ((((long) ( vga_bpp==24?32:(((vga_bpp+1)>>1)<<1) ) * ((long) (srcTileRect.right-srcTileRect.left)) + 31) >> 5) << 2);
         
-      //  if (bx_options.Oprivate_colormap->get ())
+      //  if (SIM->get_param_bool(BXPN_PRIVATE_COLORMAP)->get())
       //  {
                 GetGWorld(&savePort, &saveDevice);
     switch(vga_bpp)
@@ -925,7 +925,7 @@ void bx_macintosh_gui_c::text_update(Bit8u *old_text, Bit8u *new_text,
 //                      RGBForeColor(&fgColor);
 //                      RGBBackColor(&bgColor);
                         
-                        if (bx_options.Oprivate_colormap->get ())
+                        if (SIM->get_param_bool(BXPN_PRIVATE_COLORMAP)->get())
                         {
                                 PmForeColor(new_text[i+1] & 0x0F);
                                 PmBackColor((new_text[i+1] & 0xF0) >> 4);
@@ -991,7 +991,7 @@ bx_bool bx_macintosh_gui_c::palette_change(unsigned index, unsigned red, unsigne
         CGrafPtr  savePort;
   GrafPtr   oldPort;
   
-/*  if (gOffWorld != NULL) //(bx_options.Oprivate_colormap->get ())
+/*  if (gOffWorld != NULL) //(SIM->get_param_bool(BXPN_PRIVATE_COLORMAP)->get())
   {
     GetGWorld(&savePort, &saveDevice);
 
@@ -1013,9 +1013,9 @@ bx_bool bx_macintosh_gui_c::palette_change(unsigned index, unsigned red, unsigne
         
     SetPort(oldPort);
   }
-/*  if (gOffWorld != NULL) //(bx_options.Oprivate_colormap->get ())
+/*  if (gOffWorld != NULL) //(SIM->get_param_bool(BXPN_PRIVATE_COLORMAP)->get())
     SetGWorld(savePort, saveDevice);*/
-  if (bx_options.Oprivate_colormap->get ())
+  if (SIM->get_param_bool(BXPN_PRIVATE_COLORMAP)->get())
   {
         
                 thePal = NewPalette(index, gCTable, pmTolerant, 0x5000);

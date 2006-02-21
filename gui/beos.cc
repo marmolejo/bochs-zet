@@ -215,8 +215,8 @@ UNUSED(argv);
 
   put("BGUI");
 
-if (bx_options.Oprivate_colormap->get ()) {
-  BX_INFO(( "BeOS: private_colormap option not handled yet."));
+  if (SIM->get_param_bool(BXPN_PRIVATE_COLORMAP)->get()) {
+    BX_INFO(( "BeOS: private_colormap option not handled yet."));
   }
 
   x_tilesize = tilewidth;

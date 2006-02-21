@@ -190,7 +190,7 @@ bx_devices_c::init(BX_MEM_C *newmem)
     PLUG_load_plugin(pci_ide, PLUGTYPE_OPTIONAL);
 #if BX_SUPPORT_PCIVGA
     if ((DEV_is_pci_device("pcivga")) &&
-        (!strcmp(bx_options.Ovga_extension->getptr (), "vbe"))) {
+        (!strcmp(SIM->get_param_string(BXPN_VGA_EXTENSION)->getptr(), "vbe"))) {
       PLUG_load_plugin(pcivga, PLUGTYPE_OPTIONAL);
     }
 #endif

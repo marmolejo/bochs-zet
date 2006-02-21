@@ -87,9 +87,9 @@ bx_nogui_gui_c::specific_init(int argc, char **argv, unsigned tilewidth, unsigne
 
   UNUSED(bochs_icon_bits);  // global variable
 
-  if (bx_options.Oprivate_colormap->get ()) {
+  if (SIM->get_param_bool(BXPN_PRIVATE_COLORMAP)->get()) {
     BX_INFO(("private_colormap option ignored."));
-    }
+  }
 }
 
 

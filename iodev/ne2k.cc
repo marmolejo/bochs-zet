@@ -1422,7 +1422,7 @@ bx_ne2k_c::init(void)
     BX_NE2K_THIS s.macaddr[i] = 0x57;
     
   // Attach to the simulated ethernet dev
-  char *ethmod = bx_options.ne2k.Oethmod->get_choice(bx_options.ne2k.Oethmod->get());
+  char *ethmod = bx_options.ne2k.Oethmod->get_selected();
   BX_NE2K_THIS ethdev = eth_locator_c::create(ethmod,
                                               bx_options.ne2k.Oethdev->getptr (),
                                               (const char *) bx_options.ne2k.Omacaddr->getptr (),
