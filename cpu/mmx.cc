@@ -1288,12 +1288,7 @@ void BX_CPU_C::PSRAW_PqQq(bxInstruction_c *i)
     read_virtual_qword(i->seg(), RMAddr(i), (Bit64u *) &op2);
   }
 
-  if(!MMXUQ(op2)) {
-    BX_WRITE_MMX_REG(i->nnn(), op1);
-    return;
-  }
-
-  Bit8u shift = MMXUB0(op2);
+  if(!MMXUQ(op2)) return;
 
   if(MMXUQ(op2) > 15) {
     MMXUW0(result) = (MMXUW0(op1) & 0x8000) ? 0xffff : 0;
@@ -1302,6 +1297,8 @@ void BX_CPU_C::PSRAW_PqQq(bxInstruction_c *i)
     MMXUW3(result) = (MMXUW3(op1) & 0x8000) ? 0xffff : 0;
   }
   else {
+    Bit8u shift = MMXUB0(op2);
+
     MMXUW0(result) = MMXUW0(op1) >> shift;
     MMXUW1(result) = MMXUW1(op1) >> shift;
     MMXUW2(result) = MMXUW2(op1) >> shift;
@@ -1338,18 +1335,15 @@ void BX_CPU_C::PSRAD_PqQq(bxInstruction_c *i)
     read_virtual_qword(i->seg(), RMAddr(i), (Bit64u *) &op2);
   }
 
-  if(!MMXUQ(op2)) {
-    BX_WRITE_MMX_REG(i->nnn(), op1);
-    return;
-  }
-
-  Bit8u shift = MMXUB0(op2);
+  if(!MMXUQ(op2)) return;
 
   if(MMXUQ(op2) > 31) {
     MMXUD0(result) = (MMXUD0(op1) & 0x80000000) ? 0xffffffff : 0;
     MMXUD1(result) = (MMXUD1(op1) & 0x80000000) ? 0xffffffff : 0;
   }
   else {
+    Bit8u shift = MMXUB0(op2);
+
     MMXUD0(result) = MMXUD0(op1) >> shift;
     MMXUD1(result) = MMXUD1(op1) >> shift;
 

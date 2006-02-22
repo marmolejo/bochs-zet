@@ -908,11 +908,7 @@ void BX_CPU_C::PSRAW_VdqWdq(bxInstruction_c *i)
     readVirtualDQwordAligned(i->seg(), RMAddr(i), (Bit8u *) &op2);
   }
 
-  if(op2.xmm64u(0) == 0)
-  {
-    BX_WRITE_XMM_REG(i->nnn(), op1);
-    return;
-  }
+  if(op2.xmm64u(0) == 0) return;
 
   if(op2.xmm64u(0) > 15)  /* looking only to low 64 bits */
   {
@@ -973,11 +969,7 @@ void BX_CPU_C::PSRAD_VdqWdq(bxInstruction_c *i)
     readVirtualDQwordAligned(i->seg(), RMAddr(i), (Bit8u *) &op2);
   }
 
-  if(op2.xmm64u(0) == 0)
-  {
-    BX_WRITE_XMM_REG(i->nnn(), op1);
-    return;
-  }
+  if(op2.xmm64u(0) == 0) return;
 
   if(op2.xmm64u(0) > 31)  /* looking only to low 64 bits */
   {
