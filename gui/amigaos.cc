@@ -71,7 +71,7 @@ MyInputHandler(void)
 {
 	struct InputEvent *event = (struct InputEvent *)REG_A0;
 
-	if(bx_options.Omouse_enabled->get ())
+	if (SIM->get_param_bool(BXPN_MOUSE_ENABLED)->get())
 	{
 		switch(event->ie_Code)
 		{
@@ -288,7 +288,7 @@ open_screen(void)
 
 	vgafont = OpenDiskFont(&vgata);
 
-	if (bx_options.Omouse_enabled->get ())
+	if (SIM->get_param_bool(BXPN_MOUSE_ENABLED)->get())
 		hide_pointer();
 
 	if(!vgafont)
@@ -410,7 +410,7 @@ bx_amigaos_gui_c::handle_events(void)
 			break;
 
 		case IDCMP_INACTIVEWINDOW:
-			if(bx_options.Omouse_enabled->get ())
+			if (SIM->get_param_bool(BXPN_MOUSE_ENABLED)->get())
 				toggle_mouse_enable();
 			break;
 
