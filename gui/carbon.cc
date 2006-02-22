@@ -1699,7 +1699,7 @@ void UpdateTools()
   
   // User control active if keys defined
   char *user_shortcut;
-  user_shortcut = bx_options.Ouser_shortcut->getptr();
+  user_shortcut = SIM->get_param_string(BXPN_USER_SHORTCUT)->getptr();
   if (user_shortcut[0] && (strcmp(user_shortcut, "none"))) {
     EnableControl(bx_tool_pixmap[USER_TOOL_BUTTON].control);
   }
