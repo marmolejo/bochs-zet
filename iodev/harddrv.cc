@@ -559,28 +559,28 @@ bx_hard_drive_c::init(void)
       }
 
     // Set the "non-extended" boot device. This will default to DISKC if cdrom
-    if ( bx_options.Obootdrive[0]->get () != BX_BOOT_FLOPPYA) {
+    if (SIM->get_param_enum(BXPN_BOOTDRIVE1)->get() != BX_BOOT_FLOPPYA) {
       // system boot sequence C:, A:
       DEV_cmos_set_reg(0x2d, DEV_cmos_get_reg(0x2d) & 0xdf);
-      }
-    else { // 'a'
+    } else { // 'a'
       // system boot sequence A:, C:
       DEV_cmos_set_reg(0x2d, DEV_cmos_get_reg(0x2d) | 0x20);
-      }
+    }
 
     // Set the "extended" boot sequence, bytes 0x38 and 0x3D (needed for cdrom booting)
     BX_INFO(("Using boot sequence %s, %s, %s",
-             bx_options.Obootdrive[0]->get_selected(),
-             bx_options.Obootdrive[1]->get_selected(),
-             bx_options.Obootdrive[2]->get_selected()
+             SIM->get_param_enum(BXPN_BOOTDRIVE1)->get_selected(),
+             SIM->get_param_enum(BXPN_BOOTDRIVE2)->get_selected(),
+             SIM->get_param_enum(BXPN_BOOTDRIVE3)->get_selected()
 	     ));
-    DEV_cmos_set_reg(0x3d, bx_options.Obootdrive[0]->get() |
-                           (bx_options.Obootdrive[1]->get() << 4));
+    DEV_cmos_set_reg(0x3d, SIM->get_param_enum(BXPN_BOOTDRIVE1)->get() |
+                           (SIM->get_param_enum(BXPN_BOOTDRIVE2)->get() << 4));
 
     // Set the signature check flag in cmos, inverted for compatibility
-    DEV_cmos_set_reg(0x38, bx_options.OfloppySigCheck->get() |
-                           (bx_options.Obootdrive[2]->get() << 4));
-    BX_INFO(("Floppy boot signature check is %sabled", bx_options.OfloppySigCheck->get() ? "dis" : "en"));
+    DEV_cmos_set_reg(0x38, SIM->get_param_bool(BXPN_FLOPPYSIGCHECK)->get() |
+                           (SIM->get_param_enum(BXPN_BOOTDRIVE3)->get() << 4));
+    BX_INFO(("Floppy boot signature check is %sabled",
+             SIM->get_param_bool(BXPN_FLOPPYSIGCHECK)->get() ? "dis" : "en"));
   }
 
   // register timer for HD/CD i/o light

@@ -228,7 +228,7 @@ int bx_dbg_main(int argc, char *argv[])
   bx_pc_system.start_timers();
 
   // Just like in main.cc before set_init_done()
-  if (bx_options.load32bitOSImage.OwhichOS->get ()) {
+  if (SIM->get_param_enum(BXPN_LOAD32BITOS_WHICH)->get()) {
     void bx_load32bitOSimagehack(void);
     bx_load32bitOSimagehack();
   }

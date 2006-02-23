@@ -476,7 +476,8 @@ protected:
   // map parameter ID (BXP_*) onto ParamStruct.
   wxHashTable *paramHash;
   virtual void EnableChanged ();
-  void EnableParam (int param_id, bool enabled);
+  void EnableParam(int param_id, bool enabled);
+  void EnableParam(const char *pname, bool enabled);
   void EnumChanged (ParamStruct *pstr);
   void EnableChangedRecursive (bx_list_c *list, bool en, ParamStruct *pstrOfCheckbox);
   void EnableChanged (ParamStruct *pstr);

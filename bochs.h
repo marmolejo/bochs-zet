@@ -487,18 +487,6 @@ typedef struct {
 } bx_ne2k_options;
 
 typedef struct {
-// These options are used for a special hack to load a
-// 32bit OS directly into memory, so it can be run without
-// any of the 16bit real mode or BIOS assistance.  This
-// is for the development of plex86, so we don't have
-// to implement real mode up front.
-  bx_param_num_c *OwhichOS;
-  bx_param_string_c *Opath;
-  bx_param_string_c *Oiolog;
-  bx_param_string_c *Oinitrd;
-} bx_load32bitOSImage_t;
-
-typedef struct {
   bx_param_string_c *Ofilename;
   bx_param_string_c *Oprefix;
   bx_param_string_c *Odebugger_filename;
@@ -543,11 +531,8 @@ typedef struct BOCHSAPI {
   bx_pnic_options   pnic;
   bx_parport_options par[BX_N_PARALLEL_PORTS]; // parallel ports
   bx_sb16_options   sb16;
-  bx_param_enum_c   *Obootdrive[3];  
-  bx_param_bool_c   *OfloppySigCheck;
   bx_param_bool_c   *Otext_snapshot_check;
   bx_ne2k_options   ne2k;
-  bx_load32bitOSImage_t load32bitOSImage;
   bx_log_options    log;
   bx_gdbstub_t      gdbstub;
 } bx_options_t;
