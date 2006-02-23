@@ -1166,8 +1166,8 @@ public: // for now...
   bx_address eipPageBias;
   bx_address eipPageWindowSize;
   Bit8u     *eipFetchPtr;
-  Bit32u     pAddrA20Page; // Guest physical address of current instruction
-                           // page with A20() already applied.
+  bx_phy_address pAddrA20Page; // Guest physical address of current instruction
+                               // page with A20() already applied.
 #if BX_SUPPORT_ICACHE
   const Bit32u *currPageWriteStampPtr;
 #endif
@@ -2469,6 +2469,7 @@ public: // for now...
 #if BX_SUPPORT_X86_64
   BX_SMF unsigned fetchDecode64(Bit8u *, bxInstruction_c *, unsigned);
 #endif
+  BX_SMF bxInstruction_c* fetchInstruction(bxInstruction_c *, bx_address);
   BX_SMF void UndefinedOpcode(bxInstruction_c *);
   BX_SMF void BxError(bxInstruction_c *i);
 
