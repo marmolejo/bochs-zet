@@ -270,11 +270,12 @@ bx_keyb_c::reset(unsigned type)
 Bit64s bx_keyb_c::kbd_param_handler(bx_param_c *param, int set, Bit64s val)
 {
   if (set) {
-    char *pname = param->get_name();
-    if (!strcmp(pname, "enabled")) { // FIXME: check full param path
+    char pname[BX_PATHNAME_LEN];
+    param->get_param_path(pname, BX_PATHNAME_LEN);
+    if (!strcmp(pname, BXPN_MOUSE_ENABLED)) { // FIXME: check full param path
       bx_gui->mouse_enabled_changed(val!=0);
       BX_KEY_THIS mouse_enabled_changed(val!=0);
-    } else if (!strcmp(pname, "paste_delay")) {
+    } else if (!strcmp(pname, BXPN_KBD_PASTE_DELAY)) {
       BX_KEY_THIS paste_delay_changed((Bit32u)val);
     } else {
       BX_PANIC(("kbd_param_handler called with unexpected parameter '%s'", pname));

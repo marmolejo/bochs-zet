@@ -1452,7 +1452,8 @@ void ParamDialog::EnumChanged (ParamStruct *pstr)
 {
   wxLogDebug ("EnumChanged");
   int id = pstr->param->get_id ();
-  char *pname = pstr->param->get_name();
+  char pname[512];
+  pstr->param->get_param_path(pname, 512);
   switch (id) {
     case BXP_ATA0_MASTER_TYPE:
     case BXP_ATA0_SLAVE_TYPE:
@@ -1541,7 +1542,7 @@ void ParamDialog::EnumChanged (ParamStruct *pstr)
       }
       break;
     default: {
-      if (!strcmp(pname, "which")) { // FIXME: check full param path
+      if (!strcmp(pname, BXPN_LOAD32BITOS_WHICH)) {
         int os = pstr->u.choice->GetSelection();
         if (os != Load32bitOSNone) {
           EnableParam(BXPN_LOAD32BITOS_PATH, 1);
