@@ -864,6 +864,13 @@ void BX_CPU_C::exception(unsigned vector, Bit16u error_code, bx_bool is_INT)
     longjmp(BX_CPU_THIS_PTR jmp_buf_env, 1); // go back to main decode loop
   }
 
+  if (BX_CPU_THIS_PTR except_chk) // FIXME: Help with OS/2
+  {
+    if (vector != BX_PF_EXCEPTION) {
+       BX_ERROR(("exception(): except_chk is ON not for #PF !"));
+    }
+  }
+
   // note: fault-class exceptions _except_ #DB set RF in
   //       eflags image.
 
