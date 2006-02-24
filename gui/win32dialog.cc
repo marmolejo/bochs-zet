@@ -146,14 +146,14 @@ static BOOL CALLBACK FloppyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
   switch (msg) {
     case WM_INITDIALOG:
       param = (bx_param_filename_c *)lParam;
-      if (param->get_id() == BXP_FLOPPYA_PATH) {
-        status = SIM->get_param_enum(BXP_FLOPPYA_STATUS);
-        devtype = SIM->get_param_enum(BXP_FLOPPYA_DEVTYPE);
-        mediatype = SIM->get_param_enum(BXP_FLOPPYA_TYPE);
+      if (!strcmp(param->get_param_path(), BXPN_FLOPPYA_PATH)) {
+        status = SIM->get_param_enum(BXPN_FLOPPYA_STATUS);
+        devtype = SIM->get_param_enum(BXPN_FLOPPYA_DEVTYPE);
+        mediatype = SIM->get_param_enum(BXPN_FLOPPYA_TYPE);
       } else {
-        status = SIM->get_param_enum(BXP_FLOPPYB_STATUS);
-        devtype = SIM->get_param_enum(BXP_FLOPPYB_DEVTYPE);
-        mediatype = SIM->get_param_enum(BXP_FLOPPYB_TYPE);
+        status = SIM->get_param_enum(BXPN_FLOPPYB_STATUS);
+        devtype = SIM->get_param_enum(BXPN_FLOPPYB_DEVTYPE);
+        mediatype = SIM->get_param_enum(BXPN_FLOPPYB_TYPE);
       }
       cap = devtype->get() - (int)devtype->get_min();
       SetWindowText(GetDlgItem(hDlg, IDDEVTYPE), floppy_type_names[cap]);
