@@ -1167,8 +1167,8 @@ void bx_init_options()
     // Enable two ATA interfaces by default, disable the others.
     // Now that the dependence relationships are established, call set() on
     // the ata device present params to set all enables correctly.
-    enabled->set_initial_val(i<2);
-    enabled->set(i<2);
+    enabled->set_initial_val(channel<2);
+    enabled->set(channel<2);
   }
 
   // disk menu

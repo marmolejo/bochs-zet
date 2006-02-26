@@ -140,13 +140,15 @@ static BOOL CALLBACK FloppyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
   static char origpath[MAX_PATH];
   char mesg[MAX_PATH];
   char path[MAX_PATH];
+  char pname[80];
   char *title;
   int i, cap;
 
   switch (msg) {
     case WM_INITDIALOG:
       param = (bx_param_filename_c *)lParam;
-      if (!strcmp(param->get_param_path(), BXPN_FLOPPYA_PATH)) {
+      param->get_param_path(pname, 80);
+      if (!strcmp(pname, BXPN_FLOPPYA_PATH)) {
         status = SIM->get_param_enum(BXPN_FLOPPYA_STATUS);
         devtype = SIM->get_param_enum(BXPN_FLOPPYA_DEVTYPE);
         mediatype = SIM->get_param_enum(BXPN_FLOPPYA_TYPE);
