@@ -119,11 +119,11 @@ bx_pci_ide_c::reset(unsigned type)
   BX_PIDE_THIS s.pci_conf[0x04] = 0x01;
   BX_PIDE_THIS s.pci_conf[0x06] = 0x80;
   BX_PIDE_THIS s.pci_conf[0x07] = 0x02;
-  if (bx_options.ata[0].Opresent->get ()) {
+  if (SIM->get_param_bool(BXPN_ATA0_ENABLED)->get()) {
     BX_PIDE_THIS s.pci_conf[0x40] = 0x00;
     BX_PIDE_THIS s.pci_conf[0x41] = 0x80;
   }
-  if (bx_options.ata[1].Opresent->get ()) {
+  if (SIM->get_param_bool(BXPN_ATA1_ENABLED)->get()) {
     BX_PIDE_THIS s.pci_conf[0x42] = 0x00;
     BX_PIDE_THIS s.pci_conf[0x43] = 0x80;
   }
