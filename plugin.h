@@ -221,8 +221,8 @@ extern "C" {
 #endif
 
 //////// Memory macros
-#define DEV_register_memory_handlers(rh,rp,wh,wp,b,e) \
-    bx_devices.mem->registerMemoryHandlers(rh,rp,wh,wp,b,e)
+#define DEV_register_memory_handlers(param,rh,wh,b,e) \
+    bx_devices.mem->registerMemoryHandlers(param,rh,wh,b,e)
 #define DEV_unregister_memory_handlers(rh,wh,b,e) \
     bx_devices.mem->unregisterMemoryHandlers(rh,wh,b,e)
 

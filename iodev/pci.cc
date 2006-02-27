@@ -547,7 +547,7 @@ bx_pci_c::pci_set_base_mem(void *this_ptr, memory_handler_t f1, memory_handler_t
       DEV_unregister_memory_handlers(f1, f2, oldbase, oldbase + size - 1);
     }
     if (newbase > 0) {
-      DEV_register_memory_handlers(f1, this_ptr, f2, this_ptr, newbase, newbase + size - 1);
+      DEV_register_memory_handlers(this_ptr, f1, f2, newbase, newbase + size - 1);
     }
     *addr = newbase;
     return 1;
