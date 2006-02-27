@@ -1322,7 +1322,7 @@ public:
   virtual int log_msg(const char *prefix, int level, const char *msg) {return -1;}
 
   // tell the CI to ask the user for the value of a parameter.
-  virtual int ask_param(bx_id param) {return -1;}
+  virtual int ask_param(bx_param_c *param) {return -1;}
   virtual int ask_param(const char *pname) {return -1;}
 
   // ask the user for a pathname

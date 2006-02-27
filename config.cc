@@ -982,13 +982,13 @@ void bx_init_options()
     { "First HD/CD on channel 3",
     "Second HD/CD on channel 3" }
     };
-  Bit16u ata_default_ioaddr1[BX_MAX_ATA_CHANNEL] = {
+  Bit16u ata_default_ioaddr1[4] = {
     0x1f0, 0x170, 0x1e8, 0x168 
   };
-  Bit16u ata_default_ioaddr2[BX_MAX_ATA_CHANNEL] = {
+  Bit16u ata_default_ioaddr2[4] = {
     0x3f0, 0x370, 0x3e0, 0x360 
   };
-  Bit8u ata_default_irq[BX_MAX_ATA_CHANNEL] = { 
+  Bit8u ata_default_irq[4] = { 
     14, 15, 11, 9 
   };
 
