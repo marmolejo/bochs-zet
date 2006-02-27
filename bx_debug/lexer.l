@@ -28,13 +28,13 @@ static unsigned lex_input_size = 0;
      { bxlval.uval = reg; return(BX_TOKEN_64B_REG); }
 #else
   #define LONG_MODE_8BL_REG(reg) \
-     { bxlval.sval = strdup(bxtext); return(BX_TOKEN_GENERERIC); }
+     { bxlval.sval = strdup(bxtext); return(BX_TOKEN_GENERIC); }
   #define LONG_MODE_16B_REG(reg) \
-     { bxlval.sval = strdup(bxtext); return(BX_TOKEN_GENERERIC); }
+     { bxlval.sval = strdup(bxtext); return(BX_TOKEN_GENERIC); }
   #define LONG_MODE_32B_REG(reg) \
-     { bxlval.sval = strdup(bxtext); return(BX_TOKEN_GENERERIC); }
+     { bxlval.sval = strdup(bxtext); return(BX_TOKEN_GENERIC); }
   #define LONG_MODE_64B_REG(reg) \
-     { bxlval.sval = strdup(bxtext); return(BX_TOKEN_GENERERIC); }
+     { bxlval.sval = strdup(bxtext); return(BX_TOKEN_GENERIC); }
 #endif
 
 %}
