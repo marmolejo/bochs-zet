@@ -222,7 +222,7 @@ BX_CPU_C::load_seg_reg(bx_segment_reg_t *seg, Bit16u new_value)
   if (seg == &BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS]) {
     seg->cache.u.segment.executable = 1; /* code segment */
 #if BX_SUPPORT_ICACHE
-    BX_CPU_THIS_PTR iCache.fetchModeMask = createFetchModeMask(BX_CPU_THIS);
+    BX_CPU_THIS_PTR fetchModeMask = createFetchModeMask(BX_CPU_THIS);
 #endif
     invalidate_prefetch_q();
   }

@@ -608,7 +608,7 @@ void BX_CPU_C::task_switch(bx_selector_t *tss_selector,
     }
 
 #if BX_SUPPORT_ICACHE  // update instruction cache
-    BX_CPU_THIS_PTR iCache.fetchModeMask = createFetchModeMask(BX_CPU_THIS);
+    BX_CPU_THIS_PTR fetchModeMask = createFetchModeMask(BX_CPU_THIS);
 #endif
 
     // SS
