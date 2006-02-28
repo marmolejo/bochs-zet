@@ -1168,8 +1168,8 @@ public: // for now...
   bx_address       save_esp;
   // This help for OS/2
   bx_bool          except_chk;
-  Bit16u           except_cs;
-  Bit16u           except_ss;
+  bx_segment_reg_t except_cs;
+  bx_segment_reg_t except_ss;
 
   // Boundaries of current page, based on EIP
   bx_address eipPageBias;
