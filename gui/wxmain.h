@@ -46,9 +46,9 @@ enum
   ID_Edit_Display,
   ID_Edit_Keyboard,
   ID_Edit_Boot,
-  ID_Edit_Sound,
-  ID_Edit_Network,
   ID_Edit_Serial_Parallel,
+  ID_Edit_Network,
+  ID_Edit_Sound,
   ID_Edit_Other,
   ID_Simulate_Start,
   ID_Simulate_PauseResume,
@@ -180,9 +180,9 @@ public:
   void OnEditDisplay(wxCommandEvent& event);
   void OnEditKeyboard(wxCommandEvent& event);
   void OnEditBoot(wxCommandEvent& event);
-  void OnEditSound(wxCommandEvent& event);
-  void OnEditNet(wxCommandEvent& event);
   void OnEditSerialParallel(wxCommandEvent& event);
+  void OnEditNet(wxCommandEvent& event);
+  void OnEditSound(wxCommandEvent& event);
   void OnEditOther(wxCommandEvent& event);
   void OnLogPrefs(wxCommandEvent& event);
   void OnLogPrefsDevice(wxCommandEvent& event);

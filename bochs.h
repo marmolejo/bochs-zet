@@ -515,9 +515,6 @@ typedef struct {
 #define BX_N_PCI_SLOTS 5
 
 typedef struct BOCHSAPI {
-  bx_serial_options com[BX_N_SERIAL_PORTS];
-  bx_parport_options par[BX_N_PARALLEL_PORTS];
-  bx_usb_options    usb[BX_N_USB_HUBS];
   bx_ne2k_options   ne2k;
   bx_pnic_options   pnic;
   bx_sb16_options   sb16;

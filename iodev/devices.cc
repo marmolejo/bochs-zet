@@ -933,8 +933,11 @@ bx_devices_c::outp(Bit16u addr, Bit32u value, unsigned io_len)
 
 bx_bool bx_devices_c::is_serial_enabled ()
 {
+  char pname[24];
+
   for (int i=0; i<BX_N_SERIAL_PORTS; i++) {
-    if (SIM->get_param_bool (BXP_COMx_ENABLED(i+1))->get())
+    sprintf(pname, "ports.serial.%d.enabled", i+1);
+    if (SIM->get_param_bool(pname)->get())
       return true;
   }
   return false;
@@ -942,8 +945,11 @@ bx_bool bx_devices_c::is_serial_enabled ()
 
 bx_bool bx_devices_c::is_usb_enabled ()
 {
+  char pname[20];
+
   for (int i=0; i<BX_N_USB_HUBS; i++) {
-    if (SIM->get_param_bool (BXP_USBx_ENABLED(i+1))->get())
+    sprintf(pname, "ports.usb.%d.enabled", i+1);
+    if (SIM->get_param_bool(pname)->get())
        return true;
   }
   return false;
@@ -951,8 +957,11 @@ bx_bool bx_devices_c::is_usb_enabled ()
 
 bx_bool bx_devices_c::is_parallel_enabled ()
 {
+  char pname[26];
+
   for (int i=0; i<BX_N_PARALLEL_PORTS; i++) {
-    if (SIM->get_param_bool (BXP_PARPORTx_ENABLED(i+1))->get())
+    sprintf(pname, "ports.parallel.%d.enabled", i+1);
+    if (SIM->get_param_bool(pname)->get())
       return true;
   }
   return false;

@@ -197,22 +197,22 @@ ata
 
 ports
   serial
-    0
+    1
       enabled           BXP_COM1_ENABLED
       mode              BXP_COM1_MODE
       path              BXP_COM1_PATH
-    1
-      (same options as ports.serial.0)
     2
-      (same options as ports.serial.0)
+      (same options as ports.serial.1)
     3
-      (same options as ports.serial.0)
+      (same options as ports.serial.1)
+    4
+      (same options as ports.serial.1)
   parallel
-    0
+    1
       enabled           BXP_PARPORT1_ENABLED,
       outfile           BXP_PARPORT1_OUTFILE,
-    1
-      (same options as ports.parallel.0)
+    2
+      (same options as ports.parallel.1)
   usb
     1
       enabled           BXP_USB1_ENABLED,
