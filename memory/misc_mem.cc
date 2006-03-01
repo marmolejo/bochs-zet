@@ -553,7 +553,7 @@ BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, Bit32u a20Addr, unsigned op)
 
 #if BX_SUPPORT_APIC
   bx_generic_apic_c *local_apic = &cpu->local_apic;
-  if (local_apic->get_base () == (a20Addr & ~0xfff))
+  if (local_apic->get_base() == (a20Addr & ~0xfff))
     return(NULL); // Vetoed!  APIC address space
 #endif
 
