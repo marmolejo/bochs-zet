@@ -278,8 +278,8 @@ static char *startup_options_prompt =
 "11. Keyboard & Mouse options\n"
 "12. Disk options\n"
 "13. Serial & Parallel port options\n"
-"14. Sound Blaster 16 options\n"
-"15. Network card options\n"
+"14. Network card options\n"
+"15. Sound Blaster 16 options\n"
 "16. Other options\n"
 "\n"
 "Please choose one: [0] ";
@@ -499,8 +499,8 @@ int bx_config_interface (int menu)
 	 case 11: do_menu2("keyboard_mouse", NULL); break;
 	 case 12: do_menu(BXP_MENU_DISK); break;
 	 case 13: do_menu2("ports", NULL); break;
-	 case 14: do_menu(BXP_SB16); break;
-	 case 15: do_menu(BXP_NETWORK); break;
+	 case 14: do_menu2("network", NULL); break;
+	 case 15: do_menu(BXP_SB16); break;
 	 case 16: do_menu(BXP_MENU_MISC); break;
 	 default: BAD_OPTION(menu, choice);
        }
