@@ -500,7 +500,7 @@ int bx_config_interface (int menu)
 	 case 12: do_menu(BXP_MENU_DISK); break;
 	 case 13: do_menu2("ports", NULL); break;
 	 case 14: do_menu2("network", NULL); break;
-	 case 15: do_menu(BXP_SB16); break;
+	 case 15: do_menu2(BXPN_SB16, NULL); break;
 	 case 16: do_menu(BXP_MENU_MISC); break;
 	 default: BAD_OPTION(menu, choice);
        }

@@ -209,6 +209,12 @@ typedef enum {
 #define BXPN_NE2K_ENABLED                "network.ne2k.enabled"
 #define BXPN_PNIC                        "network.pnic"
 #define BXPN_PNIC_ENABLED                "network.pnic.enabled"
+#define BXPN_SB16                        "sound.sb16"
+#define BXPN_SB16_ENABLED                "sound.sb16.enabled"
+#define BXPN_SB16_MIDIFILE               "sound.sb16.midifile"
+#define BXPN_SB16_WAVEFILE               "sound.sb16.wavefile"
+#define BXPN_SB16_DMATIMER               "sound.sb16.dmatimer"
+#define BXPN_SB16_LOGLEVEL               "sound.sb16.loglevel"
 
 // base value for generated new parameter id
 #define BXP_NEW_PARAM_ID 1001
@@ -227,18 +233,8 @@ typedef enum {
   BXP_MENU_MAIN,
   BXP_MENU_MEMORY,
   BXP_MENU_DISK,
-  BXP_MENU_SOUND,
   BXP_MENU_MISC,
   BXP_MENU_RUNTIME,
-  BXP_SB16_ENABLED,
-  BXP_SB16_MIDIFILE,
-  BXP_SB16_WAVEFILE,
-  BXP_SB16_LOGFILE,
-  BXP_SB16_MIDIMODE,
-  BXP_SB16_WAVEMODE,
-  BXP_SB16_LOGLEVEL,
-  BXP_SB16_DMATIMER,
-  BXP_SB16,
   BXP_BOCHS_START,        // How Bochs starts
   // experiment: add params for CPU registers
   BXP_CPU_PARAMETERS,

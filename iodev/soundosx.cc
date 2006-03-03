@@ -13,6 +13,7 @@
 
 #define NO_DEVICE_INCLUDES
 #include "iodev.h"
+#define BX_SOUNDLOW
 #include "sb16.h"
 #undef Float32
 #undef Float64

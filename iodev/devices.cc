@@ -242,7 +242,7 @@ bx_devices_c::init(BX_MEM_C *newmem)
   pluginFloppyDevice->init();
 
   //--- SOUND ---
-  if (bx_options.sb16.Oenabled->get ()) {
+  if (SIM->get_param_bool(BXPN_SB16_ENABLED)->get()) {
 #if BX_SUPPORT_SB16
     PLUG_load_plugin(sb16, PLUGTYPE_OPTIONAL);
 #else

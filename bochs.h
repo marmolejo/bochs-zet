@@ -471,17 +471,6 @@ typedef struct {
 } bx_log_options;
 
 typedef struct {
-  bx_param_bool_c *Oenabled;
-  bx_param_string_c *Omidifile;
-  bx_param_string_c *Owavefile;
-  bx_param_string_c *Ologfile;
-  bx_param_num_c *Omidimode;
-  bx_param_num_c *Owavemode;
-  bx_param_num_c *Ologlevel;
-  bx_param_num_c *Odmatimer;
-} bx_sb16_options;
-
-typedef struct {
   unsigned int port;
   unsigned int text_base;
   unsigned int data_base;
@@ -500,7 +489,6 @@ typedef struct {
 #define BX_N_PCI_SLOTS 5
 
 typedef struct BOCHSAPI {
-  bx_sb16_options   sb16;
   bx_param_bool_c   *Otext_snapshot_check;
   bx_log_options    log;
   bx_gdbstub_t      gdbstub;

@@ -33,6 +33,7 @@
 
 #define NO_DEVICE_INCLUDES
 #include "iodev.h"
+#define BX_SOUNDLOW
 #include "sb16.h"
 
 #if defined(WIN32) && BX_SUPPORT_SB16
