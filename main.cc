@@ -936,6 +936,8 @@ int bx_init_hardware()
   if (strcmp(SIM->get_param_string(BXPN_OPTRAM4_PATH)->getptr(), "") !=0)
     BX_MEM(0)->load_RAM(SIM->get_param_string(BXPN_OPTRAM4_PATH)->getptr(), SIM->get_param_num(BXPN_OPTRAM4_ADDRESS)->get(), 2);
 
+  bx_pc_system.set_enable_a20(1); // enable A20 on RESET
+
 #if BX_SUPPORT_SMP == 0
   BX_CPU(0)->initialize(BX_MEM(0));
   BX_CPU(0)->sanity_checks();
