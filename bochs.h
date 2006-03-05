@@ -464,12 +464,6 @@ extern bx_bool bx_gui_sighandler;
 
 #define BX_PATHNAME_LEN 512
 
-typedef struct {
-  bx_param_string_c *Ofilename;
-  bx_param_string_c *Oprefix;
-  bx_param_string_c *Odebugger_filename;
-} bx_log_options;
-
 #define BX_KBD_XT_TYPE        0
 #define BX_KBD_AT_TYPE        1
 #define BX_KBD_MF_TYPE        2 
@@ -480,12 +474,6 @@ typedef struct {
 #define BX_N_PARALLEL_PORTS 2
 #define BX_N_USB_HUBS 1
 #define BX_N_PCI_SLOTS 5
-
-typedef struct BOCHSAPI {
-  bx_log_options    log;
-} bx_options_t;
-
-BOCHSAPI extern bx_options_t bx_options;
 
 #if BX_SUPPORT_SMP
   #define BX_SMP_PROCESSORS (bx_cpu_count)

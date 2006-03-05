@@ -263,14 +263,14 @@ log
 
 general
   start_mode            BXP_BOCHS_START,
+  debug_running         BXP_DEBUG_RUNNING,
 
-debugger
-  running               BXP_DEBUG_RUNNING,
-
-config_menus                      
-  main                  BXP_MENU_MAIN,
+menu
   disk                  BXP_MENU_DISK,
-  sound                 BXP_MENU_SOUND,
+  memory                BXP_MENU_MEMORY,
   runtime               BXP_MENU_RUNTIME,
 
-(updated Mar  2, 2006 by vruppert)
+save_restore
+  (special subtree for save/restore Bochs state)
+
+(updated Mar  5, 2006 by vruppert)

@@ -197,8 +197,8 @@ bx_term_gui_c::specific_init(int argc, char **argv, unsigned tilewidth, unsigned
 	io->set_log_action(LOGLEV_PANIC, ACT_FATAL);
 	// logfile should be different from stderr, otherwise terminal mode
 	// really ends up having fun
-	if (!strcmp(bx_options.log.Ofilename->getptr(), "-"))
-		BX_PANIC(("cannot log to stderr in term mode"));
+	if (!strcmp(SIM->get_param_string(BXPN_LOG_FILENAME)->getptr(), "-"))
+	  BX_PANIC(("cannot log to stderr in term mode"));
 
 	initscr();
 	start_color();
