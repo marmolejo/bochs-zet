@@ -869,12 +869,6 @@ public:
 class BOCHSAPI bx_param_enum_c : public bx_param_num_c {
   char **choices;
 public:
-  bx_param_enum_c(bx_id id, 
-      char *name,
-      char *description,
-      char **choices,
-      Bit64s initial_val,
-      Bit64s value_base = 0);
   bx_param_enum_c(bx_param_c *parent,
       char *name,
       char *label,
@@ -909,11 +903,6 @@ public:
                            // bit suggests that they use it.
     SAVE_FILE_DIALOG = 4   // Use save dialog opposed to open file dialog
   } bx_string_opt_bits;
-  bx_param_string_c(bx_id id,
-      char *name,
-      char *description,
-      char *initial_val,
-      int maxsize=-1);
   bx_param_string_c(bx_param_c *parent,
       char *name,
       char *label,
@@ -945,11 +934,6 @@ public:
 // for declaring a string param and setting the options with IS_FILENAME.
 class BOCHSAPI bx_param_filename_c : public bx_param_string_c {
 public:
-  bx_param_filename_c(bx_id id,
-      char *name,
-      char *description,
-      char *initial_val,
-      int maxsize=-1);
   bx_param_filename_c(bx_param_c *parent,
       char *name,
       char *label,
