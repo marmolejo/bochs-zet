@@ -27,8 +27,10 @@
 
 #define NEED_CPU_REG_SHORTCUTS 1
 #include "bochs.h"
-#include "iodev/iodev.h"
+#include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
+
+#include "iodev/iodev.h"
 
 
 #if BX_SUPPORT_X86_64==0

@@ -27,7 +27,9 @@
 
 #define NEED_CPU_REG_SHORTCUTS 1
 #include "bochs.h"
+#include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
+
 
 #if BX_DISASM
 void BX_CPU_C::debug_disasm_instruction(bx_address offset)

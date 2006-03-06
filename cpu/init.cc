@@ -27,7 +27,9 @@
 
 #define NEED_CPU_REG_SHORTCUTS 1
 #include "bochs.h"
+#include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
+
 
 BX_CPU_C::BX_CPU_C(unsigned id): bx_cpuid(id)
 #if BX_SUPPORT_APIC
@@ -680,7 +682,7 @@ void BX_CPU_C::reset(unsigned source)
 /* initialise MSR registers to defaults */
 #if BX_CPU_LEVEL >= 5
   /* APIC Address, APIC enabled and BSP is default, we'll fill in the rest later */
-  BX_CPU_THIS_PTR msr.apicbase = APIC_BASE_ADDR;
+  BX_CPU_THIS_PTR msr.apicbase = BX_LAPIC_BASE_ADDR;
 #if BX_SUPPORT_APIC
   BX_CPU_THIS_PTR local_apic.init ();
   BX_CPU_THIS_PTR msr.apicbase |= 0x900;

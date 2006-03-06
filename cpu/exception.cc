@@ -25,11 +25,12 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 
-
 #define NEED_CPU_REG_SHORTCUTS 1
 #include "bochs.h"
-#include "iodev/iodev.h"
+#include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
+
+#include "iodev/iodev.h"
 
 #if BX_SUPPORT_X86_64==0
 // Make life easier merging cpu64 & cpu code.

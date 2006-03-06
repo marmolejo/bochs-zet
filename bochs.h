@@ -359,14 +359,6 @@ BOCHSAPI extern logfunc_t *genlog;
 #  include "disasm/disasm.h"
 #endif
 
-#if BX_PROVIDE_CPU_MEMORY==1
-#  include "cpu/cpu.h"
-#endif
-
-#if BX_EXTERNAL_DEBUGGER
-#  include "cpu/extdb.h"
-#endif
-
 #if BX_GDBSTUB
 // defines for GDB stub
 void bx_gdbstub_init(int argc, char* argv[]);

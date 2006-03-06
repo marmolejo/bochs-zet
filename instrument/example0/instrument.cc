@@ -28,6 +28,7 @@
 #include <assert.h>
 
 #include "bochs.h"
+#include "cpu/cpu.h"
 
 // maximum size of an instruction
 #define MAX_OPCODE_SIZE 16

@@ -27,6 +27,7 @@
 
 #define LOG_THIS BX_CPU_THIS_PTR
 #include "bochs.h"
+#include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
 /* 9B */

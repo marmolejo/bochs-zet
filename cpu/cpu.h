@@ -349,6 +349,7 @@ const char* cpu_mode_string(unsigned cpu_mode);
 #endif
 
 class BX_CPU_C;
+class BX_MEM_C;
 
 #if BX_USE_CPU_SMF == 0
 // normal member functions.  This can ONLY be used within BX_CPU_C classes.
@@ -993,7 +994,10 @@ typedef struct {
 
 #endif  // #if BX_SUPPORT_X86_64
 
-#include "cpu/apic.h"
+#if BX_SUPPORT_APIC
+#define BX_INCLUDE_LOCAL_APIC 1
+#include "apic.h"
+#endif
 
 class BX_MEM_C;
 

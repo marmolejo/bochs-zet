@@ -27,6 +27,7 @@
 #include <assert.h>
 
 #include "bochs.h"
+#include "cpu/cpu.h"
 
 bxInstrumentation *icpu = NULL;
 

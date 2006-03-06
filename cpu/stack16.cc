@@ -27,12 +27,13 @@
 
 #define NEED_CPU_REG_SHORTCUTS 1
 #include "bochs.h"
+#include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
 
 void BX_CPU_C::PUSH_RX(bxInstruction_c *i)
 {
-  push_16( BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].word.rx );
+  push_16(BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].word.rx);
 }
 
 void BX_CPU_C::PUSH16_CS(bxInstruction_c *i)
