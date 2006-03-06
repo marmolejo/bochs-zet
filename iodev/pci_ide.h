@@ -39,8 +39,8 @@
 class bx_pci_ide_c : public bx_pci_ide_stub_c {
 
 public:
-  bx_pci_ide_c(void);
-  ~bx_pci_ide_c(void);
+  bx_pci_ide_c();
+  ~bx_pci_ide_c();
   virtual void   init(void);
   virtual void   reset(unsigned type);
   virtual bx_bool bmdma_present(void);

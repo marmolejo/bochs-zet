@@ -502,7 +502,12 @@ private:
   bx_bool is_serial_enabled ();
   bx_bool is_usb_enabled ();
   bx_bool is_parallel_enabled ();
-  };
+};
+
+#define DEV_MEM_READ_PHYSICAL(phy_addr, len, ptr) \
+  BX_MEM(0)->readPhysicalPage(NULL, phy_addr, len, ptr)
+#define DEV_MEM_WRITE_PHYSICAL(phy_addr, len, ptr) \
+  BX_MEM(0)->writePhysicalPage(NULL, phy_addr, len, ptr)
 
 #ifndef NO_DEVICE_INCLUDES
 

@@ -40,6 +40,8 @@
 #  define BX_MEM_THIS this->
 #endif
 
+class BX_CPU_C;
+
 // alignment of memory vector, must be a power of 2
 #define BX_MEM_VECTOR_ALIGN 4096
 #define BIOSROMSZ (1 << 19)  // 512KB BIOS ROM @0xfff80000, must be a power of 2
