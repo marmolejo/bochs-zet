@@ -34,6 +34,10 @@
 #include "cpu/lazy_flags.h"
 #include "cpu/hostasm.h"
 
+#if BX_DISASM
+#  include "disasm/disasm.h"
+#endif
+
 // <TAG-DEFINES-DECODE-START>
 // segment register encoding
 #define BX_SEG_REG_ES    0
@@ -619,8 +623,6 @@ typedef struct {
   Bit32u sysenter_eip_msr;
 #endif
 
-  Bit32u smbase;
-
   /* TODO finish of the others */
 } bx_regs_msr_t;
 #endif
@@ -1107,6 +1109,9 @@ public: // for now...
 #if BX_CPU_LEVEL >= 4
   bx_cr4_t cr4;
 #endif
+
+  /* SMM base register */
+  Bit32u smbase;
 
 #if BX_CPU_LEVEL >= 5
   bx_regs_msr_t msr;  

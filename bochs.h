@@ -355,10 +355,6 @@ BOCHSAPI extern logfunc_t *genlog;
 #define FMT_ADDRX FMT_ADDRX32
 #endif
 
-#if BX_DISASM
-#  include "disasm/disasm.h"
-#endif
-
 #if BX_GDBSTUB
 // defines for GDB stub
 void bx_gdbstub_init(int argc, char* argv[]);
