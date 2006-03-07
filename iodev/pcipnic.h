@@ -19,6 +19,9 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
+#ifndef BX_IODEV_PCIPNIC_H
+#define BX_IODEV_PCIPNIC_H
+
 #include "pnic_api.h"
 
 #if BX_USE_PCIPNIC_SMF
@@ -57,16 +60,14 @@ typedef struct {
 } bx_pnic_t;
 
 
-class bx_pcipnic_c : public bx_devmodel_c
-{
+class bx_pcipnic_c : public bx_devmodel_c {
 public:
-  bx_pcipnic_c(void);
-  ~bx_pcipnic_c(void);
-  virtual void   init(void);
-  virtual void   reset(unsigned type);
+  bx_pcipnic_c();
+ ~bx_pcipnic_c();
+  virtual void init(void);
+  virtual void reset(unsigned type);
 
 private:
-
   bx_pnic_t s;
 
   static void set_irq_level(bx_bool level);
@@ -89,5 +90,6 @@ private:
   static void exec_command(void);
   static void rx_handler(void *arg, const void *buf, unsigned len);
   BX_PNIC_SMF void rx_frame(const void *buf, unsigned io_len);
-
 };
+
+#endif

@@ -18,20 +18,21 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
+#ifndef BX_IODEV_PCIVGA_H
+#define BX_IODEV_PCIVGA_H
+
 #if BX_USE_PCIVGA_SMF
 #  define BX_PCIVGA_THIS thePciVgaAdapter->
 #else
 #  define BX_PCIVGA_THIS this->
 #endif
 
-
-class bx_pcivga_c : public bx_devmodel_c
-{
+class bx_pcivga_c : public bx_devmodel_c {
 public:
-  bx_pcivga_c(void);
-  ~bx_pcivga_c(void);
-  virtual void   init(void);
-  virtual void   reset(unsigned type);
+  bx_pcivga_c();
+ ~bx_pcivga_c();
+  virtual void init(void);
+  virtual void reset(unsigned type);
 
 private:
 
@@ -46,3 +47,5 @@ private:
   void   pci_write(Bit8u address, Bit32u value, unsigned io_len);
 #endif
 };
+
+#endif

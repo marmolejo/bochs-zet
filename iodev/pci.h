@@ -24,6 +24,8 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
+#ifndef BX_IODEV_PCI_BRIDGE_H
+#define BX_IODEV_PCI_BRIDGE_H
 
 #define BX_MAX_PCI_DEVICES 20
 
@@ -52,11 +54,10 @@ typedef struct {
   Bit8u  pci_conf[256];
 } bx_def440fx_t;
 
-
-class bx_pci_c : public bx_pci_stub_c {
+class bx_pci_bridge_c : public bx_pci_bridge_stub_c {
 public:
-  bx_pci_c();
- ~bx_pci_c();
+  bx_pci_bridge_c();
+ ~bx_pci_bridge_c();
   virtual void init(void);
   virtual void reset(unsigned type);
   virtual bx_bool register_pci_handlers(void *this_ptr,
@@ -103,3 +104,5 @@ private:
   void   pci_write(Bit8u address, Bit32u value, unsigned io_len);
 #endif
 };
+
+#endif

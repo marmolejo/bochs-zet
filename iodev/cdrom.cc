@@ -31,6 +31,8 @@
 // ioctl() calls and such.  Should be fairly easy to add support
 // for your OS if it is not supported yet.
 
+#ifndef BX_IODEV_CDROM_H
+#define BX_IODEV_CDROM_H
 
 // Define BX_PLUGGABLE in files that can be compiled into plugins.  For
 // platforms that require a special tag on exported symbols, BX_PLUGGABLE 
@@ -1484,3 +1486,5 @@ void cdrom_interface::seek(int lba)
 }
 
 #endif /* if BX_SUPPORT_CDROM */
+
+#endif

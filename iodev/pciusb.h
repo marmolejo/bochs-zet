@@ -26,6 +26,9 @@
 
 // Benjamin D Lunt (fys at frontiernet net) coded most of this usb emulation.
 
+#ifndef BX_IODEV_PCIUSB_H
+#define BX_IODEV_PCIUSB_H
+
 #if BX_USE_PCIUSB_SMF
 #  define BX_USB_THIS theUSBDevice->
 #  define BX_USB_THIS_PTR theUSBDevice
@@ -332,19 +335,18 @@ struct HCSTACK {
   bx_bool t;
 };
 
-class bx_pciusb_c : public bx_usb_stub_c
-{
+class bx_pciusb_c : public bx_usb_stub_c {
 public:
-  bx_pciusb_c(void);
-  ~bx_pciusb_c(void);
-  virtual void  init(void);
-  virtual void  reset(unsigned);
-  virtual void  usb_mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state);
-  virtual void  usb_mouse_enable(bx_bool enable);
+  bx_pciusb_c();
+ ~bx_pciusb_c();
+  virtual void init(void);
+  virtual void reset(unsigned);
+  virtual void usb_mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state);
+  virtual void usb_mouse_enable(bx_bool enable);
   virtual bx_bool usb_key_enq(Bit8u *scan_code);
   virtual bx_bool usb_keyboard_connected();
   virtual bx_bool usb_mouse_connected();
-  static char  *usb_param_handler(bx_param_string_c *param, int set, char *val, int maxlen);
+  static char *usb_param_handler(bx_param_string_c *param, int set, char *val, int maxlen);
 
 private:
 
@@ -376,8 +378,8 @@ private:
   bx_bool  mouse_connected;
   bx_bool  flash_connected;
 
-  static void  init_device(Bit8u port, char *devname);
-  static void  usb_set_connect_status(Bit8u port, int type, bx_bool connected);
+  static void init_device(Bit8u port, char *devname);
+  static void usb_set_connect_status(Bit8u port, int type, bx_bool connected);
 
   static void usb_timer_handler(void *);
   void usb_timer(void);
@@ -400,3 +402,4 @@ private:
 #endif
 };
 
+#endif

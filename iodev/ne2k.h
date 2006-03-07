@@ -33,6 +33,8 @@
 // to provide a windowed memory region for the chip and a MAC address.
 //
 
+#ifndef BX_IODEV_NE2K
+#define BX_IODEV_NE2K
 
 #if BX_USE_NE2K_SMF
 #  define BX_NE2K_SMF  static
@@ -256,3 +258,5 @@ private:
 #endif
 #endif
 };
+
+#endif
