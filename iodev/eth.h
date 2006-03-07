@@ -51,7 +51,7 @@ int execute_script(char *name, char* arg1);
 class eth_pktmover_c {
 public:
   virtual void sendpkt(void *buf, unsigned io_len) = 0;
-  virtual ~eth_pktmover_c (void) {}
+  virtual ~eth_pktmover_c () {}
 protected:
   eth_rx_handler_t  rxh;   // receive callback
   void *rxarg;

@@ -83,8 +83,8 @@ class bx_ioapic_c : public bx_generic_apic_c
 
 public:
   bx_io_redirect_entry_t ioredtbl[BX_IOAPIC_NUM_PINS];  // table of redirections
-  bx_ioapic_c ();
-  ~bx_ioapic_c ();
+  bx_ioapic_c();
+  virtual ~bx_ioapic_c();
   virtual void init();
   virtual void reset(unsigned type) {}
   virtual void read_aligned(bx_phy_address address, Bit32u *data, unsigned len);

@@ -39,9 +39,9 @@
 class bx_gameport_c : public bx_devmodel_c {
 public:
   bx_gameport_c();
- ~bx_gameport_c();
-  virtual void   init(void);
-  virtual void   reset(unsigned type);
+  virtual ~bx_gameport_c();
+  virtual void init(void);
+  virtual void reset(unsigned type);
 
 private:
 

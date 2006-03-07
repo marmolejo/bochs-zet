@@ -38,8 +38,7 @@
 class bx_unmapped_c : public bx_devmodel_c {
 public:
   bx_unmapped_c();
- ~bx_unmapped_c();
-
+  virtual ~bx_unmapped_c();
   virtual void init(void);
   virtual void reset (unsigned type);
 

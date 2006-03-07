@@ -54,11 +54,10 @@ typedef struct {
 
 class bx_floppy_ctrl_c : public bx_floppy_stub_c {
 public:
-
-  bx_floppy_ctrl_c(void);
-  ~bx_floppy_ctrl_c(void);
-  virtual void   init(void);
-  virtual void   reset(unsigned type);
+  bx_floppy_ctrl_c();
+  virtual ~bx_floppy_ctrl_c();
+  virtual void init(void);
+  virtual void reset(unsigned type);
   virtual unsigned set_media_status(unsigned drive, unsigned status);
   virtual unsigned get_media_status(unsigned drive);
 

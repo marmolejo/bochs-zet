@@ -37,9 +37,9 @@
 #define RX_BUFSIZE 256
 
 class serial_raw : public logfunctions {
-  public:
+public:
     serial_raw (char *devname);
-    ~serial_raw (void);
+    virtual ~serial_raw ();
     void set_baudrate (int rate);
     void set_data_bits (int );
     void set_stop_bits (int);

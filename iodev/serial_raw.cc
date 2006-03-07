@@ -43,7 +43,7 @@
 DWORD WINAPI RawSerialThread(VOID *this_ptr);
 #endif
 
-serial_raw::serial_raw (char *devname)
+serial_raw::serial_raw(char *devname)
 {
 #ifdef WIN32
   char portstr[MAX_PATH];

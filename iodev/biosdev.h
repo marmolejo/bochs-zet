@@ -41,7 +41,7 @@
 class bx_biosdev_c : public bx_devmodel_c {
 public:
   bx_biosdev_c();
- ~bx_biosdev_c();
+  virtual ~bx_biosdev_c();
 
   virtual void init(void);
   virtual void reset (unsigned type);

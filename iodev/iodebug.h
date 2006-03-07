@@ -14,7 +14,7 @@
 class bx_iodebug_c : public bx_devmodel_c {
 public:
   bx_iodebug_c();
- ~bx_iodebug_c() {}
+  virtual ~bx_iodebug_c() {}
   virtual void init(void);
   virtual void reset (unsigned type) {}
   static void mem_write( BX_CPU_C *cpu, Bit32u addr, unsigned len, void *data);

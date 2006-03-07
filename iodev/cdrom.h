@@ -31,7 +31,7 @@
 class cdrom_interface : public logfunctions {
 public:
   cdrom_interface(char *dev);
-  ~cdrom_interface(void);
+  virtual ~cdrom_interface(void);
   void init(void);
 
   // Load CD-ROM. Returns 0 if CD is not ready.

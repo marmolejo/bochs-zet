@@ -207,8 +207,8 @@ typedef struct {
 
 class bx_ne2k_c : public bx_ne2k_stub_c {
 public:
-  bx_ne2k_c(void);
-  ~bx_ne2k_c(void);
+  bx_ne2k_c();
+  virtual ~bx_ne2k_c();
   virtual void init(void);
   virtual void reset(unsigned type);
   virtual void print_info (FILE *file, int page, int reg, int nodups);

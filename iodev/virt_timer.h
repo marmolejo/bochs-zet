@@ -108,8 +108,8 @@ private:
 
 public:
 
-  bx_virt_timer_c(void);
- ~bx_virt_timer_c(void);
+  bx_virt_timer_c();
+  virtual ~bx_virt_timer_c() {}
 
   //Get the current virtual time.
   //  This may return the same value on subsequent calls.

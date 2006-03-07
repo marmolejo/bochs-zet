@@ -203,7 +203,7 @@ typedef struct {
 class bx_serial_c : public bx_serial_stub_c {
 public:
   bx_serial_c();
- ~bx_serial_c();
+  virtual ~bx_serial_c();
   virtual void init(void);
   virtual void reset(unsigned type);
   virtual void serial_mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state);

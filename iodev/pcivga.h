@@ -27,25 +27,20 @@
 #  define BX_PCIVGA_THIS this->
 #endif
 
-class bx_pcivga_c : public bx_devmodel_c {
+class bx_pcivga_c : public bx_devmodel_c, public bx_pci_device_stub_c {
 public:
   bx_pcivga_c();
- ~bx_pcivga_c();
+  virtual ~bx_pcivga_c();
   virtual void init(void);
   virtual void reset(unsigned type);
 
-private:
+  virtual Bit32u pci_read_handler(Bit8u address, unsigned io_len);
+  virtual void   pci_write_handler(Bit8u address, Bit32u value, unsigned io_len);
 
+private:
   struct {
     Bit8u pci_conf[256];
   } s;
-
-  static Bit32u pci_read_handler(void *this_ptr, Bit8u address, unsigned io_len);
-  static void   pci_write_handler(void *this_ptr, Bit8u address, Bit32u value, unsigned io_len);
-#if !BX_USE_PCIVGA_SMF
-  Bit32u pci_read(Bit8u address, unsigned io_len);
-  void   pci_write(Bit8u address, Bit32u value, unsigned io_len);
-#endif
 };
 
 #endif

@@ -40,7 +40,7 @@
 class bx_extfpuirq_c : public bx_devmodel_c {
 public:
   bx_extfpuirq_c();
- ~bx_extfpuirq_c();
+  virtual ~bx_extfpuirq_c();
   virtual void   init(void);
   virtual void   reset(unsigned type);
 

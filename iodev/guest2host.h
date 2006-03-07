@@ -43,7 +43,7 @@ typedef void (*bx_g2h_callback_t)(bx_guest_packet_t *);
 class bx_g2h_c : public logfunctions {
 public:
   bx_g2h_c();
- ~bx_g2h_c();
+  virtual ~bx_g2h_c();
   static void init(void);
   void reset(unsigned type);
   unsigned acquire_channel(bx_g2h_callback_t);

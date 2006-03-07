@@ -40,7 +40,7 @@
 class bx_dma_c : public bx_dma_stub_c {
 public:
   bx_dma_c();
- ~bx_dma_c();
+  virtual ~bx_dma_c();
 
   virtual void     init(void);
   virtual void     reset(unsigned type);

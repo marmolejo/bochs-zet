@@ -70,7 +70,7 @@ typedef struct {
 class bx_pic_c : public bx_pic_stub_c {
 public:
   bx_pic_c();
- ~bx_pic_c();
+  virtual ~bx_pic_c();
   virtual void init(void);
   virtual void reset(unsigned type);
   virtual void lower_irq(unsigned irq_no);
