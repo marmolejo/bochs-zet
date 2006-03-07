@@ -194,7 +194,7 @@ void print_tree(bx_param_c *node, int level)
   for (i=0; i<level; i++)
     printf ("  ");
   if (node == NULL) {
-      printf ("NULL pointer\n");
+      printf("NULL pointer\n");
       return;
   }
   switch (node->get_type()) {
