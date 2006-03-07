@@ -796,21 +796,21 @@ void MyFrame::OnShowCpu(wxCommandEvent& WXUNUSED(event))
 
 void MyFrame::OnShowKeyboard(wxCommandEvent& WXUNUSED(event))
 {
-  if (SIM->get_param (BXP_KBD_PARAMETERS) == NULL) {
+  if (SIM->get_param(BXPN_KBD_STATE) == NULL) {
     // if params not initialized yet, then give up
-    wxMessageBox ("Cannot show the debugger window until the simulation has begun.",
-                  "Sim not started", wxOK | wxICON_ERROR, this );
+    wxMessageBox("Cannot show the debugger window until the simulation has begun.",
+                 "Sim not started", wxOK | wxICON_ERROR, this );
     return;
   }
   if (showKbd == NULL) {
-    showKbd = new ParamDialog (this, -1);
-    showKbd->SetTitle ("Keyboard State (incomplete, this is a demo)");
-    showKbd->AddParam (SIM->get_param (BXP_KBD_PARAMETERS));
-    showKbd->Init ();
+    showKbd = new ParamDialog(this, -1);
+    showKbd->SetTitle("Keyboard State (incomplete, this is a demo)");
+    showKbd->AddParam(SIM->get_param(BXPN_KBD_STATE));
+    showKbd->Init();
   } else {
-    showKbd->CopyParamToGui ();
+    showKbd->CopyParamToGui();
   }
-  showKbd->Show (TRUE);
+  showKbd->Show(TRUE);
 }
 
 #if BX_DEBUGGER
