@@ -203,15 +203,22 @@ typedef struct {
 #endif
 } bx_ne2k_t;
 
-
-
-class bx_ne2k_c : public bx_ne2k_stub_c {
+class bx_ne2k_c : public bx_ne2k_stub_c
+#if BX_SUPPORT_PCI
+  , public bx_pci_device_stub_c
+#endif
+{
 public:
   bx_ne2k_c();
   virtual ~bx_ne2k_c();
   virtual void init(void);
   virtual void reset(unsigned type);
   virtual void print_info (FILE *file, int page, int reg, int nodups);
+
+#if BX_SUPPORT_PCI
+  virtual Bit32u pci_read_handler(Bit8u address, unsigned io_len);
+  virtual void   pci_write_handler(Bit8u address, Bit32u value, unsigned io_len);
+#endif
 
 private:
   bx_ne2k_t s;
@@ -245,17 +252,9 @@ private:
 
   static Bit32u read_handler(void *this_ptr, Bit32u address, unsigned io_len);
   static void   write_handler(void *this_ptr, Bit32u address, Bit32u value, unsigned io_len);
-#if BX_SUPPORT_PCI
-  static Bit32u pci_read_handler(void *this_ptr, Bit8u address, unsigned io_len);
-  static void   pci_write_handler(void *this_ptr, Bit8u address, Bit32u value, unsigned io_len);
-#endif
 #if !BX_USE_NE2K_SMF
   Bit32u read(Bit32u address, unsigned io_len);
   void   write(Bit32u address, Bit32u value, unsigned io_len);
-#if BX_SUPPORT_PCI
-  Bit32u pci_read(Bit8u address, unsigned io_len);
-  void   pci_write(Bit8u address, Bit32u value, unsigned io_len);
-#endif
 #endif
 };
 
