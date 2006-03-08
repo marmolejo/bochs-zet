@@ -997,6 +997,8 @@ void bx_init_options()
     14, 15, 11, 9 
   };
 
+  #define BXP_PARAMS_PER_ATA_DEVICE 12
+
   bx_list_c *ata_menu[BX_MAX_ATA_CHANNEL];
   bx_list_c *ata_res[BX_MAX_ATA_CHANNEL];
 
