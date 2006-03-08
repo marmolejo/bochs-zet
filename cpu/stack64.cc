@@ -135,7 +135,7 @@ void BX_CPU_C::ENTER64_IwIb(bxInstruction_c *i)
 
       RBP -= 8;
       read_virtual_qword(BX_SEG_REG_SS, RBP, &temp64);
-      ESP -= 8;
+      RSP -= 8;
       write_virtual_qword(BX_SEG_REG_SS, RSP, &temp64);
     } /* while (--level) */
 
