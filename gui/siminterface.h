@@ -227,7 +227,8 @@ typedef enum {
 #define BXPN_MENU_RUNTIME                "menu.runtime"
 #define BXPN_KBD_STATE                   "save_restore.keyboard"
 #define BXPN_CPU_STATE                   "save_restore.cpu"
-#define BXPN_CPU_EFLAGS_IOPL             "save_restore.cpu.IOPL"
+#define BXPN_CPU_0_STATE                 "save_restore.cpu.0"
+#define BXPN_CPU_0_EFLAGS_IOPL           "save_restore.cpu.0.IOPL"
 
 // base value for generated new parameter id
 #define BXP_NEW_PARAM_ID 1001

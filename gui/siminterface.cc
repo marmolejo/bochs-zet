@@ -251,10 +251,15 @@ void bx_init_siminterface()
       "bochs",
       "list of top level bochs parameters", 
       30);
-    new bx_list_c(root_param,
+    bx_list_c *list = new bx_list_c(root_param,
 	"save_restore",
 	"subtree for save/restore", 
 	30);
+    bx_list_c *cpu = new bx_list_c(list,
+	"cpu",
+	"CPU State", 
+	BX_MAX_SMP_THREADS_SUPPORTED);
+    cpu->get_options()->set(bx_list_c::USE_TAB_WINDOW);
   }
 }
 
