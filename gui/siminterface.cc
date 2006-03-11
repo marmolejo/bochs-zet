@@ -7,7 +7,6 @@
 // the configuration user interface, and allows them to talk to each other.
 
 #include "bochs.h"
-#include "cpu/cpu.h"
 #include "iodev.h"
 
 bx_simulator_interface_c *SIM = NULL;
@@ -350,14 +349,12 @@ void bx_real_sim_c::quit_sim(int code) {
     // in wxWidgets, the whole simulator is running in a separate thread.
     // our only job is to end the thread as soon as possible, NOT to shut
     // down the whole application with an exit.
-    BX_CPU(0)->async_event = 1;
-    BX_CPU(0)->kill_bochs_request = 1;
-    // the cpu loop will exit very soon after this condition is set.
+    bx_stop_simulation();
   } else {
     // just a single thread.  Use exit() to stop the application.
     if (!code)
       BX_PANIC(("Quit simulation command"));
-    ::exit (exit_code);
+    ::exit(exit_code);
   }
 }
 
