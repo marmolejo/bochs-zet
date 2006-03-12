@@ -2196,7 +2196,7 @@ if test "$with_wx" = yes; then
   SPECIFIC_GUI_SUPPORT_OBJS="$SPECIFIC_GUI_SUPPORT_OBJS \$(GUI_OBJS_WX_SUPPORT)"
   WX_CFLAGS="\`$WX_CONFIG --cflags\`"
   WX_CXXFLAGS="\`$WX_CONFIG --cxxflags\`"
-  GUI_LINK_OPTS_WX="\`$WX_CONFIG --libs\`"
+  GUI_LINK_OPTS_WX="\`$WX_CONFIG --libs core,base\`"
   if test "$wx_needs_gtk2" = 1; then
     # this hack might not work with all GTK 2 installations
     AC_CHECK_HEADER(/opt/gnome/include/gtk-2.0/gdk/gdkkeysyms.h, [
