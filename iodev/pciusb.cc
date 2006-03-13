@@ -1794,7 +1794,7 @@ bx_bool bx_pciusb_c::flash_stick(Bit8u *packet, Bit16u size, bx_bool out)
   return 1;
 }
 
-char *bx_pciusb_c::usb_param_handler(bx_param_string_c *param, int set, char *val, int maxlen)
+const char *bx_pciusb_c::usb_param_handler(bx_param_string_c *param, int set, const char *val, int maxlen)
 {
   // handler for USB runtime parameters
   if (set) {
