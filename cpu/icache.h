@@ -150,7 +150,7 @@ BX_CPP_INLINE void bxICache_c::purgeICacheEntries(void)
     if (e->writeStamp != pageWriteStamp)
       e->writeStamp = ICacheWriteStampInvalid;	// invalidate entry
     else
-      e->writeStamp |= 0x1fffffff;
+      e->writeStamp |= ICacheWriteStampMask;
   }
 }
 

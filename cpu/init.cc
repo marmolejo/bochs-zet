@@ -742,7 +742,6 @@ void BX_CPU_C::reset(unsigned source)
 
   invalidate_prefetch_q();
 
-  BX_CPU_THIS_PTR kill_bochs_request = 0;
   BX_INSTR_RESET(BX_CPU_ID);
 }
 
