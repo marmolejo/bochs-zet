@@ -402,6 +402,8 @@ void BX_CPU_C::IRET16(bxInstruction_c *i)
   BX_CPU_THIS_PTR show_flag |= Flag_iret;
 #endif
 
+  BX_CPU_THIS_PTR nmi_disable = 0;
+
   if (v8086_mode()) {
     // IOPL check in stack_return_from_v86()
     iret16_stack_return_from_v86(i);

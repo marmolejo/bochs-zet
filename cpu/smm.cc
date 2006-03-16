@@ -43,6 +43,9 @@ void BX_CPU_C::RSM(bxInstruction_c *i)
  
   BX_INFO(("RSM: System Management Mode not implemented yet"));
 
+  BX_CPU_THIS_PTR nmi_disable = 0;
+  BX_CPU_THIS_PTR in_smm = 0;
+
   UndefinedOpcode(i);
 }
 

@@ -122,7 +122,7 @@ void BX_CPU_C::LOOPNE_Jb(bxInstruction_c *i)
       RCX = ECX - 1;  // zero extend
     else
       CX--;
-    }
+  }
 }
 
 void BX_CPU_C::LOOPE_Jb(bxInstruction_c *i)
@@ -142,7 +142,7 @@ void BX_CPU_C::LOOPE_Jb(bxInstruction_c *i)
   }
   else
 #endif
- {
+  {
     Bit32u count;
 
 #if BX_CPU_LEVEL >= 3
