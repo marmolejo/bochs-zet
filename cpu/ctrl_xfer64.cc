@@ -42,7 +42,6 @@ void BX_CPU_C::RETnear64_Iw(bxInstruction_c *i)
   BX_CPU_THIS_PTR show_flag |= Flag_ret;
 #endif
 
-  Bit64u temp_RSP = RSP;
   Bit16u imm16 = i->Iw();
 
   pop_64(&return_RIP);
@@ -65,8 +64,6 @@ void BX_CPU_C::RETnear64(bxInstruction_c *i)
 #if BX_DEBUGGER
   BX_CPU_THIS_PTR show_flag |= Flag_ret;
 #endif
-
-  Bit64u temp_RSP = RSP;
 
   pop_64(&return_RIP);
 
