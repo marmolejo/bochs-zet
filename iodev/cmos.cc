@@ -250,8 +250,8 @@ bx_cmos_c::init(void)
     BX_PANIC(("Out of memory."));
   }
   tmptime[strlen(tmptime)-1]='\0';
-
   BX_INFO(("Setting initial clock to: %s (time0=%u)", tmptime, (Bit32u)BX_CMOS_THIS s.timeval));
+  free(tmptime);
 
   BX_CMOS_THIS s.timeval_change = 0;
 }
