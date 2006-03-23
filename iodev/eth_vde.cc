@@ -52,7 +52,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <unistd.h>
-#include <stdint.h>
+#include <inttypes.h>
 
 #define SWITCH_MAGIC 0xfeedface
 
