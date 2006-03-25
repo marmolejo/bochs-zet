@@ -24,6 +24,9 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
+#ifndef BX_HDIMAGE_H
+#define BX_HDIMAGE_H
+
 // SPARSE IMAGES HEADER
 #define SPARSE_HEADER_MAGIC  (0x02468ace)
 #define SPARSE_HEADER_VERSION  1
@@ -272,16 +275,8 @@ class sparse_image_t : public device_image_t
  off_t total_size;
 
  void panic(const char * message);
- off_t
-#ifndef PARANOID
-       sparse_image_t::
-#endif
-                       get_physical_offset();
- void
-#ifndef PARANOID
-       sparse_image_t::
-#endif
-                       set_virtual_page(Bit32u new_virtual_page);
+ off_t get_physical_offset();
+ void set_virtual_page(Bit32u new_virtual_page);
  void read_header();
  ssize_t read_page_fragment(Bit32u read_virtual_page, Bit32u read_page_offset, size_t read_size, void * buf);
 
@@ -551,3 +546,5 @@ class z_volatile_image_t : public device_image_t
 #endif
 
 #endif // HDIMAGE_HEADERS_ONLY
+
+#endif
