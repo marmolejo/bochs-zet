@@ -90,6 +90,8 @@ private:
     bx_def440fx_t i440fx;
   } s;
 
+  void smram_control(Bit8u value);
+
   static Bit32u read_handler(void *this_ptr, Bit32u address, unsigned io_len);
   static void   write_handler(void *this_ptr, Bit32u address, Bit32u value, unsigned io_len);
 #if !BX_USE_PCI_SMF

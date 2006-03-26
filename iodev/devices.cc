@@ -316,6 +316,7 @@ void bx_devices_c::init(BX_MEM_C *newmem)
 
 void bx_devices_c::reset(unsigned type)
 {
+  mem->disable_smram();
   pluginUnmapped->reset(type);
 #if BX_SUPPORT_PCI
   if (SIM->get_param_bool(BXPN_I440FX_SUPPORT)->get ()) {

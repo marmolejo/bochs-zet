@@ -78,9 +78,10 @@ BX_MEM_C::writePhysicalPage(BX_CPU_C *cpu, Bit32u addr, unsigned len, void *data
     }
 #endif
 
-    if ((a20addr & 0xfffe0000) == 0x000a0000) {
-      // SMMRAM memory space
-      if (BX_MEM_THIS smram_enabled > 1 || cpu->smm_mode())
+    if ((a20addr & 0xfffe0000) == 0x000a0000 && (BX_MEM_THIS smram_available))
+    {
+      // SMRAM memory space
+      if (BX_MEM_THIS smram_enable || (cpu->smm_mode() && !BX_MEM_THIS smram_restricted))
         goto mem_write;
     }
   }
@@ -235,9 +236,10 @@ BX_MEM_C::readPhysicalPage(BX_CPU_C *cpu, Bit32u addr, unsigned len, void *data)
     }
 #endif
 
-    if ((a20addr & 0xfffe0000) == 0x000a0000) {
-      // SMMRAM memory space
-      if (BX_MEM_THIS smram_enabled > 1 || cpu->smm_mode())
+    if ((a20addr & 0xfffe0000) == 0x000a0000 && (BX_MEM_THIS smram_available))
+    {
+      // SMRAM memory space
+      if (BX_MEM_THIS smram_enable || (cpu->smm_mode() && !BX_MEM_THIS smram_restricted))
         goto mem_read;
     }
   }
