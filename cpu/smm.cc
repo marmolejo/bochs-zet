@@ -145,4 +145,9 @@ void BX_CPU_C::enter_system_management_mode(void)
 #endif
 }
 
+bx_bool BX_CPU_C::smram_write(bx_phy_address a20addr)
+{
+  return 1; // for now
+}
+
 #endif /* BX_CPU_LEVEL >= 3 */
