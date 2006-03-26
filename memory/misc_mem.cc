@@ -115,6 +115,7 @@ void BX_MEM_C::init_memory(int memsize)
     BX_INFO(("%.2fMB", (float)(BX_MEM_THIS megabytes)));
   }
   BX_MEM_THIS pci_enabled = SIM->get_param_bool(BXPN_I440FX_SUPPORT)->get();
+  BX_MEM_THIS smram_enabled = 0;
 
 #if BX_DEBUGGER
   if (megabytes > BX_MAX_DIRTY_PAGE_TABLE_MEGS) {
