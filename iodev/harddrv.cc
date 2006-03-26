@@ -1752,13 +1752,16 @@ void bx_hard_drive_c::write(Bit32u address, Bit32u value, unsigned io_len)
                     raise_interrupt(channel);
                     break;
                   }
+                  if (lba > BX_SELECTED_DRIVE(channel).cdrom.capacity) {
+                    atapi_cmd_error(channel, SENSE_ILLEGAL_REQUEST, ASC_LOGICAL_BLOCK_OOR, 1);
+                    raise_interrupt(channel);
+                    break;
+                  }
 
                   // Ben: see comment below
                   if (lba + transfer_length > BX_SELECTED_DRIVE(channel).cdrom.capacity) {
                     transfer_length = (BX_SELECTED_DRIVE(channel).cdrom.capacity - lba);
                   }
-
-                  //if (transfer_length == 0) {
                   if (transfer_length <= 0) {
                     atapi_cmd_nop(channel);
                     raise_interrupt(channel);

@@ -1181,7 +1181,7 @@ cdrom_interface::capacity()
     if ((stat_buf.st_size % 2048) != 0)  {
       BX_ERROR (("expected cdrom image to be a multiple of 2048 bytes"));
     }
-    return (stat_buf.st_size / 2048) + 150;
+    return (stat_buf.st_size / 2048);
   }
 #endif
 
@@ -1319,7 +1319,7 @@ cdrom_interface::capacity()
     } else if (using_file) {
       ULARGE_INTEGER FileSize;
       FileSize.LowPart = GetFileSize(hFile, &FileSize.HighPart);
-      return (Bit32u)((FileSize.QuadPart / 2048) + 150);
+      return (Bit32u)(FileSize.QuadPart / 2048);
     } else {  /* direct device access */
       if (isWindowsXP) {
         LARGE_INTEGER length;
