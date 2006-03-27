@@ -440,13 +440,13 @@ void BX_CPU_C::CDQ(bxInstruction_c *i)
 
 void BX_CPU_C::CMPXCHG_XBTS(bxInstruction_c *i)
 {
-  BX_INFO(("CMPXCHG_XBTS:"));
+  BX_INFO(("CMPXCHG_XBTS: Generate #UD exception"));
   UndefinedOpcode(i);
 }
 
 void BX_CPU_C::CMPXCHG_IBTS(bxInstruction_c *i)
 {
-  BX_INFO(("CMPXCHG_IBTS:"));
+  BX_INFO(("CMPXCHG_IBTS: Generate #UD exception"));
   UndefinedOpcode(i);
 }
 

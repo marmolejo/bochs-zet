@@ -751,16 +751,23 @@ BX_MEM_C::unregisterMemoryHandlers(memory_handler_t read_handler, memory_handler
   return ret;
 }
 
-BX_MEM_SMF void BX_MEM_C::enable_smram(bx_bool enable, bx_bool restricted)
+void BX_MEM_C::enable_smram(bx_bool enable, bx_bool restricted)
 {
   BX_MEM_THIS smram_available = 1;
   BX_MEM_THIS smram_enable = (enable > 0);
   BX_MEM_THIS smram_restricted = (restricted > 0);
 }
 
-BX_MEM_SMF void BX_MEM_C::disable_smram(void)
+void BX_MEM_C::disable_smram(void)
 {
   BX_MEM_THIS smram_available  = 0;
   BX_MEM_THIS smram_enable     = 0;
   BX_MEM_THIS smram_restricted = 0;
+}
+
+// check if SMRAM is aavailable for CPU data accesses
+bx_bool BX_MEM_C::is_smram_accessible(void)
+{
+  return(BX_MEM_THIS smram_available) &&
+        (BX_MEM_THIS smram_enable || !BX_MEM_THIS smram_restricted);
 }
