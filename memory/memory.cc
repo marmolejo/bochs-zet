@@ -44,10 +44,10 @@
 //
 
   void BX_CPP_AttrRegparmN(3)
-BX_MEM_C::writePhysicalPage(BX_CPU_C *cpu, Bit32u addr, unsigned len, void *data)
+BX_MEM_C::writePhysicalPage(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, void *data)
 {
   Bit8u *data_ptr;
-  Bit32u a20addr = A20ADDR(addr);
+  bx_phy_address a20addr = A20ADDR(addr);
 
   // Note: accesses should always be contained within a single page now
 
@@ -161,7 +161,7 @@ inc_one:
     // SMMRAM
     if (a20addr <= 0x000bffff) {
       // devices are not allowed to access SMMRAM under VGA memory
-      if (cpu && cpu->smram_write(a20addr)) {
+      if (cpu) {
         vector[a20addr] = *data_ptr;
         BX_DBG_DIRTY_PAGE(a20addr >> 12);
       }
@@ -202,10 +202,10 @@ inc_one:
 }
 
   void BX_CPP_AttrRegparmN(3)
-BX_MEM_C::readPhysicalPage(BX_CPU_C *cpu, Bit32u addr, unsigned len, void *data)
+BX_MEM_C::readPhysicalPage(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, void *data)
 {
   Bit8u *data_ptr;
-  Bit32u a20addr = A20ADDR(addr);
+  bx_phy_address a20addr = A20ADDR(addr);
 
   // Note: accesses should always be contained within a single page now
 
@@ -361,7 +361,7 @@ inc_one:
 #endif
 
     for (unsigned i = 0; i < len; i++) {
-      if (a20addr >= (Bit32u)~BIOS_MASK)
+      if (a20addr >= (bx_phy_address)~BIOS_MASK)
         *data_ptr = rom[a20addr & BIOS_MASK];
       else
         *data_ptr = 0xff;

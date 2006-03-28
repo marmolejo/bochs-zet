@@ -606,7 +606,7 @@ void BX_CPU_C::INVLPG(bxInstruction_c* i)
 // Translate a linear address to a physical address, for
 // a data access (D)
 
-  Bit32u BX_CPP_AttrRegparmN(3)
+  bx_phy_address BX_CPP_AttrRegparmN(3)
 BX_CPU_C::translate_linear(bx_address laddr, unsigned pl, unsigned rw, unsigned access_type)
 {
   bx_address lpf;
@@ -1057,13 +1057,13 @@ page_fault_not_present:
   return(0); // keep compiler happy
 }
 
-  Bit32u BX_CPP_AttrRegparmN(3)
+  bx_phy_address BX_CPP_AttrRegparmN(3)
 BX_CPU_C::dtranslate_linear(bx_address laddr, unsigned pl, unsigned rw)
 {
   return translate_linear(laddr, pl, rw, DATA_ACCESS);
 }
 
-  Bit32u BX_CPP_AttrRegparmN(2)
+  bx_phy_address BX_CPP_AttrRegparmN(2)
 BX_CPU_C::itranslate_linear(bx_address laddr, unsigned pl)
 {
   return translate_linear(laddr, pl, BX_READ, CODE_ACCESS);
