@@ -424,6 +424,9 @@ Bit32u BX_CPU_C::dbg_get_descriptor_h(bx_descriptor_t *d)
           (d->p << 15) |
           (d->u.segment.limit & 0xf0000) |
           (d->u.segment.avl << 20) |
+#if BX_SUPPORT_X86_64
+          (d->u.segment.l << 21) |
+#endif
           (d->u.segment.d_b << 22) |
           (d->u.segment.g << 23);
     return(val);
