@@ -1472,7 +1472,7 @@ bx_bool bx_floppy_ctrl_c::evaluate_media(Bit8u devtype, Bit8u type, char *path, 
   HANDLE hFile;
   DWORD bytes;
   DISK_GEOMETRY dg;
-  unsigned tracks, heads, spt;
+  unsigned tracks = 0, heads = 0, spt = 0;
 #endif
 
   //If media file is already open, close it before reopening.
