@@ -27,7 +27,7 @@
 #ifndef BX_IODEV_GAMEPORT_H
 #define BX_IODEV_GAMEPORT_H
 
-#if BX_USE_GAME_SMF
+#if BX_USE_GAMEPORT_SMF
 #  define BX_GAMEPORT_SMF  static
 #  define BX_GAMEPORT_THIS theGameport->
 #else
@@ -57,7 +57,7 @@ private:
 
   static Bit32u read_handler(void *this_ptr, Bit32u address, unsigned io_len);
   static void   write_handler(void *this_ptr, Bit32u address, Bit32u value, unsigned io_len);
-#if !BX_USE_GAME_SMF
+#if !BX_USE_GAMEPORT_SMF
   Bit32u read(Bit32u address, unsigned io_len);
   void   write(Bit32u address, Bit32u value, unsigned io_len);
 #endif

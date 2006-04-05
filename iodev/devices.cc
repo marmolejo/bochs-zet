@@ -168,7 +168,7 @@ void bx_devices_c::init(BX_MEM_C *newmem)
   if (is_parallel_enabled()) 
     PLUG_load_plugin(parallel, PLUGTYPE_OPTIONAL);
   PLUG_load_plugin(extfpuirq, PLUGTYPE_OPTIONAL);
-#if BX_SUPPORT_GAME
+#if BX_SUPPORT_GAMEPORT
   PLUG_load_plugin(gameport, PLUGTYPE_OPTIONAL);
 #endif
   PLUG_load_plugin(speaker, PLUGTYPE_OPTIONAL);
