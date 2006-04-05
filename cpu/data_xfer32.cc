@@ -34,13 +34,12 @@
 void BX_CPU_C::XCHG_ERXEAX(bxInstruction_c *i)
 {
   Bit32u temp32 = EAX;
-
 #if BX_SUPPORT_X86_64
-  RAX = BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].dword.erx;
-  BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].dword.erx = temp32;
+  RAX = BX_READ_32BIT_REG(i->opcodeReg());
+  BX_WRITE_32BIT_REGZ(i->opcodeReg(), temp32);
 #else
-  EAX = BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].dword.erx;
-  BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].dword.erx = temp32;
+  EAX = BX_READ_32BIT_REG(i->opcodeReg());
+  BX_WRITE_32BIT_REG(i->opcodeReg(), temp32);
 #endif
 }
 

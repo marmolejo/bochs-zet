@@ -1550,10 +1550,11 @@ void BX_CPU_C::PMADDWD_VdqWdq(bxInstruction_c *i)
     if(op1.xmm32u(j) == 0x80008000 && op2.xmm32u(j) == 0x80008000) {
         result.xmm32u(j) = 0x80000000;
     }
-    else
+    else {
       result.xmm32u(j) = 
         Bit32s(op1.xmm16s(2*j+0)) * Bit32s(op2.xmm16s(2*j+0)) +
         Bit32s(op1.xmm16s(2*j+1)) * Bit32s(op2.xmm16s(2*j+1));
+    }
   }
 
   /* now write result back to destination */

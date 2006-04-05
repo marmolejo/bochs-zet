@@ -246,7 +246,7 @@ void BX_CPU_C::CPUID(bxInstruction_c *i)
       //   [23:16] Number of logical processors in one physical processor
       //   [31:24] Local Apic ID
       // ECX:       Feature Flags::Extended
-      //   [0:0]   PNI
+      //   [0:0]   SSE3
       //   [2:1]   Reserved
       //   [3:3]   MONITOR/MWAIT
       //   [4:4]   CPL qualified debug store available

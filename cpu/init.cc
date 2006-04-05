@@ -619,6 +619,8 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR in_smm = 0;
   BX_CPU_THIS_PTR nmi_disable = 0;
 
+  BX_CPU_THIS_PTR smbase = 0x30000;
+
 #if BX_CPU_LEVEL >= 2
   // MSW (Machine Status Word), so called on 286
   // CR0 (Control Register 0), so called on 386+

@@ -600,7 +600,7 @@ void BX_CPU_C::FISTTP16(bxInstruction_c *i)
   write_virtual_word(i->seg(), RMAddr(i), (Bit16u*)(&save_reg));
   BX_CPU_THIS_PTR the_i387.FPU_pop();
 #else
-  BX_INFO(("FISTTP16: required PNI, configure --enable-pni"));
+  BX_INFO(("FISTTP16: required SSE3, use --enable-sse option"));
   UndefinedOpcode(i);
 #endif
 }
@@ -636,7 +636,7 @@ void BX_CPU_C::FISTTP32(bxInstruction_c *i)
   write_virtual_dword(i->seg(), RMAddr(i), (Bit32u*)(&save_reg));
   BX_CPU_THIS_PTR the_i387.FPU_pop();
 #else
-  BX_INFO(("FISTTP32: required PNI, configure --enable-pni"));
+  BX_INFO(("FISTTP32: required SSE3, use --enable-sse option"));
   UndefinedOpcode(i);
 #endif
 }
@@ -672,7 +672,7 @@ void BX_CPU_C::FISTTP64(bxInstruction_c *i)
   write_virtual_qword(i->seg(), RMAddr(i), (Bit64u*)(&save_reg));
   BX_CPU_THIS_PTR the_i387.FPU_pop();
 #else
-  BX_INFO(("FISTTP64: required PNI, configure --enable-pni"));
+  BX_INFO(("FISTTP64: required SSE3, use --enable-sse option"));
   UndefinedOpcode(i);
 #endif
 }

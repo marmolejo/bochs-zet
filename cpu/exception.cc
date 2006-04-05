@@ -858,6 +858,7 @@ void BX_CPU_C::exception(unsigned vector, Bit16u error_code, bx_bool is_INT)
     else {
       BX_PANIC(("exception(): 3rd (%d) exception with no resolution", vector));
       BX_ERROR(("WARNING: Any simulation after this point is completely bogus !"));
+      shutdown();
     }
 #if BX_DEBUGGER
     bx_guard.special_unwind_stack = true;
