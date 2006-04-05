@@ -3045,9 +3045,9 @@ static Bit32s parse_line_formatted(const char *context, int num_params, char *pa
     PARSE_ERR(("ERROR: time0 directive is DEPRECATED, use clock: instead"));
   }
   // user-defined options handled by registered functions
-  else if (SIM->is_user_option(params[0]))
+  else if ((i = SIM->find_user_option(params[0])) >= 0)
   {
-    return SIM->parse_user_option(context, num_params, &params[0]);
+    return SIM->parse_user_option(i, context, num_params, &params[0]);
   }
   else
   {
