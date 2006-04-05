@@ -1035,9 +1035,9 @@ static BxOpcodeInfo_t BxOpcodeGroupSSE_0f11[4] = {
 };
 
 static BxOpcodeInfo_t BxOpcodeGroupSSE_0f12[4] = {
-  /* -- */ { 0, &BX_CPU_C::MOVLPS_VpsMq    },
-  /* 66 */ { 0, &BX_CPU_C::MOVLPD_VsdMq    },
-  /* F2 */ { 0, &BX_CPU_C::MOVDDUP_VpdWq   },	// SSE3
+  /* -- */ { 0, &BX_CPU_C::MOVLPS_VpsMq },
+  /* 66 */ { 0, &BX_CPU_C::MOVLPD_VsdMq },
+  /* F2 */ { 0, &BX_CPU_C::MOVDDUP_VpdWq },	// SSE3
   /* F3 */ { 0, &BX_CPU_C::MOVSLDUP_VpsWps }	// SSE3
 };
 
@@ -1210,8 +1210,8 @@ static BxOpcodeInfo_t BxOpcodeGroupSSE_0f5a[4] = {
 };
 
 static BxOpcodeInfo_t BxOpcodeGroupSSE_0f5b[4] = {
-  /* -- */ { 0, &BX_CPU_C::CVTDQ2PS_VpsWdq  },
-  /* 66 */ { 0, &BX_CPU_C::CVTPS2DQ_VdqWps  },
+  /* -- */ { 0, &BX_CPU_C::CVTDQ2PS_VpsWdq },
+  /* 66 */ { 0, &BX_CPU_C::CVTPS2DQ_VdqWps },
   /* F2 */ { 0, &BX_CPU_C::BxError },
   /* F3 */ { 0, &BX_CPU_C::CVTTPS2DQ_VdqWps }
 };
@@ -1266,7 +1266,7 @@ static BxOpcodeInfo_t BxOpcodeGroupSSE_0f62[4] = {
 };
 
 static BxOpcodeInfo_t BxOpcodeGroupSSE_0f63[4] = {
-  /* -- */ { 0, &BX_CPU_C::PACKSSWB_PqQq   },
+  /* -- */ { 0, &BX_CPU_C::PACKSSWB_PqQq  },
   /* 66 */ { 0, &BX_CPU_C::PACKSSWB_VdqWq },
   /* F2 */ { 0, &BX_CPU_C::BxError },
   /* F3 */ { 0, &BX_CPU_C::BxError }
