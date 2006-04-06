@@ -506,7 +506,7 @@ bx_bool BX_MEM_C::dbg_set_mem(bx_phy_address addr, unsigned len, Bit8u *buf)
   }
   for (; len>0; len--) {
     // Write to standard PCI/ISA Video Mem / SMMRAM
-    if ((a20Addr & 0xfffe0000) == 0x000a0000) {
+    if ((addr & 0xfffe0000) == 0x000a0000) {
       if (BX_MEM_THIS smram_enable)
         vector[addr] = *buf;
       else 
