@@ -33,6 +33,9 @@ enum {
   BX_CI_RT_LOGOPTS2,
   BX_CI_RT_INST_TR,
   BX_CI_RT_MISC,
+#if BX_SAVE_RESTORE
+  BX_CI_RT_SAVE,
+#endif
   BX_CI_RT_CONT,
   BX_CI_RT_QUIT
 };

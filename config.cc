@@ -343,6 +343,20 @@ void bx_init_options()
       BX_RUN_START,
       BX_QUICK_START);
 
+#if BX_SAVE_RESTORE
+  new bx_param_bool_c(menu,
+      "restore",
+      "Restore Bochs session",
+      "Restore Bochs session",
+      0);
+  new bx_param_string_c(menu,
+    "restore_path",
+    "Path to data for restore",
+    "Path to data for restore",
+    "",
+    BX_PATHNAME_LEN);
+#endif
+
   // subtree for special menus
   bx_list_c *special_menus = new bx_list_c(root_param, "menu", "");
 
