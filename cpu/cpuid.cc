@@ -122,11 +122,14 @@ Bit32u BX_CPU_C::get_extended_cpuid_features()
   Bit32u features = 0;
 
 #if BX_SUPPORT_SSE >= 3
-    features |= 0x01;     // report SSE3 (PNI)
+  features |= 0x1;      // report SSE3
+#endif
+#if BX_SUPPORT_SSE >= 4
+  features |= (1<<9);   // report SSE4
 #endif
 
 #if BX_SUPPORT_X86_64
-    features |= (1<<13);  // support CMPXCHG16B
+  features |= (1<<13);  // support CMPXCHG16B
 #endif
   
   return features;
