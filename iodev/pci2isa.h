@@ -54,6 +54,8 @@ private:
     Bit8u pci_conf[256];
     Bit8u elcr1;
     Bit8u elcr2;
+    Bit8u apmc;
+    Bit8u apms;
     Bit8u irq_registry[16];
     Bit32u irq_level[16];
     Bit8u pci_reset;
