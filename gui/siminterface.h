@@ -1181,7 +1181,7 @@ public:
   virtual Bit32s parse_user_option(int idx, const char *context, int num_params, char *params []) {return -1;}
 #if BX_SAVE_RESTORE
   // save/restore support
-  virtual bx_bool save_state(const char *checkpoint_name) {return 0;}
+  virtual bx_bool save_state(const char *checkpoint_path) {return 0;}
   virtual bx_bool restore_config() {return 0;}
   virtual bx_bool restore_logopts() {return 0;}
   virtual bx_bool restore_hardware() {return 0;}
