@@ -858,6 +858,17 @@ void BX_CPU_C::boundaryFetch(Bit8u *fetchPtr, unsigned remainingInPage, bxInstru
       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b, Is64BitMode());
 }
 
+void BX_CPU_C::deliver_NMI(void)
+{
+  BX_CPU_THIS_PTR nmi_pending = 1;
+  BX_CPU_THIS_PTR async_event = 1;
+}
+
+void BX_CPU_C::deliver_SMI(void)
+{
+  BX_CPU_THIS_PTR smi_pending = 1;
+  BX_CPU_THIS_PTR async_event = 1;
+}
 
 #if BX_EXTERNAL_DEBUGGER
 
@@ -1047,16 +1058,6 @@ void BX_CPU_C::dbg_take_dma(void)
     BX_CPU_THIS_PTR async_event = 1; // set in case INTR is triggered
     DEV_dma_raise_hlda();
   }
-}
-
-void BX_CPU_C::dbg_queue_NMI(void)
-{
-  BX_CPU_THIS_PTR nmi_pending = 1;
-}
-
-void BX_CPU_C::dbg_queue_SMI(void)
-{
-  BX_CPU_THIS_PTR smi_pending = 1;
 }
 
 #endif  // #if BX_DEBUGGER
