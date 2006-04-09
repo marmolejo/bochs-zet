@@ -343,7 +343,7 @@ void bx_init_options()
       BX_RUN_START,
       BX_QUICK_START);
 
-#if BX_SAVE_RESTORE
+#if BX_SUPPORT_SAVE_RESTORE
   new bx_param_bool_c(menu,
       "restore",
       "Restore Bochs session",
