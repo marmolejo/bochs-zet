@@ -1141,6 +1141,7 @@ public: // for now...
                 * 0 if current CS:IP caused exception */
   unsigned errorno;   /* signal exception during instruction emulation */
 
+#define BX_DEBUG_TRAP_HALT_STATE (0x80000000)
   Bit32u   debug_trap; // holds DR6 value to be set as well
   volatile bx_bool async_event;
   volatile bx_bool INTR;

@@ -411,7 +411,7 @@ bx_bool BX_CPU_C::smram_restore_state(const Bit32u *saved_state)
   SetCR0(temp_cr0);
   setEFlags(temp_eflags);
 
-  bx_phy_address temp_cr3 = SMRAM_FIELD64(saved_state, SMRAM_OFFSET_RAX_HI32, SMRAM_OFFSET_RAX_LO32);
+  bx_phy_address temp_cr3 = SMRAM_FIELD(saved_state, SMRAM_OFFSET_CR3);
   CR3_change(temp_cr3);
 
   RAX = SMRAM_FIELD64(saved_state, SMRAM_OFFSET_RAX_HI32, SMRAM_OFFSET_RAX_LO32);

@@ -732,11 +732,9 @@ void BX_CPU_C::reset(unsigned source)
     // it's an application processor, halt until IPI is heard.
     BX_CPU_THIS_PTR msr.apicbase &= ~0x0100; /* clear bit 8 BSP */
     BX_INFO(("CPU[%d] is an application processor. Halting until IPI.", apic_id));
-    debug_trap |= 0x80000000;
+    debug_trap |= BX_DEBUG_TRAP_HALT_STATE;
     async_event = 1;
   }
-#else
-  BX_CPU_THIS_PTR async_event=2;
 #endif
 
   BX_INSTR_RESET(BX_CPU_ID);
