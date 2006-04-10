@@ -248,7 +248,8 @@ void bx_pci2isa_c::write(Bit32u address, Bit32u value, unsigned io_len)
 
   switch (address) {
     case 0x00b2:
-      BX_ERROR(("write: APM command register not supported yet"));
+      BX_ERROR(("write %08x: APM command register not supported yet", value));
+      BX_P2I_THIS s.apmc = value & 0xff;
       break;
     case 0x00b3:
       BX_P2I_THIS s.apms = value & 0xff;
