@@ -32,6 +32,8 @@ enum
   ID_Config_New,
   ID_Config_Read,
   ID_Config_Save,
+  ID_State_Save,
+  ID_State_Restore,
   ID_Edit_FD_0,
   ID_Edit_FD_1,
   ID_Edit_ATA0,
@@ -166,6 +168,8 @@ public:
   void OnConfigNew(wxCommandEvent& event);
   void OnConfigRead(wxCommandEvent& event);
   void OnConfigSave(wxCommandEvent& event);
+  void OnStateSave(wxCommandEvent& event);
+  void OnStateRestore(wxCommandEvent& event);
   void OnQuit(wxCommandEvent& event);
   void OnAbout(wxCommandEvent& event);
   void OnStartSim(wxCommandEvent& event);
