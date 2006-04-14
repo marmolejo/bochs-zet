@@ -3464,6 +3464,7 @@ int bx_write_configuration(const char *rc, int overwrite)
   fprintf(fp, "mouse: enabled=%d, type=%s\n",
     SIM->get_param_bool(BXPN_MOUSE_ENABLED)->get(),
     SIM->get_param_enum(BXPN_MOUSE_TYPE)->get_selected());
+  SIM->save_user_options(fp);
   fclose(fp);
   return 0;
 }
