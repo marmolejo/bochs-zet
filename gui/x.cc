@@ -542,6 +542,8 @@ bx_x_gui_c::specific_init(int argc, char **argv, unsigned tilewidth, unsigned ti
   XSetWMProperties(bx_x_display, win, &windowName, &iconName,
       argv, argc, &size_hints, &wm_hints,
       &class_hints);
+  XFree(windowName.value);
+  XFree(iconName.value);
   }
 
   /* Select event types wanted */

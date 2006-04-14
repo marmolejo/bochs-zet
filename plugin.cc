@@ -515,6 +515,7 @@ void pluginRegisterDeviceDevmodel(plugin_t *plugin, plugintype_t type, bx_devmod
         // Core devices are present whether or not we are using plugins, so
         // they are managed by the same code in iodev/devices.cc whether
         // plugins are on or off.  
+        free(device);
         return; // Do not add core devices to the devices list.
       case PLUGTYPE_OPTIONAL:
       case PLUGTYPE_USER:
