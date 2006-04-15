@@ -1003,6 +1003,7 @@ int bx_init_hardware()
 
   DEV_init_devices();
 #if BX_SUPPORT_SAVE_RESTORE
+  DEV_register_state();
   if (SIM->get_param_bool(BXPN_RESTORE_FLAG)->get()) {
     SIM->restore_logopts();
   }
@@ -1012,6 +1013,7 @@ int bx_init_hardware()
 #if BX_SUPPORT_SAVE_RESTORE
   if (SIM->get_param_bool(BXPN_RESTORE_FLAG)->get()) {
 //  SIM->restore_hardware();
+//  DEV_after_restore_state();
   }
 #endif
   bx_gui->init_signal_handlers();

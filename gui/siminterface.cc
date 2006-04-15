@@ -864,6 +864,7 @@ bx_bool bx_real_sim_c::save_state(const char *checkpoint_path)
   int type, ntype = SIM->get_max_log_level();
   FILE *fp;
 
+  DEV_before_save_state();
   sprintf(sr_file, "%s/config", checkpoint_path);
   write_rc(sr_file, 1);
   sprintf(sr_file, "%s/logopts", checkpoint_path);
@@ -1056,7 +1057,6 @@ bx_bool bx_real_sim_c::restore_hardware()
                   BX_ERROR(("restore_hardware(): unknown parameter type"));
               }
             }
-            printf("%d: %s\n", i, ptr);
             i++;
             ptr = strtok(NULL, " ");
           }

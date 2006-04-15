@@ -319,13 +319,13 @@ void bx_devices_c::reset(unsigned type)
   mem->disable_smram();
   pluginUnmapped->reset(type);
 #if BX_SUPPORT_PCI
-  if (SIM->get_param_bool(BXPN_I440FX_SUPPORT)->get ()) {
+  if (SIM->get_param_bool(BXPN_I440FX_SUPPORT)->get()) {
     pluginPciBridge->reset(type);
     pluginPci2IsaBridge->reset(type);
   }
 #endif
-#if BX_SUPPORT_IOAPIC
-  ioapic->reset (type);
+#if BX_SUPPORT_APIC
+  ioapic->reset(type);
 #endif
   pluginBiosDevice->reset(type);
   pluginCmosDevice->reset(type);
@@ -340,6 +340,46 @@ void bx_devices_c::reset(unsigned type)
   // now reset optional plugins
   bx_reset_plugins(type);
 }
+
+#if BX_SUPPORT_SAVE_RESTORE
+void bx_devices_c::register_state()
+{
+  pluginUnmapped->register_state();
+#if BX_SUPPORT_PCI
+  if (SIM->get_param_bool(BXPN_I440FX_SUPPORT)->get()) {
+    pluginPciBridge->register_state();
+    pluginPci2IsaBridge->register_state();
+  }
+#endif
+#if BX_SUPPORT_APIC
+//ioapic->register_state();
+#endif
+  pluginBiosDevice->register_state();
+  pluginCmosDevice->register_state();
+  pluginDmaDevice->register_state();
+  pluginFloppyDevice->register_state();
+  pluginVgaDevice->register_state();
+  pluginPicDevice->register_state();
+//pit->register_state();
+#if BX_SUPPORT_IODEBUG
+  iodebug->register_state();
+#endif
+  // now register state of optional plugins
+  bx_plugins_register_state();
+}
+
+void bx_devices_c::before_save_state()
+{
+  // TODO
+  bx_plugins_before_save_state();
+}
+
+void bx_devices_c::after_restore_state()
+{
+  // TODO
+  bx_plugins_after_restore_state();
+}
+#endif
 
 Bit32u bx_devices_c::read_handler(void *this_ptr, Bit32u address, unsigned io_len)
 {
