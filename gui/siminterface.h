@@ -113,6 +113,7 @@ typedef enum {
   BXT_PARAM_BOOL,
   BXT_PARAM_ENUM,
   BXT_PARAM_STRING,
+  BXT_PARAM_DATA,
   BXT_LIST
 } bx_objtype;
 
@@ -860,6 +861,21 @@ public:
       int maxsize=-1);
 };
 
+#if BX_SUPPORT_SAVE_RESTORE
+class BOCHSAPI bx_shadow_data_c : public bx_param_c {
+  Bit32u data_size;
+  Bit8u *data_ptr;
+public:
+  bx_shadow_data_c(bx_param_c *parent,
+      char *name,
+      char *description,
+      Bit8u *ptr_to_data,
+      Bit32u data_size);
+  Bit8u *getptr() {return data_ptr;}
+  Bit32u get_size() {return data_size;}
+};
+#endif
+
 #define BX_DEFAULT_LIST_SIZE 6
 
 class BOCHSAPI bx_list_c : public bx_param_c {
@@ -1187,6 +1203,7 @@ public:
   virtual bx_bool restore_config() {return 0;}
   virtual bx_bool restore_logopts() {return 0;}
   virtual bx_bool restore_hardware() {return 0;}
+  virtual bx_list_c *get_sr_root() {return NULL;}
 #endif 
 };
 
