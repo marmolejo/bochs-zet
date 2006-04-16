@@ -199,7 +199,7 @@ void bx_keyb_c::init(void)
   if (first_time) {
     first_time = 0;
     // register shadow params (Experimental, not a complete list by far)
-    bx_list_c *list = new bx_list_c(SIM->get_param("save_restore"), "keyboard",
+    bx_list_c *list = new bx_list_c(SIM->get_param("wxdebug"), "keyboard",
                                     "Keyboard State", 20);
     new bx_shadow_bool_c(list, "irq1_req",
           "Keyboard IRQ1 requested",
