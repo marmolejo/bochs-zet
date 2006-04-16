@@ -237,6 +237,13 @@ void print_tree(bx_param_c *node, int level)
 	}
 	break;
       }
+#if BX_SUPPORT_SAVE_RESTORE
+    case BXT_PARAM_DATA:
+      printf("%s = 'size=%d'  (binary data)\n", node->get_name(), ((bx_shadow_data_c*)node)->get_size());
+      break;
+#endif
+    default:
+      printf("%s  (unknown parameter type)\n", node->get_name());
   }
 }
 
