@@ -345,7 +345,8 @@ void BX_CPU_C::initialize(BX_MEM_C *addrspace)
     DEFPARAM_SEG_REG(TR);
     DEFPARAM_GLOBAL_SEG_REG(GDTR, gdtr);
     DEFPARAM_GLOBAL_SEG_REG(IDTR, idtr);
-#undef DEFPARAM_SEGREG
+#undef DEFPARAM_SEG_REG
+#undef DEFPARAM_GLOBAL_SEG_REG
 
 #if BX_SUPPORT_X86_64==0
     param = new bx_shadow_num_c(list, "EFLAGS", "EFLAGS",
@@ -379,7 +380,7 @@ void BX_CPU_C::initialize(BX_MEM_C *addrspace)
     param = new bx_shadow_num_c(
             list,
             "IOPL", "IOPL",
-            &eflags.val32,
+            &eflags.val32, 10,
             12, 13);
     param->set_range(0, 3);
 #if BX_SUPPORT_X86_64==0
