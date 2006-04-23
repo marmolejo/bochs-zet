@@ -250,7 +250,7 @@ void BX_CPU_C::FXRSTOR(bxInstruction_c *i)
 #endif
   {
     BX_CPU_THIS_PTR the_i387.fip = xmm.xmm32u(2);
-    BX_CPU_THIS_PTR the_i387.fcs = xmm.xmm16u(5);;
+    BX_CPU_THIS_PTR the_i387.fcs = xmm.xmm16u(5);
   }
 
   Bit32u twd = 0, tag_byte = xmm.xmm16u(2);
