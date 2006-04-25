@@ -2869,6 +2869,7 @@ public: // for now...
   BX_SMF bx_bool can_pop(Bit32u bytes);
   BX_SMF void    decrementESPForPush(unsigned nBytes, Bit32u *eSP);
   BX_SMF void    sanity_checks(void);
+  BX_SMF void    assert_checks(void);
   BX_SMF void    enter_system_management_mode(void);
   BX_SMF void    deliver_NMI(void);
   BX_SMF void    deliver_SMI(void);
