@@ -52,7 +52,7 @@ BX_CPU_C::jump_protected(bxInstruction_c *i, Bit16u cs_raw, bx_address disp)
 
   parse_selector(cs_raw, &selector);
 
-  /* destination selector index is whithin its descriptor table
+  /* destination selector index is within its descriptor table
      limits else #GP(selector) */
   fetch_raw_descriptor(&selector, &dword1, &dword2, BX_GP_EXCEPTION);
 

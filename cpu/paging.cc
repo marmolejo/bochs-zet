@@ -336,12 +336,12 @@
 //       value, necessitating a TLB flush when CR0.WP changes.
 //
 //       The test is:
-//         OK = 1 << ( (W<<1) | U )   [W:1=write, 0=read, U:1=CPL3,0=CPL0-2]
+//         OK = 0x1 << ( (W<<1) | U )   [W:1=write, 0=read, U:1=CPL3,0=CPL0-2]
 //       
 //       Thus for reads, it is:
-//         OK = 0x10 << (          U )
+//         OK = 0x1 << (          U )
 //       And for writes:
-//         OK = 0x40 << (          U )
+//         OK = 0x4 << (          U )
 //
 //     bit 7:       a Write from User   privilege is OK
 //     bit 6:       a Write from System privilege is OK
