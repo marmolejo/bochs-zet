@@ -960,7 +960,7 @@ void BX_CPU_C::MOVD_EdVd(bxInstruction_c *i)
       write_virtual_dword(i->seg(), RMAddr(i), &op2);
     }
   }
-
+#else
   BX_INFO(("MOVD_EdVd: required SSE2, use --enable-sse option"));
   UndefinedOpcode(i);
 #endif
