@@ -648,13 +648,14 @@ void bx_keyb_c::write(Bit32u address, Bit32u value, unsigned io_len)
                 (unsigned) value));
             return;
           }
-          BX_PANIC(("unsupported io write to keyboard port %x, value = %x",
+          BX_ERROR(("unsupported io write to keyboard port %x, value = %x",
             (unsigned) address, (unsigned) value));
           break;
-        }
+      }
       break;
 
-    default: BX_PANIC(("unknown address in bx_keyb_c::write()"));
+    default:
+      BX_PANIC(("unknown address in bx_keyb_c::write()"));
   }
 }
 

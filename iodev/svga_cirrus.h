@@ -202,7 +202,6 @@ private:
   unsigned svga_dispbpp;
 
   Bit8u *vidmem;
-  Bit8u *tilemem;
   Bit32u bank_base[2];
   Bit32u bank_limit[2];
   Bit32u memsize;
