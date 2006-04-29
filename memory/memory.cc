@@ -177,7 +177,7 @@ inc_one:
     // Write Based on 440fx Programming
     if (pci_enabled && ((a20addr & 0xfffc0000) == 0x000c0000))
     {
-      switch (DEV_pci_wr_memtype(a20addr & 0xFC000)) {
+      switch (DEV_pci_wr_memtype(a20addr)) {
         case 0x1:   // Writes to ShadowRAM
           BX_DEBUG(("Writing to ShadowRAM: address %08x, data %02x", (unsigned) a20addr, *data_ptr));
           vector[a20addr] = *data_ptr;
@@ -317,9 +317,9 @@ inc_one:
 #if BX_SUPPORT_PCI
     if (pci_enabled && ((a20addr & 0xfffc0000) == 0x000c0000))
     {
-      switch (DEV_pci_rd_memtype (a20addr)) {
+      switch (DEV_pci_rd_memtype(a20addr)) {
         case 0x0:  // Read from ROM
-          if ( (a20addr & 0xfffe0000) == 0x000e0000 )
+          if ((a20addr & 0xfffe0000) == 0x000e0000)
           {
             *data_ptr = rom[a20addr & BIOS_MASK];
           }
