@@ -174,6 +174,7 @@ public:
   void    outp(Bit16u addr, Bit32u value, unsigned io_len) BX_CPP_AttrRegparmN(3);
   void    set_enable_a20(bx_bool value);
   bx_bool get_enable_a20(void);
+  void    MemoryMappingChanged(void); // flush TLB in all CPUs
   void    exit(void);
 };
 

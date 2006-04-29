@@ -291,6 +291,17 @@ void bx_pci_bridge_c::pci_write_handler(Bit8u address, Bit32u value, unsigned io
         case 0x06:
         case 0x0c:
           break;
+        case 0x59:
+        case 0x5A:
+        case 0x5B:
+        case 0x5C:
+        case 0x5D:
+        case 0x5E:
+        case 0x5F:
+          BX_INFO(("440FX PMC write to PAM register %x (TLB Flush)", address+i));
+          BX_PCI_THIS s.i440fx.pci_conf[address+i] = value8;
+          bx_pc_system.MemoryMappingChanged();
+          break;
         case 0x72:
           smram_control(value);  // SMRAM conrol register
           break;

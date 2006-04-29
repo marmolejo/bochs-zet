@@ -2782,7 +2782,6 @@ public: // for now...
 #endif
   BX_SMF void pagingCR0Changed(Bit32u oldCR0, Bit32u newCR0) BX_CPP_AttrRegparmN(2);
   BX_SMF void pagingCR4Changed(Bit32u oldCR4, Bit32u newCR4) BX_CPP_AttrRegparmN(2);
-  BX_SMF void pagingA20Changed(void);
 
   BX_SMF void reset(unsigned source);
   BX_SMF void shutdown(void);

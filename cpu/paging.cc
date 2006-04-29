@@ -474,14 +474,7 @@ BX_CPU_C::CR3_change(bx_phy_address value)
     BX_CPU_THIS_PTR cr3_masked = value & 0xfffff000;
 }
 
-  void
-BX_CPU_C::pagingA20Changed(void)
-{
-  TLB_flush(1); // 1 = Flush Global entries too.
-}
-
-  void
-BX_CPU_C::TLB_init(void)
+void BX_CPU_C::TLB_init(void)
 {
   // Called to initialize the TLB upon startup.
   // Unconditional initialization of all TLB entries.
