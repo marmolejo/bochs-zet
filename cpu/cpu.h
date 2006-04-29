@@ -2664,7 +2664,7 @@ public: // for now...
   BX_SMF void     atexit(void);
   
   // now for some ancillary functions...
-  BX_SMF void cpu_loop(Bit32s max_instr_count);
+  BX_SMF void cpu_loop(Bit32u max_instr_count);
   BX_SMF unsigned handleAsyncEvent(void);
   BX_SMF void boundaryFetch(Bit8u *fetchPtr, unsigned remainingInPage, bxInstruction_c *i);
   BX_SMF void prefetch(void);

@@ -857,7 +857,7 @@ int bx_begin_simulation (int argc, char *argv[])
 #if BX_SUPPORT_SMP == 0
     // only one processor, run as fast as possible by not messing with
     // quantums and loops.
-    BX_CPU(0)->cpu_loop(1);
+    BX_CPU(0)->cpu_loop(0);
     // for one processor, the only reason for cpu_loop to return is
     // that kill_bochs_request was set by the GUI interface.
 #else
