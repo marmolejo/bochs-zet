@@ -210,6 +210,7 @@ void bx_ne2k_c::write_cr(Bit32u value)
     bx_pc_system.activate_timer(BX_NE2K_THIS s.tx_timer_index,
 				(64 + 96 + 4*8 + BX_NE2K_THIS s.tx_bytes*8)/10,
 				0); // not continuous
+    BX_NE2K_THIS s.tx_timer_active = 1;
   }
 
   // Linux probes for an interrupt by setting up a remote-DMA read

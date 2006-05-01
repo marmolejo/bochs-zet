@@ -772,7 +772,8 @@ public:
       char *name,
       char *label,
       char *description,
-      Bit64s initial_val);
+      Bit64s initial_val,
+      bx_bool is_shadow = 0);
 #if BX_USE_TEXTCONFIG
   virtual void text_print(FILE *fp);
   virtual int text_ask(FILE *fpin, FILE *fpout);

@@ -190,10 +190,10 @@ typedef struct {
     Bit8u  mem[BX_NE2K_MEMSIZ];  // on-chip packet memory
 
     // ne2k internal state
-    Bit32u base_address;
-    int    base_irq;
-    int    tx_timer_index;
-    int    tx_timer_active;
+    Bit32u  base_address;
+    int     base_irq;
+    int     tx_timer_index;
+    bx_bool tx_timer_active;
 
     // pci stuff
     bx_bool pci_enabled;

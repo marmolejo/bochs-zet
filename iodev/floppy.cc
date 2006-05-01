@@ -371,6 +371,7 @@ void bx_floppy_ctrl_c::reset(unsigned type)
     BX_FD_THIS s.cylinder[i] = 0;
     BX_FD_THIS s.head[i] = 0;
     BX_FD_THIS s.sector[i] = 0;
+    BX_FD_THIS s.eot[i] = 0;
   }
 
   DEV_pic_lower_irq(6);
