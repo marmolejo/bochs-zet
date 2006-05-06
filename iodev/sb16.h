@@ -152,8 +152,8 @@ typedef struct {
 class bx_sb16_buffer {
 public:
 
-  BX_SB16_BUFINL bx_sb16_buffer(void);
-  BX_SB16_BUFINL ~bx_sb16_buffer(void);
+  BX_SB16_BUFINL  bx_sb16_buffer(void);
+  BX_SB16_BUFINL ~bx_sb16_buffer();
   BX_SB16_BUFINL void init(int bufferlen);
   BX_SB16_BUFINL void reset();
 
