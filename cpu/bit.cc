@@ -526,6 +526,10 @@ void BX_CPU_C::BSWAP_ERX(bxInstruction_c *i)
 #if (BX_CPU_LEVEL >= 4) || (BX_CPU_LEVEL_HACKED >= 4)
   Bit32u val32, b0, b1, b2, b3;
 
+  if (i->os32L() == 0) {
+    BX_ERROR(("BSWAP with 16-bit opsize: undefined behavior !"));
+  }
+
   val32 = BX_READ_32BIT_REG(i->opcodeReg());
   b0  = val32 & 0xff; val32 >>= 8;
   b1  = val32 & 0xff; val32 >>= 8;
