@@ -1635,7 +1635,7 @@ void bx_wx_gui_c::show_ips(Bit32u ips_count)
 {
   char ips_text[40];
   sprintf(ips_text, "IPS: %9u", ips_count);
-  theFrame->SetStatusText(ips_text, 0);
+  theFrame->SetStatusText(wxString(ips_text, wxConvUTF8), 0);
 }
 #endif
 
