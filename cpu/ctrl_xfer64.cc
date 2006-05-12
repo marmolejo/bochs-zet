@@ -303,14 +303,14 @@ void BX_CPU_C::IRET64(bxInstruction_c *i)
 void BX_CPU_C::JCXZ64_Jb(bxInstruction_c *i)
 {
   if (i->as64L()) {
-    if ( RCX == 0 ) {
+    if (RCX == 0) {
       branch_near64(i);
       BX_INSTR_CNEAR_BRANCH_TAKEN(BX_CPU_ID, RIP);
       return;
     }
   }
   else {
-    if ( ECX == 0 ) {
+    if (ECX == 0) {
       branch_near64(i);
       BX_INSTR_CNEAR_BRANCH_TAKEN(BX_CPU_ID, RIP);
       return;
@@ -323,14 +323,14 @@ void BX_CPU_C::JCXZ64_Jb(bxInstruction_c *i)
 void BX_CPU_C::LOOPNE64_Jb(bxInstruction_c *i)
 {
   if (i->as64L()) {
-    if ( ((--RCX) != 0) && (get_ZF()==0) ) {
+    if (((--RCX) != 0) && (get_ZF()==0)) {
       branch_near64(i);
       BX_INSTR_CNEAR_BRANCH_TAKEN(BX_CPU_ID, RIP);
       return;
     }
   }
   else {
-    if ( ((--ECX) != 0) && (get_ZF()==0) ) {
+    if (((--ECX) != 0) && (get_ZF()==0)) {
       branch_near64(i);
       BX_INSTR_CNEAR_BRANCH_TAKEN(BX_CPU_ID, RIP);
       return;
@@ -343,7 +343,7 @@ void BX_CPU_C::LOOPNE64_Jb(bxInstruction_c *i)
 void BX_CPU_C::LOOPE64_Jb(bxInstruction_c *i)
 {
   if (i->as64L()) {
-    if ( ((--RCX)!=0) && (get_ZF()) ) {
+    if (((--RCX)!=0) && (get_ZF())) {
       branch_near64(i);
       BX_INSTR_CNEAR_BRANCH_TAKEN(BX_CPU_ID, RIP);
       return;

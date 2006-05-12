@@ -135,7 +135,6 @@ BX_CPU_C::branch_near32(Bit32u new_EIP)
     exception(BX_GP_EXCEPTION, 0, 0);
   }
   EIP = new_EIP;
-  revalidate_prefetch_q();
 }
 
 void BX_CPU_C::branch_far32(bx_selector_t *selector, 
@@ -172,7 +171,6 @@ BX_CPU_C::branch_near64(bxInstruction_c *i)
   }
 
   RIP = new_RIP;
-  revalidate_prefetch_q();
 }
 #endif
 
