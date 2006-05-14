@@ -893,6 +893,18 @@ void bx_stop_simulation()
   // the cpu loop will exit very soon after this condition is set.
 }
 
+#if BX_SUPPORT_SAVE_RESTORE
+void bx_sr_before_save_state(void)
+{
+  DEV_before_save_state();
+}
+
+void bx_sr_after_restore_state(void)
+{
+  DEV_after_restore_state();
+}
+#endif
+
 int bx_init_hardware()
 {
   // all configuration has been read, now initialize everything.
@@ -1020,7 +1032,7 @@ int bx_init_hardware()
 #if BX_SUPPORT_SAVE_RESTORE
   if (SIM->get_param_bool(BXPN_RESTORE_FLAG)->get()) {
 //  SIM->restore_hardware();
-//  DEV_after_restore_state();
+//  bx_sr_after_restore_state();
   }
 #endif
   bx_gui->init_signal_handlers();
