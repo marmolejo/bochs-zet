@@ -1484,6 +1484,7 @@ AC_ARG_ENABLE(vme,
     ]
   )
 
+support_mmx=1
 AC_MSG_CHECKING(for MMX support)
 AC_ARG_ENABLE(mmx,
   [  --enable-mmx                      MMX support],
@@ -1493,6 +1494,7 @@ AC_ARG_ENABLE(mmx,
    elif test "$enableval" = no; then
     AC_MSG_RESULT(no)
     AC_DEFINE(BX_SUPPORT_MMX, 0)
+    support_mmx=0
    fi
    ],
   [
@@ -1615,8 +1617,13 @@ AC_ARG_ENABLE(sep,
    fi
    ],
   [
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_SEP, 0)
+    if test "$bx_cpu_level" -ge 6 -a "$support_mmx" = 1; then
+      AC_MSG_RESULT(yes)
+      AC_DEFINE(BX_SUPPORT_SEP, 1)
+    else
+      AC_MSG_RESULT(no)
+      AC_DEFINE(BX_SUPPORT_SEP, 0)
+    fi
     ]
   )
 
