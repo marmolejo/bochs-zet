@@ -59,7 +59,7 @@ void purgeICaches(void)
   BX_CPU(0)->iCache.purgeICacheEntries();
 #endif
 
-  pageWriteStampTable.resetWriteStamps();
+  pageWriteStampTable.purgeWriteStamps();
 }
 
 void flushICaches(void)
