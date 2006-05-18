@@ -133,8 +133,6 @@ public:
     return pAddr & (BxICacheEntries-1);
   }
 
-  BX_CPP_INLINE void invalidatePage(bx_phy_address pAddr);
-
   BX_CPP_INLINE void purgeICacheEntries(void);
   BX_CPP_INLINE void flushICacheEntries(void);
 };
@@ -161,16 +159,6 @@ BX_CPP_INLINE void bxICache_c::purgeICacheEntries(void)
       e->writeStamp = ICacheWriteStampInvalid;	// invalidate entry
     else
       e->writeStamp |= ICacheWriteStampMask;
-  }
-}
-
-BX_CPP_INLINE void bxICache_c::invalidatePage(bx_phy_address pAddr)
-{
-  // Take the hash of the 0th page offset.
-  unsigned iCacheHash = hash(pAddr & 0xfffff000);
-  for (unsigned o=0; o<4096; o++) {
-    entry[iCacheHash].writeStamp = ICacheWriteStampInvalid;
-    iCacheHash = (iCacheHash + 1) % BxICacheEntries;
   }
 }
 
