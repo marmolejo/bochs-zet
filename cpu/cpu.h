@@ -2946,11 +2946,11 @@ public: // for now...
 
 BX_CPP_INLINE void BX_CPU_C::updateFetchModeMask(void)
 {
-  fetchModeMask = (BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b << 31)
+  fetchModeMask = 
 #if BX_SUPPORT_X86_64
-         | ((BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)<<30)
+    ((BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)<<30) |
 #endif
-         | (1<<29); // iCache code.
+     (BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b << 31);
 }
 
 #endif
