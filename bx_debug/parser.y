@@ -761,7 +761,12 @@ disassemble_command:
     ;
 
 instrument_command:
-      BX_TOKEN_INSTRUMENT BX_TOKEN_COMMAND '\n'
+      BX_TOKEN_INSTRUMENT BX_TOKEN_STOP '\n'
+      {
+        bx_dbg_instrument_command($2);
+        free($1); free($2);
+      }
+    | BX_TOKEN_INSTRUMENT BX_TOKEN_COMMAND '\n'
       {
         bx_dbg_instrument_command($2);
         free($1); free($2);
