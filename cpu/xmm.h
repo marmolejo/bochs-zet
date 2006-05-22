@@ -58,7 +58,7 @@ typedef union bx_xmm_reg_t {
 
 #if BX_SUPPORT_SSE >= 1
 
-#ifdef BX_SUPPORT_X86_64
+#if BX_SUPPORT_X86_64
 #  define BX_XMM_REGISTERS 16
 #else
 #  define BX_XMM_REGISTERS 8
