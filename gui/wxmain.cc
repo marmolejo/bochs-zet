@@ -1204,7 +1204,7 @@ MyFrame::OnSim2CIEvent(wxCommandEvent& event)
     break;
 #if BX_DEBUGGER
   case BX_ASYNC_EVT_DBG_MSG:
-    showDebugLog->AppendText(be->u.logmsg.msg);
+    showDebugLog->AppendText(wxString(be->u.logmsg.msg, wxConvUTF8));
     // free the char* which was allocated in dbg_printf
     delete [] ((char*) be->u.logmsg.msg);
     break;
