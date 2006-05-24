@@ -99,15 +99,10 @@ void BX_CPU_C::XLAT(bxInstruction_c *i)
     offset = EBX + AL;
   }
   else {
-    offset = BX  + AL;
+    offset =  BX + AL;
   }
 
-  if (!BX_NULL_SEG_REG(i->seg())) {
-    read_virtual_byte(i->seg(), offset, &AL);
-  }
-  else {
-    read_virtual_byte(BX_SEG_REG_DS, offset, &AL);
-  }
+  read_virtual_byte(i->seg(), offset, &AL);
 }
 
 void BX_CPU_C::XCHG_EbGb(bxInstruction_c *i)
