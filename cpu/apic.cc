@@ -927,8 +927,8 @@ void bx_local_apic_c::register_state(bx_param_c *parent)
   new bx_shadow_num_c(parent, "shadow_error_status", &shadow_error_status, BASE_HEX);
   new bx_shadow_num_c(parent, "icr_hi", &icr_hi, BASE_HEX);
   new bx_shadow_num_c(parent, "icr_lo", &icr_lo, BASE_HEX);
-  bx_list_c *LVT = new bx_list_c(parent, "lvt");
-  for (i=0; i<6; i++) {
+  bx_list_c *LVT = new bx_list_c(parent, "lvt", APIC_LVT_ENTRIES);
+  for (i=0; i<APIC_LVT_ENTRIES; i++) {
     sprintf(name, "%d", i);
     new bx_shadow_num_c(LVT, strdup(name), &lvt[i], BASE_HEX);
   }

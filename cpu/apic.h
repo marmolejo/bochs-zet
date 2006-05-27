@@ -120,7 +120,7 @@ class BOCHSAPI bx_local_apic_c : public bx_generic_apic_c
   Bit32u icr_lo;
 
 #define APIC_LVT_ENTRIES 6
-  Bit32u lvt[6];
+  Bit32u lvt[APIC_LVT_ENTRIES];
 #define APIC_LVT_TIMER   0
 #define APIC_LVT_THERMAL 1
 #define APIC_LVT_PERFORM 2
