@@ -127,7 +127,7 @@ public:
                          bx_bool continuous, bx_bool active, const char *id);
 
   //unregister a previously registered timer.
-  unsigned unregisterTimer(int timerID);
+  bx_bool unregisterTimer(unsigned timerID);
 
   void   start_timers(void);
 

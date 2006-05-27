@@ -338,6 +338,22 @@ BX_CPU_C::ar_byte(const bx_descriptor_t *d)
   }
 }
 
+  void BX_CPP_AttrRegparmN(2)
+BX_CPU_C::set_ar_byte(bx_descriptor_t *d, Bit8u ar_byte)
+{
+  d->p        = (ar_byte >> 7) & 0x01;
+  d->dpl      = (ar_byte >> 5) & 0x03;
+  d->segment  = (ar_byte >> 4) & 0x01;
+  d->type     = (ar_byte & 0x0f);
+
+  if (d->segment) {
+    d->u.segment.executable = (ar_byte >> 3) & 0x01;
+    d->u.segment.c_ed       = (ar_byte >> 2) & 0x01;
+    d->u.segment.r_w        = (ar_byte >> 1) & 0x01;
+    d->u.segment.a          = (ar_byte >> 0) & 0x01;
+  }
+}
+
   Bit32u BX_CPP_AttrRegparmN(1)
 BX_CPU_C::get_descriptor_l(const bx_descriptor_t *d)
 {
