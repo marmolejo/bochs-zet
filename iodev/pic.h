@@ -78,6 +78,9 @@ public:
   virtual void set_mode(bx_bool ma_sl, Bit8u mode);
   virtual Bit8u IAC(void);
   virtual void show_pic_state(void);
+#if BX_SUPPORT_SAVE_RESTORE
+  virtual void register_state(void);
+#endif
 
 private:
   struct {

@@ -170,6 +170,9 @@ public:
   virtual bx_bool  bmdma_write_sector(Bit8u channel, Bit8u *buffer);
   virtual void     bmdma_complete(Bit8u channel);
 #endif
+#if BX_SUPPORT_SAVE_RESTORE
+  virtual void     register_state(void);
+#endif
 
   virtual Bit32u virt_read_handler(Bit32u address, unsigned io_len) {
     return read_handler (this, address, io_len);

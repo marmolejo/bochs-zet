@@ -622,19 +622,6 @@ void bx_plugins_register_state()
     }
 }
 
-/**************************************************************************/
-/* Plugin system: Execute code before saving state of all plugin devices  */
-/**************************************************************************/
-
-void bx_plugins_before_save_state()
-{
-    device_t *device;
-    for (device = devices; device; device = device->next)
-    {
-      device->devmodel->before_save_state();
-    }
-}
-
 /***************************************************************************/
 /* Plugin system: Execute code after restoring state of all plugin devices */
 /***************************************************************************/

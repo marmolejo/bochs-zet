@@ -42,6 +42,9 @@ public:
   virtual ~bx_gameport_c();
   virtual void init(void);
   virtual void reset(unsigned type);
+#if BX_SUPPORT_SAVE_RESTORE
+  virtual void register_state(void);
+#endif
 
 private:
 

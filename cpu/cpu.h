@@ -1293,6 +1293,16 @@ public: // for now...
   ~BX_CPU_C();
 #endif
   void initialize(BX_MEM_C *addrspace);
+#if BX_SUPPORT_SAVE_RESTORE
+  void register_state();
+  void after_restore_state();
+  static  Bit64s param_save_handler(void *devptr, bx_param_c *param, Bit64s val);
+  static  Bit64s param_restore_handler(void *devptr, bx_param_c *param, Bit64s val);
+#if !BX_USE_CPU_SMF
+  Bit64s param_save(bx_param_c *param, Bit64s val);
+  Bit64s param_restore(bx_param_c *param, Bit64s val);
+#endif
+#endif
 
 // <TAG-CLASS-CPU-START>
   // prototypes for CPU instructions...

@@ -67,6 +67,9 @@ public:
   BX_PIT_SMF int init(void);
   BX_PIT_SMF void reset( unsigned type);
   BX_PIT_SMF bx_bool periodic( Bit32u   usec_delta );
+#if BX_SUPPORT_SAVE_RESTORE
+  BX_PIT_SMF void register_state(void);
+#endif
 
 private:
 

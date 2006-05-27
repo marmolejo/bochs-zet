@@ -346,8 +346,12 @@ public:
   virtual bx_bool usb_key_enq(Bit8u *scan_code);
   virtual bx_bool usb_keyboard_connected();
   virtual bx_bool usb_mouse_connected();
-  virtual Bit32u pci_read_handler(Bit8u address, unsigned io_len);
-  virtual void   pci_write_handler(Bit8u address, Bit32u value, unsigned io_len);
+#if BX_SUPPORT_SAVE_RESTORE
+  virtual void register_state(void);
+  virtual void after_restore_state(void);
+#endif
+  virtual Bit32u  pci_read_handler(Bit8u address, unsigned io_len);
+  virtual void    pci_write_handler(Bit8u address, Bit32u value, unsigned io_len);
 
   static const char *usb_param_handler(bx_param_string_c *param, int set, const char *val, int maxlen);
 

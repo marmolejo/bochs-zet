@@ -344,7 +344,7 @@ void bx_devices_c::reset(unsigned type)
 #if BX_SUPPORT_SAVE_RESTORE
 void bx_devices_c::register_state()
 {
-  pluginUnmapped->register_state();
+  bx_virt_timer.register_state();
 #if BX_SUPPORT_PCI
   if (SIM->get_param_bool(BXPN_I440FX_SUPPORT)->get()) {
     pluginPciBridge->register_state();
@@ -352,31 +352,29 @@ void bx_devices_c::register_state()
   }
 #endif
 #if BX_SUPPORT_APIC
-//ioapic->register_state();
+  ioapic->register_state();
 #endif
-  pluginBiosDevice->register_state();
   pluginCmosDevice->register_state();
   pluginDmaDevice->register_state();
   pluginFloppyDevice->register_state();
   pluginVgaDevice->register_state();
   pluginPicDevice->register_state();
-//pit->register_state();
-#if BX_SUPPORT_IODEBUG
-  iodebug->register_state();
-#endif
+  pit->register_state();
   // now register state of optional plugins
   bx_plugins_register_state();
 }
 
-void bx_devices_c::before_save_state()
-{
-  // TODO
-  bx_plugins_before_save_state();
-}
-
 void bx_devices_c::after_restore_state()
 {
-  // TODO
+  bx_slowdown_timer.after_restore_state();
+#if BX_SUPPORT_PCI
+  if (SIM->get_param_bool(BXPN_I440FX_SUPPORT)->get()) {
+    pluginPciBridge->after_restore_state();
+    pluginPci2IsaBridge->after_restore_state();
+  }
+#endif
+  pluginCmosDevice->after_restore_state();
+  pluginVgaDevice->after_restore_state();
   bx_plugins_after_restore_state();
 }
 #endif

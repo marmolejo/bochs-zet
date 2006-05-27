@@ -128,6 +128,11 @@ void BX_MEM_C::init_memory(int memsize)
 
   // accept only memory size which is multiply of 1M
   BX_ASSERT((len & 0xfffff) == 0);
+
+#if BX_SUPPORT_SAVE_RESTORE
+  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "memory", "Memory State");
+  new bx_shadow_data_c(list, "ram", BX_MEM_THIS vector, BX_MEM_THIS len);
+#endif
 }
 
 #if BX_SUPPORT_APIC

@@ -87,7 +87,6 @@ class BOCHSAPI bx_devmodel_c : public logfunctions {
   virtual void reset(unsigned type) {}
 #if BX_SUPPORT_SAVE_RESTORE
   virtual void register_state(void) {}
-  virtual void before_save_state(void) {}
   virtual void after_restore_state(void) {}
 #endif
 };
@@ -392,7 +391,6 @@ public:
   void reset(unsigned type);
 #if BX_SUPPORT_SAVE_RESTORE
   void register_state(void);
-  void before_save_state(void);
   void after_restore_state(void);
 #endif
   BX_MEM_C *mem;  // address space associated with these devices

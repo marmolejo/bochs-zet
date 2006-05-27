@@ -47,6 +47,9 @@ public:
   virtual void     raise_HLDA(void);
   virtual void     set_DRQ(unsigned channel, bx_bool val);
   virtual unsigned get_TC(void);
+#if BX_SUPPORT_SAVE_RESTORE
+  virtual void     register_state(void);
+#endif
 
   virtual unsigned registerDMA8Channel(unsigned channel,
     void (* dmaRead)(Bit8u *data_byte),

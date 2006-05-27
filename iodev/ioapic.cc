@@ -62,6 +62,14 @@ void bx_io_redirect_entry_t::sprintf_self(char *buf)
      (unsigned) vector());
 }
 
+#if BX_SUPPORT_SAVE_RESTORE
+void bx_io_redirect_entry_t::register_state(bx_param_c *parent)
+{
+  new bx_shadow_num_c(parent, "lo", &lo, BASE_HEX);
+  new bx_shadow_num_c(parent, "hi", &hi, BASE_HEX);
+}
+#endif
+
 #define BX_IOAPIC_BASE_ADDR (0xfec00000)
 
 bx_ioapic_c::bx_ioapic_c() 
@@ -240,5 +248,25 @@ void bx_ioapic_c::service_ioapic()
     }
   }
 }
+
+#if BX_SUPPORT_SAVE_RESTORE
+void bx_ioapic_c::register_state(void)
+{
+  unsigned i;
+  char name[6];
+  bx_list_c *entry;
+
+  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "ioapic", "IOAPIC State");
+  new bx_shadow_num_c(list, "ioregsel", &ioregsel, BASE_HEX);
+  new bx_shadow_num_c(list, "intin", &intin, BASE_HEX);
+  new bx_shadow_num_c(list, "irr", &irr, BASE_HEX);
+  bx_list_c *table = new bx_list_c(list, "ioredtbl", BX_IOAPIC_NUM_PINS);
+  for (i=0; i<BX_IOAPIC_NUM_PINS; i++) {
+    sprintf(name, "0x%02x", i);
+    entry = new bx_list_c(table, strdup(name), 2);
+    ioredtbl[i].register_state(entry);
+  }
+}
+#endif
 
 #endif /* if BX_SUPPORT_APIC */

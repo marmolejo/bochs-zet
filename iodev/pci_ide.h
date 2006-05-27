@@ -45,6 +45,16 @@ public:
   virtual void reset(unsigned type);
   virtual bx_bool bmdma_present(void);
   virtual void bmdma_set_irq(Bit8u channel);
+#if BX_SUPPORT_SAVE_RESTORE
+  virtual void register_state(void);
+  virtual void after_restore_state(void);
+  static  Bit64s param_save_handler(void *devptr, bx_param_c *param, Bit64s val);
+  static  Bit64s param_restore_handler(void *devptr, bx_param_c *param, Bit64s val);
+#if !BX_USE_PIDE_SMF
+  Bit64s param_save(bx_param_c *param, Bit64s val);
+  Bit64s param_restore(bx_param_c *param, Bit64s val);
+#endif
+#endif
 
   virtual Bit32u pci_read_handler(Bit8u address, unsigned io_len);
   virtual void   pci_write_handler(Bit8u address, Bit32u value, unsigned io_len);
