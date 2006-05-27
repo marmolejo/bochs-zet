@@ -107,9 +107,6 @@ extern "C" {
 // prototypes
 int bx_begin_simulation(int argc, char *argv[]);
 void bx_stop_simulation();
-#if BX_SUPPORT_SAVE_RESTORE
-void bx_sr_before_save_state();
-#endif
 char *bx_find_bochsrc(void);
 int bx_parse_cmdline(int arg, int argc, char *argv[]);
 int bx_read_configuration(const char *rcfile);
