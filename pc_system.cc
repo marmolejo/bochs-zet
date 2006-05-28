@@ -243,8 +243,8 @@ void bx_pc_system_c::register_state(void)
     sprintf(name, "%d", i);
     bx_list_c *bxtimer = new bx_list_c(timers, strdup(name));
     BXRS_PARAM_BOOL(bxtimer, inUse, timer[i].inUse);
-    BXRS_HEX_PARAM_FIELD(bxtimer, period, timer[i].period);
-    BXRS_HEX_PARAM_FIELD(bxtimer, timeToFire, timer[i].timeToFire);
+    BXRS_DEC_PARAM_FIELD(bxtimer, period, timer[i].period);
+    BXRS_DEC_PARAM_FIELD(bxtimer, timeToFire, timer[i].timeToFire);
     BXRS_PARAM_BOOL(bxtimer, active, timer[i].active);
     BXRS_PARAM_BOOL(bxtimer, continuous, timer[i].continuous);
   }
