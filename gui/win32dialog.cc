@@ -760,10 +760,11 @@ static BOOL CALLBACK RTMiscDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
               break;
             case IDSAVESTATE:
 #if BX_SUPPORT_SAVE_RESTORE
-              MessageBox(hDlg, "The save/restore function currently handles config and log options only", "WARNING", MB_ICONEXCLAMATION);
+              MessageBox(hDlg, "The save function quits after saving, since the state of hard drive images cannot be saved yet!", "WARNING", MB_ICONEXCLAMATION);
               sr_path[0] = 0;
               if (BrowseDir("Select folder for save/restore data", sr_path)) {
                 SIM->save_state(sr_path);
+                SendMessage(GetParent(hDlg), PSM_PRESSBUTTON, (WPARAM)PSBTN_CANCEL, 0);
               }
 #endif
               break;
