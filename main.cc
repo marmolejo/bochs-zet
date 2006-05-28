@@ -814,7 +814,10 @@ int bx_begin_simulation (int argc, char *argv[])
 {
 #if BX_SUPPORT_SAVE_RESTORE
   if (SIM->get_param_bool(BXPN_RESTORE_FLAG)->get()) {
-    SIM->restore_config();
+    if (!SIM->restore_config()) {
+      BX_PANIC(("cannot restore configuration"));
+      SIM->get_param_bool(BXPN_RESTORE_FLAG)->set(0);
+    }
   }
 #endif
   // deal with gui selection
@@ -1043,15 +1046,22 @@ int bx_init_hardware()
   bx_pc_system.register_state();
   DEV_register_state();
   if (SIM->get_param_bool(BXPN_RESTORE_FLAG)->get()) {
-    SIM->restore_logopts();
+    if (!SIM->restore_logopts()) {
+      BX_PANIC(("cannot restore log options"));
+      SIM->get_param_bool(BXPN_RESTORE_FLAG)->set(0);
+    }
   }
 #endif
   // will enable A20 line and reset CPU and devices
   bx_pc_system.Reset(BX_RESET_HARDWARE);
 #if BX_SUPPORT_SAVE_RESTORE
   if (SIM->get_param_bool(BXPN_RESTORE_FLAG)->get()) {
-    SIM->restore_hardware();
-    bx_sr_after_restore_state();
+    if (SIM->restore_hardware()) {
+      bx_sr_after_restore_state();
+    } else {
+      BX_PANIC(("cannot restore hardware state"));
+      SIM->get_param_bool(BXPN_RESTORE_FLAG)->set(0);
+    }
   }
 #endif
   bx_gui->init_signal_handlers();
