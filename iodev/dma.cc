@@ -210,7 +210,7 @@ void bx_dma_c::register_state(void)
       bx_list_c *chan = new bx_list_c(ctrl, strdup(name), 12);
       new bx_shadow_bool_c(chan, "DRQ", &BX_DMA_THIS s[i].DRQ[c]);
       new bx_shadow_bool_c(chan, "DACK", &BX_DMA_THIS s[i].DACK[c]);
-      new bx_shadow_bool_c(chan, "mask", &BX_DMA_THIS s[i].mask[4]);
+      new bx_shadow_bool_c(chan, "mask", &BX_DMA_THIS s[i].mask[c]);
       new bx_shadow_num_c(chan, "mode_type", &BX_DMA_THIS s[i].chan[c].mode.mode_type);
       new bx_shadow_num_c(chan, "address_decrement", &BX_DMA_THIS s[i].chan[c].mode.address_decrement);
       new bx_shadow_num_c(chan, "autoinit_enable", &BX_DMA_THIS s[i].chan[c].mode.autoinit_enable);
