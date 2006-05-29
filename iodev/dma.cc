@@ -199,14 +199,14 @@ void bx_dma_c::register_state(void)
   bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "dma", "DMA State");
   for (i=0; i<2; i++) {
     sprintf(name, "%d", i);
-    bx_list_c *ctrl = new bx_list_c(list, strdup(name), 8);
+    bx_list_c *ctrl = new bx_list_c(list, name, 8);
     BXRS_PARAM_BOOL(ctrl, flip_flop, BX_DMA_THIS s[i].flip_flop);
     BXRS_HEX_PARAM_FIELD(ctrl, status_reg, BX_DMA_THIS s[i].status_reg);
     BXRS_HEX_PARAM_FIELD(ctrl, command_reg, BX_DMA_THIS s[i].command_reg);
     BXRS_PARAM_BOOL(ctrl, ctrl_disabled, BX_DMA_THIS s[i].ctrl_disabled);
     for (c=0; c<4; c++) {
       sprintf(name, "%d", c);
-      bx_list_c *chan = new bx_list_c(ctrl, strdup(name), 12);
+      bx_list_c *chan = new bx_list_c(ctrl, name, 12);
       BXRS_PARAM_BOOL(chan, DRQ, BX_DMA_THIS s[i].DRQ[c]);
       BXRS_PARAM_BOOL(chan, DACK, BX_DMA_THIS s[i].DACK[c]);
       BXRS_PARAM_BOOL(chan, mask, BX_DMA_THIS s[i].mask[c]);
@@ -224,7 +224,7 @@ void bx_dma_c::register_state(void)
   bx_list_c *extpg = new bx_list_c(list, "ext_page", 16);
   for (i=0; i<16; i++) {
     sprintf(name, "0x%02x", 0x80+i);
-    new bx_shadow_num_c(extpg, strdup(name), &BX_DMA_THIS ext_page_reg[i], BASE_HEX);
+    BXRS_HEX_PARAM_FIELD(extpg, name, BX_DMA_THIS ext_page_reg[i]);
   }
 }
 #endif

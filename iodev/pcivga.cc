@@ -118,7 +118,7 @@ void bx_pcivga_c::register_state(void)
   bx_list_c *pci_conf = new bx_list_c(list, "pci_conf", 256);
   for (i=0; i<256; i++) {
     sprintf(name, "0x%02x", i);
-    new bx_shadow_num_c(pci_conf, strdup(name), &BX_PCIVGA_THIS s.pci_conf[i], BASE_HEX);
+    BXRS_HEX_PARAM_FIELD(pci_conf, name, BX_PCIVGA_THIS s.pci_conf[i]);
   }
 }
 #endif

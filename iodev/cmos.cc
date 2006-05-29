@@ -234,7 +234,7 @@ void bx_cmos_c::init(void)
   }
 
   char *tmptime;
-  while( (tmptime =  strdup(ctime(&(BX_CMOS_THIS s.timeval)))) == NULL) {
+  while((tmptime = strdup(ctime(&(BX_CMOS_THIS s.timeval)))) == NULL) {
     BX_PANIC(("Out of memory."));
   }
   tmptime[strlen(tmptime)-1]='\0';
@@ -292,7 +292,7 @@ void bx_cmos_c::register_state(void)
   for (unsigned i=0; i<128; i++) {
     char name[6];
     sprintf(name, "0x%02x", i);
-    new bx_shadow_num_c(ram, strdup(name), &BX_CMOS_THIS s.reg[i], BASE_HEX);
+    new bx_shadow_num_c(ram, name, &BX_CMOS_THIS s.reg[i], BASE_HEX);
   }
 }
 

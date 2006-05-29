@@ -165,14 +165,14 @@ void bx_pcipnic_c::register_state(void)
   bx_list_c *recvRL = new bx_list_c(list, "recvRingLength", PNIC_RECV_RINGS);
   for (i=0; i<PNIC_RECV_RINGS; i++) {
     sprintf(name, "%d", i);
-    new bx_shadow_num_c(recvRL, strdup(name), &BX_PNIC_THIS s.recvRingLength[i]);
+    new bx_shadow_num_c(recvRL, name, &BX_PNIC_THIS s.recvRingLength[i]);
   }
   new bx_shadow_data_c(list, "rData", BX_PNIC_THIS s.rData, PNIC_DATA_SIZE);
   new bx_shadow_data_c(list, "recvRing", (Bit8u*)BX_PNIC_THIS s.recvRing, PNIC_RECV_RINGS*PNIC_DATA_SIZE);
   bx_list_c *pci_conf = new bx_list_c(list, "pci_conf", 256);
   for (i=0; i<256; i++) {
     sprintf(name, "0x%02x", i);
-    new bx_shadow_num_c(pci_conf, strdup(name), &BX_PNIC_THIS s.pci_conf[i], BASE_HEX);
+    new bx_shadow_num_c(pci_conf, name, &BX_PNIC_THIS s.pci_conf[i], BASE_HEX);
   }
 }
 

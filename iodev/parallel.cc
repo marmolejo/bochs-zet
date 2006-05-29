@@ -134,7 +134,7 @@ void bx_parallel_c::register_state(void)
     base = (bx_list_c*) SIM->get_param(pname);
     if (SIM->get_param_bool("enabled", base)->get()) {
       sprintf(name, "%d", i);
-      port = new bx_list_c(list, strdup(name), 11);
+      port = new bx_list_c(list, name, 11);
       new bx_shadow_num_c(port, "data", &BX_PAR_THIS s[i].data, BASE_HEX);
       new bx_shadow_bool_c(port, "slct", &BX_PAR_THIS s[i].STATUS.slct);
       new bx_shadow_bool_c(port, "ack", &BX_PAR_THIS s[i].STATUS.ack);

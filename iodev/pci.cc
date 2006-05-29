@@ -158,7 +158,7 @@ void bx_pci_bridge_c::register_state(void)
   for (unsigned i=0; i<256; i++) {
     char name[6];
     sprintf(name, "0x%02x", i);
-    new bx_shadow_num_c(pci_conf, strdup(name), &BX_PCI_THIS s.i440fx.pci_conf[i], BASE_HEX);
+    new bx_shadow_num_c(pci_conf, name, &BX_PCI_THIS s.i440fx.pci_conf[i], BASE_HEX);
   }
 }
 

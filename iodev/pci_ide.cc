@@ -146,7 +146,7 @@ void bx_pci_ide_c::register_state(void)
   bx_list_c *pci_conf = new bx_list_c(list, "pci_conf", 256);
   for (i=0; i<256; i++) {
     sprintf(name, "0x%02x", i);
-    new bx_shadow_num_c(pci_conf, strdup(name), &BX_PIDE_THIS s.pci_conf[i], BASE_HEX);
+    BXRS_HEX_PARAM_FIELD(pci_conf, name, BX_PIDE_THIS s.pci_conf[i]);
   }
 
   new bx_shadow_data_c(list, "buffer0", BX_PIDE_THIS s.bmdma[0].buffer, 0x20000);
@@ -154,7 +154,7 @@ void bx_pci_ide_c::register_state(void)
 
   for (i=0; i<2; i++) {
     sprintf(name, "%d", i);
-    bx_list_c *ctrl = new bx_list_c(list, strdup(name), 7);
+    bx_list_c *ctrl = new bx_list_c(list, name, 7);
     BXRS_PARAM_BOOL(ctrl, cmd_ssbm, BX_PIDE_THIS s.bmdma[i].cmd_ssbm);
     BXRS_PARAM_BOOL(ctrl, cmd_rwcon, BX_PIDE_THIS s.bmdma[i].cmd_rwcon);
     BXRS_HEX_PARAM_FIELD(ctrl, status, BX_PIDE_THIS s.bmdma[i].status);

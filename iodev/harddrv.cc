@@ -615,11 +615,11 @@ void bx_hard_drive_c::register_state(void)
   bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "hard_drive", "Hard Drive State");
   for (i=0; i<BX_MAX_ATA_CHANNEL; i++) {
     sprintf(cname, "%d", i);
-    chan = new bx_list_c(list, strdup(cname));
+    chan = new bx_list_c(list, cname);
     for (j=0; j<2; j++) {
       if (BX_DRIVE_IS_PRESENT(i, j)) {
         sprintf(dname, "drive%d", i);
-        drive = new bx_list_c(chan, strdup(dname), 20);
+        drive = new bx_list_c(chan, dname, 20);
         new bx_shadow_data_c(drive, "buffer", BX_CONTROLLER(i, j).buffer, 2352);
         status = new bx_list_c(drive, "status", 9);
         new bx_shadow_bool_c(status, "busy", &BX_CONTROLLER(i, j).status.busy);

@@ -261,7 +261,7 @@ void bx_ioapic_c::register_state(void)
   for (unsigned i=0; i<BX_IOAPIC_NUM_PINS; i++) {
     char name[6];
     sprintf(name, "0x%02x", i);
-    bx_list_c *entry = new bx_list_c(table, strdup(name), 2);
+    bx_list_c *entry = new bx_list_c(table, name, 2);
     ioredtbl[i].register_state(entry);
   }
 }
