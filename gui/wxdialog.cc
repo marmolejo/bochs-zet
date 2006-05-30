@@ -928,7 +928,7 @@ void ParamDialog::AddParam (
   pstr->u.window = NULL;
   pstr->browseButton = NULL;
   int type = param_generic->get_type();
-  char *prompt;
+  const char *prompt;
   if (type == BXT_LIST) {
     bx_list_c *list = (bx_list_c*)pstr->param;
     prompt = list->get_title()->getptr();

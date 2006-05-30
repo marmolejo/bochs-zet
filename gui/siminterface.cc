@@ -1100,8 +1100,8 @@ void bx_real_sim_c::save_sr_param(FILE *fp, bx_param_c *node, const char *sr_pat
       value = ((bx_param_num_c*)node)->get64();
       if (((bx_param_num_c*)node)->get_base() == BASE_DEC) {
         if (((bx_param_num_c*)node)->get_min() >= BX_MIN_BIT64U) {
-          if (((bx_param_num_c*)node)->get_max() > BX_MAX_BIT32U) {
-            fprintf(fp, "0x"FMT_LL"u\n", value);
+          if ((Bit64u)((bx_param_num_c*)node)->get_max() > BX_MAX_BIT32U) {
+            fprintf(fp, FMT_LL"u\n", value);
           } else {
             fprintf(fp, "%u\n", (Bit32u) value);
           }

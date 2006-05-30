@@ -1105,7 +1105,7 @@ MyFrame::HandleAskParamString(bx_param_string_c *param)
   bx_param_num_c *opt = param->get_options();
   wxASSERT(opt != NULL);
   int n_opt = opt->get();
-  char *msg = param->get_label();
+  const char *msg = param->get_label();
   if ((msg == NULL) || (strlen(msg) == 0)) {
     msg = param->get_name();
   }
