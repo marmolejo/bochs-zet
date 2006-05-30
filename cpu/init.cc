@@ -392,7 +392,7 @@ void BX_CPU_C::register_state(void)
   BXRS_PARAM_SPECIAL32(list, cpu_version, param_save_handler, param_restore_handler);
   BXRS_PARAM_SPECIAL32(list, cpuid_std,   param_save_handler, param_restore_handler);
   BXRS_PARAM_SPECIAL32(list, cpuid_ext,   param_save_handler, param_restore_handler);
-  BXRS_HEX_PARAM_SIMPLE(list, cpu_mode);
+  BXRS_DEC_PARAM_SIMPLE(list, cpu_mode);
   BXRS_HEX_PARAM_SIMPLE(list, inhibit_mask);
 #if BX_SUPPORT_X86_64
   BXRS_HEX_PARAM_SIMPLE(list, RAX);

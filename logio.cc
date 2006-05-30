@@ -281,11 +281,7 @@ logfunctions::logfunctions(iofunc_t *iofunc)
 
 logfunctions::~logfunctions(void)
 {
-    if ( this->prefix )
-    {
-        free(this->prefix);
-        this->prefix = NULL;
-    }
+    if (this->prefix) free(this->prefix);
 }
 
 void logfunctions::setio(iofunc_t *i)
@@ -600,11 +596,10 @@ logfunc_t *genlog = NULL;
 
 void bx_center_print (FILE *file, char *line, int maxwidth)
 {
-  int imax;
   int len = strlen(line);
   if (len > maxwidth)
     BX_PANIC (("bx_center_print: line is too long: '%s'", line));
-  imax = (maxwidth - len) >> 1;
+  int imax = (maxwidth - len) >> 1;
   for (int i=0; i<imax; i++) fputc (' ', file);
   fputs (line, file);
 }
