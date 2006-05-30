@@ -240,6 +240,7 @@ void bx_dbg_modebp_command(void);
 void bx_dbg_where_command(void);
 void bx_dbg_print_string_command(bx_address addr);
 void bx_dbg_show_command(const char*);
+void bx_dbg_show_param_command(char *param);
 void bx_dbg_print_stack_command(unsigned nwords);
 void bx_dbg_watch(int read, Bit32u address);
 void bx_dbg_unwatch(int read, Bit32u address);

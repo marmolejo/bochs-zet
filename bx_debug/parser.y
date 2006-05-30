@@ -240,6 +240,11 @@ show_command:
           bx_dbg_show_command($2);
           free($1); free($2);
       }
+    | BX_TOKEN_SHOW BX_TOKEN_STRING '\n'
+      {
+          bx_dbg_show_param_command($2);
+          free($1); free($2);
+      }
     | BX_TOKEN_SHOW '\n'
       {
           bx_dbg_show_command(0);
