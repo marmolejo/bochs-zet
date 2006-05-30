@@ -935,8 +935,8 @@ void ParamDialog::AddParam (
   } else {
     prompt = pstr->param->get_label();
   }
-  if (!prompt) prompt = pstr->param->get_name ();
-  char *description = pstr->param->get_description ();
+  if (!prompt) prompt = pstr->param->get_name();
+  const char *description = pstr->param->get_description();
   wxASSERT (prompt != NULL);
 #define ADD_LABEL(x) sizer->Add(pstr->label = new wxStaticText(context->parent, -1, wxString(x, wxConvUTF8)), 0, wxALIGN_RIGHT|wxALL, 3)
   switch (type) {
