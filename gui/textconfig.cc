@@ -669,7 +669,7 @@ config_interface_notify_callback (void *unused, BxEvent *event)
       event->retcode = 0;
       return event;
     case BX_SYNC_EVT_ASK_PARAM:
-      event->u.param.param->text_ask (stdin, stderr);
+      event->retcode = event->u.param.param->text_ask(stdin, stderr);
       return event;
     case BX_SYNC_EVT_LOG_ASK:
     {

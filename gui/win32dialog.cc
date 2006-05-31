@@ -940,6 +940,14 @@ BxEvent* win32_notify_callback(void *unused, BxEvent *event)
       } else if (param->get_type() == BXT_LIST) {
         event->retcode = Cdrom1Dialog();
         return event;
+      } else if (param->get_type() == BXT_PARAM_BOOL) {
+        UINT flag = MB_YESNO | MB_SETFOREGROUND;
+        if (((bx_param_bool_c *)param)->get() == 0) {
+          flag |= MB_DEFBUTTON2;
+        }
+        ((bx_param_bool_c *)param)->set(MessageBox(GetActiveWindow(), param->get_description(), param->get_label(), flag) == IDYES);
+        event->retcode = 0;
+        return event;
       }
     case BX_SYNC_EVT_TICK: // called periodically by siminterface.
     case BX_ASYNC_EVT_REFRESH: // called when some bx_param_c parameters have changed.
