@@ -1167,6 +1167,10 @@ MyFrame::HandleAskParam(BxEvent *event)
   {
     case BXT_PARAM_STRING:
       return HandleAskParamString((bx_param_string_c *)param);
+    case BXT_PARAM_BOOL:
+      ((bx_param_bool_c *)param)->set(wxMessageBox(wxString(param->get_description(), wxConvUTF8),
+                                                   wxString(param->get_label(), wxConvUTF8), wxYES_NO, this) == wxYES);
+      return 0;
     default:
       {
         wxString msg;
