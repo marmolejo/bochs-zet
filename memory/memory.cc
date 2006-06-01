@@ -101,7 +101,7 @@ BX_MEM_C::writePhysicalPage(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, vo
 mem_write:
 
   // all memory access feets in single 4K page 
-  if (a20addr <= BX_MEM_THIS len) {
+  if (a20addr < BX_MEM_THIS len) {
 #if BX_SUPPORT_ICACHE
     pageWriteStampTable.decWriteStamp(a20addr);
 #endif
