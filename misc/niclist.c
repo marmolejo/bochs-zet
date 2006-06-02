@@ -8,7 +8,7 @@
 // that you can use in the "ethdev" field of the ne2k line in your bochsrc.
 //
 // For this program and for win32 ethernet, the winpcap library is required.
-// Download it from http://netgroup-serv.polito.it/winpcap.
+// Download it from http://www.winpcap.org/
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -67,7 +67,7 @@ int main(int argc, char **argv)
 
 	// Attemp to load the WinpCap packet library
 	hPacket = LoadLibrary("PACKET.DLL");
-    if(hPacket)
+        if(hPacket)
 	{
 		// Now look up the address
 		PacketGetAdapterNames = (BOOLEAN (*)(PTSTR, PULONG))GetProcAddress(hPacket, "PacketGetAdapterNames");
@@ -76,7 +76,7 @@ int main(int argc, char **argv)
 	else {
 		printf("Could not load WinPCap driver!\n");
 		printf ("You can download them for free from\n");
-		printf ("http://netgroup-serv.polito.it/winpcap\n");
+		printf ("http://www.winpcap.org/\n");
 		myexit(1);
 	}
 
