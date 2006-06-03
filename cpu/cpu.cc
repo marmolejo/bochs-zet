@@ -36,16 +36,6 @@
 #include "extdb.h"
 #endif
 
-#if BX_PROVIDE_CPU_MEMORY==1
-
-#if BX_ADDRESS_SPACES==1
-BOCHSAPI BX_MEM_C bx_mem;
-#else
-BOCHSAPI BX_MEM_C bx_mem_array[BX_ADDRESS_SPACES];
-#endif
-
-#endif
-
 #if BX_SUPPORT_ICACHE
 
 bxPageWriteStampTable pageWriteStampTable;
@@ -98,7 +88,7 @@ static unsigned iCacheMisses=0;
 #define InstrICache_Increment(v)
 #endif
 
-#endif
+#endif // BX_SUPPORT_ICACHE
 
 // notes:
 
@@ -541,7 +531,7 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
     // NOTE: similar code in ::take_irq()
 #if BX_SUPPORT_APIC
     if (BX_CPU_THIS_PTR local_apic.INTR)
-      vector = BX_CPU_THIS_PTR local_apic.acknowledge_int ();
+      vector = BX_CPU_THIS_PTR local_apic.acknowledge_int();
     else
       vector = DEV_pic_iac(); // may set INTR with next interrupt
 #else

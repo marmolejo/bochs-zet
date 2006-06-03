@@ -990,9 +990,11 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR set_TSC(0);
 #endif
 
+#if BX_SUPPORT_SEP
   BX_CPU_THIS_PTR msr.sysenter_cs_msr  = 0;
   BX_CPU_THIS_PTR msr.sysenter_esp_msr = 0;
   BX_CPU_THIS_PTR msr.sysenter_eip_msr = 0;
+#endif
 
   BX_CPU_THIS_PTR EXT = 0;
 
