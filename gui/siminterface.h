@@ -612,8 +612,8 @@ public:
   const char *get_format() const {return text_format;}
   void set_long_format(const char *format) {long_text_format = format;}
   const char *get_long_format() const {return long_text_format;}
-  void set_ask_format(char *format) {ask_format = format; }
-  char *get_ask_format() {return ask_format;}
+  void set_ask_format(const char *format);
+  const char *get_ask_format() const {return ask_format;}
   void set_label(const char *text);
   void set_description(const char *text);
   const char *get_label() const {return label;}
