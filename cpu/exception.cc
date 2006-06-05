@@ -833,7 +833,7 @@ void BX_CPU_C::exception(unsigned vector, Bit16u error_code, bx_bool is_INT)
 
   BX_INSTR_EXCEPTION(BX_CPU_ID, vector);
 
-  BX_DEBUG(("exception(%02x h)", (unsigned) vector));
+  BX_DEBUG(("exception(0x%02X)", (unsigned) vector));
 
   // if not initial error, restore previous register values from
   // previous attempt to handle exception
