@@ -619,8 +619,8 @@ public:
   const char *get_label() const {return label;}
   void set_runtime_param(int val) { runtime_param = val; }
   int get_runtime_param() { return runtime_param; }
-  void set_group(char *group) {group_name = group;}
-  char *get_group() {return group_name;}
+  void set_group(const char *group);
+  const char *get_group() const {return group_name;}
   const char *get_name() const { return name; }
   const char *get_description() const { return description; }
   int get_enabled() const { return enabled; }
