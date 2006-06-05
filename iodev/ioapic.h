@@ -90,8 +90,8 @@ public:
   virtual ~bx_ioapic_c();
   virtual void init();
   virtual void reset(unsigned type) {}
-  virtual void read_aligned(bx_phy_address address, Bit32u *data, unsigned len);
-  virtual void write(bx_phy_address address, Bit32u *value, unsigned len);
+  virtual void read_aligned(bx_phy_address address, Bit32u *data);
+  virtual void write_aligned(bx_phy_address address, Bit32u *data);
   void set_irq_level(Bit8u int_in, bx_bool level);
   void receive_eoi(Bit8u vector);
   void service_ioapic(void);
