@@ -547,6 +547,7 @@ void BX_CPU_C::register_state(void)
   BXRS_PARAM_BOOL(list, nmi_pending, nmi_pending);
   BXRS_PARAM_BOOL(list, in_smm, in_smm);
   BXRS_PARAM_BOOL(list, nmi_disable, nmi_disable);
+  BXRS_PARAM_BOOL(list, trace, trace);
 }
 
 Bit64s BX_CPU_C::param_save_handler(void *devptr, bx_param_c *param, Bit64s val)
