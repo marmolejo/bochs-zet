@@ -1240,6 +1240,7 @@ bx_param_c::~bx_param_c()
   delete [] name;
   delete [] label;
   delete [] description;
+  delete [] ask_format;
 }
 
 void bx_param_c::set_description(const char *text)
