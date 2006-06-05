@@ -3301,10 +3301,10 @@ but <emphasis>we don't recommend it</emphasis> for safety reasons. In Windows, t
 </para>
 
 <para>
-For 'flat' and 'concat' mode hard disk images created with bximage it is possible
-to use geometry autodetection with cylinders=0 (cylinders are calculated using
-heads=16 and spt=63). For other hard disk images and modes the cylinders, heads,
-and spt are mandatory.
+For 'flat', 'concat' and 'growing' mode hard disk images created with bximage
+it is possible to use geometry autodetection with CHS=0/0/0 (cylinders are
+calculated using heads=16 and spt=63). For other hard disk images and modes the
+cylinders, heads, and spt are mandatory.
 </para>
 
 <para>
