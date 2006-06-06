@@ -76,6 +76,7 @@ enum
   ID_Toolbar_Config,
   ID_Toolbar_Mouse_en,
   ID_Toolbar_User,
+  ID_Toolbar_SaveRestore,
   // dialog box: LogMsgAskDialog
   ID_Continue,
   ID_Die,
