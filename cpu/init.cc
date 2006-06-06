@@ -253,8 +253,7 @@ void BX_CPU_C::initialize(BX_MEM_C *addrspace)
   sprintf(name, "CPU %d", BX_CPU_ID);
 
 #if BX_WITH_WX
-  static bx_bool counter = 0;
-  if (counter < BX_MAX_SMP_THREADS_SUPPORTED) {
+  if (SIM->get_param(BXPN_WX_CPU_STATE) != NULL) {
     // Register some of the CPUs variables as shadow parameters so that
     // they can be visible in the config interface.
     // (Experimental, obviously not a complete list)
@@ -372,8 +371,6 @@ void BX_CPU_C::initialize(BX_MEM_C *addrspace)
     // restore defaults
     bx_param_num_c::set_default_base(oldbase);
     bx_param_num_c::set_default_format(oldfmt);
-
-    counter++;
   }
 #endif
 }
