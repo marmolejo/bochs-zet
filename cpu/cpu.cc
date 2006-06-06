@@ -36,6 +36,14 @@
 #include "extdb.h"
 #endif
 
+#if BX_PROVIDE_CPU_MEMORY
+#if BX_ADDRESS_SPACES==1
+BOCHSAPI BX_MEM_C bx_mem;
+#else
+BOCHSAPI BX_MEM_C bx_mem_array[BX_ADDRESS_SPACES];
+#endif
+#endif
+
 #if BX_SUPPORT_ICACHE
 
 bxPageWriteStampTable pageWriteStampTable;
