@@ -26,12 +26,13 @@
 
 #define BX_MAX_STATUSITEMS 10
 
-#define BX_GUI_DLG_FLOPPY   0x01
-#define BX_GUI_DLG_CDROM    0x02
-#define BX_GUI_DLG_SNAPSHOT 0x04
-#define BX_GUI_DLG_RUNTIME  0x08
-#define BX_GUI_DLG_USER     0x10
-#define BX_GUI_DLG_ALL      0x1F
+#define BX_GUI_DLG_FLOPPY       0x01
+#define BX_GUI_DLG_CDROM        0x02
+#define BX_GUI_DLG_SNAPSHOT     0x04
+#define BX_GUI_DLG_RUNTIME      0x08
+#define BX_GUI_DLG_USER         0x10
+#define BX_GUI_DLG_SAVE_RESTORE 0x20
+#define BX_GUI_DLG_ALL          0x3F
 
 typedef struct {
   Bit16u  start_address;

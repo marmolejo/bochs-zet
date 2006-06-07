@@ -186,6 +186,9 @@ static int ci_callback(void *userdata, ci_command_t command)
     case CI_RUNTIME_CONFIG:
       fprintf(stderr, "wxmain.cc: runtime config not implemented\n");
       break;
+    case CI_SAVE_RESTORE:
+      fprintf(stderr, "wxmain.cc: save state not implemented\n");
+      break;
     case CI_SHUTDOWN:
       fprintf(stderr, "wxmain.cc: shutdown not implemented\n");
       break;

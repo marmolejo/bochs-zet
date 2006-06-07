@@ -18,6 +18,9 @@ enum {
   BX_CI_START_OPTS_MISC,
   BX_CI_START_SIMULATION,
   BX_CI_RUNTIME,
+#if BX_SUPPORT_SAVE_RESTORE
+  BX_CI_SAVE_RESTORE,
+#endif
   BX_CI_N_MENUS
 };
 
@@ -33,13 +36,10 @@ enum {
   BX_CI_RT_LOGOPTS2,
   BX_CI_RT_INST_TR,
   BX_CI_RT_MISC,
-#if BX_SUPPORT_SAVE_RESTORE
-  BX_CI_RT_SAVE,
-#endif
   BX_CI_RT_CONT,
   BX_CI_RT_QUIT
 };
 
-int init_text_config_interface ();
+int init_text_config_interface();
 
 #endif
