@@ -311,20 +311,20 @@ void bx_hard_drive_c::init(void)
           case BX_ATA_MODE_UNDOABLE:
             BX_INFO(("HD on ata%d-%d: '%s' 'undoable' mode ", channel, device, 
                      SIM->get_param_string("path", base)->getptr()));
-            channels[channel].drives[device].hard_drive = new undoable_image_t(disk_size,
+            channels[channel].drives[device].hard_drive = new undoable_image_t(
                 SIM->get_param_string("journal", base)->getptr());
             break;
 
           case BX_ATA_MODE_GROWING:
             BX_INFO(("HD on ata%d-%d: '%s' 'growing' mode ", channel, device, 
                      SIM->get_param_string("path", base)->getptr()));
-            channels[channel].drives[device].hard_drive = new growing_image_t(disk_size);
+            channels[channel].drives[device].hard_drive = new growing_image_t();
             break;
 
           case BX_ATA_MODE_VOLATILE:
             BX_INFO(("HD on ata%d-%d: '%s' 'volatile' mode ", channel, device, 
                      SIM->get_param_string("path", base)->getptr()));
-            channels[channel].drives[device].hard_drive = new volatile_image_t(disk_size,
+            channels[channel].drives[device].hard_drive = new volatile_image_t(
                 SIM->get_param_string("journal", base)->getptr());
             break;
 
@@ -362,7 +362,8 @@ void bx_hard_drive_c::init(void)
         BX_HD_THIS channels[channel].drives[device].hard_drive->sectors = spt;
 
         if ((image_mode == BX_ATA_MODE_FLAT) || (image_mode == BX_ATA_MODE_CONCAT) ||
-            (image_mode == BX_ATA_MODE_GROWING)) {
+            (image_mode == BX_ATA_MODE_GROWING) || (image_mode == BX_ATA_MODE_UNDOABLE) ||
+            (image_mode == BX_ATA_MODE_VOLATILE)) {
           if ((heads == 0) || (spt == 0)) {
             BX_PANIC(("ata%d/%d cannot have zero heads, or sectors/track", channel, device));
           }
@@ -378,9 +379,10 @@ void bx_hard_drive_c::init(void)
         }
 
         if ((image_mode == BX_ATA_MODE_FLAT) || (image_mode == BX_ATA_MODE_CONCAT) ||
-            (image_mode == BX_ATA_MODE_GROWING)) {
+            (image_mode == BX_ATA_MODE_GROWING) || (image_mode == BX_ATA_MODE_UNDOABLE) ||
+            (image_mode == BX_ATA_MODE_VOLATILE)) {
           if (cyl > 0) {
-            if (disk_size != (Bit64u)BX_HD_THIS channels[channel].drives[device].hard_drive->hd_size) {
+            if (disk_size != BX_HD_THIS channels[channel].drives[device].hard_drive->hd_size) {
               BX_PANIC(("ata%d/%d image size doesn't match specified geometry", channel, device));
             }
           } else {
