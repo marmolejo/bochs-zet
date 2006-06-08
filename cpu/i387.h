@@ -117,13 +117,13 @@ BX_CPP_INLINE void i387_t::FPU_settagi(int tag, int stnr)
 
 BX_CPP_INLINE void i387_t::FPU_push(void)
 {
-  tos--;
+  tos = (tos - 1) & 7;
 }
 
 BX_CPP_INLINE void i387_t::FPU_pop(void)
 {
-  twd |= 3 << ((tos & 7)*2);
-  tos++;
+  twd |= 3 << (tos*2);
+  tos = (tos + 1) & 7;
 }
 
 BX_CPP_INLINE void i387_t::FPU_save_regi(floatx80 reg, int tag, int stnr)
