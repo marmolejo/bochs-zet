@@ -516,6 +516,7 @@ int bx_config_interface(int menu)
           }
         }
         break;
+#if BX_SUPPORT_SAVE_RESTORE
       case BX_CI_SAVE_RESTORE:
         {
           Bit32u cont = 1;
@@ -542,6 +543,7 @@ int bx_config_interface(int menu)
             return 0;
           }
         }
+#endif
       default:
         fprintf (stderr, "Unknown config interface menu type.\n");
         assert (menu >=0 && menu < BX_CI_N_MENUS);
