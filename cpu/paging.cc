@@ -1041,15 +1041,12 @@ page_fault_not_present:
 #if BX_USE_TLB
   BX_CPU_THIS_PTR TLB.entry[TLB_index].lpf = BX_INVALID_TLB_ENTRY;
 #endif
-#if BX_EXTERNAL_DEBUGGER
 #if BX_SUPPORT_X86_64
-  printf("page fault for address %08x%08x @ %08x%08x\n",
+  BX_DEBUG(("page fault for address %08x%08x @ %08x%08x",
                (Bit32u)(laddr >> 32),(Bit32u)(laddr & 0xffffffff),
-               (Bit32u)(RIP >> 32),(Bit32u)(RIP & 0xffffffff));
+               (Bit32u)(RIP   >> 32),(Bit32u)(RIP   & 0xffffffff)));
 #else
-  printf("page fault for address %08x:%08x\n",
-               (Bit32u)(laddr >> 32),(Bit32u)(laddr & 0xffffffff));
-#endif
+  BX_DEBUG(("page fault for address %08x @ %08x", laddr, EIP));
 #endif
   exception(BX_PF_EXCEPTION, error_code, 0);
   return(0); // keep compiler happy
