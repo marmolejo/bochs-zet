@@ -411,7 +411,7 @@ void BX_CPU_C::IRET32(bxInstruction_c *i)
   Bit32u eip, ecs, eflags;
 
   if (! can_pop(12)) {
-    BX_PANIC(("IRETD: to 12 bytes of stack not within stack limits"));
+    BX_ERROR(("IRETD: to 12 bytes of stack not within stack limits"));
     exception(BX_SS_EXCEPTION, 0, 0);
   }
 
@@ -419,7 +419,7 @@ void BX_CPU_C::IRET32(bxInstruction_c *i)
 
   // CS.LIMIT in real mode is 0xffff
   if (eip > 0xffff) {
-    BX_PANIC(("IRETD: instruction pointer not within code segment limits"));
+    BX_ERROR(("IRETD: instruction pointer not within code segment limits"));
     exception(BX_GP_EXCEPTION, 0, 0);
   }
 

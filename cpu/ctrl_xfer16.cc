@@ -416,7 +416,7 @@ void BX_CPU_C::IRET16(bxInstruction_c *i)
 #endif
 
   if (! can_pop(6)) {
-    BX_PANIC(("IRET: top 6 bytes of stack not within stack limits"));
+    BX_ERROR(("IRET: top 6 bytes of stack not within stack limits"));
     exception(BX_SS_EXCEPTION, 0, 0);
   }
 

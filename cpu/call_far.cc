@@ -285,7 +285,7 @@ BX_CPU_C::call_protected(bxInstruction_c *i, Bit16u cs_raw, bx_address disp)
           // selector's RPL must equal DPL of code segment,
           //   else #TS(SS selector)
           if (ss_selector.rpl != cs_descriptor.dpl) {
-            BX_DEBUG(("call_protected: SS selector.rpl != CS descr.dpl"));
+            BX_ERROR(("call_protected: SS selector.rpl != CS descr.dpl"));
             exception(BX_TS_EXCEPTION, SS_for_cpl_x & 0xfffc, 0);
           }
 
@@ -333,7 +333,7 @@ BX_CPU_C::call_protected(bxInstruction_c *i, Bit16u cs_raw, bx_address disp)
           // new stack must have room for parameters plus return info
           //   else #SS(SS selector)
           if (!can_push(&ss_descriptor, ESP_for_cpl_x, room_needed)) {
-            BX_INFO(("call_protected: stack doesn't have room"));
+            BX_ERROR(("call_protected: stack doesn't have room"));
             exception(BX_SS_EXCEPTION, SS_for_cpl_x & 0xfffc, 0);
           }
 

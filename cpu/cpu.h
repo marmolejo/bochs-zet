@@ -1407,10 +1407,10 @@ public: // for now...
   BX_SMF void PUSH_Iw(bxInstruction_c *);
   BX_SMF void INSB_YbDX(bxInstruction_c *);
   BX_SMF void INSW_YwDX(bxInstruction_c *);
-  BX_SMF void INSW_YdDX(bxInstruction_c *);
+  BX_SMF void INSD_YdDX(bxInstruction_c *);
   BX_SMF void OUTSB_DXXb(bxInstruction_c *);
   BX_SMF void OUTSW_DXXw(bxInstruction_c *);
-  BX_SMF void OUTSW_DXXd(bxInstruction_c *);
+  BX_SMF void OUTSD_DXXd(bxInstruction_c *);
 
   BX_SMF void BOUND_GwMa(bxInstruction_c *);
   BX_SMF void BOUND_GdMa(bxInstruction_c *);
