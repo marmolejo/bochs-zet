@@ -1941,7 +1941,7 @@ YY_RULE_SETUP
 case 133:
 YY_RULE_SETUP
 #line 178 "lexer.l"
-{ bxlval.uval = BX_DBG_REG32_ESI; return(BX_TOKEN_32B_REG);}
+{ bxlval.uval = BX_DBG_REG32_EDI; return(BX_TOKEN_32B_REG);}
 	YY_BREAK
 case 134:
 YY_RULE_SETUP
