@@ -341,6 +341,10 @@ typedef enum {
 #define BX_DBG_REG_ES           23
 #define BX_DBG_REG_FS           24
 #define BX_DBG_REG_GS           25
+#define BX_DBG_REG_CR0          30
+#define BX_DBG_REG_CR2          32
+#define BX_DBG_REG_CR3          33
+#define BX_DBG_REG_CR4          34
 
 #define BX_DBG_PENDING_DMA 1
 #define BX_DBG_PENDING_IRQ 2
@@ -474,6 +478,11 @@ typedef struct {
   Bit16u sel;
   Bit32u des_l, des_h, valid;
 } bx_dbg_sreg_t;
+
+typedef struct {
+  bx_address base;
+  Bit16u limit;
+} bx_dbg_global_sreg_t;
 
 typedef struct {
     Bit32u eax;

@@ -1166,7 +1166,10 @@ void bx_real_sim_c::save_sr_param(FILE *fp, bx_param_c *node, const char *sr_pat
       break;
     case BXT_PARAM_DATA:
       fprintf(fp, "%s.%s\n", node->get_parent()->get_name(), node->get_name());
-      sprintf(tmpstr, "%s/%s.%s", sr_path, node->get_parent()->get_name(), node->get_name());
+      if (sr_path)
+        sprintf(tmpstr, "%s/%s", sr_path, node->get_parent()->get_name(), node->get_name());
+      else
+        sprintf(tmpstr, "%s", node->get_parent()->get_name(), node->get_name());
       fp2 = fopen(tmpstr, "wb");
       if (fp != NULL) {
         fwrite(((bx_shadow_data_c*)node)->getptr(), 1, ((bx_shadow_data_c*)node)->get_size(), fp2);
