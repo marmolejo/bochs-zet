@@ -1192,7 +1192,6 @@ one_more:
   SIM->set_display_mode(DISP_MODE_SIM);
 
   bx_guard.interrupt_requested = 0;
-  bx_guard.special_unwind_stack = 0;
   int stop = 0;
   int which = -1;
   while (!stop && !bx_guard.interrupt_requested) {

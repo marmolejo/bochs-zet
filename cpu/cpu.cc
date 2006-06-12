@@ -223,8 +223,8 @@ void BX_CPU_C::cpu_loop(Bit32u max_instr_count)
   // If the exception() routine has encountered a nasty fault scenario,
   // the debugger may request that control is returned to it so that
   // the situation may be examined.
-  if (bx_guard.special_unwind_stack) {
-    BX_ERROR(("CPU_LOOP bx_guard.special_unwind_stack=%d", bx_guard.special_unwind_stack));
+  if (bx_guard.interrupt_requested) {
+    BX_ERROR(("CPU_LOOP bx_guard.interrupt_requested=%d", bx_guard.interrupt_requested));
     return;
   }
 #endif

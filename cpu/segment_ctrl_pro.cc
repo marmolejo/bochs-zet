@@ -511,7 +511,7 @@ bx_bool BX_CPU_C::set_segment_ar_data(bx_segment_reg_t *seg,
         d->u.segment.limit_scaled = (d->u.segment.limit << 12);
       else
         d->u.segment.limit_scaled = (d->u.segment.limit << 12) | 0x0fff;
-      }
+    }
     else
       d->u.segment.limit_scaled = d->u.segment.limit;
 
