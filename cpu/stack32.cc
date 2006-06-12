@@ -330,8 +330,8 @@ void BX_CPU_C::LEAVE(bxInstruction_c *i)
 #endif
     temp_EBP = BP;
 
-  if ( protected_mode() ) {
-    if (BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.c_ed) { /* expand up */
+  if (protected_mode()) {
+    if (IS_DATA_SEGMENT_EXPAND_DOWN(BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.type)) {
       if (temp_EBP <= BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.limit_scaled) {
         BX_PANIC(("LEAVE: BP > BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].limit"));
         exception(BX_SS_EXCEPTION, 0, 0);

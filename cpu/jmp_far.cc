@@ -286,7 +286,7 @@ BX_CPU_C::jmp_call_gate64(bx_selector_t *gate_selector)
   // AR byte of selected descriptor must indicate code segment,
   //   else #GP(code segment selector)
   if (cs_descriptor.valid==0 || cs_descriptor.segment==0 ||
-      cs_descriptor.u.segment.executable==0)
+      IS_DATA_SEGMENT(cs_descriptor.type))
   {
     BX_ERROR(("jump_protected: not code segment in call gate 64"));
     exception(BX_GP_EXCEPTION, dest_selector & 0xfffc, 0);

@@ -259,8 +259,8 @@ BX_CPU_C::return_protected(bxInstruction_c *i, Bit16u pop_bytes)
     /* descriptor AR byte must indicate a writable data segment,
      * else #GP(selector) */
     if (ss_descriptor.valid==0 || ss_descriptor.segment==0 ||
-        ss_descriptor.u.segment.executable ||
-        ss_descriptor.u.segment.r_w==0)
+         IS_CODE_SEGMENT(ss_descriptor.type) ||
+        !IS_DATA_SEGMENT_WRITEABLE(ss_descriptor.type))
     {
       BX_ERROR(("return_protected: SS.AR byte not writable data"));
       exception(BX_GP_EXCEPTION, raw_ss_selector & 0xfffc, 0);
