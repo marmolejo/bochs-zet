@@ -42,8 +42,7 @@
 
 bx_dma_c *theDmaDevice = NULL;
 
-  int
-libdma_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
+int libdma_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   theDmaDevice = new bx_dma_c ();
   bx_devices.pluginDmaDevice = theDmaDevice;
@@ -55,13 +54,13 @@ void libdma_LTX_plugin_fini(void)
 {
 }
 
-bx_dma_c::bx_dma_c(void)
+bx_dma_c::bx_dma_c()
 {
   put("DMA");
   settype(DMALOG);
 }
 
-bx_dma_c::~bx_dma_c(void)
+bx_dma_c::~bx_dma_c()
 {
    BX_DEBUG(("Exit"));
 }
@@ -224,7 +223,7 @@ void bx_dma_c::register_state(void)
   bx_list_c *extpg = new bx_list_c(list, "ext_page", 16);
   for (i=0; i<16; i++) {
     sprintf(name, "0x%02x", 0x80+i);
-    BXRS_HEX_PARAM_FIELD(extpg, name, BX_DMA_THIS ext_page_reg[i]);
+    new bx_shadow_num_c(extpg, name, &BX_DMA_THIS ext_page_reg[i], BASE_HEX);
   }
 }
 #endif
