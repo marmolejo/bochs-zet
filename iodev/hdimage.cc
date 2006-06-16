@@ -427,12 +427,12 @@ int sparse_image_t::open (const char* pathname0)
  if (parentpathname != NULL) free(parentpathname);
 
  if (dtoh32(header.version) == SPARSE_HEADER_VERSION) {
-   hd_size = header.disk;
+   hd_size = dtoh64(header.disk);
  }
  return 0; // success.
 }
 
-void sparse_image_t::close ()
+void sparse_image_t::close()
 {
   BX_DEBUG(("concat_image_t.close"));
   if (pathname != NULL)
