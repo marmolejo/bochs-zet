@@ -1171,7 +1171,7 @@ void bx_real_sim_c::save_sr_param(FILE *fp, bx_param_c *node, const char *sr_pat
       else
         sprintf(tmpstr, "%s.%s", node->get_parent()->get_name(), node->get_name());
       fp2 = fopen(tmpstr, "wb");
-      if (fp != NULL) {
+      if (fp2 != NULL) {
         fwrite(((bx_shadow_data_c*)node)->getptr(), 1, ((bx_shadow_data_c*)node)->get_size(), fp2);
         fclose(fp2);
       }
