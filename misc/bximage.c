@@ -376,6 +376,7 @@ int make_sparse_image(FILE *fp, Bit64u sec)
    numpages = (sec / (dtoh32(header.pagesize) / 512)) + 1;
 
    header.numpages = htod32((Bit32u)numpages);
+   header.disk = htod64(sec * 512);
 
    if (numpages != dtoh32(header.numpages))
    {
