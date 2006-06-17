@@ -892,9 +892,8 @@ bx_bool BX_CPU_C::dbg_check_begin_instr_bpoint(void)
 #endif
 #if BX_DBG_SUPPORT_PHY_BPOINT
     if (bx_guard.guard_for & BX_DBG_GUARD_IADDR_PHY) {
-      Bit32u phy;
-      bx_bool valid;
-      dbg_xlate_linear2phy(BX_CPU_THIS_PTR guard_found.laddr, &phy, &valid);
+      bx_phy_address phy;
+      bx_bool valid = dbg_xlate_linear2phy(BX_CPU_THIS_PTR guard_found.laddr, &phy);
       // The "guard_found.icount!=0" condition allows you to step or
       // continue beyond a breakpoint.  Bryce tried removing it once,
       // and once you get to a breakpoint you are stuck there forever.

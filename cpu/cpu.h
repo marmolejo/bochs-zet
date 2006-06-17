@@ -2644,7 +2644,7 @@ public: // for now...
   BX_SMF bx_bool  dbg_check_end_instr_bpoint(void);
 #endif
 #if BX_DEBUGGER || BX_DISASM || BX_INSTRUMENTATION || BX_GDBSTUB
-  BX_SMF void     dbg_xlate_linear2phy(bx_address linear, Bit32u *phy, bx_bool *valid);
+  BX_SMF bx_bool  dbg_xlate_linear2phy(bx_address linear, bx_phy_address *phy);
 #endif
   BX_SMF void     atexit(void);
   

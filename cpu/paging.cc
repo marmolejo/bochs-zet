@@ -1066,14 +1066,13 @@ BX_CPU_C::itranslate_linear(bx_address laddr, unsigned pl)
 
 #if BX_DEBUGGER || BX_DISASM || BX_INSTRUMENTATION || BX_GDBSTUB
 
-void BX_CPU_C::dbg_xlate_linear2phy(bx_address laddr, Bit32u *phy, bx_bool *valid)
+bx_bool BX_CPU_C::dbg_xlate_linear2phy(bx_address laddr, bx_phy_address *phy)
 {
   bx_address lpf, poffset, paddress;
 
   if (BX_CPU_THIS_PTR cr0.pg == 0) {
     *phy = laddr;
-    *valid = 1;
-    return;
+    return 1;
   }
 
   lpf       = laddr & BX_CONST64(0xfffffffffffff000); // linear page frame
@@ -1087,8 +1086,7 @@ void BX_CPU_C::dbg_xlate_linear2phy(bx_address laddr, Bit32u *phy, bx_bool *vali
   if (tlbEntry->lpf == BX_TLB_LPF_VALUE(lpf)) {
     paddress = tlbEntry->ppf | poffset;
     *phy = paddress;
-    *valid = 1;
-    return;
+    return 1;
   }
 #endif
 
@@ -1137,13 +1135,11 @@ void BX_CPU_C::dbg_xlate_linear2phy(bx_address laddr, Bit32u *phy, bx_bool *vali
   }
 
   *phy = paddress;
-  *valid = 1;
-  return;
+  return 1;
 
 page_fault:
   *phy = 0;
-  *valid = 0;
-  return;
+  return 0;
 }
 #endif
 

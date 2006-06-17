@@ -215,8 +215,7 @@ void bx_instr_hwinterrupt(unsigned cpu, unsigned vector, Bit16u cs, bx_address e
 void bx_instr_mem_data(unsigned cpu, bx_address lin, unsigned size, unsigned rw)
 {
   unsigned index;
-  Bit32u phy;
-  bx_bool page_valid;
+  bx_phy_address phy;
 
   if(!active || !instruction[cpu].valid) return;
 
@@ -225,7 +224,7 @@ void bx_instr_mem_data(unsigned cpu, bx_address lin, unsigned size, unsigned rw)
     return;
   }
 
-  BX_CPU(cpu)->dbg_xlate_linear2phy(lin, &phy, &page_valid);
+  bx_bool page_valid = BX_CPU(cpu)->dbg_xlate_linear2phy(lin, &phy);
   phy = A20ADDR(phy);
 
   // If linear translation doesn't exist, a paging exception will occur.
