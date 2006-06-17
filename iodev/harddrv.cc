@@ -366,7 +366,7 @@ void bx_hard_drive_c::init(void)
             (image_mode == BX_ATA_MODE_GROWING) || (image_mode == BX_ATA_MODE_UNDOABLE) ||
             (image_mode == BX_ATA_MODE_VOLATILE) || (image_mode == BX_ATA_MODE_VMWARE3) ||
             (image_mode == BX_ATA_MODE_SPARSE)) {
-          geometry_detect = (cyl == 0);
+          geometry_detect = ((cyl == 0) || (image_mode == BX_ATA_MODE_VMWARE3));
           if ((heads == 0) || (spt == 0)) {
             BX_PANIC(("ata%d/%d cannot have zero heads, or sectors/track", channel, device));
           }
@@ -385,9 +385,15 @@ void bx_hard_drive_c::init(void)
           if (geometry_detect) {
             // Autodetect number of cylinders
             disk_size = BX_HD_THIS channels[channel].drives[device].hard_drive->hd_size;
-            cyl = (int)(disk_size / (heads * spt * 512));
-            BX_HD_THIS channels[channel].drives[device].hard_drive->cylinders = cyl;
-            SIM->get_param_num("cylinders", base)->set(cyl);
+            if (image_mode != BX_ATA_MODE_VMWARE3) {
+              cyl = (int)(disk_size / (heads * spt * 512));
+              BX_HD_THIS channels[channel].drives[device].hard_drive->cylinders = cyl;
+              SIM->get_param_num("cylinders", base)->set(cyl);
+            } else {
+              cyl = BX_HD_THIS channels[channel].drives[device].hard_drive->cylinders;
+              heads = BX_HD_THIS channels[channel].drives[device].hard_drive->heads;
+              spt = BX_HD_THIS channels[channel].drives[device].hard_drive->sectors;
+            }
             BX_INFO(("ata%d-%d: autodetect geometry: CHS=%d/%d/%d", channel, device, cyl, heads, spt));
           } else {
             if (disk_size != BX_HD_THIS channels[channel].drives[device].hard_drive->hd_size) {
