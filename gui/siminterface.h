@@ -124,6 +124,7 @@ typedef enum {
 #define BXPN_CPU_NCORES                  "cpu.n_cores"
 #define BXPN_CPU_NTHREADS                "cpu.n_threads"
 #define BXPN_IPS                         "cpu.ips"
+#define BXPN_SMP_QUANTUM                 "cpu.quantum"
 #define BXPN_RESET_ON_TRIPLE_FAULT       "cpu.reset_on_triple_fault"
 #define BXPN_MEM_SIZE                    "memory.standard.ram.size"
 #define BXPN_ROM_PATH                    "memory.standard.rom.path"
