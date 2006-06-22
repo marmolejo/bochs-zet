@@ -2753,7 +2753,7 @@ AC_ARG_ENABLE(processors,
    AC_MSG_RESULT(no)
   ])
 
-AC_MSG_CHECKING(whether to reset on triple fault)
+AC_MSG_CHECKING(whether to reset on triple fault (deprecated))
 AC_ARG_ENABLE(reset-on-triple-fault,
   [  --enable-reset-on-triple-fault    reset when cpu detects a triple fault (deprecated)],
   [AC_MSG_RESULT($enableval)
@@ -2763,7 +2763,7 @@ AC_ARG_ENABLE(reset-on-triple-fault,
    AC_MSG_RESULT(no)
   ])
 
-AC_MSG_CHECKING(PNI support)
+AC_MSG_CHECKING(PNI support (deprecated))
 AC_ARG_ENABLE(--enable-pni,
   [  --enable-pni                      PNI support (deprecated)],
   [AC_MSG_RESULT($enableval)
