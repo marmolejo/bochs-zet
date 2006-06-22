@@ -294,6 +294,9 @@ void bx_dbg_info_vga(void);
 void bx_dbg_print_help(void);
 void bx_dbg_calc_command(Bit64u value);
 void bx_dbg_dump_table(void);
+void bx_dbg_exception(unsigned cpu, Bit8u vector, Bit16u error_code);
+void bx_dbg_interrupt(unsigned cpu, Bit8u vector, Bit16u error_code);
+
 int bx_dbg_show_symbolic(void);
 void bx_dbg_set_symbol_command(char *symbol, Bit32u val);
 char* bx_dbg_symbolic_address(Bit32u context, Bit32u eip, Bit32u base);

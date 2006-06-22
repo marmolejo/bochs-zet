@@ -486,6 +486,24 @@ void bx_debug_break()
   bx_guard.interrupt_requested = 1;
 }
 
+void bx_dbg_exception(unsigned cpu, Bit8u vector, Bit16u error_code)
+{
+  if (BX_CPU(dbg_cpu)->trace || bx_dbg.exceptions)
+  {
+    dbg_printf("CPU %d: Exception 0x%02x occured (error_code=0x%04x)\n", 
+      cpu, vector, error_code);
+  }
+}
+
+void bx_dbg_interrupt(unsigned cpu, Bit8u vector, Bit16u error_code)
+{
+  if (BX_CPU(dbg_cpu)->trace || bx_dbg.interrupts)
+  {
+    dbg_printf("CPU %d: Interrupt 0x%02x occured (error_code=0x%04x)\n", 
+      cpu, vector, error_code);
+  }
+}
+
 void bx_dbg_exit(int code)
 {
   BX_DEBUG(("dbg: before exit" ));
