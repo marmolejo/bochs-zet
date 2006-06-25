@@ -30,6 +30,10 @@
 #include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
+#if BX_EXTERNAL_DEBUGGER
+#include "extdb.h"
+#endif
+
 void BX_CPU_C::BOUND_GwMa(bxInstruction_c *i)
 {
   if (i->modC0()) {
