@@ -9,6 +9,8 @@ void disassembler::decode_modrm(x86_insn *insn)
 {
   insn->modrm = fetch_byte();
   BX_DECODE_MODRM(insn->modrm, insn->mod, insn->nnn, insn->rm);
+  // MOVs with CRx and DRx always use register ops and ignore the mod field.
+  if ((insn->b1 & ~3) == 0x120) insn->mod = 3;
   insn->nnn |= insn->rex_r;
 
   if (insn->mod == 3) {
