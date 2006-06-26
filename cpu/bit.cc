@@ -33,18 +33,6 @@
 
 #if BX_CPU_LEVEL >= 3
 
-#if BX_SUPPORT_X86_64==0
-// Make life easier merging cpu64 and cpu code.
-#define RAX EAX
-#define RBX EBX
-#define RCX ECX
-#define RDX EDX
-#define RSP ESP
-#define RSI ESI
-#define RDI EDI
-#define RBP EBP
-#endif
-
 void BX_CPU_C::SETO_Eb(bxInstruction_c *i)
 {
   Bit8u result_8;
