@@ -848,9 +848,9 @@ static const BxOpcodeInfo_t BxOpcodeInfo64[512*3] = {
   /* 0F 1E */ { 0, &BX_CPU_C::BxError },
   /* 0F 1F */ { BxAnother, &BX_CPU_C::NOP },      // multi-byte NOP
   /* 0F 20 */ { BxAnother, &BX_CPU_C::MOV_RqCq },
-  /* 0F 21 */ { BxAnother, &BX_CPU_C::MOV_RdDd },
+  /* 0F 21 */ { BxAnother, &BX_CPU_C::MOV_RqDq },
   /* 0F 22 */ { BxAnother, &BX_CPU_C::MOV_CqRq },
-  /* 0F 23 */ { BxAnother, &BX_CPU_C::MOV_DdRd },
+  /* 0F 23 */ { BxAnother, &BX_CPU_C::MOV_DqRq },
   /* 0F 24 */ { 0, &BX_CPU_C::BxError },
   /* 0F 25 */ { 0, &BX_CPU_C::BxError },
   /* 0F 26 */ { 0, &BX_CPU_C::BxError },
@@ -1377,9 +1377,9 @@ static const BxOpcodeInfo_t BxOpcodeInfo64[512*3] = {
   /* 0F 1E */ { 0, &BX_CPU_C::BxError },
   /* 0F 1F */ { BxAnother, &BX_CPU_C::NOP },      // multi-byte NOP
   /* 0F 20 */ { BxAnother, &BX_CPU_C::MOV_RqCq },
-  /* 0F 21 */ { BxAnother, &BX_CPU_C::MOV_RdDd },
+  /* 0F 21 */ { BxAnother, &BX_CPU_C::MOV_RqDq },
   /* 0F 22 */ { BxAnother, &BX_CPU_C::MOV_CqRq },
-  /* 0F 23 */ { BxAnother, &BX_CPU_C::MOV_DdRd },
+  /* 0F 23 */ { BxAnother, &BX_CPU_C::MOV_DqRq },
   /* 0F 24 */ { 0, &BX_CPU_C::BxError },
   /* 0F 25 */ { 0, &BX_CPU_C::BxError },
   /* 0F 26 */ { 0, &BX_CPU_C::BxError },
