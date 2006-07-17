@@ -211,6 +211,8 @@ private:
   BX_HD_SMF void atapi_cmd_nop(Bit8u channel) BX_CPP_AttrRegparmN(1);
   BX_HD_SMF bx_bool bmdma_present(void);
   BX_HD_SMF void set_signature(Bit8u channel, Bit8u id);
+  BX_HD_SMF bx_bool ide_read_sector(Bit8u channel, Bit8u *buffer, Bit32u buffer_size);
+  BX_HD_SMF bx_bool ide_write_sector(Bit8u channel, Bit8u *buffer, Bit32u buffer_size);
 
   // FIXME:
   // For each ATA channel we should have one controller struct
