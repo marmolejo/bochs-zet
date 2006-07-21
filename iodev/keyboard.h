@@ -59,6 +59,7 @@ public:
   virtual void mouse_motion(int delta_x, int delta_y, int delta_z, unsigned button_state);
 #if BX_SUPPORT_SAVE_RESTORE
   virtual void register_state(void);
+  virtual void after_restore_state(void);
 #endif
 
   // runtime options
