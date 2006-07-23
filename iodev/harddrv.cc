@@ -2299,7 +2299,7 @@ void bx_hard_drive_c::write(Bit32u address, Bit32u value, unsigned io_len)
 
 	case 0xc6: // SET MULTIPLE MODE
           if ((BX_SELECTED_CONTROLLER(channel).sector_count > MAX_MULTIPLE_SECTORS) ||
-              (BX_SELECTED_CONTROLLER(channel).sector_count & (BX_SELECTED_CONTROLLER(channel).sector_count - 1) != 0) ||
+              ((BX_SELECTED_CONTROLLER(channel).sector_count & (BX_SELECTED_CONTROLLER(channel).sector_count - 1)) != 0) ||
               (BX_SELECTED_CONTROLLER(channel).sector_count == 0)) {
             command_aborted(channel, value);
           } else {
