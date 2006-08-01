@@ -138,7 +138,11 @@ Bit32u BX_CPU_C::FastRepINSW(bxInstruction_c *i, bx_address dstOff, Bit16u port,
         count += bx_devices.bulkIOQuantumsTransferred;
       }
       else {
+#ifdef BX_LITTLE_ENDIAN
         * (Bit16u *) hostAddrDst = temp16;
+#else
+        * (Bit16u *) hostAddrDst = ((temp16 >> 8) | (temp16 << 8));
+#endif
         hostAddrDst += pointerDelta;
         count++;
       }
@@ -248,7 +252,11 @@ Bit32u BX_CPU_C::FastRepOUTSW(bxInstruction_c *i, unsigned srcSeg, bx_address sr
         else
           bx_devices.bulkIOQuantumsRequested = 0;
         Bit16u temp16 = * (Bit16u *) hostAddrSrc;
+#ifdef BX_LITTLE_ENDIAN
         BX_OUTP(port, temp16, 2);
+#else
+        BX_OUTP(port, ((temp16 >> 8) | (temp16 << 8)), 2);
+#endif
         if (bx_devices.bulkIOQuantumsTransferred) {
           hostAddrSrc =  bx_devices.bulkIOHostAddr;
           count += bx_devices.bulkIOQuantumsTransferred;
