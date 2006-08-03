@@ -742,7 +742,7 @@ bx_bool BX_CPU_C::get_OFLazy(void)
           break;
         case BX_INSTR_SUB16:
         case BX_INSTR_SBB16:
-          of = GET_ADD_OVERFLOW(BX_CPU_THIS_PTR oszapc.op1_16, BX_CPU_THIS_PTR oszapc.op2_16,
+          of = GET_SUB_OVERFLOW(BX_CPU_THIS_PTR oszapc.op1_16, BX_CPU_THIS_PTR oszapc.op2_16,
                                 BX_CPU_THIS_PTR oszapc.result_16, 0x8000);
           break;
         case BX_INSTR_SUB32:
