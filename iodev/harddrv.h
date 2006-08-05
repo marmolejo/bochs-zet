@@ -236,16 +236,18 @@ private:
       Bit8u model_no[41];
       int statusbar_id;
       int iolight_counter;
-      } drives[2];
+      Bit8u device_num; // for ATAPI identify & inquiry
+    } drives[2];
     unsigned drive_select;
 
     Bit16u ioaddr1;
     Bit16u ioaddr2;
     Bit8u  irq;
 
-    } channels[BX_MAX_ATA_CHANNEL];
+  } channels[BX_MAX_ATA_CHANNEL];
 
   int iolight_timer_index;
+  Bit8u cdrom_count;
 };
 
 #endif
