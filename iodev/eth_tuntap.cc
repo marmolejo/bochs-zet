@@ -43,7 +43,9 @@
 #include <signal.h>
 #include <sys/param.h>
 #include <sys/ioctl.h>
+#ifndef __APPLE__
 #include <sys/poll.h>
+#endif
 #include <sys/time.h>
 #include <sys/resource.h>
 #ifdef __linux__
