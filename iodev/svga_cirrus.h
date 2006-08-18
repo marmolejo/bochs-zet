@@ -205,10 +205,8 @@ private:
   unsigned svga_bpp;
   unsigned svga_dispbpp;
 
-  Bit8u *vidmem;
   Bit32u bank_base[2];
   Bit32u bank_limit[2];
-  Bit32u memsize;
   Bit8u *disp_ptr;
 #if BX_SUPPORT_PCI && BX_SUPPORT_CLGD54XX_PCI
   bx_bool pci_enabled;
