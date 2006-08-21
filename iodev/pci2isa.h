@@ -37,10 +37,10 @@
 #endif
 
 
-class bx_pci2isa_c : public bx_pci2isa_stub_c {
+class bx_piix3_c : public bx_pci2isa_stub_c {
 public:
-  bx_pci2isa_c();
-  virtual ~bx_pci2isa_c();
+  bx_piix3_c();
+  virtual ~bx_piix3_c();
   virtual void init(void);
   virtual void reset(unsigned type);
   virtual void pci_set_irq(Bit8u devfunc, unsigned line, bx_bool level);
