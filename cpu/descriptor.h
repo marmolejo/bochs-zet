@@ -156,7 +156,7 @@ union {
   } tss;
   struct {
     bx_address base;       /* 286=24 386+ =32/64 bit LDT base */
-    Bit16u  limit;         /* 286+ =16 bit LDT limit */
+    Bit32u  limit;         /* 286+ =16 bit LDT limit */
   } ldt;
 } u;
 
