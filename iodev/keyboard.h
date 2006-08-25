@@ -116,6 +116,7 @@ private:
     } kbd_controller;
 
     struct mouseStruct {
+      bx_bool captured; // host mouse capture enabled
       Bit8u   type;
       Bit8u   sample_rate;
       Bit8u   resolution_cpmm; // resolution in counts per mm
