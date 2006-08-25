@@ -1052,8 +1052,8 @@ void BX_CPU_C::LOADALL(bxInstruction_c *i)
       BX_INFO(("         AR byte = %02x", (unsigned) access));
       BX_PANIC(("loadall: LDTR descriptor cache loaded with non system segment"));
     }
-    if (BX_CPU_THIS_PTR ldtr.cache.type != 2) {
-      BX_PANIC(("loadall: LDTR.type(%u) != 2", (unsigned) (access & 0x0f)));
+    if (BX_CPU_THIS_PTR ldtr.cache.type != BX_SYS_SEGMENT_LDT) {
+      BX_PANIC(("loadall: LDTR.type(%u) != LDT", (unsigned) (access & 0x0f)));
     }
   }
 
