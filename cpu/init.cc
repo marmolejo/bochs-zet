@@ -862,9 +862,9 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR ldtr.cache.u.system.base       = 0x00000000;
   BX_CPU_THIS_PTR ldtr.cache.u.system.limit      =     0xFFFF;
 #if BX_CPU_LEVEL >= 3
-  BX_CPU_THIS_PTR tr.cache.u.system.limit_scaled =     0xFFFF;
-  BX_CPU_THIS_PTR tr.cache.u.system.avl = 0;
-  BX_CPU_THIS_PTR tr.cache.u.system.g   = 0;  /* byte granular */
+  BX_CPU_THIS_PTR ldtr.cache.u.system.limit_scaled =   0xFFFF;
+  BX_CPU_THIS_PTR ldtr.cache.u.system.avl = 0;
+  BX_CPU_THIS_PTR ldtr.cache.u.system.g   = 0;  /* byte granular */
 #endif
 
   /* TR (Task Register) */
