@@ -29,8 +29,6 @@
 #ifndef BX_MEM_H
 #  define BX_MEM_H 1
 
-#define BX_USE_MEM_SMF 0
-
 #if BX_USE_MEM_SMF
 // if static member functions on, then there is only one memory
 #  define BX_MEM_SMF  static
