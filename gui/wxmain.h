@@ -219,6 +219,7 @@ private:
   wxMenu *menuDebug;
   wxMenu *menuLog;
   wxMenu *menuHelp;
+  wxToolBar *bxToolBar;
   ParamDialog *showCpu, *showKbd;
 #if BX_DEBUGGER
   DebugLogDialog *showDebugLog;
