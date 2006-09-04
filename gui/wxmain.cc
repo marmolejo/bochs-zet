@@ -951,6 +951,9 @@ void MyFrame::simStatusChanged(StatusChange change, bx_bool popupNotify) {
       menuSimulate->Enable(ID_Simulate_PauseResume, FALSE);
       menuSimulate->Enable(ID_Simulate_Stop, FALSE);
       menuSimulate->SetLabel(ID_Simulate_PauseResume, wxT("&Pause"));
+#if BX_DEBUGGER
+      showDebugLog->Show(FALSE);
+#endif
       // This should only be used if the simulation stops due to error.
       // Obviously if the user asked it to stop, they don't need to be told.
       if (popupNotify)
