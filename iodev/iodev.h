@@ -389,6 +389,8 @@ public:
   // The types of reset conditions are defined in bochs.h:
   // power-on, hardware, or software.
   void reset(unsigned type);
+  // Cleanup the devices when the simulation quits.
+  void exit(void);
 #if BX_SUPPORT_SAVE_RESTORE
   void register_state(void);
   void after_restore_state(void);

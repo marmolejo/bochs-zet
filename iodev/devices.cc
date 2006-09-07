@@ -379,6 +379,16 @@ void bx_devices_c::after_restore_state()
 }
 #endif
 
+void bx_devices_c::exit()
+{
+  if (DEV_cmos_present())
+    DEV_cmos_save_image();
+  if (DEV_hd_present())
+    DEV_hd_close_harddrive();
+
+  BX_INFO(("Last time is %u", (unsigned) DEV_cmos_get_timeval()));
+}
+
 Bit32u bx_devices_c::read_handler(void *this_ptr, Bit32u address, unsigned io_len)
 {
 #if !BX_USE_DEV_SMF

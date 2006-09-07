@@ -813,6 +813,7 @@ bx_bool load_and_init_display_lib()
 int bx_begin_simulation (int argc, char *argv[])
 {
 #if BX_SUPPORT_SAVE_RESTORE
+  SIM->init_save_restore();
   if (SIM->get_param_bool(BXPN_RESTORE_FLAG)->get()) {
     if (!SIM->restore_config()) {
       BX_PANIC(("cannot restore configuration"));
@@ -846,12 +847,11 @@ int bx_begin_simulation (int argc, char *argv[])
   bx_gui->update_drive_status_buttons();
   // iniialize statusbar and set all items inactive
 #if BX_SUPPORT_SAVE_RESTORE
-  if (!SIM->get_param_bool(BXPN_RESTORE_FLAG)->get()) {
+  if (!SIM->get_param_bool(BXPN_RESTORE_FLAG)->get())
 #endif
+  {
     bx_gui->statusbar_setitem(-1, 0);
-#if BX_SUPPORT_SAVE_RESTORE
   }
-#endif
 
   // The set handler for mouse_enabled does not actually update the gui
   // until init_done is set.  This forces the set handler to be called,
