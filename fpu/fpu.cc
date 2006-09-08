@@ -63,20 +63,21 @@ void BX_CPU_C::FPU_check_pending_exceptions(void)
 {
   if(BX_CPU_THIS_PTR the_i387.get_partial_status() & FPU_SW_Summary)
   {
-    // NE=1 selects the native or internal mode, which generates #MF, 
-    // which is the same as the native version of exception handling 
-    // for the 80286 and 80287 and the i386 processors and i387 math 
-    // coprocessor.
+     // NE=1 selects the native or internal mode, which generates #MF,
+     // which is an extension introduced with 80486.
+     // NE=0 selects the original (backward compatible) FPU error
+     // handling, which generates an IRQ 13 via the PIC chip.
 #if BX_CPU_LEVEL >= 4
-    if (BX_CPU_THIS_PTR cr0.ne == 0)
-    {
-      // MSDOS compatibility external interrupt (IRQ13)
-      BX_INFO (("math_abort: MSDOS compatibility FPU exception"));
-      DEV_pic_raise_irq(13);
-    }
-    else
+     if (BX_CPU_THIS_PTR cr0.ne != 0) {
+         exception(BX_MF_EXCEPTION, 0, 0);
+     }
+     else
 #endif
-      exception(BX_MF_EXCEPTION, 0, 0);
+     {
+        // MSDOS compatibility external interrupt (IRQ13)
+        BX_INFO (("math_abort: MSDOS compatibility FPU exception"));
+        DEV_pic_raise_irq(13);
+     }
   }
 }
 
