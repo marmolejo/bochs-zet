@@ -349,6 +349,7 @@ int bx_real_sim_c::get_max_log_level()
 void bx_real_sim_c::quit_sim(int code) {
   BX_INFO(("quit_sim called with exit code %d", code));
   exit_code = code;
+  io->exit_log();
   // use longjmp to quit cleanly, no matter where in the stack we are.
   if (quit_context != NULL) {
     longjmp(*quit_context, 1);
