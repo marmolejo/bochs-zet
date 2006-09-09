@@ -1172,9 +1172,13 @@ MyFrame::HandleAskParam(BxEvent *event)
     case BXT_PARAM_STRING:
       return HandleAskParamString((bx_param_string_c *)param);
     case BXT_PARAM_BOOL:
-      ((bx_param_bool_c *)param)->set(wxMessageBox(wxString(param->get_description(), wxConvUTF8),
-                                                   wxString(param->get_label(), wxConvUTF8), wxYES_NO, this) == wxYES);
-      return 0;
+      {
+        long style = wxYES_NO;
+        if (((bx_param_bool_c *)param)->get() == 0) style |= wxNO_DEFAULT;
+        ((bx_param_bool_c *)param)->set(wxMessageBox(wxString(param->get_description(), wxConvUTF8),
+                                                     wxString(param->get_label(), wxConvUTF8), style, this) == wxYES);
+        return 0;
+      }
     default:
       {
         wxString msg;
