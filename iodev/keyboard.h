@@ -53,6 +53,7 @@ public:
   // implement bx_devmodel_c interface
   virtual void init(void);
   virtual void reset(unsigned type);
+  virtual void exit(void);
   // override stubs from bx_keyb_stub_c
   virtual void gen_scancode(Bit32u key);
   virtual void paste_bytes(Bit8u *data, Bit32s length);

@@ -85,6 +85,7 @@ class BOCHSAPI bx_devmodel_c : public logfunctions {
   virtual void init_mem(BX_MEM_C *) {}
   virtual void init(void) {}
   virtual void reset(unsigned type) {}
+  virtual void exit(void) {}
 #if BX_SUPPORT_SAVE_RESTORE
   virtual void register_state(void) {}
   virtual void after_restore_state(void) {}

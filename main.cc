@@ -1139,10 +1139,6 @@ int bx_atexit(void)
   // so that the user can see any messages left behind on the console.
   SIM->set_display_mode(DISP_MODE_CONFIG);
 
-#if BX_PROVIDE_DEVICE_MODELS==1
-  bx_pc_system.exit();
-#endif
-
 #if BX_DEBUGGER == 0
   if (SIM && SIM->get_init_done()) {
     for (int cpu=0; cpu<BX_SMP_PROCESSORS; cpu++)
@@ -1150,12 +1146,8 @@ int bx_atexit(void)
   }
 #endif
 
-#if BX_SUPPORT_PCI
-  if (SIM && SIM->get_init_done()) {
-    if (SIM->get_param_bool(BXPN_I440FX_SUPPORT)->get()) {
-      bx_devices.pluginPciBridge->print_i440fx_state();
-    }
-  }
+#if BX_PROVIDE_DEVICE_MODELS==1
+  bx_pc_system.exit();
 #endif
 
   // restore signal handling to defaults
