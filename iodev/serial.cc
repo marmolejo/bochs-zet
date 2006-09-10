@@ -52,18 +52,17 @@
 
 bx_serial_c *theSerialDevice = NULL;
 
-  int
-libserial_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
+int libserial_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
-  theSerialDevice = new bx_serial_c ();
+  theSerialDevice = new bx_serial_c();
   bx_devices.pluginSerialDevice = theSerialDevice;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, theSerialDevice, BX_PLUGIN_SERIAL);
   return(0); // Success
 }
 
-  void
-libserial_LTX_plugin_fini(void)
+void libserial_LTX_plugin_fini(void)
 {
+  delete theSerialDevice;
 }
 
 bx_serial_c::bx_serial_c(void)
@@ -110,6 +109,7 @@ bx_serial_c::~bx_serial_c(void)
       }
     }
   }
+  BX_DEBUG(("Exit"));
 }
 
 

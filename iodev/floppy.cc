@@ -112,14 +112,16 @@ static Bit16u drate_in_k[4] = {
 
 int libfloppy_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
-  theFloppyController = new bx_floppy_ctrl_c ();
+  theFloppyController = new bx_floppy_ctrl_c();
   bx_devices.pluginFloppyDevice = theFloppyController;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, theFloppyController, BX_PLUGIN_FLOPPY);
   return(0); // Success
 }
 
-void libfloppy_LTX_plugin_fini(void) {}
-
+void libfloppy_LTX_plugin_fini(void)
+{
+  delete theFloppyController;
+}
 
 bx_floppy_ctrl_c::bx_floppy_ctrl_c()
 {
@@ -130,7 +132,7 @@ bx_floppy_ctrl_c::bx_floppy_ctrl_c()
 
 bx_floppy_ctrl_c::~bx_floppy_ctrl_c()
 {
-  // nothing for now
+  BX_DEBUG(("Exit"));
 }
 
 void bx_floppy_ctrl_c::init(void)

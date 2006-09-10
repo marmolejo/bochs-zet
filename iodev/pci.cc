@@ -42,7 +42,7 @@ bx_pci_bridge_c *thePciBridge = NULL;
 
 int libpci_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
-  thePciBridge = new bx_pci_bridge_c ();
+  thePciBridge = new bx_pci_bridge_c();
   bx_devices.pluginPciBridge = thePciBridge;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, thePciBridge, BX_PLUGIN_PCI);
   return(0); // Success
@@ -50,6 +50,7 @@ int libpci_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *
 
 void libpci_LTX_plugin_fini(void)
 {
+  delete thePciBridge;
 }
 
 bx_pci_bridge_c::bx_pci_bridge_c()
@@ -60,7 +61,7 @@ bx_pci_bridge_c::bx_pci_bridge_c()
 
 bx_pci_bridge_c::~bx_pci_bridge_c()
 {
-  // nothing for now
+  BX_DEBUG(("Exit"));
 }
 
 void bx_pci_bridge_c::init(void)

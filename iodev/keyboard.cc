@@ -77,12 +77,18 @@ int libkeyboard_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, c
 void libkeyboard_LTX_plugin_fini(void)
 {
   theKeyboard->exit();
+  delete theKeyboard;
 }
 
 bx_keyb_c::bx_keyb_c()
 {
   put("KBD");
   settype(KBDLOG);
+}
+
+bx_keyb_c::~bx_keyb_c()
+{
+  BX_DEBUG(("Exit"));
 }
 
 // flush internal buffer and reset keyboard settings to power-up condition

@@ -51,7 +51,10 @@ int libpcidev_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, cha
   return 0; // Success
 }
 
-void libpcidev_LTX_plugin_fini(void) {}
+void libpcidev_LTX_plugin_fini(void)
+{
+  delete thePciDevAdapter;
+}
 
 bx_pcidev_c::bx_pcidev_c()
 {
@@ -61,7 +64,7 @@ bx_pcidev_c::bx_pcidev_c()
 
 bx_pcidev_c::~bx_pcidev_c()
 {
-  // nothing for now
+  BX_DEBUG(("Exit"));
 }
 
 static void pcidev_sighandler(int param)

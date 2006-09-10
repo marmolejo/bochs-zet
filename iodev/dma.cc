@@ -52,6 +52,7 @@ int libdma_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *
 
 void libdma_LTX_plugin_fini(void)
 {
+  delete theDmaDevice;
 }
 
 bx_dma_c::bx_dma_c()
@@ -62,7 +63,7 @@ bx_dma_c::bx_dma_c()
 
 bx_dma_c::~bx_dma_c()
 {
-   BX_DEBUG(("Exit"));
+  BX_DEBUG(("Exit"));
 }
 
 unsigned bx_dma_c::registerDMA8Channel(unsigned channel,

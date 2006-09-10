@@ -44,7 +44,7 @@ public:
   virtual ~bx_biosdev_c();
 
   virtual void init(void);
-  virtual void reset (unsigned type);
+  virtual void reset(unsigned type) {}
 
 private:
 

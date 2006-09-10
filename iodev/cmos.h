@@ -42,6 +42,7 @@ public:
   virtual ~bx_cmos_c();
 
   virtual void init(void);
+  virtual void exit(void);
   virtual void checksum_cmos(void);
   virtual void reset(unsigned type);
   virtual void save_image(void);

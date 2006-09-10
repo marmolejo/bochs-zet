@@ -86,18 +86,17 @@
 
 bx_hard_drive_c *theHardDrive = NULL;
 
-  int
-libharddrv_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
+int libharddrv_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
-  theHardDrive = new bx_hard_drive_c ();
+  theHardDrive = new bx_hard_drive_c();
   bx_devices.pluginHardDrive = theHardDrive;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, theHardDrive, BX_PLUGIN_HARDDRV);
   return(0); // Success
 }
 
-  void
-libharddrv_LTX_plugin_fini(void)
+void libharddrv_LTX_plugin_fini(void)
 {
+  delete theHardDrive;
 }
 
 bx_hard_drive_c::bx_hard_drive_c()
@@ -106,30 +105,36 @@ bx_hard_drive_c::bx_hard_drive_c()
 #   error code must be fixed to use DLL_HD_SUPPORT and 4 ata channels
 #endif
 
-    for (Bit8u channel=0; channel<BX_MAX_ATA_CHANNEL; channel++) {
-      channels[channel].drives[0].hard_drive =  NULL;
-      channels[channel].drives[1].hard_drive =  NULL;
-      put("HD");
-      settype(HDLOG);
+  put("HD");
+  settype(HDLOG);
+  for (Bit8u channel=0; channel<BX_MAX_ATA_CHANNEL; channel++) {
+    for (Bit8u device=0; device<2; device ++) {
+      channels[channel].drives[device].hard_drive =  NULL;
+#ifdef LOWLOVEL_CDROM
+      channels[channel].drives[device].cdrom.cd =  NULL;
+#endif
     }
-    iolight_timer_index = BX_NULL_TIMER_HANDLE;
+  }
+  iolight_timer_index = BX_NULL_TIMER_HANDLE;
 }
 
 bx_hard_drive_c::~bx_hard_drive_c()
 {
-  BX_DEBUG(("Exit."));
   for (Bit8u channel=0; channel<BX_MAX_ATA_CHANNEL; channel++) {
-    if (channels[channel].drives[0].hard_drive != NULL)      /* DT 17.12.2001 21:55 */
-    {
-      delete channels[channel].drives[0].hard_drive;
-      channels[channel].drives[0].hard_drive = NULL;
-    }
-    if ( channels[channel].drives[1].hard_drive != NULL)
-    {
-      delete channels[channel].drives[1].hard_drive;
-      channels[channel].drives[1].hard_drive = NULL;        /* DT 17.12.2001 21:56 */
+    for (Bit8u device=0; device<2; device ++) {
+      if (channels[channel].drives[device].hard_drive != NULL) {
+        delete channels[channel].drives[device].hard_drive;
+        channels[channel].drives[device].hard_drive = NULL;
+      }
+#ifdef LOWLOVEL_CDROM
+      if (channels[channel].drives[device].cdrom.cd != NULL) {
+        delete channels[channel].drives[device].cdrom.cd;
+        channels[channel].drives[device].cdrom.cd = NULL;
+      }
+#endif
     }
   }
+  BX_DEBUG(("Exit"));
 }
 
 void bx_hard_drive_c::init(void)

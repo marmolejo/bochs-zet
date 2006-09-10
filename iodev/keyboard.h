@@ -49,7 +49,7 @@
 class bx_keyb_c : public bx_keyb_stub_c {
 public:
   bx_keyb_c();
-  virtual ~bx_keyb_c() {}
+  virtual ~bx_keyb_c();
   // implement bx_devmodel_c interface
   virtual void init(void);
   virtual void reset(unsigned type);

@@ -40,7 +40,7 @@ public:
   bx_unmapped_c();
   virtual ~bx_unmapped_c();
   virtual void init(void);
-  virtual void reset (unsigned type);
+  virtual void reset(unsigned type) {}
 
 private:
 

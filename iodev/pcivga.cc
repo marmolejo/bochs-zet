@@ -42,13 +42,16 @@ bx_pcivga_c* thePciVgaAdapter = 0;
 
 int libpcivga_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
-  thePciVgaAdapter = new bx_pcivga_c ();
+  thePciVgaAdapter = new bx_pcivga_c();
   bx_devices.pluginPciVgaAdapter = thePciVgaAdapter;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, thePciVgaAdapter, BX_PLUGIN_PCIVGA);
   return 0; // Success
 }
 
-void libpcivga_LTX_plugin_fini(void) {}
+void libpcivga_LTX_plugin_fini(void)
+{
+  delete thePciVgaAdapter;
+}
 
 bx_pcivga_c::bx_pcivga_c()
 {
@@ -58,7 +61,7 @@ bx_pcivga_c::bx_pcivga_c()
 
 bx_pcivga_c::~bx_pcivga_c()
 {
-  // nothing for now
+  BX_DEBUG(("Exit"));
 }
 
 void bx_pcivga_c::init(void)

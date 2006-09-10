@@ -50,13 +50,16 @@ const Bit8u ne2k_iomask[32] = {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 
 int libne2k_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
-  theNE2kDevice = new bx_ne2k_c ();
+  theNE2kDevice = new bx_ne2k_c();
   bx_devices.pluginNE2kDevice = theNE2kDevice;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, theNE2kDevice, BX_PLUGIN_NE2K);
   return(0); // Success
 }
 
-void libne2k_LTX_plugin_fini(void) {}
+void libne2k_LTX_plugin_fini(void)
+{
+  delete theNE2kDevice;
+}
   
 bx_ne2k_c::bx_ne2k_c()
 {
@@ -68,7 +71,7 @@ bx_ne2k_c::bx_ne2k_c()
 
 bx_ne2k_c::~bx_ne2k_c()
 {
-  // nothing for now
+  BX_DEBUG(("Exit"));
 }
 
 //
