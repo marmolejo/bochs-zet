@@ -84,6 +84,7 @@ bx_keyb_c::bx_keyb_c()
 {
   put("KBD");
   settype(KBDLOG);
+  pastebuf = NULL;
 }
 
 bx_keyb_c::~bx_keyb_c()

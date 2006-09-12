@@ -631,7 +631,7 @@ void bx_unload_plugins()
   device_t *device, *next;
 
   device = devices;
-  do {
+  while (device != NULL) {
     if (device->plugin != NULL) {
 #if BX_PLUGINS
       bx_unload_plugin(device->name);
@@ -642,7 +642,7 @@ void bx_unload_plugins()
     next = device->next;
     free(device);
     device = next;
-  } while (device != NULL);
+  };
   devices = NULL;
 }
 

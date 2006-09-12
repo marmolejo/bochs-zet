@@ -70,6 +70,7 @@ bx_serial_c::bx_serial_c(void)
   put("SER");
   settype(SERLOG);
   for (int i=0; i<BX_SERIAL_MAXDEV; i++) {
+    s[i].io_mode = BX_SER_MODE_NULL;
     s[i].tty_id = -1;
     s[i].tx_timer_index = BX_NULL_TIMER_HANDLE;
     s[i].rx_timer_index = BX_NULL_TIMER_HANDLE;

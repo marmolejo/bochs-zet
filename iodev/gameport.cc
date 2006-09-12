@@ -75,7 +75,8 @@ void libgameport_LTX_plugin_fini(void)
 bx_gameport_c::bx_gameport_c()
 {
   put("GAME");
-  settype(EXTFPUIRQLOG);
+  settype(GAMELOG);
+  joyfd = -1;
 }
 
 bx_gameport_c::~bx_gameport_c()
