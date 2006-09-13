@@ -517,7 +517,7 @@ private:
   
   // more for informative purposes, the names of the devices which
   // are use each of the IRQ 0..15 lines are stored here
-  const char *irq_handler_name[BX_MAX_IRQS];
+  char *irq_handler_name[BX_MAX_IRQS];
 
   static Bit32u read_handler(void *this_ptr, Bit32u address, unsigned io_len);
   static void   write_handler(void *this_ptr, Bit32u address, Bit32u value, unsigned io_len);

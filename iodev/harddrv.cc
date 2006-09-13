@@ -177,7 +177,7 @@ void bx_hard_drive_c::init(void)
     sprintf(string ,"ATA%d", channel);
 
     if (BX_HD_THIS channels[channel].irq != 0) 
-      DEV_register_irq(BX_HD_THIS channels[channel].irq, strdup(string));
+      DEV_register_irq(BX_HD_THIS channels[channel].irq, string);
 
     if (BX_HD_THIS channels[channel].ioaddr1 != 0) {
       DEV_register_ioread_handler(this, read_handler,
