@@ -1146,6 +1146,8 @@ int bx_atexit(void)
   }
 #endif
 
+  BX_MEM(0)->cleanup_memory();
+
 #if BX_PROVIDE_DEVICE_MODELS==1
   bx_pc_system.exit();
 #endif
