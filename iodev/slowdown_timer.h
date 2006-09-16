@@ -45,6 +45,7 @@ public:
   bx_slowdown_timer_c();
 
   void init(void);
+  void exit(void);
 #if BX_SUPPORT_SAVE_RESTORE
   void after_restore_state(void);
 #endif

@@ -84,6 +84,11 @@ void bx_slowdown_timer_c::init(void)
   bx_pc_system.activate_timer(s.timer_handle,(Bit32u)s.Q,0);
 }
 
+void bx_slowdown_timer_c::exit(void)
+{
+  s.timer_handle = BX_NULL_TIMER_HANDLE;
+}
+
 #if BX_SUPPORT_SAVE_RESTORE
 void bx_slowdown_timer_c::after_restore_state(void)
 {
