@@ -76,7 +76,6 @@ int libkeyboard_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, c
 
 void libkeyboard_LTX_plugin_fini(void)
 {
-  theKeyboard->exit();
   delete theKeyboard;
 }
 
@@ -89,6 +88,18 @@ bx_keyb_c::bx_keyb_c()
 
 bx_keyb_c::~bx_keyb_c()
 {
+  // remove runtime parameter handler
+  SIM->get_param_bool(BXPN_MOUSE_ENABLED)->set_handler(NULL);
+  SIM->get_param_num(BXPN_KBD_PASTE_DELAY)->set_handler(NULL);
+  if (pastebuf != NULL) {
+    delete [] pastebuf;
+  }
+#if BX_WITH_WX
+  bx_list_c *list = (bx_list_c*)SIM->get_param(BXPN_WX_KBD_STATE);
+  if (list != NULL) {
+    list->clear();
+  }
+#endif
   BX_DEBUG(("Exit"));
 }
 
@@ -261,22 +272,6 @@ void bx_keyb_c::reset(unsigned type)
   if (BX_KEY_THIS pastebuf != NULL) {
     BX_KEY_THIS stop_paste = 1;
   }
-}
-
-void bx_keyb_c::exit(void)
-{
-  // remove runtime parameter handler
-  SIM->get_param_bool(BXPN_MOUSE_ENABLED)->set_handler(NULL);
-  SIM->get_param_num(BXPN_KBD_PASTE_DELAY)->set_handler(NULL);
-  if (BX_KEY_THIS pastebuf != NULL) {
-    delete [] BX_KEY_THIS pastebuf;
-  }
-#if BX_WITH_WX
-  bx_list_c *list = (bx_list_c*)SIM->get_param(BXPN_WX_KBD_STATE);
-  if (list != NULL) {
-    list->clear();
-  }
-#endif
 }
 
 #if BX_SUPPORT_SAVE_RESTORE

@@ -637,7 +637,7 @@ void bx_unload_plugins()
       bx_unload_plugin(device->name);
 #endif
     } else {
-      device->devmodel->exit();
+      delete device->devmodel;
     }
     next = device->next;
     free(device);

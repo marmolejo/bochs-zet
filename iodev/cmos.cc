@@ -109,7 +109,6 @@ int libcmos_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char 
 
 void libcmos_LTX_plugin_fini(void)
 {
-  theCmosDevice->exit();
   delete theCmosDevice;
 }
 
@@ -127,6 +126,13 @@ bx_cmos_c::bx_cmos_c(void)
 
 bx_cmos_c::~bx_cmos_c(void)
 {
+  save_image();
+  char *tmptime;
+  if ((tmptime = strdup(ctime(&(BX_CMOS_THIS s.timeval)))) != NULL) {
+    tmptime[strlen(tmptime)-1]='\0';
+    BX_INFO(("Last time is %u (%s)", (unsigned) get_timeval(), tmptime));
+    free(tmptime);
+  }
   BX_DEBUG(("Exit"));
 }
 
@@ -267,12 +273,6 @@ void bx_cmos_c::reset(unsigned type)
 
   // handle periodic interrupt rate select
   BX_CMOS_THIS CRA_change();
-}
-
-void bx_cmos_c::exit(void)
-{
-  BX_CMOS_THIS save_image();
-  BX_INFO(("Last time is %u", (unsigned) BX_CMOS_THIS get_timeval()));
 }
 
 void bx_cmos_c::save_image(void)

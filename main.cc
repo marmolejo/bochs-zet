@@ -73,7 +73,6 @@ bx_bool bx_gui_sighandler = 0;
 Bit32u bx_unmapped_io_read_handler(Bit32u address, unsigned io_len);
 void   bx_unmapped_io_write_handler(Bit32u address, Bit32u value,
                                     unsigned io_len);
-void   bx_close_harddrive(void);
 #endif
 
 void bx_init_bx_dbg (void);

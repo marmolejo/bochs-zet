@@ -391,8 +391,6 @@ void bx_devices_c::after_restore_state()
 
 void bx_devices_c::exit()
 {
-  if (DEV_hd_present())
-    DEV_hd_close_harddrive();
 #if BX_SUPPORT_PCI
   if (SIM->get_param_bool(BXPN_I440FX_SUPPORT)->get()) {
     pluginPciBridge->print_i440fx_state();
