@@ -116,6 +116,7 @@ bx_vga_c::~bx_vga_c()
     delete [] s.memory;
     s.memory = NULL;
   }
+  SIM->get_param_num(BXPN_VGA_UPDATE_INTERVAL)->set_handler(NULL);
   BX_DEBUG(("Exit"));
 }
 

@@ -94,6 +94,9 @@ bx_pciusb_c::~bx_pciusb_c()
     if (BX_USB_THIS hub[0].device[i].fd > -1) 
       ::close(BX_USB_THIS hub[0].device[i].fd);
 
+  SIM->get_param_string(BXPN_USB1_PORT1)->set_handler(NULL);
+  SIM->get_param_string(BXPN_USB1_OPTION1)->set_handler(NULL);
+
   BX_DEBUG(("Exit"));
 }
 
