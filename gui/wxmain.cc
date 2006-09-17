@@ -867,7 +867,7 @@ void
 MyFrame::DebugBreak()
 {
   if (debugCommand) {
-    delete debugCommand;
+    delete [] debugCommand;
     debugCommand = NULL;
   }
   wxASSERT(showDebugLog != NULL);
@@ -892,7 +892,7 @@ MyFrame::DebugCommand(const char *cmd)
   if (debugCommand != NULL) {
     // one is already waiting
     wxLogDebug(wxT("multiple debugger commands, discarding the earlier one"));
-    delete debugCommand;
+    delete [] debugCommand;
     debugCommand = NULL;
   }
   int len = strlen(cmd);
@@ -1084,6 +1084,7 @@ void MyFrame::OnKillSim(wxCommandEvent& WXUNUSED(event))
   // the sim_thread may be waiting for a debugger command.  If so, send
   // it a "quit"
   DebugCommand("quit");
+  debugCommand = NULL;
 #endif
   if (sim_thread) {
     wxBochsStopSim = true;
