@@ -71,6 +71,21 @@ void iofunctions::add_logfn(logfunc_t *fn)
   logfn_list[n_logfn++] = fn;
 }
 
+void iofunctions::remove_logfn(logfunc_t *fn)
+{
+  assert(n_logfn > 0);
+  int i = 0;
+  while ((fn != logfn_list[i]) && (i < n_logfn)) {
+    i++;
+  };
+  if (i < n_logfn) {
+    for (int j=i; j<n_logfn-1; j++) {
+      logfn_list[j] = logfn_list[j+1];
+    }
+    n_logfn--;
+  }
+}
+
 void iofunctions::set_log_action(int loglevel, int action)
 {
   for(int i=0; i<n_logfn; i++)
@@ -287,6 +302,7 @@ logfunctions::logfunctions(iofunc_t *iofunc)
 
 logfunctions::~logfunctions()
 {
+  this->logio->remove_logfn(this);
   if (prefix) free(prefix);
 }
 

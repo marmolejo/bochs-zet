@@ -110,7 +110,7 @@ bx_hard_drive_c::bx_hard_drive_c()
   for (Bit8u channel=0; channel<BX_MAX_ATA_CHANNEL; channel++) {
     for (Bit8u device=0; device<2; device ++) {
       channels[channel].drives[device].hard_drive =  NULL;
-#ifdef LOWLOVEL_CDROM
+#ifdef LOWLEVEL_CDROM
       channels[channel].drives[device].cdrom.cd =  NULL;
 #endif
     }
@@ -127,7 +127,7 @@ bx_hard_drive_c::~bx_hard_drive_c()
         delete channels[channel].drives[device].hard_drive;
         channels[channel].drives[device].hard_drive = NULL;
       }
-#ifdef LOWLOVEL_CDROM
+#ifdef LOWLEVEL_CDROM
       if (channels[channel].drives[device].cdrom.cd != NULL) {
         delete channels[channel].drives[device].cdrom.cd;
         channels[channel].drives[device].cdrom.cd = NULL;
