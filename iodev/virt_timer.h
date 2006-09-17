@@ -145,7 +145,10 @@ public:
   //The real timer handler.
   void timer_handler();
 
-  //Initialization
+  //Initialization step #1
+  void reset(void);
+
+  //Initialization step #2
   void init(void);
 
 #if BX_SUPPORT_SAVE_RESTORE

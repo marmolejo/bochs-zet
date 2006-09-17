@@ -391,6 +391,8 @@ void bx_devices_c::after_restore_state()
 
 void bx_devices_c::exit()
 {
+  pit->exit();
+  bx_virt_timer.reset();
   bx_slowdown_timer.exit();
 
 #if BX_SUPPORT_PCI
