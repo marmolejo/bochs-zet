@@ -126,10 +126,11 @@ public:
 
   void init(int argc, char **argv,
                  unsigned x_tilesize, unsigned y_tilesize);
-  void update_drive_status_buttons (void);
-  static void     mouse_enabled_changed (bx_bool val);
+  void cleanup(void);
+  void update_drive_status_buttons(void);
+  static void     mouse_enabled_changed(bx_bool val);
   int register_statusitem(const char *text);
-  static void init_signal_handlers ();
+  static void init_signal_handlers();
 
 
 protected:

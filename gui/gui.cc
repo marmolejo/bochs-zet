@@ -238,13 +238,18 @@ void bx_gui_c::init(int argc, char **argv, unsigned tilewidth, unsigned tileheig
 
   BX_GUI_THIS charmap_updated = 0;
 
-  if (!BX_GUI_THIS new_gfx_api) {
+  if (!BX_GUI_THIS new_gfx_api && (BX_GUI_THIS framebuffer == NULL)) {
     BX_GUI_THIS framebuffer = new Bit8u[BX_MAX_XRES * BX_MAX_YRES * 4];
   }
   show_headerbar();
 }
 
-void bx_gui_c::update_drive_status_buttons (void)
+void bx_gui_c::cleanup(void)
+{
+  statusitem_count = 0;
+}
+
+void bx_gui_c::update_drive_status_buttons(void)
 {
   BX_GUI_THIS floppyA_status = DEV_floppy_get_media_status(0)
     && (SIM->get_param_enum(BXPN_FLOPPYA_STATUS)->get() == BX_INSERTED);
