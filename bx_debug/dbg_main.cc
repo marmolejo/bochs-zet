@@ -1225,6 +1225,7 @@ one_more:
     for (cpu=0; cpu < BX_SMP_PROCESSORS; cpu++) {
       BX_CPU(cpu)->guard_found.guard_found = 0;
       BX_CPU(cpu)->guard_found.icount = 0;
+      BX_CPU(cpu)->guard_found.time_tick = bx_pc_system.time_ticks();
       BX_CPU(cpu)->cpu_loop(quantum);
       // set stop flag if a guard found other than icount or halted
       unsigned long found = BX_CPU(cpu)->guard_found.guard_found;
@@ -1296,6 +1297,8 @@ void bx_dbg_stepN_command(Bit32u count)
     for (unsigned cpu=0; cpu < BX_SMP_PROCESSORS; cpu++) {
       bx_guard.interrupt_requested = 0;
       BX_CPU(cpu)->guard_found.guard_found = 0;
+      BX_CPU(cpu)->guard_found.icount = 0;
+      BX_CPU(cpu)->guard_found.time_tick = bx_pc_system.time_ticks();
       BX_CPU(cpu)->cpu_loop(1);
     }
 #if BX_SUPPORT_SMP == 0
