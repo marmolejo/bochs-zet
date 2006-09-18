@@ -1977,6 +1977,7 @@ bx_list_c::~bx_list_c()
     for (int i=0; i<this->size; i++) {
       delete list[i];
     }
+    delete [] list;
   }
   if (title != NULL) delete title;
   if (options != NULL) delete options;
