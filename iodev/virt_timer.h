@@ -145,8 +145,8 @@ public:
   //The real timer handler.
   void timer_handler();
 
-  //Initialization step #1
-  void reset(void);
+  //Initialization step #1 in constructor and for cleanup
+  void setup(void);
 
   //Initialization step #2
   void init(void);

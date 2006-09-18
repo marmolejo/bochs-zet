@@ -392,14 +392,8 @@ void bx_devices_c::after_restore_state()
 void bx_devices_c::exit()
 {
   pit->exit();
-  bx_virt_timer.reset();
+  bx_virt_timer.setup();
   bx_slowdown_timer.exit();
-
-#if BX_SUPPORT_PCI
-  if (SIM->get_param_bool(BXPN_I440FX_SUPPORT)->get()) {
-    pluginPciBridge->print_i440fx_state();
-  }
-#endif
 
   PLUG_unload_plugin(unmapped);
   PLUG_unload_plugin(biosdev);

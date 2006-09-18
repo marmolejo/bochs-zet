@@ -61,6 +61,7 @@ bx_pci_bridge_c::bx_pci_bridge_c()
 
 bx_pci_bridge_c::~bx_pci_bridge_c()
 {
+  print_i440fx_state();
   BX_DEBUG(("Exit"));
 }
 
