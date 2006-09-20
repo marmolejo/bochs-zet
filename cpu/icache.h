@@ -55,6 +55,9 @@ public:
 
   BX_CPP_INLINE void alloc(Bit32u memSize)
   {
+    if (memSizeInBytes > 0) {
+      delete [] pageWriteStampTable;
+    }
     memSizeInBytes = memSize;
     pageWriteStampTable = new Bit32u [memSizeInBytes>>12];
     resetWriteStamps();

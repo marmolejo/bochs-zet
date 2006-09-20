@@ -123,23 +123,15 @@ void bx_devices_c::init(BX_MEM_C *newmem)
   mem = newmem;
 
   /* set no-default handlers, will be overwritten by the real default handler */
+  register_default_io_read_handler(NULL, &default_read_handler, def_name, 7);
   io_read_handlers.next = &io_read_handlers;
   io_read_handlers.prev = &io_read_handlers;
-  io_read_handlers.handler_name = new char[strlen(def_name)+1];
-  strcpy(io_read_handlers.handler_name, def_name);
-  io_read_handlers.funct         = (void *)&default_read_handler;
-  io_read_handlers.this_ptr      = NULL;
   io_read_handlers.usage_count = 0; // not used with the default handler
-  io_read_handlers.mask          = 7;
-  
+
+  register_default_io_write_handler(NULL, &default_write_handler, def_name, 7);
   io_write_handlers.next = &io_write_handlers;
   io_write_handlers.prev = &io_write_handlers;
-  io_write_handlers.handler_name = new char[strlen(def_name)+1];
-  strcpy(io_write_handlers.handler_name, def_name);
-  io_write_handlers.funct        = (void *)&default_write_handler;
-  io_write_handlers.this_ptr     = NULL;
   io_write_handlers.usage_count = 0; // not used with the default handler
-  io_write_handlers.mask         = 7;
 
   if (read_port_to_handler)
     delete [] read_port_to_handler;

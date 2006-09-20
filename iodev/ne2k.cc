@@ -66,11 +66,15 @@ bx_ne2k_c::bx_ne2k_c()
   put("NE2K");
   settype(NE2KLOG);
   s.tx_timer_index = BX_NULL_TIMER_HANDLE;
+  ethdev = NULL;
 }
 
 
 bx_ne2k_c::~bx_ne2k_c()
 {
+  if (ethdev != NULL) {
+    delete ethdev;
+  }
   BX_DEBUG(("Exit"));
 }
 
