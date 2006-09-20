@@ -996,11 +996,9 @@ void BX_CPU_C::reset(unsigned source)
 
   BX_CPU_THIS_PTR EXT = 0;
 
-#if BX_SUPPORT_PAGING
 #if BX_USE_TLB
   TLB_init();
 #endif // BX_USE_TLB
-#endif // BX_SUPPORT_PAGING
 
   // invalidate the prefetch queue
   BX_CPU_THIS_PTR eipPageBias = 0;

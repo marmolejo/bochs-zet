@@ -663,14 +663,12 @@ void BX_CPU_C::prefetch(void)
     }
   }
 
-#if BX_SUPPORT_PAGING
   if (BX_CPU_THIS_PTR cr0.pg) {
     // aligned block guaranteed to be all in one page, same A20 address
     pAddr = itranslate_linear(laddr, CPL==3);
     pAddr = A20ADDR(pAddr);
   }
   else
-#endif // BX_SUPPORT_PAGING
   {
     pAddr = A20ADDR(laddr);
   }
