@@ -905,8 +905,10 @@ bx_wx_gui_c::specific_init(int argc, char **argv, unsigned tilewidth, unsigned t
   IFDBG_VGA(wxLogDebug (wxT ("MyPanel::specific_init got lock. wxScreen=%p", wxScreen)));
   if (wxScreen == NULL) {
     wxScreen = (char *)malloc(wxScreenX * wxScreenY * 3);
-    memset(wxScreen, 0, wxScreenX * wxScreenY * 3);
+  } else {
+    wxScreen = (char *)realloc(wxScreen, wxScreenX * wxScreenY * 3);
   }
+  memset(wxScreen, 0, wxScreenX * wxScreenY * 3);
 
   wxTileX = tilewidth;
   wxTileY = tileheight;
