@@ -1051,6 +1051,7 @@ void MyFrame::OnStartSim(wxCommandEvent& event)
         wxT("2nd time warning"), wxOK | wxICON_WARNING, this);
   }
   num_events = 0;  // clear the queue of events for bochs to handle
+  wxBochsStopSim = false;
   sim_thread = new SimThread(this);
   sim_thread->Create();
   sim_thread->Run();                                                        
