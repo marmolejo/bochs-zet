@@ -214,8 +214,8 @@ extern "C" {
 #if BX_SUPPORT_PCIUSB
 #define DEV_usb_mouse_enq(dx, dy, dz, state) \
     (bx_devices.pluginPciUSBAdapter->usb_mouse_enq(dx, dy, dz, state))
-#define DEV_usb_mouse_enable(enable) \
-    (bx_devices.pluginPciUSBAdapter->usb_mouse_enable(enable))
+#define DEV_usb_mouse_enabled_changed(enable) \
+    (bx_devices.pluginPciUSBAdapter->usb_mouse_enabled_changed(enable))
 #define DEV_usb_key_enq(scan_code) \
     (bx_devices.pluginPciUSBAdapter->usb_key_enq(scan_code))
 #define DEV_usb_keyboard_connected() \

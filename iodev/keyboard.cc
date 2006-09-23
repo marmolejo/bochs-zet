@@ -1604,9 +1604,9 @@ void bx_keyb_c::create_mouse_packet(bool force_enq)
 void bx_keyb_c::mouse_enabled_changed(bx_bool enabled)
 {
 #if BX_SUPPORT_PCIUSB
-  // if type == usb, connect or disconnect the USB mouse
-  if (BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_USB) {
-    DEV_usb_mouse_enable(enabled);
+  // if an usb mouse is connected, notify the device about the status change
+  if (DEV_usb_mouse_connected()) {
+    DEV_usb_mouse_enabled_changed(enabled);
     return;
   }
 #endif
@@ -1631,6 +1631,14 @@ void bx_keyb_c::mouse_motion(int delta_x, int delta_y, int delta_z, unsigned but
   if (!BX_KEY_THIS s.mouse.captured)
     return;
 
+#if BX_SUPPORT_PCIUSB
+  // if an usb mouse is connected, redirect mouse data to the usb device
+  if (DEV_usb_mouse_connected()) {
+    DEV_usb_mouse_enq(delta_x, delta_y, delta_z, button_state);
+    return;
+  }
+#endif
+
   // if type == serial, redirect mouse data to the serial device
   if ((BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_SERIAL) ||
       (BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_SERIAL_WHEEL)) {
@@ -1642,14 +1650,6 @@ void bx_keyb_c::mouse_motion(int delta_x, int delta_y, int delta_z, unsigned but
   // if type == bus, redirect mouse data to the bus device
   if (BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_BUS) {
     DEV_bus_mouse_enq(delta_x, delta_y, 0, button_state);
-    return;
-  }
-#endif
-
-#if BX_SUPPORT_PCIUSB
-  // if an usb mouse is connected redirect mouse data to the usb device
-  if (DEV_usb_mouse_connected()) {
-    DEV_usb_mouse_enq(delta_x, delta_y, delta_z, button_state);
     return;
   }
 #endif

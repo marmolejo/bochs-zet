@@ -342,7 +342,7 @@ public:
   virtual void init(void);
   virtual void reset(unsigned);
   virtual void usb_mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state);
-  virtual void usb_mouse_enable(bx_bool enable);
+  virtual void usb_mouse_enabled_changed(bx_bool enable);
   virtual bx_bool usb_key_enq(Bit8u *scan_code);
   virtual bx_bool usb_keyboard_connected();
   virtual bx_bool usb_mouse_connected();
