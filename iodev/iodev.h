@@ -427,6 +427,7 @@ public:
   bx_pci_bridge_stub_c *pluginPciBridge;
   bx_pci2isa_stub_c *pluginPci2IsaBridge;
   bx_pci_ide_stub_c *pluginPciIdeController;
+  bx_devmodel_c     *pluginACPIController;
   bx_devmodel_c     *pluginPciVgaAdapter;
   bx_devmodel_c     *pluginPciDevAdapter;
   bx_devmodel_c     *pluginPciPNicAdapter;
@@ -537,6 +538,7 @@ private:
 #include "iodev/pci.h"
 #include "iodev/pci2isa.h"
 #include "iodev/pci_ide.h"
+#include "iodev/acpi.h"
 #if BX_SUPPORT_PCIVGA
 #include "iodev/pcivga.h"
 #endif
