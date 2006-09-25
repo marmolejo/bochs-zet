@@ -196,7 +196,9 @@ void bx_devices_c::init(BX_MEM_C *newmem)
     PLUG_load_plugin(pci, PLUGTYPE_CORE);
     PLUG_load_plugin(pci2isa, PLUGTYPE_CORE);
     PLUG_load_plugin(pci_ide, PLUGTYPE_OPTIONAL);
+#if BX_SUPPORT_ACPI
     PLUG_load_plugin(acpi, PLUGTYPE_OPTIONAL);
+#endif
 #if BX_SUPPORT_PCIVGA
     if ((DEV_is_pci_device("pcivga")) &&
         (!strcmp(SIM->get_param_string(BXPN_VGA_EXTENSION)->getptr(), "vbe"))) {

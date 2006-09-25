@@ -93,7 +93,6 @@ extern "C" {
 #endif
 
 #include "osdep.h"       /* platform dependent includes and defines */ 
-#include "bx_debug/debug.h"
 #include "bxversion.h"
 
 #include "gui/siminterface.h"

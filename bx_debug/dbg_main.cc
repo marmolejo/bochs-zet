@@ -30,6 +30,7 @@ extern "C" {
 }
 
 #include "bochs.h"
+#include "debug.h"
 #include "cpu/cpu.h"
 #include "iodev/iodev.h"
 #if BX_DEBUGGER
