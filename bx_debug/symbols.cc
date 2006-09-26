@@ -26,7 +26,6 @@
 /////////////////////////////////////////////////////////////////////////
 
 #include "bochs.h"
-#include "debug.h"
 #include "cpu/cpu.h"
 
 #if !((BX_HAVE_HASH_MAP || BX_HAVE_HASH_MAP_H) && (BX_HAVE_SET || BX_HAVE_SET_H))
