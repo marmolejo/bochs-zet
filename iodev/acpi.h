@@ -57,6 +57,9 @@ private:
     Bit8u devfunc;
     Bit32u pm_base;
     Bit32u sm_base;
+    Bit16u pmsts;
+    Bit16u pmen;
+    Bit16u pmcntrl;
   } s;
 };
 
