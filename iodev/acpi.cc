@@ -28,6 +28,8 @@
 // is used to know when we are exporting symbols and when we are importing.
 #define BX_PLUGGABLE
 
+#include "bochs.h"
+#include "cpu/cpu.h"
 #include "iodev.h"
 #if BX_SUPPORT_PCI && BX_SUPPORT_ACPI
 
@@ -239,6 +241,13 @@ void bx_acpi_ctrl_c::pm_update_sci(void)
     } else {
       bx_pc_system.deactivate_timer(BX_ACPI_THIS s.timer_index);
     }
+}
+
+void bx_acpi_ctrl_c::generate_smi(void)
+{
+  if (BX_ACPI_THIS s.pci_conf[0x5b] & 0x02) {
+    BX_CPU(0)->deliver_SMI();
+  }
 }
 
 // static IO port read callback handler

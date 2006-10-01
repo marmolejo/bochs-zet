@@ -73,7 +73,7 @@ void bx_devices_c::init_stubs()
   pluginPciBridge = &stubPci;
   pluginPci2IsaBridge = &stubPci2Isa;
   pluginPciIdeController = &stubPciIde;
-  pluginACPIController = NULL;
+  pluginACPIController = &stubACPIController;
 #if BX_SUPPORT_PCIVGA
     pluginPciVgaAdapter = NULL;
 #endif

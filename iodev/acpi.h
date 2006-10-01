@@ -31,12 +31,13 @@
 #  define BX_ACPI_THIS_PTR this
 #endif
 
-class bx_acpi_ctrl_c : public bx_devmodel_c, public bx_pci_device_stub_c {
+class bx_acpi_ctrl_c : public bx_acpi_ctrl_stub_c {
 public:
   bx_acpi_ctrl_c();
   virtual ~bx_acpi_ctrl_c();
   virtual void init(void);
   virtual void reset(unsigned type);
+  virtual void generate_smi(void);
 #if BX_SUPPORT_SAVE_RESTORE
   virtual void register_state(void);
   virtual void after_restore_state(void);
