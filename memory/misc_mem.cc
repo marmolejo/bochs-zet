@@ -456,14 +456,14 @@ void BX_MEM_C::load_RAM(const char *path, bx_phy_address ramaddress, Bit8u type)
 
 
 #if ( BX_DEBUGGER || BX_DISASM || BX_GDBSTUB)
-bx_bool BX_MEM_C::dbg_fetch_mem(bx_phy_address addr, unsigned len, Bit8u *buf)
+bx_bool BX_MEM_C::dbg_fetch_mem(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, Bit8u *buf)
 {
   bx_bool ret = 1;
 
   for (; len>0; len--) {
     // Reading standard PCI/ISA Video Mem / SMMRAM
     if ((addr & 0xfffe0000) == 0x000a0000) {
-      if (BX_MEM_THIS smram_enable)
+      if (BX_MEM_THIS smram_enable || cpu->smm_mode())
         *buf = BX_MEM_THIS vector[addr];
       else 
         *buf = DEV_vga_mem_read(addr);
