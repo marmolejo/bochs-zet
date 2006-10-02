@@ -78,7 +78,6 @@ void BX_CPU_C::RSM(bxInstruction_c *i)
   BX_INFO(("RSM: Resuming from System Management Mode !"));
 
   BX_CPU_THIS_PTR nmi_disable = 0;
-  BX_CPU_THIS_PTR in_smm = 0;
 
   Bit32u saved_state[SMM_SAVE_STATE_MAP_SIZE], n;
   // reset reserved bits
@@ -90,6 +89,7 @@ void BX_CPU_C::RSM(bxInstruction_c *i)
     base -= 4;
     BX_CPU_THIS_PTR mem->readPhysicalPage(BX_CPU_THIS, base, 4, &saved_state[n]);
   }
+  BX_CPU_THIS_PTR in_smm = 0;
 
   // restore the CPU state from SMRAM
   if (! smram_restore_state(saved_state)) {
