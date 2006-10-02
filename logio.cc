@@ -574,7 +574,9 @@ static void carbonFatalDialog(const char *error, const char *exposition)
 
 void logfunctions::fatal(const char *prefix, const char *fmt, va_list ap, int exit_status)
 {
+#if !BX_DEBUGGER
   bx_atexit();
+#endif
 #if BX_WITH_CARBON
   if(!isatty(STDIN_FILENO) && !SIM->get_init_done())
   {

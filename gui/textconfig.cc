@@ -47,6 +47,9 @@ int bx_read_rc(char *rc);
 int bx_write_rc(char *rc);
 void bx_log_options(int individual);
 int bx_atexit();
+#if BX_DEBUGGER
+void bx_dbg_exit(int code);
+#endif
 
 /******************************************************************/
 /* lots of code stolen from bximage.c */
@@ -541,8 +544,12 @@ int bx_config_interface(int menu)
             case BX_CI_RT_QUIT:
               fprintf(stderr, "You chose quit on the configuration interface.\n");
               bx_user_quit = 1;
+#if !BX_DEBUGGER
               bx_atexit();
               SIM->quit_sim(1);
+#else
+              bx_dbg_exit(1);
+#endif
               return -1;
             default: fprintf(stderr, "Menu choice %d not implemented.\n", choice);
           }
