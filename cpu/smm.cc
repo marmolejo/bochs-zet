@@ -97,16 +97,16 @@ void BX_CPU_C::RSM(bxInstruction_c *i)
     shutdown();
   }
 
-  debug(RIP);
+  // debug(RIP);
 }
 
 void BX_CPU_C::enter_system_management_mode(void)
 {
   invalidate_prefetch_q();
 
-  debug(BX_CPU_THIS_PTR prev_eip);
-
   BX_INFO(("Enter to System Management Mode !"));
+
+  // debug(BX_CPU_THIS_PTR prev_eip);
 
   BX_CPU_THIS_PTR in_smm = 1;
 
