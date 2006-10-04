@@ -1168,7 +1168,7 @@ void BX_CPU_C::assert_checks(void)
 
 #if BX_SUPPORT_X86_64
   // VM should be OFF in long mode
-  if (IsLongMode()) {
+  if (long_mode()) {
     if (BX_CPU_THIS_PTR get_VM()) BX_PANIC(("assert_checks: VM is set in long mode !"));
   }
 

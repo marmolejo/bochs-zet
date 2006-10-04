@@ -233,7 +233,7 @@ BX_CPU_C::return_protected(bxInstruction_c *i, Bit16u pop_bytes)
     parse_selector(raw_ss_selector, &ss_selector);
 
     if ((raw_ss_selector & 0xfffc) == 0) {
-      if (IsLongMode()) {
+      if (long_mode()) {
         if (! IS_LONG64_SEGMENT(cs_descriptor) || (cs_selector.rpl == 3)) {
           BX_ERROR(("return_protected: SS selector null"));
           exception(BX_GP_EXCEPTION, 0, 0);
