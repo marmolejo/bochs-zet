@@ -73,8 +73,6 @@ public:
                            unsigned width, unsigned height);
   virtual Bit8u mem_read(Bit32u addr);
   virtual void mem_write(Bit32u addr, Bit8u value);
-  virtual void mem_write_mode4and5_8bpp(Bit8u mode, Bit32u offset, Bit8u value);
-  virtual void mem_write_mode4and5_16bpp(Bit8u mode, Bit32u offset, Bit8u value);
   virtual void get_text_snapshot(Bit8u **text_snapshot, 
                                  unsigned *txHeight, unsigned *txWidth);
   virtual void trigger_timer(void *this_ptr);
@@ -96,6 +94,8 @@ private:
   Bit32u svga_read(Bit32u address, unsigned io_len);
   void   svga_write(Bit32u address, Bit32u value, unsigned io_len);
 #endif // !BX_USE_CIRRUS_SMF
+  BX_CIRRUS_SMF void mem_write_mode4and5_8bpp(Bit8u mode, Bit32u offset, Bit8u value);
+  BX_CIRRUS_SMF void mem_write_mode4and5_16bpp(Bit8u mode, Bit32u offset, Bit8u value);
 
   static void   svga_timer_handler(void *);
   static Bit64s svga_param_handler(bx_param_c *param, int set, Bit64s val);
