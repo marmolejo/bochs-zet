@@ -68,6 +68,7 @@ case "$target" in
     ;;
   *-solaris*)
     ADD_FLAGS="-D_XOPEN_SOURCE_EXTENDED=1 -D__EXTENSIONS__"      # required for correct function prototypes
+    LIBS="$LIBS -lsocket"
     DEFAULT_GUI=x11
     ;;
   *)
@@ -2070,7 +2071,9 @@ if test "$cross_configure" = 0; then
       with_wx=yes
     fi
   else
-    AC_MSG_WARN([Bochs for wxWidgets cannot be compiled here, disabling it])
+    if test "$with_wx" = yes; then
+      AC_MSG_WARN([Bochs for wxWidgets cannot be compiled here, disabling it])
+    fi
     with_wx=no
   fi
 fi
