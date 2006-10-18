@@ -436,7 +436,7 @@ breakpoint_command:
         bx_dbg_vbreakpoint_command(bkAtIP, 0, 0);
         free($1);
       }
-    | BX_TOKEN_VBREAKPOINT vexpression ':' expression '\n'
+    | BX_TOKEN_VBREAKPOINT vexpression ':' vexpression '\n'
       {
         bx_dbg_vbreakpoint_command(bkRegular, $2, $4);
         free($1);
