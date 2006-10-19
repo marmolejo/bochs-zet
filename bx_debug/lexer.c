@@ -2220,12 +2220,12 @@ YY_RULE_SETUP
 case 190:
 YY_RULE_SETUP
 #line 235 "lexer.l"
-{ bxlval.uval = strtoull(bxtext+2, NULL, 16); return(BX_TOKEN_NUMERIC); }
+{ bxlval.uval = strtoull(bxtext, NULL, 16); return(BX_TOKEN_NUMERIC); }
 	YY_BREAK
 case 191:
 YY_RULE_SETUP
 #line 236 "lexer.l"
-{ bxlval.uval = strtoull(bxtext+1, NULL, 8); return(BX_TOKEN_NUMERIC); }
+{ bxlval.uval = strtoull(bxtext, NULL, 8); return(BX_TOKEN_NUMERIC); }
 	YY_BREAK
 case 192:
 YY_RULE_SETUP
