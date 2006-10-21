@@ -88,6 +88,15 @@
 #define BX_64BIT_REG_RSI 6
 #define BX_64BIT_REG_RDI 7
 
+#define BX_64BIT_REG_R8  8
+#define BX_64BIT_REG_R9  9
+#define BX_64BIT_REG_R10 10
+#define BX_64BIT_REG_R11 11
+#define BX_64BIT_REG_R12 12
+#define BX_64BIT_REG_R13 13
+#define BX_64BIT_REG_R14 14
+#define BX_64BIT_REG_R15 15
+
 #if defined(NEED_CPU_REG_SHORTCUTS)
 
 /* WARNING: 
