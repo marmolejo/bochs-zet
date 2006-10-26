@@ -392,7 +392,7 @@ BOCHSAPI extern logfunc_t *genlog;
 
 #if BX_GDBSTUB
 // defines for GDB stub
-void bx_gdbstub_init(int argc, char* argv[]);
+void bx_gdbstub_init(void);
 int bx_gdbstub_check(unsigned int eip);
 #define GDBSTUB_STOP_NO_REASON   (0xac0)
 

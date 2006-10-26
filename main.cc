@@ -884,7 +884,7 @@ int bx_begin_simulation (int argc, char *argv[])
 #if BX_GDBSTUB
   // If using gdbstub, it will take control and call
   // bx_init_hardware() and cpu_loop()
-  if (bx_dbg.gdbstub_enabled) bx_gdbstub_init(argc, argv);
+  if (bx_dbg.gdbstub_enabled) bx_gdbstub_init();
   else
 #endif
   {
