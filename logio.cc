@@ -518,6 +518,10 @@ void logfunctions::ask(int level, const char *prefix, const char *fmt, va_list a
       // the debugger.
       bx_debug_break();
       break;
+#elif BX_GDBSTUB
+    case BX_LOG_ASK_CHOICE_ENTER_DEBUG:
+      bx_gdbstub_break();
+      break;
 #endif
     default:
       // this happens if panics happen before the callback is initialized

@@ -1199,10 +1199,6 @@ public: // for now...
 #endif
   Bit8u trace;
 
-#if BX_GDBSTUB
-  Bit8u ispanic;
-#endif
-
   // for paging
 #if BX_USE_TLB
   struct {
