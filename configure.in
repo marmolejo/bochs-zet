@@ -68,7 +68,7 @@ case "$target" in
     ;;
   *-solaris*)
     ADD_FLAGS="-D_XOPEN_SOURCE_EXTENDED=1 -D__EXTENSIONS__"      # required for correct function prototypes
-    LIBS="$LIBS -lsocket"
+    LIBS="$LIBS -lsocket -lnsl"
     DEFAULT_GUI=x11
     ;;
   *)
