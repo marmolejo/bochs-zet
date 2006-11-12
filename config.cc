@@ -1612,10 +1612,6 @@ void bx_init_options()
   };
   menu = new bx_list_c(special_menus, "runtime", "Misc runtime options", runtime_init_list);
   menu->get_options()->set(bx_list_c::SHOW_PARENT | bx_list_c::SHOW_GROUP_NAME);
-
-// param-tree test output
-//printf("parameter tree:\n");
-//print_tree(root_param, 0);
 }
 
 void bx_reset_options()
