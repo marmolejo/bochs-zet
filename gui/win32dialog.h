@@ -7,6 +7,9 @@
 #if BX_USE_TEXTCONFIG && defined(WIN32)
 
 int RuntimeOptionsDialog();
+#if BX_DEBUGGER
+void InitDebugDialog(HWND mainwnd);
+#endif
 void win32_init_notify_callback();
 
 #endif
