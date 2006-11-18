@@ -197,7 +197,7 @@ public:
 
 private:
 
-  BX_HD_SMF bx_bool calculate_logical_address(Bit8u channel, off_t *sector) BX_CPP_AttrRegparmN(2);
+  BX_HD_SMF bx_bool calculate_logical_address(Bit8u channel, Bit64s *sector) BX_CPP_AttrRegparmN(2);
   BX_HD_SMF void increment_address(Bit8u channel) BX_CPP_AttrRegparmN(1);
   BX_HD_SMF void identify_drive(Bit8u channel);
   BX_HD_SMF void identify_ATAPI_drive(Bit8u channel);
