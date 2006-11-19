@@ -227,6 +227,14 @@ bx_fbsd_pktmover_c::bx_fbsd_pktmover_c(const char *netif,
     return;
   }
 
+  v = 1;
+  if (ioctl(this->bpf_fd, BIOCIMMEDIATE, &v) < 0) {
+    BX_PANIC(("eth_freebsd: could not enable immediate mode"));
+    close(this->bpf_fd);
+    this->bpf_fd = -1;
+    return;
+  }
+
   // Set up non-blocking i/o
   v = 1;
   if (ioctl(this->bpf_fd, FIONBIO, &v) < 0) {
