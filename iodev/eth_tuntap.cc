@@ -62,7 +62,7 @@
 #include <linux/if_tun.h>
 #else
 #include <net/if.h>
-#ifndef __APPLE__
+#if !defined(__APPLE__) && !defined(__OpenBSD__) && !defined(__NetBSD__)
 #include <net/if_tap.h>
 #endif
 #endif
