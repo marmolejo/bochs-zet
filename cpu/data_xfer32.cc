@@ -37,6 +37,11 @@
 
 void BX_CPU_C::XCHG_ERXEAX(bxInstruction_c *i)
 {
+#if BX_SUPPORT_X86_64
+  if (i->opcodeReg() == 0)  // 'xchg eax, eax' is NOP even in 64-bit mode
+    return;
+#endif
+
   Bit32u temp32 = EAX;
   RAX = BX_READ_32BIT_REG(i->opcodeReg());
   BX_WRITE_32BIT_REGZ(i->opcodeReg(), temp32);
