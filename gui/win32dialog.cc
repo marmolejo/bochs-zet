@@ -79,6 +79,10 @@ int CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lpDa
   return 0;
 }
 
+#ifndef BIF_NEWDIALOGSTYLE
+#define BIF_NEWDIALOGSTYLE 0
+#endif
+
 int BrowseDir(const char *Title, char *result)
 {
   BROWSEINFO browseInfo;
