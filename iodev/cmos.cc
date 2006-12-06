@@ -108,8 +108,10 @@ int libcmos_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char 
 }
 
 void libcmos_LTX_plugin_fini(void)
-{
-  delete theCmosDevice;
+{ if (theCmosDevice != NULL)
+  { delete theCmosDevice;
+    theCmosDevice = NULL;
+  }
 }
 
 bx_cmos_c::bx_cmos_c(void)
