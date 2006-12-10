@@ -517,7 +517,7 @@ class CpuRegistersDialog : public ParamDialog
     "EBP", "ESI", "EDI", "ESP", \
     NULL }
 #define CPU_REGS_MAIN_REGS2     \
-  { "EIP", "CS", "SS", "DS"     \
+  { "EIP", "CS", "SS", "DS",    \
     "ES", "FS", "GS", "EFLAGS", \
     NULL }
 #define CPU_REGS_MAIN_REGS3     \
