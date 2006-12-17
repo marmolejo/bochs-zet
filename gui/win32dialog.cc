@@ -217,7 +217,7 @@ static BOOL CALLBACK FloppyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
       while (floppy_type_names[i] != NULL) {
         SendMessage(GetDlgItem(hDlg, IDMEDIATYPE), CB_ADDSTRING, 0, (LPARAM)floppy_type_names[i]);
         SendMessage(GetDlgItem(hDlg, IDMEDIATYPE), CB_SETITEMDATA, i, (LPARAM)(mediatype->get_min() + i));
-        i++
+        i++;
       }
       cap = mediatype->get() - (int)mediatype->get_min();
       SendMessage(GetDlgItem(hDlg, IDMEDIATYPE), CB_SETCURSEL, cap, 0);
@@ -971,11 +971,12 @@ void RefreshDebugDialog()
 
 BxEvent* win32_notify_callback(void *unused, BxEvent *event)
 {
-  int opts, i, j;
+  int opts;
   bx_param_c *param;
   bx_param_string_c *sparam;
 #if BX_DEBUGGER
   char debug_msg[1024];
+  int i, j;
 #endif
 
   event->retcode = -1;
