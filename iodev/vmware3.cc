@@ -4,7 +4,7 @@
 
 /*
  * This file provides support for VMWare's virtual disk image
- * format.
+ * format version 3.
  *
  * Author: Sharvil Nanavati, for Net Integration Technologies, Inc.
  * Contact: snrrrub@yahoo.com

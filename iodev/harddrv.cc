@@ -38,6 +38,7 @@
 #include "iodev.h"
 #include "hdimage.h"
 #include "vmware3.h"
+#include "vmware4.h"
 #include "cdrom.h"
 
 #define LOG_THIS theHardDrive->
@@ -313,6 +314,12 @@ void bx_hard_drive_c::init(void)
             channels[channel].drives[device].hard_drive = new vmware3_image_t();
             break;
 
+          case BX_ATA_MODE_VMWARE4:
+            BX_INFO(("HD on ata%d-%d: '%s' 'vmware4' mode ", channel, device, 
+                     SIM->get_param_string("path", base)->getptr()));
+            channels[channel].drives[device].hard_drive = new vmware4_image_t();
+            break;
+
           case BX_ATA_MODE_UNDOABLE:
             BX_INFO(("HD on ata%d-%d: '%s' 'undoable' mode ", channel, device, 
                      SIM->get_param_string("path", base)->getptr()));
@@ -370,8 +377,8 @@ void bx_hard_drive_c::init(void)
         if ((image_mode == BX_ATA_MODE_FLAT) || (image_mode == BX_ATA_MODE_CONCAT) ||
             (image_mode == BX_ATA_MODE_GROWING) || (image_mode == BX_ATA_MODE_UNDOABLE) ||
             (image_mode == BX_ATA_MODE_VOLATILE) || (image_mode == BX_ATA_MODE_VMWARE3) ||
-            (image_mode == BX_ATA_MODE_SPARSE)) {
-          geometry_detect = ((cyl == 0) || (image_mode == BX_ATA_MODE_VMWARE3));
+            (image_mode == BX_ATA_MODE_VMWARE4) || (image_mode == BX_ATA_MODE_SPARSE)) {
+          geometry_detect = ((cyl == 0) || (image_mode == BX_ATA_MODE_VMWARE3) || (image_mode == BX_ATA_MODE_VMWARE4));
           if ((heads == 0) || (spt == 0)) {
             BX_PANIC(("ata%d/%d cannot have zero heads, or sectors/track", channel, device));
           }
@@ -390,7 +397,7 @@ void bx_hard_drive_c::init(void)
           if (geometry_detect) {
             // Autodetect number of cylinders
             disk_size = BX_HD_THIS channels[channel].drives[device].hard_drive->hd_size;
-            if (image_mode != BX_ATA_MODE_VMWARE3) {
+            if (image_mode != BX_ATA_MODE_VMWARE3 && image_mode != BX_ATA_MODE_VMWARE4) {
               cyl = (int)(disk_size / (heads * spt * 512));
               BX_HD_THIS channels[channel].drives[device].hard_drive->cylinders = cyl;
               SIM->get_param_num("cylinders", base)->set(cyl);
