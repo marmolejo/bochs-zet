@@ -2888,7 +2888,11 @@ void bx_hard_drive_c::identify_drive(Bit8u channel)
   // Word 1: number of user-addressable cylinders in
   //   default translation mode.  If the value in words 60-61
   //   exceed 16,515,072, this word shall contain 16,383.
-  BX_SELECTED_DRIVE(channel).id_drive[1] = BX_SELECTED_DRIVE(channel).hard_drive->cylinders;
+  if (BX_SELECTED_DRIVE(channel).hard_drive->cylinders > 16383) {
+    BX_SELECTED_DRIVE(channel).id_drive[1] = 16383;
+  } else {
+    BX_SELECTED_DRIVE(channel).id_drive[1] = BX_SELECTED_DRIVE(channel).hard_drive->cylinders;
+  }
 
   // Word 2: reserved
   BX_SELECTED_DRIVE(channel).id_drive[2] = 0;
