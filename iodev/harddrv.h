@@ -236,6 +236,7 @@ private:
       // they are fetched and returned via a return(), so
       // there's no need to keep them in x86 endian format.
       Bit16u id_drive[256];
+      bx_bool identify_set;
 
       controller_t controller;
       cdrom_t cdrom;
