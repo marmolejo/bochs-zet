@@ -131,6 +131,7 @@ class device_image_t
   public:
       // Default constructor
       device_image_t();
+      virtual ~device_image_t() {}
 
       // Open a image. Returns non-negative if successful.
       virtual int open(const char* pathname) = 0;

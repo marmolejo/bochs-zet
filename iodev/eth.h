@@ -72,6 +72,7 @@ public:
 				char *script);
 protected:
   eth_locator_c(const char *type);
+  virtual ~eth_locator_c() {}
   virtual eth_pktmover_c *allocate(const char *netif,
 				const char *macaddr,
 				eth_rx_handler_t rxh, 
