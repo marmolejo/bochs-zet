@@ -89,6 +89,7 @@ typedef struct {
   Bit8u    lba_mode;
   bx_bool  packet_dma;
   Bit8u    mdma_mode;
+  Bit8u    udma_mode;
   struct {
     bx_bool reset;       // 0=normal, 1=reset controller
     bx_bool disable_irq; // 0=allow irq, 1=disable irq
