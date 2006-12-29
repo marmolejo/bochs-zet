@@ -196,7 +196,7 @@ inc_one:
   }
   else {
     // access outside limits of physical memory, ignore
-    BX_DEBUG(("Write outside the limits of physical memory (ignore)"));
+    BX_DEBUG(("Write outside the limits of physical memory (0x%08x) (ignore)", a20addr));
   }
 }
 
