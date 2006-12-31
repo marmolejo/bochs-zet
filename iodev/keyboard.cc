@@ -1641,7 +1641,8 @@ void bx_keyb_c::mouse_motion(int delta_x, int delta_y, int delta_z, unsigned but
 
   // if type == serial, redirect mouse data to the serial device
   if ((BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_SERIAL) ||
-      (BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_SERIAL_WHEEL)) {
+      (BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_SERIAL_WHEEL) ||
+      (BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_SERIAL_MSYS)) {
     DEV_serial_mouse_enq(delta_x, delta_y, delta_z, button_state);
     return;
   }

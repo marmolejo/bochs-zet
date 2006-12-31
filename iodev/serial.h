@@ -216,6 +216,7 @@ private:
 
   int   detect_mouse;
   int   mouse_port;
+  int   mouse_type;
   int   mouse_delayed_dx;
   int   mouse_delayed_dy;
   int   mouse_delayed_dz;

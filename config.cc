@@ -810,6 +810,7 @@ void bx_init_options()
 #endif
     "serial",
     "serial_wheel",
+    "serial_msys",
     NULL
   };
   type = new bx_param_enum_c(mouse,
