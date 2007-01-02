@@ -370,7 +370,7 @@ Bit32u bx_cmos_c::read(Bit32u address, unsigned io_len)
   switch (address) {
     case 0x0070:
       // this register is write-only on most machines
-      BX_INFO(("read of index port 0x70. returning 0xff"));
+      BX_DEBUG(("read of index port 0x70. returning 0xff"));
       return(0xff);
     case 0x0071:
       ret8 = BX_CMOS_THIS s.reg[BX_CMOS_THIS s.cmos_mem_address];
