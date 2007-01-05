@@ -39,6 +39,10 @@
 #define RAX EAX
 #endif
 
+//
+// Repeat Speedups methods
+//
+
 #if BX_SupportRepeatSpeedups
 Bit32u BX_CPU_C::FastRepINSW(bxInstruction_c *i, bx_address dstOff, Bit16u port, Bit32u wordCount)
 {
@@ -281,6 +285,29 @@ Bit32u BX_CPU_C::FastRepOUTSW(bxInstruction_c *i, unsigned srcSeg, bx_address sr
 
 #endif
 
+//
+// REP INS methods
+//
+
+void BX_CPU_C::REP_INSB_YbDX(bxInstruction_c *i)
+{
+  BX_CPU_THIS_PTR repeat(i, &BX_CPU_C::INSB_YbDX);
+}
+
+void BX_CPU_C::REP_INSW_YwDX(bxInstruction_c *i)
+{
+  BX_CPU_THIS_PTR repeat(i, &BX_CPU_C::INSW_YwDX);
+}
+
+void BX_CPU_C::REP_INSD_YdDX(bxInstruction_c *i)
+{
+  BX_CPU_THIS_PTR repeat(i, &BX_CPU_C::INSD_YdDX);
+}
+
+//
+// INSB/INSW/INSD methods
+//
+
 void BX_CPU_C::INSB_YbDX(bxInstruction_c *i)
 {
   Bit8u value8=0;
@@ -502,6 +529,29 @@ void BX_CPU_C::INSD_YdDX(bxInstruction_c *i)
   }
 }
 
+//
+// REP OUTS methods
+//
+
+void BX_CPU_C::REP_OUTSB_DXXb(bxInstruction_c *i)
+{
+  BX_CPU_THIS_PTR repeat(i, &BX_CPU_C::OUTSB_DXXb);
+}
+
+void BX_CPU_C::REP_OUTSW_DXXw(bxInstruction_c *i)
+{
+  BX_CPU_THIS_PTR repeat(i, &BX_CPU_C::OUTSW_DXXw);
+}
+
+void BX_CPU_C::REP_OUTSD_DXXd(bxInstruction_c *i)
+{
+  BX_CPU_THIS_PTR repeat(i, &BX_CPU_C::OUTSD_DXXd);
+}
+
+//
+// OUTSB/OUTSW/OUTSD methods
+//
+
 void BX_CPU_C::OUTSB_DXXb(bxInstruction_c *i)
 {
   Bit8u value8;
@@ -700,6 +750,10 @@ void BX_CPU_C::OUTSD_DXXd(bxInstruction_c *i)
       SI = SI + 4;
   }
 }
+
+//
+// non repeatable IN/OUT methods
+//
 
 void BX_CPU_C::IN_ALIb(bxInstruction_c *i)
 {
