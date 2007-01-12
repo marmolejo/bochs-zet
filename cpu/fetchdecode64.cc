@@ -2596,7 +2596,6 @@ modrm_done:
         }
         break;
       case BxImmediate_Iv: // same as BxImmediate_BrOff32
-      case BxImmediate_IvIw: // CALL_Ap
         if (instruction->os32L()) {
           if ((ilen+3) < remain) {
             instruction->modRMForm.Id = FetchDWORD(iptr);
@@ -2612,16 +2611,6 @@ modrm_done:
             ilen += 2;
           }
           else return(0);
-        }
-        if (imm_mode != BxImmediate_IvIw)
-          break;
-        // Get Iw for BxImmediate_IvIw
-        if ((ilen+1) < remain) {
-          instruction->IxIxForm.Iw2 = FetchWORD(iptr);
-          ilen += 2;
-        }
-        else {
-          return(0);
         }
         break;
       case BxImmediate_Iq: // MOV Rx,imm64

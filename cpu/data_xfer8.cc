@@ -63,12 +63,12 @@ void BX_CPU_C::MOV_GbEGb(bxInstruction_c *i)
   BX_WRITE_8BIT_REGx(i->nnn(), i->extend8bitL(), op2);
 }
 
-void BX_CPU_C::MOV_ALOb(bxInstruction_c *i)
+void BX_CPU_C::MOV_ALOd(bxInstruction_c *i)
 {
   read_virtual_byte(i->seg(), i->Id(), &AL);
 }
 
-void BX_CPU_C::MOV_ObAL(bxInstruction_c *i)
+void BX_CPU_C::MOV_OdAL(bxInstruction_c *i)
 {
   write_virtual_byte(i->seg(), i->Id(), &AL);
 }
