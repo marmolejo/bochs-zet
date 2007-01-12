@@ -433,7 +433,7 @@ void BX_CPU_C::register_state(void)
   BXRS_HEX_PARAM_FIELD(list, DR6, dr6);
   BXRS_HEX_PARAM_FIELD(list, DR7, dr7);
 #endif
-  BXRS_HEX_PARAM_FIELD(list, cR0, cr0.val32);
+  BXRS_HEX_PARAM_FIELD(list, CR0, cr0.val32);
   BXRS_HEX_PARAM_FIELD(list, CR2, cr2);
   BXRS_HEX_PARAM_FIELD(list, CR3, cr3);
 #if BX_CPU_LEVEL >= 4
