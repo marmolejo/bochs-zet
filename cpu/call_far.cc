@@ -530,7 +530,7 @@ BX_CPU_C::call_gate64(bx_selector_t *gate_selector)
 
     if (! IsCanonical(RSP_for_cpl_x)) {
       BX_ERROR(("call_gate64: canonical address failure %08x%08x",
-         (Bit32u)(RSP_for_cpl_x >> 32), (Bit32u)(RSP_for_cpl_x & 0xffffffff)));
+         GET32H(RSP_for_cpl_x), GET32L(RSP_for_cpl_x)));
       exception(BX_GP_EXCEPTION, 0, 0);
     }
 
@@ -565,8 +565,8 @@ BX_CPU_C::call_gate64(bx_selector_t *gate_selector)
 
     // make sure that push CS:RIP will not fail 
     if (! IsCanonical(RSP)) {
-      BX_ERROR(("call_gate64: canonical address failure %08x%08x",
-         (Bit32u)(RSP >> 32), (Bit32u)(RSP & 0xffffffff)));
+      BX_ERROR(("call_gate64: canonical address failure %08x%08x", 
+         GET32H(RSP), GET32L(RSP)));
       exception(BX_GP_EXCEPTION, 0, 0);
     }
 

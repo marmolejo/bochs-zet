@@ -445,6 +445,7 @@ void BX_CPU_C::LTR_Ew(bxInstruction_c *i)
     BX_INFO(("64 bit tss base = 0x%08x%08x",
        (Bit32u)(descriptor.u.system.base >> 32),
        (Bit32u) descriptor.u.system.base));
+    BX_CPU_THIS_PTR trace = 1;
   }
 #endif
 

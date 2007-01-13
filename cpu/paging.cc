@@ -1022,8 +1022,7 @@ page_fault_not_present:
 #endif
 #if BX_SUPPORT_X86_64
   BX_DEBUG(("page fault for address %08x%08x @ %08x%08x",
-               (Bit32u)(laddr >> 32),(Bit32u)(laddr & 0xffffffff),
-               (Bit32u)(RIP   >> 32),(Bit32u)(RIP   & 0xffffffff)));
+             GET32H(laddr), GET32L(laddr), GET32H(RIP), GET32L(RIP)));
 #else
   BX_DEBUG(("page fault for address %08x @ %08x", laddr, EIP));
 #endif
