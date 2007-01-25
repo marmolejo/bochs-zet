@@ -1846,7 +1846,7 @@ static const BxOpcodeInfo_t BxOpcodeGroupSSE_G1407[4] = {
   /* F3 */ { 0, &BX_CPU_C::BxError }
 };
 
-#if BX_SUPPORT_SSE >= 4
+#if BX_SUPPORT_SSE3E || BX_SUPPORT_SSE >= 4
 
 static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f3800[4] = {
   /* -- */ { 0, &BX_CPU_C::PSHUFB_PqQq },
@@ -2061,6 +2061,6 @@ static const BxOpcodeInfo_t BxOpcode3ByteTableA5[16] = {
   /* 0F */ { 0, &BX_CPU_C::BxError }
 };
 
-#endif /* BX_SUPPORT_SSE >= 4 */
+#endif /* BX_SUPPORT_SSE3E || BX_SUPPORT_SSE >= 4 */
 
 #endif

@@ -2218,7 +2218,7 @@ public: // for now...
   BX_SMF void LDDQU_VdqMdq(bxInstruction_c *i);
   /* SSE3 */
 
-#if BX_SUPPORT_SSE >= 4
+#if BX_SUPPORT_SSE3E || BX_SUPPORT_SSE >= 4
   BX_SMF void PSHUFB_PqQq(bxInstruction_c *i);
   BX_SMF void PHADDW_PqQq(bxInstruction_c *i);
   BX_SMF void PHADDD_PqQq(bxInstruction_c *i);

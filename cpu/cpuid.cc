@@ -128,8 +128,8 @@ Bit32u BX_CPU_C::get_extended_cpuid_features()
 #if BX_SUPPORT_SSE >= 3
   features |= 0x1;      // report SSE3
 #endif
-#if BX_SUPPORT_SSE >= 4
-  features |= (1<<9);   // report SSE4
+#if BX_SUPPORT_SSE3E
+  features |= (1<<9);   // report SSE3E (Intel Core Duo 2 new instructions)
 #endif
 
 #if BX_SUPPORT_X86_64
