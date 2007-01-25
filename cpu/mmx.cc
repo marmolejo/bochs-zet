@@ -140,7 +140,7 @@ void BX_CPU_C::PSHUFB_PqQq(bxInstruction_c *i)
     if (mask & 0x80)
       result.mmxubyte(j) = 0;
     else
-      result.mmxubyte(j) = op1.mmxubyte(mask & 0xf);
+      result.mmxubyte(j) = op1.mmxubyte(mask & 0x7);
   }
 
   BX_WRITE_MMX_REG(i->nnn(), result);
