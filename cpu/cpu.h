@@ -194,9 +194,11 @@
   BX_CPU_THIS_PTR gen_reg[index].word.rx = val; \
 }
 
+/*
 #define BX_WRITE_32BIT_REG(index, val) {\
   BX_CPU_THIS_PTR gen_reg[index].dword.erx = val; \
 }
+*/
 
 #if BX_SUPPORT_X86_64
 
