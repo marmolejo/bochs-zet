@@ -409,14 +409,14 @@ void BX_CPU_C::CMP_EAXId(bxInstruction_c *i)
 
 void BX_CPU_C::CWDE(bxInstruction_c *i)
 {
-  /* CBW: no flags are effected */
-  RAX = (Bit16s) AX;
+  /* CWDE: no flags are effected */
+  Bit32u tmp = (Bit16s) AX;
+  RAX = tmp;
 }
 
 void BX_CPU_C::CDQ(bxInstruction_c *i)
 {
   /* CDQ: no flags are affected */
-
   if (EAX & 0x80000000) {
     RDX = 0xFFFFFFFF;
   }

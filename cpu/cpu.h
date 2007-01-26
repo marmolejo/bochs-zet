@@ -2489,6 +2489,11 @@ public: // for now...
   BX_SMF void PUSH64_GS(bxInstruction_c *);
   BX_SMF void POP64_GS(bxInstruction_c *);
 
+  BX_SMF void SGDT64_Ms(bxInstruction_c *);
+  BX_SMF void SIDT64_Ms(bxInstruction_c *);
+  BX_SMF void LGDT64_Ms(bxInstruction_c *);
+  BX_SMF void LIDT64_Ms(bxInstruction_c *);
+
   BX_SMF void SYSCALL(bxInstruction_c *i);
   BX_SMF void SYSRET(bxInstruction_c *i);
 

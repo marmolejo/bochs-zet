@@ -414,7 +414,6 @@ void BX_CPU_C::CBW(bxInstruction_c *i)
 void BX_CPU_C::CWD(bxInstruction_c *i)
 {
   /* CWD: no flags are affected */
-
   if (AX & 0x8000) {
     DX = 0xFFFF;
   }

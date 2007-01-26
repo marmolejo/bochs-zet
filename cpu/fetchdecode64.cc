@@ -426,10 +426,10 @@ static const BxOpcodeInfo_t opcodesGroupModINVLPG[2] = {
 };
 
 static const BxOpcodeInfo_t BxOpcodeInfo64G7[8] = {
-  /* 0 */ { 0, &BX_CPU_C::SGDT_Ms },
-  /* 1 */ { 0, &BX_CPU_C::SIDT_Ms },
-  /* 2 */ { 0, &BX_CPU_C::LGDT_Ms },
-  /* 3 */ { 0, &BX_CPU_C::LIDT_Ms },
+  /* 0 */ { 0, &BX_CPU_C::SGDT64_Ms },
+  /* 1 */ { 0, &BX_CPU_C::SIDT64_Ms },
+  /* 2 */ { 0, &BX_CPU_C::LGDT64_Ms },
+  /* 3 */ { 0, &BX_CPU_C::LIDT64_Ms },
   /* 4 */ { 0, &BX_CPU_C::SMSW_Ew },
   /* 5 */ { 0, &BX_CPU_C::BxError },
   /* 6 */ { 0, &BX_CPU_C::LMSW_Ew },

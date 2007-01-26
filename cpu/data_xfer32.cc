@@ -241,6 +241,7 @@ void BX_CPU_C::CMOV_GdEd(bxInstruction_c *i)
   if (condition) {
     BX_WRITE_32BIT_REGZ(i->nnn(), op2_32);
   }
+  BX_CLEAR_64BIT_HIGH(i->nnn()); // always clear upper part of the register
 #else
   BX_INFO(("CMOV_GdEd: -enable-cpu-level=6 required"));
   UndefinedOpcode(i);

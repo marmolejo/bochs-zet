@@ -1206,7 +1206,7 @@ void BX_CPU_C::MOVD_EdPd(bxInstruction_c *i)
   {
     /* destination is a register or memory reference */
     if (i->modC0()) {
-      BX_WRITE_32BIT_REG(i->rm(), MMXUD0(op));
+      BX_WRITE_32BIT_REGZ(i->rm(), MMXUD0(op));
     }
     else {
       write_virtual_dword(i->seg(), RMAddr(i), &(MMXUD0(op)));

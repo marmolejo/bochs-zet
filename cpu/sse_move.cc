@@ -959,7 +959,7 @@ void BX_CPU_C::MOVD_EdVd(bxInstruction_c *i)
 
     /* destination is a register or memory reference */
     if (i->modC0()) {
-      BX_WRITE_32BIT_REG(i->rm(), op2);
+      BX_WRITE_32BIT_REGZ(i->rm(), op2);
     }
     else {
       /* pointer, segment address pair */
