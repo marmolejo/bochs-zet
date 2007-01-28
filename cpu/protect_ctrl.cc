@@ -316,12 +316,9 @@ void BX_CPU_C::LLDT_Ew(bxInstruction_c *i)
   bx_selector_t    selector;
   Bit16u raw_selector;
   Bit32u dword1, dword2;
-#if BX_SUPPORT_X86_64
-  Bit32u dword3;
-#endif
 
   if (real_mode() || v8086_mode()) {
-    BX_ERROR(("LTR: not recognized in real or virtual-8086 mode"));
+    BX_ERROR(("LLDT: not recognized in real or virtual-8086 mode"));
     UndefinedOpcode(i);
   }
 
@@ -363,6 +360,7 @@ void BX_CPU_C::LLDT_Ew(bxInstruction_c *i)
 #if BX_SUPPORT_X86_64
   if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64) {
     // set upper 32 bits of ldt base
+    Bit32u dword3;
     access_linear(BX_CPU_THIS_PTR gdtr.base + selector.index*8 + 8, 4, 0, BX_READ, &dword3);
     descriptor.u.system.base |= ((Bit64u)dword3 << 32);
     BX_INFO(("64 bit LDT base = 0x%08x%08x",
@@ -395,9 +393,6 @@ void BX_CPU_C::LTR_Ew(bxInstruction_c *i)
   bx_selector_t selector;
   Bit16u raw_selector;
   Bit32u dword1, dword2;
-#if BX_SUPPORT_X86_64
-  Bit32u dword3;
-#endif
 
   if (real_mode() || v8086_mode()) {
     BX_ERROR(("LTR: not recognized in real or virtual-8086 mode"));
@@ -440,6 +435,7 @@ void BX_CPU_C::LTR_Ew(bxInstruction_c *i)
 #if BX_SUPPORT_X86_64
   if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64) {
     // set upper 32 bits of tss base
+    Bit32u dword3;
     access_linear(BX_CPU_THIS_PTR gdtr.base + selector.index*8 + 8, 4, 0, BX_READ, &dword3);
     descriptor.u.system.base |= ((Bit64u)dword3 << 32);
     BX_INFO(("64 bit TSS base = 0x%08x%08x",

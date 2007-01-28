@@ -1958,12 +1958,12 @@ void BX_CPU_C::PMULHW_PqQq(bxInstruction_c *i)
 void BX_CPU_C::MOVNTQ_MqPq(bxInstruction_c *i)
 {
 #if BX_SUPPORT_3DNOW || BX_SUPPORT_SSE >= 1
-  BX_CPU_THIS_PTR prepareMMX();
-
   if (i->modC0()) {
     BX_INFO(("MOVNTQ_MqPq: must be memory reference"));
     UndefinedOpcode(i);
   }
+
+  BX_CPU_THIS_PTR prepareMMX();
 
   BxPackedMmxRegister reg = BX_READ_MMX_REG(i->nnn());
   write_virtual_qword(i->seg(), RMAddr(i), (Bit64u *) &reg);
