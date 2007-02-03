@@ -87,7 +87,7 @@ void BX_CPU_C::stack_return_to_v86(Bit32u new_eip, Bit32u raw_cs_selector,
     exception(BX_SS_EXCEPTION, 0, 0);
   }
 
-  esp_laddr = BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.base + temp_ESP;
+  esp_laddr = BX_CPU_THIS_PTR get_segment_base(BX_SEG_REG_SS) + temp_ESP;
 
   // load SS:ESP from stack
   access_linear(esp_laddr + 12, 4, 0, BX_READ, &new_esp);

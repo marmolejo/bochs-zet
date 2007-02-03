@@ -171,11 +171,7 @@ void bx_pcipnic_c::register_state(void)
   }
   new bx_shadow_data_c(list, "rData", BX_PNIC_THIS s.rData, PNIC_DATA_SIZE);
   new bx_shadow_data_c(list, "recvRing", (Bit8u*)BX_PNIC_THIS s.recvRing, PNIC_RECV_RINGS*PNIC_DATA_SIZE);
-  bx_list_c *pci_conf = new bx_list_c(list, "pci_conf", 256);
-  for (i=0; i<256; i++) {
-    sprintf(name, "0x%02x", i);
-    new bx_shadow_num_c(pci_conf, name, &BX_PNIC_THIS s.pci_conf[i], BASE_HEX);
-  }
+  register_pci_state(list, BX_PNIC_THIS s.pci_conf);
 }
 
 void bx_pcipnic_c::after_restore_state(void)

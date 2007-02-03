@@ -296,11 +296,7 @@ void bx_pciusb_c::register_state(void)
       new bx_shadow_bool_c(port, "connect_changed", &BX_USB_THIS hub[i].usb_port[j].connect_changed);
       new bx_shadow_bool_c(port, "status", &BX_USB_THIS hub[i].usb_port[j].status);
     }
-    bx_list_c *pci_conf = new bx_list_c(hub, "pci_conf", 256);
-    for (n=0; n<256; n++) {
-      sprintf(name, "0x%02x", n);
-      new bx_shadow_num_c(pci_conf, name, &BX_USB_THIS hub[i].pci_conf[n], BASE_HEX);
-    }
+    register_pci_state(hub, BX_USB_THIS hub[i].pci_conf);
   }
   new bx_shadow_bool_c(list, "busy", &BX_USB_THIS busy);
   new bx_shadow_num_c(list, "global_reset", &BX_USB_THIS global_reset);
