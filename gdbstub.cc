@@ -549,7 +549,7 @@ static void debug_loop(void)
           }
           else
           {
-            put_reply("ENN");
+            put_reply("Eff");
           }
         }
         break;                    
@@ -793,7 +793,7 @@ static void debug_loop(void)
         }
         else
         {
-          put_reply("ENN");
+          put_reply("Eff");
         }
         break;
 
@@ -813,7 +813,7 @@ static void debug_loop(void)
         }
         else
         {
-          put_reply("ENN");
+          put_reply("Eff");
         }          
         break;
 
