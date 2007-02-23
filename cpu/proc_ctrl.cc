@@ -1507,7 +1507,6 @@ void BX_CPU_C::RDTSCP(bxInstruction_c *i)
 void BX_CPU_C::RDMSR(bxInstruction_c *i)
 {
 #if BX_CPU_LEVEL >= 5
-  invalidate_prefetch_q();
 
   if (!real_mode() && CPL!=0) {
     BX_ERROR(("RDMSR: CPL!=0 not in real mode"));
