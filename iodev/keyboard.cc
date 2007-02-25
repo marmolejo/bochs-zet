@@ -1529,7 +1529,7 @@ void bx_keyb_c::kbd_ctrl_to_mouse(Bit8u value)
         // If PS/2 mouse present, send NACK for unknown commands, otherwise ignore
         if (is_ps2) {
           BX_ERROR(("[mouse] kbd_ctrl_to_mouse(): got value of 0x%02x", value));
-          kbd_enQ(0xFE); /* send NACK */
+          controller_enQ(0xFE, 1); /* send NACK */
         }
     }
   }
