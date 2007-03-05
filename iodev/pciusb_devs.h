@@ -409,7 +409,7 @@
 
   BX_USB_THIS hub[0].device[2].in_stall = 0;
   BX_USB_THIS hub[0].device[2].stall_once = 0x00;  // stall on the first setup packet (set bit 0)
-  
+
   // device descriptor
   BX_USB_THIS hub[0].device[2].function.device_descr.len = 18;
   BX_USB_THIS hub[0].device[2].function.device_descr.type = DEVICE;
@@ -506,7 +506,7 @@
     '2', 0x00,
   };
   memcpy(BX_USB_THIS hub[0].device[2].function.string[2].unicode_str, dev3_str_3, 34);
-  
+
   // string #4
   BX_USB_THIS hub[0].device[2].function.string[3].size = 36;
   BX_USB_THIS hub[0].device[2].function.string[3].type = 3;
