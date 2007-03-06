@@ -209,7 +209,8 @@ void print_tree(bx_param_c *node, int level = 0);
 #endif
 
 #if BX_SUPPORT_SMP
-#  define BX_TICK1_IF_SINGLE_PROCESSOR()
+#  define BX_TICK1_IF_SINGLE_PROCESSOR() \
+             if (BX_SMP_PROCESSORS == 1) BX_TICK1()
 #else
 #  define BX_TICK1_IF_SINGLE_PROCESSOR() BX_TICK1()
 #endif

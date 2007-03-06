@@ -71,8 +71,6 @@ static struct {
   unsigned next_bpoint_id;
 } bx_debugger;
 
-#define BX_DBG_DEFAULT_ICOUNT_QUANTUM 5
-
 typedef struct {
   FILE    *fp;
   char     fname[BX_MAX_PATH];
@@ -1165,6 +1163,12 @@ void bx_dbg_unwatch(int read, Bit32u address)
     }
   }
 }
+
+#if BX_SUPPORT_SMP
+  #define BX_DBG_DEFAULT_ICOUNT_QUANTUM 5
+#else
+  #define BX_DBG_DEFAULT_ICOUNT_QUANTUM 0
+#endif
 
 void bx_dbg_continue_command(void)
 {
