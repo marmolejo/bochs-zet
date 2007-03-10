@@ -1278,8 +1278,8 @@ void bx_ne2k_c::rx_handler(void *arg, const void *buf, unsigned len)
  */
 void bx_ne2k_c::rx_frame(const void *buf, unsigned io_len)
 {
-  unsigned pages;
-  unsigned avail;
+  int pages;
+  int avail;
   unsigned idx;
   int wrapped;
   int nextpage;
