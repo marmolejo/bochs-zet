@@ -45,8 +45,6 @@ BX_CPU_C::iret_protected(bxInstruction_c *i)
   Bit32u dword1, dword2;
   bx_descriptor_t cs_descriptor, ss_descriptor;
 
-  BX_DEBUG(("IRET PROTECTED"));
-
 #if BX_SUPPORT_X86_64
   if (BX_CPU_THIS_PTR msr.lma)
   {
@@ -603,7 +601,7 @@ BX_CPU_C::long_iret(bxInstruction_c *i)
     }
     else {
       // we are in 64-bit mode !
-      loadSRegLMNominal(BX_SEG_REG_SS, raw_ss_selector, 0, cs_selector.rpl);
+      loadSRegLMNominal(BX_SEG_REG_SS, raw_ss_selector, cs_selector.rpl);
     }
 
     if (StackAddrSize64()) RSP = new_rsp;

@@ -108,7 +108,7 @@ BX_CPU_C::load_cs(bx_selector_t *selector, bx_descriptor_t *descriptor, Bit8u cp
     if (descriptor->u.segment.l) {
       BX_CPU_THIS_PTR cpu_mode = BX_MODE_LONG_64;
       BX_DEBUG(("Long Mode Activated"));
-      loadSRegLMNominal(BX_SEG_REG_CS, selector->value, 0, cpl);
+      loadSRegLMNominal(BX_SEG_REG_CS, selector->value, cpl);
     }
     else {
       BX_DEBUG(("Compatibility Mode Activated"));

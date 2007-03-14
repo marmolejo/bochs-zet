@@ -25,8 +25,9 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 
-
 #include "bochs.h"
+
+#if BX_INSTRUMENTATION
 
 void bx_instr_init(unsigned cpu) {}
 void bx_instr_shutdown(unsigned cpu) {}
@@ -76,3 +77,5 @@ void bx_instr_phy_write(unsigned cpu, bx_address addr, unsigned len) {}
 void bx_instr_phy_read(unsigned cpu, bx_address addr, unsigned len) {}
 
 void bx_instr_wrmsr(unsigned cpu, unsigned addr, Bit64u value) {}
+
+#endif
