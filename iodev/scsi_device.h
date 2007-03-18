@@ -26,7 +26,6 @@
 typedef void (*scsi_completionfn)(void *opaque, int reason, Bit32u tag,
                                   Bit32u arg);
 class scsi_device_t;
-class device_image_t;
 
 enum scsidev_type {
     SCSIDEV_TYPE_DISK,
