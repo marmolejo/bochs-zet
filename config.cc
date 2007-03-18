@@ -3330,10 +3330,16 @@ int bx_write_configuration(const char *rc, int overwrite)
     fprintf(fp, "\n");
   fprintf(fp, "megs: %d\n", SIM->get_param_num(BXPN_MEM_SIZE)->get());
   strptr = SIM->get_param_string(BXPN_ROM_PATH)->getptr();
-  if (strlen(strptr) > 0)
-    fprintf(fp, "romimage: file=\"%s\", address=0x%05x\n", strptr, (unsigned int)SIM->get_param_num(BXPN_ROM_ADDRESS)->get());
-  else
+  if (strlen(strptr) > 0) {
+    fprintf(fp, "romimage: file=\"%s\"", strptr);
+    if (SIM->get_param_num(BXPN_ROM_ADDRESS)->get() != 0)
+      fprintf(fp, ", address=0x%08x\n", (unsigned int) SIM->get_param_num(BXPN_ROM_ADDRESS)->get());
+    else
+      fprintf(fp, "\n", strptr);
+  }
+  else {
     fprintf(fp, "# no romimage\n");
+  }
   strptr = SIM->get_param_string(BXPN_VGA_ROM_PATH)->getptr();
   if (strlen(strptr) > 0)
     fprintf(fp, "vgaromimage: file=\"%s\"\n", strptr);
