@@ -1603,6 +1603,7 @@ void bx_keyb_c::create_mouse_packet(bool force_enq)
 
 void bx_keyb_c::mouse_enabled_changed(bx_bool enabled)
 {
+  BX_KEY_THIS s.mouse.captured = enabled;
 #if BX_SUPPORT_PCIUSB
   // if an usb mouse is connected, notify the device about the status change
   if (DEV_usb_mouse_connected()) {
@@ -1618,7 +1619,6 @@ void bx_keyb_c::mouse_enabled_changed(bx_bool enabled)
   BX_KEY_THIS s.mouse.delayed_dx=0;
   BX_KEY_THIS s.mouse.delayed_dy=0;
   BX_KEY_THIS s.mouse.delayed_dz=0;
-  BX_KEY_THIS s.mouse.captured = enabled;
   BX_DEBUG(("PS/2 mouse %s", enabled?"enabled":"disabled"));
 }
 

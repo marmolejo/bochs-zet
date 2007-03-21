@@ -781,7 +781,7 @@ AC_ARG_ENABLE(usb,
     AC_MSG_RESULT(yes)
     AC_DEFINE(BX_SUPPORT_PCIUSB, 1)
     PCI_OBJ="$PCI_OBJ pciusb.o"
-    USBDEV_OBJS="usb_msd.o"
+    USBDEV_OBJS="usb_hid.o usb_msd.o"
     SCSI_OBJS="scsi_device.o"
    else
     AC_MSG_RESULT(no)
