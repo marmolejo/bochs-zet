@@ -552,11 +552,6 @@ void BX_CPU_C::INVLPG(bxInstruction_c* i)
 #if BX_CPU_LEVEL >= 4
   invalidate_prefetch_q();
 
-  if (i->modC0()) {
-    BX_INFO(("INVLPG: op is a register"));
-    UndefinedOpcode(i);
-  }
-
   if (!real_mode() && CPL!=0) {
     BX_ERROR(("INVLPG: priveledge check failed, generate #GP(0)"));
     exception(BX_GP_EXCEPTION, 0, 0);
