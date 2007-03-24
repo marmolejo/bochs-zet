@@ -41,8 +41,8 @@ private:
     int mouse_delayed_dx;
     int mouse_delayed_dy;
     int mouse_delayed_dz;
-    Bit8s mouse_x;
-    Bit8s mouse_y;
+    Bit16s mouse_x;
+    Bit16s mouse_y;
     Bit8s mouse_z;
     Bit8u b_state;
   } s;
