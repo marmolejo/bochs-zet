@@ -18,7 +18,8 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-// USB HID emulation support ported from the Qemu project
+// USB HID emulation support (mouse and tablet) ported from the Qemu project
+// USB keypad emulation based on code by Benjamin D Lunt (fys at frontiernet net)
 
 
 // Define BX_PLUGGABLE in files that can be compiled into plugins.  For
