@@ -357,7 +357,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo64G5w[8] = {
   // attributes defined in main area
   /* 0 */ { BxLockable, &BX_CPU_C::INC_Ew },
   /* 1 */ { BxLockable, &BX_CPU_C::DEC_Ew },
-  /* 2 */ { 0, &BX_CPU_C::CALL_Ew },
+  /* 2 */ { 0, &BX_CPU_C::CALL_Eq },
   /* 3 */ { 0, &BX_CPU_C::CALL16_Ep },
   /* 4 */ { 0, &BX_CPU_C::JMP_Eq },
   /* 5 */ { 0, &BX_CPU_C::JMP16_Ep },
