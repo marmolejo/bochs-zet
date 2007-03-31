@@ -150,6 +150,9 @@ public:
   virtual void handle_reset() {}
   virtual int handle_control(int request, int value, int index, int length, Bit8u *data) {return 0;}
   virtual int handle_data(USBPacket *p) {return 0;}
+#if BX_SUPPORT_SAVE_RESTORE
+  virtual void register_state(bx_list_c *parent);
+#endif
 
   bx_bool get_connected() {return d.connected;}
   usbdev_type get_type() {return d.type;}
