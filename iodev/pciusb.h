@@ -151,7 +151,8 @@ public:
   virtual int handle_control(int request, int value, int index, int length, Bit8u *data) {return 0;}
   virtual int handle_data(USBPacket *p) {return 0;}
 #if BX_SUPPORT_SAVE_RESTORE
-  virtual void register_state(bx_list_c *parent);
+  void register_state(bx_list_c *parent);
+  virtual void register_state_specific(bx_list_c *parent) {}
 #endif
 
   bx_bool get_connected() {return d.connected;}
