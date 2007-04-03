@@ -196,7 +196,7 @@ void bx_dma_c::register_state(void)
 {
   unsigned i, c;
   char name[6];
-  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "dma", "DMA State");
+  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "dma", "DMA State", 3);
   for (i=0; i<2; i++) {
     sprintf(name, "%d", i);
     bx_list_c *ctrl = new bx_list_c(list, name, 8);

@@ -254,7 +254,7 @@ void bx_ioapic_c::service_ioapic()
 #if BX_SUPPORT_SAVE_RESTORE
 void bx_ioapic_c::register_state(void)
 {
-  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "ioapic", "IOAPIC State");
+  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "ioapic", "IOAPIC State", 4);
   BXRS_HEX_PARAM_SIMPLE(list, ioregsel);
   BXRS_HEX_PARAM_SIMPLE(list, intin);
   BXRS_HEX_PARAM_SIMPLE(list, irr);

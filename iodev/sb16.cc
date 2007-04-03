@@ -430,7 +430,7 @@ void bx_sb16_c::register_state(void)
     sprintf(name, "0x%02x", i);
     new bx_shadow_num_c(mixer, name, &MIXER.reg[i], BASE_HEX);
   }
-  bx_list_c *emul = new bx_list_c(list, "emul");
+  bx_list_c *emul = new bx_list_c(list, "emul", 2);
   new bx_shadow_num_c(emul, "remaps", &EMUL.remaps);
   bx_list_c *remap = new bx_list_c(emul, "remaplist", 256);
   for (i=0; i<EMUL.remaps; i++) {

@@ -299,7 +299,7 @@ void bx_cmos_c::save_image(void)
 #if BX_SUPPORT_SAVE_RESTORE
 void bx_cmos_c::register_state(void)
 {
-  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "cmos", "CMOS State");
+  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "cmos", "CMOS State", 2);
   BXRS_HEX_PARAM_FIELD(list, mem_address, BX_CMOS_THIS s.cmos_mem_address);
   bx_list_c *ram = new bx_list_c(list, "ram", 128);
   for (unsigned i=0; i<128; i++) {

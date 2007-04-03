@@ -130,7 +130,7 @@ void bx_parallel_c::register_state(void)
   char name[4], pname[20];
   bx_list_c *base, *port;
 
-  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "parallel", "Parallel Port State");
+  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "parallel", "Parallel Port State", BX_N_PARALLEL_PORTS);
   for (i=0; i<BX_N_PARALLEL_PORTS; i++) {
     sprintf(pname, "ports.parallel.%d", i+1);
     base = (bx_list_c*) SIM->get_param(pname);

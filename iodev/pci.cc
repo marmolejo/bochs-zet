@@ -153,7 +153,7 @@ bx_pci_bridge_c::reset(unsigned type)
 #if BX_SUPPORT_SAVE_RESTORE
 void bx_pci_bridge_c::register_state(void)
 {
-  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "pci_bridge", "PCI Bridge State");
+  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "pci_bridge", "PCI Bridge State", 3);
   BXRS_HEX_PARAM_FIELD(list, confAddr, BX_PCI_THIS s.i440fx.confAddr);
   BXRS_HEX_PARAM_FIELD(list, confData, BX_PCI_THIS s.i440fx.confData);
   bx_list_c *pci_conf = new bx_list_c(list, "pci_conf", 256);

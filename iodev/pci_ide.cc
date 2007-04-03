@@ -140,7 +140,7 @@ void bx_pci_ide_c::register_state(void)
 {
   char name[6];
 
-  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "pci_ide", "PCI IDE Controller State");
+  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "pci_ide", "PCI IDE Controller State", 5);
 
   register_pci_state(list, BX_PIDE_THIS s.pci_conf);
 

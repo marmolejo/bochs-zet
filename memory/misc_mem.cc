@@ -119,7 +119,7 @@ void BX_MEM_C::init_memory(int memsize)
   BX_INFO(("%.2fMB", (float)(BX_MEM_THIS megabytes)));
 
 #if BX_SUPPORT_SAVE_RESTORE
-  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "memory", "Memory State");
+  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "memory", "Memory State", 1);
   new bx_shadow_data_c(list, "ram", BX_MEM_THIS vector, BX_MEM_THIS len);
 #endif
 }

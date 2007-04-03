@@ -433,7 +433,7 @@ void bx_floppy_ctrl_c::register_state(void)
   new bx_shadow_data_c(list, "buffer", BX_FD_THIS s.floppy_buffer, 512);
   for (i=0; i<4; i++) {
     sprintf(name, "drive%d", i);
-    drive = new bx_list_c(list, name);
+    drive = new bx_list_c(list, name, 6);
     new bx_shadow_num_c(drive, "cylinder", &BX_FD_THIS s.cylinder[i]);
     new bx_shadow_num_c(drive, "head", &BX_FD_THIS s.head[i]);
     new bx_shadow_num_c(drive, "sector", &BX_FD_THIS s.sector[i]);
