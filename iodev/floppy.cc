@@ -1948,7 +1948,7 @@ void bx_floppy_ctrl_c::reset_changeline(void)
 bx_bool bx_floppy_ctrl_c::get_tc(void)
 {
   Bit8u drive;
-  bool terminal_count;
+  bx_bool terminal_count;
   if (BX_FD_THIS s.main_status_reg & FD_MS_NDMA) {
     drive = BX_FD_THIS s.DOR & 0x03;
     /* figure out if we've sent all the data, in non-DMA mode...
@@ -1960,9 +1960,9 @@ bx_bool bx_floppy_ctrl_c::get_tc(void)
      *  >= 512 makes it more robust, but allows for sloppy code...
      *  pick your poison?
      * note: byte and head are 0-based; eot, sector, and heads are 1-based. */
-    terminal_count = (BX_FD_THIS s.floppy_buffer_index == 512 &&
-     BX_FD_THIS s.sector[drive] == BX_FD_THIS s.eot[drive]) &&
-     BX_FD_THIS s.head[drive] == BX_FD_THIS s.media[drive].heads - 1;
+    terminal_count = ((BX_FD_THIS s.floppy_buffer_index == 512) &&
+     (BX_FD_THIS s.sector[drive] == BX_FD_THIS s.eot[drive]) &&
+     (BX_FD_THIS s.head[drive] == (BX_FD_THIS s.media[drive].heads - 1)));
   } else {
     terminal_count = DEV_dma_get_tc();
   }
