@@ -662,7 +662,7 @@ void bx_hard_drive_c::register_state(void)
   bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "hard_drive", "Hard Drive State", BX_MAX_ATA_CHANNEL);
   for (i=0; i<BX_MAX_ATA_CHANNEL; i++) {
     sprintf(cname, "%d", i);
-    chan = new bx_list_c(list, cname, 2);
+    chan = new bx_list_c(list, cname, 3);
     for (j=0; j<2; j++) {
       if (BX_DRIVE_IS_PRESENT(i, j)) {
         sprintf(dname, "drive%d", i);
