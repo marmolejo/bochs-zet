@@ -27,8 +27,6 @@
 
 #include "iodev.h"
 
-#if BX_USE_NEW_PIT
-
 #include "speaker.h"
 
 //Important constant #defines:
@@ -394,5 +392,3 @@ void bx_pit_c::irq_handler(bx_bool value)
     DEV_pic_lower_irq(0);
   }
 }
-
-#endif // #if BX_USE_NEW_PIT

@@ -388,23 +388,6 @@ if test "$with_all_libs" = yes; then
   fi
 fi    # end of if $with_all_libs = yes
 
-AC_MSG_CHECKING(for new PIT model)
-AC_ARG_ENABLE(new-pit,
-  [  --enable-new-pit                  use Greg Alexander's new PIT model],
-  [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_USE_NEW_PIT, 1)
-   else
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_USE_NEW_PIT, 0)
-   fi],
-  [
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_USE_NEW_PIT, 1)
-    ]
-  )
-AC_SUBST(BX_USE_NEW_PIT)
-
 AC_MSG_CHECKING(for idle hack)
 AC_ARG_ENABLE(idle-hack,
   [  --enable-idle-hack                use Roland Mainz's idle hack],

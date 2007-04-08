@@ -502,18 +502,10 @@ void bx_devices_c::timer_handler(void *this_ptr)
 
 void bx_devices_c::timer()
 {
-#if (BX_USE_NEW_PIT==0)
-  if (pit->periodic(BX_IODEV_HANDLER_PERIOD)) {
-    // This is a hack to make the IRQ0 work
-    DEV_pic_lower_irq(0);
-    DEV_pic_raise_irq(0);
-  }
-#endif
-
   // separate calls to bx_gui->handle_events from the keyboard code.
   {
     static int multiple=0;
-    if ( ++multiple==10)
+    if (++multiple==10)
     {
       multiple=0;
       SIM->periodic();

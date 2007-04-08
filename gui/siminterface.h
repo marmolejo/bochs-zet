@@ -946,8 +946,8 @@ public:
     // item (used in the runtime menu).
     SHOW_GROUP_NAME = (1<<4)
   } bx_listopt_bits;
-  bx_list_c(bx_param_c *parent, int maxsize = BX_DEFAULT_LIST_SIZE);
-  bx_list_c(bx_param_c *parent, const char *name, int maxsize = BX_DEFAULT_LIST_SIZE);
+  bx_list_c(bx_param_c *parent, int maxsize);
+  bx_list_c(bx_param_c *parent, const char *name, int maxsize);
   bx_list_c(bx_param_c *parent, const char *name, char *title, int maxsize = BX_DEFAULT_LIST_SIZE);
   bx_list_c(bx_param_c *parent, const char *name, char *title, bx_param_c **init_list);
   virtual ~bx_list_c();

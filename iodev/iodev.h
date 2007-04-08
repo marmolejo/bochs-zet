@@ -586,7 +586,6 @@ private:
 #endif
 #include "iodev/parallel.h"
 #include "iodev/pic.h"
-#include "iodev/pit.h"
 #include "iodev/pit_wrap.h"
 #include "iodev/virt_timer.h"
 #include "iodev/serial.h"

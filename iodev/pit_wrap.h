@@ -28,9 +28,6 @@
 #define _BX_PIT_WRAP_H
 
 #include "bochs.h"
-
-#if BX_USE_NEW_PIT
-
 #include "pit82c54.h"
 
 #if BX_USE_PIT_SMF
@@ -94,5 +91,4 @@ private:
 
 extern bx_pit_c bx_pit;
 
-#endif  // #if BX_USE_NEW_PIT
 #endif  // #ifndef _BX_PIT_WRAP_H
