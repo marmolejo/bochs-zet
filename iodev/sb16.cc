@@ -578,8 +578,8 @@ Bit32u bx_sb16_c::dsp_dataread()
 void bx_sb16_c::dsp_datawrite(Bit32u value)
 {
   int bytesneeded;
-  Bit8u index, mode, value8;
-  Bit16u length;
+  Bit8u index = 0, mode = 0, value8 = 0;
+  Bit16u length = 0;
 
   writelog(WAVELOG(4), "DSP Data port write, value %x", value);
 
@@ -1969,7 +1969,7 @@ Bit32u bx_sb16_c::emul_read()
 
 void bx_sb16_c::emul_write(Bit32u value)
 {
-  Bit8u value8;
+  Bit8u value8 = 0;
 
   writelog(4, "write to emulator port, value %02x", value);
 

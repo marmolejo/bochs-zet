@@ -3333,7 +3333,7 @@ int bx_write_configuration(const char *rc, int overwrite)
     if (SIM->get_param_num(BXPN_ROM_ADDRESS)->get() != 0)
       fprintf(fp, ", address=0x%08x\n", (unsigned int) SIM->get_param_num(BXPN_ROM_ADDRESS)->get());
     else
-      fprintf(fp, "\n", strptr);
+      fprintf(fp, "\n");
   }
   else {
     fprintf(fp, "# no romimage\n");
