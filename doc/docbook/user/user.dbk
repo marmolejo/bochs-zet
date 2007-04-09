@@ -2069,16 +2069,6 @@ turn it off.
       </entry>
     </row>
     <row>
-      <entry>--enable-new-pit</entry>
-      <entry>yes</entry>
-      <entry>
-      Enables Greg Alexander's PIT model, written during Summer 2001.  This
-      model was written from scratch to be much more complete than the old
-      Bochs PIT model, which was missing many registers and features.
-      If you disable this option, the old PIT model will be used instead.
-      </entry>
-    </row>
-    <row>
       <entry>--enable-idle-hack</entry>
       <entry>no</entry>
       <entry>
