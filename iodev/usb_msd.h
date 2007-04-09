@@ -25,13 +25,6 @@
 
 class scsi_device_t;
 
-enum USBMSDMode {
-  USB_MSDM_CBW,
-  USB_MSDM_DATAOUT,
-  USB_MSDM_DATAIN,
-  USB_MSDM_CSW
-};
-
 
 class usb_msd_device_t : public usb_device_t {
 public:
@@ -42,6 +35,9 @@ public:
   virtual void handle_reset();
   virtual int handle_control(int request, int value, int index, int length, Bit8u *data);
   virtual int handle_data(USBPacket *p);
+#if BX_SUPPORT_SAVE_RESTORE
+  virtual void register_state_specific(bx_list_c *parent);
+#endif
 protected:
   void copy_data();
   void send_status();
@@ -50,7 +46,7 @@ protected:
 
 private:
   struct {
-    enum USBMSDMode mode;
+    Bit8u mode;
     Bit32u scsi_len;
     Bit8u *scsi_buf;
     Bit32u usb_len;
