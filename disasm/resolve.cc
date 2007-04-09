@@ -168,15 +168,20 @@ void disassembler::resolve16_mod1or2(const x86_insn *insn, unsigned mode)
 
 void disassembler::resolve32_mod0(const x86_insn *insn, unsigned mode)
 {
-  const char *seg;
+  const char *seg, *eip_regname = NULL;
 
   if (insn->is_seg_override())
     seg = segment_name[insn->seg_override];
   else
     seg = segment_name[DS_REG];
 
+  if (insn->is_64) {
+    if (intel_mode) eip_regname = "eip";
+    else eip_regname = "%eip";
+  }
+
   if ((insn->rm & 7) == 5) /* no reg, 32-bit displacement */
-    print_memory_access(mode, seg, NULL, NULL, 0, insn->displacement.displ32);
+    print_memory_access(mode, seg, eip_regname, NULL, 0, insn->displacement.displ32);
   else
     print_memory_access(mode, seg, general_32bit_regname[insn->rm], NULL, 0, 0);
 }
