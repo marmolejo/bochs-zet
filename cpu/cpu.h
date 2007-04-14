@@ -331,10 +331,8 @@
 
 const char* cpu_mode_string(unsigned cpu_mode);
 
-#define BX_CANONICAL_BITS   (48)
-
 #if BX_SUPPORT_X86_64
-#define IsCanonical(offset) ((Bit64u)((((Bit64s)(offset)) >> (BX_CANONICAL_BITS-1)) + 1) < 2)
+#define IsCanonical(offset) ((Bit64u)((((Bit64s)(offset)) >> (BX_LIN_ADDRESS_WIDTH-1)) + 1) < 2)
 #else
 #define IsCanonical(offset) (0)
 #endif

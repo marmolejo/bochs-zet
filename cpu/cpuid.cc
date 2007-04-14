@@ -421,7 +421,7 @@ void BX_CPU_C::CPUID(bxInstruction_c *i)
       break;
     case 0x80000008:
       // virtual & phys address size in low 2 bytes.
-      RAX = 0x00003020; // 48-bit virtual address and 32 bit physical
+      RAX = BX_PHY_ADDRESS_WIDTH | (BX_LIN_ADDRESS_WIDTH<<8);
       RBX = 0;
       RCX = 0;
       RDX = 0; // Reserved, undefined
