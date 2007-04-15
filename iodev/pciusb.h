@@ -153,6 +153,7 @@ public:
 #if BX_SUPPORT_SAVE_RESTORE
   void register_state(bx_list_c *parent);
   virtual void register_state_specific(bx_list_c *parent) {}
+  virtual void after_restore_state() {}
 #endif
 
   bx_bool get_connected() {return d.connected;}
