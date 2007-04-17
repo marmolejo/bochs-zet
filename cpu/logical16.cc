@@ -89,14 +89,14 @@ void BX_CPU_C::XOR_GwEw(bxInstruction_c *i)
 
 void BX_CPU_C::XOR_AXIw(bxInstruction_c *i)
 {
-  Bit16u op1_16, op2_16, sum_16;
+  Bit16u op1_16, op2_16, result_16;
 
   op1_16 = AX;
   op2_16 = i->Iw();
-  sum_16 = op1_16 ^ op2_16;
-  AX = sum_16;
+  result_16 = op1_16 ^ op2_16;
+  AX = result_16;
 
-  SET_FLAGS_OSZAPC_RESULT_16(sum_16, BX_INSTR_LOGIC16);
+  SET_FLAGS_OSZAPC_RESULT_16(result_16, BX_INSTR_LOGIC16);
 }
 
 void BX_CPU_C::XOR_EwIw(bxInstruction_c *i)
@@ -202,14 +202,14 @@ void BX_CPU_C::OR_GwEw(bxInstruction_c *i)
 
 void BX_CPU_C::OR_AXIw(bxInstruction_c *i)
 {
-  Bit16u op1_16, op2_16, sum_16;
+  Bit16u op1_16, op2_16, result_16;
 
   op1_16 = AX;
   op2_16 = i->Iw();
-  sum_16 = op1_16 | op2_16;
-  AX = sum_16;
+  result_16 = op1_16 | op2_16;
+  AX = result_16;
 
-  SET_FLAGS_OSZAPC_RESULT_16(sum_16, BX_INSTR_LOGIC16);
+  SET_FLAGS_OSZAPC_RESULT_16(result_16, BX_INSTR_LOGIC16);
 }
 
 void BX_CPU_C::AND_EwGw(bxInstruction_c *i)

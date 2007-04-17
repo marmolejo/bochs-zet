@@ -30,6 +30,10 @@
 #include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
+#if BX_SUPPORT_X86_64==0
+// Make life easier for merging cpu64 and cpu32 code.
+#define RAX EAX
+#endif
 
 void BX_CPU_C::XOR_EdGd(bxInstruction_c *i)
 {
@@ -74,20 +78,15 @@ void BX_CPU_C::XOR_GdEd(bxInstruction_c *i)
 
 void BX_CPU_C::XOR_EAXId(bxInstruction_c *i)
 {
-  Bit32u op1_32, op2_32, sum_32;
+  Bit32u op1_32, op2_32, result_32;
 
   op1_32 = EAX;
   op2_32 = i->Id();
 
-  sum_32 = op1_32 ^ op2_32;
+  result_32 = op1_32 ^ op2_32;
+  RAX = result_32;
 
-#if BX_SUPPORT_X86_64
-  RAX = sum_32;
-#else
-  EAX = sum_32;
-#endif
-
-  SET_FLAGS_OSZAPC_RESULT_32(sum_32, BX_INSTR_LOGIC32);
+  SET_FLAGS_OSZAPC_RESULT_32(result_32, BX_INSTR_LOGIC32);
 }
 
 void BX_CPU_C::XOR_EdId(bxInstruction_c *i)
@@ -193,19 +192,15 @@ void BX_CPU_C::OR_GdEd(bxInstruction_c *i)
 
 void BX_CPU_C::OR_EAXId(bxInstruction_c *i)
 {
-  Bit32u op1_32, op2_32, sum_32;
+  Bit32u op1_32, op2_32, result_32;
 
   op1_32 = EAX;
   op2_32 = i->Id();
-  sum_32 = op1_32 | op2_32;
+  result_32 = op1_32 | op2_32;
 
-#if BX_SUPPORT_X86_64
-  RAX = sum_32;
-#else
-  EAX = sum_32;
-#endif
+  RAX = result_32;
 
-  SET_FLAGS_OSZAPC_RESULT_32(sum_32, BX_INSTR_LOGIC32);
+  SET_FLAGS_OSZAPC_RESULT_32(result_32, BX_INSTR_LOGIC32);
 }
 
 void BX_CPU_C::AND_EdGd(bxInstruction_c *i)
@@ -287,11 +282,7 @@ void BX_CPU_C::AND_EAXId(bxInstruction_c *i)
   SET_FLAGS_OSZAPC_RESULT_32(result_32, BX_INSTR_LOGIC32);
 #endif
 
-#if BX_SUPPORT_X86_64
   RAX = result_32;
-#else
-  EAX = result_32;
-#endif
 }
 
 void BX_CPU_C::AND_EdId(bxInstruction_c *i)
