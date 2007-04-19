@@ -257,6 +257,10 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
          entry = &(OPCODE_TABLE(entry)[b3 & 15]);
          break;
 
+       case _GRP64B:
+         entry = &(OPCODE_TABLE(entry)[insn.os_64]);
+         break;
+
        default:
          printf("Internal disassembler error - unknown attribute !\n");
          return x86_insn(is_32, is_64);

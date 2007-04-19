@@ -79,6 +79,10 @@ typedef union bx_xmm_reg_t {
 #define BX_READ_XMM_REG_LO_DWORD(index) \
     ((BX_CPU_THIS_PTR xmm[index]).xmm32u(0))
 
+/* read only low 16 bit of the register */
+#define BX_READ_XMM_REG_LO_WORD(index) \
+    ((BX_CPU_THIS_PTR xmm[index]).xmm16u(0))
+
 /* short names for above macroses */
 #define BX_XMM_REG_HI_QWORD BX_READ_XMM_REG_HI_QWORD
 #define BX_XMM_REG_LO_QWORD BX_READ_XMM_REG_LO_QWORD
