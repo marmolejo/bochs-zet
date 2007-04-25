@@ -99,7 +99,7 @@ void BX_CPU_C::HLT(bxInstruction_c *i)
     BX_PANIC(("HALT instruction encountered in the BIOS ROM"));
 
   if (!real_mode() && CPL!=0) {
-    BX_ERROR(("HLT: %s priveledge check failed, CPL=%d, generate #GP(0)",
+    BX_DEBUG(("HLT: %s priveledge check failed, CPL=%d, generate #GP(0)",
         cpu_mode_string(BX_CPU_THIS_PTR cpu_mode), CPL));
     exception(BX_GP_EXCEPTION, 0, 0);
     return;
