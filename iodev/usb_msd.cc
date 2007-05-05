@@ -155,6 +155,9 @@ bx_bool usb_msd_device_t::init(const char *filename)
     return 0;
   } else {
     s.scsi_dev = new scsi_device_t(s.hdimage, 0, usb_msd_command_complete, (void*)this);
+#if BX_SUPPORT_SAVE_RESTORE
+    s.scsi_dev->register_state(s.sr_list, "scsidev");
+#endif
     s.mode = USB_MSDM_CBW;
     d.connected = 1;
     return 1;
@@ -164,14 +167,14 @@ bx_bool usb_msd_device_t::init(const char *filename)
 #if BX_SUPPORT_SAVE_RESTORE
 void usb_msd_device_t::register_state_specific(bx_list_c *parent)
 {
-  bx_list_c *list = new bx_list_c(parent, "s", "USB MSD Device State", 7);
-  new bx_shadow_num_c(list, "mode", &s.mode);
-  new bx_shadow_num_c(list, "scsi_len", &s.scsi_len);
-  new bx_shadow_num_c(list, "usb_len", &s.usb_len);
-  new bx_shadow_num_c(list, "data_len", &s.data_len);
-  new bx_shadow_num_c(list, "residue", &s.residue);
-  new bx_shadow_num_c(list, "tag", &s.tag);
-  new bx_shadow_num_c(list, "result", &s.result);
+  s.sr_list = new bx_list_c(parent, "s", "USB MSD Device State", 8);
+  new bx_shadow_num_c(s.sr_list, "mode", &s.mode);
+  new bx_shadow_num_c(s.sr_list, "scsi_len", &s.scsi_len);
+  new bx_shadow_num_c(s.sr_list, "usb_len", &s.usb_len);
+  new bx_shadow_num_c(s.sr_list, "data_len", &s.data_len);
+  new bx_shadow_num_c(s.sr_list, "residue", &s.residue);
+  new bx_shadow_num_c(s.sr_list, "tag", &s.tag);
+  new bx_shadow_num_c(s.sr_list, "result", &s.result);
 }
 #endif
 

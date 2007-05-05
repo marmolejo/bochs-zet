@@ -58,6 +58,9 @@ private:
     device_image_t *hdimage;
     scsi_device_t *scsi_dev;
     USBPacket *packet;
+#if BX_SUPPORT_SAVE_RESTORE
+    bx_list_c *sr_list;
+#endif
   } s;
 };
 
