@@ -319,7 +319,7 @@ void BX_MEM_C::load_ROM(const char *path, bx_phy_address romaddress, Bit8u type)
   close(fd);
   offset -= (unsigned long)stat_buf.st_size;
   if (((romaddress & 0xfffff) != 0xe0000) ||
-      ((BX_MEM_THIS rom[offset] == 0x55) && (BX_MEM_THIS rom[offset] == 0xaa))) {
+      ((BX_MEM_THIS rom[offset] == 0x55) && (BX_MEM_THIS rom[offset+1] == 0xaa))) {
     Bit8u checksum = 0;
     for (i = 0; i < stat_buf.st_size; i++) {
       checksum += BX_MEM_THIS rom[offset + i];
