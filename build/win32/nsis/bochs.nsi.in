@@ -93,7 +93,7 @@ Section "ROM Images (required)" SecROMs
 
   SetOutPath "$INSTDIR"
 
-  File "${SRCDIR}\BIOS-bochs-latest"
+  File "${SRCDIR}\BIOS-bochs-*"
   File "${SRCDIR}\VGABIOS-*"
 SectionEnd
 
