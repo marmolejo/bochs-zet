@@ -31,10 +31,10 @@
 
 void BX_CPU_C::prepareSSE(void)
 {
-  if(BX_CPU_THIS_PTR cr0.ts)
+  if(BX_CPU_THIS_PTR cr0.get_TS())
     exception(BX_NM_EXCEPTION, 0, 0);
 
-  if(BX_CPU_THIS_PTR cr0.em)
+  if(BX_CPU_THIS_PTR cr0.get_EM())
     exception(BX_UD_EXCEPTION, 0, 0);
 
   if(! (BX_CPU_THIS_PTR cr4.get_OSFXSR()))
@@ -117,10 +117,10 @@ void BX_CPU_C::FXSAVE(bxInstruction_c *i)
   BX_DEBUG(("FXSAVE: save FPU/MMX/SSE state"));
 
 #if BX_SUPPORT_MMX
-  if(BX_CPU_THIS_PTR cr0.ts)
+  if(BX_CPU_THIS_PTR cr0.get_TS())
     exception(BX_NM_EXCEPTION, 0, 0);
 
-  if(BX_CPU_THIS_PTR cr0.em)
+  if(BX_CPU_THIS_PTR cr0.get_EM())
     exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 
@@ -246,10 +246,10 @@ void BX_CPU_C::FXRSTOR(bxInstruction_c *i)
   BX_DEBUG(("FXRSTOR: restore FPU/MMX/SSE state"));
 
 #if BX_SUPPORT_MMX
-  if(BX_CPU_THIS_PTR cr0.ts)
+  if(BX_CPU_THIS_PTR cr0.get_TS())
     exception(BX_NM_EXCEPTION, 0, 0);
 
-  if(BX_CPU_THIS_PTR cr0.em)
+  if(BX_CPU_THIS_PTR cr0.get_EM())
     exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 

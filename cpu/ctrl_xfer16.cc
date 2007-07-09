@@ -409,7 +409,7 @@ void BX_CPU_C::IRET16(bxInstruction_c *i)
   }
 
 #if BX_CPU_LEVEL >= 2
-  if (BX_CPU_THIS_PTR cr0.pe) {
+  if (BX_CPU_THIS_PTR cr0.get_PE()) {
     iret_protected(i);
     goto done;
   }
