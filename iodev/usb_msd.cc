@@ -291,6 +291,9 @@ int usb_msd_device_t::handle_control(int request, int value, int index, int leng
       break;
       // Class specific requests
     case MassStorageReset:
+      // Ben: Hack for 0x21 | MassStorageReset
+      // 0x21 = (REQ_TYPE_CLASS | RECPT_INTERFACE);
+    case 0x21FF:
       s.mode = USB_MSDM_CBW;
       ret = 0;
       break;
