@@ -1372,7 +1372,7 @@ void bx_vnet_pktmover_c::tftp_send_ack(
 void bx_vnet_pktmover_c::tftp_send_optack(
   Bit8u *buffer,
   unsigned sourceport, unsigned targetport,
-  size_t tsize_option, unsigned blksize_option)
+  unsigned tsize_option, unsigned blksize_option)
 {
   Bit8u *p = buffer;
   put_net2(p, TFTP_OPTACK);
