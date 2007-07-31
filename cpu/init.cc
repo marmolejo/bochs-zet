@@ -906,6 +906,9 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR nmi_pending = 0;
   BX_CPU_THIS_PTR in_smm = 0;
   BX_CPU_THIS_PTR nmi_disable = 0;
+#if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
+  BX_CPU_THIS_PTR alignment_check = 0;
+#endif
 
   BX_CPU_THIS_PTR smbase = 0x30000;
 
