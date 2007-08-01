@@ -276,6 +276,7 @@ typedef enum {
 #define BX_BOOT_FLOPPYA 1
 #define BX_BOOT_DISKC   2
 #define BX_BOOT_CDROM   3
+#define BX_BOOT_NETWORK 4
 
 // loader hack
 #define Load32bitOSNone        0
