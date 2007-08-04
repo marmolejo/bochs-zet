@@ -3450,6 +3450,7 @@ void bx_hard_drive_c::set_signature(Bit8u channel, Bit8u id)
   BX_CONTROLLER(channel,id).sector_no     = 1;
   if (BX_DRIVE_IS_HD(channel,id)) {
     BX_CONTROLLER(channel,id).cylinder_no = 0;
+    BX_HD_THIS channels[channel].drive_select = 0;
   } else if (BX_DRIVE_IS_CD(channel,id)) {
     BX_CONTROLLER(channel,id).cylinder_no = 0xeb14;
   } else {
