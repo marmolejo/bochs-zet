@@ -370,7 +370,7 @@ public:
 #if BX_SUPPORT_ACPI
 class BOCHSAPI bx_acpi_ctrl_stub_c : public bx_devmodel_c, public bx_pci_device_stub_c {
 public:
-  virtual void generate_smi() {}
+  virtual void generate_smi(Bit8u value) {}
 };
 #endif
 

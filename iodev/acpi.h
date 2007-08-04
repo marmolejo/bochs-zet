@@ -37,7 +37,7 @@ public:
   virtual ~bx_acpi_ctrl_c();
   virtual void init(void);
   virtual void reset(unsigned type);
-  virtual void generate_smi(void);
+  virtual void generate_smi(Bit8u value);
 #if BX_SUPPORT_SAVE_RESTORE
   virtual void register_state(void);
   virtual void after_restore_state(void);

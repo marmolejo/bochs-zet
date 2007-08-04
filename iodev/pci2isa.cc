@@ -295,7 +295,7 @@ void bx_piix3_c::write(Bit32u address, Bit32u value, unsigned io_len)
   switch (address) {
     case 0x00b2:
 #if BX_SUPPORT_ACPI
-      DEV_acpi_generate_smi();
+      DEV_acpi_generate_smi((Bit8u)value);
 #else
       BX_ERROR(("write %08x: APM command register not supported yet", value));
 #endif

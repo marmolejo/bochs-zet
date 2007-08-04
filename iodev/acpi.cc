@@ -57,6 +57,9 @@ const Bit8u acpi_sm_iomask[16] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 0, 0, 0
 
 #define SUS_EN (1 << 13)
 
+#define ACPI_ENABLE 0xf1
+#define ACPI_DISABLE 0xf0
+
 int libacpi_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   theACPIController = new bx_acpi_ctrl_c();
@@ -265,8 +268,15 @@ void bx_acpi_ctrl_c::pm_update_sci(void)
     }
 }
 
-void bx_acpi_ctrl_c::generate_smi(void)
+void bx_acpi_ctrl_c::generate_smi(Bit8u value)
 {
+  /* ACPI specs 3.0, 4.7.2.5 */
+  if (value == ACPI_ENABLE) {
+    BX_ACPI_THIS s.pmcntrl |= SCI_EN;
+  } else if (value == ACPI_DISABLE) {
+    BX_ACPI_THIS s.pmcntrl &= ~SCI_EN;
+  }
+
   if (BX_ACPI_THIS s.pci_conf[0x5b] & 0x02) {
     BX_CPU(0)->deliver_SMI();
   }

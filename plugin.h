@@ -194,7 +194,7 @@ extern "C" {
 #define DEV_pci_print_i440fx_state() bx_devices.pluginPciBridge->print_i440fx_state()
 #define DEV_ide_bmdma_present() bx_devices.pluginPciIdeController->bmdma_present()
 #define DEV_ide_bmdma_set_irq(a) bx_devices.pluginPciIdeController->bmdma_set_irq(a)
-#define DEV_acpi_generate_smi() bx_devices.pluginACPIController->generate_smi()
+#define DEV_acpi_generate_smi(a) bx_devices.pluginACPIController->generate_smi(a)
 
 ///////// NE2000 macro
 #define DEV_ne2k_print_info(file,page,reg,brief) \
