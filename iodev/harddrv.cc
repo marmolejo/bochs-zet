@@ -429,6 +429,8 @@ void bx_hard_drive_c::init(void)
           } else {
             if (disk_size != BX_HD_THIS channels[channel].drives[device].hard_drive->hd_size) {
               BX_PANIC(("ata%d/%d image size doesn't match specified geometry", channel, device));
+              // workaround large files problem with diskimages
+              BX_HD_THIS channels[channel].drives[device].hard_drive->hd_size = disk_size;
             }
           }
         } else if (geometry_detect) {
