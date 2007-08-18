@@ -904,7 +904,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
   /* 0F B6 */ { BxAnother, &BX_CPU_C::MOVZX_GwEb },
   /* 0F B7 */ { BxAnother | BxSplitMod11b, NULL, opcodesMOV_GwEw }, // MOVZX_GwEw
   /* 0F B8 */ { 0, &BX_CPU_C::BxError },
-  /* 0F B9 */ { 0, &BX_CPU_C::UndefinedOpcode }, // UD2 opcode
+  /* 0F B9 */ { BxAnother, &BX_CPU_C::UndefinedOpcode }, // UD2 opcode
   /* 0F BA */ { BxAnother | BxGroup8, NULL, BxOpcodeInfoG8EwIb },
   /* 0F BB */ { BxAnother | BxLockable, &BX_CPU_C::BTC_EwGw },
   /* 0F BC */ { BxAnother, &BX_CPU_C::BSF_GwEw },
@@ -1462,7 +1462,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
   /* 0F B6 */ { BxAnother, &BX_CPU_C::MOVZX_GdEb },
   /* 0F B7 */ { BxAnother, &BX_CPU_C::MOVZX_GdEw },
   /* 0F B8 */ { 0, &BX_CPU_C::BxError },
-  /* 0F B9 */ { 0, &BX_CPU_C::UndefinedOpcode }, // UD2 opcode
+  /* 0F B9 */ { BxAnother, &BX_CPU_C::UndefinedOpcode }, // UD2 opcode
   /* 0F BA */ { BxAnother | BxGroup8, NULL, BxOpcodeInfoG8EdIb },
   /* 0F BB */ { BxAnother | BxLockable, &BX_CPU_C::BTC_EdGd },
   /* 0F BC */ { BxAnother, &BX_CPU_C::BSF_GdEd },
