@@ -420,7 +420,7 @@ Bit32u win32_to_bx_key[2][0x100] =
     0,
     BX_KEY_KP_DIVIDE,
     0,
-    0,                  /* ?? BX_KEY_PRINT ( ibm 124 ) ?? */
+    BX_KEY_PRINT,
     BX_KEY_ALT_R,
     0,
     0,

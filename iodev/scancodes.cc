@@ -492,8 +492,8 @@ scancode scancodes[BX_KEY_NBKEYS][3] =
  },
 
  { // BX_KEY_PRINT ( ibm 124 ) 
-   { "\xE0\x37" , "\xE0\xB7" },
-   { "\xE0\x7C" , "\xE0\xF0\x7C" },
+   { "\xE0\x2A\xE0\x37" , "\xE0\xB7\xE0\xAA" },
+   { "\xE0\x12\xE0\x7C" , "\xE0\xF0\x7C\xE0\xF0\x12" },
    { "\x57" ,     "\xF0\x57" },
  },
 
