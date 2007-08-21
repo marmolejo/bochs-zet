@@ -1785,7 +1785,7 @@ bx_bool bx_floppy_ctrl_c::evaluate_media(Bit8u devtype, Bit8u type, char *path, 
         }
         media->sectors = media->heads * media->tracks * media->sectors_per_track;
     }
-    return(1); // success
+    return (media->sectors > 0); // success
   }
 
   else if ( S_ISCHR(stat_buf.st_mode)
@@ -1805,7 +1805,7 @@ bx_bool bx_floppy_ctrl_c::evaluate_media(Bit8u devtype, Bit8u type, char *path, 
       media->heads             = floppy_type[type_idx].hd;
       media->sectors_per_track = floppy_type[type_idx].spt;
       media->sectors           = floppy_type[type_idx].sectors;
-      return 1;
+      return (media->sectors > 0);
     }
     media->tracks            = floppy_geom.track;
     media->heads             = floppy_geom.head;
@@ -1822,7 +1822,7 @@ bx_bool bx_floppy_ctrl_c::evaluate_media(Bit8u devtype, Bit8u type, char *path, 
     media->sectors_per_track = floppy_type[type_idx].spt;
     media->sectors           = floppy_type[type_idx].sectors;
 #endif
-    return 1; // success
+    return (media->sectors > 0); // success
   } else {
     // unknown file type
     BX_ERROR(("unknown mode type"));
