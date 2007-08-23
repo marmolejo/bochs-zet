@@ -400,18 +400,6 @@ static const BxOpcodeInfo_t BxOpcodeInfoG15[8] = {
   /* 7 */ { 0, &BX_CPU_C::CLFLUSH }   /* SFENCE/CFLUSH */
 };
 
-static const BxOpcodeInfo_t BxOpcodeInfoG16[8] = {
-  /* 0 */ { 0, &BX_CPU_C::PREFETCH },           /* PREFETCH_NTA */
-  /* 1 */ { 0, &BX_CPU_C::PREFETCH },           /* PREFETCH_T0  */
-  /* 2 */ { 0, &BX_CPU_C::PREFETCH },           /* PREFETCH_T1  */
-  /* 3 */ { 0, &BX_CPU_C::PREFETCH },           /* PREFETCH_T2  */
-  /* 4 */ { 0, &BX_CPU_C::BxError },
-  /* 5 */ { 0, &BX_CPU_C::BxError },
-  /* 6 */ { 0, &BX_CPU_C::BxError },
-  /* 7 */ { 0, &BX_CPU_C::BxError }
-};
-
-
 /* ************************** */
 /* 512 entries for 16bit mode */
 /* 512 entries for 32bit mode */
@@ -731,7 +719,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
   /* 0F 15 */ { BxAnother | BxPrefixSSE, NULL, BxOpcodeGroupSSE_0f15 },
   /* 0F 16 */ { BxAnother | BxPrefixSSE, NULL, BxOpcodeGroupSSE_0f16 },
   /* 0F 17 */ { BxAnother | BxPrefixSSE, NULL, BxOpcodeGroupSSE_0f17 },
-  /* 0F 18 */ { BxAnother | BxGroup16, NULL, BxOpcodeInfoG16 },
+  /* 0F 18 */ { BxAnother, &BX_CPU_C::PREFETCH },  // opcode group G16, PREFETCH hints
   /* 0F 19 */ { 0, &BX_CPU_C::BxError },
   /* 0F 1A */ { 0, &BX_CPU_C::BxError },
   /* 0F 1B */ { 0, &BX_CPU_C::BxError },
@@ -1289,7 +1277,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
   /* 0F 15 */ { BxAnother | BxPrefixSSE, NULL, BxOpcodeGroupSSE_0f15 },
   /* 0F 16 */ { BxAnother | BxPrefixSSE, NULL, BxOpcodeGroupSSE_0f16 },
   /* 0F 17 */ { BxAnother | BxPrefixSSE, NULL, BxOpcodeGroupSSE_0f17 },
-  /* 0F 18 */ { BxAnother | BxGroup16, NULL, BxOpcodeInfoG16 },
+  /* 0F 18 */ { BxAnother, &BX_CPU_C::PREFETCH },  // opcode group G16, PREFETCH hints
   /* 0F 19 */ { 0, &BX_CPU_C::BxError },
   /* 0F 1A */ { 0, &BX_CPU_C::BxError },
   /* 0F 1B */ { 0, &BX_CPU_C::BxError },
