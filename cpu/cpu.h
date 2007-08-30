@@ -2891,8 +2891,8 @@ public: // for now...
 
   BX_SMF void access_linear(bx_address address, unsigned length, unsigned pl,
        unsigned rw, void *data) BX_CPP_AttrRegparmN(3);
-  BX_SMF bx_phy_address translate_linear(bx_address laddr, 
-       unsigned pl, unsigned rw, unsigned access_type) BX_CPP_AttrRegparmN(3);
+  BX_SMF void page_fault(unsigned fault, bx_address laddr, unsigned pl, unsigned rw, unsigned access_type);
+  BX_SMF bx_phy_address translate_linear(bx_address laddr, unsigned pl, unsigned rw, unsigned access_type);
   BX_SMF bx_phy_address itranslate_linear(bx_address laddr, unsigned pl) BX_CPP_AttrRegparmN(2);
   BX_SMF bx_phy_address dtranslate_linear(bx_address laddr, unsigned pl, unsigned rw) BX_CPP_AttrRegparmN(3);
   BX_SMF void TLB_flush(bx_bool invalidateGlobal);
