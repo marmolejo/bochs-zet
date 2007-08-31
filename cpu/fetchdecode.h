@@ -1098,8 +1098,8 @@ static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f2a[4] = {
 };
 
 static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f2b[4] = {
-  /* -- */ { 0, &BX_CPU_C::MOVNTPS_MdqVps },
-  /* 66 */ { 0, &BX_CPU_C::MOVNTPD_MdqVpd },            	
+  /* -- */ { 0, &BX_CPU_C::MOVNTPS_MpsVps },
+  /* 66 */ { 0, &BX_CPU_C::MOVNTPD_MpdVpd },            	
   /* F2 */ { 0, &BX_CPU_C::BxError },
   /* F3 */ { 0, &BX_CPU_C::BxError }
 };

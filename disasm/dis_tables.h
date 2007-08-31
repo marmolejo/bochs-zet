@@ -135,6 +135,8 @@
 #define Mdq &disassembler::Mdq
 #define Mps &disassembler::Mps
 #define Mpd &disassembler::Mpd
+#define Mss &disassembler::Mss
+#define Msd &disassembler::Msd
 
 #define  Xb &disassembler::Xb
 #define  Xw &disassembler::Xw
