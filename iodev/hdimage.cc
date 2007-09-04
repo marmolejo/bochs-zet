@@ -1624,7 +1624,7 @@ int z_undoable_image_t::open(const char* pathname)
     sprintf (logname, "%s%s", pathname, UNDOABLE_REDOLOG_EXTENSION);
   }
 
-  if (redolog->open(logname,REDOLOG_SUBTYPE_UNDOABLE,size) < 0)
+  if (redolog->open(logname, REDOLOG_SUBTYPE_UNDOABLE) < 0)
   {
     if (redolog->create(logname, REDOLOG_SUBTYPE_UNDOABLE, size) < 0)
     {
