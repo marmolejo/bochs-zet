@@ -46,8 +46,7 @@ BX_CPU_C::iret_protected(bxInstruction_c *i)
   bx_descriptor_t cs_descriptor, ss_descriptor;
 
 #if BX_SUPPORT_X86_64
-  if (BX_CPU_THIS_PTR msr.lma)
-  {
+  if (long_mode()) {
     long_iret(i);
     return;
   }

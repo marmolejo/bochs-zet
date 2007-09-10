@@ -51,7 +51,7 @@ void BX_CPU_C::check_cs(bx_descriptor_t *descriptor, Bit16u cs_raw, Bit8u check_
 #if BX_SUPPORT_X86_64
   if (descriptor->u.segment.l)
   {
-    if (! BX_CPU_THIS_PTR msr.lma) {
+    if (! BX_CPU_THIS_PTR efer.lma) {
       BX_PANIC(("check_cs: attempt to jump to long mode without enabling EFER.LMA !"));
     }
 
@@ -104,7 +104,7 @@ BX_CPU_C::load_cs(bx_selector_t *selector, bx_descriptor_t *descriptor, Bit8u cp
     (0xfffc & BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value) | cpl;
 
 #if BX_SUPPORT_X86_64
-  if (BX_CPU_THIS_PTR msr.lma) {
+  if (BX_CPU_THIS_PTR efer.lma) {
     if (descriptor->u.segment.l) {
       BX_CPU_THIS_PTR cpu_mode = BX_MODE_LONG_64;
       BX_DEBUG(("Long Mode Activated"));
