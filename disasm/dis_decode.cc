@@ -44,7 +44,7 @@ static const unsigned char instruction_has_modrm[512] = {
            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 0F 80 */
            1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, /* 0F 90 */
            0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1, /* 0F A0 */
-           1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1, /* 0F B0 */
+           1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, /* 0F B0 */
            1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0, /* 0F C0 */
            1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, /* 0F D0 */
            1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, /* 0F E0 */
@@ -258,7 +258,7 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
          break;
 
        case _GRP64B:
-         entry = &(OPCODE_TABLE(entry)[insn.os_64]);
+         entry = &(OPCODE_TABLE(entry)[insn.os_64 ? 2 : insn.os_32]);
          break;
 
        default:

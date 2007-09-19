@@ -233,6 +233,19 @@ void disassembler::Iw(const x86_insn *insn)
   dis_sprintf("0x%04x", (unsigned) fetch_word());
 }
 
+void disassembler::IbIb(const x86_insn *insn) 
+{
+  Bit8u ib1 = fetch_byte();
+  Bit8u ib2 = fetch_byte();
+
+  if (intel_mode) {
+     dis_sprintf("0x%02x, 0x%02x", ib1, ib2);
+  }
+  else {
+     dis_sprintf("$0x%02x, $0x%02x", ib2, ib1);
+  }
+}
+
 void disassembler::IwIb(const x86_insn *insn) 
 {
   Bit16u iw = fetch_word();

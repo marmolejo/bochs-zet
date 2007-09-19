@@ -69,10 +69,6 @@ void BX_CPU_C::MOV_GwEEw(bxInstruction_c *i)
 
 void BX_CPU_C::MOV_EwSw(bxInstruction_c *i)
 {
-#if BX_CPU_LEVEL < 3
-  BX_PANIC(("MOV_EwSw: incomplete for CPU < 3"));
-#endif
-
   /* Illegal to use nonexisting segments */
   if (i->nnn() >= 6) {
     BX_INFO(("MOV_EwSw: using of nonexisting segment register %d", i->nnn()));
@@ -96,10 +92,6 @@ void BX_CPU_C::MOV_EwSw(bxInstruction_c *i)
 
 void BX_CPU_C::MOV_SwEw(bxInstruction_c *i)
 {
-#if BX_CPU_LEVEL < 3
-  BX_PANIC(("MOV_SwEw: incomplete for CPU < 3"));
-#endif
-
   Bit16u op2_16;
 
   /* If attempt is made to load the CS register ... */

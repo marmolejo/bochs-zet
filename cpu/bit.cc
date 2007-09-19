@@ -1276,4 +1276,99 @@ void BX_CPU_C::BTR_EqIb(bxInstruction_c *i)
 }
 #endif
 
+void BX_CPU_C::POPCNT_GwEw(bxInstruction_c *i)
+{
+#if BX_SUPPORT_POPCNT
+  Bit16u op1_16, op2_16;
+
+  /* op2_16 is a register or memory reference */
+  if (i->modC0()) {
+    op2_16 = BX_READ_16BIT_REG(i->rm());
+  }
+  else {
+    /* pointer, segment address pair */
+    read_virtual_word(i->seg(), RMAddr(i), &op2_16);
+  }
+
+  op1_16 = 0;
+  while (op2_16 != 0) {
+    if (op2_16 & 1) op1_16++;
+    op2_16 >>= 1;
+  }
+
+  Bit32u flags32 = op1_16 ? 0 : EFlagsZFMask;
+  setEFlagsOSZAPC(flags32);
+
+  /* now write result back to destination */
+  BX_WRITE_16BIT_REG(i->nnn(), op1_16);
+#else
+  BX_INFO(("POPCNT_GwEw: required POPCNT support, use --enable-popcnt option"));
+  UndefinedOpcode(i);
+#endif
+}
+
+void BX_CPU_C::POPCNT_GdEd(bxInstruction_c *i)
+{
+#if BX_SUPPORT_POPCNT
+  Bit32u op1_32, op2_32;
+
+  /* op2_16 is a register or memory reference */
+  if (i->modC0()) {
+    op2_32 = BX_READ_32BIT_REG(i->rm());
+  }
+  else {
+    /* pointer, segment address pair */
+    read_virtual_dword(i->seg(), RMAddr(i), &op2_32);
+  }
+
+  op1_32 = 0;
+  while (op2_32 != 0) {
+    if (op2_32 & 1) op1_32++;
+    op2_32 >>= 1;
+  }
+
+  Bit32u flags32 = op1_32 ? 0 : EFlagsZFMask;
+  setEFlagsOSZAPC(flags32);
+
+  /* now write result back to destination */
+  BX_WRITE_32BIT_REGZ(i->nnn(), op1_32);
+#else
+  BX_INFO(("POPCNT_GdEd: required POPCNT support, use --enable-popcnt option"));
+  UndefinedOpcode(i);
+#endif
+}
+
+#if BX_SUPPORT_X86_64
+void BX_CPU_C::POPCNT_GqEq(bxInstruction_c *i)
+{
+#if BX_SUPPORT_POPCNT
+  Bit64u op1_64, op2_64;
+
+  /* op2_16 is a register or memory reference */
+  if (i->modC0()) {
+    op2_64 = BX_READ_64BIT_REG(i->rm());
+  }
+  else {
+    /* pointer, segment address pair */
+    read_virtual_qword(i->seg(), RMAddr(i), &op2_64);
+  }
+
+  op1_64 = 0;
+  while (op2_64 != 0) {
+    if (op2_64 & 1) op1_64++;
+    op2_64 >>= 1;
+  }
+
+  Bit32u flags32 = op1_64 ? 0 : EFlagsZFMask;
+  setEFlagsOSZAPC(flags32);
+
+  /* now write result back to destination */
+  BX_WRITE_64BIT_REG(i->nnn(), op1_64);
+#else
+  BX_INFO(("POPCNT_GqEq: required POPCNT support, use --enable-popcnt option"));
+  UndefinedOpcode(i);
+#endif
+}
+#endif
+
 #endif /* BX_CPU_LEVEL >= 3 */
