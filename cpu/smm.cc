@@ -75,7 +75,7 @@ void BX_CPU_C::RSM(bxInstruction_c *i)
 
   invalidate_prefetch_q();
 
-  BX_INFO(("RSM: Resuming from System Management Mode !"));
+  BX_INFO(("RSM: Resuming from System Management Mode"));
 
   BX_CPU_THIS_PTR nmi_disable = 0;
 
@@ -104,7 +104,7 @@ void BX_CPU_C::enter_system_management_mode(void)
 {
   invalidate_prefetch_q();
 
-  BX_INFO(("Enter to System Management Mode !"));
+  BX_INFO(("Enter to System Management Mode"));
 
   // debug(BX_CPU_THIS_PTR prev_eip);
 
