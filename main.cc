@@ -1007,6 +1007,7 @@ int bx_init_hardware()
   BX_INFO(("  Host Asm support: %s",BX_SupportHostAsms?"yes":"no"));
   BX_INFO(("  Fast function calls: %s",BX_FAST_FUNC_CALL?"yes":"no"));
   BX_INFO(("Devices configuration"));
+  BX_INFO(("  ACPI support: %s",BX_SUPPORT_ACPI?"yes":"no"));
   BX_INFO(("  NE2000 support: %s",BX_SUPPORT_NE2K?"yes":"no"));
   BX_INFO(("  PCI support: %s",BX_SUPPORT_PCI?"yes":"no"));
   BX_INFO(("  SB16 support: %s",BX_SUPPORT_SB16?"yes":"no"));
