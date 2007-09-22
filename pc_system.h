@@ -135,7 +135,7 @@ public:
 #if BX_DEBUGGER
   static void timebp_handler(void* this_ptr);
 #endif
-
+  static void benchmarkTimer(void* this_ptr);
 
   // ===========================
   // Non-timer oriented features

@@ -420,6 +420,13 @@ void bx_pc_system_c::nullTimer(void* this_ptr)
 #endif
 }
 
+void bx_pc_system_c::benchmarkTimer(void* this_ptr)
+{
+  bx_pc_system_c *class_ptr = (bx_pc_system_c *) this_ptr;
+  class_ptr->kill_bochs_request = 1;
+  bx_user_quit = 1;
+}
+
 #if BX_DEBUGGER
 void bx_pc_system_c::timebp_handler(void* this_ptr)
 {
