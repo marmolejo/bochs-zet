@@ -361,14 +361,6 @@ void bx_init_options()
       BX_RUN_START,
       BX_QUICK_START);
 
-  new bx_param_enum_c(menu,
-      "start_mode",
-      "Bochs start types",
-      "Bochs start types",
-      bochs_start_names,
-      BX_RUN_START,
-      BX_QUICK_START);
-
 #if BX_SUPPORT_SAVE_RESTORE
   new bx_param_bool_c(menu,
       "restore",
