@@ -355,13 +355,6 @@ bx_bool bx_pit_c::periodic(Bit32u usec_delta)
 {
   Bit32u ticks_delta = 0;
 
-#ifdef BX_SCHEDULED_DIE_TIME
-  if (bx_pc_system.time_ticks() > BX_SCHEDULED_DIE_TIME) {
-    BX_ERROR (("ticks exceeded scheduled die time, quitting"));
-    BX_EXIT (2);
-  }
-#endif
-
   BX_PIT_THIS s.total_usec += usec_delta;
   ticks_delta=(Bit32u)((USEC_TO_TICKS((Bit64u)(BX_PIT_THIS s.total_usec)))-BX_PIT_THIS s.total_ticks);
   BX_PIT_THIS s.total_ticks += ticks_delta;
