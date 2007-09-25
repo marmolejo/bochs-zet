@@ -68,13 +68,8 @@ BX_CPU_C::return_protected(bxInstruction_c *i, Bit16u pop_bytes)
 
 #if BX_SUPPORT_X86_64
   if (i->os64L()) {
-    /* operand size=64: 2nd qword on stack must be within stack limits,
-     *   else #SS(0); */
-    if (!can_pop(16))
-    {
-      BX_ERROR(("return_protected: 2rd qword not in stack limits"));
-      exception(BX_SS_EXCEPTION, 0, 0);
-    }
+    /* operand size=64: in long mode 1st and 2nd quadword on the stack 
+       must be in canonical address space */
 
     read_virtual_word (BX_SEG_REG_SS, temp_RSP + 8, &raw_cs_selector);
     read_virtual_qword(BX_SEG_REG_SS, temp_RSP + 0, &return_RIP);

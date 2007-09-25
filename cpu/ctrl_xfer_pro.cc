@@ -49,8 +49,7 @@ void BX_CPU_C::check_cs(bx_descriptor_t *descriptor, Bit16u cs_raw, Bit8u check_
   }
 
 #if BX_SUPPORT_X86_64
-  if (descriptor->u.segment.l)
-  {
+  if (descriptor->u.segment.l) {
     if (! BX_CPU_THIS_PTR efer.lma) {
       BX_PANIC(("check_cs: attempt to jump to long mode without enabling EFER.LMA !"));
     }
@@ -111,8 +110,11 @@ BX_CPU_C::load_cs(bx_selector_t *selector, bx_descriptor_t *descriptor, Bit8u cp
       loadSRegLMNominal(BX_SEG_REG_CS, selector->value, cpl);
     }
     else {
-      BX_DEBUG(("Compatibility Mode Activated"));
       BX_CPU_THIS_PTR cpu_mode = BX_MODE_LONG_COMPAT;
+      BX_DEBUG(("Compatibility Mode Activated"));
+      if (BX_CPU_THIS_PTR dword.rip_upper != 0) {
+        BX_PANIC(("handleCpuModeChange: leaving long mode with RIP upper != 0 !"));
+      }
     }
   }
 #endif
@@ -178,8 +180,7 @@ void BX_CPU_C::branch_far64(bx_selector_t *selector,
            bx_descriptor_t *descriptor, bx_address rip, Bit8u cpl)
 {
 #if BX_SUPPORT_X86_64
-  if (descriptor->u.segment.l)
-  {
+  if (descriptor->u.segment.l) {
     if (! IsCanonical(rip)) {
       BX_ERROR(("branch_far: canonical RIP violation"));
       exception(BX_GP_EXCEPTION, 0, 0);

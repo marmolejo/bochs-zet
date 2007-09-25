@@ -452,6 +452,13 @@ void BX_CPU_C::LTR_Ew(bxInstruction_c *i)
     exception(BX_GP_EXCEPTION, raw_selector & 0xfffc, 0);
   }
 
+#if BX_SUPPORT_X86_64
+  if (long_mode() && descriptor.type!=BX_SYS_SEGMENT_AVAIL_386_TSS) {
+    BX_ERROR(("LTR: doesn't point to an available TSS386 descriptor in long mode!"));
+    exception(BX_GP_EXCEPTION, raw_selector & 0xfffc, 0);
+  }
+#endif
+
   /* #NP(selector) if TSS descriptor is not present */
   if (! IS_PRESENT(descriptor)) {
     BX_ERROR(("LTR: LDT descriptor not present!"));

@@ -423,9 +423,9 @@ void BX_CPU_C::INSW_YwDX(bxInstruction_c *i)
       else
 #endif
       if (i->as32L())
-        ECX -= (wordCount-1);
+        RCX = ECX - (wordCount-1);
       else
-        CX  -= (wordCount-1);
+        CX -= (wordCount-1);
 
       incr = wordCount << 1; // count * 2.
       goto doIncr;
@@ -658,9 +658,9 @@ void BX_CPU_C::OUTSW_DXXw(bxInstruction_c *i)
       else
 #endif
       if (i->as32L())
-        ECX -= (wordCount-1);
+        RCX = ECX - (wordCount-1);
       else
-        CX  -= (wordCount-1);
+        CX -= (wordCount-1);
       incr = wordCount << 1; // count * 2.
       goto doIncr;
     }

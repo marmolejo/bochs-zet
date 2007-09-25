@@ -1049,7 +1049,7 @@ void BX_CPU_C::MOVSD_XdYd(bxInstruction_c *i)
 
         // Decrement eCX. Note, the main loop will decrement 1 also, so
         // decrement by one less than expected, like the case above.
-        ECX -= (dwordCount-1);
+        RCX = ECX - (dwordCount-1);
 
         incr = dwordCount << 2; // count * 4
         goto doIncr32;
@@ -1843,9 +1843,9 @@ void BX_CPU_C::STOSB_YbAL(bxInstruction_c *i)
         // Decrement eCX.  Note, the main loop will decrement 1 also, so
         // decrement by one less than expected, like the case above.
         if (i->as32L())
-          ECX -= (byteCount-1);
+          RCX = ECX - (byteCount-1);
         else
-          CX  -= (byteCount-1);
+          CX -= (byteCount-1);
 
         incr = byteCount;
         goto doIncr16;
