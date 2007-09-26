@@ -540,7 +540,7 @@ BX_CPU_C::long_iret(bxInstruction_c *i)
           IS_CODE_SEGMENT(ss_descriptor.type) ||
          !IS_DATA_SEGMENT_WRITEABLE(ss_descriptor.type))
       {
-        BX_ERROR(("iret64: SS AR byte not writable or code segment: %d", ss_descriptor.type));
+        BX_ERROR(("iret64: SS AR byte not writable or code segment"));
         exception(BX_GP_EXCEPTION, raw_ss_selector & 0xfffc, 0);
       }
 
