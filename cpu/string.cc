@@ -36,6 +36,7 @@
 #define RSI ESI
 #define RDI EDI
 #define RAX EAX
+#define RCX ECX
 #endif
 
 //

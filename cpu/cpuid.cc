@@ -300,8 +300,8 @@ void BX_CPU_C::CPUID(bxInstruction_c *i)
       //   [13:13] CMPXCHG16B: CMPXCHG16B instruction support
       //   [14:14] xTPR update control
       //   [18:15] reserved
-      //   [19:19] SSE4: SSE4 Instructions
-      //   [20:20] SSE4E: SSE4E Instructions
+      //   [19:19] SSE4.1: SSE4.1 Instructions
+      //   [20:20] SSE4.2: SSE4.2 (SSE4E) Instructions
       //   [31:21] reserved
       // EDX:       Feature Flags
       //   [0:0]   FPU on chip
