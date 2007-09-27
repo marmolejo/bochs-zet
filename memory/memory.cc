@@ -64,8 +64,8 @@ BX_MEM_C::writePhysicalPage(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, vo
     // (bbd) Each breakpoint should have an associated CPU#, TODO
     for (int i = 0; i < num_write_watchpoints; i++) {
       if (write_watchpoint[i] == a20addr) {
-        BX_CPU(0)->watchpoint = a20addr;
-        BX_CPU(0)->break_point = BREAK_POINT_WRITE;
+        cpu->watchpoint  = a20addr;
+        cpu->break_point = BREAK_POINT_WRITE;
         break;
       }
     }
@@ -221,8 +221,8 @@ BX_MEM_C::readPhysicalPage(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, voi
     // (bbd) Each breakpoint should have an associated CPU#, TODO
     for (int i = 0; i < num_read_watchpoints; i++) {
       if (read_watchpoint[i] == a20addr) {
-         BX_CPU(0)->watchpoint = a20addr;
-         BX_CPU(0)->break_point = BREAK_POINT_READ;
+         cpu->watchpoint  = a20addr;
+         cpu->break_point = BREAK_POINT_READ;
          break;
       }
     }
