@@ -45,10 +45,8 @@ public:
   virtual void checksum_cmos(void);
   virtual void reset(unsigned type);
   virtual void save_image(void);
-#if BX_SUPPORT_SAVE_RESTORE
   virtual void register_state(void);
   virtual void after_restore_state(void);
-#endif
 
   virtual Bit32u get_reg(unsigned reg) {
     return s.reg[reg];

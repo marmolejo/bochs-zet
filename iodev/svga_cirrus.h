@@ -77,10 +77,8 @@ public:
                                  unsigned *txHeight, unsigned *txWidth);
   virtual void trigger_timer(void *this_ptr);
   virtual Bit8u get_actl_palette_idx(Bit8u index);
-#if BX_SUPPORT_SAVE_RESTORE
   virtual void register_state(void);
   virtual void after_restore_state(void);
-#endif
 
 #if BX_SUPPORT_PCI && BX_SUPPORT_CLGD54XX_PCI
   virtual Bit32u pci_read_handler(Bit8u address, unsigned io_len);

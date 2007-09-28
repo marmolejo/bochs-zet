@@ -176,9 +176,7 @@ public:
   bx_bool get_enable_a20(void);
   void    MemoryMappingChanged(void); // flush TLB in all CPUs
   void    exit(void);
-#if BX_SUPPORT_SAVE_RESTORE
   void    register_state(void);
-#endif
 };
 
 #endif

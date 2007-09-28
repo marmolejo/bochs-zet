@@ -384,14 +384,13 @@ void bx_floppy_ctrl_c::reset(unsigned type)
   enter_idle_phase();
 }
 
-#if BX_SUPPORT_SAVE_RESTORE
 void bx_floppy_ctrl_c::register_state(void)
 {
   unsigned i;
   char name[8];
   bx_list_c *drive;
 
-  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "floppy", "Floppy State", 35);
+  bx_list_c *list = new bx_list_c(SIM->get_bochs_root(), "floppy", "Floppy State", 35);
   new bx_shadow_num_c(list, "data_rate", &BX_FD_THIS s.data_rate);
   bx_list_c *command = new bx_list_c(list, "command", 10);
   for (i=0; i<10; i++) {
@@ -442,7 +441,6 @@ void bx_floppy_ctrl_c::register_state(void)
     new bx_shadow_num_c(drive, "DIR", &BX_FD_THIS s.DIR[i], BASE_HEX);
   }
 }
-#endif
 
 // static IO port read callback handler
 // redirects to non-static class handler to avoid virtual functions

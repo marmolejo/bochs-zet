@@ -155,10 +155,9 @@ void bx_pit_c::reset(unsigned type)
   BX_PIT_THIS s.timer.reset(type);
 }
 
-#if BX_SUPPORT_SAVE_RESTORE
 void bx_pit_c::register_state(void)
 {
-  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "pit", "8254 PIT State", 7);
+  bx_list_c *list = new bx_list_c(SIM->get_bochs_root(), "pit", "8254 PIT State", 7);
   new bx_shadow_num_c(list, "speaker_data_on", &BX_PIT_THIS s.speaker_data_on, BASE_HEX);
   new bx_shadow_bool_c(list, "refresh_clock_div2", &BX_PIT_THIS s.refresh_clock_div2);
   new bx_shadow_num_c(list, "last_usec", &BX_PIT_THIS s.last_usec);
@@ -168,7 +167,6 @@ void bx_pit_c::register_state(void)
   bx_list_c *counter = new bx_list_c(list, "counter", 4);
   BX_PIT_THIS s.timer.register_state(counter);
 }
-#endif
 
 void bx_pit_c::timer_handler(void *this_ptr)
 {

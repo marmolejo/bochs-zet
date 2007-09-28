@@ -341,10 +341,8 @@ extern void bx_unload_plugin(const char *name);
 extern void bx_init_plugins(void);
 extern void bx_reset_plugins(unsigned);
 extern void bx_unload_plugins(void);
-#if BX_SUPPORT_SAVE_RESTORE
 extern void bx_plugins_register_state();
 extern void bx_plugins_after_restore_state();
-#endif
 
 // every plugin must define these, within the extern"C" block, so that
 // a non-mangled function symbol is available in the shared library.

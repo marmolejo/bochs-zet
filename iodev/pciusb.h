@@ -150,11 +150,9 @@ public:
   virtual void handle_reset() {}
   virtual int handle_control(int request, int value, int index, int length, Bit8u *data) {return 0;}
   virtual int handle_data(USBPacket *p) {return 0;}
-#if BX_SUPPORT_SAVE_RESTORE
   void register_state(bx_list_c *parent);
   virtual void register_state_specific(bx_list_c *parent) {}
   virtual void after_restore_state() {}
-#endif
 
   bx_bool get_connected() {return d.connected;}
   usbdev_type get_type() {return d.type;}
@@ -341,10 +339,8 @@ public:
   virtual bx_bool usb_key_enq(Bit8u *scan_code);
   virtual bx_bool usb_keyboard_connected();
   virtual bx_bool usb_mouse_connected();
-#if BX_SUPPORT_SAVE_RESTORE
   virtual void register_state(void);
   virtual void after_restore_state(void);
-#endif
   virtual Bit32u  pci_read_handler(Bit8u address, unsigned io_len);
   virtual void    pci_write_handler(Bit8u address, Bit32u value, unsigned io_len);
 

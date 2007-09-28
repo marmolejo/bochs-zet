@@ -207,9 +207,7 @@ public:
   virtual void init(void);
   virtual void reset(unsigned type);
   virtual void serial_mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state);
-#if BX_SUPPORT_SAVE_RESTORE
   virtual void register_state(void);
-#endif
 
 private:
   bx_serial_t s[BX_SERIAL_MAXDEV];

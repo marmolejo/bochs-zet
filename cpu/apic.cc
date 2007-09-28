@@ -940,7 +940,6 @@ void bx_local_apic_c::set_initial_timer_count(Bit32u value)
   }
 }
 
-#if BX_SUPPORT_SAVE_RESTORE
 void bx_local_apic_c::register_state(bx_param_c *parent)
 {
   unsigned i;
@@ -987,6 +986,5 @@ void bx_local_apic_c::register_state(bx_param_c *parent)
   BXRS_HEX_PARAM_SIMPLE(lapic, ticksInitial);
   BXRS_PARAM_BOOL(lapic, INTR, INTR);
 }
-#endif
 
 #endif /* if BX_SUPPORT_APIC */

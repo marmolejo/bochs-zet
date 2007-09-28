@@ -498,7 +498,7 @@ In the config interface it is used for menus/dialogs.</entry>
 <section id="save-restore"><title>The save/restore feature</title>
 <para>
 The save/restore feature is based on an extension to the parameter tree concept.
-A subtree (list) called "save_restore" appears in the root of the parameter tree
+A subtree (list) called "bochs" appears in the root of the parameter tree
 and some new "shadow" parameter types store pointers to values instead of the values
 itself. All the hardware objects have register_state() methods to register pointers
 to the device registers and switches that need to be saved. The simulator interface

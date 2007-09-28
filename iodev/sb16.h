@@ -198,10 +198,8 @@ public:
   virtual ~bx_sb16_c();
   virtual void init(void);
   virtual void reset(unsigned type);
-#if BX_SUPPORT_SAVE_RESTORE
   virtual void register_state(void);
   virtual void after_restore_state(void);
-#endif
 
   /* Make writelog available to output functions */
   BX_SB16_SMF void writelog(int loglev, const char *str, ...);

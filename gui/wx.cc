@@ -954,9 +954,7 @@ void bx_wx_gui_c::handle_events(void)
           case BX_TOOLBAR_CDROMD: cdromD_handler(); break;
           case BX_TOOLBAR_RESET: reset_handler(); break;
           case BX_TOOLBAR_POWER: power_handler(); break;
-#if BX_SUPPORT_SAVE_RESTORE
           case BX_TOOLBAR_SAVE_RESTORE: save_restore_handler(); break;
-#endif
           case BX_TOOLBAR_COPY: copy_handler(); break;
           case BX_TOOLBAR_PASTE: paste_handler(); break;
           case BX_TOOLBAR_SNAPSHOT: snapshot_handler(); break;

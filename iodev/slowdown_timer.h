@@ -46,9 +46,7 @@ public:
 
   void init(void);
   void exit(void);
-#if BX_SUPPORT_SAVE_RESTORE
   void after_restore_state(void);
-#endif
 
   static void timer_handler(void * this_ptr);
 

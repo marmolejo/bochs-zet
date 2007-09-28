@@ -191,12 +191,11 @@ void bx_dma_c::reset_controller(unsigned num)
   BX_DMA_THIS s[num].flip_flop = 0;
 }
 
-#if BX_SUPPORT_SAVE_RESTORE
 void bx_dma_c::register_state(void)
 {
   unsigned i, c;
   char name[6];
-  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "dma", "DMA State", 3);
+  bx_list_c *list = new bx_list_c(SIM->get_bochs_root(), "dma", "DMA State", 3);
   for (i=0; i<2; i++) {
     sprintf(name, "%d", i);
     bx_list_c *ctrl = new bx_list_c(list, name, 8);
@@ -227,15 +226,12 @@ void bx_dma_c::register_state(void)
     new bx_shadow_num_c(extpg, name, &BX_DMA_THIS ext_page_reg[i], BASE_HEX);
   }
 }
-#endif
 
 // index to find channel from register number (only [0],[1],[2],[6] used)
 Bit8u channelindex[7] = {2, 3, 1, 0, 0, 0, 0};
 
-
 // static IO port read callback handler
 // redirects to non-static class handler to avoid virtual functions
-
 Bit32u bx_dma_c::read_handler(void *this_ptr, Bit32u address, unsigned io_len)
 {
 #if !BX_USE_DMA_SMF

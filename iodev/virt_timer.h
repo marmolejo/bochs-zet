@@ -151,9 +151,7 @@ public:
   //Initialization step #2
   void init(void);
 
-#if BX_SUPPORT_SAVE_RESTORE
   void register_state(void);
-#endif
 };
 
 extern bx_virt_timer_c bx_virt_timer;

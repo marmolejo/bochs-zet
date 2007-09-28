@@ -646,7 +646,6 @@ void bx_unload_plugins()
   devices = NULL;
 }
 
-#if BX_SUPPORT_SAVE_RESTORE
 /**************************************************************************/
 /* Plugin system: Register device state of all registered plugin-devices  */
 /**************************************************************************/
@@ -673,6 +672,5 @@ void bx_plugins_after_restore_state()
       device->devmodel->after_restore_state();
     }
 }
-#endif
 
 }

@@ -111,13 +111,11 @@ void bx_pcivga_c::reset(unsigned type)
   }
 }
 
-#if BX_SUPPORT_SAVE_RESTORE
 void bx_pcivga_c::register_state(void)
 {
-  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "pcivga", "PCI VGA Adapter State", 1);
+  bx_list_c *list = new bx_list_c(SIM->get_bochs_root(), "pcivga", "PCI VGA Adapter State", 1);
   register_pci_state(list, BX_PCIVGA_THIS s.pci_conf);
 }
-#endif
 
 // pci configuration space read callback handler
 Bit32u bx_pcivga_c::pci_read_handler(Bit8u address, unsigned io_len)

@@ -50,15 +50,13 @@ public:
   BX_PIT_SMF void exit(void);
   BX_PIT_SMF void reset(unsigned type);
   BX_PIT_SMF bx_bool periodic(Bit32u usec_delta);
-#if BX_SUPPORT_SAVE_RESTORE
   BX_PIT_SMF void register_state(void);
-#endif
 
   Bit16u get_timer(int Timer) {
       return s.timer.get_inlatch(Timer);
   }
-private:
 
+private:
   static Bit32u read_handler(void *this_ptr, Bit32u address, unsigned io_len);
   static void   write_handler(void *this_ptr, Bit32u address, Bit32u value, unsigned io_len);
 #if !BX_USE_PIT_SMF

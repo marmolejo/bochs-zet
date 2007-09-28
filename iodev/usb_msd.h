@@ -35,9 +35,8 @@ public:
   virtual void handle_reset();
   virtual int handle_control(int request, int value, int index, int length, Bit8u *data);
   virtual int handle_data(USBPacket *p);
-#if BX_SUPPORT_SAVE_RESTORE
   virtual void register_state_specific(bx_list_c *parent);
-#endif
+
 protected:
   void copy_data();
   void send_status();
@@ -58,9 +57,7 @@ private:
     device_image_t *hdimage;
     scsi_device_t *scsi_dev;
     USBPacket *packet;
-#if BX_SUPPORT_SAVE_RESTORE
     bx_list_c *sr_list;
-#endif
   } s;
 };
 

@@ -108,10 +108,9 @@ void bx_busm_c::init(void)
   BX_INFO(("Initialized BusMouse"));
 }
 
-#if BX_SUPPORT_SAVE_RESTORE
 void bx_busm_c::register_state(void)
 {
-  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "busmouse", "Busmouse State", 12);
+  bx_list_c *list = new bx_list_c(SIM->get_bochs_root(), "busmouse", "Busmouse State", 12);
   BXRS_HEX_PARAM_FIELD(list, mouse_delayed_dx, BX_BUSM_THIS mouse_delayed_dx);
   BXRS_HEX_PARAM_FIELD(list, mouse_delayed_dx, BX_BUSM_THIS mouse_delayed_dy);
   BXRS_HEX_PARAM_FIELD(list, current_x, BX_BUSM_THIS current_x);
@@ -134,7 +133,6 @@ void bx_busm_c::register_state(void)
   BXRS_HEX_PARAM_FILED(list, cur_command, BX_BUSM_THIS cur_command);
   BXRS_HEX_PARAM_FILED(list, command_val, BX_BUSM_THIS command_val);
 }
-#endif
 
 // static IO port read callback handler
 // redirects to non-static class handler to avoid virtual functions

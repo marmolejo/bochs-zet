@@ -1714,8 +1714,6 @@ void BX_CPU_C::WRMSR(bxInstruction_c *i)
 
 #if BX_SUPPORT_SEP
     case BX_MSR_SYSENTER_CS: {
-      // not a bug according to book ... but very stOOpid
-      if (EAX & 3) BX_PANIC(("writing sysenter_cs_msr with non-kernel mode selector %X", EAX));
       BX_CPU_THIS_PTR msr.sysenter_cs_msr  = EAX;
       return;
     }

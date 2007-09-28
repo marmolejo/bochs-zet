@@ -214,11 +214,9 @@ public:
   virtual void init(void);
   virtual void reset(unsigned type);
   virtual void print_info (FILE *file, int page, int reg, int nodups);
-#if BX_SUPPORT_SAVE_RESTORE
   virtual void register_state(void);
 #if BX_SUPPORT_PCI
   virtual void after_restore_state(void);
-#endif
 #endif
 
 #if BX_SUPPORT_PCI

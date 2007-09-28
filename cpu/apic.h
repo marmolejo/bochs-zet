@@ -178,9 +178,7 @@ public:
   void periodic(void);
   void set_divide_configuration(Bit32u value);
   void set_initial_timer_count(Bit32u value);
-#if BX_SUPPORT_SAVE_RESTORE
   void register_state(bx_param_c *parent);
-#endif
 };
 
 #endif /* BX_INCLUDE_LOCAL_APIC */

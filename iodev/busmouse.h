@@ -54,9 +54,7 @@ public:
   virtual void init(void);
   virtual void reset(unsigned type) {}
   virtual void bus_mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state);
-#if BX_SUPPORT_SAVE_RESTORE
   virtual void register_state(void);
-#endif
 
 private:
   static void timer_handler(void *);

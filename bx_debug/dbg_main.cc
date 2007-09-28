@@ -976,16 +976,12 @@ void bx_dbg_show_command(const char* arg)
 
 void bx_dbg_show_param_command(char *param)
 {
-#if BX_SUPPORT_SAVE_RESTORE
   // remove leading and trailing quotas
   if (param[0]=='\"') param++;
   unsigned len = strlen(param);
   if (param[len - 1] == '\"') param[len - 1] = '\0';
   dbg_printf("show param name: <%s>\n", param);
-  print_tree(SIM->get_param(param, SIM->get_sr_root()), 0);
-#else
-  dbg_printf("You must compile with save/restore to use this command !\n");
-#endif
+  print_tree(SIM->get_param(param, SIM->get_bochs_root()), 0);
 }
 
 // return non zero to cause a stop

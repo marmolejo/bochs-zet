@@ -274,14 +274,13 @@ void bx_keyb_c::reset(unsigned type)
   }
 }
 
-#if BX_SUPPORT_SAVE_RESTORE
 void bx_keyb_c::register_state(void)
 {
   int i;
   char name[4];
   bx_list_c *buffer;
 
-  bx_list_c *list = new bx_list_c(SIM->get_sr_root(), "keyboard", "Keyboard State", 7);
+  bx_list_c *list = new bx_list_c(SIM->get_bochs_root(), "keyboard", "Keyboard State", 7);
   bx_list_c *ctrl = new bx_list_c(list, "controller", 23);
   BXRS_PARAM_BOOL(ctrl, tim, BX_KEY_THIS s.kbd_controller.tim);
   BXRS_PARAM_BOOL(ctrl, auxb, BX_KEY_THIS s.kbd_controller.auxb);
@@ -359,7 +358,6 @@ void bx_keyb_c::after_restore_state(void)
     bx_gui->statusbar_setitem(BX_KEY_THIS statusbar_id[2], value & 0x01);
   }
 }
-#endif
 
 Bit64s bx_keyb_c::kbd_param_handler(bx_param_c *param, int set, Bit64s val)
 {

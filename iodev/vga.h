@@ -144,10 +144,8 @@ public:
   virtual void   mem_write(Bit32u addr, Bit8u value);
   virtual void   trigger_timer(void *this_ptr);
   virtual void   dump_status(void);
-#if BX_SUPPORT_SAVE_RESTORE
   virtual void   register_state(void);
   virtual void   after_restore_state(void);
-#endif
 
 #if BX_SUPPORT_VBE
   BX_VGA_SMF Bit8u  vbe_mem_read(Bit32u addr) BX_CPP_AttrRegparmN(1);

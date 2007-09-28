@@ -69,9 +69,7 @@ public:
   virtual ~bx_parallel_c();
   virtual void init(void);
   virtual void reset(unsigned type);
-#if BX_SUPPORT_SAVE_RESTORE
   virtual void register_state(void);
-#endif
 
 private:
   bx_par_t s[BX_PARPORT_MAXDEV];

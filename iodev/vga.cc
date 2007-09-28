@@ -402,14 +402,13 @@ void bx_vga_c::reset(unsigned type)
   }
 }
 
-#if BX_SUPPORT_SAVE_RESTORE
 void bx_vga_c::register_state(void)
 {
   unsigned i;
   char name[6];
   bx_list_c *parent, *reg;
 
-  parent = SIM->get_sr_root();
+  parent = SIM->get_bochs_root();
 #if BX_SUPPORT_CLGD54XX
   if (!strcmp(SIM->get_param_string(BXPN_VGA_EXTENSION)->getptr(), "cirrus")) {
     parent = (bx_list_c*)SIM->get_param("svga_cirrus", parent);;
@@ -554,7 +553,6 @@ void bx_vga_c::after_restore_state(void)
   BX_VGA_THIS update();
   bx_gui->flush();
 }
-#endif
 
 void bx_vga_c::determine_screen_dimensions(unsigned *piHeight, unsigned *piWidth)
 {
