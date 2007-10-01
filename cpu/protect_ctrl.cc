@@ -77,7 +77,6 @@ void BX_CPU_C::LAR_GvEw(bxInstruction_c *i)
   if (real_mode() || v8086_mode()) {
     BX_ERROR(("LAR: not recognized in real or virtual-8086 mode"));
     UndefinedOpcode(i);
-    return;
   }
 
   if (i->modC0()) {

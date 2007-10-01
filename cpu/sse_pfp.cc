@@ -2972,6 +2972,7 @@ void BX_CPU_C::ADDSUBPS_VpsWps(bxInstruction_c *i)
 #endif
 }
 
+// for 3-byte opcodes
 #if (BX_SUPPORT_SSE >= 4) || (BX_SUPPORT_SSE >= 3 && BX_SUPPORT_SSE_EXTENSION > 0)
 
 /* 66 0F 3A 08 */
