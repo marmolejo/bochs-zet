@@ -157,7 +157,11 @@ Bit32u BX_CPU_C::get_extended_cpuid_features()
 #endif
 
 #if BX_SUPPORT_SSE >= 4
-  features |= (1<<19);  // support SSE4
+  features |= (1<<19);  // support SSE4.1
+#endif
+
+#if (BX_SUPPORT_SSE >= 5) || (BX_SUPPORT_SSE >= 4 && BX_SUPPORT_SSE_EXTENSION > 0)
+  features |= (1<<20);  // support SSE4.2 (SSE4E)
 #endif
 
 #if BX_SUPPORT_POPCNT || (BX_SUPPORT_SSE >= 5) || (BX_SUPPORT_SSE >= 4 && BX_SUPPORT_SSE_EXTENSION > 0)
