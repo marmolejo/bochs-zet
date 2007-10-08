@@ -2976,7 +2976,11 @@ void bx_hard_drive_c::identify_drive(Bit8u channel)
   // Word 54: # of user-addressable cylinders in curr xlate mode
   // Word 55: # of user-addressable heads in curr xlate mode
   // Word 56: # of user-addressable sectors/track in curr xlate mode
-  BX_SELECTED_DRIVE(channel).id_drive[54] = BX_SELECTED_DRIVE(channel).hard_drive->cylinders;
+  if (BX_SELECTED_DRIVE(channel).hard_drive->cylinders > 16383) {
+    BX_SELECTED_DRIVE(channel).id_drive[54] = 16383;
+  } else {
+    BX_SELECTED_DRIVE(channel).id_drive[54] = BX_SELECTED_DRIVE(channel).hard_drive->cylinders;
+  }
   BX_SELECTED_DRIVE(channel).id_drive[55] = BX_SELECTED_DRIVE(channel).hard_drive->heads;
   BX_SELECTED_DRIVE(channel).id_drive[56] = BX_SELECTED_DRIVE(channel).hard_drive->sectors;
 
