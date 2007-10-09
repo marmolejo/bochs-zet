@@ -208,6 +208,10 @@ void disassembler::print_disassembly_intel(const x86_insn *insn, const BxDisasmO
     dis_sprintf(", ");
     (this->*entry->Operand3)(insn);
   }
+  if (entry->Operand4) {
+    dis_sprintf(", ");
+    (this->*entry->Operand4)(insn);
+  }
 }
 
 //////////////////
@@ -241,6 +245,10 @@ void disassembler::print_disassembly_att(const x86_insn *insn, const BxDisasmOpc
   // print opcode
   dis_sprintf("%s ", entry->AttOpcode);
 
+  if (entry->Operand4) {                                         
+    (this->*entry->Operand4)(insn);
+    dis_sprintf(", ");
+  }
   if (entry->Operand3) {                                         
     (this->*entry->Operand3)(insn);
     dis_sprintf(", ");
