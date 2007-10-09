@@ -676,7 +676,7 @@ void bx_dma_c::control_HRQ(bx_bool ma_sl)
 void bx_dma_c::raise_HLDA(void)
 {
   unsigned channel;
-  Bit32u phy_addr;
+  bx_phy_address phy_addr;
   bx_bool count_expired = 0;
   bx_bool ma_sl = 0;
 

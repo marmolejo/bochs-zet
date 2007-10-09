@@ -231,8 +231,8 @@ void print_tree(bx_param_c *node, int level = 0);
         if (bx_guard.report.irq) bx_dbg_iac_report(vector, irq)
 #  define BX_DBG_A20_REPORT(val) \
         if (bx_guard.report.a20) bx_dbg_a20_report(val)
-#  define BX_DBG_IO_REPORT(addr, size, op, val) \
-        if (bx_guard.report.io) bx_dbg_io_report(addr, size, op, val)
+#  define BX_DBG_IO_REPORT(port, size, op, val) \
+        if (bx_guard.report.io) bx_dbg_io_report(port, size, op, val)
 #  define BX_DBG_UCMEM_REPORT(addr, size, op, val) \
         if (bx_guard.report.ucmem) bx_dbg_ucmem_report(addr, size, op, val)
 #else  // #if BX_DEBUGGER

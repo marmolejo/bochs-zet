@@ -1141,7 +1141,7 @@ public: // for now...
 #endif
 
 #if BX_DEBUGGER
-  Bit32u watchpoint;
+  bx_phy_address watchpoint;
   Bit8u break_point;
 #if BX_MAGIC_BREAKPOINT
   Bit8u magic_break;
