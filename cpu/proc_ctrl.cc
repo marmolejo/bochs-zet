@@ -190,7 +190,7 @@ void BX_CPU_C::CLFLUSH(bxInstruction_c *i)
 
 #if BX_SUPPORT_CLFLUSH
   // check if we could access the memory
-  read_virtual_checks(&BX_CPU_THIS_PTR sregs[i->seg()], RMAddr(i), 1);
+  execute_virtual_checks(&BX_CPU_THIS_PTR sregs[i->seg()], RMAddr(i), 1);
 #else
   BX_INFO(("CLFLUSH: not supported, enable with SSE2"));
   UndefinedOpcode(i);

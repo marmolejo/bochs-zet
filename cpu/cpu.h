@@ -2745,6 +2745,7 @@ public: // for now...
 
   BX_SMF void write_virtual_checks(bx_segment_reg_t *seg, bx_address offset, unsigned length) BX_CPP_AttrRegparmN(3);
   BX_SMF void read_virtual_checks(bx_segment_reg_t *seg, bx_address offset, unsigned length) BX_CPP_AttrRegparmN(3);
+  BX_SMF void execute_virtual_checks(bx_segment_reg_t *seg, bx_address offset, unsigned length) BX_CPP_AttrRegparmN(3);
   BX_SMF void write_virtual_byte(unsigned seg, bx_address offset, Bit8u *data) BX_CPP_AttrRegparmN(3);
   BX_SMF void write_virtual_word(unsigned seg, bx_address offset, Bit16u *data) BX_CPP_AttrRegparmN(3);
   BX_SMF void write_virtual_dword(unsigned seg, bx_address offset, Bit32u *data) BX_CPP_AttrRegparmN(3);
