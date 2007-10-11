@@ -260,7 +260,8 @@ void bx_dbg_info_bpoints_command(void);
 void bx_dbg_quit_command(void);
 #define BX_INFO_CPU_REGS 1   /* bitmasks - choices for bx_dbg_info_registers_command */
 #define BX_INFO_FPU_REGS 2
-#define BX_INFO_SSE_REGS 4
+#define BX_INFO_MMX_REGS 4
+#define BX_INFO_SSE_REGS 8
 void bx_dbg_info_registers_command(int); 
 void bx_dbg_info_dirty_command(void);
 void bx_dbg_info_ivt_command(unsigned from, unsigned to);

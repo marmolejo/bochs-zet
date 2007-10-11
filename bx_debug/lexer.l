@@ -74,6 +74,7 @@ regs		|
 registers       { bxlval.sval = strdup(bxtext); return(BX_TOKEN_REGISTERS); }
 fpu             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_FPU); }
 sse             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_SSE); }
+mmx             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_MMX); }
 cpu             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_CPU); }
 all             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_ALL); }
 idt		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_IDT); }
