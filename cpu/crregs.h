@@ -106,6 +106,17 @@ struct bx_cr4_t {
   #define CR4_VME_ENABLED (0)
 #endif
 
+#if BX_SUPPORT_X86_64
+typedef struct bx_efer_t {
+  // x86-64 EFER bits
+  bx_bool sce;		// system call extensions
+  bx_bool lme;		// long mode enable
+  bx_bool lma;		// long mode active
+  bx_bool nxe;		// no-execute enable
+  bx_bool ffxsr;	// fast FXSAVE/FXRSTOR
+} bx_efer_t;
+#endif
+
 #undef IMPLEMENT_CRREG_ACCESSORS
 
 #endif
