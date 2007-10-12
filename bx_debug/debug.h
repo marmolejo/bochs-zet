@@ -377,7 +377,7 @@ typedef struct {
 
   // instruction address breakpoints
   struct {
-#if BX_DBG_SUPPORT_VIR_BPOINT
+#if (BX_DBG_MAX_VIR_BPOINTS > 0)
     unsigned num_virtual;
     struct {
       Bit32u cs;  // only use 16 bits
@@ -387,7 +387,7 @@ typedef struct {
     } vir[BX_DBG_MAX_VIR_BPOINTS];
 #endif
 
-#if BX_DBG_SUPPORT_LIN_BPOINT
+#if (BX_DBG_MAX_LIN_BPOINTS > 0)
     unsigned num_linear;
     struct {
       bx_address addr;
@@ -396,7 +396,7 @@ typedef struct {
     } lin[BX_DBG_MAX_LIN_BPOINTS];
 #endif
 
-#if BX_DBG_SUPPORT_PHY_BPOINT
+#if (BX_DBG_MAX_PHY_BPOINTS > 0)
     unsigned num_physical;
     struct {
       bx_phy_address addr; // physical address is 32 bits only

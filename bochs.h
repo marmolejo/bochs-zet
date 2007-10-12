@@ -451,7 +451,7 @@ typedef struct {
   bx_bool cdrom;
 #if BX_MAGIC_BREAKPOINT
   bx_bool magic_break_enabled;
-#endif /* BX_MAGIC_BREAKPOINT */
+#endif
 #if BX_GDBSTUB
   bx_bool gdbstub_enabled;
 #endif
