@@ -35,7 +35,7 @@ void BX_CPU_C::ARPL_EwGw(bxInstruction_c *i)
   Bit16u op2_16, op1_16;
 
   if (real_mode() || v8086_mode()) {
-    BX_ERROR(("ARPL: not recognized in real or virtual-8086 mode"));
+    BX_DEBUG(("ARPL: not recognized in real or virtual-8086 mode"));
     UndefinedOpcode(i);
   }
 
