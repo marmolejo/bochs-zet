@@ -749,6 +749,9 @@ void BX_CPU_C::reset(unsigned source)
 
   UNUSED(source); // either BX_RESET_HARDWARE or BX_RESET_SOFTWARE
 
+  // initialize CPUID values
+  set_cpuid_defaults();
+
 #if BX_SUPPORT_X86_64
   RAX = 0; // processor passed test :-)
   RBX = 0;
