@@ -755,7 +755,12 @@ void BX_CPU_C::reset(unsigned source)
 {
   unsigned i;
 
-  UNUSED(source); // either BX_RESET_HARDWARE or BX_RESET_SOFTWARE
+  if (source == BX_RESET_HARDWARE)
+    BX_INFO(("cpu hardware reset"));
+  else if (source == BX_RESET_SOFTWARE)
+    BX_INFO(("cpu software reset"));
+  else
+    BX_INFO(("cpu reset"));
 
   // initialize CPUID values
   set_cpuid_defaults();
