@@ -50,24 +50,16 @@ bxPageWriteStampTable pageWriteStampTable;
 
 void purgeICaches(void)
 {
-#if BX_SUPPORT_SMP
   for (unsigned i=0; i<BX_SMP_PROCESSORS; i++)
     BX_CPU(i)->iCache.purgeICacheEntries();
-#else
-  BX_CPU(0)->iCache.purgeICacheEntries();
-#endif
 
   pageWriteStampTable.purgeWriteStamps();
 }
 
 void flushICaches(void)
 {
-#if BX_SUPPORT_SMP
   for (unsigned i=0; i<BX_SMP_PROCESSORS; i++)
     BX_CPU(i)->iCache.flushICacheEntries();
-#else
-  BX_CPU(0)->iCache.flushICacheEntries();
-#endif
 
   pageWriteStampTable.resetWriteStamps();
 }
