@@ -98,7 +98,7 @@ BX_CPU_C::load_cs(bx_selector_t *selector, bx_descriptor_t *descriptor, Bit8u cp
   /* caller may request different CPL then in selector */
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.rpl = cpl;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.valid  = 1;
-  // Added cpl to the selector value.
+  // Add cpl to the selector value.
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value =
     (0xfffc & BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value) | cpl;
 

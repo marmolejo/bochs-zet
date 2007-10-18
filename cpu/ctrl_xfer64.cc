@@ -183,8 +183,6 @@ void BX_CPU_C::CALL64_Ep(bxInstruction_c *i)
 
   BX_ASSERT(protected_mode());
 
-  BX_INFO(("CallFar64 instruction executed ..."));
-
   BX_CPU_THIS_PTR call_protected(i, cs_raw, op1_32);
 
   BX_INSTR_FAR_BRANCH(BX_CPU_ID, BX_INSTR_IS_CALL,
@@ -273,8 +271,6 @@ void BX_CPU_C::JMP64_Ep(bxInstruction_c *i)
 
   read_virtual_dword(i->seg(), RMAddr(i), &op1_32);
   read_virtual_word(i->seg(), RMAddr(i)+4, &cs_raw);
-
-  BX_INFO(("JmpFar64 instruction executed ..."));
 
   BX_ASSERT(protected_mode());
   BX_CPU_THIS_PTR jump_protected(i, cs_raw, op1_32);

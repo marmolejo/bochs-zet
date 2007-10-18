@@ -643,6 +643,10 @@ BX_CPU_C::load_ss(bx_selector_t *selector, bx_descriptor_t *descriptor, Bit8u cp
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache = *descriptor;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].selector.rpl = cpl;
 
+  // Add cpl to the selector value.
+  BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].selector.value =
+    (0xfffc & BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].selector.value) | cpl;
+
 #if BX_SUPPORT_X86_64
   if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64) {
     loadSRegLMNominal(BX_SEG_REG_SS, selector->value, cpl);
