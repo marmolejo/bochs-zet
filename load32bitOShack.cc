@@ -236,7 +236,7 @@ void bx_load_null_kernel_hack(void)
 
   // EIP deltas
   BX_CPU(0)->prev_eip =
-  BX_CPU(0)->dword.eip = 0x00100000;
+  BX_CPU(0)->eip_reg.dword.eip = 0x00100000;
 
   // CS deltas
   BX_CPU(0)->sregs[BX_SEG_REG_CS].cache.u.segment.base = 0x00000000;

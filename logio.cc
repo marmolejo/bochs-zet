@@ -196,7 +196,7 @@ void iofunctions::out(int f, int l, const char *prefix, const char *fmt, va_list
             break;
           case 'i':
 #if BX_SUPPORT_SMP == 0
-            fprintf(logfd, "%08x", BX_CPU(0)->dword.eip);
+            fprintf(logfd, "%08x", BX_CPU(0)->eip_reg.dword.eip);
 #endif
             break;
           case 'e':
