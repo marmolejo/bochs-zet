@@ -2828,7 +2828,7 @@ public: // for now...
   BX_SMF void write_new_stack_dword(bx_segment_reg_t *seg, bx_address offset, bx_bool user, Bit32u data);
   // write of qword to new stack could happen only in 64-bit mode
   // (so stack segment is not relavant)
-  BX_SMF void write_new_stack_qword(bx_address offset, Bit64u data);
+  BX_SMF void write_new_stack_qword(bx_address offset, bx_bool user, Bit64u data);
 
 #if BX_SUPPORT_MISALIGNED_SSE
 
