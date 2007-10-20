@@ -152,12 +152,12 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
         continue;
 
       case 0xf2:     // repne
-        if (!sse_prefix) sse_prefix = SSE_PREFIX_F2;
+        sse_prefix = SSE_PREFIX_F2;
         rex_prefix = 0;
         continue;
 
       case 0xf3:     // rep
-        if (!sse_prefix) sse_prefix = SSE_PREFIX_F3;
+        sse_prefix = SSE_PREFIX_F3;
         rex_prefix = 0;
         continue;
 
