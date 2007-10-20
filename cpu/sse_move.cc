@@ -1354,6 +1354,31 @@ void BX_CPU_C::PMOVSXDQ_VdqWq(bxInstruction_c *i)
 #endif
 }
 
+/* 66 0F 38 2A */
+void BX_CPU_C::MOVNTDQA_VdqMdq(bxInstruction_c *i)
+{
+#if BX_SUPPORT_SSE >= 4
+  /* source must be memory reference */
+  if (i->modC0()) {
+    BX_INFO(("MOVNTDQA_VdqMdq: must be memory reference"));
+    UndefinedOpcode(i);
+  }
+
+  BX_CPU_THIS_PTR prepareSSE();
+
+  BxPackedXmmRegister op;
+
+  read_virtual_dqword_aligned(i->seg(), RMAddr(i), (Bit8u *) &op);
+
+  /* now write result back to destination */
+  BX_WRITE_XMM_REG(i->nnn(), op);
+
+#else
+  BX_INFO(("MOVNTDQA_VdqMdq: required SSE4, use --enable-sse option"));
+  UndefinedOpcode(i);
+#endif
+}
+
 /* 66 0F 38 30 */
 void BX_CPU_C::PMOVZXBW_VdqWq(bxInstruction_c *i)
 {
