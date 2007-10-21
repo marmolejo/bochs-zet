@@ -1049,8 +1049,8 @@ AC_ARG_ENABLE(host-specific-asms,
     speedup_host_specific_asms=0
    fi],
   [
-    AC_MSG_RESULT(yes)
-    speedup_host_specific_asms=1
+    AC_MSG_RESULT(no)
+    speedup_host_specific_asms=0
     ]
   )
 
@@ -1259,7 +1259,6 @@ if test "$speedups_all" = 1; then
   speedup_guest2host_tlb=1
   speedup_repeat=1
   speedup_iCache=1
-  speedup_host_specific_asms=1
   speedup_fastcall=1
 fi
 

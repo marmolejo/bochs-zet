@@ -638,15 +638,13 @@ void BX_CPU_C::CMPXCHG16B(bxInstruction_c *i)
   diff |= RDX - op1_64_hi;
 
   if (diff == 0) {  // if accumulator == dest
-    // ZF = 1
-    set_ZF(1);
+    assert_ZF();
     // dest <-- src
     write_RMW_virtual_qword(RCX);
     write_virtual_qword(i->seg(), RMAddr(i), &RBX);
   }
   else {
-    // ZF = 0
-    set_ZF(0);
+    clear_ZF();
     // accumulator <-- dest
     RAX = op1_64_lo;
     RDX = op1_64_hi;

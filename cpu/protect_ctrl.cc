@@ -59,10 +59,10 @@ void BX_CPU_C::ARPL_EwGw(bxInstruction_c *i)
     else {
       write_RMW_virtual_word(op1_16);
     }
-    set_ZF(1);
+    assert_ZF();
   }
   else {
-    set_ZF(0);
+    clear_ZF();
   }
 }
 
