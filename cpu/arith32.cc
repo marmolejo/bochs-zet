@@ -529,20 +529,20 @@ void BX_CPU_C::CMP_EdId(bxInstruction_c *i)
 
 void BX_CPU_C::NEG_Ed(bxInstruction_c *i)
 {
-  Bit32u op1_32, diff_32;
+  Bit32u op1_32;
 
   if (i->modC0()) {
     op1_32 = BX_READ_32BIT_REG(i->rm());
-    diff_32 = -op1_32;
-    BX_WRITE_32BIT_REGZ(i->rm(), diff_32);
+    op1_32 = -op1_32;
+    BX_WRITE_32BIT_REGZ(i->rm(), op1_32);
   }
   else {
     read_RMW_virtual_dword(i->seg(), RMAddr(i), &op1_32);
-    diff_32 = -op1_32;
-    write_RMW_virtual_dword(diff_32);
+    op1_32 = -op1_32;
+    write_RMW_virtual_dword(op1_32);
   }
 
-  SET_FLAGS_OSZAPC_RESULT_32(diff_32, BX_INSTR_NEG32);
+  SET_FLAGS_OSZAPC_RESULT_32(op1_32, BX_INSTR_NEG32);
 }
 
 void BX_CPU_C::INC_Ed(bxInstruction_c *i)
