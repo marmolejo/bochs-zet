@@ -655,7 +655,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
   /* E5 */ { BxImmediate_Ib, &BX_CPU_C::IN_AXIb },
   /* E6 */ { BxImmediate_Ib, &BX_CPU_C::OUT_IbAL },
   /* E7 */ { BxImmediate_Ib, &BX_CPU_C::OUT_IbAX },
-  /* E8 */ { BxImmediate_BrOff16, &BX_CPU_C::CALL_Aw },
+  /* E8 */ { BxImmediate_BrOff16, &BX_CPU_C::CALL_Jw },
   /* E9 */ { BxImmediate_BrOff16, &BX_CPU_C::JMP_Jw },
   /* EA */ { BxImmediate_IvIw, &BX_CPU_C::JMP_Ap },
   /* EB */ { BxImmediate_BrOff8, &BX_CPU_C::JMP_Jw },
@@ -1213,7 +1213,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
   /* E5 */ { BxImmediate_Ib, &BX_CPU_C::IN_EAXIb },
   /* E6 */ { BxImmediate_Ib, &BX_CPU_C::OUT_IbAL },
   /* E7 */ { BxImmediate_Ib, &BX_CPU_C::OUT_IbEAX },
-  /* E8 */ { BxImmediate_BrOff32, &BX_CPU_C::CALL_Ad },
+  /* E8 */ { BxImmediate_BrOff32, &BX_CPU_C::CALL_Jd },
   /* E9 */ { BxImmediate_BrOff32, &BX_CPU_C::JMP_Jd },
   /* EA */ { BxImmediate_IvIw, &BX_CPU_C::JMP_Ap },
   /* EB */ { BxImmediate_BrOff8, &BX_CPU_C::JMP_Jd },
@@ -1997,6 +1997,15 @@ modrm_done:
         if ((ilen+1) < remain) {
           instruction->modRMForm.Id = (Bit16s) FetchWORD(iptr);
           ilen += 2;
+        }
+        else {
+          return(0);
+        }
+        break;
+      case BxImmediate_BrOff32:
+        if ((ilen+3) < remain) {
+          instruction->modRMForm.Id = (Bit32s) FetchDWORD(iptr);
+          ilen += 4;
         }
         else {
           return(0);

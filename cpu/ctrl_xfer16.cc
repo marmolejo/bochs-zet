@@ -144,7 +144,7 @@ done:
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, EIP);
 }
 
-void BX_CPU_C::CALL_Aw(bxInstruction_c *i)
+void BX_CPU_C::CALL_Jw(bxInstruction_c *i)
 {
   Bit32u new_EIP;
 
@@ -157,7 +157,7 @@ void BX_CPU_C::CALL_Aw(bxInstruction_c *i)
 
   if (new_EIP > BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.limit_scaled)
   {
-    BX_ERROR(("CALL_Aw: new_IP > BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].limit"));
+    BX_ERROR(("CALL_Jw: new_IP > BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].limit"));
     exception(BX_GP_EXCEPTION, 0, 0);
   }
 

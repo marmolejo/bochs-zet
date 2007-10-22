@@ -125,7 +125,7 @@ done:
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, EIP);
 }
 
-void BX_CPU_C::CALL_Ad(bxInstruction_c *i)
+void BX_CPU_C::CALL_Jd(bxInstruction_c *i)
 {
 #if BX_DEBUGGER
   BX_CPU_THIS_PTR show_flag |= Flag_call;
@@ -133,8 +133,8 @@ void BX_CPU_C::CALL_Ad(bxInstruction_c *i)
 
   Bit32u new_EIP = EIP + i->Id();
 
-  if ( new_EIP > BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.limit_scaled ) {
-    BX_ERROR(("CALL_Ad: offset outside of CS limits"));
+  if (new_EIP > BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.limit_scaled) {
+    BX_ERROR(("CALL_Jd: offset outside of CS limits"));
     exception(BX_GP_EXCEPTION, 0, 0);
   }
 
