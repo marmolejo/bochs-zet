@@ -532,7 +532,7 @@ void BX_CPU_C::print_state_FPU()
 #else
     f *= fp.fraction*scale_factor;
 #endif
-    fprintf(stderr, "%sFPR%d(%c):        %.10f (raw 0x%04x:%08x%08x)\n",
+    fprintf(stderr, "%sFPR%d(%c):        %.10f (raw 0x%04x:%08lx%08lx)\n",
           i==tos?"=>":"  ",
           i, 
           "v0s?"[BX_CPU_THIS_PTR the_i387.FPU_gettagi((i-tos)&7)],

@@ -488,7 +488,7 @@ plugin_startup(void)
 /* Plugin system: Device registration                                   */
 /************************************************************************/
 
-void pluginRegisterDeviceDevmodel(plugin_t *plugin, plugintype_t type, bx_devmodel_c *devmodel, char *name)
+void pluginRegisterDeviceDevmodel(plugin_t *plugin, plugintype_t type, bx_devmodel_c *devmodel, const char *name)
 {
     device_t *device;
 

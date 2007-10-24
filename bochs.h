@@ -278,7 +278,7 @@ public:
 #else
 	void ask (int level, const char *prefix, const char *fmt, va_list ap);
 #endif
-	void put(char *);
+	void put(const char *);
 	void settype(int);
 	void setio(class iofunctions *);
 	void setonoff(int loglev, int value) {
@@ -354,16 +354,16 @@ public:
                 else return "?";
 	}
 	char *getaction(int i) {
-	   static char *name[] = { "ignore", "report", "ask", "fatal" };
+	   static const char *name[] = { "ignore", "report", "ask", "fatal" };
 	   assert (i>=ACT_IGNORE && i<N_ACT);
-	   return name[i];
+	   return (char *) name[i];
 	}
 
 protected:
 	int n_logfn;
 #define MAX_LOGFNS 128
 	logfunc_t *logfn_list[MAX_LOGFNS];
-	char *logfn;
+	const char *logfn;
 };
 
 typedef class BOCHSAPI iofunctions iofunc_t;
