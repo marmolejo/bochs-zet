@@ -237,7 +237,7 @@ void bx_vga_c::init(void)
 
   memset(argv, 0, sizeof(argv));
   argc = 1;
-  argv[0] = "bochs";
+  argv[0] = (char *)"bochs";
   len = strlen(SIM->get_param_string(BXPN_DISPLAYLIB_OPTIONS)->getptr());
   if (len > 0) {
     char *options = new char[len + 1];

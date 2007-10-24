@@ -238,8 +238,8 @@ bx_serial_c::init(void)
       }
 
       BX_SER_THIS s[i].io_mode = BX_SER_MODE_NULL;
-      char *mode = SIM->get_param_enum("mode", base)->get_selected();
-      char *dev = SIM->get_param_string("dev", base)->getptr();
+      const char *mode = SIM->get_param_enum("mode", base)->get_selected();
+      const char *dev = SIM->get_param_string("dev", base)->getptr();
       if (!strcmp(mode, "file")) {
         if (strlen(dev) > 0) {
           BX_SER_THIS s[i].output = fopen(dev, "wb");
