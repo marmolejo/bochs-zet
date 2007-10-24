@@ -54,7 +54,7 @@ bx_gui_c *bx_gui = NULL;
 #define N_USER_KEYS 36
 
 typedef struct {
-  char *key;
+  const char *key;
   Bit32u symbol;
 } user_key_t;
 

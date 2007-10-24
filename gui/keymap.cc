@@ -29,7 +29,7 @@
 
 // Table of bochs "BX_KEY_*" symbols
 // the table must be in BX_KEY_* order
-char *bx_key_symbol[BX_KEY_NBKEYS] = {
+const char *bx_key_symbol[BX_KEY_NBKEYS] = {
   "BX_KEY_CTRL_L",         "BX_KEY_SHIFT_L",        "BX_KEY_F1",
   "BX_KEY_F2",             "BX_KEY_F3",             "BX_KEY_F4",
   "BX_KEY_F5",             "BX_KEY_F6",             "BX_KEY_F7",
@@ -305,7 +305,7 @@ BXKeyEntry *bx_keymap_c::findAsciiChar(Bit8u ch)
   return NULL;
 }
 
-char *bx_keymap_c::getBXKeyName(Bit32u key)
+const char *bx_keymap_c::getBXKeyName(Bit32u key)
 {
   return bx_key_symbol[key & 0x7fffffff];
 }

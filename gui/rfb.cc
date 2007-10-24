@@ -107,7 +107,7 @@ static struct {
 } rfbBitmaps[BX_MAX_PIXMAPS];
 
 static unsigned rfbHeaderbarBitmapCount = 0;
-struct {
+struct _rfbHeaderbarBitmaps {
     unsigned int index;
     unsigned int xorigin;
     unsigned int yorigin;

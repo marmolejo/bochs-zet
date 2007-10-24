@@ -255,7 +255,7 @@ typedef union {
 
 typedef struct {
         U32 id;
-        char *name;
+        const char *name;
 } rfbEncodingType;
 
 rfbEncodingType rfbEncodings[] = {
