@@ -551,7 +551,7 @@ bx_bool BX_MEM_C::dbg_set_mem(bx_phy_address addr, unsigned len, Bit8u *buf)
       }
     }
 #endif  // #if BX_SUPPORT_PCI
-    else if ((addr & 0xfffc0000) != 0x000c0000 && (addr < ~BIOS_MASK))
+    else if ((addr & 0xfffc0000) != 0x000c0000 && (addr < (bx_phy_address)(~BIOS_MASK)))
     {
       BX_MEM_THIS vector[addr] = *buf;
     }
