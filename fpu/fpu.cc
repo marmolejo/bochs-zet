@@ -45,7 +45,7 @@ void BX_CPU_C::prepareFPU(bxInstruction_c *i,
 
   if (update_last_instruction)
   {
-    BX_CPU_THIS_PTR the_i387.foo = ((Bit32u)(i->b1()) << 8) | (Bit32u)(i->modrm());
+    BX_CPU_THIS_PTR the_i387.foo = ((Bit32u)(i->b1()) << 8) | (Bit32u)(i->modrm()) & 0x7ff;
     BX_CPU_THIS_PTR the_i387.fcs = BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value;
     BX_CPU_THIS_PTR the_i387.fip = BX_CPU_THIS_PTR prev_eip;
 
