@@ -373,22 +373,20 @@ typedef class BOCHSAPI iofunctions iofunc_t;
   ((io==NULL)? (io=new iofunc_t("/dev/stderr")) : io)
 #define SAFE_GET_GENLOG() \
   ((genlog==NULL)? (genlog=new logfunc_t(SAFE_GET_IOFUNC())) : genlog)
-/* #define NO_LOGGING */
-#ifndef NO_LOGGING
 
-#define BX_INFO(x)  (LOG_THIS info) x
-#define BX_DEBUG(x) (LOG_THIS ldebug) x
-#define BX_ERROR(x) (LOG_THIS error) x
+#if BX_NO_LOGGING
+
+#define BX_INFO(x)  ;
+#define BX_DEBUG(x) ;
+#define BX_ERROR(x) ;
 #define BX_PANIC(x) (LOG_THIS panic) x
 #define BX_PASS(x) (LOG_THIS pass) x
 
 #else
 
-#define EMPTY do { } while(0)
-
-#define BX_INFO(x)  EMPTY
-#define BX_DEBUG(x) EMPTY
-#define BX_ERROR(x) EMPTY
+#define BX_INFO(x)  (LOG_THIS info) x
+#define BX_DEBUG(x) (LOG_THIS ldebug) x
+#define BX_ERROR(x) (LOG_THIS error) x
 #define BX_PANIC(x) (LOG_THIS panic) x
 #define BX_PASS(x) (LOG_THIS pass) x
 

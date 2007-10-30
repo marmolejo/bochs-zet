@@ -1409,6 +1409,22 @@ if test "$bx_plugins" = 0; then
   esac
 fi
 
+AC_MSG_CHECKING(enable logging)
+AC_ARG_ENABLE(logging,
+  [  --enable-logging                  enable logging],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_NO_LOGGING, 0)
+   else
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_NO_LOGGING, 1)
+   fi],
+  [
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_NO_LOGGING, 0)
+    ]
+  )
+
 AC_MSG_CHECKING(for raw serial support)
 AC_ARG_ENABLE(raw-serial,
   [  --enable-raw-serial               use raw serial port access],
