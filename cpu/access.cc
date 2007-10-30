@@ -31,12 +31,6 @@
 #include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
-#if BX_SUPPORT_X86_64
-#define LPFOf(laddr) ((laddr) & BX_CONST64(0xfffffffffffff000))
-#else
-#define LPFOf(laddr) ((laddr) & 0xfffff000)
-#endif
-
   void BX_CPP_AttrRegparmN(3)
 BX_CPU_C::write_virtual_checks(bx_segment_reg_t *seg, bx_address offset, unsigned length)
 {

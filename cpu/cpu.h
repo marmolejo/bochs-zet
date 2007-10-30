@@ -1216,6 +1216,7 @@ public: // for now...
 
   // for paging
 #if BX_USE_TLB
+
   struct {
     bx_TLB_entry entry[BX_TLB_SIZE]  BX_CPP_AlignN(16);
 
@@ -1226,6 +1227,13 @@ public: // for now...
 #  define BX_TLB_LPF_VALUE(lpf) (lpf)
 #endif
   } TLB;
+
+#if BX_SUPPORT_X86_64
+#define LPFOf(laddr) ((laddr) & BX_CONST64(0xfffffffffffff000))
+#else
+#define LPFOf(laddr) ((laddr) & 0xfffff000)
+#endif
+
 #endif  // #if BX_USE_TLB
 
   // An instruction cache.  Each entry should be exactly 32 bytes, and
