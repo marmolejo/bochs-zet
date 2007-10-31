@@ -87,9 +87,9 @@ int main(int argc, char **argv)
         dllVersion = PacketGetVersion();
         nDLLMajorVersion = -1;
         nDLLMinorVersion = -1;
-        for ( testString = strtok(dllVersion, ", ");
+        for ( testString = strtok(dllVersion, ",. ");
               testString != NULL;
-              testString = strtok(NULL, ", ") )
+              testString = strtok(NULL, ",. ") )
         {
                 // If Single Character, Convert
                 if ( strlen( testString ) == 1 )
@@ -111,7 +111,7 @@ int main(int argc, char **argv)
 
 	// If this is Windows NT ... And DLL Returns UNICODE
 	if(!(dwVersion >= 0x80000000 && dwMajorVersion >= 4) &&
-           !(nDLLMajorVersion >= 3 && nDLLMinorVersion >= 1))
+	   (nDLLMajorVersion < 3 || (nDLLMajorVersion == 3 && nDLLMinorVersion < 1)))
 	{
 		wstrName=(LPWSTR)AdapterInfo;
 
