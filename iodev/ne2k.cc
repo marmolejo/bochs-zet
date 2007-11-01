@@ -1507,7 +1507,7 @@ void bx_ne2k_c::init(void)
     BX_NE2K_THIS s.macaddr[i] = 0x57;
     
   // Attach to the simulated ethernet dev
-  char *ethmod = SIM->get_param_enum("ethmod", base)->get_selected();
+  const char *ethmod = SIM->get_param_enum("ethmod", base)->get_selected();
   BX_NE2K_THIS ethdev = eth_locator_c::create(ethmod,
                                               SIM->get_param_string("ethdev", base)->getptr(),
                                               (const char *) SIM->get_param_string("macaddr", base)->getptr(),
