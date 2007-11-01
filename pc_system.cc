@@ -187,6 +187,12 @@ void bx_pc_system_c::MemoryMappingChanged(void)
     BX_CPU(i)->TLB_flush(1);
 }
 
+void bx_pc_system_c::invlpg(bx_address addr)
+{
+  for (unsigned i=0; i<BX_SMP_PROCESSORS; i++)
+    BX_CPU(i)->TLB_invlpg(addr);
+}
+
 int bx_pc_system_c::Reset(unsigned type)
 {
   // type is BX_RESET_HARDWARE or BX_RESET_SOFTWARE

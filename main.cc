@@ -107,6 +107,10 @@ BOCHSAPI BX_CPU_C_PTR *bx_cpu_array = NULL;
 BOCHSAPI BX_CPU_C bx_cpu;
 #endif
 
+#if BX_PROVIDE_CPU_MEMORY==1
+BOCHSAPI BX_MEM_C bx_mem;
+#endif
+
 char *bochsrc_filename = NULL;
 
 void bx_print_header ()

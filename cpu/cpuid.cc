@@ -36,8 +36,6 @@
 #define RDX EDX
 #endif
 
-#define CACHE_LINE_SIZE 64
-
 #if BX_SUPPORT_3DNOW
   #define BX_CPU_VENDOR_INTEL 0
 #else

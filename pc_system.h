@@ -156,7 +156,6 @@ public:
   // when A20 line is disabled, mask physical memory addresses to:
   //    286:      20 bits
   //    386:      20 bits
-  //
   Bit32u  a20_mask;
 
   volatile bx_bool kill_bochs_request;
@@ -175,6 +174,7 @@ public:
   void    set_enable_a20(bx_bool value);
   bx_bool get_enable_a20(void);
   void    MemoryMappingChanged(void); // flush TLB in all CPUs
+  void    invlpg(bx_address addr);    // flush TLB page in all CPUs
   void    exit(void);
   void    register_state(void);
 };

@@ -87,6 +87,10 @@ BX_MEM_C::writePhysicalPage(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, vo
     }
   }
 
+#if BX_SUPPORT_MONITOR_MWAIT
+  BX_MEM_THIS check_monitor(a20addr, len);
+#endif
+
   memory_handler = BX_MEM_THIS memory_handlers[a20addr >> 20];
   while (memory_handler) {
     if (memory_handler->begin <= a20addr &&
