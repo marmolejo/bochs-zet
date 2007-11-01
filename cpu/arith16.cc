@@ -480,20 +480,20 @@ void BX_CPU_C::CMP_EwIw(bxInstruction_c *i)
 
 void BX_CPU_C::NEG_Ew(bxInstruction_c *i)
 {
-  Bit16u op1_16, diff_16;
+  Bit16u op1_16;
 
   if (i->modC0()) {
     op1_16 = BX_READ_16BIT_REG(i->rm());
-    diff_16 = -op1_16;
-    BX_WRITE_16BIT_REG(i->rm(), diff_16);
+    op1_16 = -op1_16;
+    BX_WRITE_16BIT_REG(i->rm(), op1_16);
   }
   else {
     read_RMW_virtual_word(i->seg(), RMAddr(i), &op1_16);
-    diff_16 = -op1_16;
-    write_RMW_virtual_word(diff_16);
+    op1_16 = -op1_16;
+    write_RMW_virtual_word(op1_16);
   }
 
-  SET_FLAGS_OSZAPC_RESULT_16(diff_16, BX_INSTR_NEG16);
+  SET_FLAGS_OSZAPC_RESULT_16(op1_16, BX_INSTR_NEG16);
 }
 
 void BX_CPU_C::INC_Ew(bxInstruction_c *i)

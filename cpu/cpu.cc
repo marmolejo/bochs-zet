@@ -452,7 +452,7 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
         // interrupt ends the HALT condition
 #if BX_SUPPORT_MONITOR_MWAIT
         if (BX_CPU_THIS_PTR debug_trap & BX_DEBUG_TRAP_MWAIT)
-          BX_MEM(0)->clear_monitor(BX_CPU_THIS_PTR bx_cpuid);
+          BX_CPU_THIS_PTR mem->clear_monitor(BX_CPU_THIS_PTR bx_cpuid);
 #endif
         BX_CPU_THIS_PTR debug_trap = 0; // clear traps for after resume
         BX_CPU_THIS_PTR inhibit_mask = 0; // clear inhibits for after resume
@@ -475,7 +475,7 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
       // interrupt ends the HALT condition
 #if BX_SUPPORT_MONITOR_MWAIT
       if (BX_CPU_THIS_PTR debug_trap & BX_DEBUG_TRAP_MWAIT)
-        BX_MEM(0)->clear_monitor(BX_CPU_THIS_PTR bx_cpuid);
+        BX_CPU_THIS_PTR mem->clear_monitor(BX_CPU_THIS_PTR bx_cpuid);
 #endif
       BX_CPU_THIS_PTR debug_trap = 0; // clear traps for after resume
       BX_CPU_THIS_PTR inhibit_mask = 0; // clear inhibits for after resume
