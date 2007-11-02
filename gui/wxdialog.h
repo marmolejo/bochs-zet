@@ -198,7 +198,7 @@ public:
   void SetFilename(wxString f);
   // Use char* instead of wxString because the array we use is already
   // expressed as a char *[].
-  void SetCapacityChoices(char *choices[]);
+  void SetCapacityChoices(const char *choices[]);
   void SetCapacity(int cap);
   int GetRadio();
   int GetCapacity() { return capacity->GetSelection(); }

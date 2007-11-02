@@ -1023,7 +1023,7 @@ void MyFrame::OnStartSim(wxCommandEvent& event)
   // with the wx config interface, but there are still some significant
   // problems.
   bx_param_enum_c *gui_param = SIM->get_param_enum(BXPN_SEL_DISPLAY_LIBRARY);
-  char *gui_name = gui_param->get_selected();
+  const char *gui_name = gui_param->get_selected();
   if (strcmp(gui_name, "wx") != 0) {
     wxMessageBox(wxT(
     "The display library was not set to wxWidgets.  When you use the\n"

@@ -251,7 +251,7 @@ void FloppyConfigDialog::SetDriveName(wxString name)
     wxT("."));
 }
 
-void FloppyConfigDialog::SetCapacityChoices(char *choices[])
+void FloppyConfigDialog::SetCapacityChoices(const char *choices[])
 {
   int i = 0;
   while (choices[i] != NULL) {
@@ -989,7 +989,7 @@ void ParamDialog::AddParam (
 	if (!plain) sizer->Add (1, 1);  // spacer
 	// fill in the choices
 	int i=0;
-	char *ptr;
+	const char *ptr;
 	while (NULL != (ptr = param->get_choice(i++)))
 	  choice->Append(wxString(ptr, wxConvUTF8));
 	choice->SetSelection (param->get() - param->get_min());
