@@ -295,6 +295,9 @@ bx_bool BX_CPU_C::get_AFLazy(void)
     case BX_LF_INDEX_OSZAPC:
       switch (BX_CPU_THIS_PTR oszapc.instr) {
         case BX_INSTR_ADD8:
+          // restore op1 and fall through into AF calculation
+          BX_CPU_THIS_PTR oszapc.op2_8 =
+             BX_CPU_THIS_PTR oszapc.result_8 - BX_CPU_THIS_PTR oszapc.op1_8;
         case BX_INSTR_ADC8:
         case BX_INSTR_SUB8:
         case BX_INSTR_SBB8:
@@ -304,6 +307,9 @@ bx_bool BX_CPU_C::get_AFLazy(void)
              BX_CPU_THIS_PTR oszapc.result_8) & 0x10;
           break;
         case BX_INSTR_ADD16:
+          // restore op1 and fall through into AF calculation
+          BX_CPU_THIS_PTR oszapc.op2_16 =
+             BX_CPU_THIS_PTR oszapc.result_16 - BX_CPU_THIS_PTR oszapc.op1_16;
         case BX_INSTR_ADC16:
         case BX_INSTR_SUB16:
         case BX_INSTR_SBB16:
@@ -313,6 +319,9 @@ bx_bool BX_CPU_C::get_AFLazy(void)
              BX_CPU_THIS_PTR oszapc.result_16) & 0x10;
           break;
         case BX_INSTR_ADD32:
+          // restore op1 and fall through into AF calculation
+          BX_CPU_THIS_PTR oszapc.op2_32 =
+             BX_CPU_THIS_PTR oszapc.result_32 - BX_CPU_THIS_PTR oszapc.op1_32;
         case BX_INSTR_ADC32:
         case BX_INSTR_SUB32:
         case BX_INSTR_SBB32:
@@ -323,6 +332,9 @@ bx_bool BX_CPU_C::get_AFLazy(void)
           break;
 #if BX_SUPPORT_X86_64
         case BX_INSTR_ADD64:
+          // restore op1 and fall through into AF calculation
+          BX_CPU_THIS_PTR oszapc.op2_64 =
+             BX_CPU_THIS_PTR oszapc.result_64 - BX_CPU_THIS_PTR oszapc.op1_64;
         case BX_INSTR_ADC64:
         case BX_INSTR_SUB64:
         case BX_INSTR_SBB64:
@@ -696,22 +708,34 @@ bx_bool BX_CPU_C::get_OFLazy(void)
     case BX_LF_INDEX_OSZAPC:
       switch (BX_CPU_THIS_PTR oszapc.instr) {
         case BX_INSTR_ADD8:
+          // restore op1 and fall through into OF calculation
+          BX_CPU_THIS_PTR oszapc.op2_8 =
+             BX_CPU_THIS_PTR oszapc.result_8 - BX_CPU_THIS_PTR oszapc.op1_8;
         case BX_INSTR_ADC8:
           of = GET_ADD_OVERFLOW(BX_CPU_THIS_PTR oszapc.op1_8, BX_CPU_THIS_PTR oszapc.op2_8,
                                 BX_CPU_THIS_PTR oszapc.result_8, 0x80);
           break;
         case BX_INSTR_ADD16:
+          // restore op1 and fall through into OF calculation
+          BX_CPU_THIS_PTR oszapc.op2_16 =
+             BX_CPU_THIS_PTR oszapc.result_16 - BX_CPU_THIS_PTR oszapc.op1_16;
         case BX_INSTR_ADC16:
           of = GET_ADD_OVERFLOW(BX_CPU_THIS_PTR oszapc.op1_16, BX_CPU_THIS_PTR oszapc.op2_16,
                                 BX_CPU_THIS_PTR oszapc.result_16, 0x8000);
           break;
         case BX_INSTR_ADD32:
+          // restore op1 and fall through into OF calculation
+          BX_CPU_THIS_PTR oszapc.op2_32 =
+             BX_CPU_THIS_PTR oszapc.result_32 - BX_CPU_THIS_PTR oszapc.op1_32;
         case BX_INSTR_ADC32:
           of = GET_ADD_OVERFLOW(BX_CPU_THIS_PTR oszapc.op1_32, BX_CPU_THIS_PTR oszapc.op2_32,
                                 BX_CPU_THIS_PTR oszapc.result_32, 0x80000000);
           break;
 #if BX_SUPPORT_X86_64
         case BX_INSTR_ADD64:
+          // restore op1 and fall through into OF calculation
+          BX_CPU_THIS_PTR oszapc.op2_64 =
+             BX_CPU_THIS_PTR oszapc.result_64 - BX_CPU_THIS_PTR oszapc.op1_64;
         case BX_INSTR_ADC64:
           of = GET_ADD_OVERFLOW(BX_CPU_THIS_PTR oszapc.op1_64, BX_CPU_THIS_PTR oszapc.op2_64,
                                 BX_CPU_THIS_PTR oszapc.result_64, BX_CONST64(0x8000000000000000));
