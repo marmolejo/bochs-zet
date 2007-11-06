@@ -124,19 +124,11 @@ union {
 #endif
   } segment;
   struct {
-    Bit8u   word_count;    /* 5bits (0..31) #words to copy from caller's stack
-                            * to called procedure's stack.  (call gates only)*/
-    Bit16u  dest_selector;
-    Bit16u  dest_offset;
-  } gate286;
-#if BX_CPU_LEVEL >= 3
-  struct {
-    Bit8u   dword_count;   /* 5bits (0..31) #dwords to copy from caller's stack
-                            * to called procedure's stack. (call gates only) */
+    Bit8u   param_count;   /* 5bits (0..31) #words/dword to copy from caller's
+                            * stack to called procedure's stack. */
     Bit16u  dest_selector;
     Bit32u  dest_offset;
-  } gate386;
-#endif
+  } gate;
   struct {                 /* type 5: Task Gate Descriptor */
     Bit16u  tss_selector;  /* TSS segment selector */
   } taskgate;

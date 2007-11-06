@@ -116,11 +116,11 @@ void BX_CPU_C::long_mode_int(Bit8u vector, bx_bool is_INT, bx_bool is_error_code
     exception(BX_NP_EXCEPTION, vector*16 + 2, 0);
   }
 
-  Bit16u gate_dest_selector = gate_descriptor.u.gate386.dest_selector;
-  Bit64u gate_dest_offset   = ((Bit64u)dword3 << 32) +
-                       gate_descriptor.u.gate386.dest_offset;
+  Bit16u gate_dest_selector = gate_descriptor.u.gate.dest_selector;
+  Bit64u gate_dest_offset   = ((Bit64u)dword3 << 32) |
+                       gate_descriptor.u.gate.dest_offset;
 
-  unsigned ist = gate_descriptor.u.gate386.dword_count & 0x7;
+  unsigned ist = gate_descriptor.u.gate.param_count & 0x7;
 
   // examine CS selector and descriptor given in gate descriptor
   // selector must be non-null else #GP(EXT)
@@ -405,14 +405,8 @@ void BX_CPU_C::protected_mode_int(Bit8u vector, bx_bool is_INT, bx_bool is_error
   case BX_286_TRAP_GATE:
   case BX_386_INTERRUPT_GATE:
   case BX_386_TRAP_GATE:
-    if (gate_descriptor.type >= 14) { // 386 gate
-      gate_dest_selector = gate_descriptor.u.gate386.dest_selector;
-      gate_dest_offset   = gate_descriptor.u.gate386.dest_offset;
-    }
-    else { // 286 gate
-      gate_dest_selector = gate_descriptor.u.gate286.dest_selector;
-      gate_dest_offset   = gate_descriptor.u.gate286.dest_offset;
-    }
+    gate_dest_selector = gate_descriptor.u.gate.dest_selector;
+    gate_dest_offset   = gate_descriptor.u.gate.dest_offset;
 
     // examine CS selector and descriptor given in gate descriptor
     // selector must be non-null else #GP(EXT)

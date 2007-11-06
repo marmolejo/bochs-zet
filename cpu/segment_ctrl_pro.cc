@@ -591,10 +591,21 @@ BX_CPU_C::parse_descriptor(Bit32u dword1, Bit32u dword2, bx_descriptor_t *temp)
       case BX_286_CALL_GATE:
       case BX_286_INTERRUPT_GATE:
       case BX_286_TRAP_GATE:
-        /* word count only used for call gate */
-        temp->u.gate286.word_count = dword2 & 0x1f;
-        temp->u.gate286.dest_selector = dword1 >> 16;
-        temp->u.gate286.dest_offset   = dword1 & 0xffff;
+        // param count only used for call gate
+        temp->u.gate.param_count   = dword2 & 0x1f;
+        temp->u.gate.dest_selector = dword1 >> 16;
+        temp->u.gate.dest_offset   = dword1 & 0xffff;
+        temp->valid = 1;
+        break;
+
+      case BX_386_CALL_GATE:
+      case BX_386_INTERRUPT_GATE:
+      case BX_386_TRAP_GATE:
+        // param count only used for call gate
+        temp->u.gate.param_count   = dword2 & 0x1f;
+        temp->u.gate.dest_selector = dword1 >> 16;
+        temp->u.gate.dest_offset   = (dword2 & 0xffff0000) |
+                                     (dword1 & 0x0000ffff);
         temp->valid = 1;
         break;
 
@@ -615,17 +626,6 @@ BX_CPU_C::parse_descriptor(Bit32u dword1, Bit32u dword2, bx_descriptor_t *temp)
           temp->u.system.limit_scaled = (temp->u.system.limit << 12) | 0x0fff;
         else
           temp->u.system.limit_scaled = (temp->u.system.limit);
-        temp->valid = 1;
-        break;
-
-      case BX_386_CALL_GATE:
-      case BX_386_INTERRUPT_GATE:
-      case BX_386_TRAP_GATE:
-        // word count only used for call gate
-        temp->u.gate386.dword_count   = dword2 & 0x1f;
-        temp->u.gate386.dest_selector = dword1 >> 16;
-        temp->u.gate386.dest_offset   = (dword2 & 0xffff0000) |
-                                        (dword1 & 0x0000ffff);
         temp->valid = 1;
         break;
 
