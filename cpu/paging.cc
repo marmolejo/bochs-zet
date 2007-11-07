@@ -1039,18 +1039,6 @@ bx_phy_address BX_CPU_C::translate_linear(bx_address laddr, unsigned pl, unsigne
   return paddress;
 }
 
-  bx_phy_address BX_CPP_AttrRegparmN(3)
-BX_CPU_C::dtranslate_linear(bx_address laddr, unsigned pl, unsigned rw)
-{
-  return translate_linear(laddr, pl, rw, DATA_ACCESS);
-}
-
-  bx_phy_address BX_CPP_AttrRegparmN(2)
-BX_CPU_C::itranslate_linear(bx_address laddr, unsigned pl)
-{
-  return translate_linear(laddr, pl, BX_READ, CODE_ACCESS);
-}
-
 #if BX_DEBUGGER || BX_DISASM || BX_INSTRUMENTATION || BX_GDBSTUB
 
 bx_bool BX_CPU_C::dbg_xlate_linear2phy(bx_address laddr, bx_phy_address *phy)
