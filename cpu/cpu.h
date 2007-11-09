@@ -1254,13 +1254,6 @@ public: // for now...
 
   struct {
     bx_TLB_entry entry[BX_TLB_SIZE]  BX_CPP_AlignN(16);
-
-#if BX_USE_QUICK_TLB_INVALIDATE
-#  define BX_TLB_LPF_VALUE(lpf) (lpf | BX_CPU_THIS_PTR TLB.tlb_invalidate)
-    Bit32u tlb_invalidate;
-#else
-#  define BX_TLB_LPF_VALUE(lpf) (lpf)
-#endif
   } TLB;
 
 #if BX_SUPPORT_X86_64
