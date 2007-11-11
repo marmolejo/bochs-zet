@@ -757,11 +757,10 @@ public:
   // is for Logical comparisons, eg if (i->os32L() && i->as32L()).  If you
   // want a bx_bool value, use os32B() etc.  This makes for smaller
   // code, when a strict 0 or 1 is not necessary.
-  BX_CPP_INLINE void initMetaInfo(unsigned seg,
-                                  unsigned os32, unsigned as32,
+  BX_CPP_INLINE void initMetaInfo(unsigned os32, unsigned as32,
                                   unsigned os64, unsigned as64)
   {
-    metaInfo = seg | (os32<<4) | (as32<<5) | (os64<<6) | (as64<<7);
+    metaInfo = BX_SEG_REG_NULL | (os32<<4) | (as32<<5) | (os64<<6) | (as64<<7);
   }
   BX_CPP_INLINE unsigned seg(void) {
     return metaInfo & 7;

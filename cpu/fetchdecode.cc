@@ -1550,9 +1550,8 @@ BX_CPU_C::fetchDecode32(Bit8u *iptr, bxInstruction_c *instruction, unsigned rema
     BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b;
 
   instruction->ResolveModrm = NULL;
-  instruction->initMetaInfo(BX_SEG_REG_NULL,
-                  /*os32*/   is_32,  /*as32*/ is_32,
-                  /*os64*/       0,  /*as64*/     0);
+  instruction->initMetaInfo(/*os32*/ is_32,  /*as32*/ is_32,
+                            /*os64*/     0,  /*as64*/     0);
 
   offset = os_32 << 9; // * 512
 

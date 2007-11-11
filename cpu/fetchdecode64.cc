@@ -2163,11 +2163,10 @@ BX_CPU_C::fetchDecode64(Bit8u *iptr, bxInstruction_c *instruction, unsigned rema
 
   offset = 512*1;
   instruction->ResolveModrm = NULL;
-  instruction->initMetaInfo(BX_SEG_REG_NULL,
-                  /*os32*/ 1, 	// operand size 32 override defaults to 1
-                  /*as32*/ 1, 	// address size 32 override defaults to 1
-                  /*os64*/ 0, 	// operand size 64 override defaults to 0
-                  /*as64*/ 1);	// address size 64 override defaults to 1
+  instruction->initMetaInfo(/*os32*/ 1,  // operand size 32 override defaults to 1
+                            /*as32*/ 1,  // address size 32 override defaults to 1
+                            /*os64*/ 0,  // operand size 64 override defaults to 0
+                            /*as64*/ 1); // address size 64 override defaults to 1
 
 fetch_b1:
   b1 = *iptr++;
