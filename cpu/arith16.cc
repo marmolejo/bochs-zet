@@ -33,13 +33,13 @@
 
 void BX_CPU_C::INC_RX(bxInstruction_c *i)
 {
-  Bit16u rx = ++ BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].word.rx;
+  Bit16u rx = ++BX_READ_16BIT_REG(i->opcodeReg());
   SET_FLAGS_OSZAP_RESULT_16(rx, BX_INSTR_INC16);
 }
 
 void BX_CPU_C::DEC_RX(bxInstruction_c *i)
 {
-  Bit16u rx = -- BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].word.rx;
+  Bit16u rx = --BX_READ_16BIT_REG(i->opcodeReg());
   SET_FLAGS_OSZAP_RESULT_16(rx, BX_INSTR_DEC16);
 }
 
