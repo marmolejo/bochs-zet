@@ -13,17 +13,15 @@ void disassembler::decode_modrm(x86_insn *insn)
   // MOVs with CRx and DRx always use register ops and ignore the mod field.
   if ((insn->b1 & ~3) == 0x120) insn->mod = 3;
   insn->nnn |= insn->rex_r;
+  insn->rm  |= insn->rex_b;
 
   if (insn->mod == 3) {
-    /* mod, reg, reg */
-    insn->rm |= insn->rex_b;
-    return;
+    return; /* mod, reg, reg */
   }
 
   if (insn->as_64)
   {
-      if (insn->rm != 4) { /* rm != 100b, no s-i-b byte */
-        insn->rm |= insn->rex_b;
+      if ((insn->rm & 7) != 4) { /* rm != 100b, no s-i-b byte */
         // one byte modrm
         switch (insn->mod) {
           case 0:
@@ -70,8 +68,7 @@ void disassembler::decode_modrm(x86_insn *insn)
   {
     if (insn->as_32)
     {
-      if (insn->rm != 4) { /* rm != 100b, no s-i-b byte */
-        insn->rm |= insn->rex_b;
+      if ((insn->rm & 7) != 4) { /* rm != 100b, no s-i-b byte */
         // one byte modrm
         switch (insn->mod) {
           case 0:
