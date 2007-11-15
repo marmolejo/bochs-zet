@@ -3521,9 +3521,8 @@ IMPLEMENT_EFLAG_ACCESSOR   (TF,   8)
 #define Bx3ByteOpTable      0x0070 // Group encoding: 111
 
 #define BxPrefix            0x0080 // bit  7
-#define BxAnother           0x0100 // bit  8
-#define BxLockable          0x0200 // bit  9
-#define Bx3ByteOpcode       0x0400 // bit 10
+#define BxLockable          0x0100 // bit  8
+#define Bx3ByteOpcode       0x0200 // bit  9
 
 #define BxGroup1          BxGroupN
 #define BxGroup2          BxGroupN
