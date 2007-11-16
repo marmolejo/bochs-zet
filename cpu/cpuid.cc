@@ -304,7 +304,7 @@ void BX_CPU_C::set_cpuid_defaults(void)
   cpuid_function_t *cpuid;
   int i;
 
-  for (int i=0;i<MAX_STD_CPUID_FUNCTION;i++) {
+  for (i=0;i<MAX_STD_CPUID_FUNCTION;i++) {
     BX_CPU_THIS_PTR cpuid_std_function[i].eax = 0;
     BX_CPU_THIS_PTR cpuid_std_function[i].ebx = 0;
     BX_CPU_THIS_PTR cpuid_std_function[i].ecx = 0;
