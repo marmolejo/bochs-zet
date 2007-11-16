@@ -66,16 +66,6 @@ BX_CPP_INLINE Bit64u FetchQWORD(Bit8u *iptr)
 // Common FetchDecode Opcode Tables
 //
 
-static const BxOpcodeInfo_t opcodesADD_EwIw[2] = {
-  /* M */ { BxLockable, &BX_CPU_C::ADD_EwMIw },
-  /* R */ { 0,          &BX_CPU_C::ADD_EwRIw }
-};
-
-static const BxOpcodeInfo_t opcodesADD_EdId[2] = {
-  /* M */ { BxLockable, &BX_CPU_C::ADD_EdIdM },
-  /* R */ { 0,          &BX_CPU_C::ADD_EdIdR }
-};
-
 static const BxOpcodeInfo_t opcodesADD_GwEw[2] = {
   /* M */ { 0,          &BX_CPU_C::ADD_GwEwM },
   /* R */ { 0,          &BX_CPU_C::ADD_GwEwR }
