@@ -1289,9 +1289,6 @@ BX_CPU_C::fetchDecode32(Bit8u *iptr, bxInstruction_c *instruction, unsigned rema
   unsigned b1, b2, ilen=0, attr, os_32;
   unsigned imm_mode, offset;
   unsigned rm = 0, mod=0, nnn=0;
-#if (BX_SUPPORT_SSE >= 4) || (BX_SUPPORT_SSE >= 3 && BX_SUPPORT_SSE_EXTENSION > 0)
-  unsigned b3 = 0;
-#endif
 
 #define SSE_PREFIX_NONE 0
 #define SSE_PREFIX_66   1
@@ -1405,19 +1402,21 @@ fetch_b1:
 
   attr = BxOpcodeInfo[b1+offset].Attr;
 
+  if (BxOpcodeHasModrm32[b1]) {
+
 #if (BX_SUPPORT_SSE >= 4) || (BX_SUPPORT_SSE >= 3 && BX_SUPPORT_SSE_EXTENSION > 0)
-  // handle 3-byte escape
-  if (attr & Bx3ByteOpcode) {
-    if (ilen < remain) {
-      ilen++;
-      b3 = *iptr++;
-    }
-    else
-      return(0);
+    unsigned b3 = 0;
+    // handle 3-byte escape
+    if (attr & Bx3ByteOpcode) {
+      if (ilen < remain) {
+        ilen++;
+        b3 = *iptr++;
+      }
+      else
+        return(0);
   }
 #endif
 
-  if (BxOpcodeHasModrm32[b1]) {
     // opcode requires modrm byte
     if (ilen < remain) {
       ilen++;
