@@ -430,7 +430,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
   /* FB /w */ { 0, &BX_CPU_C::STI },
   /* FC /w */ { 0, &BX_CPU_C::CLD },
   /* FD /w */ { 0, &BX_CPU_C::STD },
-  /* FE /w */ { BxGroup4, NULL, BxOpcodeInfoG4 },
+  /* FE /w */ { BxSplitMod11b, NULL, BxOpcodeInfoModG4 },
   /* FF /w */ { BxGroup5, NULL, BxOpcodeInfoG5w },
 
   /* 0F 00 /w */ { BxGroup6, NULL, BxOpcodeInfoG6 },
@@ -988,7 +988,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo[512*2] = {
   /* FB /d */ { 0, &BX_CPU_C::STI },
   /* FC /d */ { 0, &BX_CPU_C::CLD },
   /* FD /d */ { 0, &BX_CPU_C::STD },
-  /* FE /d */ { BxGroup4, NULL, BxOpcodeInfoG4 },
+  /* FE /d */ { BxSplitMod11b, NULL, BxOpcodeInfoModG4 },
   /* FF /d */ { BxGroup5, NULL, BxOpcodeInfoG5d },
 
   /* 0F 00 /d */ { BxGroup6, NULL, BxOpcodeInfoG6 },

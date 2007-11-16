@@ -1821,8 +1821,10 @@ public: // for now...
   BX_SMF void DIV_EAXEd(bxInstruction_c *);
   BX_SMF void IDIV_EAXEd(bxInstruction_c *);
 
-  BX_SMF void INC_Eb(bxInstruction_c *);
-  BX_SMF void DEC_Eb(bxInstruction_c *);
+  BX_SMF void INC_EbR(bxInstruction_c *);
+  BX_SMF void INC_EbM(bxInstruction_c *);
+  BX_SMF void DEC_EbR(bxInstruction_c *);
+  BX_SMF void DEC_EbM(bxInstruction_c *);
 
   BX_SMF void INC_Ed(bxInstruction_c *);
   BX_SMF void DEC_Ed(bxInstruction_c *);
