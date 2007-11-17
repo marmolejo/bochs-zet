@@ -96,20 +96,19 @@ void BX_CPU_C::PUSH64_Id(bxInstruction_c *i)
   push_64(imm64);
 }
 
-void BX_CPU_C::PUSH_Eq(bxInstruction_c *i)
+void BX_CPU_C::PUSH_EqM(bxInstruction_c *i)
 {
   Bit64u op1_64;
 
-  /* op1_64 is a register or memory reference */
-  if (i->modC0()) {
-    op1_64 = BX_READ_64BIT_REG(i->rm());
-  }
-  else {
-    /* pointer, segment address pair */
-    read_virtual_qword(i->seg(), RMAddr(i), &op1_64);
-  }
+  /* pointer, segment address pair */
+  read_virtual_qword(i->seg(), RMAddr(i), &op1_64);
 
   push_64(op1_64);
+}
+
+void BX_CPU_C::PUSH_EqR(bxInstruction_c *i)
+{
+  push_64(BX_READ_64BIT_REG(i->rm()));
 }
 
 void BX_CPU_C::ENTER64_IwIb(bxInstruction_c *i)

@@ -213,12 +213,6 @@ void BX_CPU_C::CALL32_Ep(bxInstruction_c *i)
   BX_CPU_THIS_PTR show_flag |= Flag_call;
 #endif
 
-  /* op1_32 is a register or memory reference */
-  if (i->modC0()) {
-    BX_INFO(("CALL_Ep: op1 is a register"));
-    exception(BX_UD_EXCEPTION, 0, 0);
-  }
-
   /* pointer, segment address pair */
   read_virtual_dword(i->seg(), RMAddr(i), &op1_32);
   read_virtual_word(i->seg(), RMAddr(i)+4, &cs_raw);
@@ -522,13 +516,6 @@ void BX_CPU_C::JMP32_Ep(bxInstruction_c *i)
   Bit32u op1_32;
 
   invalidate_prefetch_q();
-
-  /* op1_32 is a register or memory reference */
-  if (i->modC0()) {
-    /* far indirect must specify a memory address */
-    BX_INFO(("JMP_Ep(): op1 is a register"));
-    exception(BX_UD_EXCEPTION, 0, 0);
-  }
 
   /* pointer, segment address pair */
   read_virtual_dword(i->seg(), RMAddr(i), &op1_32);

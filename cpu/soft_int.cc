@@ -36,11 +36,6 @@
 
 void BX_CPU_C::BOUND_GwMa(bxInstruction_c *i)
 {
-  if (i->modC0()) {
-    BX_INFO(("BOUND_GwMa: op2 must be memory reference"));
-    UndefinedOpcode(i);
-  }
-
   Bit16s bound_min, bound_max;
   Bit16s op1_16 = BX_READ_16BIT_REG(i->nnn());
 
@@ -55,11 +50,6 @@ void BX_CPU_C::BOUND_GwMa(bxInstruction_c *i)
 
 void BX_CPU_C::BOUND_GdMa(bxInstruction_c *i)
 {
-  if (i->modC0()) {
-    BX_INFO(("BOUND_GdMa: op2 must be memory reference"));
-    UndefinedOpcode(i);
-  }
-
   Bit32s bound_min, bound_max;
   Bit32s op1_32 = BX_READ_32BIT_REG(i->nnn());
 
