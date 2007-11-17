@@ -23,7 +23,7 @@
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
-
+/////////////////////////////////////////////////////////////////////////
 
 #define NEED_CPU_REG_SHORTCUTS 1
 #include "bochs.h"
@@ -81,11 +81,10 @@ void BX_CPU_C::XOR_GdEd(bxInstruction_c *i)
 
 void BX_CPU_C::XOR_EAXId(bxInstruction_c *i)
 {
-  Bit32u op1_32, op2_32;
+  Bit32u op1_32;
 
   op1_32 = EAX;
-  op2_32 = i->Id();
-  op1_32 ^= op2_32;
+  op1_32 ^= i->Id();
   RAX = op1_32;
 
   SET_FLAGS_OSZAPC_RESULT_32(op1_32, BX_INSTR_LOGIC32);
