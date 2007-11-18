@@ -116,25 +116,27 @@ void BX_CPU_C::POP_RX(bxInstruction_c *i)
   BX_WRITE_16BIT_REG(i->opcodeReg(), rx)
 }
 
-void BX_CPU_C::POP_Ew(bxInstruction_c *i)
+void BX_CPU_C::POP_EwM(bxInstruction_c *i)
 {
   Bit16u val16;
 
   pop_16(&val16);
 
-  if (i->modC0()) {
-    BX_WRITE_16BIT_REG(i->rm(), val16);
+  // Note: there is one little weirdism here.  When 32bit addressing
+  // is used, it is possible to use ESP in the modrm addressing.
+  // If used, the value of ESP after the pop is used to calculate
+  // the address.
+  if (i->as32L() && (i->rm()==4) && (i->sibBase()==4)) {
+    BX_CPU_CALL_METHODR (i->ResolveModrm, (i));
   }
-  else {
-    // Note: there is one little weirdism here.  When 32bit addressing
-    // is used, it is possible to use ESP in the modrm addressing.
-    // If used, the value of ESP after the pop is used to calculate
-    // the address.
-    if (i->as32L() && (!i->modC0()) && (i->rm()==4) && (i->sibBase()==4)) {
-      BX_CPU_CALL_METHODR (i->ResolveModrm, (i));
-    }
-    write_virtual_word(i->seg(), RMAddr(i), &val16);
-  }
+  write_virtual_word(i->seg(), RMAddr(i), &val16);
+}
+
+void BX_CPU_C::POP_EwR(bxInstruction_c *i)
+{
+  Bit16u val16;
+  pop_16(&val16);
+  BX_WRITE_16BIT_REG(i->rm(), val16);
 }
 
 #if BX_CPU_LEVEL >= 3
