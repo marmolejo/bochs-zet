@@ -241,11 +241,6 @@ void BX_CPU_C::CALL16_Ep(bxInstruction_c *i)
   BX_CPU_THIS_PTR show_flag |= Flag_call;
 #endif
 
-  if (i->modC0()) {
-    BX_INFO(("CALL_Ep: op1 is a register"));
-    exception(BX_UD_EXCEPTION, 0, 0);
-  }
-
   read_virtual_word(i->seg(), RMAddr(i), &op1_16);
   read_virtual_word(i->seg(), RMAddr(i)+2, &cs_raw);
 
@@ -536,12 +531,6 @@ void BX_CPU_C::JMP16_Ep(bxInstruction_c *i)
   Bit16u op1_16;
 
   invalidate_prefetch_q();
-
-  if (i->modC0()) {
-    /* far indirect must specify a memory address */
-    BX_INFO(("JMP_Ep(): op1 is a register"));
-    exception(BX_UD_EXCEPTION, 0, 0);
-  }
 
   read_virtual_word(i->seg(), RMAddr(i), &op1_16);
   read_virtual_word(i->seg(), RMAddr(i)+2, &cs_raw);
