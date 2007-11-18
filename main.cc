@@ -1234,8 +1234,8 @@ void bx_signal_handler(int signum)
       bx_gui->show_ips((Bit32u) ips_count);
       ticks_count = bx_pc_system.time_ticks();
       counts++;
-      printf("MIPS: %u\tticks/counts = %u\t(%us)\n", 
-            (unsigned) ips_count, (unsigned) (ticks_count/counts), (unsigned) counts);
+//    printf("MIPS: %u\tticks/counts = %u\t(%us)\n", 
+//          (unsigned) ips_count, (unsigned) (ticks_count/counts), (unsigned) counts);
     }
 #if !defined(__MINGW32__) && !defined(_MSC_VER)
     signal(SIGALRM, bx_signal_handler);
