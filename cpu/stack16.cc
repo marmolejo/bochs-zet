@@ -139,6 +139,26 @@ void BX_CPU_C::POP_EwR(bxInstruction_c *i)
   BX_WRITE_16BIT_REG(i->rm(), val16);
 }
 
+void BX_CPU_C::PUSH_Iw(bxInstruction_c *i)
+{
+  push_16(i->Iw());
+}
+
+void BX_CPU_C::PUSH_EwM(bxInstruction_c *i)
+{
+  Bit16u op1_16;
+
+  /* pointer, segment address pair */
+  read_virtual_word(i->seg(), RMAddr(i), &op1_16);
+
+  push_16(op1_16);
+}
+
+void BX_CPU_C::PUSH_EwR(bxInstruction_c *i)
+{
+  push_16(BX_READ_16BIT_REG(i->rm()));
+}
+
 #if BX_CPU_LEVEL >= 3
 void BX_CPU_C::PUSHAD16(bxInstruction_c *i)
 {
@@ -209,23 +229,3 @@ void BX_CPU_C::POPAD16(bxInstruction_c *i)
   AX = ax;
 }
 #endif
-
-void BX_CPU_C::PUSH_Iw(bxInstruction_c *i)
-{
-  push_16(i->Iw());
-}
-
-void BX_CPU_C::PUSH_EwM(bxInstruction_c *i)
-{
-  Bit16u op1_16;
-
-  /* pointer, segment address pair */
-  read_virtual_word(i->seg(), RMAddr(i), &op1_16);
-
-  push_16(op1_16);
-}
-
-void BX_CPU_C::PUSH_EwR(bxInstruction_c *i)
-{
-  push_16(BX_READ_16BIT_REG(i->rm()));
-}
