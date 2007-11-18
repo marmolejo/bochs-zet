@@ -52,7 +52,7 @@ case "$target" in
     fi
     ;;
   *-macosx* | *-darwin*)
-    ADD_FLAGS="-fpascal-strings -fno-common -arch ppc -Wno-four-char-constants -Wno-unknown-pragmas -Dmacintosh"      # required for macosx compile
+    ADD_FLAGS="-fpascal-strings -fno-common -Wno-four-char-constants -Wno-unknown-pragmas -Dmacintosh"      # required for macosx compile
     DEFAULT_GUI=carbon                # default to carbon
     need_dlcompat_for_plugins=1
     ;;
