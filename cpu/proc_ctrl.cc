@@ -854,13 +854,10 @@ void BX_CPU_C::SMSW_Ew(bxInstruction_c *i)
   Bit16u msw;
 
 #if BX_CPU_LEVEL == 2
-  msw = 0xfff0; /* 80286 init value */
-  msw |= (BX_CPU_THIS_PTR cr0.get_TS() << 3) |
-         (BX_CPU_THIS_PTR cr0.get_EM() << 2) |
-         (BX_CPU_THIS_PTR cr0.get_MP() << 1) |
-         (BX_CPU_THIS_PTR cr0.get_PE());
+  msw  = 0xfff0; /* 80286 init value */
+  msw |= BX_CPU_THIS_PTR cr0.val32 & 0x000f;
 #else /* 386+ */
-  msw = BX_CPU_THIS_PTR cr0.val32 & 0xffff;
+  msw  = BX_CPU_THIS_PTR cr0.val32 & 0xffff;
 #endif
 
   if (i->modC0()) {
