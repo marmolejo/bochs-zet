@@ -2615,8 +2615,8 @@ fetch_b1:
     if (instruction->as32L()) {
       // 32-bit addressing modes; note that mod==11b handled above
       if (rm != 4) { // no s-i-b byte
+        instruction->ResolveModrm = BxResolve32Rm;
         if (mod == 0x00) { // mod == 00b
-          instruction->ResolveModrm = BxResolve32Rm;
           if (BX_NULL_SEG_REG(instruction->seg()))
             instruction->setSeg(BX_SEG_REG_DS);
           if (rm == 5) {
@@ -2633,7 +2633,6 @@ get_32bit_displ:
           // mod==00b, rm!=4, rm!=5
           goto modrm_done;
         }
-        instruction->ResolveModrm = BxResolve32Rm;
         if (BX_NULL_SEG_REG(instruction->seg()))
           instruction->setSeg(sreg_mod01or10_rm32[rm]);
         if (mod == 0x40) { // mod == 01b
