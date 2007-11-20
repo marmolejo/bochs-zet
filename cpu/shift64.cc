@@ -42,9 +42,11 @@ void BX_CPU_C::SHLD_EqGq(bxInstruction_c *i)
   /* op1:op2 << count. result stored in op1 */
 
   if (i->b1() == 0x1a4)
-    count = i->Ib() & 0x3f;
+    count = i->Ib();
   else // 0x1a5
-    count = CL & 0x3f;
+    count = CL;
+
+  count &= 0x3f; // use only 6 LSB's
 
   /* op1 is a register or memory reference */
   if (i->modC0()) {
@@ -81,9 +83,11 @@ void BX_CPU_C::SHRD_EqGq(bxInstruction_c *i)
   unsigned count;
 
   if (i->b1() == 0x1ac)
-    count = i->Ib() & 0x3f;
+    count = i->Ib();
   else // 0x1ad
-    count = CL & 0x3f;
+    count = CL;
+
+  count &= 0x3f; // use only 6 LSB's
 
   /* op1 is a register or memory reference */
   if (i->modC0()) {
