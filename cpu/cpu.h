@@ -1307,11 +1307,6 @@ public: // for now...
   BX_SMF void set_##flag(bx_bool val) { \
     BX_CPU_THIS_PTR lf_flags_status &= ~(lfMask); \
     BX_CPU_THIS_PTR eflags.val32 &= ~(1<<eflagsBitShift); \
-    BX_CPU_THIS_PTR eflags.val32 |= ((!!val)<<eflagsBitShift); \
-  } \
-  BX_SMF void setB_##flag(bx_bool val) { \
-    BX_CPU_THIS_PTR lf_flags_status &= ~(lfMask); \
-    BX_CPU_THIS_PTR eflags.val32 &= ~(1<<eflagsBitShift); \
     BX_CPU_THIS_PTR eflags.val32 |= ((val)<<eflagsBitShift); \
   } \
   BX_SMF void clear_##flag(void) { \
