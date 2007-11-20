@@ -443,6 +443,7 @@ typedef struct {
   bx_bool unsupported_io;
   bx_bool serial;
   bx_bool cdrom;
+  bx_bool print_timestamps;
 #if BX_MAGIC_BREAKPOINT
   bx_bool magic_break_enabled;
 #endif
