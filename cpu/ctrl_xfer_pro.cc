@@ -25,7 +25,6 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 /////////////////////////////////////////////////////////////////////////
 
-
 #define NEED_CPU_REG_SHORTCUTS 1
 #include "bochs.h"
 #include "cpu.h"
@@ -35,7 +34,6 @@
 // Make life easier merging cpu64 & cpu code.
 #define RIP EIP
 #endif
-
 
 /* pass zero in check_rpl if no needed selector RPL checking for 
    non-conforming segments */
@@ -122,6 +120,10 @@ BX_CPU_C::load_cs(bx_selector_t *selector, bx_descriptor_t *descriptor, Bit8u cp
 
 #if BX_SUPPORT_ICACHE
   BX_CPU_THIS_PTR updateFetchModeMask();
+#endif
+
+#if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
+  handleAlignmentCheck(); // CPL was modified
 #endif
 
   // Loading CS will invalidate the EIP fetch window.

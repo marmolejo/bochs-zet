@@ -602,6 +602,10 @@ void BX_CPU_C::task_switch(bx_selector_t *tss_selector,
     BX_CPU_THIS_PTR updateFetchModeMask();
 #endif
 
+#if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
+    handleAlignmentCheck(); // task switch, CPL was modified
+#endif
+
     // SS
     if ( (raw_ss_selector & 0xfffc) != 0 )
     {

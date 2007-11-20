@@ -42,10 +42,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::setEFlags(Bit32u val)
 #endif
 
 #if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
-  if (BX_CPU_THIS_PTR get_AC() && BX_CPU_THIS_PTR cr0.get_AM())
-    BX_CPU_THIS_PTR alignment_check = 1;
-  else 
-    BX_CPU_THIS_PTR alignment_check = 0;
+  handleAlignmentCheck();
 #endif
 
   BX_CPU_THIS_PTR eflags.val32 = val;

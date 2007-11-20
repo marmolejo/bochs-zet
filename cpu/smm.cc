@@ -171,6 +171,10 @@ void BX_CPU_C::enter_system_management_mode(void)
   BX_CPU_THIS_PTR updateFetchModeMask();
 #endif
 
+#if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
+  BX_CPU_THIS_PTR alignment_check = 0;
+#endif
+
   /* DS (Data Segment) and descriptor cache */
   parse_selector(0x0000,
                &BX_CPU_THIS_PTR sregs[BX_SEG_REG_DS].selector);

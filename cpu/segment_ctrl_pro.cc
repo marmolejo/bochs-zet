@@ -224,6 +224,9 @@ BX_CPU_C::load_seg_reg(bx_segment_reg_t *seg, Bit16u new_value)
 #if BX_SUPPORT_ICACHE
     BX_CPU_THIS_PTR updateFetchModeMask();
 #endif
+#if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
+    handleAlignmentCheck(); // CPL was modified
+#endif
     invalidate_prefetch_q();
   }
   else {

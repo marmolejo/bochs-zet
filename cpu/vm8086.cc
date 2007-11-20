@@ -256,6 +256,11 @@ void BX_CPU_C::init_v8086_mode(void)
   BX_CPU_THIS_PTR updateFetchModeMask();
 #endif
 
+#if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
+  handleAlignmentCheck(); // CPL was modified
+#endif
+
+
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.valid   = 1;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.p       = 1;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.dpl     = 3;
