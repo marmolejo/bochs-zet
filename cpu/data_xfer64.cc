@@ -243,8 +243,8 @@ void BX_CPU_C::XCHG_EqGqR(bxInstruction_c *i)
   Bit64u op1_64 = BX_READ_64BIT_REG(i->rm());
   Bit64u op2_64 = BX_READ_64BIT_REG(i->nnn());
 
-  BX_WRITE_64BIT_REG(i->rm(), op2_64);
   BX_WRITE_64BIT_REG(i->nnn(), op1_64);
+  BX_WRITE_64BIT_REG(i->rm(), op2_64);
 }
 
 void BX_CPU_C::CMOV_GqEq(bxInstruction_c *i)
