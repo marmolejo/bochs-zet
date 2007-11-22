@@ -372,9 +372,9 @@ typedef class BOCHSAPI iofunctions iofunc_t;
 
 #if BX_NO_LOGGING
 
-#define BX_INFO(x)  ;
-#define BX_DEBUG(x) ;
-#define BX_ERROR(x) ;
+#define BX_INFO(x)
+#define BX_DEBUG(x)
+#define BX_ERROR(x)
 #define BX_PANIC(x) (LOG_THIS panic) x
 #define BX_PASS(x) (LOG_THIS pass) x
 
