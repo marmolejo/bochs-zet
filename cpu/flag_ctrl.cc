@@ -177,7 +177,6 @@ void BX_CPU_C::PUSHF_Fw(bxInstruction_c *i)
     if ((BX_CPU_THIS_PTR get_IOPL() < 3) && (CR4_VME_ENABLED == 0)) {
       BX_DEBUG(("PUSHFW: #GP(0) in v8086 (no VME) mode"));
       exception(BX_GP_EXCEPTION, 0, 0);
-      return;
     }
 #if BX_SUPPORT_VME
     if (CR4_VME_ENABLED && BX_CPU_THIS_PTR get_IOPL() < 3) {

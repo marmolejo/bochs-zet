@@ -64,7 +64,7 @@ void BX_CPU_C::POP_RRX(bxInstruction_c *i)
 {
   Bit64u rrx;
   pop_64(&rrx);
-  BX_CPU_THIS_PTR gen_reg[i->opcodeReg()].rrx = rrx;
+  BX_WRITE_64BIT_REG(i->opcodeReg(), rrx);
 }
 
 void BX_CPU_C::PUSH64_FS(bxInstruction_c *i)
