@@ -118,12 +118,6 @@ void BX_CPU_C::ENTER64_IwIb(bxInstruction_c *i)
   level &= 0x1F;
   Bit64u bytes_to_push = 8 + level*8 + i->Iw();
 
-  if (! can_push(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache, RSP, bytes_to_push))
-  {
-    BX_ERROR(("ENTER: not enough room on stack!"));
-    exception(BX_SS_EXCEPTION, 0, 0);
-  }
-
   push_64(RBP);
 
   Bit64u frame_ptr64 = RSP;
