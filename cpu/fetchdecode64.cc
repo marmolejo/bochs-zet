@@ -3765,8 +3765,7 @@ modrm_done:
 
   if (lock) { // lock prefix invalid opcode
     // lock prefix not allowed or destination operand is not memory
-    // only memory destination is marked BxLockable
-    if (/*(mod == 0xc0) || */ !(attr & BxLockable)) {
+    if ((mod == 0xc0) || !(attr & BxLockable)) {
       BX_INFO(("LOCK prefix unallowed (op1=0x%x, mod=%u, nnn=%u)", b1, mod, nnn));
       UndefinedOpcode(instruction);
     }
