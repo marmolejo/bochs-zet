@@ -47,7 +47,7 @@ BX_CPU_C::iret_protected(bxInstruction_c *i)
   }
 #endif
 
-  if (BX_CPU_THIS_PTR get_NT ())   /* NT = 1: RETURN FROM NESTED TASK */
+  if (BX_CPU_THIS_PTR get_NT())   /* NT = 1: RETURN FROM NESTED TASK */
   {
     /* what's the deal with NT & VM ? */
     Bit16u raw_link_selector;

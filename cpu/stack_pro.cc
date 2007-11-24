@@ -353,11 +353,9 @@ void BX_CPU_C::decrementESPForPush(unsigned nBytes, Bit32u *eSP_ptr)
   // And finally, decrement eSP and return the new eSP value.
   eSP -= nBytes;
   if (BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.d_b) {
-    ESP = eSP;
     *eSP_ptr = eSP;
   }
   else {
-    SP = (Bit16u) eSP;
     *eSP_ptr = SP;
   }
 }

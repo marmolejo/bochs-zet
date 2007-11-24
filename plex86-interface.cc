@@ -305,8 +305,7 @@ void copyPlex86StateToBochs(BX_CPU_C *cpu)
   cpu->eip_reg.dword.eip    = plex86GuestCPU->eip;
 
   // Set fields used for exception processing.
-  cpu->prev_eip = plex86GuestCPU->eip;
-  cpu->prev_esp = plex86GuestCPU->esp;
+  cpu->prev_rip = plex86GuestCPU->eip;
 
   // ES/CS/SS/DS/FS/GS
   for (unsigned s=0; s<6; s++) {

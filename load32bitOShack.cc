@@ -235,8 +235,7 @@ void bx_load_null_kernel_hack(void)
   bx_load_kernel_image(SIM->get_param_string(BXPN_LOAD32BITOS_PATH)->getptr(), 0x100000);
 
   // EIP deltas
-  BX_CPU(0)->prev_eip =
-  BX_CPU(0)->eip_reg.dword.eip = 0x00100000;
+  BX_CPU(0)->prev_rip = BX_CPU(0)->eip_reg.dword.eip = 0x00100000;
 
   // CS deltas
   BX_CPU(0)->sregs[BX_SEG_REG_CS].cache.u.segment.base = 0x00000000;

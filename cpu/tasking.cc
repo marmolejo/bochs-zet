@@ -429,7 +429,7 @@ void BX_CPU_C::task_switch(bx_selector_t *tss_selector,
     }
   }
 
-  BX_CPU_THIS_PTR prev_eip = EIP = newEIP;
+  BX_CPU_THIS_PTR prev_rip = EIP = newEIP;
 
   EAX = newEAX;
   ECX = newECX;
