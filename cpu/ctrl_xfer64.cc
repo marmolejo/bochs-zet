@@ -455,13 +455,7 @@ void BX_CPU_C::JMP64_Ep(bxInstruction_c *i)
 
   BX_ASSERT(protected_mode());
 
-  BX_CPU_THIS_PTR speculative_rsp = 1;
-  BX_CPU_THIS_PTR prev_rsp = RSP;
-
-  // jump_protected is nto RSP safe
   jump_protected(i, cs_raw, op1_32);
-
-  BX_CPU_THIS_PTR speculative_rsp = 0;
 
   BX_INSTR_FAR_BRANCH(BX_CPU_ID, BX_INSTR_IS_JMP,
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, RIP);
