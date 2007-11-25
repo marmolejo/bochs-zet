@@ -198,6 +198,11 @@ void BX_CPU_C::FXSAVE(bxInstruction_c *i)
     write_virtual_dqword_aligned(i->seg(), RMAddr(i)+index*16+32, (Bit8u *) &xmm);
   }
 
+#if BX_SUPPORT_X86_64
+  if (BX_CPU_THIS_PTR efer.ffxsr && CPL == 0 && Is64BitMode())
+    return; // skip saving of the XMM state
+#endif
+
 #if BX_SUPPORT_SSE >= 1
   /* store XMM register file */
   for(index=0; index < BX_XMM_REGISTERS; index++)
@@ -345,6 +350,11 @@ void BX_CPU_C::FXRSTOR(bxInstruction_c *i)
   }
 
   BX_CPU_THIS_PTR the_i387.twd = (twd >> 2);
+
+#if BX_SUPPORT_X86_64
+  if (BX_CPU_THIS_PTR efer.ffxsr && CPL == 0 && Is64BitMode())
+    return; // skip restore of the XMM state
+#endif
 
 #if BX_SUPPORT_SSE >= 1
   /* If the OSFXSR bit in CR4 is not set, the FXRSTOR instruction does

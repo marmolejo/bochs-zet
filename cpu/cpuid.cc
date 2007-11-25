@@ -571,7 +571,7 @@ void BX_CPU_C::set_cpuid_defaults(void)
   unsigned features  = BX_CPU_VENDOR_INTEL ? 0 : get_std_cpuid_features();
   features &= 0x0183F3FF;
 #if BX_SUPPORT_3DNOW
-  features |= (1 << 22);  // only AMD is interesting in AMD MMX extensions
+  features |= (1 << 22) | (1 << 30) | (1 << 31);  // only AMD is interesting in AMD MMX extensions
 #endif
 #if BX_SUPPORT_X86_64
   features |= (1 << 29) | (1 << 27) | (1 << 25) | (1 << 20) | (1 << 11);
