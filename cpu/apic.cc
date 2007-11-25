@@ -148,6 +148,11 @@ static void apic_bus_broadcast_eoi(Bit8u vector)
   bx_devices.ioapic->receive_eoi(vector);
 }
 
+void apic_bus_deliver_smi(void)
+{
+  BX_CPU(0)->deliver_SMI();
+}
+
 ////////////////////////////////////
 
 bx_generic_apic_c::bx_generic_apic_c(bx_phy_address base)
