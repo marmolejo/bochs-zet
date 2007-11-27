@@ -34,7 +34,6 @@
 #if BX_SUPPORT_X86_64==0
 // Make life easier for merging code.
 #define RAX EAX
-#define RBX EBX
 #define RCX ECX
 #define RDX EDX
 #endif

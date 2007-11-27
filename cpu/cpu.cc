@@ -200,9 +200,7 @@ void BX_CPU_C::cpu_loop(Bit32u max_instr_count)
 #endif
     CHECK_MAX_INSTRUCTIONS(max_instr_count);
 #if BX_GDBSTUB
-    if (bx_dbg.gdbstub_enabled) {
-      return;
-    }
+    if (bx_dbg.gdbstub_enabled) return;
 #endif
   }
 
