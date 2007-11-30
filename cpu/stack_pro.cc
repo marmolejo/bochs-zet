@@ -328,34 +328,3 @@ bx_bool BX_CPU_C::can_pop(Bit32u bytes)
     return(0);
   }
 }
-
-void BX_CPU_C::decrementESPForPush(unsigned nBytes, Bit32u *eSP_ptr)
-{
-  Bit32u eSP;
-
-  if (BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.d_b)
-    eSP = ESP;
-  else
-    eSP = SP;
-
-  if (protected_mode()) {
-    if (!can_push(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache, eSP, nBytes)) {
-      BX_INFO(("decrementESPForPush: push outside stack limits"));
-      exception(BX_SS_EXCEPTION, 0, 0);
-    }
-  }
-  else { // Real Mode.
-    if ( (eSP>=1) && (eSP<nBytes) ) {
-      BX_PANIC(("decrementESPForPush: eSP=%08x", (unsigned) eSP));
-    }
-  }
-
-  // And finally, decrement eSP and return the new eSP value.
-  eSP -= nBytes;
-  if (BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.d_b) {
-    *eSP_ptr = eSP;
-  }
-  else {
-    *eSP_ptr = SP;
-  }
-}

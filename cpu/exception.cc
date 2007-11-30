@@ -428,7 +428,7 @@ void BX_CPU_C::protected_mode_int(Bit8u vector, bx_bool is_INT, bx_bool is_error
         IS_DATA_SEGMENT(cs_descriptor.type) ||
         cs_descriptor.dpl>CPL)
     {
-      BX_ERROR(("interrupt(): not accessable or not code segment"));
+      BX_ERROR(("interrupt(): not accessable or not code segment cs=0x%04x", cs_selector.value));
       exception(BX_GP_EXCEPTION, cs_selector.value & 0xfffc, 0);
     }
 
