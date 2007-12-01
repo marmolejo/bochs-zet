@@ -197,7 +197,7 @@ Bit32u BX_CPU_C::get_std_cpuid_features()
 
 #endif
 
-#if (BX_CPU_LEVEL >= 6) || (BX_CPU_LEVEL_HACKED >= 6)
+#if BX_CPU_LEVEL >= 6
   features |= (1<<24);  // Implement FSAVE/FXRSTOR instructions.
 #endif
 

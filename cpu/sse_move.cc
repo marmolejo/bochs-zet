@@ -96,7 +96,7 @@ void BX_CPU_C::STMXCSR(bxInstruction_c *i)
 /* 0F AE Grp15 000 */
 void BX_CPU_C::FXSAVE(bxInstruction_c *i)
 {
-#if (BX_CPU_LEVEL >= 6) || (BX_CPU_LEVEL_HACKED >= 6)
+#if BX_CPU_LEVEL >= 6
   unsigned index;
   BxPackedXmmRegister xmm;
 
@@ -225,7 +225,7 @@ void BX_CPU_C::FXSAVE(bxInstruction_c *i)
 /* 0F AE Grp15 001 */
 void BX_CPU_C::FXRSTOR(bxInstruction_c *i)
 {
-#if (BX_CPU_LEVEL >= 6) || (BX_CPU_LEVEL_HACKED >= 6)
+#if BX_CPU_LEVEL >= 6
   BxPackedXmmRegister xmm;
   int index;
 

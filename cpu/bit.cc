@@ -448,7 +448,7 @@ void BX_CPU_C::BSR_GqEq(bxInstruction_c *i)
 
 void BX_CPU_C::BSWAP_ERX(bxInstruction_c *i)
 {
-#if (BX_CPU_LEVEL >= 4) || (BX_CPU_LEVEL_HACKED >= 4)
+#if BX_CPU_LEVEL >= 4
   Bit32u val32, b0, b1, b2, b3;
 
   if (i->os32L() == 0) {

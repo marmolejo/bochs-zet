@@ -203,7 +203,7 @@ void BX_CPU_C::XCHG_EdGdR(bxInstruction_c *i)
 
 void BX_CPU_C::CMOV_GdEd(bxInstruction_c *i)
 {
-#if (BX_CPU_LEVEL >= 6) || (BX_CPU_LEVEL_HACKED >= 6)
+#if BX_CPU_LEVEL >= 6
   // Note: CMOV accesses a memory source operand (read), regardless
   //       of whether condition is true or not.  Thus, exceptions may
   //       occur even if the MOV does not take place.
