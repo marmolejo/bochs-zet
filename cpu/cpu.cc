@@ -557,11 +557,9 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
     if (BX_CPU_THIS_PTR local_apic.INTR)
       vector = BX_CPU_THIS_PTR local_apic.acknowledge_int();
     else
-      vector = DEV_pic_iac(); // may set INTR with next interrupt
-#else
-    // if no local APIC, always acknowledge the PIC.
-    vector = DEV_pic_iac(); // may set INTR with next interrupt
 #endif
+      // if no local APIC, always acknowledge the PIC.
+      vector = DEV_pic_iac(); // may set INTR with next interrupt
     BX_CPU_THIS_PTR errorno = 0;
     BX_CPU_THIS_PTR EXT = 1; /* external event */
     BX_INSTR_HWINTERRUPT(BX_CPU_ID, vector,

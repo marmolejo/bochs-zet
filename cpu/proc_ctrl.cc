@@ -1693,8 +1693,6 @@ void BX_CPU_C::RDMSR(bxInstruction_c *i)
 void BX_CPU_C::WRMSR(bxInstruction_c *i)
 {
 #if BX_CPU_LEVEL >= 5
-  invalidate_prefetch_q();
-
   if (!real_mode() && CPL!=0) {
     BX_ERROR(("WRMSR: CPL!=0 not in real mode"));
     exception(BX_GP_EXCEPTION, 0, 0);
