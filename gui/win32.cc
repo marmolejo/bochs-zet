@@ -1042,7 +1042,7 @@ LRESULT CALLBACK mainWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
   case WM_NOTIFY:
     lpnmh = (LPNMHDR)lParam;
-    if ((int)lpnmh->code == TTN_NEEDTEXT) {
+    if (lpnmh->code == TTN_NEEDTEXT) {
       lpttt = (LPTOOLTIPTEXT)lParam;
       idTT = (int)wParam;
       hbar_id = idTT - 101;
