@@ -33,6 +33,17 @@ static bx_param_num_c *cpu_param[16];
 
 int AskFilename(HWND hwnd, bx_param_filename_c *param, const char *ext);
 
+char *backslashes(char *s)
+{
+  if (s != NULL) {
+    while (*s != 0) {
+       if (*s == '/') *s = '\\';
+       s++;
+    }
+  }
+  return s;
+}
+
 HWND GetBochsWindow()
 {
   HWND hwnd;
@@ -247,7 +258,7 @@ static BOOL CALLBACK FloppyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
       switch (LOWORD(wParam)) {
         case IDBROWSE:
           GetDlgItemText(hDlg, IDPATH, path, MAX_PATH);
-          param->set(path);
+          param->set(backslashes(path));
           if (AskFilename(hDlg, param, "img") > 0) {
             SetWindowText(GetDlgItem(hDlg, IDPATH), param->getptr());
             SendMessage(GetDlgItem(hDlg, IDSTATUS), BM_SETCHECK, BST_CHECKED, 0);
@@ -292,6 +303,7 @@ static BOOL CALLBACK FloppyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
           break;
         case IDCREATE:
           GetDlgItemText(hDlg, IDPATH, path, MAX_PATH);
+          backslashes(path);
           i = SendMessage(GetDlgItem(hDlg, IDMEDIATYPE), CB_GETCURSEL, 0, 0);
           if (CreateImage(hDlg, floppy_type_n_sectors[i], path)) {
             wsprintf(mesg, "Created a %s disk image called %s", floppy_type_names[i], path);
@@ -333,7 +345,7 @@ static BOOL CALLBACK Cdrom1DlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
       switch (LOWORD(wParam)) {
         case IDBROWSE1:
           GetDlgItemText(hDlg, IDCDROM1, path, MAX_PATH);
-          SIM->get_param_string("path", cdromop)->set(path);
+          SIM->get_param_string("path", cdromop)->set(backslashes(path));
           if (AskFilename(hDlg, (bx_param_filename_c *)SIM->get_param_string("path", cdromop), "iso") > 0) {
             SetWindowText(GetDlgItem(hDlg, IDCDROM1), SIM->get_param_string("path", cdromop)->getptr());
             SendMessage(GetDlgItem(hDlg, IDSTATUS1), BM_SETCHECK, BST_CHECKED, 0);
@@ -523,7 +535,7 @@ static BOOL CALLBACK RTCdromDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
             case IDBROWSE4:
               device = LOWORD(wParam) - IDBROWSE1;
               GetDlgItemText(hDlg, IDCDROM1+device, path, MAX_PATH);
-              SIM->get_param_string("path", cdromop[device])->set(path);
+              SIM->get_param_string("path", cdromop[device])->set(backslashes(path));
               if (AskFilename(hDlg, (bx_param_filename_c *)SIM->get_param_string("path", cdromop[device]), "iso") > 0) {
                 SetWindowText(GetDlgItem(hDlg, IDCDROM1+device), SIM->get_param_string("path", cdromop[device])->getptr());
                 SendMessage(GetDlgItem(hDlg, IDSTATUS1+device), BM_SETCHECK, BST_CHECKED, 0);
