@@ -2407,6 +2407,24 @@ void BX_CPU_C::SWAPGS(bxInstruction_c *i)
 #endif
 
 #if BX_X86_DEBUGGER
+void BX_CPU_C::hwbreakpoint_match(bx_address laddr, unsigned len, unsigned rw)
+{
+  if (BX_CPU_THIS_PTR dr7 & 0x000000ff) {
+    // Only compare debug registers if any breakpoints are enabled
+    unsigned opa, opb;
+    opa = BX_HWDebugMemRW; // Read or Write always compares vs 11b
+    if (rw==BX_READ) // only compares vs 11b
+      opb = opa;
+    else // BX_WRITE or BX_RW; also compare vs 01b
+      opb = BX_HWDebugMemW;
+    Bit32u dr6_bits = hwdebug_compare(laddr, len, opa, opb);
+    if (dr6_bits) {
+      BX_CPU_THIS_PTR debug_trap |= dr6_bits;
+      BX_CPU_THIS_PTR async_event = 1;
+    }
+  }
+}
+
 Bit32u BX_CPU_C::hwdebug_compare(bx_address laddr_0, unsigned size,
                           unsigned opa, unsigned opb)
 {

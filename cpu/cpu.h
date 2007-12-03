@@ -3255,7 +3255,8 @@ public: // for now...
 
 #if BX_X86_DEBUGGER
   // x86 hardware debug support
-  BX_SMF Bit32u hwdebug_compare(bx_address laddr, unsigned size,
+  BX_SMF void   hwbreakpoint_match(bx_address laddr, unsigned len, unsigned rw);
+  BX_SMF Bit32u hwdebug_compare(bx_address laddr, unsigned len,
                                  unsigned opa, unsigned opb);
 #endif
 
