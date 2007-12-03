@@ -707,10 +707,10 @@ void BX_CPU_C::CMPXCHG8B(bxInstruction_c *i)
   diff |= EDX - op1_64_hi;
 
   if (diff == 0) {  // if accumulator == dest
-    assert_ZF();
     // dest <-- src
-    write_RMW_virtual_dword(ECX);
     write_virtual_dword(i->seg(), RMAddr(i), &EBX);
+    write_RMW_virtual_dword(ECX);
+    assert_ZF();
   }
   else {
     clear_ZF();

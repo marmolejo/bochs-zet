@@ -685,10 +685,10 @@ void BX_CPU_C::CMPXCHG16B(bxInstruction_c *i)
   diff |= RDX - op1_64_hi;
 
   if (diff == 0) {  // if accumulator == dest
-    assert_ZF();
     // dest <-- src
-    write_RMW_virtual_qword(RCX);
     write_virtual_qword(i->seg(), RMAddr(i), &RBX);
+    write_RMW_virtual_qword(RCX);
+    assert_ZF();
   }
   else {
     clear_ZF();
