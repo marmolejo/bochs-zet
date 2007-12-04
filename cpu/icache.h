@@ -113,7 +113,7 @@ BX_CPP_INLINE void bxPageWriteStampTable::purgeWriteStamps(void)
 
 extern bxPageWriteStampTable pageWriteStampTable;
 
-#define BxICacheEntries (64 * 1024)  // Must be a power of 2.
+#define BxICacheEntries (32 * 1024)  // Must be a power of 2.
 
 struct bxICacheEntry_c
 {
