@@ -597,7 +597,7 @@ void BX_CPU_C::INC_EqM(bxInstruction_c *i)
   op1_64++;
   write_RMW_virtual_qword(op1_64);
 
-  SET_FLAGS_OSZAP_RESULT_64(op1_64, BX_INSTR_INC64);
+  SET_FLAGS_OSZAPC_INC_64(op1_64);
 }
 
 void BX_CPU_C::INC_EqR(bxInstruction_c *i)
@@ -606,7 +606,7 @@ void BX_CPU_C::INC_EqR(bxInstruction_c *i)
   op1_64++;
   BX_WRITE_64BIT_REG(i->rm(), op1_64);
 
-  SET_FLAGS_OSZAP_RESULT_64(op1_64, BX_INSTR_INC64);
+  SET_FLAGS_OSZAPC_INC_64(op1_64);
 }
 
 void BX_CPU_C::DEC_EqM(bxInstruction_c *i)
@@ -618,7 +618,7 @@ void BX_CPU_C::DEC_EqM(bxInstruction_c *i)
   op1_64--;
   write_RMW_virtual_qword(op1_64);
 
-  SET_FLAGS_OSZAP_RESULT_64(op1_64, BX_INSTR_DEC64);
+  SET_FLAGS_OSZAPC_DEC_64(op1_64);
 }
 
 void BX_CPU_C::DEC_EqR(bxInstruction_c *i)
@@ -627,7 +627,7 @@ void BX_CPU_C::DEC_EqR(bxInstruction_c *i)
   op1_64--;
   BX_WRITE_64BIT_REG(i->rm(), op1_64);
 
-  SET_FLAGS_OSZAP_RESULT_64(op1_64, BX_INSTR_DEC64);
+  SET_FLAGS_OSZAPC_DEC_64(op1_64);
 }
 
 void BX_CPU_C::CMPXCHG_EqGqM(bxInstruction_c *i)
