@@ -1286,7 +1286,7 @@ public: // for now...
     if ( (BX_CPU_THIS_PTR lf_flags_status & (lfMask)) == 0) \
       return (BX_CPU_THIS_PTR eflags.val32 >> eflagsBitShift) & 1; \
     else \
-      return get_##flag##Lazy(); \
+      return !!get_##flag##Lazy(); \
   } \
   BX_SMF bx_bool get_##flag(void) { \
     if ( (BX_CPU_THIS_PTR lf_flags_status & (lfMask)) == 0) \
@@ -1309,7 +1309,7 @@ public: // for now...
   } \
   BX_SMF void force_##flag(void) { \
     if ( (BX_CPU_THIS_PTR lf_flags_status & (lfMask)) != 0) { \
-      set_##flag(get_##flag##Lazy()); \
+      set_##flag(!!get_##flag##Lazy()); \
     } \
   }
 
