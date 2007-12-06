@@ -337,6 +337,9 @@ void BX_CPU_C::SAR_Eb(bxInstruction_c *i)
     else {
       result_8 = (op1_8 >> count);
     }
+
+    SET_FLAGS_OSZAPC_LOGIC_8(result_8); /* handle undefined SF, ZF and AF flags */
+    set_CF((op1_8 >> (count - 1)) & 0x1);
   }
   else {
     if (op1_8 & 0x80) {
@@ -345,7 +348,12 @@ void BX_CPU_C::SAR_Eb(bxInstruction_c *i)
     else {
       result_8 = 0;
     }
+
+    SET_FLAGS_OSZAPC_LOGIC_8(result_8); /* handle undefined SF, ZF and AF flags */
+    set_CF(result_8 & 0x1);
   }
+
+  clear_OF();  /* signed overflow cannot happen in SAR instruction */
 
   /* now write result back to destination */
   if (i->modC0()) {
@@ -354,6 +362,4 @@ void BX_CPU_C::SAR_Eb(bxInstruction_c *i)
   else {
     write_RMW_virtual_byte(result_8);
   }
-
-  SET_FLAGS_OSZAPC_8(op1_8, count, result_8, BX_INSTR_SAR8);
 }

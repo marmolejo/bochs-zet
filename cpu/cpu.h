@@ -3769,4 +3769,10 @@ IMPLEMENT_EFLAG_ACCESSOR   (TF,   8)
   BX_CPU_THIS_PTR lf_flags_status &= ~(EFlagsOFMask | EFlagsCFMask);    \
 }
 
+#define SET_FLAGS_OxxxxC(new_of, new_cf) {                              \
+  BX_CPU_THIS_PTR eflags.val32 &= ~((EFlagsOFMask | EFlagsCFMask));     \
+  BX_CPU_THIS_PTR eflags.val32 |= ((new_of)<<11) | (new_cf);            \
+  BX_CPU_THIS_PTR lf_flags_status &= ~((EFlagsOFMask | EFlagsCFMask));  \
+}
+
 #endif  // #ifndef BX_CPU_H

@@ -94,21 +94,6 @@
 #define BX_INSTR_SHR32          43
 #define BX_INSTR_SHR64          44
 
-#define BX_INSTR_SAR8           45
-#define BX_INSTR_SAR16          46
-#define BX_INSTR_SAR32          47
-#define BX_INSTR_SAR64          48
-
-#define BX_INSTR_MUL8           49
-#define BX_INSTR_MUL16          50
-#define BX_INSTR_MUL32          51
-#define BX_INSTR_MUL64          52
-
-#define BX_INSTR_IMUL8          53
-#define BX_INSTR_IMUL16         54
-#define BX_INSTR_IMUL32         55
-#define BX_INSTR_IMUL64         56
-
 #if BX_SUPPORT_X86_64
   #define BX_LF_SIGN_BIT  63
 #else
