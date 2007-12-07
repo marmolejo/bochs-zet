@@ -156,6 +156,12 @@ void apic_bus_deliver_smi(void)
   BX_CPU(0)->deliver_SMI();
 }
 
+void apic_bus_broadcast_smi(void)
+{
+  for (unsigned i=0; i<BX_SMP_PROCESSORS; i++)
+    BX_CPU(i)->deliver_SMI();
+}
+
 #if BX_SUPPORT_APIC
 
 ////////////////////////////////////
