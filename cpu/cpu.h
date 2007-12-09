@@ -3039,19 +3039,10 @@ public: // for now...
   else                                           \
     read_virtual_dqword(s, off, data);
 
-#define writeVirtualDQwordAligned(s, off, data)  \
-  if (! MXCSR.get_misaligned_exception_mask())   \
-    write_virtual_dqword_aligned(s, off, data);  \
-  else                                           \
-    write_virtual_dqword(s, off, data);
-
 #else // BX_SUPPORT_MISALIGNED_SSE = 0
 
 #define readVirtualDQwordAligned(s, off, data)   \
   read_virtual_dqword_aligned(s, off, data)
-
-#define writeVirtualDQwordAligned(s, off, data)  \
-  write_virtual_dqword_aligned(s, off, data)
 
 #endif
 
