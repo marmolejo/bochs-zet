@@ -200,8 +200,11 @@ void print_tree(bx_param_c *node, int level = 0);
 #if BX_SUPPORT_SMP
 #  define BX_TICK1_IF_SINGLE_PROCESSOR() \
              if (BX_SMP_PROCESSORS == 1) BX_TICK1()
+#  define BX_TICKN_IF_SINGLE_PROCESSOR() \
+             if (BX_SMP_PROCESSORS == 1) BX_TICKN(n)
 #else
 #  define BX_TICK1_IF_SINGLE_PROCESSOR() BX_TICK1()
+#  define BX_TICKN_IF_SINGLE_PROCESSOR() BX_TICKN(n)
 #endif
 
 // you can't use static member functions on the CPU, if there are going
