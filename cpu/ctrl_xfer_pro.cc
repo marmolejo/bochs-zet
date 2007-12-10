@@ -165,14 +165,9 @@ BX_CPU_C::branch_near64(bxInstruction_c *i)
 {
   Bit64u new_RIP = RIP + (Bit32s) i->Id();
 
-  if (! i->os32L()) {
-    new_RIP &= 0xffff; // For 16-bit opSize, upper 48 bits of RIP are cleared.
-  }
-  else {
-    if (! IsCanonical(new_RIP)) {
-      BX_ERROR(("branch_near64: canonical RIP violation"));
-      exception(BX_GP_EXCEPTION, 0, 0);
-    }
+  if (! IsCanonical(new_RIP)) {
+    BX_ERROR(("branch_near64: canonical RIP violation"));
+    exception(BX_GP_EXCEPTION, 0, 0);
   }
 
   RIP = new_RIP;
