@@ -40,9 +40,13 @@ typedef struct { /* bx_selector_t */
 typedef struct
 {
 
-#define SegValidCache (0x1)
-#define SegAccessROK  (0x2)
-#define SegAccessWOK  (0x4)
+#define SegValidCache   (0x1)
+#define SegAccessROK    (0x2)
+#define SegAccessWOK    (0x4)
+#define SegAccess4G     (0x8)
+
+#define SegAccessROK4G  (SegAccessROK|SegAccess4G)
+#define SegAccessWOK4G  (SegAccessWOK|SegAccess4G)
 
   unsigned valid;        // Holds above values, Or'd together.  Used to
                          // hold only 0 or 1.
