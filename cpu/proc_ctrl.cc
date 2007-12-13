@@ -2000,6 +2000,8 @@ void BX_CPU_C::MWAIT(bxInstruction_c *i)
   // will remain in a optimized state until one of the above 
   // conditions is met.
 
+  BX_INSTR_MWAIT(BX_CPU_ID, BX_CPU_THIS_PTR monitor.monitor_begin, CACHE_LINE_SIZE, ECX);
+
 #if BX_USE_IDLE_HACK  
   bx_gui->sim_is_idle();
 #endif
