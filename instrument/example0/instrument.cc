@@ -51,10 +51,10 @@ static struct instruction_t {
   bx_bool  is32, is64;
   unsigned num_data_accesses;
   struct {
-    bx_address laddr; // linear address
-    Bit32u paddr;     // physical address
-    unsigned op;      // BX_READ, BX_WRITE or BX_RW
-    unsigned size;    // 1 .. 8
+    bx_address laddr;     // linear address
+    bx_phy_address paddr; // physical address
+    unsigned op;          // BX_READ, BX_WRITE or BX_RW
+    unsigned size;        // 1 .. 8
   } data_access[MAX_DATA_ACCESSES];
   bx_bool is_branch;
   bx_bool is_taken;
