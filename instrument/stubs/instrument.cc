@@ -67,11 +67,10 @@ void bx_instr_outp(Bit16u addr, unsigned len) {}
 void bx_instr_inp2(Bit16u addr, unsigned len, unsigned val) {}
 void bx_instr_outp2(Bit16u addr, unsigned len, unsigned val) {}
 
-void bx_instr_mem_code(unsigned cpu, bx_address linear, unsigned size) {}
-void bx_instr_mem_data(unsigned cpu, bx_address linear, unsigned size, unsigned rw) {}
+void bx_instr_mem_code(unsigned cpu, bx_address linear, unsigned len) {}
+void bx_instr_mem_data(unsigned cpu, bx_address linear, unsigned len, unsigned rw) {}
 
-void bx_instr_lin_read(unsigned cpu, bx_address lin, bx_address phy, unsigned len, unsigned rw) {}
-void bx_instr_lin_write(unsigned cpu, bx_address lin, bx_address phy, unsigned len) {}
+void bx_instr_lin_access(unsigned cpu, bx_address lin, bx_address phy, unsigned len, unsigned rw) {}
 
 void bx_instr_phy_write(unsigned cpu, bx_address addr, unsigned len) {}
 void bx_instr_phy_read(unsigned cpu, bx_address addr, unsigned len) {}
