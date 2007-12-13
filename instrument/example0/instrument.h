@@ -117,7 +117,7 @@ void bx_instr_mem_data(unsigned cpu, bx_address lin, unsigned size, unsigned rw)
 #  define BX_INSTR_REPEAT_ITERATION(cpu_id, i)
 
 /* memory access */
-#  define BX_INSTR_LIN_READ(cpu_id, lin, phy, len)
+#  define BX_INSTR_LIN_READ(cpu_id, lin, phy, len, rw)
 #  define BX_INSTR_LIN_WRITE(cpu_id, lin, phy, len)
 
 #  define BX_INSTR_MEM_CODE(cpu_id, linear, size)
@@ -180,7 +180,7 @@ void bx_instr_mem_data(unsigned cpu, bx_address lin, unsigned size, unsigned rw)
 #  define BX_INSTR_REPEAT_ITERATION(cpu_id, i)
 
 /* memory access */
-#  define BX_INSTR_LIN_READ(cpu_id, lin, phy, len)
+#  define BX_INSTR_LIN_READ(cpu_id, lin, phy, len, rw)
 #  define BX_INSTR_LIN_WRITE(cpu_id, lin, phy, len)
 
 #  define BX_INSTR_MEM_CODE(cpu_id, linear, size)      
