@@ -1978,10 +1978,13 @@ public: // for now...
   BX_SMF void CALL_Ew(bxInstruction_c *);
   BX_SMF void CALL32_Ep(bxInstruction_c *);
   BX_SMF void CALL16_Ep(bxInstruction_c *);
-  BX_SMF void JMP_Ed(bxInstruction_c *);
-  BX_SMF void JMP_Ew(bxInstruction_c *);
   BX_SMF void JMP32_Ep(bxInstruction_c *);
   BX_SMF void JMP16_Ep(bxInstruction_c *);
+
+  BX_SMF void JMP_EdR(bxInstruction_c *);
+  BX_SMF void JMP_EwR(bxInstruction_c *);
+  BX_SMF void JMP_EdM(bxInstruction_c *);
+  BX_SMF void JMP_EwM(bxInstruction_c *);
 
   BX_SMF void PUSH_EwR(bxInstruction_c *);
   BX_SMF void PUSH_EdR(bxInstruction_c *);
