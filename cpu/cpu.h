@@ -2939,6 +2939,7 @@ public: // for now...
 #if BX_SUPPORT_TRACE_CACHE
   BX_SMF bxICacheEntry_c* fetchInstructionTrace(bxInstruction_c *, bx_address);
   BX_SMF bx_bool mergeTraces(bxICacheEntry_c *trace, bxInstruction_c *i, bx_phy_address pAddr);
+  BX_SMF void instrumentTraces(void);
 #else
   BX_SMF bxInstruction_c* fetchInstruction(bxInstruction_c *, bx_address);
 #endif
