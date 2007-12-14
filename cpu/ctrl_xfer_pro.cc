@@ -139,6 +139,12 @@ BX_CPU_C::branch_near32(Bit32u new_EIP)
     BX_ERROR(("branch_near: offset outside of CS limits"));
     exception(BX_GP_EXCEPTION, 0, 0);
   }
+
+#if BX_SUPPORT_TRACE_CACHE
+  // assert magic async_event to stop trace execution
+  BX_CPU_THIS_PTR async_event |= BX_ASYNC_EVENT_STOP_TRACE;
+#endif
+
   EIP = new_EIP;
 }
 
@@ -169,6 +175,11 @@ BX_CPU_C::branch_near64(bxInstruction_c *i)
     BX_ERROR(("branch_near64: canonical RIP violation"));
     exception(BX_GP_EXCEPTION, 0, 0);
   }
+
+#if BX_SUPPORT_TRACE_CACHE
+  // assert magic async_event to stop trace execution
+  BX_CPU_THIS_PTR async_event |= BX_ASYNC_EVENT_STOP_TRACE;
+#endif
 
   RIP = new_RIP;
 }
