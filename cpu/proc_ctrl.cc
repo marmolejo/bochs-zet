@@ -143,9 +143,7 @@ void BX_CPU_C::INVD(bxInstruction_c *i)
     exception(BX_GP_EXCEPTION, 0, 0);
   }
 
-  BX_DEBUG(("INVD: Flush caches and TLB !"));
-  BX_INSTR_CACHE_CNTRL(BX_CPU_ID, BX_INSTR_INVD);
-  TLB_flush(1); // 1 = Flush Global entries too
+  BX_DEBUG(("INVD: Flush internal caches !"));
 #if BX_SUPPORT_ICACHE
   flushICaches();
 #endif
@@ -166,9 +164,7 @@ void BX_CPU_C::WBINVD(bxInstruction_c *i)
     exception(BX_GP_EXCEPTION, 0, 0);
   }
 
-  BX_DEBUG(("WBINVD: Flush caches and TLB !"));
-  BX_INSTR_CACHE_CNTRL(BX_CPU_ID, BX_INSTR_WBINVD);
-  TLB_flush(1); // 1 = Flush Global entries too
+  BX_DEBUG(("WBINVD: Flush internal caches !"));
 #if BX_SUPPORT_ICACHE
   flushICaches();
 #endif
