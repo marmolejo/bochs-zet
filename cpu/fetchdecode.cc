@@ -2840,15 +2840,27 @@ modrm_done:
           return(0);
         }
         break;
+      case BxImmediate_IbIb:
+        if (ilen < remain) {
+          instruction->IxIxForm.Ib = *iptr++;
+          ilen++;
+        }
+        else return(0);
+        if (ilen < remain) {
+          instruction->IxIxForm.Ib2 = *iptr;
+          ilen++;
+        }
+        else {
+          return(0);
+        }
+        break;
       case BxImmediate_IwIb:
         if ((ilen+1) < remain) {
           instruction->IxIxForm.Iw = FetchWORD(iptr);
           iptr += 2;
           ilen += 2;
         }
-        else {
-          return(0);
-        }
+        else return(0);
         if (ilen < remain) {
           instruction->IxIxForm.Ib2 = *iptr;
           ilen++;
