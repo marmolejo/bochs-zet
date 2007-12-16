@@ -1943,7 +1943,7 @@ void BX_CPU_C::MONITOR(bxInstruction_c *i)
   laddr = BX_CPU_THIS_PTR get_segment_base(i->seg()) + addr;
 
   if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddr = dtranslate_linear(laddr, CPL==3, BX_READ);
+    paddr = dtranslate_linear(laddr, CPL, BX_READ);
     paddr = A20ADDR(paddr);
   }
   else

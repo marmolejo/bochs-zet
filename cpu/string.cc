@@ -63,12 +63,12 @@ Bit32u BX_CPU_C::FastRepMOVSB(bxInstruction_c *i, unsigned srcSeg, bx_address sr
   laddrSrc = BX_CPU_THIS_PTR get_segment_base(srcSeg) + srcOff;
 
 #if BX_SupportGuest2HostTLB
-  hostAddrSrc = v2h_read_byte(laddrSrc, CPL==3);
+  hostAddrSrc = v2h_read_byte(laddrSrc, CPL);
 #else
   bx_phy_address paddrSrc;
   
   if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrSrc = dtranslate_linear(laddrSrc, CPL==3, BX_READ);
+    paddrSrc = dtranslate_linear(laddrSrc, CPL, BX_READ);
   }
   else {
     paddrSrc = laddrSrc;
@@ -86,12 +86,12 @@ Bit32u BX_CPU_C::FastRepMOVSB(bxInstruction_c *i, unsigned srcSeg, bx_address sr
   laddrDst = BX_CPU_THIS_PTR get_segment_base(dstSeg) + dstOff;
 
 #if BX_SupportGuest2HostTLB
-  hostAddrDst = v2h_write_byte(laddrDst, CPL==3);
+  hostAddrDst = v2h_write_byte(laddrDst, CPL);
 #else
   bx_phy_address paddrDst;
 
   if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrDst = dtranslate_linear(laddrDst, CPL==3, BX_WRITE);
+    paddrDst = dtranslate_linear(laddrDst, CPL, BX_WRITE);
   }
   else {
     paddrDst = laddrDst;
@@ -209,12 +209,12 @@ Bit32u BX_CPU_C::FastRepMOVSW(bxInstruction_c *i, unsigned srcSeg, bx_address sr
   laddrSrc = BX_CPU_THIS_PTR get_segment_base(srcSeg) + srcOff;
 
 #if BX_SupportGuest2HostTLB
-  hostAddrSrc = v2h_read_byte(laddrSrc, CPL==3);
+  hostAddrSrc = v2h_read_byte(laddrSrc, CPL);
 #else
   bx_phy_address paddrSrc;
   
   if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrSrc = dtranslate_linear(laddrSrc, CPL==3, BX_READ);
+    paddrSrc = dtranslate_linear(laddrSrc, CPL, BX_READ);
   }
   else {
     paddrSrc = laddrSrc;
@@ -232,12 +232,12 @@ Bit32u BX_CPU_C::FastRepMOVSW(bxInstruction_c *i, unsigned srcSeg, bx_address sr
   laddrDst = BX_CPU_THIS_PTR get_segment_base(dstSeg) + dstOff;
 
 #if BX_SupportGuest2HostTLB
-  hostAddrDst = v2h_write_byte(laddrDst, CPL==3);
+  hostAddrDst = v2h_write_byte(laddrDst, CPL);
 #else
   bx_phy_address paddrDst;
 
   if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrDst = dtranslate_linear(laddrDst, CPL==3, BX_WRITE);
+    paddrDst = dtranslate_linear(laddrDst, CPL, BX_WRITE);
   }
   else {
     paddrDst = laddrDst;
@@ -359,12 +359,12 @@ Bit32u BX_CPU_C::FastRepMOVSD(bxInstruction_c *i, unsigned srcSeg, bx_address sr
   laddrSrc = BX_CPU_THIS_PTR get_segment_base(srcSeg) + srcOff;
 
 #if BX_SupportGuest2HostTLB
-  hostAddrSrc = v2h_read_byte(laddrSrc, CPL==3);
+  hostAddrSrc = v2h_read_byte(laddrSrc, CPL);
 #else
   bx_phy_address paddrSrc;
   
   if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrSrc = dtranslate_linear(laddrSrc, CPL==3, BX_READ);
+    paddrSrc = dtranslate_linear(laddrSrc, CPL, BX_READ);
   }
   else {
     paddrSrc = laddrSrc;
@@ -382,12 +382,12 @@ Bit32u BX_CPU_C::FastRepMOVSD(bxInstruction_c *i, unsigned srcSeg, bx_address sr
   laddrDst = BX_CPU_THIS_PTR get_segment_base(dstSeg) + dstOff;
 
 #if BX_SupportGuest2HostTLB
-  hostAddrDst = v2h_write_byte(laddrDst, CPL==3);
+  hostAddrDst = v2h_write_byte(laddrDst, CPL);
 #else
   bx_phy_address paddrDst;
 
   if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrDst = dtranslate_linear(laddrDst, CPL==3, BX_WRITE);
+    paddrDst = dtranslate_linear(laddrDst, CPL, BX_WRITE);
   }
   else {
     paddrDst = laddrDst;
@@ -503,12 +503,12 @@ Bit32u BX_CPU_C::FastRepSTOSB(bxInstruction_c *i, unsigned dstSeg, bx_address ds
   laddrDst = BX_CPU_THIS_PTR get_segment_base(dstSeg) + dstOff;
 
 #if BX_SupportGuest2HostTLB
-  hostAddrDst = v2h_write_byte(laddrDst, CPL==3);
+  hostAddrDst = v2h_write_byte(laddrDst, CPL);
 #else
   bx_phy_address paddrDst;
 
   if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrDst = dtranslate_linear(laddrDst, CPL==3, BX_WRITE);
+    paddrDst = dtranslate_linear(laddrDst, CPL, BX_WRITE);
   }
   else {
     paddrDst = laddrDst;
@@ -603,12 +603,12 @@ Bit32u BX_CPU_C::FastRepSTOSW(bxInstruction_c *i, unsigned dstSeg, bx_address ds
   laddrDst = BX_CPU_THIS_PTR get_segment_base(dstSeg) + dstOff;
 
 #if BX_SupportGuest2HostTLB
-  hostAddrDst = v2h_write_byte(laddrDst, CPL==3);
+  hostAddrDst = v2h_write_byte(laddrDst, CPL);
 #else
   bx_phy_address paddrDst;
 
   if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrDst = dtranslate_linear(laddrDst, CPL==3, BX_WRITE);
+    paddrDst = dtranslate_linear(laddrDst, CPL, BX_WRITE);
   }
   else {
     paddrDst = laddrDst;
@@ -706,12 +706,12 @@ Bit32u BX_CPU_C::FastRepSTOSD(bxInstruction_c *i, unsigned dstSeg, bx_address ds
   laddrDst = BX_CPU_THIS_PTR get_segment_base(dstSeg) + dstOff;
 
 #if BX_SupportGuest2HostTLB
-  hostAddrDst = v2h_write_byte(laddrDst, CPL==3);
+  hostAddrDst = v2h_write_byte(laddrDst, CPL);
 #else
   bx_phy_address paddrDst;
 
   if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrDst = dtranslate_linear(laddrDst, CPL==3, BX_WRITE);
+    paddrDst = dtranslate_linear(laddrDst, CPL, BX_WRITE);
   }
   else {
     paddrDst = laddrDst;

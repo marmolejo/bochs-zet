@@ -860,7 +860,7 @@ void BX_CPU_C::prefetch(void)
 
   if (BX_CPU_THIS_PTR cr0.get_PG()) {
     // aligned block guaranteed to be all in one page, same A20 address
-    pAddr = itranslate_linear(laddr, CPL==3);
+    pAddr = itranslate_linear(laddr, CPL);
     pAddr = A20ADDR(pAddr);
   }
   else
