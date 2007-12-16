@@ -84,7 +84,7 @@ void BX_CPU_C::stack_return_to_v86(Bit32u new_eip, Bit32u raw_cs_selector,
 
   // top 36 bytes of stack must be within stack limits, else #SS(0)
   if ( !can_pop(36) ) {
-    BX_INFO(("iret: VM: top 36 bytes not within limits"));
+    BX_ERROR(("stack_return_to_v86: top 36 bytes not within limits"));
     exception(BX_SS_EXCEPTION, 0, 0);
   }
 
@@ -128,8 +128,8 @@ void BX_CPU_C::iret16_stack_return_from_v86(bxInstruction_c *i)
 
   if( !can_pop(6) )
   {
+    BX_DEBUG(("iret16_stack_return_from_v86(): can't pop 6 bytes from the stack"));
     exception(BX_SS_EXCEPTION, 0, 0);
-    return;
   }
 
   pop_16(&ip);
@@ -142,7 +142,7 @@ void BX_CPU_C::iret16_stack_return_from_v86(bxInstruction_c *i)
     if (((flags16 & EFlagsIFMask) && BX_CPU_THIS_PTR get_VIP()) || 
          (flags16 & EFlagsTFMask))
     {
-      BX_DEBUG(("iret16_stack_return_from_v86: #GP(0) in VME mode"));
+      BX_DEBUG(("iret16_stack_return_from_v86(): #GP(0) in VME mode"));
       exception(BX_GP_EXCEPTION, 0, 0);
     }
 
@@ -185,8 +185,8 @@ void BX_CPU_C::iret32_stack_return_from_v86(bxInstruction_c *i)
 
   if( !can_pop(12) )
   {
+    BX_DEBUG(("iret32_stack_return_from_v86(): can't pop 12 bytes from the stack"));
     exception(BX_SS_EXCEPTION, 0, 0);
-    return;
   }
   
   pop_32(&eip);
