@@ -3306,10 +3306,12 @@ public: // for now...
 #endif
   BX_SMF void    push_16(Bit16u value16);
   BX_SMF void    push_32(Bit32u value32);
-  BX_SMF void    push_64(Bit64u value64);
   BX_SMF void    pop_16(Bit16u *value16_ptr);
   BX_SMF void    pop_32(Bit32u *value32_ptr);
+#if BX_SUPPORT_X86_64
+  BX_SMF void    push_64(Bit64u value64);
   BX_SMF void    pop_64(Bit64u *value64_ptr);
+#endif
   BX_SMF bx_bool can_push(bx_descriptor_t *descriptor, Bit32u esp, Bit32u bytes) BX_CPP_AttrRegparmN(3);
   BX_SMF bx_bool can_pop(Bit32u bytes);
   BX_SMF void    sanity_checks(void);
