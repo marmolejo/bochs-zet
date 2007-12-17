@@ -2209,6 +2209,7 @@ void bx_hard_drive_c::write(Bit32u address, Bit32u value, unsigned io_len)
           set_signature(channel, BX_SLAVE_SELECTED(channel));
           BX_SELECTED_CONTROLLER(channel).error_register = 0x01;
           BX_SELECTED_CONTROLLER(channel).status.drq = 0;
+          raise_interrupt(channel);
           break;
 
         case 0x91: // INITIALIZE DRIVE PARAMETERS
