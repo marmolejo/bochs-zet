@@ -2433,11 +2433,6 @@ void BX_CPU_C::MASKMOVQ_PqPRq(bxInstruction_c *i)
 #if BX_SUPPORT_3DNOW || BX_SUPPORT_SSE >= 1
   BX_CPU_THIS_PTR prepareMMX();
 
-  if (! i->modC0()) {
-    BX_INFO(("MASKMOVQ_PqPRq: unexpected memory reference"));
-    UndefinedOpcode(i);
-  }
-
   bx_address rdi;
   BxPackedMmxRegister op = BX_READ_MMX_REG(i->nnn()), 
     mask = BX_READ_MMX_REG(i->rm());

@@ -1752,7 +1752,7 @@ static const BxOpcodeInfo_t BxOpcodeGroupSSE_0ff6[4] = {
   /* F3 */ { 0, &BX_CPU_C::BxError }
 };
 
-static const BxOpcodeInfo_t BxOpcodeGroupSSE_0ff7[4] = {
+static const BxOpcodeInfo_t BxOpcodeGroupSSE_0ff7M[4] = {
   /* -- */ { 0, &BX_CPU_C::MASKMOVQ_PqPRq     },
   /* 66 */ { 0, &BX_CPU_C::MASKMOVDQU_VdqUdq },
   /* F2 */ { 0, &BX_CPU_C::BxError },

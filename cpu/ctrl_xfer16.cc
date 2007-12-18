@@ -576,11 +576,6 @@ void BX_CPU_C::IRET16(bxInstruction_c *i)
     goto done;
   }
 
-  if (! can_pop(6)) {
-    BX_ERROR(("IRET: top 6 bytes of stack not within stack limits"));
-    exception(BX_SS_EXCEPTION, 0, 0);
-  }
-
   pop_16(&ip);
   pop_16(&cs_raw);
   pop_16(&flags);

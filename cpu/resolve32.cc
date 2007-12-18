@@ -33,12 +33,6 @@
 
 
   void  BX_CPP_AttrRegparmN(1)
-BX_CPU_C::BxResolve32Rm(bxInstruction_c *i)
-{
-  RMAddr(i) = BX_READ_32BIT_REG(i->rm()) + i->displ32u();
-}
-
-  void  BX_CPP_AttrRegparmN(1)
 BX_CPU_C::BxResolve32Disp(bxInstruction_c *i)
 {
   RMAddr(i) = i->displ32u();

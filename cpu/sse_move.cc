@@ -790,11 +790,6 @@ void BX_CPU_C::MASKMOVDQU_VdqUdq(bxInstruction_c *i)
 #if BX_SUPPORT_SSE >= 2
   BX_CPU_THIS_PTR prepareSSE();
 
-  if (! i->modC0()) {
-    BX_INFO(("MASKMOVDQU_VdqUdq: unexpected memory reference"));
-    UndefinedOpcode(i);
-  }
-
   bx_address rdi;
   BxPackedXmmRegister op = BX_READ_XMM_REG(i->nnn()), 
     mask = BX_READ_XMM_REG(i->rm());

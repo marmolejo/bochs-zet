@@ -567,11 +567,6 @@ void BX_CPU_C::IRET32(bxInstruction_c *i)
 
   Bit32u eip, ecs, eflags;
 
-  if (! can_pop(12)) {
-    BX_ERROR(("IRETD: to 12 bytes of stack not within stack limits"));
-    exception(BX_SS_EXCEPTION, 0, 0);
-  }
-
   pop_32(&eip);
 
   // CS.LIMIT in real mode is 0xffff
