@@ -2584,7 +2584,7 @@ fetch_b1:
       }
       else
         return(0);
-  }
+    }
 #endif
 
     // opcode requires modrm byte

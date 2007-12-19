@@ -700,7 +700,7 @@ void BX_CPU_C::CMPXCHG8B(bxInstruction_c *i)
 #if BX_CPU_LEVEL >= 5
   Bit32u op1_64_lo, op1_64_hi, diff;
 
-  read_virtual_dword(i->seg(), RMAddr(i), &op1_64_lo);
+  read_RMW_virtual_dword(i->seg(), RMAddr(i),     &op1_64_lo);
   read_RMW_virtual_dword(i->seg(), RMAddr(i) + 4, &op1_64_hi);
 
   diff  = EAX - op1_64_lo;
@@ -708,8 +708,9 @@ void BX_CPU_C::CMPXCHG8B(bxInstruction_c *i)
 
   if (diff == 0) {  // if accumulator == dest
     // dest <-- src
-    write_virtual_dword(i->seg(), RMAddr(i), &EBX);
     write_RMW_virtual_dword(ECX);
+    // write permissions already checked by read_RMW_virtual_dword
+    write_virtual_dword(i->seg(), RMAddr(i), &EBX);
     assert_ZF();
   }
   else {

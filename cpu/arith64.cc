@@ -678,7 +678,7 @@ void BX_CPU_C::CMPXCHG16B(bxInstruction_c *i)
     exception(BX_GP_EXCEPTION, 0, 0);
   }
 
-  read_virtual_qword(i->seg(), RMAddr(i), &op1_64_lo);
+  read_RMW_virtual_qword(i->seg(), RMAddr(i),     &op1_64_lo);
   read_RMW_virtual_qword(i->seg(), RMAddr(i) + 8, &op1_64_hi);
 
   diff  = RAX - op1_64_lo;
@@ -686,8 +686,9 @@ void BX_CPU_C::CMPXCHG16B(bxInstruction_c *i)
 
   if (diff == 0) {  // if accumulator == dest
     // dest <-- src
-    write_virtual_qword(i->seg(), RMAddr(i), &RBX);
     write_RMW_virtual_qword(RCX);
+    // write permissions already checked by read_RMW_virtual_qword
+    write_virtual_qword(i->seg(), RMAddr(i), &RBX);
     assert_ZF();
   }
   else {
