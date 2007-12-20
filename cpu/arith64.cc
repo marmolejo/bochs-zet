@@ -688,7 +688,7 @@ void BX_CPU_C::CMPXCHG16B(bxInstruction_c *i)
     // dest <-- src
     write_RMW_virtual_qword(RCX);
     // write permissions already checked by read_RMW_virtual_qword
-    write_virtual_qword(i->seg(), RMAddr(i), &RBX);
+    write_virtual_qword(i->seg(), RMAddr(i), RBX);
     assert_ZF();
   }
   else {

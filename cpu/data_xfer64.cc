@@ -48,7 +48,7 @@ void BX_CPU_C::MOV_RRXIq(bxInstruction_c *i)
 
 void BX_CPU_C::MOV_EqGqM(bxInstruction_c *i)
 {
-  write_virtual_qword(i->seg(), RMAddr(i), &BX_READ_64BIT_REG(i->nnn()));
+  write_virtual_qword(i->seg(), RMAddr(i), BX_READ_64BIT_REG(i->nnn()));
 }
 
 void BX_CPU_C::MOV_EqGqR(bxInstruction_c *i)
@@ -81,7 +81,7 @@ void BX_CPU_C::MOV_ALOq(bxInstruction_c *i)
 
 void BX_CPU_C::MOV_OqAL(bxInstruction_c *i)
 {
-  write_virtual_byte(i->seg(), i->Iq(), &AL);
+  write_virtual_byte(i->seg(), i->Iq(), AL);
 }
 
 void BX_CPU_C::MOV_AXOq(bxInstruction_c *i)
@@ -91,7 +91,7 @@ void BX_CPU_C::MOV_AXOq(bxInstruction_c *i)
 
 void BX_CPU_C::MOV_OqAX(bxInstruction_c *i)
 {
-  write_virtual_word(i->seg(), i->Iq(), &AX);
+  write_virtual_word(i->seg(), i->Iq(), AX);
 }
 
 void BX_CPU_C::MOV_EAXOq(bxInstruction_c *i)
@@ -106,7 +106,7 @@ void BX_CPU_C::MOV_EAXOq(bxInstruction_c *i)
 
 void BX_CPU_C::MOV_OqEAX(bxInstruction_c *i)
 {
-  write_virtual_dword(i->seg(), i->Iq(), &EAX);
+  write_virtual_dword(i->seg(), i->Iq(), EAX);
 }
 
 void BX_CPU_C::MOV_RAXOq(bxInstruction_c *i)
@@ -116,13 +116,13 @@ void BX_CPU_C::MOV_RAXOq(bxInstruction_c *i)
 
 void BX_CPU_C::MOV_OqRAX(bxInstruction_c *i)
 {
-  write_virtual_qword(i->seg(), i->Iq(), &RAX);
+  write_virtual_qword(i->seg(), i->Iq(), RAX);
 }
 
 void BX_CPU_C::MOV_EqIdM(bxInstruction_c *i)
 {
   Bit64u op_64 = (Bit32s) i->Id();
-  write_virtual_qword(i->seg(), RMAddr(i), &op_64);
+  write_virtual_qword(i->seg(), RMAddr(i), op_64);
 }
 
 void BX_CPU_C::MOV_EqIdR(bxInstruction_c *i)

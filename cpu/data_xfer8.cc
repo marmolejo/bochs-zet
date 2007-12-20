@@ -44,7 +44,7 @@ void BX_CPU_C::MOV_RHIb(bxInstruction_c *i)
 
 void BX_CPU_C::MOV_EbGbM(bxInstruction_c *i)
 {
-  write_virtual_byte(i->seg(), RMAddr(i), &BX_READ_8BIT_REGx(i->nnn(), i->extend8bitL()));
+  write_virtual_byte(i->seg(), RMAddr(i), BX_READ_8BIT_REGx(i->nnn(), i->extend8bitL()));
 }
 
 void BX_CPU_C::MOV_EbGbR(bxInstruction_c *i)
@@ -71,13 +71,13 @@ void BX_CPU_C::MOV_ALOd(bxInstruction_c *i)
 
 void BX_CPU_C::MOV_OdAL(bxInstruction_c *i)
 {
-  write_virtual_byte(i->seg(), i->Id(), &AL);
+  write_virtual_byte(i->seg(), i->Id(), AL);
 }
 
 void BX_CPU_C::MOV_EbIbM(bxInstruction_c *i)
 {
   Bit8u op_8 = i->Ib();
-  write_virtual_byte(i->seg(), RMAddr(i), &op_8);
+  write_virtual_byte(i->seg(), RMAddr(i), op_8);
 }
 
 void BX_CPU_C::MOV_EbIbR(bxInstruction_c *i)

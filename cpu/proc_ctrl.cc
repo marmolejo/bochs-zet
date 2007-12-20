@@ -870,7 +870,7 @@ void BX_CPU_C::SMSW_Ew(bxInstruction_c *i)
     }
   }
   else {
-    write_virtual_word(i->seg(), RMAddr(i), &msw);
+    write_virtual_word(i->seg(), RMAddr(i), msw);
   }
 }
 #endif

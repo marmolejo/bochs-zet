@@ -710,7 +710,7 @@ void BX_CPU_C::CMPXCHG8B(bxInstruction_c *i)
     // dest <-- src
     write_RMW_virtual_dword(ECX);
     // write permissions already checked by read_RMW_virtual_dword
-    write_virtual_dword(i->seg(), RMAddr(i), &EBX);
+    write_virtual_dword(i->seg(), RMAddr(i), EBX);
     assert_ZF();
   }
   else {
