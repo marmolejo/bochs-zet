@@ -85,6 +85,7 @@ extern "C" {
 #  include <sys/types.h>
 #  include <sys/stat.h>
 #  include <sys/param.h> /* for MAXPATHLEN */
+#  include <sys/time.h>
 #  include <utime.h>
 #else
 #  ifndef WIN32
