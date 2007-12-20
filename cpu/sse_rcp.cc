@@ -389,7 +389,7 @@ void BX_CPU_C::RCPSS_VssWss(bxInstruction_c *i)
   }
   else {
     /* pointer, segment address pair */
-    read_virtual_dword(i->seg(), RMAddr(i), &op);
+    op = read_virtual_dword(i->seg(), RMAddr(i));
   }
 
   op = approximate_rcp(op);
@@ -738,7 +738,7 @@ void BX_CPU_C::RSQRTSS_VssWss(bxInstruction_c *i)
   }
   else {
     /* pointer, segment address pair */
-    read_virtual_dword(i->seg(), RMAddr(i), &op);
+    op = read_virtual_dword(i->seg(), RMAddr(i));
   }
 
   op = approximate_rsqrt(op);

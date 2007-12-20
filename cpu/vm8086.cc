@@ -91,14 +91,14 @@ void BX_CPU_C::stack_return_to_v86(Bit32u new_eip, Bit32u raw_cs_selector,
   esp_laddr = BX_CPU_THIS_PTR get_segment_base(BX_SEG_REG_SS) + temp_ESP;
 
   // load SS:ESP from stack
-  read_virtual_dword(BX_SEG_REG_SS, temp_ESP+12, &new_esp);
-  read_virtual_word (BX_SEG_REG_SS, temp_ESP+16, &raw_ss_selector);
+  new_esp = read_virtual_dword(BX_SEG_REG_SS, temp_ESP+12);
+  raw_ss_selector = read_virtual_word(BX_SEG_REG_SS, temp_ESP+16);
 
   // load ES,DS,FS,GS from stack
-  read_virtual_word (BX_SEG_REG_SS, temp_ESP+20, &raw_es_selector);
-  read_virtual_word (BX_SEG_REG_SS, temp_ESP+24, &raw_ds_selector);
-  read_virtual_word (BX_SEG_REG_SS, temp_ESP+28, &raw_fs_selector);
-  read_virtual_word (BX_SEG_REG_SS, temp_ESP+32, &raw_gs_selector);
+  raw_es_selector = read_virtual_word(BX_SEG_REG_SS, temp_ESP+20);
+  raw_ds_selector = read_virtual_word(BX_SEG_REG_SS, temp_ESP+24);
+  raw_fs_selector = read_virtual_word(BX_SEG_REG_SS, temp_ESP+28);
+  raw_gs_selector = read_virtual_word(BX_SEG_REG_SS, temp_ESP+32);
 
   writeEFlags(flags32, EFlagsValidMask);
 

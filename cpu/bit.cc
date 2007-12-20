@@ -308,13 +308,13 @@ static Bit32u mod2_64bit(Bit64u divisor, Bit64u dividend)
 void BX_CPU_C::CRC32_GdEb(bxInstruction_c *i)
 {
 #if (BX_SUPPORT_SSE >= 5) || (BX_SUPPORT_SSE >= 4 && BX_SUPPORT_SSE_EXTENSION > 0)
-  Bit8u  op1;
+  Bit8u op1;
 
   if (i->modC0()) {
     op1 = BX_READ_8BIT_REGx(i->rm(),i->extend8bitL());
   }
   else {
-    read_virtual_byte(i->seg(), RMAddr(i), &op1);
+    op1 = read_virtual_byte(i->seg(), RMAddr(i));
   }
 
   Bit32u op2 = BX_READ_32BIT_REG(i->nnn());
@@ -349,7 +349,7 @@ void BX_CPU_C::CRC32_GdEv(bxInstruction_c *i)
       op1 = BX_READ_64BIT_REG(i->rm());
     }
     else {
-      read_virtual_qword(i->seg(), RMAddr(i), &op1);
+      op1 = read_virtual_qword(i->seg(), RMAddr(i));
     }
 
     Bit64u tmp1 = ((Bit64u) BitReflect32(op1 & 0xffffffff)) << 32;
@@ -372,7 +372,7 @@ void BX_CPU_C::CRC32_GdEv(bxInstruction_c *i)
         op1 = BX_READ_32BIT_REG(i->rm());
       }
       else {
-        read_virtual_dword(i->seg(), RMAddr(i), &op1);
+        op1 = read_virtual_dword(i->seg(), RMAddr(i));
       }
 
       Bit64u tmp1 = ((Bit64u) BitReflect32(op1)) << 32;
@@ -387,7 +387,7 @@ void BX_CPU_C::CRC32_GdEv(bxInstruction_c *i)
         op1 = BX_READ_16BIT_REG(i->rm());
       }
       else {
-        read_virtual_word(i->seg(), RMAddr(i), &op1);
+        op1 = read_virtual_word(i->seg(), RMAddr(i));
       }
 
       Bit64u tmp1 = ((Bit64u) BitReflect16(op1)) << 32;

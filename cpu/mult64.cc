@@ -219,7 +219,7 @@ void BX_CPU_C::MUL_RAXEq(bxInstruction_c *i)
   }
   else {
     /* pointer, segment address pair */
-    read_virtual_qword(i->seg(), RMAddr(i), &op2_64);
+    op2_64 = read_virtual_qword(i->seg(), RMAddr(i));
   }
 
   // product_128 = ((Bit128u) op1_64) * ((Bit128u) op2_64);
@@ -253,7 +253,7 @@ void BX_CPU_C::IMUL_RAXEq(bxInstruction_c *i)
   }
   else {
     /* pointer, segment address pair */
-    read_virtual_qword(i->seg(), RMAddr(i), (Bit64u *) &op2_64);
+    op2_64 = (Bit64s) read_virtual_qword(i->seg(), RMAddr(i));
   }
 
   // product_128 = ((Bit128s) op1_64) * ((Bit128s) op2_64);
@@ -293,7 +293,7 @@ void BX_CPU_C::DIV_RAXEq(bxInstruction_c *i)
   }
   else {
     /* pointer, segment address pair */
-    read_virtual_qword(i->seg(), RMAddr(i), &op2_64);
+    op2_64 = read_virtual_qword(i->seg(), RMAddr(i));
   }
 
   if (op2_64 == 0) {
@@ -333,7 +333,7 @@ void BX_CPU_C::IDIV_RAXEq(bxInstruction_c *i)
   }
   else {
     /* pointer, segment address pair */
-    read_virtual_qword(i->seg(), RMAddr(i), (Bit64u *) &op2_64);
+    op2_64 = (Bit64s) read_virtual_qword(i->seg(), RMAddr(i));
   }
  
   if (op2_64 == 0) {
@@ -382,7 +382,7 @@ void BX_CPU_C::IMUL_GqEqId(bxInstruction_c *i)
   }
   else {
     /* pointer, segment address pair */
-    read_virtual_qword(i->seg(), RMAddr(i), (Bit64u *) &op2_64);
+    op2_64 = (Bit64s) read_virtual_qword(i->seg(), RMAddr(i));
   }
 
   long_imul(&product_128,op2_64,op3_64);
@@ -409,7 +409,7 @@ void BX_CPU_C::IMUL_GqEq(bxInstruction_c *i)
   }
   else {
     /* pointer, segment address pair */
-    read_virtual_qword(i->seg(), RMAddr(i), (Bit64u *) &op2_64);
+    op2_64 = (Bit64s) read_virtual_qword(i->seg(), RMAddr(i));
   }
 
   op1_64 = BX_READ_64BIT_REG(i->nnn());
