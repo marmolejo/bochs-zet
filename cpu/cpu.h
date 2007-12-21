@@ -3178,13 +3178,9 @@ public: // for now...
 
 #if BX_SupportGuest2HostTLB
   BX_SMF Bit8u* v2h_read_byte(bx_address laddr, unsigned curr_pl) BX_CPP_AttrRegparmN(2);
-  BX_SMF Bit16u* v2h_read_word(bx_address laddr, unsigned curr_pl) BX_CPP_AttrRegparmN(2);
-  BX_SMF Bit32u* v2h_read_dword(bx_address laddr, unsigned curr_pl) BX_CPP_AttrRegparmN(2);
-  BX_SMF Bit64u* v2h_read_qword(bx_address laddr, unsigned curr_pl) BX_CPP_AttrRegparmN(2);
+  BX_SMF Bit8u* v2h_read(bx_address laddr, unsigned curr_pl, unsigned len) BX_CPP_AttrRegparmN(3);
   BX_SMF Bit8u* v2h_write_byte(bx_address laddr, unsigned curr_pl) BX_CPP_AttrRegparmN(2);
-  BX_SMF Bit16u* v2h_write_word(bx_address laddr, unsigned curr_pl) BX_CPP_AttrRegparmN(2);
-  BX_SMF Bit32u* v2h_write_dword(bx_address laddr, unsigned curr_pl) BX_CPP_AttrRegparmN(2);
-  BX_SMF Bit64u* v2h_write_qword(bx_address laddr, unsigned curr_pl) BX_CPP_AttrRegparmN(2);
+  BX_SMF Bit8u* v2h_write(bx_address laddr, unsigned curr_pl, unsigned len) BX_CPP_AttrRegparmN(3);
 #endif
 
   BX_SMF void branch_near32(Bit32u new_EIP) BX_CPP_AttrRegparmN(1);
