@@ -142,7 +142,7 @@ public:
   BX_CPP_INLINE unsigned hash(bx_phy_address pAddr) const
   {
     // A pretty dumb hash function for now.
-    return pAddr & (BxICacheEntries-1);
+    return (pAddr + (pAddr>>4)) & (BxICacheEntries-1);
   }
 
   BX_CPP_INLINE void purgeICacheEntries(void);
