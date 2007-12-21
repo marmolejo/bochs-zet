@@ -51,15 +51,12 @@ void BX_CPU_C::MOV_EwGwM(bxInstruction_c *i)
 
 void BX_CPU_C::MOV_EwGwR(bxInstruction_c *i)
 {
-  Bit16u op2_16 = BX_READ_16BIT_REG(i->nnn());
-  BX_WRITE_16BIT_REG(i->rm(), op2_16);
+  BX_WRITE_16BIT_REG(i->rm(), BX_READ_16BIT_REG(i->nnn()));
 }
 
 void BX_CPU_C::MOV_GwEwR(bxInstruction_c *i)
 {
-  // 2nd modRM operand Ex, is known to be a general register Gw.
-  Bit16u op2_16 = BX_READ_16BIT_REG(i->rm());
-  BX_WRITE_16BIT_REG(i->nnn(), op2_16);
+  BX_WRITE_16BIT_REG(i->nnn(), BX_READ_16BIT_REG(i->rm()));
 }
 
 void BX_CPU_C::MOV_GwEwM(bxInstruction_c *i)

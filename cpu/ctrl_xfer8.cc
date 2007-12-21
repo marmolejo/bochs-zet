@@ -53,6 +53,16 @@ void BX_CPU_C::JCXZ_Jb(bxInstruction_c *i)
   BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(BX_CPU_ID);
 }
 
+//
+// There is some weirdness in LOOP instructions definition. If an exception
+// was generated during the instruction execution (for example #GP fault
+// because EIP was beyond CS segment limits) CPU state should restore the
+// state prior to instruction execution. 
+//
+// The final point that we are not allowed to decrement ECX register before
+// it is known that no exceptions can happen.
+//
+
 void BX_CPU_C::LOOPNE_Jb(bxInstruction_c *i)
 {
   // it is impossible to get this instruction in long mode
@@ -64,7 +74,7 @@ void BX_CPU_C::LOOPNE_Jb(bxInstruction_c *i)
   if (i->as32L())
     count = ECX;
   else
-#endif /* BX_CPU_LEVEL >= 3 */
+#endif
     count = CX;
 
   count--;
@@ -97,7 +107,7 @@ void BX_CPU_C::LOOPE_Jb(bxInstruction_c *i)
   if (i->as32L())
     count = ECX;
   else
-#endif /* BX_CPU_LEVEL >= 3 */
+#endif
     count = CX;
 
   count--;
@@ -130,7 +140,7 @@ void BX_CPU_C::LOOP_Jb(bxInstruction_c *i)
   if (i->as32L())
     count = ECX;
   else
-#endif /* BX_CPU_LEVEL >= 3 */
+#endif
     count = CX;
 
   count--;

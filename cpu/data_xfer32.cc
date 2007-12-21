@@ -59,15 +59,12 @@ void BX_CPU_C::MOV_EdGdM(bxInstruction_c *i)
 
 void BX_CPU_C::MOV_EdGdR(bxInstruction_c *i)
 {
-  Bit32u op2_32 = BX_READ_32BIT_REG(i->nnn());
-  BX_WRITE_32BIT_REGZ(i->rm(), op2_32);
+  BX_WRITE_32BIT_REGZ(i->rm(), BX_READ_32BIT_REG(i->nnn()));
 }
 
 void BX_CPU_C::MOV_GdEdR(bxInstruction_c *i)
 {
-  // 2nd modRM operand Ex, is known to be a general register Gd.
-  Bit32u op2_32 = BX_READ_32BIT_REG(i->rm());
-  BX_WRITE_32BIT_REGZ(i->nnn(), op2_32);
+  BX_WRITE_32BIT_REGZ(i->nnn(), BX_READ_32BIT_REG(i->rm()));
 }
 
 void BX_CPU_C::MOV_GdEdM(bxInstruction_c *i)
