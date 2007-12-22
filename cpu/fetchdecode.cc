@@ -2448,9 +2448,10 @@ static const BxOpcodeInfo_t BxOpcodeInfo32M[512*2] = {
 };
 
   unsigned
-BX_CPU_C::fetchDecode32(Bit8u *iptr, bxInstruction_c *i, unsigned remain)
+BX_CPU_C::fetchDecode32(Bit8u *iptr, bxInstruction_c *i, unsigned remainingInPage)
 {
   // remain must be at least 1
+  unsigned remain = (remainingInPage < 15) ? remainingInPage : 15;
 
   bx_bool is_32, lock=0;
   unsigned b1, b2, ilen=0, attr, os_32;
