@@ -538,7 +538,7 @@ void BX_CPU_C::NEG_EwM(bxInstruction_c *i)
   Bit16u op1_16;
 
   op1_16 = read_RMW_virtual_word(i->seg(), RMAddr(i));
-  op1_16 = -op1_16;
+  op1_16 = (Bit16u) -op1_16;
   write_RMW_virtual_word(op1_16);
 
   SET_FLAGS_OSZAPC_RESULT_16(op1_16, BX_INSTR_NEG16);
@@ -547,7 +547,7 @@ void BX_CPU_C::NEG_EwM(bxInstruction_c *i)
 void BX_CPU_C::NEG_EwR(bxInstruction_c *i)
 {
   Bit16u op1_16 = BX_READ_16BIT_REG(i->rm());
-  op1_16 = -op1_16;
+  op1_16 = (Bit16u) -op1_16;
   BX_WRITE_16BIT_REG(i->rm(), op1_16);
 
   SET_FLAGS_OSZAPC_RESULT_16(op1_16, BX_INSTR_NEG16);

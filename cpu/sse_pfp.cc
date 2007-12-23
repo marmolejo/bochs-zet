@@ -676,8 +676,8 @@ void BX_CPU_C::CVTPS2PD_VpsWps(bxInstruction_c *i)
     r1 = handleDAZ(r1);
   }
 
-  result.xmm32u(0) = float32_to_float64(r0, status_word);
-  result.xmm32u(1) = float32_to_float64(r1, status_word);
+  result.xmm64u(0) = float32_to_float64(r0, status_word);
+  result.xmm64u(1) = float32_to_float64(r1, status_word);
 
   BX_CPU_THIS_PTR check_exceptionsSSE(status_word.float_exception_flags);
   BX_WRITE_XMM_REG(i->nnn(), result);

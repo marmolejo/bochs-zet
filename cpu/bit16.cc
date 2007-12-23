@@ -126,8 +126,9 @@ void BX_CPU_C::BT_EwGwR(bxInstruction_c *i)
 void BX_CPU_C::BTS_EwGwM(bxInstruction_c *i)
 {
   bx_address op1_addr;
-  Bit16u op1_16, op2_16, bit_i, index;
+  Bit16u op1_16, op2_16, index;
   Bit32s displacement32;
+  bx_bool bit_i;
 
   op2_16 = BX_READ_16BIT_REG(i->nnn());
   index = op2_16 & 0x0f;

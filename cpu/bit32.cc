@@ -130,8 +130,9 @@ void BX_CPU_C::BT_EdGdR(bxInstruction_c *i)
 void BX_CPU_C::BTS_EdGdM(bxInstruction_c *i)
 {
   bx_address op1_addr;
-  Bit32u op1_32, op2_32, bit_i, index;
+  Bit32u op1_32, op2_32, index;
   Bit32s displacement32;
+  bx_bool bit_i;
 
   op2_32 = BX_READ_32BIT_REG(i->nnn());
 

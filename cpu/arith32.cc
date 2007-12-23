@@ -592,7 +592,7 @@ void BX_CPU_C::NEG_EdM(bxInstruction_c *i)
   Bit32u op1_32;
 
   op1_32 = read_RMW_virtual_dword(i->seg(), RMAddr(i));
-  op1_32 = -op1_32;
+  op1_32 = (Bit32u) -op1_32;
   write_RMW_virtual_dword(op1_32);
 
   SET_FLAGS_OSZAPC_RESULT_32(op1_32, BX_INSTR_NEG32);
@@ -601,7 +601,7 @@ void BX_CPU_C::NEG_EdM(bxInstruction_c *i)
 void BX_CPU_C::NEG_EdR(bxInstruction_c *i)
 {
   Bit32u op1_32 = BX_READ_32BIT_REG(i->rm());
-  op1_32 = -op1_32;
+  op1_32 = (Bit32u) -op1_32;
   BX_WRITE_32BIT_REGZ(i->rm(), op1_32);
 
   SET_FLAGS_OSZAPC_RESULT_32(op1_32, BX_INSTR_NEG32);

@@ -1736,7 +1736,7 @@ static int parse_bochsrc(const char *rcfile)
   do {
     ret = fgets(line, sizeof(line)-1, fd);
     line[sizeof(line) - 1] = '\0';
-    int len = strlen(line);
+    size_t len = strlen(line);
     if ((len>0) && (line[len-1] < ' '))
       line[len-1] = '\0';
     if ((ret != NULL) && strlen(line)) {
