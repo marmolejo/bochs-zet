@@ -156,7 +156,7 @@ public:
   // when A20 line is disabled, mask physical memory addresses to:
   //    286:      20 bits
   //    386:      20 bits
-  Bit32u  a20_mask;
+  bx_phy_address a20_mask;
 
   volatile bx_bool kill_bochs_request;
 

@@ -231,7 +231,7 @@ void BX_CPU_C::FBLD_PACKED_BCD(bxInstruction_c *i)
   }
 
   // read packed bcd from memory
-  Bit16u lo8 = read_virtual_qword(i->seg(), RMAddr(i));
+  Bit64u lo8 = read_virtual_qword(i->seg(), RMAddr(i));
   Bit16u hi2 = read_virtual_word (i->seg(), RMAddr(i) + 8);
 
   Bit64s scale = 1; 

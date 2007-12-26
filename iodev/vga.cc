@@ -122,7 +122,7 @@ bx_vga_c::~bx_vga_c()
 
 void bx_vga_c::init(void)
 {
-  unsigned i,len,string_i;
+  unsigned i,string_i;
   unsigned x,y;
 #if BX_SUPPORT_VBE  
   Bit16u max_xres, max_yres, max_bpp;
@@ -132,6 +132,7 @@ void bx_vga_c::init(void)
   char *ptr;
   char string[512];
   char *extname;
+  size_t len;
 #if BX_SUPPORT_VBE  
   unsigned addr;
 #endif
