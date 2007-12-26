@@ -451,7 +451,7 @@ BX_CPU_C::long_iret(bxInstruction_c *i)
 
     /* load CS:EIP from stack */
     /* load CS-cache with new code segment descriptor */
-    branch_far32(&cs_selector, &cs_descriptor, new_rip, CPL);
+    branch_far32(&cs_selector, &cs_descriptor, (Bit32u) new_rip, CPL);
 
     // ID,VIP,VIF,AC,VM,RF,x,NT,IOPL,OF,DF,IF,TF,SF,ZF,x,AF,x,PF,x,CF
     Bit32u changeMask = EFlagsOSZAPCMask | EFlagsTFMask | EFlagsDFMask |

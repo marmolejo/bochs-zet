@@ -80,7 +80,6 @@ void BX_CPU_C::POP16_DS(bxInstruction_c *i)
   load_seg_reg(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_DS], ds);
 
   BX_CPU_THIS_PTR speculative_rsp = 0;
-
 }
 
 void BX_CPU_C::POP16_ES(bxInstruction_c *i)

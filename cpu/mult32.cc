@@ -198,8 +198,8 @@ void BX_CPU_C::IMUL_GdEdId(bxInstruction_c *i)
     op2_32 = (Bit32s) read_virtual_dword(i->seg(), RMAddr(i));
   }
 
-  Bit64s product_64  = ((Bit64s) op2_32) * ((Bit64s) op3_32);
-  Bit32u product_32 = (product_64 & 0xFFFFFFFF);
+  Bit64s product_64 = ((Bit64s) op2_32) * ((Bit64s) op3_32);
+  Bit32u product_32 = (Bit32u)(product_64 & 0xFFFFFFFF);
 
   /* now write product back to destination */
   BX_WRITE_32BIT_REGZ(i->nnn(), product_32);
@@ -231,7 +231,7 @@ void BX_CPU_C::IMUL_GdEd(bxInstruction_c *i)
   op1_32 = BX_READ_32BIT_REG(i->nnn());
 
   Bit64s product_64 = ((Bit64s) op1_32) * ((Bit64s) op2_32);
-  Bit32u product_32 = (product_64 & 0xFFFFFFFF);
+  Bit32u product_32 = (Bit32u)(product_64 & 0xFFFFFFFF);
 
   /* now write product back to destination */
   BX_WRITE_32BIT_REGZ(i->nnn(), product_32);

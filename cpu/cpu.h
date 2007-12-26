@@ -1262,6 +1262,8 @@ public: // for now...
 
 #endif  // #if BX_USE_TLB
 
+#define PAGE_OFFSET(laddr) ((Bit32u)(laddr) & 0xfff)
+
   // An instruction cache.  Each entry should be exactly 32 bytes, and
   // this structure should be aligned on a 32-byte boundary to be friendly
   // with the host cache lines.

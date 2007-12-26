@@ -45,7 +45,7 @@ void BX_CPU_C::debug_disasm_instruction(bx_address offset)
 
   static char letters[] = "0123456789ABCDEF";
   static disassembler bx_disassemble;
-  unsigned remainsInPage = 0x1000 - (offset & 0xfff);
+  unsigned remainsInPage = 0x1000 - PAGE_OFFSET(offset);
 
   bx_bool valid = dbg_xlate_linear2phy(BX_CPU_THIS_PTR get_segment_base(BX_SEG_REG_CS) + offset, &phy_addr);
   if (valid && BX_CPU_THIS_PTR mem!=NULL) {

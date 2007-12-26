@@ -88,12 +88,12 @@ Bit32u BX_CPU_C::FastRepINSW(bxInstruction_c *i, bx_address dstOff, Bit16u port,
     // Counting downward
     // Note: 1st word must not cross page boundary.
     if ((laddrDst & 0xfff) > 0xffe) return 0;
-    wordsFitDst = (2 + (laddrDst & 0xfff)) >> 1;
+    wordsFitDst = (2 + (PAGE_OFFSET(laddrDst))) >> 1;
     pointerDelta = -2;
   }
   else {
     // Counting upward
-    wordsFitDst = (0x1000 - (laddrDst & 0xfff)) >> 1;
+    wordsFitDst = (0x1000 - PAGE_OFFSET(laddrDst)) >> 1;
     pointerDelta =  2;
   }
 
@@ -215,12 +215,12 @@ Bit32u BX_CPU_C::FastRepOUTSW(bxInstruction_c *i, unsigned srcSeg, bx_address sr
     // Counting downward
     // Note: 1st word must not cross page boundary.
     if ((laddrSrc & 0xfff) > 0xffe) return 0;
-    wordsFitSrc = (2 + (laddrSrc & 0xfff)) >> 1;
+    wordsFitSrc = (2 + (PAGE_OFFSET(laddrSrc))) >> 1;
     pointerDelta = (unsigned) -2;
   }
   else {
     // Counting upward
-    wordsFitSrc = (0x1000 - (laddrSrc & 0xfff)) >> 1;
+    wordsFitSrc = (0x1000 - PAGE_OFFSET(laddrSrc)) >> 1;
     pointerDelta =  2;
   }
 
