@@ -243,7 +243,7 @@ void BX_MEM_C::load_ROM(const char *path, bx_phy_address romaddress, Bit8u type)
         return;
       }
     } else {
-      romaddress = (bx_phy_address)(-size);
+      romaddress = -size;
     }
     offset = romaddress & BIOS_MASK;
     if ((romaddress & 0xf0000) < 0xf0000) {

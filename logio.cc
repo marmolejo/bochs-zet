@@ -330,8 +330,8 @@ void logfunctions::put(const char *p)
     prefix = NULL;
   }
 
-  int len=strlen(p);
-  for(int i=1;i<len+1;i++) {
+  size_t len=strlen(p);
+  for(size_t i=1;i<len+1;i++) {
     tmpbuf[i]=p[i-1];
   }
                 
@@ -618,10 +618,10 @@ logfunc_t *genlog = NULL;
 
 void bx_center_print(FILE *file, char *line, int maxwidth)
 {
-  int len = strlen(line);
+  size_t len = strlen(line);
   if (len > maxwidth)
     BX_PANIC(("bx_center_print: line is too long: '%s'", line));
-  int imax = (maxwidth - len) >> 1;
-  for (int i=0; i<imax; i++) fputc(' ', file);
+  size_t imax = (maxwidth - len) >> 1;
+  for (size_t i=0; i<imax; i++) fputc(' ', file);
   fputs(line, file);
 }

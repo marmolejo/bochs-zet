@@ -89,7 +89,7 @@ void usb_dump_packet(Bit8u *data, unsigned size)
 
 int set_usb_string(Bit8u *buf, const char *str)
 {
-  int len, i;
+  size_t len, i;
   Bit8u *q;
 
   q = buf;
