@@ -834,8 +834,7 @@ void BX_CPU_C::prefetch(void)
   bx_phy_address pAddr;
 
   // Calculate RIP at the beginning of the page.
-  bx_address eipPageOffset0 = RIP - (laddr & 0xfff);
-  BX_CPU_THIS_PTR eipPageBias = (bx_address) -eipPageOffset0;
+  BX_CPU_THIS_PTR eipPageBias = PAGE_OFFSET(laddr) - RIP;
   BX_CPU_THIS_PTR eipPageWindowSize = 4096;
 
   if (! Is64BitMode()) {

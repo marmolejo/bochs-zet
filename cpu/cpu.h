@@ -762,7 +762,8 @@ public:
                                   unsigned os64, unsigned as64)
   {
     metaInfo1 = BX_SEG_REG_NULL | (os32<<3) | (as32<<4) | (os64<<5) | (as64<<6);
-    metaInfo2 = metaInfo3 = 0;
+    metaInfo2 = 0;
+    metaInfo3 = 0;
   }
   BX_CPP_INLINE unsigned seg(void) {
     return metaInfo1 & 7;

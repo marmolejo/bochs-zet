@@ -74,7 +74,7 @@ void long_mul(Bit128u *product, Bit64u op1, Bit64u op2)
 void long_neg(Bit128s *n)
 {
   Bit64u t = n->lo;
-  n->lo = (Bit64u) -n->lo;
+  n->lo = - (Bit64s)(n->lo);
   if (t - 1 > t) --n->hi;
   n->hi = ~n->hi;
 }
