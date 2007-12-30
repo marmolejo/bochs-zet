@@ -225,7 +225,7 @@ void BX_CPU_C::IMUL_GwEw(bxInstruction_c *i)
 
   op1_16 = BX_READ_16BIT_REG(i->nnn());
 
-  Bit32s product_32  = op1_16 * op2_16;
+  Bit32s product_32 = op1_16 * op2_16;
   Bit16u product_16 = (product_32 & 0xFFFF);
 
   /* now write product back to destination */
