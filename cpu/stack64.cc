@@ -114,7 +114,6 @@ void BX_CPU_C::ENTER64_IwIb(bxInstruction_c *i)
 {
   Bit8u level = i->Ib2();
   level &= 0x1F;
-  Bit64u bytes_to_push = 8 + level*8 + i->Iw();
 
   BX_CPU_THIS_PTR speculative_rsp = 1;
   BX_CPU_THIS_PTR prev_rsp = RSP;
