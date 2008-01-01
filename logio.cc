@@ -616,7 +616,7 @@ void logfunctions::fatal(const char *prefix, const char *fmt, va_list ap, int ex
 iofunc_t *io = NULL;
 logfunc_t *genlog = NULL;
 
-void bx_center_print(FILE *file, char *line, int maxwidth)
+void bx_center_print(FILE *file, const char *line, unsigned maxwidth)
 {
   size_t len = strlen(line);
   if (len > maxwidth)
