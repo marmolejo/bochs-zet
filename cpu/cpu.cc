@@ -428,7 +428,7 @@ void BX_CPU_C::cpu_loop(Bit32u max_instr_count)
 
       // decoding instruction compeleted -> continue with execution
       BX_INSTR_BEFORE_EXECUTION(BX_CPU_ID, i);
-      EIP += i->ilen();
+      RIP += i->ilen();
       BX_CPU_CALL_METHOD(i->execute, (i)); // might iterate repeat instruction
       BX_CPU_THIS_PTR prev_rip = RIP; // commit new RIP
       BX_INSTR_AFTER_EXECUTION(BX_CPU_ID, i);
