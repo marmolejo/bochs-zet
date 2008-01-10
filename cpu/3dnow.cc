@@ -46,6 +46,8 @@ void BX_CPU_C::PI2FW_PqQq(bxInstruction_c *i)
 {
   BxPackedMmxRegister result, op;
 
+  BX_CPU_THIS_PTR prepareMMX();
+
   /* op is a register or memory reference */
   if (i->modC0()) {
     op = BX_READ_MMX_REG(i->rm());
@@ -72,6 +74,8 @@ void BX_CPU_C::PI2FW_PqQq(bxInstruction_c *i)
 void BX_CPU_C::PI2FD_PqQq(bxInstruction_c *i)
 {
   BxPackedMmxRegister result, op;
+
+  BX_CPU_THIS_PTR prepareMMX();
 
   /* op is a register or memory reference */
   if (i->modC0()) {
@@ -104,6 +108,8 @@ void BX_CPU_C::PF2IW_PqQq(bxInstruction_c *i)
 void BX_CPU_C::PF2ID_PqQq(bxInstruction_c *i)
 {
   BxPackedMmxRegister result, op;
+
+  BX_CPU_THIS_PTR prepareMMX();
 
   /* op is a register or memory reference */
   if (i->modC0()) {
