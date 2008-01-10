@@ -3371,7 +3371,7 @@ BX_CPU_C::fetchDecode64(Bit8u *iptr, bxInstruction_c *i, unsigned remainingInPag
 
   offset = 512*1;
 
-  i->ResolveModrm = &BX_CPU_C::BxResolveDummy;
+  i->ResolveModrm = 0;
   i->initMetaInfo(/*os32*/ 1,  // operand size 32 override defaults to 1
                             /*as32*/ 1,  // address size 32 override defaults to 1
                             /*os64*/ 0,  // operand size 64 override defaults to 0

@@ -306,6 +306,7 @@ void BX_CPU_C::PCMPESTRM_VdqWdqIb(bxInstruction_c *i)
     op2 = BX_READ_XMM_REG(i->rm());
   }
   else {
+    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
     readVirtualDQwordAligned(i->seg(), RMAddr(i), (Bit8u *) &op2);
   }
@@ -376,6 +377,7 @@ void BX_CPU_C::PCMPESTRI_VdqWdqIb(bxInstruction_c *i)
     op2 = BX_READ_XMM_REG(i->rm());
   }
   else {
+    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
     readVirtualDQwordAligned(i->seg(), RMAddr(i), (Bit8u *) &op2);
   }
@@ -442,6 +444,7 @@ void BX_CPU_C::PCMPISTRM_VdqWdqIb(bxInstruction_c *i)
     op2 = BX_READ_XMM_REG(i->rm());
   }
   else {
+    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
     readVirtualDQwordAligned(i->seg(), RMAddr(i), (Bit8u *) &op2);
   }
@@ -503,6 +506,7 @@ void BX_CPU_C::PCMPISTRI_VdqWdqIb(bxInstruction_c *i)
     op2 = BX_READ_XMM_REG(i->rm());
   }
   else {
+    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
     readVirtualDQwordAligned(i->seg(), RMAddr(i), (Bit8u *) &op2);
   }

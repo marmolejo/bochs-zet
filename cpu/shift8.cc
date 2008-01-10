@@ -48,6 +48,7 @@ void BX_CPU_C::ROL_Eb(bxInstruction_c *i)
     op1_8 = BX_READ_8BIT_REGx(i->rm(), i->extend8bitL());
   }
   else {
+    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
     op1_8 = read_RMW_virtual_byte(i->seg(), RMAddr(i));
   }
@@ -99,6 +100,7 @@ void BX_CPU_C::ROR_Eb(bxInstruction_c *i)
     op1_8 = BX_READ_8BIT_REGx(i->rm(), i->extend8bitL());
   }
   else {
+    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
     op1_8 = read_RMW_virtual_byte(i->seg(), RMAddr(i));
   }
@@ -151,6 +153,7 @@ void BX_CPU_C::RCL_Eb(bxInstruction_c *i)
     op1_8 = BX_READ_8BIT_REGx(i->rm(), i->extend8bitL());
   }
   else {
+    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
     op1_8 = read_RMW_virtual_byte(i->seg(), RMAddr(i));
   }
@@ -196,6 +199,7 @@ void BX_CPU_C::RCR_Eb(bxInstruction_c *i)
     op1_8 = BX_READ_8BIT_REGx(i->rm(), i->extend8bitL());
   }
   else {
+    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
     op1_8 = read_RMW_virtual_byte(i->seg(), RMAddr(i));
   }
@@ -238,6 +242,7 @@ void BX_CPU_C::SHL_Eb(bxInstruction_c *i)
     op1_8 = BX_READ_8BIT_REGx(i->rm(), i->extend8bitL());
   }
   else {
+    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
     op1_8 = read_RMW_virtual_byte(i->seg(), RMAddr(i));
   }
@@ -283,6 +288,7 @@ void BX_CPU_C::SHR_Eb(bxInstruction_c *i)
     op1_8 = BX_READ_8BIT_REGx(i->rm(), i->extend8bitL());
   }
   else {
+    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
     op1_8 = read_RMW_virtual_byte(i->seg(), RMAddr(i));
   }
@@ -325,6 +331,7 @@ void BX_CPU_C::SAR_Eb(bxInstruction_c *i)
     op1_8 = BX_READ_8BIT_REGx(i->rm(), i->extend8bitL());
   }
   else {
+    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
     op1_8 = read_RMW_virtual_byte(i->seg(), RMAddr(i));
   }

@@ -355,6 +355,7 @@ void BX_CPU_C::RCPPS_VpsWps(bxInstruction_c *i)
     op = BX_READ_XMM_REG(i->rm());
   }
   else {
+    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
     readVirtualDQwordAligned(i->seg(), RMAddr(i), (Bit8u *) &op);
   }
@@ -388,6 +389,7 @@ void BX_CPU_C::RCPSS_VssWss(bxInstruction_c *i)
     op = BX_READ_XMM_REG_LO_DWORD(i->rm());
   }
   else {
+    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
     op = read_virtual_dword(i->seg(), RMAddr(i));
   }
@@ -737,6 +739,7 @@ void BX_CPU_C::RSQRTSS_VssWss(bxInstruction_c *i)
     op = BX_READ_XMM_REG_LO_DWORD(i->rm());
   }
   else {
+    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
     op = read_virtual_dword(i->seg(), RMAddr(i));
   }
@@ -767,6 +770,7 @@ void BX_CPU_C::RSQRTPS_VpsWps(bxInstruction_c *i)
     op = BX_READ_XMM_REG(i->rm());
   }
   else {
+    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
     readVirtualDQwordAligned(i->seg(), RMAddr(i), (Bit8u *) &op);
   }

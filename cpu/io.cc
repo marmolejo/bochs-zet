@@ -86,8 +86,7 @@ Bit32u BX_CPU_C::FastRepINSW(bxInstruction_c *i, bx_address dstOff, Bit16u port,
   // See how many words can fit in the rest of this page.
   if (BX_CPU_THIS_PTR get_DF()) {
     // Counting downward
-    // Note: 1st word must not cross page boundary.
-    if ((laddrDst & 0xfff) > 0xffe) return 0;
+    // 1st word must cannot cross page boundary because it is word aligned
     wordsFitDst = (2 + (PAGE_OFFSET(laddrDst))) >> 1;
     pointerDelta = -2;
   }
@@ -213,8 +212,7 @@ Bit32u BX_CPU_C::FastRepOUTSW(bxInstruction_c *i, unsigned srcSeg, bx_address sr
   // See how many words can fit in the rest of this page.
   if (BX_CPU_THIS_PTR get_DF()) {
     // Counting downward
-    // Note: 1st word must not cross page boundary.
-    if ((laddrSrc & 0xfff) > 0xffe) return 0;
+    // 1st word must cannot cross page boundary because it is word aligned
     wordsFitSrc = (2 + (PAGE_OFFSET(laddrSrc))) >> 1;
     pointerDelta = (unsigned) -2;
   }

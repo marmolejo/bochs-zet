@@ -149,9 +149,9 @@ void BX_CPU_C::POP_EwM(bxInstruction_c *i)
   // Note: there is one little weirdism here.  It is possible to use 
   // SP in the modrm addressing. If used, the value of SP after the 
   // pop is used to calculate the address.
-  if (i->rm()==4 && i->sibBase()==4) {
+  //if (i->rm()==4 && i->sibBase()==4) {
     BX_CPU_CALL_METHODR (i->ResolveModrm, (i));
-  }
+  //}
   write_virtual_word(i->seg(), RMAddr(i), val16);
 
   BX_CPU_THIS_PTR speculative_rsp = 0;
@@ -169,6 +169,8 @@ void BX_CPU_C::PUSH_Iw(bxInstruction_c *i)
 
 void BX_CPU_C::PUSH_EwM(bxInstruction_c *i)
 {
+  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+
   Bit16u op1_16 = read_virtual_word(i->seg(), RMAddr(i));
 
   push_16(op1_16);
