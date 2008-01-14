@@ -3544,12 +3544,14 @@ BX_CPP_INLINE void BX_CPU_C::updateFetchModeMask(void)
 BX_CPP_INLINE bx_address BX_CPU_C::get_segment_base(unsigned seg)
 {
 #if BX_SUPPORT_X86_64
-   if ((BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64) && (seg < BX_SEG_REG_FS))
-   {
-     return 0;
+   if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64) {
+     if (seg < BX_SEG_REG_FS)
+       return 0;
+     else 
+       return BX_CPU_THIS_PTR sregs[seg].cache.u.segment.base;
    }
 #endif
-   return (BX_CPU_THIS_PTR sregs[seg].cache.u.segment.base);
+   return (Bit32u)(BX_CPU_THIS_PTR sregs[seg].cache.u.segment.base);
 }
 
 BX_CPP_INLINE Bit8u BX_CPU_C::get_reg8l(unsigned reg)
