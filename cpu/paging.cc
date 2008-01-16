@@ -571,11 +571,10 @@ void BX_CPU_C::INVLPG(bxInstruction_c* i)
 #if BX_USE_TLB
   BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
   bx_address laddr = BX_CPU_THIS_PTR get_segment_base(i->seg()) + RMAddr(i);
+  BX_INSTR_TLB_CNTRL(BX_CPU_ID, BX_INSTR_INVLPG, laddr);
   TLB_invlpg(laddr);
   InstrTLB_Increment(tlbEntryInvlpg);
 #endif
-
-  BX_INSTR_TLB_CNTRL(BX_CPU_ID, BX_INSTR_INVLPG, 0);
 
 #else
   // not supported on < 486
