@@ -189,11 +189,29 @@ void BX_CPU_C::CLFLUSH(bxInstruction_c *i)
 {
 #if BX_SUPPORT_CLFLUSH
   bx_segment_reg_t *seg = &BX_CPU_THIS_PTR sregs[i->seg()];
-  // check if we could access the memory
-  if ((seg->cache.valid & SegAccessROK4G) != SegAccessROK4G) {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+
+  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+
+  // check if we could access the memory segment
+  if ((seg->cache.valid & SegAccessROK4G) != SegAccessROK4G)
+  {
     execute_virtual_checks(seg, RMAddr(i), 1);
   }
+
+  bx_address laddr = BX_CPU_THIS_PTR get_segment_base(i->seg()) + RMAddr(i);
+  bx_phy_address paddr;
+
+  if (BX_CPU_THIS_PTR cr0.get_PG()) {
+    paddr = dtranslate_linear(laddr, CPL, BX_READ);
+    paddr = A20ADDR(paddr);
+  }
+  else
+  {
+    paddr = A20ADDR(laddr);
+  }
+
+  BX_INSTR_CLFLUSH(BX_CPU_ID, laddr, paddr);
+
 #else
   BX_INFO(("CLFLUSH: not supported, enable with SSE2"));
   UndefinedOpcode(i);
