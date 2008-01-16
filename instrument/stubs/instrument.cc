@@ -56,6 +56,7 @@ void bx_instr_exception(unsigned cpu, unsigned vector) {}
 void bx_instr_hwinterrupt(unsigned cpu, unsigned vector, Bit16u cs, bx_address eip) {}
 
 void bx_instr_tlb_cntrl(unsigned cpu, unsigned what, bx_phy_address new_cr3) {}
+void bx_instr_clflush(unsigned cpu, bx_address laddr, bx_phy_address paddr) {}
 void bx_instr_cache_cntrl(unsigned cpu, unsigned what) {}
 void bx_instr_prefetch_hint(unsigned cpu, unsigned what, unsigned seg, bx_address offset) {}
 

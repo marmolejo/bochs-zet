@@ -108,6 +108,7 @@ void bx_instr_mem_data(unsigned cpu, bx_address lin, unsigned size, unsigned rw)
 #  define BX_INSTR_HWINTERRUPT(cpu_id, vector, cs, eip) bx_instr_hwinterrupt(cpu_id, vector, cs, eip)
 
 /* TLB/CACHE control instruction executed */
+#  define BX_INSTR_CLFLUSH(cpu_id, laddr, paddr)
 #  define BX_INSTR_CACHE_CNTRL(cpu_id, what)
 #  define BX_INSTR_TLB_CNTRL(cpu_id, what, new_cr3)
 #  define BX_INSTR_PREFETCH_HINT(cpu_id, what, seg, offset)
@@ -172,6 +173,7 @@ void bx_instr_mem_data(unsigned cpu, bx_address lin, unsigned size, unsigned rw)
 #  define BX_INSTR_HWINTERRUPT(cpu_id, vector, cs, eip)
 
 /* TLB/CACHE control instruction executed */
+#  define BX_INSTR_CLFLUSH(cpu_id, laddr, paddr)
 #  define BX_INSTR_CACHE_CNTRL(cpu_id, what)
 #  define BX_INSTR_TLB_CNTRL(cpu_id, what, new_cr3)
 #  define BX_INSTR_PREFETCH_HINT(cpu_id, what, seg, offset)
