@@ -142,7 +142,7 @@ void bxInstrumentation::bx_instr_opcode(Bit8u *opcode_bytes, unsigned len, bx_bo
   opcode_size = len;
 }
 
-void bxInstrumentation::bx_instr_fetch_decode_completed(const bxInstruction_c *i)
+void bxInstrumentation::bx_instr_fetch_decode_completed(bxInstruction_c *i)
 {
   if(active) valid = 1; 
 }

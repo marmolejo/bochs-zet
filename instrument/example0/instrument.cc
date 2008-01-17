@@ -178,7 +178,7 @@ void bx_instr_opcode(unsigned cpu, Bit8u *opcode, unsigned len, bx_bool is32, bx
   instruction[cpu].opcode_size = len;
 }
 
-void bx_instr_fetch_decode_completed(unsigned cpu, const bxInstruction_c *i)
+void bx_instr_fetch_decode_completed(unsigned cpu, bxInstruction_c *i)
 {
   if(active) instruction[cpu].valid = 1;
 }
