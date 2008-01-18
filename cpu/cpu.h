@@ -3921,6 +3921,12 @@ IMPLEMENT_EFLAG_ACCESSOR   (TF,   8)
   #define BxTraceEnd        0
 #endif
 
+#ifdef BX_TRACE_CACHE_NO_SPECULATIVE_TRACING
+  #define BxTraceJCC      BxTraceEnd
+#else
+  #define BxTraceJCC      0
+#endif
+
 #define BxGroup1          BxGroupN
 #define BxGroup2          BxGroupN
 #define BxGroup3          BxGroupN
