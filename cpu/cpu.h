@@ -1226,9 +1226,7 @@ public: // for now...
 #if BX_DEBUGGER
   bx_phy_address watchpoint;
   Bit8u break_point;
-#if BX_MAGIC_BREAKPOINT
   Bit8u magic_break;
-#endif
   Bit8u stop_reason;
   Bit8u trace_reg;
   Bit8u mode_break;

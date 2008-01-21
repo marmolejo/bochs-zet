@@ -448,7 +448,7 @@ typedef struct {
   bx_bool serial;
   bx_bool cdrom;
   bx_bool print_timestamps;
-#if BX_MAGIC_BREAKPOINT
+#if BX_DEBUGGER
   bx_bool magic_break_enabled;
 #endif
 #if BX_GDBSTUB

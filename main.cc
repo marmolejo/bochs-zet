@@ -1151,7 +1151,7 @@ void bx_init_bx_dbg(void)
   bx_dbg.record_io = 0;
   bx_dbg.serial = 0;
   bx_dbg.cdrom = 0;
-#if BX_MAGIC_BREAKPOINT
+#if BX_DEBUGGER
   bx_dbg.magic_break_enabled = 0;
 #endif
 #if BX_GDBSTUB
