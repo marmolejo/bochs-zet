@@ -33,6 +33,6 @@ extern TRegs regs;
 extern char debug_loaded;
 
 void bx_external_debugger(BX_CPU_C *cpu);
-void trap_debugger(bx_bool callnow);
+void trap_debugger(bx_bool callnow, BX_CPU_C *cpu);
 
 #endif

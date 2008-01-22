@@ -118,7 +118,7 @@ void BX_CPU_C::cpu_loop(Bit32u max_instr_count)
       }
     }
 
-    bx_address eipBiased = RIP + BX_CPU_THIS_PTR eipPageBias;
+    Bit32u eipBiased = RIP + BX_CPU_THIS_PTR eipPageBias;
 
     if (eipBiased >= BX_CPU_THIS_PTR eipPageWindowSize) {
       prefetch();
@@ -690,7 +690,7 @@ void BX_CPU_C::ask(int level, const char *prefix, const char *fmt, va_list ap)
   char buf1[1024];
   vsprintf (buf1, fmt, ap);
   printf ("%s %s\n", prefix, buf1);
-  trap_debugger(1);
+  trap_debugger(1, BX_CPU_THIS);
 }
 #endif
 

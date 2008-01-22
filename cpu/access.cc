@@ -329,7 +329,7 @@ int BX_CPU_C::int_number(bx_segment_reg_t *seg)
   if (seg == &BX_CPU_THIS_PTR sregs[4]) return BX_GP_EXCEPTION;
   if (seg == &BX_CPU_THIS_PTR sregs[5]) return BX_GP_EXCEPTION;
 
-  // imdefined segment, this must be new stack segment
+  // undefined segment, this must be a new stack segment
   return BX_SS_EXCEPTION;
 }
 

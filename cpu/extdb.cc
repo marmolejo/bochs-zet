@@ -115,10 +115,10 @@ void bx_external_debugger(BX_CPU_C *cpu)
      }
 }
 
-void trap_debugger(bx_bool callnow)
+void trap_debugger(bx_bool callnow, BX_CPU_C *cpu)
 {
   regs.debug_state = debug_step;
   if (callnow) {
-    bx_external_debugger(BX_CPU_THIS);
+    bx_external_debugger(cpu);
   }
 }

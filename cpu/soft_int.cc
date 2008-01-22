@@ -81,7 +81,7 @@ void BX_CPU_C::INT1(bxInstruction_c *i)
 #endif
 
 #if BX_EXTERNAL_DEBUGGER
-  trap_debugger(0);
+  trap_debugger(0, BX_CPU_THIS);
 #endif
 
   BX_CPU_THIS_PTR speculative_rsp = 1;
