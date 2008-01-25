@@ -55,11 +55,6 @@ void BX_CPU_C::POP_EdM(bxInstruction_c *i)
   BX_CPU_THIS_PTR speculative_rsp = 0;
 }
 
-void BX_CPU_C::POP_EdR(bxInstruction_c *i)
-{
-  BX_WRITE_32BIT_REGZ(i->rm(), pop_32());
-}
-
 void BX_CPU_C::PUSH_ERX(bxInstruction_c *i)
 {
   push_32(BX_READ_32BIT_REG(i->opcodeReg()));
@@ -175,11 +170,6 @@ void BX_CPU_C::PUSH_EdM(bxInstruction_c *i)
   Bit32u op1_32 = read_virtual_dword(i->seg(), RMAddr(i));
 
   push_32(op1_32);
-}
-
-void BX_CPU_C::PUSH_EdR(bxInstruction_c *i)
-{
-  push_32(BX_READ_32BIT_REG(i->rm()));
 }
 
 void BX_CPU_C::PUSHAD32(bxInstruction_c *i)

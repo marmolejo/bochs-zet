@@ -101,11 +101,6 @@ void BX_CPU_C::MOV_EdIdM(bxInstruction_c *i)
   write_virtual_dword(i->seg(), RMAddr(i), i->Id());
 }
 
-void BX_CPU_C::MOV_EdIdR(bxInstruction_c *i)
-{
-  BX_WRITE_32BIT_REGZ(i->rm(), i->Id());
-}
-
 void BX_CPU_C::MOVZX_GdEbM(bxInstruction_c *i)
 {
   BX_CPU_CALL_METHODR(i->ResolveModrm, (i));

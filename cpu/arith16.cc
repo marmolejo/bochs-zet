@@ -600,12 +600,6 @@ void BX_CPU_C::INC_EwM(bxInstruction_c *i)
   SET_FLAGS_OSZAPC_INC_16(op1_16);
 }
 
-void BX_CPU_C::INC_EwR(bxInstruction_c *i)
-{
-  Bit16u rx = ++BX_READ_16BIT_REG(i->rm());
-  SET_FLAGS_OSZAPC_DEC_16(rx);
-}
-
 void BX_CPU_C::DEC_EwM(bxInstruction_c *i)
 {
   Bit16u op1_16;
@@ -617,12 +611,6 @@ void BX_CPU_C::DEC_EwM(bxInstruction_c *i)
   write_RMW_virtual_word(op1_16);
 
   SET_FLAGS_OSZAPC_DEC_16(op1_16);
-}
-
-void BX_CPU_C::DEC_EwR(bxInstruction_c *i)
-{
-  Bit16u rx = --BX_READ_16BIT_REG(i->rm());
-  SET_FLAGS_OSZAPC_DEC_16(rx);
 }
 
 void BX_CPU_C::CMPXCHG_EwGwM(bxInstruction_c *i)

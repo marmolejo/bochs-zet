@@ -38,7 +38,6 @@
 #define RDX EDX
 #endif
 
-
 void BX_CPU_C::INC_ERX(bxInstruction_c *i)
 {
   Bit32u erx = ++BX_READ_32BIT_REG(i->opcodeReg());
@@ -654,15 +653,6 @@ void BX_CPU_C::INC_EdM(bxInstruction_c *i)
   SET_FLAGS_OSZAPC_INC_32(op1_32);
 }
 
-void BX_CPU_C::INC_EdR(bxInstruction_c *i)
-{
-  Bit32u op1_32 = BX_READ_32BIT_REG(i->rm());
-  op1_32++;
-  BX_WRITE_32BIT_REGZ(i->rm(), op1_32);
-
-  SET_FLAGS_OSZAPC_INC_32(op1_32);
-}
-
 void BX_CPU_C::DEC_EdM(bxInstruction_c *i)
 {
   Bit32u op1_32;
@@ -672,15 +662,6 @@ void BX_CPU_C::DEC_EdM(bxInstruction_c *i)
   op1_32 = read_RMW_virtual_dword(i->seg(), RMAddr(i));
   op1_32--;
   write_RMW_virtual_dword(op1_32);
-
-  SET_FLAGS_OSZAPC_DEC_32(op1_32);
-}
-
-void BX_CPU_C::DEC_EdR(bxInstruction_c *i)
-{
-  Bit32u op1_32 = BX_READ_32BIT_REG(i->rm());
-  op1_32--;
-  BX_WRITE_32BIT_REGZ(i->rm(), op1_32);
 
   SET_FLAGS_OSZAPC_DEC_32(op1_32);
 }

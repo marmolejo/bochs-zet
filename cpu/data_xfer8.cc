@@ -34,7 +34,7 @@
 
 void BX_CPU_C::MOV_RLIb(bxInstruction_c *i)
 {
-  BX_READ_8BIT_REGx(i->opcodeReg(), i->extend8bitL()) = i->Ib();
+  BX_WRITE_8BIT_REGx(i->opcodeReg(), i->extend8bitL(), i->Ib());
 }
 
 void BX_CPU_C::MOV_RHIb(bxInstruction_c *i)
@@ -84,11 +84,6 @@ void BX_CPU_C::MOV_EbIbM(bxInstruction_c *i)
   BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
   write_virtual_byte(i->seg(), RMAddr(i), i->Ib());
-}
-
-void BX_CPU_C::MOV_EbIbR(bxInstruction_c *i)
-{
-  BX_WRITE_8BIT_REGx(i->rm(), i->extend8bitL(), i->Ib());
 }
 
 void BX_CPU_C::XLAT(bxInstruction_c *i)

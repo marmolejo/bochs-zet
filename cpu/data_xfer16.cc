@@ -149,11 +149,6 @@ void BX_CPU_C::MOV_EwIwM(bxInstruction_c *i)
   write_virtual_word(i->seg(), RMAddr(i), i->Iw());
 }
 
-void BX_CPU_C::MOV_EwIwR(bxInstruction_c *i)
-{
-  BX_WRITE_16BIT_REG(i->rm(), i->Iw());
-}
-
 #if BX_CPU_LEVEL >= 3
 void BX_CPU_C::MOVZX_GwEbM(bxInstruction_c *i)
 {
