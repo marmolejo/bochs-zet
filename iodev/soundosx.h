@@ -60,7 +60,7 @@ private:
     Bit8u WaveData[BX_SOUND_OSX_NBUF][BX_SOUND_OUTPUT_WAVEPACKETSIZE];
     int WaveLength[BX_SOUND_OSX_NBUF];
     int head, tail;  // buffer pointers
-    
+
 #ifdef BX_SOUND_OSX_use_converter
     int WavePlaying;
 #endif

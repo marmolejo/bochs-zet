@@ -50,7 +50,7 @@
 #define USB_MSG_DETACH   0x101
 #define USB_MSG_RESET    0x102
 
-#define USB_RET_NODEV  (-1) 
+#define USB_RET_NODEV  (-1)
 #define USB_RET_NAK    (-2)
 #define USB_RET_STALL  (-3)
 #define USB_RET_BABBLE (-4)

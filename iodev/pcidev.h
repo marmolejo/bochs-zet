@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 
-/*  
+/*
  *  PCIDEV: PCI host device mapping
  *  Copyright (C) 2003 - Frank Cornelis
  *
@@ -48,7 +48,7 @@ public:
 
   virtual Bit32u pci_read_handler(Bit8u address, unsigned io_len);
   virtual void   pci_write_handler(Bit8u address, Bit32u value, unsigned io_len);
-  
+
   int pcidev_fd; // to access the pcidev
 
   // resource mapping

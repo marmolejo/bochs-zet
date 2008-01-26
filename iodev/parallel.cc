@@ -25,12 +25,12 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 //
 ////////////////////////////////////////////////////////
-// This code was just a few stubs until Volker.Ruppert@t-online.de 
+// This code was just a few stubs until Volker.Ruppert@t-online.de
 // fixed it up in November 2001.
 
 
 // Define BX_PLUGGABLE in files that can be compiled into plugins.  For
-// platforms that require a special tag on exported symbols, BX_PLUGGABLE 
+// platforms that require a special tag on exported symbols, BX_PLUGGABLE
 // is used to know when we are exporting symbols and when we are importing.
 #define BX_PLUGGABLE
 

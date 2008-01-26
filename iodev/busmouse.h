@@ -36,7 +36,7 @@
 #  define BX_BUSM_THIS theBusMouse->
 #else
 #  define BX_BUSM_SMF
-#  define BX_BUSM_THIS 
+#  define BX_BUSM_THIS
 #endif
 
 #define BUS_MOUSE_IRQ  5

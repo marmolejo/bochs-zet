@@ -75,7 +75,7 @@ bx_speaker_c::~bx_speaker_c()
   BX_DEBUG(("Exit"));
 }
 
-void bx_speaker_c::init(void) 
+void bx_speaker_c::init(void)
 {
 #ifdef __linux__
   if (consolefd != -1) {
@@ -89,7 +89,7 @@ void bx_speaker_c::init(void)
   this->beep_off();
 }
 
-void bx_speaker_c::reset(unsigned type) 
+void bx_speaker_c::reset(unsigned type)
 {
   beep_off();
 }

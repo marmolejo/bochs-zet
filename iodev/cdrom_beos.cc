@@ -30,13 +30,13 @@ GetDeviceBlockSize(int fd)
     struct stat     st;
     device_geometry dg;
 
-    if (ioctl(fd, B_GET_GEOMETRY, &dg) < 0) 
+    if (ioctl(fd, B_GET_GEOMETRY, &dg) < 0)
     {
 		if (fstat(fd, &st) < 0 || S_ISDIR(st.st_mode))
 	    	return 0;
 		return 512;   /* just assume it's a plain old file or something */
     }
-    
+
     return dg.bytes_per_sector;
 }
 
@@ -46,7 +46,7 @@ GetNumDeviceBlocks(int fd, int block_size)
     struct stat			st;
     device_geometry		dg;
 
-    if (ioctl(fd, B_GET_GEOMETRY, &dg) >= 0) 
+    if (ioctl(fd, B_GET_GEOMETRY, &dg) >= 0)
     {
 		return (off_t)dg.cylinder_count *
 	       (off_t)dg.sectors_per_track *

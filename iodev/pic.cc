@@ -26,7 +26,7 @@
 
 
 // Define BX_PLUGGABLE in files that can be compiled into plugins.  For
-// platforms that require a special tag on exported symbols, BX_PLUGGABLE 
+// platforms that require a special tag on exported symbols, BX_PLUGGABLE
 // is used to know when we are exporting symbols and when we are importing.
 #define BX_PLUGGABLE
 
@@ -749,7 +749,7 @@ void bx_pic_c::service_master_pic(void)
           BX_SET_INTR(1);
           return;
         } /* if (unmasked_requests & ... */
-      } 
+      }
 
       irq ++;
       if(irq > 7)

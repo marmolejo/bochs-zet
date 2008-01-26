@@ -160,7 +160,7 @@ int bx_sound_linux_c::startwaveplayback(int frequency, int bits, int stereo, int
       fmt = AFMT_U8;
   else
     return BX_SOUND_OUTPUT_ERR;
- 
+
       // set frequency etc.
   ret = ioctl(wave, SNDCTL_DSP_RESET);
   if (ret != 0)
@@ -183,12 +183,12 @@ int bx_sound_linux_c::startwaveplayback(int frequency, int bits, int stereo, int
 
   ret = ioctl(wave, SNDCTL_DSP_STEREO, &stereo);
   if (ret != 0)
-    WRITELOG( WAVELOG(4), "ioctl(SNDCTL_DSP_STEREO, %d): %s", 
+    WRITELOG( WAVELOG(4), "ioctl(SNDCTL_DSP_STEREO, %d): %s",
 	      stereo, strerror(errno));
 
   ret = ioctl(wave, SNDCTL_DSP_SPEED, &frequency);
   if (ret != 0)
-    WRITELOG( WAVELOG(4), "ioctl(SNDCTL_DSP_SPEED, %d): %s", 
+    WRITELOG( WAVELOG(4), "ioctl(SNDCTL_DSP_SPEED, %d): %s",
 	      frequency, strerror(errno));
 
   //  ioctl(wave, SNDCTL_DSP_GETBLKSIZE, &fragment);
@@ -196,7 +196,7 @@ int bx_sound_linux_c::startwaveplayback(int frequency, int bits, int stereo, int
 
   return BX_SOUND_OUTPUT_OK;
 }
-			 
+
 int bx_sound_linux_c::sendwavepacket(int length, Bit8u data[])
 {
   int ret;
