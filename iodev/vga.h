@@ -272,6 +272,7 @@ protected:
     unsigned line_offset;
     unsigned line_compare;
     unsigned vertical_display_end;
+    unsigned blink_counter;
     bx_bool  vga_tile_updated[BX_NUM_X_TILES][BX_NUM_Y_TILES];
     Bit8u *memory;
     Bit32u memsize;
