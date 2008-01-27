@@ -2922,6 +2922,6 @@ AC_OUTPUT(Makefile iodev/Makefile bx_debug/Makefile bios/Makefile \
 	 disasm/Makefile ${INSTRUMENT_DIR}/Makefile misc/Makefile \
 	 fpu/Makefile doc/docbook/Makefile \
 	 build/linux/bochs-dlx \
-	 bxversion.h build/macosx/Info.plist \
+	 bxversion.h bxversion.rc build/macosx/Info.plist \
 	 build/win32/nsis/Makefile build/win32/nsis/bochs.nsi \
 	 host/linux/pcidev/Makefile)
