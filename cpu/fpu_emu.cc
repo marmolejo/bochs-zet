@@ -20,7 +20,6 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 /////////////////////////////////////////////////////////////////////////
 
-
 #define LOG_THIS BX_CPU_THIS_PTR
 #include "bochs.h"
 #include "cpu.h"

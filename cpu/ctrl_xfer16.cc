@@ -25,7 +25,6 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 /////////////////////////////////////////////////////////////////////////
 
-
 #define NEED_CPU_REG_SHORTCUTS 1
 #include "bochs.h"
 #include "cpu.h"
@@ -35,7 +34,6 @@
 #if BX_SUPPORT_X86_64==0
 #define RSP ESP
 #endif
-
 
 void BX_CPU_C::RETnear16_Iw(bxInstruction_c *i)
 {

@@ -25,7 +25,6 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 /////////////////////////////////////////////////////////////////////////
 
-
 // Notes from merge of x86-64 enhancements:
 //   Looks like for x86-64/PAE=1/PTE with PSE=1, the
 //     CR4.PSE field is not consulted by the processor?

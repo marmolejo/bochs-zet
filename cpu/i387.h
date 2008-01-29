@@ -19,7 +19,7 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 //
-
+/////////////////////////////////////////////////////////////////////////
 
 #ifndef _BX_I387_RELATED_EXTENSIONS_H_
 #define _BX_I387_RELATED_EXTENSIONS_H_

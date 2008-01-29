@@ -21,17 +21,14 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
-
 #ifndef BX_COMMON_FETCHDECODE_TABLES_H
 #define BX_COMMON_FETCHDECODE_TABLES_H
-
 
 typedef struct BxOpcodeInfo_t {
   Bit16u         Attr;
   BxExecutePtr_t ExecutePtr;
   const BxOpcodeInfo_t *AnotherArray;
 } BxOpcodeInfo_t;
-
 
 //
 // This file contains common IA-32/X86-64 opcode tables, like FPU opcode

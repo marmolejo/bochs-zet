@@ -1267,7 +1267,8 @@ void bx_svga_cirrus_c::svga_update(void)
         case 16:
         case 24:
         case 32:
-          BX_ERROR(("current guest pixel format is unsupported on indexed colour host displays"));
+          BX_ERROR(("current guest pixel format is unsupported on indexed colour host displays, svga_dispbpp=%d",
+            BX_CIRRUS_THIS svga_dispbpp));
           break;
         case 8:
           for (yc=0, yti = 0; yc<height; yc+=Y_TILESIZE, yti++) {
