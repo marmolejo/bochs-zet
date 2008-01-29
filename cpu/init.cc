@@ -240,8 +240,8 @@ void BX_CPU_C::register_wx_state(void)
       DEFPARAM_SEG_REG(GS);
       DEFPARAM_SEG_REG(LDTR);
       DEFPARAM_SEG_REG(TR);
-      DEFPARAM_GLOBAL_SEG_REG(GDTR, gdtr);
-      DEFPARAM_GLOBAL_SEG_REG(IDTR, idtr);
+      DEFPARAM_GLOBAL_SEG_REG(GDTR, BX_CPU_THIS_PTR gdtr);
+      DEFPARAM_GLOBAL_SEG_REG(IDTR, BX_CPU_THIS_PTR idtr);
 #undef DEFPARAM_NORMAL
 #undef DEFPARAM_SEG_REG
 #undef DEFPARAM_GLOBAL_SEG_REG
@@ -276,7 +276,7 @@ void BX_CPU_C::register_wx_state(void)
       param = new bx_shadow_num_c(
               list,
               "IOPL",
-              &eflags, 10,
+              &BX_CPU_THIS_PTR eflags, 10,
               12, 13);
       param->set_range(0, 3);
       param->set_format("%d");
