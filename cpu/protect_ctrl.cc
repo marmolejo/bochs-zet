@@ -460,7 +460,7 @@ void BX_CPU_C::LTR_Ew(bxInstruction_c *i)
 
   /* #NP(selector) if TSS descriptor is not present */
   if (! IS_PRESENT(descriptor)) {
-    BX_ERROR(("LTR: LDT descriptor not present!"));
+    BX_ERROR(("LTR: TSS descriptor not present!"));
     exception(BX_NP_EXCEPTION, raw_selector & 0xfffc, 0);
   }
 
