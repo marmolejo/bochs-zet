@@ -247,7 +247,7 @@ void BX_CPU_C::register_wx_state(void)
 #undef DEFPARAM_GLOBAL_SEG_REG
 
       param = new bx_shadow_num_c(list, "EFLAGS",
-          &BX_CPU_THIS_PTR eflags.val32);
+          &BX_CPU_THIS_PTR eflags);
 
       // flags implemented in lazy_flags.cc must be done with a handler
       // that calls their get function, to force them to be computed.
@@ -276,7 +276,7 @@ void BX_CPU_C::register_wx_state(void)
       param = new bx_shadow_num_c(
               list,
               "IOPL",
-              &eflags.val32, 10,
+              &eflags, 10,
               12, 13);
       param->set_range(0, 3);
       param->set_format("%d");

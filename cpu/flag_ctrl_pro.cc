@@ -45,7 +45,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::setEFlags(Bit32u val)
   handleAlignmentCheck();
 #endif
 
-  BX_CPU_THIS_PTR eflags.val32 = val;
+  BX_CPU_THIS_PTR eflags = val;
   BX_CPU_THIS_PTR lf_flags_status = 0; // OSZAPC flags are known.
 
   handleCpuModeChange(); // VM flag might be changed
@@ -67,7 +67,7 @@ BX_CPU_C::writeEFlags(Bit32u flags, Bit32u changeMask)
   // Screen out changing of any unsupported bits.
   changeMask &= supportMask;
 
-  Bit32u newEFlags = (BX_CPU_THIS_PTR eflags.val32 & ~changeMask) |
+  Bit32u newEFlags = (BX_CPU_THIS_PTR eflags & ~changeMask) |
               (flags & changeMask);
   setEFlags(newEFlags);
   // OSZAPC flags are known - done in setEFlags(newEFlags)
@@ -111,7 +111,7 @@ Bit32u BX_CPU_C::force_flags(void)
     setEFlagsOSZAPC(newflags);
   }
 
-  return BX_CPU_THIS_PTR eflags.val32;
+  return BX_CPU_THIS_PTR eflags;
 }
 
 Bit16u BX_CPU_C::read_flags(void)
@@ -132,5 +132,5 @@ Bit16u BX_CPU_C::read_flags(void)
   }
 #endif
 
-  return(flags16);
+  return flags16;
 }

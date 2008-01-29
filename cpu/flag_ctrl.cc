@@ -320,7 +320,7 @@ void BX_CPU_C::POPF_Fq(bxInstruction_c *i)
 
   BX_ASSERT (protected_mode());
 
-  Bit32u eflags = (Bit32u) pop_64();
+  Bit32u eflags32 = (Bit32u) pop_64();
 
   if (CPL==0)
     changeMask |= EFlagsIOPLMask;
@@ -328,7 +328,7 @@ void BX_CPU_C::POPF_Fq(bxInstruction_c *i)
     changeMask |= EFlagsIFMask;
 
   // VIF, VIP, VM are unaffected
-  writeEFlags(eflags, changeMask);
+  writeEFlags(eflags32, changeMask);
 }
 #endif
 

@@ -145,16 +145,16 @@ public:
   BX_CPP_INLINE unsigned rm() {
     return metaData.modRMData1;
   }
-  BX_CPP_INLINE unsigned sibScale()  {
+  BX_CPP_INLINE unsigned sibScale() {
     return (metaData.modRMData2 >> 4) & 0x3;
   }
   BX_CPP_INLINE unsigned sibIndex() {
     return (metaData.modRMData2) & 0xf;
   }
-  BX_CPP_INLINE void setSibBase(unsigned base)  {
+  BX_CPP_INLINE void setSibBase(unsigned base) {
     metaData.modRMData3 = base;
   }
-  BX_CPP_INLINE unsigned sibBase()  {
+  BX_CPP_INLINE unsigned sibBase() {
     return metaData.modRMData3;
   }
   BX_CPP_INLINE Bit32u displ32u() { return modRMForm.displ32u; }
