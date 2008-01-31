@@ -226,11 +226,9 @@ void BX_CPU_C::register_wx_state(void)
     param->set_format(fmt16);
 #define DEFPARAM_GLOBAL_SEG_REG(name,field) \
     param = new bx_shadow_num_c(list, \
-        #name"_base", \
-        & BX_CPU_THIS_PTR field.base); \
+        #name"_base", &(field.base)); \
     param = new bx_shadow_num_c(list, \
-        #name"_limit", \
-        & BX_CPU_THIS_PTR field.limit);
+        #name"_limit", &(field.limit));
 
       DEFPARAM_SEG_REG(CS);
       DEFPARAM_SEG_REG(DS);
