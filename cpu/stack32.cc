@@ -42,8 +42,8 @@ void BX_CPU_C::POP_EdM(bxInstruction_c *i)
 
   Bit32u val32 = pop_32();
 
-  // Note: there is one little weirdism here.  It is possible to use 
-  // ESP in the modrm addressing. If used, the value of ESP after the 
+  // Note: there is one little weirdism here.  It is possible to use
+  // ESP in the modrm addressing. If used, the value of ESP after the
   // pop is used to calculate the address.
   //if (i->rm()==4 && i->sibBase()==4) {
     // call method on BX_CPU_C object

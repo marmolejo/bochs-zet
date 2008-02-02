@@ -145,8 +145,8 @@ void BX_CPU_C::POP_EwM(bxInstruction_c *i)
 
   Bit16u val16 = pop_16();
 
-  // Note: there is one little weirdism here.  It is possible to use 
-  // SP in the modrm addressing. If used, the value of SP after the 
+  // Note: there is one little weirdism here.  It is possible to use
+  // SP in the modrm addressing. If used, the value of SP after the
   // pop is used to calculate the address.
   //if (i->rm()==4 && i->sibBase()==4) {
     BX_CPU_CALL_METHODR (i->ResolveModrm, (i));

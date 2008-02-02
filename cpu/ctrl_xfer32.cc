@@ -603,7 +603,7 @@ void BX_CPU_C::IRET32(bxInstruction_c *i)
     iret_protected(i);
     goto done;
   }
-  
+
   eip = pop_32();
 
   // CS.LIMIT in real mode is 0xffff

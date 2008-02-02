@@ -659,7 +659,7 @@ void BX_CPU_C::OUTSW_DXXw(bxInstruction_c *i)
   {
     Bit32u esi;
     Bit32u incr = 2;
-  
+
     if (i->as32L())
       esi = ESI;
     else

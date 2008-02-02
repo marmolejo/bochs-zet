@@ -29,7 +29,7 @@
 
 #define SMM_SAVE_STATE_MAP_SIZE 128
 
-#if BX_SUPPORT_X86_64 
+#if BX_SUPPORT_X86_64
 
 // for x86-64 configuration using AMD Athlon 64 512-byte SMM save state map
 // revision ID according to QEMU/Bochs BIOS

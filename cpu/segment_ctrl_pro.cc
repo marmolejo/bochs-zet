@@ -145,7 +145,7 @@ BX_CPU_C::load_seg_reg(bx_segment_reg_t *seg, Bit16u new_value)
       }
 
       /* AR byte must indicate data or readable code segment else #GP(selector) */
-      if (descriptor.segment==0 || (IS_CODE_SEGMENT(descriptor.type) && 
+      if (descriptor.segment==0 || (IS_CODE_SEGMENT(descriptor.type) &&
           IS_CODE_SEGMENT_READABLE(descriptor.type) == 0))
       {
         BX_ERROR(("load_seg_reg(%s, 0x%04x): not data or readable code", strseg(seg), new_value));
@@ -176,7 +176,7 @@ BX_CPU_C::load_seg_reg(bx_segment_reg_t *seg, Bit16u new_value)
       seg->cache.valid = 1;
 
       /* now set accessed bit in descriptor                   */
-      /* wmr: don't bother if it's already set (thus allowing */ 
+      /* wmr: don't bother if it's already set (thus allowing */
       /* GDT to be in read-only pages like real hdwe does)    */
 
       if (!(dword2 & 0x0100)) {
@@ -469,7 +469,7 @@ BX_CPU_C::get_segment_ar_data(const bx_descriptor_t *d)  // used for SMM
   return val;
 }
 
-bx_bool BX_CPU_C::set_segment_ar_data(bx_segment_reg_t *seg, 
+bx_bool BX_CPU_C::set_segment_ar_data(bx_segment_reg_t *seg,
             Bit16u raw_selector, bx_address base, Bit32u limit, Bit16u ar_data)
 {
   parse_selector(raw_selector, &seg->selector);
@@ -633,7 +633,7 @@ BX_CPU_C::parse_descriptor(Bit32u dword1, Bit32u dword2, bx_descriptor_t *temp)
         temp->valid = 1;
         break;
 
-      default: 
+      default:
         BX_PANIC(("parse_descriptor(): case %u unfinished", (unsigned) temp->type));
         temp->valid = 0;
     }

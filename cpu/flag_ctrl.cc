@@ -75,7 +75,7 @@ void BX_CPU_C::CLI(bxInstruction_c *i)
         return;
       }
     }
-    else 
+    else
 #endif
     {
       if (IOPL < cpl) {
@@ -223,7 +223,7 @@ void BX_CPU_C::POPF_Fw(bxInstruction_c *i)
     flags16 = pop_16();
 #if BX_SUPPORT_VME
     if (CR4_VME_ENABLED && BX_CPU_THIS_PTR get_IOPL() < 3) {
-      if (((flags16 & EFlagsIFMask) && BX_CPU_THIS_PTR get_VIP()) || 
+      if (((flags16 & EFlagsIFMask) && BX_CPU_THIS_PTR get_VIP()) ||
            (flags16 & EFlagsTFMask))
       {
         BX_DEBUG(("POPFW: #GP(0) in VME mode"));
@@ -268,7 +268,7 @@ void BX_CPU_C::POPF_Fd(bxInstruction_c *i)
 {
   // Build a mask of the following bits:
   // ID,VIP,VIF,AC,VM,RF,x,NT,IOPL,OF,DF,IF,TF,SF,ZF,x,AF,x,PF,x,CF
-  Bit32u changeMask = EFlagsOSZAPCMask | EFlagsTFMask | 
+  Bit32u changeMask = EFlagsOSZAPCMask | EFlagsTFMask |
                           EFlagsDFMask | EFlagsNTMask | EFlagsRFMask;
 #if BX_CPU_LEVEL >= 4
   changeMask |= (EFlagsIDMask | EFlagsACMask);  // ID/AC

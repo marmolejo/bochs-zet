@@ -93,7 +93,7 @@ void BX_CPU_C::BSR_GqEq(bxInstruction_c *i)
 
   SET_FLAGS_OSZAPC_LOGIC_64(op1_64);
   clear_ZF();
-  
+
   /* now write result back to destination */
   BX_WRITE_64BIT_REG(i->nnn(), op1_64);
 }

@@ -57,7 +57,7 @@ void BX_CPU_C::JCXZ_Jb(bxInstruction_c *i)
 // There is some weirdness in LOOP instructions definition. If an exception
 // was generated during the instruction execution (for example #GP fault
 // because EIP was beyond CS segment limits) CPU state should restore the
-// state prior to instruction execution. 
+// state prior to instruction execution.
 //
 // The final point that we are not allowed to decrement ECX register before
 // it is known that no exceptions can happen.

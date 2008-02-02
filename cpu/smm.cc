@@ -149,7 +149,7 @@ void BX_CPU_C::enter_system_management_mode(void)
 
   parse_selector(BX_CPU_THIS_PTR smbase >> 4,
                &BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector);
-  
+
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.valid    = 1;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.p        = 1;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.dpl      = 0;

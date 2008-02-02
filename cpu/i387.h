@@ -47,7 +47,7 @@ extern int FPU_tagof(const floatx80 &reg);
 //
 // Minimal i387 structure
 //
-struct BOCHSAPI_MSVCONLY i387_t 
+struct BOCHSAPI_MSVCONLY i387_t
 {
     i387_t() {}
 
@@ -215,7 +215,7 @@ typedef union bx_packed_mmx_reg_t {
 
 #define MMXSQ(reg)  (reg.mmx64s)
 #define MMXUQ(reg)  (reg.mmx64u)
-                                
+
 #define MMXUD0(reg) (reg.mmx32u(0))
 #define MMXUD1(reg) (reg.mmx32u(1))
 
@@ -242,7 +242,7 @@ typedef union bx_packed_mmx_reg_t {
 {                                 					\
    (BX_FPU_REG(index)).fraction = MMXUQ(value);				\
    (BX_FPU_REG(index)).exp = 0xffff;       				\
-}                                                      
+}
 
 #endif 		/* BX_SUPPORT_MMX */
 

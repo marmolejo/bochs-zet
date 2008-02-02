@@ -161,7 +161,7 @@ bx_bool BX_CPU_C::get_CFLazy(void)
       BX_PANIC(("get_CF: OSZAPC: unknown instr %u",
             (unsigned) BX_CPU_THIS_PTR oszapc.instr));
   }
- 
+
   return(cf);
 }
 

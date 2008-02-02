@@ -169,7 +169,7 @@ BX_CPU_C::call_protected(bxInstruction_c *i, Bit16u cs_raw, bx_address disp)
           BX_ERROR(("call_protected: TSS selector points to bad TSS"));
           exception(BX_GP_EXCEPTION, raw_tss_selector & 0xfffc, 0);
         }
-        if (tss_descriptor.type!=BX_SYS_SEGMENT_AVAIL_286_TSS && 
+        if (tss_descriptor.type!=BX_SYS_SEGMENT_AVAIL_286_TSS &&
             tss_descriptor.type!=BX_SYS_SEGMENT_AVAIL_386_TSS)
         {
           BX_ERROR(("call_protected: TSS selector points to bad TSS"));
@@ -548,9 +548,9 @@ BX_CPU_C::call_gate64(bx_selector_t *gate_selector)
   {
     BX_DEBUG(("CALL GATE TO SAME PRIVILEGE"));
 
-    // make sure that push CS:RIP will not fail 
+    // make sure that push CS:RIP will not fail
     if (! IsCanonical(RSP)) {
-      BX_ERROR(("call_gate64: canonical address failure %08x%08x", 
+      BX_ERROR(("call_gate64: canonical address failure %08x%08x",
          GET32H(RSP), GET32L(RSP)));
       exception(BX_GP_EXCEPTION, 0, 0);
     }

@@ -334,7 +334,7 @@ int BX_CPU_C::int_number(bx_segment_reg_t *seg)
 }
 
 #if BX_SupportGuest2HostTLB
-  Bit8u* BX_CPP_AttrRegparmN(2) 
+  Bit8u* BX_CPP_AttrRegparmN(2)
 BX_CPU_C::v2h_read_byte(bx_address laddr, unsigned curr_pl)
 {
   unsigned tlbIndex = BX_TLB_INDEX_OF(laddr, 0);
@@ -354,7 +354,7 @@ BX_CPU_C::v2h_read_byte(bx_address laddr, unsigned curr_pl)
   return 0;
 }
 
-  Bit8u* BX_CPP_AttrRegparmN(2) 
+  Bit8u* BX_CPP_AttrRegparmN(2)
 BX_CPU_C::v2h_write_byte(bx_address laddr, unsigned curr_pl)
 {
   unsigned tlbIndex = BX_TLB_INDEX_OF(laddr, 0);
@@ -378,7 +378,7 @@ BX_CPU_C::v2h_write_byte(bx_address laddr, unsigned curr_pl)
   return 0;
 }
 
-  Bit8u* BX_CPP_AttrRegparmN(3) 
+  Bit8u* BX_CPP_AttrRegparmN(3)
 BX_CPU_C::v2h_read(bx_address laddr, unsigned curr_pl, unsigned len)
 {
   // Make sure access does not span 2 pages.
@@ -399,7 +399,7 @@ BX_CPU_C::v2h_read(bx_address laddr, unsigned curr_pl, unsigned len)
   return 0;
 }
 
-  Bit8u* BX_CPP_AttrRegparmN(3) 
+  Bit8u* BX_CPP_AttrRegparmN(3)
 BX_CPU_C::v2h_write(bx_address laddr, unsigned curr_pl, unsigned len)
 {
   // Make sure access does not span 2 pages.

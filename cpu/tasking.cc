@@ -216,8 +216,8 @@ void BX_CPU_C::task_switch(bx_selector_t *tss_selector,
 
   // Privilege and busy checks done in CALL, JUMP, INT, IRET
 
-  // STEP 3: Save the current task state in the TSS. Up to this point, 
-  //         any exception that occurs aborts the task switch without 
+  // STEP 3: Save the current task state in the TSS. Up to this point,
+  //         any exception that occurs aborts the task switch without
   //         changing the processor state.
 
   /* save current machine state in old task's TSS */
@@ -673,7 +673,7 @@ void BX_CPU_C::task_switch_load_selector(bx_segment_reg_t *seg,
     parse_descriptor(dword1, dword2, &descriptor);
 
     /* AR byte must indicate data or readable code segment else #TS(selector) */
-    if (descriptor.segment==0 || (IS_CODE_SEGMENT(descriptor.type) && 
+    if (descriptor.segment==0 || (IS_CODE_SEGMENT(descriptor.type) &&
         IS_CODE_SEGMENT_READABLE(descriptor.type) == 0))
     {
       BX_ERROR(("task_switch(%s): not data or readable code !", strseg(seg)));

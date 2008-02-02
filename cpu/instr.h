@@ -120,7 +120,7 @@ public:
     return metaData.modRMData1;
   }
   // used in FPU only
-  BX_CPP_INLINE unsigned modrm() { 
+  BX_CPP_INLINE unsigned modrm() {
 #if BX_SUPPORT_X86_64
     return mod() | (rm() & 7) | ((nnn() & 7) << 3);
 #else

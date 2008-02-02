@@ -61,9 +61,9 @@ void BX_CPU_C::PI2FW_PqQq(bxInstruction_c *i)
   float_status_t status_word;
   prepare_softfloat_status_word(status_word, float_round_to_zero);
 
-  MMXUD0(result) = 
+  MMXUD0(result) =
         int32_to_float32((Bit32s)(MMXSW0(op)), status_word);
-  MMXUD1(result) = 
+  MMXUD1(result) =
         int32_to_float32((Bit32s)(MMXSW2(op)), status_word);
 
   /* now write result back to destination */
@@ -90,9 +90,9 @@ void BX_CPU_C::PI2FD_PqQq(bxInstruction_c *i)
   float_status_t status_word;
   prepare_softfloat_status_word(status_word, float_round_to_zero);
 
-  MMXUD0(result) = 
+  MMXUD0(result) =
         int32_to_float32(MMXSD0(op), status_word);
-  MMXUD1(result) = 
+  MMXUD1(result) =
         int32_to_float32(MMXSD1(op), status_word);
 
   /* now write result back to destination */
@@ -124,9 +124,9 @@ void BX_CPU_C::PF2ID_PqQq(bxInstruction_c *i)
   float_status_t status_word;
   prepare_softfloat_status_word(status_word, float_round_to_zero);
 
-  MMXSD0(result) = 
+  MMXSD0(result) =
         float32_to_int32_round_to_zero(MMXUD0(op), status_word);
-  MMXSD1(result) = 
+  MMXSD1(result) =
         float32_to_int32_round_to_zero(MMXUD1(op), status_word);
 
   /* now write result back to destination */

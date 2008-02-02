@@ -39,8 +39,8 @@ void BX_CPU_C::POP_EqM(bxInstruction_c *i)
 
   Bit64u val64 = pop_64();
 
-  // Note: there is one little weirdism here.  It is possible to use 
-  // RSP in the modrm addressing. If used, the value of RSP after the 
+  // Note: there is one little weirdism here.  It is possible to use
+  // RSP in the modrm addressing. If used, the value of RSP after the
   // pop is used to calculate the address.
   //if (i->rm()==4 && i->sibBase()==4) {
     // call method on BX_CPU_C object
