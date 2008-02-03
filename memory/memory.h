@@ -74,7 +74,7 @@ private:
   bx_bool *monitor_active;
   Bit32u   n_monitors;
 #endif
-  
+
 public:
   Bit8u   *actual_vector;
   Bit8u   *vector;   // aligned correctly
