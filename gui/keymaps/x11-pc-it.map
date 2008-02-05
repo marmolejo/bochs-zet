@@ -195,8 +195,8 @@ BX_KEY_SEMICOLON+BX_KEY_SHIFT_L               'ç'        XK_ccedilla
 BX_KEY_SEMICOLON                              'ò'        XK_ograve
 BX_KEY_SHIFT_L                                none       XK_Shift_L
 BX_KEY_SHIFT_R                                none       XK_Shift_R
-BX_KEY_SINGLE_QUOTE                           'à'	   XK_agrave 
-BX_KEY_SINGLE_QUOTE+BX_KEY_SHIFT_L            '°'        XK_degree 
+BX_KEY_SINGLE_QUOTE                           'à'	   XK_agrave
+BX_KEY_SINGLE_QUOTE+BX_KEY_SHIFT_L            '°'        XK_degree
 BX_KEY_SLASH+BX_KEY_SHIFT_L                   '_'        XK_underscore
 BX_KEY_SLASH                                  '-'        XK_minus
 BX_KEY_SPACE                                  space      XK_space

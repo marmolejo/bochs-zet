@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////////
 // $Id$
 /////////////////////////////////////////////////////////////////
-// This file defines variables and classes that the wxWidgets .cc files 
-// share.  It should be included only by wx.cc and wxmain.cc.  
+// This file defines variables and classes that the wxWidgets .cc files
+// share.  It should be included only by wx.cc and wxmain.cc.
 
-// forward class declaration so that each class can have a pointer to 
+// forward class declaration so that each class can have a pointer to
 // the others.
 class MyFrame;
 class MyPanel;

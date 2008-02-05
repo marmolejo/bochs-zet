@@ -363,7 +363,7 @@ void copyBochsDescriptorToPlex86(descriptor_t *plex86Desc, bx_descriptor_t *boch
     plex86Desc->d_b = bochsDesc->u.segment.d_b;
     plex86Desc->g   = bochsDesc->u.segment.g;
     }
-  else if (bochsDesc->type == BX_SYS_SEGMENT_AVAIL_286_TSS || 
+  else if (bochsDesc->type == BX_SYS_SEGMENT_AVAIL_286_TSS ||
            bochsDesc->type == BX_SYS_SEGMENT_AVAIL_386_TSS ||
            bochsDesc->type == BX_SYS_SEGMENT_LDT)
   {

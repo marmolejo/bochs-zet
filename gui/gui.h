@@ -189,7 +189,7 @@ protected:
 
 // Add this macro in the class declaration of each GUI, to define all the
 // required virtual methods.  Example:
-//   
+//
 //    class bx_rfb_gui_c : public bx_gui_c {
 //    public:
 //      bx_rfb_gui_c (void) {}
@@ -384,7 +384,7 @@ virtual void graphics_tile_update_in_place(unsigned x, unsigned y,          \
 #define BX_KEY_POWER_WAKE   118
 
 #define BX_KEY_NBKEYS       119
-// If you add BX_KEYs Please update 
+// If you add BX_KEYs Please update
 // - BX_KEY_NBKEYS
 // - the scancodes table in the file iodev/scancodes.cc
 // - the bx_key_symbol table in the file gui/keymap.cc

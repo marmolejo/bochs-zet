@@ -215,9 +215,9 @@ void bx_load_linux_hack(void)
   // BX_CPU(0)->cr0.val32 |= 0x01;
 
   BX_CPU(0)->SetCR0(BX_CPU(0)->cr0.val32 | 0x01);
- 
+
   // load esi with real_mode
-  BX_CPU(0)->gen_reg[BX_32BIT_REG_ESI].dword.erx = 0x90000; 
+  BX_CPU(0)->gen_reg[BX_32BIT_REG_ESI].dword.erx = 0x90000;
 
   // Set up initial GDT
   BX_CPU(0)->gdtr.limit = 0x400;

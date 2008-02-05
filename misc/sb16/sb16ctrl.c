@@ -29,8 +29,8 @@
 
 
 
-// The purpose of this program is to provide runtime configuration 
-// options to the SB16 Emulator until Bochs has a more sophisticated 
+// The purpose of this program is to provide runtime configuration
+// options to the SB16 Emulator until Bochs has a more sophisticated
 // user interface allowing to do these things better.
 
 
@@ -281,7 +281,7 @@ void loadmap(char *map)
   for (i=0;i<6;i++) {
     if (nextnum) {
       trans[i] = strtoi(nextnum, &nextnum, 0);
-      if ( (!nextnum) || 
+      if ( (!nextnum) ||
 	   ( (trans[i] > 127) && (trans[i] < 255) ) ||
 	   (trans[i] > 255) )
 	printf("Parse error in value %d%s. Command ignored.", i, ofline);

@@ -34,9 +34,9 @@
 # keymap file is parsed, the conversion function is called for each host key
 # name, to convert it into a number.  Only the number is stored.  If the host
 # key name is not found, the conversion function returns BX_KEYMAP_UNKNOWN, and
-# the keymap code will panic, like this: 
+# the keymap code will panic, like this:
 #
-#    [KMAP ] line 51: unknown host key name 'SDLK_PAREN_RIGHT' 
+#    [KMAP ] line 51: unknown host key name 'SDLK_PAREN_RIGHT'
 #
 # If this happens, you must edit the keymap file, and either correct the host
 # key name or comment out that line.

@@ -71,7 +71,7 @@ BOOL CreateImage(HWND hDlg, int sectors, const char *filename)
                             "File exists", MB_YESNO);
     if (answer == IDYES)
       ret = SIM->create_disk_image (filename, sectors, 1);
-    else 
+    else
       return FALSE;
   }
   if (ret == -2) {

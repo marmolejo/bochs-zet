@@ -101,7 +101,7 @@ keyboard_mouse
     type
     enabled
 
-boot_params          
+boot_params
   boot_drive1
   boot_drive2
   boot_drive3

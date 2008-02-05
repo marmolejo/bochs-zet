@@ -88,7 +88,7 @@ void fatal (char *c)
   myexit (1);
 }
 
-/* remove leading spaces, newline junk at end.  returns pointer to 
+/* remove leading spaces, newline junk at end.  returns pointer to
  cleaned string, which is between s0 and the null */
 char *
 clean_string (char *s0)
@@ -107,7 +107,7 @@ clean_string (char *s0)
 }
 
 /* returns 0 on success, -1 on failure.  The value goes into out. */
-int 
+int
 ask_int (char *prompt, int min, int max, int the_default, int *out)
 {
   int n = max + 1;
@@ -137,7 +137,7 @@ ask_int (char *prompt, int min, int max, int the_default, int *out)
   }
 }
 
-int 
+int
 ask_menu (char *prompt, int n_choices, char *choice[], int the_default, int *out)
 {
   char buffer[1024];
@@ -171,7 +171,7 @@ ask_menu (char *prompt, int n_choices, char *choice[], int the_default, int *out
   }
 }
 
-int 
+int
 ask_yn (char *prompt, int the_default, int *out)
 {
   char buffer[16];
@@ -196,7 +196,7 @@ ask_yn (char *prompt, int the_default, int *out)
   }
 }
 
-int 
+int
 ask_string (char *prompt, char *the_default, char *out)
 {
   char buffer[1024];
@@ -225,7 +225,7 @@ int commit_redolog (char *flatname, char *redologname )
   Bit8u  *bitmap;
   Bit32u i, bitmap_blocs, extent_blocs;
   Bit8u  buffer[512];
- 
+
   // check if flat file exists
   flatfd = open (flatname, O_WRONLY
 #ifdef O_BINARY
@@ -253,9 +253,9 @@ int commit_redolog (char *flatname, char *redologname )
      fatal ("\nERROR: while reading redolog header!");
 
   // Print infos on redlog
-  printf("Type='%s', Subtype='%s', Version=%d.%d] Done.", 
+  printf("Type='%s', Subtype='%s', Version=%d.%d] Done.",
            header.standard.type, header.standard.subtype,
-           dtoh32(header.standard.version)/0x10000, 
+           dtoh32(header.standard.version)/0x10000,
            dtoh32(header.standard.version)%0x10000);
 
   printf ("\nChecking redolog header: [");
@@ -298,8 +298,8 @@ int commit_redolog (char *flatname, char *redologname )
   {
           printf("\x8\x8\x8\x8\x8%3d%%]", (i+1)*100/dtoh32(header.specific.catalog));
           fflush(stdout);
-          
-          if (dtoh32(catalog[i]) != REDOLOG_PAGE_NOT_ALLOCATED) 
+
+          if (dtoh32(catalog[i]) != REDOLOG_PAGE_NOT_ALLOCATED)
           {
                   Bit64s bitmap_offset;
                   Bit32u bitmap_size, j;
@@ -325,15 +325,15 @@ int commit_redolog (char *flatname, char *redologname )
                                           Bit64s flat_offset, bloc_offset;
 
                                           bloc_offset  = bitmap_offset + ((Bit64s)512 * (bitmap_blocs + ((j*8)+bit)));
-                                          
+
                                           lseek(redologfd, (off_t)bloc_offset, SEEK_SET);
-                                          
+
                                           if (read(redologfd, buffer, 512) != 512)
                                                 fatal ("\nERROR: while reading bloc from redolog !");
 
                                           flat_offset  = (Bit64s)i * (dtoh32(header.specific.extent));
                                           flat_offset += (Bit64s)512 * ((j * 8) + bit);
-                                          
+
                                           lseek(flatfd, (off_t)flat_offset, SEEK_SET);
 
                                           if (write(flatfd, buffer, 512) != 512)

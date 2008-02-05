@@ -734,7 +734,7 @@ ssize_t sparse_image_t::write (const void* buf, size_t count)
     }
 
     underlying_current_filepos = physical_offset + can_write;
- 
+
     total_written += can_write;
 
     position_page_offset += can_write;

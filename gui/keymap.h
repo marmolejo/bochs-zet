@@ -27,7 +27,7 @@
 //   using convertStringToSymbol to convert strings to client constants
 //
 // - loadKeymap(Bit32u convertStringToSymbol(const char*), const char* filename);
-//   loads the specified keymap file 
+//   loads the specified keymap file
 //   using convertStringToSymbol to convert strings to client constants
 //
 // - isKeymapLoaded () returns true if the keymap contains any valid key
@@ -47,7 +47,7 @@
 #define BX_KEYMAP_UNKNOWN   0xFFFFFFFF
 
 // Structure of an element of the keymap table
-typedef struct BOCHSAPI { 
+typedef struct BOCHSAPI {
   Bit32u baseKey;   // base key
   Bit32u modKey;   // modifier key that must be held down
   Bit32s ascii;    // ascii equivalent, if any
@@ -69,7 +69,7 @@ public:
 
 private:
   Bit32u convertStringToBXKey(const char *);
- 
+
   BXKeyEntry *keymapTable;
   Bit16u   keymapCount;
   };
