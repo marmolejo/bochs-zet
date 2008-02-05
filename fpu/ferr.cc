@@ -47,7 +47,7 @@ void BX_CPU_C::FPU_stack_underflow(int stnr, int pop_stack)
   if (BX_CPU_THIS_PTR the_i387.is_IA_masked())
   {
      BX_WRITE_FPU_REGISTER_AND_TAG(floatx80_default_nan, FPU_Tag_Special, stnr);
-     if (pop_stack) 
+     if (pop_stack)
           BX_CPU_THIS_PTR the_i387.FPU_pop();
   }
   FPU_exception(FPU_EX_Stack_Underflow);

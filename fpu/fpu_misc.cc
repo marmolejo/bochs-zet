@@ -154,7 +154,7 @@ void BX_CPU_C::FFREE_STi(bxInstruction_c *i)
 #endif
 }
 
-/* 
+/*
  * Free the st(0) register and pop it from the FPU stack.
  * "Undocumented" by Intel & AMD but mentioned in AMDs Athlon Docs.
  */

@@ -77,7 +77,7 @@ void BX_CPU_C::MOV_EwSwR(bxInstruction_c *i)
 
   Bit16u seg_reg = BX_CPU_THIS_PTR sregs[i->nnn()].selector.value;
 
-  if ( i->os32L() ) {
+  if (i->os32L()) {
     BX_WRITE_32BIT_REGZ(i->rm(), seg_reg);
   }
   else {

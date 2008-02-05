@@ -60,10 +60,10 @@ void syscall_names_t::init ()
   }
 #define DEF_SYSCALL(num,name)  syscall_names_linux[num] = name;
   /* basically every line in the included file is a call to DEF_SYSCALL.
-     The preprocessor will turn each DEF_SYSCALL into an assignment 
+     The preprocessor will turn each DEF_SYSCALL into an assignment
      to syscall_names_linux[num]. */
 #include "syscalls-linux.h"
-  /* now almost all the name entries have been initialized.  If there 
+  /* now almost all the name entries have been initialized.  If there
      are any gaps, they still point to "<unknown syscall>". */
 
 #if (N_SYSCALLS > MAX_SYSCALLS)
@@ -71,7 +71,7 @@ void syscall_names_t::init ()
 #endif
 }
 
-char *syscall_names_t::get_name (int n) 
+char *syscall_names_t::get_name (int n)
 {
   static char buf[64];
   if (n < 0 || n > N_SYSCALLS) {
