@@ -103,20 +103,10 @@ BX_CPU_C::load_cs(bx_selector_t *selector, bx_descriptor_t *descriptor, Bit8u cp
 
 #if BX_SUPPORT_X86_64
   if (BX_CPU_THIS_PTR efer.lma) {
-    unsigned mode = BX_CPU_THIS_PTR cpu_mode;
     if (descriptor->u.segment.l) {
-      BX_CPU_THIS_PTR cpu_mode = BX_MODE_LONG_64;
       loadSRegLMNominal(BX_SEG_REG_CS, selector->value, cpl);
     }
-    else {
-      BX_CPU_THIS_PTR cpu_mode = BX_MODE_LONG_COMPAT;
-      if (BX_CPU_THIS_PTR eip_reg.dword.rip_upper != 0) {
-        BX_PANIC(("handleCpuModeChange: leaving long mode with RIP upper != 0 !"));
-      }
-    }
-    if (mode != BX_CPU_THIS_PTR cpu_mode) {
-      BX_DEBUG(("%s activated", cpu_mode_string(BX_CPU_THIS_PTR cpu_mode)));
-    }
+    handleCpuModeChange();
   }
 #endif
 
