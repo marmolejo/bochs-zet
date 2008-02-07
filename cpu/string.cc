@@ -327,7 +327,7 @@ Bit32u BX_CPU_C::FastRepMOVSW(bxInstruction_c *i, unsigned srcSeg, bx_address sr
 
     // Transfer data directly using host addresses
     for (unsigned j=0; j<count; j++) {
-      * (Bit16u *) hostAddrDst = * (Bit16u *) hostAddrSrc;
+      CopyHostWordLittleEndian(hostAddrDst, hostAddrSrc);
       hostAddrDst += pointerDelta;
       hostAddrSrc += pointerDelta;
     }
@@ -477,7 +477,7 @@ Bit32u BX_CPU_C::FastRepMOVSD(bxInstruction_c *i, unsigned srcSeg, bx_address sr
 
     // Transfer data directly using host addresses
     for (unsigned j=0; j<count; j++) {
-      * (Bit32u *) hostAddrDst = * (Bit32u *) hostAddrSrc;
+      CopyHostDWordLittleEndian(hostAddrDst, hostAddrSrc);
       hostAddrDst += pointerDelta;
       hostAddrSrc += pointerDelta;
     }
@@ -681,7 +681,7 @@ Bit32u BX_CPU_C::FastRepSTOSW(bxInstruction_c *i, unsigned dstSeg, bx_address ds
 
     // Transfer data directly using host addresses
     for (unsigned j=0; j<count; j++) {
-      * (Bit16u *) hostAddrDst = val;
+      WriteHostWordToLittleEndian(hostAddrDst, val);
       hostAddrDst += pointerDelta;
     }
 
@@ -784,7 +784,7 @@ Bit32u BX_CPU_C::FastRepSTOSD(bxInstruction_c *i, unsigned dstSeg, bx_address ds
 
     // Transfer data directly using host addresses
     for (unsigned j=0; j<count; j++) {
-      * (Bit32u *) hostAddrDst = val;
+      WriteHostDWordToLittleEndian(hostAddrDst, val);
       hostAddrDst += pointerDelta;
     }
 
