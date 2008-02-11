@@ -171,7 +171,7 @@ void BX_CPU_C::enter_system_management_mode(void)
 #endif
 
 #if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
-  BX_CPU_THIS_PTR alignment_check = 0;
+  BX_CPU_THIS_PTR alignment_check_mask = LPF_MASK;
 #endif
 
   /* DS (Data Segment) and descriptor cache */
