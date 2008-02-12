@@ -71,10 +71,10 @@
 #define  Gd &disassembler::Gd
 #define  Gq &disassembler::Gq
 
-#define  Hbd &disassembler::Hbd
-#define  Hwd &disassembler::Hwd
-#define   Hd &disassembler::Hd
-#define   Hq &disassembler::Hq
+#define Hbd &disassembler::Hbd
+#define Hwd &disassembler::Hwd
+#define  Hd &disassembler::Hd
+#define  Hq &disassembler::Hq
 
 #define  I1 &disassembler::I1
 #define  Ib &disassembler::Ib
@@ -119,10 +119,10 @@
 #define Wps &disassembler::Wps
 #define Wpd &disassembler::Wpd
 
-#define Ob  &disassembler::Ob
-#define Ow  &disassembler::Ow
-#define Od  &disassembler::Od
-#define Oq  &disassembler::Oq
+#define  Ob &disassembler::Ob
+#define  Ow &disassembler::Ow
+#define  Od &disassembler::Od
+#define  Oq &disassembler::Oq
 
 #define  Ma &disassembler::Ma
 #define  Mp &disassembler::Mp

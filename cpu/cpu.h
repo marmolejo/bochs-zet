@@ -2261,6 +2261,13 @@ public: // for now...
   BX_SMF void INSERTQ_VdqUdq(bxInstruction_c *);
   /* SSE4A */
 
+  /* XSAVE/XRSTOR extensions */
+  BX_SMF void XSAVE(bxInstruction_c *);
+  BX_SMF void XRSTOR(bxInstruction_c *);
+  BX_SMF void XGETBV(bxInstruction_c *);
+  BX_SMF void XSETBV(bxInstruction_c *);
+  /* XSAVE/XRSTOR extensions */
+
   /*** Duplicate SSE instructions ***/
   // Although in implementation, these instructions are aliased to the
   // another function, it's nice to have them call a separate function when
