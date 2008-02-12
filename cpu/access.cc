@@ -35,8 +35,12 @@
 // when aligment check is enabled a misaligned access will miss the TLB.
 // BX_CPU_THIS_PTR alignment_check_mask must be initialized to all'ones if
 // alignment check exception is enabled and LPF_MASK if not.
+#if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
 #define AlignedAccessLPFOf(laddr, alignment_mask) \
           ((laddr) & (LPF_MASK | (alignment_mask))) & (BX_CPU_THIS_PTR alignment_check_mask)
+#else
+#define AlignedAccessLPFOf(laddr, alignment_mask) LPFOf(laddr)
+#endif
 
   void BX_CPP_AttrRegparmN(3)
 BX_CPU_C::write_virtual_checks(bx_segment_reg_t *seg, bx_address offset, unsigned length)
