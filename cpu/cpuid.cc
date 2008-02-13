@@ -255,12 +255,12 @@ Bit32u BX_CPU_C::get_std_cpuid_features()
 
 void BX_CPU_C::CPUID(bxInstruction_c *i)
 {
+#if BX_CPU_LEVEL >= 4
   Bit32u function    = EAX;
 #if BX_SUPPORT_XSAVE
   Bit32u subfunction = ECX;
 #endif
 
-#if BX_CPU_LEVEL >= 4
   if(function < 0x80000000) {
     if(function < MAX_STD_CPUID_FUNCTION) {
       RAX = BX_CPU_THIS_PTR cpuid_std_function[function].eax;
