@@ -32,10 +32,6 @@
 #define RDX EDX
 #endif
 
-// TODO:
-// 1. CPUID leaf, CPU function ECX[26], ECX[27]
-// 2. SSE #UD generation new way
-
 #if BX_SUPPORT_XSAVE
 void BX_CPU_C::prepareXSAVE(void)
 {

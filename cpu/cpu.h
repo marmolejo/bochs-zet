@@ -552,7 +552,7 @@ typedef struct
 } bx_regs_msr_t;
 #endif
 
-#define MAX_STD_CPUID_FUNCTION 8
+#define MAX_STD_CPUID_FUNCTION 15
 #define MAX_EXT_CPUID_FUNCTION 8
 
 struct cpuid_function_t {
