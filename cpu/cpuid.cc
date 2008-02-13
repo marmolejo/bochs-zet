@@ -255,7 +255,10 @@ Bit32u BX_CPU_C::get_std_cpuid_features()
 
 void BX_CPU_C::CPUID(bxInstruction_c *i)
 {
-  Bit32u function = EAX, subfunction = ECX;
+  Bit32u function    = EAX;
+#if BX_SUPPORT_XSAVE
+  Bit32u subfunction = ECX;
+#endif
 
 #if BX_CPU_LEVEL >= 4
   if(function < 0x80000000) {
