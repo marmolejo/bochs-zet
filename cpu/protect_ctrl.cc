@@ -317,7 +317,6 @@ void BX_CPU_C::LLDT_Ew(bxInstruction_c *i)
     UndefinedOpcode(i);
   }
 
-  /* #GP(0) if the current privilege level is not 0 */
   if (CPL != 0) {
     BX_ERROR(("LLDT: The current priveledge level is not 0"));
     exception(BX_GP_EXCEPTION, 0, 0);
@@ -396,7 +395,6 @@ void BX_CPU_C::LTR_Ew(bxInstruction_c *i)
     UndefinedOpcode(i);
   }
 
-  /* #GP(0) if the current privilege level is not 0 */
   if (CPL != 0) {
     BX_ERROR(("LTR: The current priveledge level is not 0"));
     exception(BX_GP_EXCEPTION, 0, 0);

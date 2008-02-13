@@ -859,6 +859,10 @@ public: // for now...
   bx_efer_t efer;
 #endif
 
+#if BX_SUPPORT_XSAVE
+  xcr0_t xcr0;
+#endif
+
   /* SMM base register */
   Bit32u smbase;
 
@@ -3212,6 +3216,11 @@ public: // for now...
   BX_SMF void prepareSSE(void);
   BX_SMF void check_exceptionsSSE(int);
   BX_SMF void print_state_SSE(void);
+  BX_SMF Bit16u unpack_FPU_TW(Bit16u tag_byte);
+#endif
+
+#if BX_SUPPORT_XSAVE
+  BX_SMF void prepareXSAVE(void);
 #endif
 
 #if BX_SUPPORT_MONITOR_MWAIT

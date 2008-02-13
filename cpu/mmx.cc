@@ -92,11 +92,11 @@ void BX_CPU_C::print_state_MMX(void)
 
 void BX_CPU_C::prepareMMX(void)
 {
-  if(BX_CPU_THIS_PTR cr0.get_TS())
-    exception(BX_NM_EXCEPTION, 0, 0);
-
   if(BX_CPU_THIS_PTR cr0.get_EM())
     exception(BX_UD_EXCEPTION, 0, 0);
+
+  if(BX_CPU_THIS_PTR cr0.get_TS())
+    exception(BX_NM_EXCEPTION, 0, 0);
 
   /* cause transition from FPU to MMX technology state */
   BX_CPU_THIS_PTR prepareFPU2MMX();

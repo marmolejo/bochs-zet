@@ -358,6 +358,9 @@ void BX_CPU_C::register_state(void)
 #if BX_CPU_LEVEL >= 4
   BXRS_HEX_PARAM_FIELD(cpu, CR4, cr4.val32);
 #endif
+#if BX_SUPPORT_XSAVE
+  BXRS_HEX_PARAM_FIELD(cpu, XCR0, xcr0.val32);
+#endif
 
   for(i=0; i<6; i++) {
     bx_segment_reg_t *segment = &BX_CPU_THIS_PTR sregs[i];
@@ -890,6 +893,10 @@ void BX_CPU_C::reset(unsigned source)
 
 #if BX_CPU_LEVEL >= 4
   BX_CPU_THIS_PTR cr4.setRegister(0);
+#endif
+
+#if BX_SUPPORT_XSAVE
+  BX_CPU_THIS_PTR xcr0.setRegister(0x1);
 #endif
 
   // CR0/CR4 paging might be modified
