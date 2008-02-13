@@ -94,7 +94,7 @@ Bit16u BX_CPU_C::unpack_FPU_TW(Bit16u tag_byte)
    * is all 0's.
    */
 
-  for(unsigned index = 7;index >= 0; index--, twd <<= 2, tag_byte <<= 1)
+  for(int index = 7;index >= 0; index--, twd <<= 2, tag_byte <<= 1)
   {
       if(tag_byte & 0x80) {
          const floatx80 &fpu_reg = BX_FPU_REG(index);
@@ -286,7 +286,7 @@ void BX_CPU_C::FXRSTOR(bxInstruction_c *i)
 {
 #if BX_CPU_LEVEL >= 6
   BxPackedXmmRegister xmm;
-  int index;
+  unsigned index;
 
   BX_DEBUG(("FXRSTOR: restore FPU/MMX/SSE state"));
 
