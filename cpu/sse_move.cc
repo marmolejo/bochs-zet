@@ -40,8 +40,6 @@ void BX_CPU_C::prepareSSE(void)
     exception(BX_NM_EXCEPTION, 0, 0);
 }
 
-#define BX_MXCSR_REGISTER (BX_CPU_THIS_PTR mxcsr.mxcsr)
-
 void BX_CPU_C::print_state_SSE(void)
 {
   BX_DEBUG(("MXCSR: 0x%08x\n", BX_MXCSR_REGISTER));

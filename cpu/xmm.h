@@ -206,7 +206,8 @@ struct BOCHSAPI bx_mxcsr_t
          (BX_SUPPORT_MISALIGNED_SSE ? MXCSR_MISALIGNED_EXCEPTION_MASK : 0))
 
 #if defined(NEED_CPU_REG_SHORTCUTS)
-#define MXCSR (BX_CPU_THIS_PTR mxcsr)
+#define MXCSR             (BX_CPU_THIS_PTR mxcsr)
+#define BX_MXCSR_REGISTER (BX_CPU_THIS_PTR mxcsr.mxcsr)
 #endif
 
 /* INTEGER SATURATION */
