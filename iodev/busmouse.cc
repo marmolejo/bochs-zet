@@ -275,9 +275,9 @@ void bx_busm_c::write(Bit32u address, Bit32u value, unsigned io_len)
 void bx_busm_c::bus_mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state)
 {
   // scale down the motion
-  if ( (delta_x < -1) || (delta_x > 1) )
+  if ((delta_x < -1) || (delta_x > 1))
     delta_x /= 2;
-  if ( (delta_y < -1) || (delta_y > 1) )
+  if ((delta_y < -1) || (delta_y > 1))
     delta_y /= 2;
 
   if(delta_x>127) delta_x=127;

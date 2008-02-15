@@ -519,11 +519,11 @@ void bx_cmos_c::write(Bit32u address, Bit32u value, unsigned io_len)
           unsigned prev_CRB;
           prev_CRB = BX_CMOS_THIS s.reg[REG_STAT_B];
           BX_CMOS_THIS s.reg[REG_STAT_B] = value;
-          if ( (prev_CRB & 0x02) != (value & 0x02) ) {
+          if ((prev_CRB & 0x02) != (value & 0x02)) {
             BX_CMOS_THIS s.rtc_mode_12hour = ((value & 0x02) == 0);
             update_clock();
           }
-          if ( (prev_CRB & 0x04) != (value & 0x04) ) {
+          if ((prev_CRB & 0x04) != (value & 0x04)) {
             BX_CMOS_THIS s.rtc_mode_binary = ((value & 0x04) != 0);
             update_clock();
           }

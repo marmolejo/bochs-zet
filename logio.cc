@@ -161,7 +161,7 @@ void iofunctions::set_log_prefix(const char* prefix)
   strcpy(logprefix, prefix);
 }
 
-//  iofunctions::out( class, level, prefix, fmt, ap)
+//  iofunctions::out(class, level, prefix, fmt, ap)
 //  DO NOT nest out() from ::info() and the like.
 //    fmt and ap retained for direct printinf from iofunctions only!
 

@@ -168,19 +168,19 @@ extern "C" {
 #define LOG_THIS bx_devices.pluginNE2kDevice->
 
 // This is a utility script used for tuntap or ethertap
-int execute_script( char* scriptname, char* arg1 )
+int execute_script(char* scriptname, char* arg1)
 {
   int pid,status;
 
   if (!(pid=fork())) {
     char filename[BX_PATHNAME_LEN];
-    if ( scriptname[0]=='/' ) {
-      strcpy (filename, scriptname);
+    if (scriptname[0]=='/') {
+      strcpy(filename, scriptname);
     }
     else {
-      getcwd (filename, BX_PATHNAME_LEN);
-      strcat (filename, "/");
-      strcat (filename, scriptname);
+      getcwd(filename, BX_PATHNAME_LEN);
+      strcat(filename, "/");
+      strcat(filename, scriptname);
     }
 
     // execute the script

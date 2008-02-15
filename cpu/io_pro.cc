@@ -132,7 +132,7 @@ bx_bool BX_CPU_C::allow_io(Bit16u addr, unsigned len)
       return(0);
     }
 
-    if ( (Bit32s) (addr/8) >= (Bit32s) (BX_CPU_THIS_PTR tr.cache.u.system.limit_scaled - io_base)) {
+    if ((Bit32s) (addr/8) >= (Bit32s) (BX_CPU_THIS_PTR tr.cache.u.system.limit_scaled - io_base)) {
       BX_ERROR(("allow_io(): IO addr %x (len %d) outside TSS IO permission map (base=%x, limit=%x) #GP(0)",
         addr, len, io_base, BX_CPU_THIS_PTR tr.cache.u.system.limit_scaled));
       return(0);

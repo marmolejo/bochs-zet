@@ -375,8 +375,8 @@ void bx_get_command(void)
   }
 
   // look for first non-whitespace character
-  while (((*tmp_buf_ptr == ' ') || (*tmp_buf_ptr == '\t')) &&
-          (*tmp_buf_ptr != '\n') && (*tmp_buf_ptr != 0) )
+  while (((*tmp_buf_ptr == ' ')  || (*tmp_buf_ptr == '\t')) &&
+          (*tmp_buf_ptr != '\n') && (*tmp_buf_ptr != 0))
   {
     tmp_buf_ptr++;
   }

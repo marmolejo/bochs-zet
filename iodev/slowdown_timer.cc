@@ -24,6 +24,7 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 //
+/////////////////////////////////////////////////////////////////////////
 
 #include "bochs.h"
 #include "slowdown_timer.h"
@@ -63,7 +64,7 @@ void bx_slowdown_timer_c::init(void)
 {
   // Return early if slowdown timer not selected
   if ((SIM->get_param_enum(BXPN_CLOCK_SYNC)->get() != BX_CLOCK_SYNC_SLOWDOWN) &&
-      (SIM->get_param_enum(BXPN_CLOCK_SYNC)->get() != BX_CLOCK_SYNC_BOTH) )
+      (SIM->get_param_enum(BXPN_CLOCK_SYNC)->get() != BX_CLOCK_SYNC_BOTH))
     return;
 
   BX_INFO(("using 'slowdown' timer synchronization method"));

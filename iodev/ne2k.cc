@@ -23,6 +23,7 @@
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+/////////////////////////////////////////////////////////////////////////
 
 // Peter Grehan (grehan@iprg.nokia.com) coded the initial version of this
 // NE2000/ether stuff.
@@ -1129,7 +1130,7 @@ Bit32u bx_ne2k_c::read_handler(void *this_ptr, Bit32u address, unsigned io_len)
 #if !BX_USE_NE2K_SMF
   bx_ne2k_c *class_ptr = (bx_ne2k_c *) this_ptr;
 
-  return( class_ptr->read(address, io_len) );
+  return class_ptr->read(address, io_len);
 }
 
 Bit32u bx_ne2k_c::read(Bit32u address, unsigned io_len)

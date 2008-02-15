@@ -128,7 +128,7 @@ typedef struct {
 /*
  * Standard IOCTL define
  */
-#define CTL_CODE( DevType, Function, Method, Access ) (                 \
+#define CTL_CODE(DevType, Function, Method, Access) (                   \
     ((DevType) << 16) | ((Access) << 14) | ((Function) << 2) | (Method) \
 )
 

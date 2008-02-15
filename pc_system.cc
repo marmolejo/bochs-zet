@@ -258,7 +258,7 @@ void bx_pc_system_c::register_state(void)
 // Bochs internal timer delivery framework features
 // ================================================
 
-int bx_pc_system_c::register_timer( void *this_ptr, void (*funct)(void *),
+int bx_pc_system_c::register_timer(void *this_ptr, void (*funct)(void *),
   Bit32u useconds, bx_bool continuous, bx_bool active, const char *id)
 {
   // Convert useconds to number of ticks.
