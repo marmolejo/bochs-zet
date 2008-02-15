@@ -103,7 +103,7 @@ void iofunctions::init_log(const char *fn)
     newfd = fopen(fn, "w");
     if(newfd != NULL) {
       newfn = strdup(fn);
-      log->ldebug("Opened log file '%s'.", fn );
+      log->ldebug("Opened log file '%s'.", fn);
     } else {
       // in constructor, genlog might not exist yet, so do it the safe way.
       log->error("Couldn't open log file: %s, using stderr instead", fn);
@@ -196,7 +196,7 @@ void iofunctions::out(int f, int l, const char *prefix, const char *fmt, va_list
             break;
           case 'i':
 #if BX_SUPPORT_SMP == 0
-            fprintf(logfd, "%08x", BX_CPU(0)->eip_reg.dword.eip);
+            fprintf(logfd, "%08x", BX_CPU(0)->get_eip());
 #endif
             break;
           case 'e':

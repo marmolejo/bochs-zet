@@ -53,7 +53,7 @@ void BX_CPU_C::BSF_GqEq(bxInstruction_c *i)
   }
 
   op1_64 = 0;
-  while ( (op2_64 & 0x01) == 0 ) {
+  while ((op2_64 & 0x01) == 0) {
     op1_64++;
     op2_64 >>= 1;
   }
@@ -86,7 +86,7 @@ void BX_CPU_C::BSR_GqEq(bxInstruction_c *i)
   }
 
   op1_64 = 63;
-  while ( (op2_64 & BX_CONST64(0x8000000000000000)) == 0 ) {
+  while ((op2_64 & BX_CONST64(0x8000000000000000)) == 0) {
     op1_64--;
     op2_64 <<= 1;
   }

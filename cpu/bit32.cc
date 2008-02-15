@@ -53,7 +53,7 @@ void BX_CPU_C::BSF_GdEd(bxInstruction_c *i)
   }
 
   op1_32 = 0;
-  while ( (op2_32 & 0x01) == 0 ) {
+  while ((op2_32 & 0x01) == 0) {
     op1_32++;
     op2_32 >>= 1;
   }
@@ -86,7 +86,7 @@ void BX_CPU_C::BSR_GdEd(bxInstruction_c *i)
   }
 
   op1_32 = 31;
-  while ( (op2_32 & 0x80000000) == 0 ) {
+  while ((op2_32 & 0x80000000) == 0) {
     op1_32--;
     op2_32 <<= 1;
   }

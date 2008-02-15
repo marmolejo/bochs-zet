@@ -207,7 +207,7 @@ BX_CPU_C::call_protected(bxInstruction_c *i, Bit16u cs_raw, bx_address disp)
         new_EIP       = gate_descriptor.u.gate.dest_offset;
 
         // selector must not be null else #GP(0)
-        if ( (dest_selector & 0xfffc) == 0 ) {
+        if ((dest_selector & 0xfffc) == 0) {
           BX_ERROR(("call_protected: selector in gate null"));
           exception(BX_GP_EXCEPTION, 0, 0);
         }
@@ -258,7 +258,7 @@ BX_CPU_C::call_protected(bxInstruction_c *i, Bit16u cs_raw, bx_address disp)
 
           // check selector & descriptor for new SS:
           // selector must not be null, else #TS(0)
-          if ( (SS_for_cpl_x & 0xfffc) == 0 ) {
+          if ((SS_for_cpl_x & 0xfffc) == 0) {
             BX_ERROR(("call_protected: new SS null"));
             exception(BX_TS_EXCEPTION, 0, 0);
           }
@@ -457,7 +457,7 @@ BX_CPU_C::call_gate64(bx_selector_t *gate_selector)
 
   Bit16u dest_selector = gate_descriptor.u.gate.dest_selector;
   // selector must not be null else #GP(0)
-  if ( (dest_selector & 0xfffc) == 0 ) {
+  if ((dest_selector & 0xfffc) == 0) {
     BX_ERROR(("call_gate64: selector in gate null"));
     exception(BX_GP_EXCEPTION, 0, 0);
   }

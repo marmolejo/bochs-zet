@@ -262,7 +262,7 @@ BX_CPU_C::jmp_call_gate64(bx_selector_t *gate_selector)
 
   Bit16u dest_selector = gate_descriptor.u.gate.dest_selector;
   // selector must not be null else #GP(0)
-  if ( (dest_selector & 0xfffc) == 0 ) {
+  if ((dest_selector & 0xfffc) == 0) {
     BX_ERROR(("call_gate64: selector in gate null"));
     exception(BX_GP_EXCEPTION, 0, 0);
   }

@@ -33,17 +33,6 @@
 #if BX_SUPPORT_X86_64
 
   void  BX_CPP_AttrRegparmN(1)
-BX_CPU_C::BxResolve32Rip(bxInstruction_c *i)
-{
-  RMAddr(i) = EIP + i->displ32u();
-}
-  void  BX_CPP_AttrRegparmN(1)
-BX_CPU_C::BxResolve64Rip(bxInstruction_c *i)
-{
-  RMAddr(i) = RIP + (Bit32s) i->displ32u();
-}
-
-  void  BX_CPP_AttrRegparmN(1)
 BX_CPU_C::BxResolve64DispIndex(bxInstruction_c *i)
 {
   RMAddr(i) = (BX_READ_64BIT_REG(i->sibIndex()) << i->sibScale()) + (Bit32s) i->displ32u();

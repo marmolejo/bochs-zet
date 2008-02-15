@@ -53,7 +53,7 @@ void BX_CPU_C::BSF_GwEw(bxInstruction_c *i)
   }
 
   op1_16 = 0;
-  while ( (op2_16 & 0x01) == 0 ) {
+  while ((op2_16 & 0x01) == 0) {
     op1_16++;
     op2_16 >>= 1;
   }
@@ -86,7 +86,7 @@ void BX_CPU_C::BSR_GwEw(bxInstruction_c *i)
   }
 
   op1_16 = 15;
-  while ( (op2_16 & 0x8000) == 0 ) {
+  while ((op2_16 & 0x8000) == 0) {
     op1_16--;
     op2_16 <<= 1;
   }
