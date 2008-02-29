@@ -13,8 +13,7 @@
 #define _GRPSSE        5
 #define _GRPRM         6
 #define _GRP3BOP       7
-#define _GRP3BTAB      8
-#define _GRP64B        9
+#define _GRP64B        8
 
 /* ************************************************************************ */
 #define GRPSSE(n)       _GRPSSE,   BxDisasmGroupSSE_##n
@@ -23,8 +22,7 @@
 #define GRPMOD(n)       _SPLIT11B, BxDisasmGroupMod##n
 #define GRPFP(n)        _GRPFP,    BxDisasmFPGroup##n
 #define GRP3DNOW        _GRP3DNOW, BxDisasm3DNowGroup
-#define GR3BOP(n)       _GRP3BOP,  BxDisasm3ByteOp##n
-#define GR3BTAB(n)      _GRP3BTAB, BxDisasm3ByteTable##n
+#define GR3BTAB(n)      _GRP3BOP,  BxDisasm3ByteOpTable##n
 #define GR64BIT(n)      _GRP64B,   BxDisasmGrpOs64B_##n
 /* ************************************************************************ */
 
