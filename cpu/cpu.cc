@@ -332,11 +332,7 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
     // I made up the bitmask above to mean HALT state.
     // for one processor, pass the time as quickly as possible until
     // an interrupt wakes up the CPU.
-#if BX_DEBUGGER
-    while (bx_guard.interrupt_requested != 1)
-#else
     while (1)
-#endif
     {
       if ((BX_CPU_INTR && (BX_CPU_THIS_PTR get_IF() || (BX_CPU_THIS_PTR debug_trap & BX_DEBUG_TRAP_MWAIT_IF))) ||
            BX_CPU_THIS_PTR nmi_pending || BX_CPU_THIS_PTR smi_pending)
@@ -354,6 +350,7 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
         BX_INFO(("handleAsyncEvent: reset detected in HLT state"));
         break;
       }
+
       // for multiprocessor simulation, even if this CPU is halted we still
       // must give the others a chance to simulate.  If an interrupt has
       // arrived, then clear the HALT condition; otherwise just return from
@@ -367,6 +364,12 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
         return 1; // Return to caller of cpu_loop.
       }
 #endif
+
+#if BX_DEBUGGER
+      if (bx_guard.interrupt_requested)
+        return 1; // Return to caller of cpu_loop.
+#endif
+
       BX_TICK1();
     }
   } else if (bx_pc_system.kill_bochs_request) {

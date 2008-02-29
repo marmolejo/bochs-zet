@@ -3505,7 +3505,7 @@ fetch_b1:
 #if (BX_SUPPORT_SSE >= 4) || (BX_SUPPORT_SSE >= 3 && BX_SUPPORT_SSE_EXTENSION > 0)
     unsigned b3 = 0;
     // handle 3-byte escape
-    if (attr & Bx3ByteOp) {
+    if ((attr & BxGroupX) == Bx3ByteOp) {
       if (ilen < remain) {
         ilen++;
         b3 = *iptr++;

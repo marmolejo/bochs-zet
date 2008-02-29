@@ -204,11 +204,12 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
 
   entry = opcode_table + insn.b1;
 
-  // will require 3rd byte for 3-byte opcode
-  if (entry->Attr & _GRP3BOP) b3 = fetch_byte();
-
   if (instruction_has_modrm[insn.b1])
   {
+    // will require 3rd byte for 3-byte opcode
+    if (entry->Attr == _GRP3BOP)
+      b3 = fetch_byte();
+
     decode_modrm(&insn);
   }
 
