@@ -866,7 +866,7 @@ public: // for now...
   // Boundaries of current page, based on EIP
   bx_address eipPageBias;
   Bit32u     eipPageWindowSize;
-  Bit8u     *eipFetchPtr;
+  const Bit8u *eipFetchPtr;
   bx_phy_address pAddrA20Page; // Guest physical address of current instruction
                                // page with A20() already applied.
 #if BX_SUPPORT_ICACHE
