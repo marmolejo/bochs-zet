@@ -2757,7 +2757,7 @@ public: // for now...
   BX_SMF unsigned fetchDecode64(Bit8u *fetchPtr, bxInstruction_c *i, unsigned remainingInPage);
 #endif
 #if BX_SUPPORT_TRACE_CACHE
-  BX_SMF bxInstruction_c* fetchInstructionTrace(bxInstruction_c *iStorage, unsigned *len, Bit32u eipBiased);
+  BX_SMF bxInstruction_c* fetchInstructionTrace(Bit32u eipBiased, unsigned *len);
   BX_SMF bx_bool mergeTraces(bxICacheEntry_c *trace, bxInstruction_c *, bx_phy_address pAddr);
   BX_SMF void instrumentTraces(void);
 #else

@@ -129,7 +129,8 @@ struct bxICacheEntry_c
   Bit32u ilen;          // Trace length in instructions
   bxInstruction_c i[BX_MAX_TRACE_LENGTH];
 #else
-  bxInstruction_c i;
+  // ... define as array of 1 to simplify merge with trace cache code
+  bxInstruction_c i[1];
 #endif
 };
 
