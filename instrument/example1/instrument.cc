@@ -128,7 +128,7 @@ void bxInstrumentation::bx_instr_far_branch(unsigned what, Bit16u new_cs, bx_add
   branch_taken(new_eip);
 }
 
-void bxInstrumentation::bx_instr_opcode(Bit8u *opcode_bytes, unsigned len, bx_bool is32, bx_bool is64)
+void bxInstrumentation::bx_instr_opcode(const Bit8u *opcode_bytes, unsigned len, bx_bool is32, bx_bool is64)
 {
   if (!active) return;
 

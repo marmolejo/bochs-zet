@@ -164,7 +164,7 @@ void bx_instr_far_branch(unsigned cpu, unsigned what, Bit16u new_cs, bx_address 
   branch_taken(cpu, new_eip);
 }
 
-void bx_instr_opcode(unsigned cpu, Bit8u *opcode, unsigned len, bx_bool is32, bx_bool is64)
+void bx_instr_opcode(unsigned cpu, const Bit8u *opcode, unsigned len, bx_bool is32, bx_bool is64)
 {
   if (!active) return;
 
