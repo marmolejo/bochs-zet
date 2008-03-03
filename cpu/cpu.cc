@@ -616,7 +616,7 @@ void BX_CPU_C::prefetch(void)
 #endif
 }
 
-void BX_CPU_C::boundaryFetch(Bit8u *fetchPtr, unsigned remainingInPage, bxInstruction_c *i)
+void BX_CPU_C::boundaryFetch(const Bit8u *fetchPtr, unsigned remainingInPage, bxInstruction_c *i)
 {
   unsigned j;
   Bit8u fetchBuffer[16]; // Really only need 15

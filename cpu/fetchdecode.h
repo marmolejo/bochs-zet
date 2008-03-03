@@ -36,14 +36,14 @@ typedef struct BxOpcodeInfo_t {
 // according to instruction prefixes)
 //
 
-BX_CPP_INLINE Bit16u FetchWORD(Bit8u *iptr)
+BX_CPP_INLINE Bit16u FetchWORD(const Bit8u *iptr)
 {
    Bit16u data;
    ReadHostWordFromLittleEndian(iptr, data);
    return data;
 }
 
-BX_CPP_INLINE Bit32u FetchDWORD(Bit8u *iptr)
+BX_CPP_INLINE Bit32u FetchDWORD(const Bit8u *iptr)
 {
    Bit32u data;
    ReadHostDWordFromLittleEndian(iptr, data);
@@ -51,7 +51,7 @@ BX_CPP_INLINE Bit32u FetchDWORD(Bit8u *iptr)
 }
 
 #if BX_SUPPORT_X86_64
-BX_CPP_INLINE Bit64u FetchQWORD(Bit8u *iptr)
+BX_CPP_INLINE Bit64u FetchQWORD(const Bit8u *iptr)
 {
    Bit64u data;
    ReadHostQWordFromLittleEndian(iptr, data);
