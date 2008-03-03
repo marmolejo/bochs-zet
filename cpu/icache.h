@@ -149,6 +149,11 @@ public:
 
   BX_CPP_INLINE void purgeICacheEntries(void);
   BX_CPP_INLINE void flushICacheEntries(void);
+
+  BX_CPP_INLINE bxICacheEntry_c* get_entry(bx_phy_address pAddr)
+  {
+    return &(entry[hash(pAddr)]);
+  }
 };
 
 BX_CPP_INLINE void bxICache_c::flushICacheEntries(void)
