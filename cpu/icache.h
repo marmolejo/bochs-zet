@@ -117,7 +117,7 @@ extern bxPageWriteStampTable pageWriteStampTable;
 #define BxICacheEntries (32 * 1024)  // Must be a power of 2.
 
 #if BX_SUPPORT_TRACE_CACHE
-  #define BX_MAX_TRACE_LENGTH 16
+  #define BX_MAX_TRACE_LENGTH 15
 #endif
 
 struct bxICacheEntry_c
