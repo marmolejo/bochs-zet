@@ -713,8 +713,8 @@ typedef struct {
   //     The EBDA structure should conform to
   //     http://www.frontiernet.net/~fys/rombios.htm document
   //     I made the ata and cdemu structs begin at 0x121 in the EBDA seg
-  // EBDA must be at most 768 bytes; it lives at 0x9fc00, and the boot
-  // device tables are at 0x9ff00 -- 0x9ffff
+  // EBDA must be at most 768 bytes; it lives at EBDA_SEG, and the boot
+  // device tables are at IPL_SEG
   typedef struct {
     unsigned char filler1[0x3D];
 
