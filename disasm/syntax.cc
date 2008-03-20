@@ -112,10 +112,10 @@ static const char *att_segment_name[8] = {
 };
 
 static const char *att_index16[8] = {
-    "%bx, %si",
-    "%bx, %di",
-    "%bp, %si",
-    "%bp, %di",
+    "%bx,%si",
+    "%bx,%di",
+    "%bp,%si",
+    "%bp,%di",
     "%si",
     "%di",
     "%bp",
