@@ -2198,15 +2198,6 @@ public: // for now...
   /* SSE4.2 */
 #endif
 
-  /* SSE4A */
-  BX_SMF void MOVNTSS_MssVss(bxInstruction_c *);
-  BX_SMF void MOVNTSD_MsdVsd(bxInstruction_c *);
-  BX_SMF void EXTRQ_VdqUdq(bxInstruction_c *);
-  BX_SMF void EXTRQ_VdqIbIb(bxInstruction_c *);
-  BX_SMF void INSERTQ_VdqUdqIbIb(bxInstruction_c *);
-  BX_SMF void INSERTQ_VdqUdq(bxInstruction_c *);
-  /* SSE4A */
-
   /* XSAVE/XRSTOR extensions */
   BX_SMF void XSAVE(bxInstruction_c *);
   BX_SMF void XRSTOR(bxInstruction_c *);

@@ -2180,50 +2180,6 @@ void BX_CPU_C::PCMPEQD_VdqWdq(bxInstruction_c *i)
 #endif
 }
 
-/* 66 0F 78 */
-void BX_CPU_C::EXTRQ_VdqIbIb(bxInstruction_c *i)
-{
-#if BX_SUPPORT_SSE4A
-  BX_PANIC(("EXTRQ_VdqIbIb: still not implemented"));
-#else
-  BX_INFO(("EXTRQ_VdqIbIb: required SSE4A, use --enable-sse4a option"));
-  UndefinedOpcode(i);
-#endif
-}
-
-/* 66 0F 79 */
-void BX_CPU_C::EXTRQ_VdqUdq(bxInstruction_c *i)
-{
-#if BX_SUPPORT_SSE4A
-  BX_PANIC(("EXTRQ_VdqUdq: still not implemented"));
-#else
-  BX_INFO(("EXTRQ_VdqUdq: required SSE4A, use --enable-sse4a option"));
-  UndefinedOpcode(i);
-#endif
-}
-
-/* F2 0F 78 */
-void BX_CPU_C::INSERTQ_VdqUdqIbIb(bxInstruction_c *i)
-{
-#if BX_SUPPORT_SSE4A
-  BX_PANIC(("INSERTQ_VdqUdqIbIb: still not implemented"));
-#else
-  BX_INFO(("INSERTQ_VdqUdqIbIb: required SSE4A, use --enable-sse4a option"));
-  UndefinedOpcode(i);
-#endif
-}
-
-/* F2 0F 79 */
-void BX_CPU_C::INSERTQ_VdqUdq(bxInstruction_c *i)
-{
-#if BX_SUPPORT_SSE4A
-  BX_PANIC(("INSERTQ_VdqUdq: still not implemented"));
-#else
-  BX_INFO(("INSERTQ_VdqUdq: required SSE4A, use --enable-sse4a option"));
-  UndefinedOpcode(i);
-#endif
-}
-
 /* 66 0F C4 */
 void BX_CPU_C::PINSRW_VdqEwIb(bxInstruction_c *i)
 {
