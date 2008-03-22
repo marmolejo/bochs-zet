@@ -41,7 +41,7 @@
 #endif
 
 /* Get CPU version information. */
-Bit32u BX_CPU_C::get_cpu_version_information()
+Bit32u BX_CPU_C::get_cpu_version_information(void)
 {
   Bit32u family = 0, model = 0, stepping = 0;
   Bit32u extended_model = 0;
@@ -119,7 +119,7 @@ Bit32u BX_CPU_C::get_cpu_version_information()
 }
 
 /* Get CPU extended feature flags. */
-Bit32u BX_CPU_C::get_extended_cpuid_features()
+Bit32u BX_CPU_C::get_extended_cpuid_features(void)
 {
   // [0:0]   SSE3: SSE3 Instructions
   // [2:1]   reserved
@@ -181,7 +181,7 @@ Bit32u BX_CPU_C::get_extended_cpuid_features()
 }
 
 /* Get CPU feature flags. Returned by CPUID functions 1 and 80000001.  */
-Bit32u BX_CPU_C::get_std_cpuid_features()
+Bit32u BX_CPU_C::get_std_cpuid_features(void)
 {
   Bit32u features = 0;
 
@@ -253,7 +253,7 @@ Bit32u BX_CPU_C::get_std_cpuid_features()
   return features;
 }
 
-void BX_CPU_C::CPUID(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::CPUID(bxInstruction_c *i)
 {
 #if BX_CPU_LEVEL >= 4
   Bit32u function    = EAX;

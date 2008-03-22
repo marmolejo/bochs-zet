@@ -316,8 +316,7 @@ BX_CPU_C::execute_virtual_checks(bx_segment_reg_t *seg, bx_address offset, unsig
   }
 }
 
-  const char * BX_CPP_AttrRegparmN(1)
-BX_CPU_C::strseg(bx_segment_reg_t *seg)
+const char *BX_CPU_C::strseg(bx_segment_reg_t *seg)
 {
   if (seg == &BX_CPU_THIS_PTR sregs[0]) return("ES");
   else if (seg == &BX_CPU_THIS_PTR sregs[1]) return("CS");

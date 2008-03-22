@@ -31,7 +31,7 @@
 #include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
-void BX_CPU_C::LES_GwMp(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::LES_GwMp(bxInstruction_c *i)
 {
   Bit16u reg_16, es;
 
@@ -45,7 +45,7 @@ void BX_CPU_C::LES_GwMp(bxInstruction_c *i)
   BX_WRITE_16BIT_REG(i->nnn(), reg_16);
 }
 
-void BX_CPU_C::LES_GdMp(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::LES_GdMp(bxInstruction_c *i)
 {
   Bit16u es;
   Bit32u reg_32;
@@ -60,7 +60,7 @@ void BX_CPU_C::LES_GdMp(bxInstruction_c *i)
   BX_WRITE_32BIT_REGZ(i->nnn(), reg_32);
 }
 
-void BX_CPU_C::LDS_GwMp(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::LDS_GwMp(bxInstruction_c *i)
 {
   Bit16u reg_16, ds;
 
@@ -74,7 +74,7 @@ void BX_CPU_C::LDS_GwMp(bxInstruction_c *i)
   BX_WRITE_16BIT_REG(i->nnn(), reg_16);
 }
 
-void BX_CPU_C::LDS_GdMp(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::LDS_GdMp(bxInstruction_c *i)
 {
   Bit16u ds;
   Bit32u reg_32;
@@ -89,7 +89,7 @@ void BX_CPU_C::LDS_GdMp(bxInstruction_c *i)
   BX_WRITE_32BIT_REGZ(i->nnn(), reg_32);
 }
 
-void BX_CPU_C::LFS_GwMp(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::LFS_GwMp(bxInstruction_c *i)
 {
   Bit16u reg_16, fs;
 
@@ -103,7 +103,7 @@ void BX_CPU_C::LFS_GwMp(bxInstruction_c *i)
   BX_WRITE_16BIT_REG(i->nnn(), reg_16);
 }
 
-void BX_CPU_C::LFS_GdMp(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::LFS_GdMp(bxInstruction_c *i)
 {
   Bit32u reg_32;
   Bit16u fs;
@@ -119,7 +119,7 @@ void BX_CPU_C::LFS_GdMp(bxInstruction_c *i)
 }
 
 #if BX_SUPPORT_X86_64
-void BX_CPU_C::LFS_GqMp(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::LFS_GqMp(bxInstruction_c *i)
 {
   Bit64u reg_64;
   Bit16u fs;
@@ -135,7 +135,7 @@ void BX_CPU_C::LFS_GqMp(bxInstruction_c *i)
 }
 #endif
 
-void BX_CPU_C::LGS_GwMp(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::LGS_GwMp(bxInstruction_c *i)
 {
   Bit16u reg_16, gs;
 
@@ -149,7 +149,7 @@ void BX_CPU_C::LGS_GwMp(bxInstruction_c *i)
   BX_WRITE_16BIT_REG(i->nnn(), reg_16);
 }
 
-void BX_CPU_C::LGS_GdMp(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::LGS_GdMp(bxInstruction_c *i)
 {
   Bit32u reg_32;
   Bit16u gs;
@@ -165,7 +165,7 @@ void BX_CPU_C::LGS_GdMp(bxInstruction_c *i)
 }
 
 #if BX_SUPPORT_X86_64
-void BX_CPU_C::LGS_GqMp(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::LGS_GqMp(bxInstruction_c *i)
 {
   Bit64u reg_64;
   Bit16u gs;
@@ -181,7 +181,7 @@ void BX_CPU_C::LGS_GqMp(bxInstruction_c *i)
 }
 #endif
 
-void BX_CPU_C::LSS_GwMp(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::LSS_GwMp(bxInstruction_c *i)
 {
   Bit16u reg_16, ss;
 
@@ -195,7 +195,7 @@ void BX_CPU_C::LSS_GwMp(bxInstruction_c *i)
   BX_WRITE_16BIT_REG(i->nnn(), reg_16);
 }
 
-void BX_CPU_C::LSS_GdMp(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::LSS_GdMp(bxInstruction_c *i)
 {
   Bit32u reg_32;
   Bit16u ss;
@@ -211,7 +211,7 @@ void BX_CPU_C::LSS_GdMp(bxInstruction_c *i)
 }
 
 #if BX_SUPPORT_X86_64
-void BX_CPU_C::LSS_GqMp(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::LSS_GqMp(bxInstruction_c *i)
 {
   Bit64u reg_64;
   Bit16u ss;

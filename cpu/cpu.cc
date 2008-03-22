@@ -130,9 +130,8 @@ void BX_CPU_C::cpu_loop(Bit32u max_instr_count)
 
   while (1) {
 
-    // First check on events which occurred for previous instructions
-    // (traps) and ones which are asynchronous to the CPU
-    // (hardware interrupts).
+    // check on events which occurred for previous instructions (traps)
+    // and ones which are asynchronous to the CPU (hardware interrupts)
     if (BX_CPU_THIS_PTR async_event) {
       if (handleAsyncEvent()) {
         // If request to return to caller ASAP.
@@ -233,7 +232,7 @@ no_async_event:
   }  // while (1)
 }
 
-void BX_CPU_C::repeat(bxInstruction_c *i, BxExecutePtr_t execute)
+void BX_CPP_AttrRegparmN(2) BX_CPU_C::repeat(bxInstruction_c *i, BxExecutePtr_tR execute)
 {
   // non repeated instruction
   if (! i->repUsedL()) {
@@ -300,7 +299,7 @@ void BX_CPU_C::repeat(bxInstruction_c *i, BxExecutePtr_t execute)
   RIP = BX_CPU_THIS_PTR prev_rip; // repeat loop not done, restore RIP
 }
 
-void BX_CPU_C::repeat_ZFL(bxInstruction_c *i, BxExecutePtr_t execute)
+void BX_CPP_AttrRegparmN(2) BX_CPU_C::repeat_ZFL(bxInstruction_c *i, BxExecutePtr_tR execute)
 {
   // non repeated instruction
   if (! i->repUsedL()) {

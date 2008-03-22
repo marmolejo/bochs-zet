@@ -30,7 +30,7 @@
 #include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
-void BX_CPU_C::MUL_ALEb(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::MUL_ALEb(bxInstruction_c *i)
 {
   Bit8u op2, op1;
 
@@ -62,7 +62,7 @@ void BX_CPU_C::MUL_ALEb(bxInstruction_c *i)
   }
 }
 
-void BX_CPU_C::IMUL_ALEb(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::IMUL_ALEb(bxInstruction_c *i)
 {
   Bit8s op2, op1;
 
@@ -96,7 +96,7 @@ void BX_CPU_C::IMUL_ALEb(bxInstruction_c *i)
   }
 }
 
-void BX_CPU_C::DIV_ALEb(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::DIV_ALEb(bxInstruction_c *i)
 {
   Bit8u op2, quotient_8l, remainder_8;
   Bit16u quotient_16, op1;
@@ -131,7 +131,7 @@ void BX_CPU_C::DIV_ALEb(bxInstruction_c *i)
   AH = remainder_8;
 }
 
-void BX_CPU_C::IDIV_ALEb(bxInstruction_c *i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::IDIV_ALEb(bxInstruction_c *i)
 {
   Bit8s op2, quotient_8l, remainder_8;
   Bit16s quotient_16, op1;

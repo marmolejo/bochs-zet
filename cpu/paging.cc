@@ -557,7 +557,7 @@ void BX_CPU_C::TLB_invlpg(bx_address laddr)
 #endif
 }
 
-void BX_CPU_C::INVLPG(bxInstruction_c* i)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::INVLPG(bxInstruction_c* i)
 {
 #if BX_CPU_LEVEL >= 4
   invalidate_prefetch_q();

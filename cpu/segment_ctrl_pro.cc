@@ -666,8 +666,7 @@ BX_CPU_C::load_ss(bx_selector_t *selector, bx_descriptor_t *descriptor, Bit8u cp
 }
 
 #if BX_CPU_LEVEL >= 2
-  void BX_CPP_AttrRegparmN(3)
-BX_CPU_C::fetch_raw_descriptor(const bx_selector_t *selector,
+void BX_CPU_C::fetch_raw_descriptor(const bx_selector_t *selector,
                         Bit32u *dword1, Bit32u *dword2, unsigned exception_no)
 {
   Bit32u index = selector->index;

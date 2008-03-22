@@ -26,7 +26,7 @@
 
 typedef struct BxOpcodeInfo_t {
   Bit16u         Attr;
-  BxExecutePtr_t ExecutePtr;
+  BxExecutePtr_tR ExecutePtr;
   const BxOpcodeInfo_t *AnotherArray;
 } BxOpcodeInfo_t;
 
