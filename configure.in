@@ -1478,9 +1478,6 @@ AC_ARG_ENABLE(clgd54xx,
   [if test "$enableval" = yes; then
     AC_MSG_RESULT(yes)
     AC_DEFINE(BX_SUPPORT_CLGD54XX, 1)
-    if test "$pci" = 1; then
-      AC_DEFINE(BX_SUPPORT_CLGD54XX_PCI, 1)
-    fi
    else
     AC_MSG_RESULT(no)
     AC_DEFINE(BX_SUPPORT_CLGD54XX, 0)

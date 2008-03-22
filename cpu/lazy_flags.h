@@ -26,7 +26,8 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
-#if BX_PROVIDE_CPU_MEMORY==1
+#ifndef BX_LAZY_FLAGS_DEF
+#define BX_LAZY_FLAGS_DEF
 
 #define BX_INSTR_ADD8           1
 #define BX_INSTR_ADD16          2
@@ -106,4 +107,4 @@ typedef struct {
   unsigned instr;
 } bx_lf_flags_entry;
 
-#endif /* BX_PROVIDE_CPU_MEMORY==1 */
+#endif // BX_LAZY_FLAGS_DEF
