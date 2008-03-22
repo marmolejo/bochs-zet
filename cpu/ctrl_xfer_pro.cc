@@ -132,7 +132,7 @@ BX_CPU_C::branch_near32(Bit32u new_EIP)
     exception(BX_GP_EXCEPTION, 0, 0);
   }
 
-#if BX_SUPPORT_TRACE_CACHE
+#if BX_SUPPORT_TRACE_CACHE && !defined(BX_TRACE_CACHE_NO_SPECULATIVE_TRACING)
   // assert magic async_event to stop trace execution
   BX_CPU_THIS_PTR async_event |= BX_ASYNC_EVENT_STOP_TRACE;
 #endif
@@ -168,7 +168,7 @@ BX_CPU_C::branch_near64(bxInstruction_c *i)
     exception(BX_GP_EXCEPTION, 0, 0);
   }
 
-#if BX_SUPPORT_TRACE_CACHE
+#if BX_SUPPORT_TRACE_CACHE && !defined(BX_TRACE_CACHE_NO_SPECULATIVE_TRACING)
   // assert magic async_event to stop trace execution
   BX_CPU_THIS_PTR async_event |= BX_ASYNC_EVENT_STOP_TRACE;
 #endif
