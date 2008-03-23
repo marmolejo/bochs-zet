@@ -293,6 +293,7 @@ void bx_dbg_calc_command(Bit64u value);
 void bx_dbg_dump_table(void);
 void bx_dbg_exception(unsigned cpu, Bit8u vector, Bit16u error_code);
 void bx_dbg_interrupt(unsigned cpu, Bit8u vector, Bit16u error_code);
+void bx_dbg_halt(unsigned cpu);
 
 // commands that work with Bochs param tree
 void bx_dbg_restore_command(const char *param_name, const char *path);

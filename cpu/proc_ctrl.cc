@@ -124,6 +124,10 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::HLT(bxInstruction_c *i)
 
   BX_INSTR_HLT(BX_CPU_ID);
 
+#if BX_DEBUGGER
+  bx_dbg_halt(BX_CPU_ID);
+#endif
+
 #if BX_USE_IDLE_HACK
   bx_gui->sim_is_idle();
 #endif
