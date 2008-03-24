@@ -834,7 +834,7 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR tr.cache.p        = 1; /* present */
   BX_CPU_THIS_PTR tr.cache.dpl      = 0; /* field not used */
   BX_CPU_THIS_PTR tr.cache.segment  = 0; /* system segment */
-  BX_CPU_THIS_PTR tr.cache.type     = BX_SYS_SEGMENT_BUSY_286_TSS;
+  BX_CPU_THIS_PTR tr.cache.type     = BX_SYS_SEGMENT_BUSY_386_TSS;
   BX_CPU_THIS_PTR tr.cache.u.system.base         = 0x00000000;
   BX_CPU_THIS_PTR tr.cache.u.system.limit        =     0xFFFF;
 #if BX_CPU_LEVEL >= 3
