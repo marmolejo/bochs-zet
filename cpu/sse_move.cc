@@ -50,6 +50,9 @@ void BX_CPU_C::print_state_SSE(void)
   }
 }
 
+#endif
+
+#if BX_SUPPORT_FPU
 Bit16u BX_CPU_C::unpack_FPU_TW(Bit16u tag_byte)
 {
   Bit32u twd = 0;
@@ -107,7 +110,6 @@ Bit16u BX_CPU_C::unpack_FPU_TW(Bit16u tag_byte)
 
   return (twd >> 2);
 }
-
 #endif
 
 /* ************************************ */

@@ -3140,6 +3140,7 @@ public: // for now...
   BX_SMF int  FPU_exception(int exception);
   BX_SMF int  fpu_save_environment(bxInstruction_c *);
   BX_SMF int  fpu_load_environment(bxInstruction_c *);
+  BX_SMF Bit16u unpack_FPU_TW(Bit16u tag_byte);
 #endif
 
 #if BX_SUPPORT_MMX || BX_SUPPORT_SSE
@@ -3152,7 +3153,6 @@ public: // for now...
   BX_SMF void prepareSSE(void);
   BX_SMF void check_exceptionsSSE(int);
   BX_SMF void print_state_SSE(void);
-  BX_SMF Bit16u unpack_FPU_TW(Bit16u tag_byte);
 #endif
 
 #if BX_SUPPORT_XSAVE
