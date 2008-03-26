@@ -72,21 +72,15 @@ void BX_CPU_C::stack_return_to_v86(Bit32u new_eip, Bit32u raw_cs_selector, Bit32
   else
     temp_ESP = SP;
 
-  // top 36 bytes of stack must be within stack limits, else #SS(0)
-  if (!can_pop(36)) {
-    BX_ERROR(("stack_return_to_v86: top 36 bytes not within limits"));
-    exception(BX_SS_EXCEPTION, 0, 0);
-  }
-
   // load SS:ESP from stack
-  new_esp         = read_virtual_dword(BX_SEG_REG_SS, temp_ESP+12);
-  raw_ss_selector = read_virtual_word (BX_SEG_REG_SS, temp_ESP+16);
+  new_esp         =          read_virtual_dword(BX_SEG_REG_SS, temp_ESP+12);
+  raw_ss_selector = (Bit16u) read_virtual_dword(BX_SEG_REG_SS, temp_ESP+16);
 
   // load ES,DS,FS,GS from stack
-  raw_es_selector = read_virtual_word(BX_SEG_REG_SS, temp_ESP+20);
-  raw_ds_selector = read_virtual_word(BX_SEG_REG_SS, temp_ESP+24);
-  raw_fs_selector = read_virtual_word(BX_SEG_REG_SS, temp_ESP+28);
-  raw_gs_selector = read_virtual_word(BX_SEG_REG_SS, temp_ESP+32);
+  raw_es_selector = (Bit16u) read_virtual_dword(BX_SEG_REG_SS, temp_ESP+20);
+  raw_ds_selector = (Bit16u) read_virtual_dword(BX_SEG_REG_SS, temp_ESP+24);
+  raw_fs_selector = (Bit16u) read_virtual_dword(BX_SEG_REG_SS, temp_ESP+28);
+  raw_gs_selector = (Bit16u) read_virtual_dword(BX_SEG_REG_SS, temp_ESP+32);
 
   writeEFlags(flags32, EFlagsValidMask);
 
