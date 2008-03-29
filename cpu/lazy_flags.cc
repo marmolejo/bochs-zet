@@ -240,16 +240,6 @@ bx_bool BX_CPU_C::get_AFLazy(void)
     return(af);
 }
 
-bx_bool BX_CPU_C::get_ZFLazy(void)
-{
-  return (BX_CPU_THIS_PTR oszapc.result == 0);
-}
-
-bx_bool BX_CPU_C::get_SFLazy(void)
-{
-  return (BX_CPU_THIS_PTR oszapc.result >> BX_LF_SIGN_BIT);
-}
-
 #define GET_ADD_OVERFLOW(op1, op2, result, mask) \
   (((~((op1) ^ (op2)) & ((op2) ^ (result))) & (mask)) != 0)
 
@@ -359,9 +349,4 @@ bx_bool BX_CPU_C::get_OFLazy(void)
     }
 
     return(of);
-}
-
-bx_bool BX_CPU_C::get_PFLazy(void)
-{
-  return bx_parity_lookup[(Bit8u) BX_CPU_THIS_PTR oszapc.result];
 }

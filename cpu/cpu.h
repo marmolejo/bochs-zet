@@ -3362,6 +3362,24 @@ BX_CPP_INLINE void BX_CPU_C::set_PF_base(Bit8u val)
   BX_CPU_THIS_PTR eflags |= val<<2;
 }
 
+//
+// inline simple lazy flags implementation methods
+//
+BX_CPP_INLINE bx_bool BX_CPU_C::get_ZFLazy(void)
+{
+  return (BX_CPU_THIS_PTR oszapc.result == 0);
+}
+
+BX_CPP_INLINE bx_bool BX_CPU_C::get_SFLazy(void)
+{
+  return (BX_CPU_THIS_PTR oszapc.result >> BX_LF_SIGN_BIT);
+}
+
+BX_CPP_INLINE bx_bool BX_CPU_C::get_PFLazy(void)
+{
+  return bx_parity_lookup[(Bit8u) BX_CPU_THIS_PTR oszapc.result];
+}
+
 // *******************
 // OSZAPC
 // *******************
