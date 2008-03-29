@@ -6428,7 +6428,7 @@ Remove write watch point from physical address <varname>address</varname>.
 
 Toggles CPU mode switch breakpoint.
 
-<screen>load-symbols [global] <varname>filename</varname> [<varname>offset</varname>]</screen>
+<screen>ldsym [global] <varname>filename</varname> [<varname>offset</varname>]</screen>
 
 Load symbols from file <varname>filename</varname>. If the global keyword is
 added, then the the symbols will be visible in all contexts for which
