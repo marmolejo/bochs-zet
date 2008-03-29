@@ -1032,10 +1032,6 @@ void bx_init_hardware()
   bx_param_num_c *bxp_memsize = SIM->get_param_num(BXPN_MEM_SIZE);
   Bit32u memSize = bxp_memsize->get() * 1024*1024;
 
-#if BX_SUPPORT_ICACHE
-  pageWriteStampTable.alloc(memSize);
-#endif
-
   BX_MEM(0)->init_memory(memSize);
 
   // First load the BIOS and VGABIOS

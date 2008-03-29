@@ -73,6 +73,12 @@ void flushICaches(void)
 
 #if BX_SUPPORT_TRACE_CACHE
 
+void stopTraceExecution(void)
+{
+  for (unsigned i=0; i<BX_SMP_PROCESSORS; i++)
+    BX_CPU(i)->async_event |= BX_ASYNC_EVENT_STOP_TRACE;
+}
+
 void BX_CPU_C::serveICacheMiss(bxICacheEntry_c *cache_entry, Bit32u eipBiased, bx_phy_address pAddr)
 {
   // Cache miss. We weren't so lucky, but let's be optimistic - try to build 
