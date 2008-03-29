@@ -137,9 +137,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::INT_Ib(bxInstruction_c *i)
       Bit8u vme_redirection_bitmap;
       Bit16u io_base;
 
-      access_linear(BX_CPU_THIS_PTR tr.cache.u.system.base + 102,
+      access_read_linear(BX_CPU_THIS_PTR tr.cache.u.system.base + 102,
             2, 0, BX_READ, &io_base);
-      access_linear(BX_CPU_THIS_PTR tr.cache.u.system.base + io_base - 32 + (vector >> 3),
+      access_read_linear(BX_CPU_THIS_PTR tr.cache.u.system.base + io_base - 32 + (vector >> 3),
             1, 0, BX_READ, &vme_redirection_bitmap);
 
       if (! (vme_redirection_bitmap & (1 << (vector & 7))))
