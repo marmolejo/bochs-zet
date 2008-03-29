@@ -713,6 +713,9 @@ void BX_CPU_C::reset(unsigned source)
   ESP = 0;
 #endif
 
+  // initialize NIL register
+  BX_WRITE_32BIT_REGZ(BX_32BIT_REG_NIL, 0);
+
   // status and control flags register set
   BX_CPU_THIS_PTR setEFlags(0x2); // Bit1 is always set
 
