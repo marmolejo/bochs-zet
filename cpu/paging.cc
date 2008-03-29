@@ -1248,6 +1248,8 @@ void BX_CPU_C::access_write_linear(bx_address laddr, unsigned len, unsigned curr
 
 void BX_CPU_C::access_read_linear(bx_address laddr, unsigned len, unsigned curr_pl, unsigned xlate_rw, void *data)
 {
+  BX_ASSERT(xlate_rw == BX_READ || xlate_rw == BX_RW);
+
 #if BX_X86_DEBUGGER
   hwbreakpoint_match(laddr, len, xlate_rw);
 #endif

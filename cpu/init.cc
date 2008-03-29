@@ -765,7 +765,6 @@ void BX_CPU_C::reset(unsigned source)
 #if BX_SUPPORT_ICACHE
   BX_CPU_THIS_PTR updateFetchModeMask();
   flushICaches();
-  BX_CPU_THIS_PTR currPageWriteStampPtr = pageWriteStampTable.getPageWriteStampPtr(0xFFFFFFF0);
 #endif
 
   /* DS (Data Segment) and descriptor cache */
