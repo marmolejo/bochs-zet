@@ -4200,6 +4200,19 @@ debugger mode. This might be useful for software development.
 </para>
 </section>
 
+<section><title>debug_symbols</title>
+<para>
+Example:
+<screen>
+  debug_symbols: file=mysymbols.sym
+  debug_symbols: file=mysymbols.sym, offset=0x1000
+</screen>
+This loads symbols from the specified file for use in Bochs' internal debugger.
+Symbols are loaded into global context. This is equivalent to issuing ldsym
+debugger command at start up.
+</para>
+</section>
+
 </section> <!--end of bochsrc section-->
 
 <section id="sb16-emulation"> <!-- start of SB16 section-->
