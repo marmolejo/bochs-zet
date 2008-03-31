@@ -362,7 +362,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::XSETBV(bxInstruction_c *i)
     exception(BX_GP_EXCEPTION, 0, 0);
   }
 
-  if (EDX != 0 || (EAX & ~BX_XCR0_SUPPORT_BITS) != 0 || (EAX & 1) == 0) {
+  if (EDX != 0 || (EAX & ~BX_XCR0_SUPPORTED_BITS) != 0 || (EAX & 1) == 0) {
     BX_ERROR(("XSETBV: Attempting to change reserved bits!"));
     exception(BX_GP_EXCEPTION, 0, 0);
   }
