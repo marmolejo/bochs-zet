@@ -38,7 +38,6 @@
 #include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
-#if 0
 // X86 Registers Which Affect Paging:
 // ==================================
 //
@@ -281,8 +280,6 @@
 //
 // - Pentium+ processors have separate TLB's for data and instruction caches
 // - Pentium Pro+ processors maintain separate 4K and 4M TLBs.
-
-#endif
 
 #define BX_INVALID_TLB_ENTRY 0xffffffff
 

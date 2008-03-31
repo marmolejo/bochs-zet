@@ -218,7 +218,7 @@ no_async_event:
 
 #if BX_SUPPORT_TRACE_CACHE
       if (BX_CPU_THIS_PTR async_event) {
-        // clear stop trace magic indication that probably was set by branch32/64
+        // clear stop trace magic indication that probably was set by repeat or branch32/64
         BX_CPU_THIS_PTR async_event &= ~BX_ASYNC_EVENT_STOP_TRACE;
         break;
       }
@@ -294,6 +294,11 @@ void BX_CPP_AttrRegparmN(2) BX_CPU_C::repeat(bxInstruction_c *i, BxExecutePtr_tR
   }
 
   RIP = BX_CPU_THIS_PTR prev_rip; // repeat loop not done, restore RIP
+
+#if BX_SUPPORT_TRACE_CACHE
+  // assert magic async_event to stop trace execution
+  BX_CPU_THIS_PTR async_event |= BX_ASYNC_EVENT_STOP_TRACE;
+#endif
 }
 
 void BX_CPP_AttrRegparmN(2) BX_CPU_C::repeat_ZFL(bxInstruction_c *i, BxExecutePtr_tR execute)
@@ -369,6 +374,11 @@ void BX_CPP_AttrRegparmN(2) BX_CPU_C::repeat_ZFL(bxInstruction_c *i, BxExecutePt
   }
 
   RIP = BX_CPU_THIS_PTR prev_rip; // repeat loop not done, restore RIP
+
+#if BX_SUPPORT_TRACE_CACHE
+  // assert magic async_event to stop trace execution
+  BX_CPU_THIS_PTR async_event |= BX_ASYNC_EVENT_STOP_TRACE;
+#endif
 }
 
 unsigned BX_CPU_C::handleAsyncEvent(void)
