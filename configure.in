@@ -2872,26 +2872,6 @@ AC_ARG_ENABLE(save-restore,
    AC_MSG_RESULT(no)
   ])
 
-AC_MSG_CHECKING(whether to reset on triple fault (deprecated))
-AC_ARG_ENABLE(reset-on-triple-fault,
-  [  --enable-reset-on-triple-fault    reset when cpu detects a triple fault (deprecated)],
-  [AC_MSG_RESULT($enableval)
-   AC_MSG_ERROR([DEPRECATED - could be configured directly from .bochsrc instead])
-  ],
-  [
-   AC_MSG_RESULT(no)
-  ])
-
-AC_MSG_CHECKING(PNI support (deprecated))
-AC_ARG_ENABLE(--enable-pni,
-  [  --enable-pni                      PNI support (deprecated)],
-  [AC_MSG_RESULT($enableval)
-   AC_MSG_ERROR([DEPRECATED - use --enable-sse=3 instead])
-  ],
-  [
-   AC_MSG_RESULT(no)
-  ])
-
 # Create some subdirectories for when you run configure from some other
 # directory.
 if test ! -d instrument; then mkdir instrument; fi
