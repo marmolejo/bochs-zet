@@ -21,6 +21,8 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
+#if BX_SUPPORT_FPU
+
 #include "softfloat.h"
 #include "softfloat-specialize.h"
 
@@ -58,3 +60,5 @@ int FPU_tagof(const floatx80 &reg)
 
    return FPU_Tag_Valid;
 }
+
+#endif

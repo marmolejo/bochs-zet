@@ -21,11 +21,12 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
-
 #define NEED_CPU_REG_SHORTCUTS 1
 #include "bochs.h"
 #include "cpu/cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
+
+#if BX_SUPPORT_FPU
 
 #include "softfloatx80.h"
 
@@ -170,3 +171,5 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FFREEP_STi(bxInstruction_c *i)
   BX_INFO(("FFREEP_STi: required FPU, configure --enable-fpu"));
 #endif
 }
+
+#endif

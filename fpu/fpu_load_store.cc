@@ -26,6 +26,8 @@
 #include "cpu/cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
+#if BX_SUPPORT_FPU
+
 extern float_status_t FPU_pre_exception_handling(Bit16u control_word);
 
 #include "softfloatx80.h"
@@ -668,3 +670,5 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FISTTP64(bxInstruction_c *i)
   UndefinedOpcode(i);
 #endif
 }
+
+#endif

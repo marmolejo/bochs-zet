@@ -313,7 +313,6 @@ int BX_CPU_C::fpu_load_environment(bxInstruction_c *i)
 
     return offset;
 }
-#endif
 
 /* D9 /5 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FLDCW(bxInstruction_c *i)
@@ -510,6 +509,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FPLEGACY(bxInstruction_c *i)
 #endif
 }
 
+#endif
 
 #if BX_SUPPORT_FPU
 
