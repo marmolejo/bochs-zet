@@ -46,10 +46,6 @@ public:
   BxExecutePtr_tR ResolveModrm;
   BxExecutePtr_tR execute;
 
-#define BX_OPCODE_EXT_0x0F   1
-#define BX_OPCODE_EXT_0x0F38 2
-#define BX_OPCODE_EXT_0x0F3A 3
-
   struct {
     //  7...2 (unused)
     //  1...1 stop trace (used with trace cache)
