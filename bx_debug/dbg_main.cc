@@ -3352,8 +3352,8 @@ Bit32u bx_dbg_get_laddr(Bit16u sel, Bit32u ofs)
       desc_base = BX_CPU(dbg_cpu)->gdtr.base;
     }
 
-    BX_CPU(dbg_cpu)->access_linear(desc_base + selector.index * 8,     4, 0, BX_READ, &dword1);
-    BX_CPU(dbg_cpu)->access_linear(desc_base + selector.index * 8 + 4, 4, 0, BX_READ, &dword2);
+    BX_CPU(dbg_cpu)->access_read_linear(desc_base + selector.index * 8,     4, 0, BX_READ, &dword1);
+    BX_CPU(dbg_cpu)->access_read_linear(desc_base + selector.index * 8 + 4, 4, 0, BX_READ, &dword2);
 
     memset (&descriptor, 0, sizeof (descriptor));
     BX_CPU(dbg_cpu)->parse_descriptor(dword1, dword2, &descriptor);
