@@ -2923,6 +2923,7 @@ public: // for now...
   BX_SMF void smram_save_state(Bit32u *smm_saved_state);
   BX_SMF bx_bool smram_restore_state(const Bit32u *smm_saved_state);
   BX_SMF int  int_number(bx_segment_reg_t *seg);
+  BX_SMF int  int_number(unsigned s);
   BX_SMF void SetCR0(Bit32u val_32);
   BX_SMF void CR3_change(bx_phy_address value) BX_CPP_AttrRegparmN(1);
 #if BX_CPU_LEVEL >= 4
@@ -3138,6 +3139,10 @@ public: // for now...
 
 // Can be used as LHS or RHS.
 #define RMAddr(i)  (BX_CPU_THIS_PTR address_xlation.rm_addr)
+
+#if defined(NEED_CPU_REG_SHORTCUTS)
+  #include "stack.h"
+#endif
 
 #if BX_SUPPORT_ICACHE
 

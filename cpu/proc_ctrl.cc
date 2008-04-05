@@ -40,7 +40,7 @@
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::UndefinedOpcode(bxInstruction_c *i)
 {
-  BX_DEBUG(("UndefinedOpcode: 0x%02x causes exception 6", (unsigned) i->b1()));
+  BX_DEBUG(("UndefinedOpcode: 0x%d%02x causes #UD exception", i->hasOpcodeExtension(), i->b1()));
   exception(BX_UD_EXCEPTION, 0, 0);
 }
 

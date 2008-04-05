@@ -38,7 +38,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SHLD_EwGw(bxInstruction_c *i)
   unsigned of, cf;
 
   /* op1:op2 << count.  result stored in op1 */
-  if (i->b1() == 0x1a4)
+  if (i->b1() == 0xa4) // 0x1a4
     count = i->Ib();
   else // 0x1a5
     count = CL;
@@ -94,7 +94,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SHRD_EwGw(bxInstruction_c *i)
   unsigned count;
   unsigned cf, of;
 
-  if (i->b1() == 0x1ac)
+  if (i->b1() == 0xac) // 0x1ac
     count = i->Ib();
   else // 0x1ad
     count = CL;

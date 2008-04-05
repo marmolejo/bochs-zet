@@ -36,7 +36,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SHLD_EdGd(bxInstruction_c *i)
   unsigned count;
   unsigned of, cf;
 
-  if (i->b1() == 0x1a4)
+  if (i->b1() == 0xa4) // 0x1a4
     count = i->Ib();
   else // 0x1a5
     count = CL;
@@ -80,7 +80,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SHRD_EdGd(bxInstruction_c *i)
   unsigned count;
   unsigned cf, of;
 
-  if (i->b1() == 0x1ac)
+  if (i->b1() == 0xac) // 0x1ac
     count = i->Ib();
   else // 0x1ad
     count = CL;
