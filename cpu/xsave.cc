@@ -32,17 +32,6 @@
 #define RDX EDX
 #endif
 
-#if BX_SUPPORT_XSAVE
-void BX_CPU_C::prepareXSAVE(void)
-{
-  if(! (BX_CPU_THIS_PTR cr4.get_OSXSAVE()))
-    exception(BX_UD_EXCEPTION, 0, 0);
-
-  if(BX_CPU_THIS_PTR cr0.get_TS())
-    exception(BX_NM_EXCEPTION, 0, 0);
-}
-#endif
-
 /* 0F AE /4 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::XSAVE(bxInstruction_c *i)
 {

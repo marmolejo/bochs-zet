@@ -28,15 +28,6 @@
 
 #if BX_SUPPORT_SSE
 
-void BX_CPU_C::prepareSSE(void)
-{
-  if(BX_CPU_THIS_PTR cr0.get_EM() || !BX_CPU_THIS_PTR cr4.get_OSFXSR())
-    exception(BX_UD_EXCEPTION, 0, 0);
-
-  if(BX_CPU_THIS_PTR cr0.get_TS())
-    exception(BX_NM_EXCEPTION, 0, 0);
-}
-
 void BX_CPU_C::print_state_SSE(void)
 {
   BX_DEBUG(("MXCSR: 0x%08x\n", BX_MXCSR_REGISTER));
