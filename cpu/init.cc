@@ -856,8 +856,6 @@ void BX_CPU_C::reset(unsigned source)
 #  error "DR6: CPU > 6"
 #endif
 
-  BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_REAL;
-
   BX_CPU_THIS_PTR smi_pending = 0;
   BX_CPU_THIS_PTR nmi_pending = 0;
   BX_CPU_THIS_PTR in_smm = 0;
@@ -943,6 +941,8 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR eipPageBias = 0;
   BX_CPU_THIS_PTR eipPageWindowSize = 0;
   BX_CPU_THIS_PTR eipFetchPtr = NULL;
+
+  handleCpuModeChange();
 
 #if BX_DEBUGGER
   BX_CPU_THIS_PTR stop_reason = STOP_NO_REASON;
