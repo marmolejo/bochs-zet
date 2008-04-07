@@ -1228,8 +1228,15 @@ void BX_CPU_C::handleCpuModeChange(void)
     BX_CPU_THIS_PTR laddr32b_mask = BX_CONST64(0xffffffff);
 #endif
 
-  if (mode != BX_CPU_THIS_PTR cpu_mode)
+  if (mode != BX_CPU_THIS_PTR cpu_mode) {
     BX_DEBUG(("%s activated", cpu_mode_string(BX_CPU_THIS_PTR cpu_mode)));
+#if BX_DEBUGGER
+    if (BX_CPU_THIS_PTR mode_break) {
+      BX_CPU_THIS_PTR stop_reason = STOP_MODE_BREAK_POINT;
+      bx_debug_break(); // trap into debugger
+    }
+#endif
+  }
 }
 
 #if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK

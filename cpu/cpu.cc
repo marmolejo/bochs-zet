@@ -810,22 +810,6 @@ bx_bool BX_CPU_C::dbg_check_begin_instr_bpoint(void)
     BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b;
   BX_CPU_THIS_PTR guard_found.is_64bit_code = Is64BitMode();
 
-  // mode switch breakpoint
-  // instruction which generate exceptions never reach the end of the
-  // loop due to a long jump. Thats why we check at start of instr.
-  // Downside is that we show the instruction about to be executed
-  // (not the one generating the mode switch).
-  if (BX_CPU_THIS_PTR mode_break &&
-     (BX_CPU_THIS_PTR dbg_cpu_mode != BX_CPU_THIS_PTR get_cpu_mode()))
-  {
-    BX_INFO(("[" FMT_LL "d] Caught mode switch breakpoint, switching from '%s' to '%s'",
-        bx_pc_system.time_ticks(), cpu_mode_string(BX_CPU_THIS_PTR dbg_cpu_mode),
-        cpu_mode_string(BX_CPU_THIS_PTR get_cpu_mode())));
-    BX_CPU_THIS_PTR dbg_cpu_mode = BX_CPU_THIS_PTR get_cpu_mode();
-    BX_CPU_THIS_PTR stop_reason = STOP_MODE_BREAK_POINT;
-    return(1);
-  }
-
   // support for 'show' command in debugger
   if(dbg_show_mask) {
     int rv = bx_dbg_show_symbolic();

@@ -905,7 +905,6 @@ public: // for now...
   Bit8u stop_reason;
   Bit8u trace_reg;
   Bit8u mode_break;
-  bx_bool dbg_cpu_mode;  /* contains current mode */
   unsigned show_flag;
   bx_guard_found_t guard_found;
 #endif

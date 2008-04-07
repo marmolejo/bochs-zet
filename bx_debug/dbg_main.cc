@@ -944,9 +944,8 @@ void bx_dbg_playback_command(char* path_quoted)
 // toggles mode switch breakpoint
 void bx_dbg_modebp_command()
 {
-  BX_CPU(dbg_cpu)->dbg_cpu_mode = BX_CPU(dbg_cpu)->get_cpu_mode();
   BX_CPU(dbg_cpu)->mode_break = !BX_CPU(dbg_cpu)->mode_break;
-  dbg_printf(" mode switch break %s\n",
+  dbg_printf("mode switch break %s\n",
     BX_CPU(dbg_cpu)->mode_break ? "enabled" : "disabled");
 }
 
