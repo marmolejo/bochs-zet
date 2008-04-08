@@ -46,7 +46,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SAHF(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::LAHF(bxInstruction_c *i)
 {
-  AH = read_flags() & 0xFF;
+  AH = read_eflags() & 0xFF;
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::CLC(bxInstruction_c *i)
@@ -174,7 +174,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CMC(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::PUSHF_Fw(bxInstruction_c *i)
 {
-  Bit16u flags = read_flags();
+  Bit16u flags = (Bit16u) read_eflags();
 
   if (v8086_mode()) {
     if ((BX_CPU_THIS_PTR get_IOPL() < 3) && (CR4_VME_ENABLED == 0)) {

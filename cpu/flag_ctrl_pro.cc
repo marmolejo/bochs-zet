@@ -113,24 +113,3 @@ Bit32u BX_CPU_C::force_flags(void)
 
   return BX_CPU_THIS_PTR eflags;
 }
-
-Bit16u BX_CPU_C::read_flags(void)
-{
-  Bit16u flags16 = (Bit16u) BX_CPU_THIS_PTR force_flags();
-
-  /* 8086: bits 12-15 always set to 1.
-   * 286: in real mode, bits 12-15 always cleared.
-   * 386+: real-mode: bit15 cleared, bits 14..12 are last loaded value
-   *       protected-mode: bit 15 clear, bit 14 = last loaded, IOPL?
-   */
-
-#if BX_CPU_LEVEL < 2
-  flags16 |= 0xF000;    /* 8086 nature */
-#elif BX_CPU_LEVEL == 2
-  if (real_mode()) {
-    flags16 &= 0x0FFF;  /* 80286 in real mode nature */
-  }
-#endif
-
-  return flags16;
-}
