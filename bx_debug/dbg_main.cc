@@ -3353,8 +3353,14 @@ Bit32u bx_dbg_get_laddr(Bit16u sel, Bit32u ofs)
       desc_base = BX_CPU(dbg_cpu)->gdtr.base;
     }
 
-    BX_CPU(dbg_cpu)->access_read_linear(desc_base + selector.index * 8,     4, 0, BX_READ, &dword1);
-    BX_CPU(dbg_cpu)->access_read_linear(desc_base + selector.index * 8 + 4, 4, 0, BX_READ, &dword2);
+    if (! bx_dbg_read_linear(dbg_cpu, desc_base + selector.index * 8,     4, (Bit8u*) &dword1)) {
+      dbg_printf("ERROR: cannot read selector (0x%04x)\n", selector.index);
+      return 0;
+    }
+    if (! bx_dbg_read_linear(dbg_cpu, desc_base + selector.index * 8 + 4, 4, (Bit8u*) &dword2)) {
+      dbg_printf("ERROR: cannot read selector (0x%04x)\n", selector.index);
+      return 0;
+    }
 
     memset (&descriptor, 0, sizeof (descriptor));
     BX_CPU(dbg_cpu)->parse_descriptor(dword1, dword2, &descriptor);
