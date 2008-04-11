@@ -108,6 +108,16 @@ BX_CPU_C::call_protected(bxInstruction_c *i, Bit16u cs_raw, bx_address disp)
       exception(BX_GP_EXCEPTION, cs_raw & 0xfffc, 0);
     }
 
+#if BX_SUPPORT_X86_64
+    if (long_mode()) {
+      // call gate type is higher priority than non-present bit check
+      if (gate_descriptor.type != BX_386_CALL_GATE) {
+        BX_ERROR(("call_protected: gate type %u unsupported in long mode", (unsigned) gate_descriptor.type));
+        exception(BX_GP_EXCEPTION, cs_raw & 0xfffc, 0);
+      }
+    }
+#endif
+
     // gate descriptor must be present else #NP(gate selector)
     if (! IS_PRESENT(gate_descriptor)) {
        BX_ERROR(("call_protected: gate.p == 0"));
@@ -116,14 +126,8 @@ BX_CPU_C::call_protected(bxInstruction_c *i, Bit16u cs_raw, bx_address disp)
 
 #if BX_SUPPORT_X86_64
     if (long_mode()) {
-      if (gate_descriptor.type != BX_386_CALL_GATE) {
-        BX_ERROR(("call_protected: gate type %u unsupported in long mode", (unsigned) gate_descriptor.type));
-        exception(BX_GP_EXCEPTION, cs_raw & 0xfffc, 0);
-      }
-      else {
-        call_gate64(&gate_selector);
-        return;
-      }
+      call_gate64(&gate_selector);
+      return;
     }
 #endif
 
