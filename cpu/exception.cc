@@ -917,9 +917,7 @@ void BX_CPU_C::exception(unsigned vector, Bit16u error_code, bx_bool is_INT)
       break;
 #if BX_CPU_LEVEL >= 4
     case BX_AC_EXCEPTION: // alignment check
-      BX_PANIC(("exception(): alignment-check, vector 17 not implemented"));
       push_error = 1;
-      error_code = 0;
       exception_class = BX_EXCEPTION_CLASS_FAULT;
       exception_type  = BX_ET_BENIGN;
       break;

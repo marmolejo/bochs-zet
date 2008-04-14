@@ -289,4 +289,6 @@ public:
 };
 // <TAG-CLASS-INSTRUCTION-END>
 
+extern BxExecutePtr_tR BxOpcodesTable[];
+
 #endif
