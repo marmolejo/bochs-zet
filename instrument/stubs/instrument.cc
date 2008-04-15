@@ -30,7 +30,7 @@
 #if BX_INSTRUMENTATION
 
 void bx_instr_init(unsigned cpu) {}
-void bx_instr_shutdown(unsigned cpu) {}
+void bx_instr_exit(unsigned cpu) {}
 void bx_instr_reset(unsigned cpu) {}
 void bx_instr_hlt(unsigned cpu) {}
 void bx_instr_mwait(unsigned cpu, bx_phy_address addr, unsigned len, Bit32u flags) {}

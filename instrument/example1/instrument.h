@@ -129,7 +129,7 @@ extern bxInstrumentation *icpu;
 
 /* simulation init, shutdown, reset */
 #  define BX_INSTR_INIT(cpu_id)	           bx_instr_init(cpu_id);
-#  define BX_INSTR_SHUTDOWN(cpu_id)
+#  define BX_INSTR_EXIT(cpu_id)
 #  define BX_INSTR_RESET(cpu_id)           icpu[cpu_id].bx_instr_reset()
 #  define BX_INSTR_HLT(cpu_id)
 #  define BX_INSTR_MWAIT(cpu_id, addr, len, flags)
@@ -196,7 +196,7 @@ extern bxInstrumentation *icpu;
 
 /* simulation init, shutdown, reset */
 #  define BX_INSTR_INIT(cpu_id)
-#  define BX_INSTR_SHUTDOWN(cpu_id)
+#  define BX_INSTR_EXIT(cpu_id)
 #  define BX_INSTR_RESET(cpu_id)
 #  define BX_INSTR_HLT(cpu_id)
 #  define BX_INSTR_MWAIT(cpu_id, addr, len, flags)
