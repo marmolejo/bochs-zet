@@ -657,7 +657,7 @@ void BX_CPU_C::after_restore_state(void)
 
 BX_CPU_C::~BX_CPU_C()
 {
-  BX_INSTR_SHUTDOWN(BX_CPU_ID);
+  BX_INSTR_EXIT(BX_CPU_ID);
   BX_DEBUG(("Exit."));
 }
 
