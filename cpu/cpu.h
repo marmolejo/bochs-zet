@@ -551,8 +551,8 @@ typedef struct
   // SYSENTER/SYSEXIT instruction msr's
 #if BX_SUPPORT_SEP
   Bit32u sysenter_cs_msr;
-  Bit32u sysenter_esp_msr;
-  Bit32u sysenter_eip_msr;
+  bx_address sysenter_esp_msr;
+  bx_address sysenter_eip_msr;
 #endif
 
 #if BX_SUPPORT_MTRR
