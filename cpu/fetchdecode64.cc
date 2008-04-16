@@ -1969,7 +1969,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo64M[512*3] = {
   /* C6 /wm */ { BxImmediate_Ib, BX_IA_MOV_EbIbM },
   /* C7 /wm */ { BxImmediate_Iw, BX_IA_MOV_EwIwM },
   /* C8 /wm */ { BxImmediate_IwIb, BX_IA_ENTER16_IwIb },
-  /* C9 /wm */ { 0, BX_IA_LEAVE },
+  /* C9 /wm */ { 0, BX_IA_LEAVE64 },
   /* CA /wm */ { BxImmediate_Iw | BxTraceEnd, BX_IA_RETfar16_Iw },
   /* CB /wm */ { BxTraceEnd,                  BX_IA_RETfar16 },
   /* CC /wm */ { BxTraceEnd, BX_IA_INT3 },
