@@ -465,7 +465,7 @@ void bx_debug_break()
 void bx_dbg_exception(unsigned cpu, Bit8u vector, Bit16u error_code)
 {
   static const char *exception[] = {
-     "(#DZ) divide by zero",
+     "(#DE) divide by zero",
      "(#DB) debug break",
      "(#NMI)",
      "(#BP) breakpoint match",
