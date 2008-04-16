@@ -120,8 +120,8 @@ struct bx_efer_t {
   BX_CPP_INLINE void setRegister(Bit32u val) { val32 = val; }
 };
 
-#define BX_EFER_LMA_MASK 10
-#define BX_EFER_SUPPORTED_BITS 0x00004d01
+#define BX_EFER_LMA_MASK       (1<<10)
+#define BX_EFER_SUPPORTED_BITS BX_CONST64(0x00004d01)
 
 #endif
 
