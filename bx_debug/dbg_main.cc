@@ -479,7 +479,7 @@ void bx_dbg_exception(unsigned cpu, Bit8u vector, Bit16u error_code)
      "(#NP) segment not present",
      "(#SS) stack fault",
      "(#GP) general protection fault",
-     "(#PG) page fault",
+     "(#PF) page fault",
      "(#RESERVED)",
      "(#MF) floating point error",
      "(#AC) alignment check",
