@@ -827,7 +827,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MASKMOVDQU_VdqUdq(bxInstruction_c *i)
   }
 
   /* and write result back to the memory */
-  write_virtual_dqword(BX_SEG_REG_DS, rdi, (Bit8u *) &temp);
+  write_virtual_dqword(i->seg(), rdi, (Bit8u *) &temp);
 
 #else
   BX_INFO(("MASKMOVDQU_VdqUdq: required SSE2, use --enable-sse option"));
