@@ -2967,7 +2967,7 @@ void bx_dbg_info_tss_command(void)
 
   bx_phy_address paddr = 0;
   BX_CPU(dbg_cpu)->dbg_xlate_linear2phy(laddr, &paddr);
-  bx_dbg_print_tss(BX_MEM(0)->vector+paddr, len);
+  bx_dbg_print_tss(BX_MEM(0)->vector(paddr), len);
 }
 
 /*
