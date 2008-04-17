@@ -80,7 +80,6 @@ public:
   Bit8u   *actual_vector;
   Bit8u   *vector;   // aligned correctly
   Bit32u  len;
-  Bit32u  megabytes; // (len in Megabytes)
   Bit8u   *rom;      // 512k BIOS rom space + 128k expansion rom space
   Bit8u   *bogus;    // 4k for unexisting memory
 #if BX_DEBUGGER
@@ -138,7 +137,7 @@ BX_CPP_INLINE Bit8u* BX_MEM_C::get_vector(bx_phy_address addr)
 
 BX_CPP_INLINE Bit32u BX_MEM_C::get_memory_in_k(void)
 {
-  return(BX_MEM_THIS megabytes * 1024);
+  return(BX_MEM_THIS len / 1024);
 }
 
 BX_CPP_INLINE Bit32u BX_MEM_C::get_num_allocated_pages(void)

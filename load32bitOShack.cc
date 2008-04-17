@@ -152,7 +152,7 @@ static void bx_load_linux_setup_params(Bit32u initrd_start, Bit32u initrd_size)
   params->orig_video_ega_bx = 3;
 
   /* Memory size (total mem - 1MB, in KB) */
-  params->memory_size_ext = (mem->megabytes - 1) * 1024;
+  params->memory_size_ext = (mem->len/(1024*1024) - 1) * 1024;
 
   /* Boot parameters */
   params->loader_type = 1;
