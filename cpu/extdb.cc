@@ -21,7 +21,6 @@ void (*call_debugger)(TRegs *,Bit8u *, Bit32u);
 
 void bx_external_debugger(BX_CPU_C *cpu)
 {
-     //printf("Calling debugger state=%d\n",regs.debug_state);
      switch (regs.debug_state) {
      case debug_run:
        return;
