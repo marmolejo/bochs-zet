@@ -3115,7 +3115,7 @@ public: // for now...
 
 #if BX_CPU_LEVEL >= 5
   BX_SMF Bit64u get_TSC();
-  BX_SMF void   set_TSC(Bit32u tsc);
+  BX_SMF void   set_TSC(bx_address tsc);
 #endif
 
 #if BX_SUPPORT_FPU
