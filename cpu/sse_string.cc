@@ -354,8 +354,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PCMPESTRM_VdqWdqIb(bxInstruction_c *i)
     flags |= EFlagsOFMask;
   setEFlagsOSZAPC(flags);
 
-  /* now write result back to destination */
-  BX_WRITE_XMM_REG(i->nnn(), result);
+  BX_WRITE_XMM_REG(0, result); /* store result XMM0 */
 #else
   BX_INFO(("PCMPESTRM_VdqWdqIb: required SSE4.2, use --enable-sse and --enable-sse-extension options"));
   UndefinedOpcode(i);
@@ -483,8 +482,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PCMPISTRM_VdqWdqIb(bxInstruction_c *i)
     flags |= EFlagsOFMask;
   setEFlagsOSZAPC(flags);
 
-  /* now write result back to destination */
-  BX_WRITE_XMM_REG(i->nnn(), result);
+  BX_WRITE_XMM_REG(0, result); /* store result XMM0 */
 #else
   BX_INFO(("PCMPISTRM_VdqWdqIb: required SSE4.2, use --enable-sse and --enable-sse-extension options"));
   UndefinedOpcode(i);
