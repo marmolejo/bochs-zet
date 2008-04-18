@@ -96,10 +96,10 @@ void BX_CPU_C::cpu_loop(Bit32u max_instr_count)
   BX_CPU_THIS_PTR stop_reason = STOP_NO_REASON;
 #endif
 
-  if (setjmp(BX_CPU_THIS_PTR jmp_buf_env))
-  {
+  if (setjmp(BX_CPU_THIS_PTR jmp_buf_env)) {
     // only from exception function we can get here ...
     BX_INSTR_NEW_INSTRUCTION(BX_CPU_ID);
+    BX_TICK1_IF_SINGLE_PROCESSOR();
 #if BX_DEBUGGER || BX_EXTERNAL_DEBUGGER || BX_GDBSTUB
     if (dbg_instruction_epilog()) return;
 #endif
