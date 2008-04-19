@@ -134,7 +134,7 @@ static void branch_taken(unsigned cpu, bx_address new_eip)
   if (!active || !instruction[cpu].valid) return;
 
   // find linear address
-  bx_address laddr = BX_CPU(cpu)->get_segment_base(BX_SEG_REG_CS) + new_eip;
+  bx_address laddr = BX_CPU(cpu)->get_laddr(BX_SEG_REG_CS, new_eip);
 
   instruction[cpu].is_branch = 1;
   instruction[cpu].is_taken = 1;
@@ -212,7 +212,7 @@ void bx_instr_hwinterrupt(unsigned cpu, unsigned vector, Bit16u cs, bx_address e
   }
 }
 
-void bx_instr_mem_data(unsigned cpu, bx_address lin, unsigned size, unsigned rw)
+void bx_instr_mem_data(unsigned cpu, unsigned seg, bx_address offset, unsigned len, unsigned rw)
 {
   unsigned index;
   bx_phy_address phy;
@@ -224,6 +224,7 @@ void bx_instr_mem_data(unsigned cpu, bx_address lin, unsigned size, unsigned rw)
     return;
   }
 
+  bx_address lin = BX_CPU(cpu)->get_laddr(seg, offset);
   bx_bool page_valid = BX_CPU(cpu)->dbg_xlate_linear2phy(lin, &phy);
   phy = A20ADDR(phy);
 
