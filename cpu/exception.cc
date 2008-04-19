@@ -637,11 +637,6 @@ void BX_CPU_C::protected_mode_int(Bit8u vector, bx_bool is_INT, bx_bool is_error
     // INTERRUPT TO SAME PRIVILEGE LEVEL:
     if (IS_CODE_SEGMENT_CONFORMING(cs_descriptor.type) || cs_descriptor.dpl==CPL)
     {
-      if (BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.d_b)
-        temp_ESP = ESP;
-      else
-        temp_ESP = SP;
-
       BX_DEBUG(("int_trap_gate286(): INTERRUPT TO SAME PRIVILEGE"));
 
       // EIP must be in CS limit else #GP(0)
