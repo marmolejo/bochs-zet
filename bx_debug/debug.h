@@ -304,6 +304,7 @@ void bx_dbg_phy_memory_access(unsigned cpu, bx_phy_address phy, unsigned len, un
 
 // commands that work with Bochs param tree
 void bx_dbg_restore_command(const char *param_name, const char *path);
+void bx_dbg_load_command(const char *path);
 void bx_dbg_show_param_command(char *param);
 
 int bx_dbg_show_symbolic(void);
