@@ -949,6 +949,7 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR stop_reason = STOP_NO_REASON;
   BX_CPU_THIS_PTR magic_break = 0;
   BX_CPU_THIS_PTR trace_reg = 0;
+  BX_CPU_THIS_PTR trace_mem = 0;
 #endif
 
   BX_CPU_THIS_PTR trace = 0;

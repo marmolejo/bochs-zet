@@ -113,6 +113,7 @@ stop            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_STOP); }
 doit            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_DOIT); }
 trace           { bxlval.sval = strdup(bxtext); return(BX_TOKEN_TRACE); }
 trace-reg   	{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_TRACEREG); }
+trace-mem   	{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_TRACEMEM); }
 switch-mode	{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_SWITCH_MODE); }
 size		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_SIZE); }
 ptime           { bxlval.sval = strdup(bxtext); return(BX_TOKEN_PTIME); }
