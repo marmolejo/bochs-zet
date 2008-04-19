@@ -79,12 +79,16 @@ public:
     pAddr >>= 12;
 #if BX_SUPPORT_TRACE_CACHE
     if ((pageWriteStampTable[pAddr] & ICacheWriteStampFetchModeMask) != ICacheWriteStampFetchModeMask) {
-      stopTraceExecution(); // one of the CPUs running trace from this page
+      // Decrement page write stamp, so iCache entries with older stamps are
+      // effectively invalidated.
+      pageWriteStampTable[pAddr]--;
+      stopTraceExecution(); // one of the CPUs might be running trace from this page
     }
-#endif
-    // Decrement page write stamp, so iCache entries with older stamps
-    // are effectively invalidated.
+#else
+    // Decrement page write stamp, so iCache entries with older stamps are
+    // effectively invalidated.
     pageWriteStampTable[pAddr]--;
+#endif
   }
 
   BX_CPP_INLINE void resetWriteStamps(void);

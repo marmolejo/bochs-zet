@@ -264,7 +264,7 @@ void BX_CPU_C::loadSRegLMNominal(unsigned segI, unsigned selector, unsigned dpl)
 }
 #endif
 
-void BX_CPU_C::validate_seg_reg(unsigned seg)
+BX_CPP_INLINE void BX_CPU_C::validate_seg_reg(unsigned seg)
 {
   /*
      FOR (seg = ES, DS, FS, GS)
