@@ -141,6 +141,8 @@ BX_CPU_C::return_protected(bxInstruction_c *i, Bit16u pop_bytes)
     /* + 2:     CS      | + 4:         CS | + 8:         CS */
     /* + 0:     IP      | + 0:        EIP | + 0:        RIP */
 
+    BX_DEBUG(("return_protected: return to OUTER PRIVILEGE LEVEL"));
+
 #if BX_SUPPORT_X86_64
     if (i->os64L()) {
       /* top 32+immediate bytes on stack must be within stack limits, else #SS(0) */

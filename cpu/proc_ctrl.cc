@@ -2049,8 +2049,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MWAIT(bxInstruction_c *i)
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::SYSENTER(bxInstruction_c *i)
 {
 #if BX_SUPPORT_SEP
-  if (!protected_mode()) {
-    BX_ERROR(("SYSENTER not from protected mode !"));
+  if (real_mode()) {
+    BX_ERROR(("SYSENTER not recognized in real mode !"));
     exception(BX_GP_EXCEPTION, 0, 0);
   }
   if ((BX_CPU_THIS_PTR msr.sysenter_cs_msr & BX_SELECTOR_RPL_MASK) == 0) {
@@ -2148,8 +2148,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SYSENTER(bxInstruction_c *i)
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::SYSEXIT(bxInstruction_c *i)
 {
 #if BX_SUPPORT_SEP
-  if (!protected_mode() || CPL != 0) {
-    BX_ERROR(("SYSEXIT not from protected mode with CPL=0 !"));
+  if (real_mode() || CPL != 0) {
+    BX_ERROR(("SYSEXIT from real mode or with CPL<>0 !"));
     exception(BX_GP_EXCEPTION, 0, 0);
   }
   if ((BX_CPU_THIS_PTR msr.sysenter_cs_msr & BX_SELECTOR_RPL_MASK) == 0) {
