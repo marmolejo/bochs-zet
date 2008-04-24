@@ -3604,6 +3604,7 @@ IMPLEMENT_EFLAG_ACCESSOR   (TF,   8)
 #define BxGroup8          BxGroupN
 #define BxGroup9          BxGroupN
 
+#define BxGroup11         BxGroupN
 #define BxGroup12         BxGroupN
 #define BxGroup13         BxGroupN
 #define BxGroup14         BxGroupN
