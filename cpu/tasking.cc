@@ -186,6 +186,11 @@ void BX_CPU_C::task_switch(bx_selector_t *tss_selector,
     exception(BX_TS_EXCEPTION, tss_selector->value & 0xfffc, 0);
   }
 
+  if (old_TSS_limit < old_TSS_max) {
+    BX_ERROR(("task_switch(): old TSS limit < %d", old_TSS_max));
+    exception(BX_TS_EXCEPTION, BX_CPU_THIS_PTR tr.selector.value & 0xfffc, 0);
+  }
+
   if (obase32 == nbase32) {
     BX_INFO(("TASK SWITCH: switching to the same TSS !"));
   }
