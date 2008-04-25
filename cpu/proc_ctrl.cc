@@ -2012,7 +2012,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MWAIT(bxInstruction_c *i)
 
   // Do not enter optimized state if MONITOR wasn't properly set
   if (BX_CPU_THIS_PTR monitor.monitor_begin == BX_CPU_THIS_PTR monitor.monitor_end) {
-    BX_ERROR(("MWAIT: incorrect MONITOR settings"));
+    BX_DEBUG(("MWAIT: incorrect MONITOR settings"));
     return;
   }
 

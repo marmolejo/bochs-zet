@@ -721,6 +721,8 @@ struct monitor_addr_t {
       monitor_begin(0xffffffff), monitor_end(0xffffffff) {}
     monitor_addr_t(bx_phy_address addr, unsigned len):
       monitor_begin(addr), monitor_end(addr+len) {}
+
+    void reset_monitor(void) { monitor_begin = monitor_end = 0xffffffff; }
 };
 #endif
 
