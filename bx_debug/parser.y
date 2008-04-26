@@ -145,6 +145,10 @@ command:
     | breakpoint_command
     | info_command
     | regs_command
+    | fpu_regs_command
+    | mmx_regs_command
+    | sse_regs_command
+    | segment_regs_command
     | blist_command
     | slist_command
     | delete_command
@@ -658,6 +662,38 @@ regs_command:
       }
     ;
 
+fpu_regs_command:
+      BX_TOKEN_FPU '\n'
+      {
+        bx_dbg_info_registers_command(BX_INFO_FPU_REGS);
+        free($1);
+      }
+    ;
+
+mmx_regs_command:
+      BX_TOKEN_MMX '\n'
+      {
+        bx_dbg_info_registers_command(BX_INFO_MMX_REGS);
+        free($1);
+      }
+    ;
+
+sse_regs_command:
+      BX_TOKEN_MMX '\n'
+      {
+        bx_dbg_info_registers_command(BX_INFO_SSE_REGS);
+        free($1);
+      }
+    ;
+
+segment_regs_command:
+      BX_TOKEN_SEGMENT_REGS '\n'
+      {
+        bx_dbg_info_segment_regs_command();
+        free($1);
+      }
+    ;
+
 delete_command:
       BX_TOKEN_DEL_BREAKPOINT BX_TOKEN_NUMERIC '\n'
       {
@@ -963,6 +999,26 @@ help_command:
          dbg_printf("r|reg|regs|registers - list of CPU registers and their contents (same as 'info registers')\n");
          free($1);free($2);
        }
+     | BX_TOKEN_HELP BX_TOKEN_FPU '\n'
+       {
+         dbg_printf("fp|fpu| - print FPU state (same as 'info fpu')\n");
+         free($1);free($2);
+       }
+     | BX_TOKEN_HELP BX_TOKEN_MMX '\n'
+       {
+         dbg_printf("mmx - print MMX state (same as 'info mmx')\n");
+         free($1);free($2);
+       }
+     | BX_TOKEN_HELP BX_TOKEN_SSE '\n'
+       {
+         dbg_printf("sse|xmm - print SSE state (same as 'info sse')\n");
+         free($1);free($2);
+       }
+     | BX_TOKEN_HELP BX_TOKEN_SREG '\n'
+       {
+         dbg_printf("sreg - show segment registers (same as 'info sreg')\n");
+         free($1);free($2);
+       }
      | BX_TOKEN_HELP BX_TOKEN_SETPMEM '\n'
        {
          dbg_printf("setpmem <addr> <datasize> <val> - set physical memory location of size 'datasize' to value 'val'\n");
@@ -1043,7 +1099,7 @@ help_command:
          dbg_printf("info gdt - show global descriptor table\n");
          dbg_printf("info tss - show current task state segment\n");
          dbg_printf("info tab - show page tables\n");
-         dbg_printf("info creg - show CR0-CR4 registers\n");
+         dbg_printf("info creg - show control registers\n");
          dbg_printf("info sreg - show segment registers\n");
          dbg_printf("info eflags - show decoded EFLAGS register\n");
          dbg_printf("info symbols [string] - list symbols whose prefix is string\n");

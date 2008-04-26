@@ -3318,7 +3318,8 @@ void bx_dbg_print_help(void)
   dbg_printf("    vb|vbreak, lb|lbreak, pb|pbreak|b|break, sb, sba, blist,\n");
   dbg_printf("    bpe, bpd, d|del|delete\n");
   dbg_printf("-*- CPU and memory contents -*-\n");
-  dbg_printf("    x, xp, u|disasm|disassemble, r|reg|regs|registers, setpmem, crc, info,\n");
+  dbg_printf("    x, xp, u|disasm|disassemble, setpmem, crc,\n");
+  dbg_printf("    r|reg|regs|registers, fp|fpu, mmx, sse, sreg, info,\n");
   dbg_printf("    page, set, ptime, print-stack, watch, unwatch, ?|calc\n");
   dbg_printf("-*- Working with bochs param tree -*-\n");
   dbg_printf("    show \"param\", restore\n");
