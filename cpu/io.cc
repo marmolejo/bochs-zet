@@ -73,7 +73,7 @@ Bit32u BX_CPU_C::FastRepINSW(bxInstruction_c *i, bx_address dstOff, Bit16u port,
 
   // If we want to write directly into the physical memory array,
   // we need the A20 address.
-  hostAddrDst = BX_CPU_THIS_PTR mem->getHostMemAddr(BX_CPU_THIS,
+  hostAddrDst = BX_MEM(0)->getHostMemAddr(BX_CPU_THIS,
             A20ADDR(paddrDst), BX_WRITE, DATA_ACCESS);
 #endif
 
@@ -157,7 +157,7 @@ Bit32u BX_CPU_C::FastRepOUTSW(bxInstruction_c *i, unsigned srcSeg, bx_address sr
 
   // If we want to write directly into the physical memory array,
   // we need the A20 address.
-  hostAddrSrc = BX_CPU_THIS_PTR mem->getHostMemAddr(BX_CPU_THIS,
+  hostAddrSrc = BX_MEM(0)->getHostMemAddr(BX_CPU_THIS,
           A20ADDR(paddrSrc), BX_READ, DATA_ACCESS);
 #endif
 

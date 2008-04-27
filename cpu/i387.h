@@ -129,7 +129,7 @@ BX_CPP_INLINE void i387_t::FPU_pop(void)
 BX_CPP_INLINE void i387_t::FPU_save_regi(floatx80 reg, int tag, int stnr)
 {
   st_space[(stnr+tos) & 7] = reg;
-  FPU_settagi(tag, stnr);
+ FPU_settagi(tag, stnr);
 }
 
 #include <string.h>
