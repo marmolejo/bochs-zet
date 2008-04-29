@@ -33,13 +33,13 @@
 class bx_ioapic_c bx_ioapic;
 #define LOG_THIS  bx_ioapic.
 
-static bx_bool ioapic_read(unsigned long a20addr, unsigned long len, void *data, void *param)
+static bx_bool ioapic_read(bx_phy_address a20addr, unsigned len, void *data, void *param)
 {
   bx_ioapic.read(a20addr, data, len);
   return 1;
 }
 
-static bx_bool ioapic_write(unsigned long a20addr, unsigned long len, void *data, void *param)
+static bx_bool ioapic_write(bx_phy_address a20addr, unsigned len, void *data, void *param)
 {
   if (len != 4) {
     BX_PANIC (("I/O apic write with len=%ld (should be 4)", len));

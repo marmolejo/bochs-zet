@@ -48,7 +48,7 @@ class BX_CPU_C;
 #define BIOS_MASK (BIOSROMSZ-1)
 #define EXROM_MASK (EXROMSIZE-1)
 
-typedef bx_bool (*memory_handler_t)(unsigned long addr, unsigned long len, void *data, void *param);
+typedef bx_bool (*memory_handler_t)(bx_phy_address addr, unsigned len, void *data, void *param);
 
 struct memory_handler_struct {
 	struct memory_handler_struct *next;
