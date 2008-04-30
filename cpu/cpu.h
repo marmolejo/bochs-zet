@@ -3593,6 +3593,7 @@ IMPLEMENT_EFLAG_ACCESSOR   (TF,   8)
 #endif
 
 #define BxGroup1          BxGroupN
+#define BxGroup1A         BxGroupN
 #define BxGroup2          BxGroupN
 #define BxGroup3          BxGroupN
 #define BxGroup4          BxGroupN
