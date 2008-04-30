@@ -141,6 +141,7 @@ done:
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::RETfar32(bxInstruction_c *i)
 {
   Bit32u eip;
+  Bit16u cs_raw;
 
   invalidate_prefetch_q();
 
@@ -164,7 +165,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RETfar32(bxInstruction_c *i)
     exception(BX_GP_EXCEPTION, 0, 0);
   }
 
-  Bit16u cs_raw = (Bit16u) pop_32(); /* 32bit pop, MSW discarded */
+  cs_raw = (Bit16u) pop_32(); /* 32bit pop, MSW discarded */
 
   load_seg_reg(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS], cs_raw);
   EIP = eip;
