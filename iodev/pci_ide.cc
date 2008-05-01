@@ -239,7 +239,7 @@ void bx_pci_ide_c::timer()
   Bit8u channel;
   Bit32u size, sector_size = 0;
   struct {
-    Bit32u addr;
+    bx_phy_address addr;
     Bit32u size;
   } prd;
 

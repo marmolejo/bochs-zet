@@ -666,7 +666,7 @@ void BX_CPU_C::prefetch(void)
 
   // Sanity checks
   if (! BX_CPU_THIS_PTR eipFetchPtr) {
-    if (pAddr >= BX_MEM(0)->len) {
+    if (pAddr >= BX_MEM(0)->get_memory_len()) {
       BX_PANIC(("prefetch: running in bogus memory, pAddr=0x%08x", pAddr));
     }
     else {

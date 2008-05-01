@@ -109,7 +109,7 @@ void bx_external_debugger(BX_CPU_C *cpu)
      }
      if (debug_loaded == 2) {
        DEV_vga_refresh();
-       call_debugger(&regs,BX_MEM(0)->vector,BX_MEM(0)->len);
+       call_debugger(&regs,BX_MEM(0)->vector,BX_MEM(0)->get_memory_len());
      }
 }
 
