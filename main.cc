@@ -987,7 +987,7 @@ void bx_init_hardware()
   if (BX_SUPPORT_SSE == 0)
     BX_INFO(("  SSE support: no"));
   else
-    BX_INFO(("  SSE support: %d",BX_SUPPORT_SSE));
+    BX_INFO(("  SSE support: %d%s",BX_SUPPORT_SSE,BX_SUPPORT_SSE_EXTENSION?"E":""));
   BX_INFO(("  CLFLUSH support: %s",BX_SUPPORT_CLFLUSH?"yes":"no"));
   BX_INFO(("  VME support: %s",BX_SUPPORT_VME?"yes":"no"));
   BX_INFO(("  3dnow! support: %s",BX_SUPPORT_3DNOW?"yes":"no"));
