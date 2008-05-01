@@ -121,6 +121,11 @@ BX_CPU_C::write_virtual_checks(bx_segment_reg_t *seg, bx_address offset, unsigne
     return;
   }
   else { /* real mode */
+    if (seg->cache.valid==0) {
+      BX_DEBUG(("write_virtual_checks(): segment descriptor not valid (real mode)"));
+      exception(int_number(seg), 0, 0);
+    }
+
     if (offset > (seg->cache.u.segment.limit_scaled - length + 1)
           || (length-1 > seg->cache.u.segment.limit_scaled))
     {
@@ -211,6 +216,11 @@ BX_CPU_C::read_virtual_checks(bx_segment_reg_t *seg, bx_address offset, unsigned
     return;
   }
   else { /* real mode */
+    if (seg->cache.valid==0) {
+      BX_DEBUG(("read_virtual_checks(): segment descriptor not valid (real mode)"));
+      exception(int_number(seg), 0, 0);
+    }
+
     if (offset > (seg->cache.u.segment.limit_scaled - length + 1)
         || (length-1 > seg->cache.u.segment.limit_scaled))
     {
@@ -305,6 +315,11 @@ BX_CPU_C::execute_virtual_checks(bx_segment_reg_t *seg, bx_address offset, unsig
     return;
   }
   else { /* real mode */
+    if (seg->cache.valid==0) {
+      BX_DEBUG(("execute_virtual_checks(): segment descriptor not valid (real mode)"));
+      exception(int_number(seg), 0, 0);
+    }
+
     if (offset > (seg->cache.u.segment.limit_scaled - length + 1)
         || (length-1 > seg->cache.u.segment.limit_scaled))
     {
