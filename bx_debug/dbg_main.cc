@@ -484,7 +484,7 @@ void bx_dbg_exception(unsigned cpu, Bit8u vector, Bit16u error_code)
      "(#MF) floating point error",
      "(#AC) alignment check",
      "(#MC) machine check",
-     "(#XM) SIMD floating point exception",
+     "(#XF) SIMD floating point exception",
   };
 
   if (BX_CPU(dbg_cpu)->trace || bx_dbg.exceptions)

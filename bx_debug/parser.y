@@ -648,7 +648,7 @@ mmx_regs_command:
     ;
 
 sse_regs_command:
-      BX_TOKEN_MMX '\n'
+      BX_TOKEN_SSE '\n'
       {
         bx_dbg_info_registers_command(BX_INFO_SSE_REGS);
         free($1);
