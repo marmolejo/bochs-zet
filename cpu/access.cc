@@ -98,7 +98,7 @@ BX_CPU_C::write_virtual_checks(bx_segment_reg_t *seg, bx_address offset, unsigne
           seg->cache.valid |= SegAccessROK | SegAccessWOK;
 
           if (seg->cache.u.segment.limit_scaled == 0xffffffff)
-            seg->cache.valid |= SegAccessROK4G | SegAccessWOK4G;;
+            seg->cache.valid |= SegAccessROK4G | SegAccessWOK4G;
         }
         break;
 
