@@ -191,7 +191,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CLFLUSH(bxInstruction_c *i)
   BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
   // check if we could access the memory segment
-  if ((seg->cache.valid & SegAccessROK4G) != SegAccessROK4G)
+  if (!(seg->cache.valid & SegAccessROK4G))
   {
     execute_virtual_checks(seg, RMAddr(i), 1);
   }

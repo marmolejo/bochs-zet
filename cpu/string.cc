@@ -50,11 +50,11 @@ Bit32u BX_CPU_C::FastRepMOVSB(bxInstruction_c *i, unsigned srcSeg, bx_address sr
   Bit8u *hostAddrSrc, *hostAddrDst;
 
   bx_segment_reg_t *srcSegPtr = &BX_CPU_THIS_PTR sregs[srcSeg];
-  if ((srcSegPtr->cache.valid & SegAccessROK4G) != SegAccessROK4G)
+  if (!(srcSegPtr->cache.valid & SegAccessROK4G))
     return 0;
 
   bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
-  if ((dstSegPtr->cache.valid & SegAccessWOK4G) != SegAccessWOK4G)
+  if (!(dstSegPtr->cache.valid & SegAccessWOK4G))
     return 0;
 
   laddrSrc = BX_CPU_THIS_PTR get_laddr(srcSeg, srcOff);
@@ -145,11 +145,11 @@ Bit32u BX_CPU_C::FastRepMOVSW(bxInstruction_c *i, unsigned srcSeg, bx_address sr
   Bit8u *hostAddrSrc, *hostAddrDst;
 
   bx_segment_reg_t *srcSegPtr = &BX_CPU_THIS_PTR sregs[srcSeg];
-  if ((srcSegPtr->cache.valid & SegAccessROK4G) != SegAccessROK4G)
+  if (!(srcSegPtr->cache.valid & SegAccessROK4G))
     return 0;
 
   bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
-  if ((dstSegPtr->cache.valid & SegAccessWOK4G) != SegAccessWOK4G)
+  if (!(dstSegPtr->cache.valid & SegAccessWOK4G))
     return 0;
 
   laddrSrc = BX_CPU_THIS_PTR get_laddr(srcSeg, srcOff);
@@ -243,11 +243,11 @@ Bit32u BX_CPU_C::FastRepMOVSD(bxInstruction_c *i, unsigned srcSeg, bx_address sr
   Bit8u *hostAddrSrc, *hostAddrDst;
 
   bx_segment_reg_t *srcSegPtr = &BX_CPU_THIS_PTR sregs[srcSeg];
-  if ((srcSegPtr->cache.valid & SegAccessROK4G) != SegAccessROK4G)
+  if (!(srcSegPtr->cache.valid & SegAccessROK4G))
     return 0;
 
   bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
-  if ((dstSegPtr->cache.valid & SegAccessWOK4G) != SegAccessWOK4G)
+  if (!(dstSegPtr->cache.valid & SegAccessWOK4G))
     return 0;
 
   laddrSrc = BX_CPU_THIS_PTR get_laddr(srcSeg, srcOff);
@@ -473,7 +473,7 @@ Bit32u BX_CPU_C::FastRepSTOSD(bxInstruction_c *i, unsigned dstSeg, bx_address ds
   Bit8u *hostAddrDst;
 
   bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
-  if ((dstSegPtr->cache.valid & SegAccessWOK4G) != SegAccessWOK4G)
+  if (!(dstSegPtr->cache.valid & SegAccessWOK4G))
     return 0;
 
   laddrDst = BX_CPU_THIS_PTR get_laddr(dstSeg, dstOff);
