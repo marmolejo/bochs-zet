@@ -578,13 +578,6 @@ BX_CPU_C::call_gate64(bx_selector_t *gate_selector)
   {
     BX_DEBUG(("CALL GATE TO SAME PRIVILEGE"));
 
-    // make sure that push CS:RIP will not fail
-    if (! IsCanonical(RSP)) {
-      BX_ERROR(("call_gate64: canonical address failure %08x%08x",
-         GET32H(RSP), GET32L(RSP)));
-      exception(BX_SS_EXCEPTION, 0, 0);
-    }
-
     // push return address onto stack
     push_64(old_CS);
     push_64(old_RIP);
