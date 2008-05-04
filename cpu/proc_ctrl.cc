@@ -1715,9 +1715,17 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::WRMSR(bxInstruction_c *i)
       return;
     }
     case BX_MSR_SYSENTER_ESP:
+      if (! IsCanonical(val64)) {
+        BX_ERROR(("WRMSR: attempt to write non-canonical value to MSR_SYSENTER_ESP !"));
+        exception(BX_GP_EXCEPTION, 0, 0);
+      }
       BX_CPU_THIS_PTR msr.sysenter_esp_msr = val64;
       return;
     case BX_MSR_SYSENTER_EIP:
+      if (! IsCanonical(val64)) {
+        BX_ERROR(("WRMSR: attempt to write non-canonical value to MSR_SYSENTER_EIP !"));
+        exception(BX_GP_EXCEPTION, 0, 0);
+      }
       BX_CPU_THIS_PTR msr.sysenter_eip_msr = val64;
       return;
 #endif
