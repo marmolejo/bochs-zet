@@ -167,6 +167,7 @@ no_async_event:
       // is in the iCache.
       InstrICache_Increment(iCacheMisses);
       serveICacheMiss(entry, eipBiased, pAddr);
+      i = entry->i;
     }
 #else
     bxInstruction_c iStorage, *i = &iStorage;
