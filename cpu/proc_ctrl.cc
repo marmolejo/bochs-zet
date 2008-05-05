@@ -1702,7 +1702,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::WRMSR(bxInstruction_c *i)
     exception(BX_GP_EXCEPTION, 0, 0);
   }
 
-  Bit64u val64 = ((Bit64u) EDX << 32) + EAX;
+  Bit64u val64 = ((Bit64u) EDX << 32) | EAX;
 
   BX_INSTR_WRMSR(BX_CPU_ID, ECX, val64);
 
