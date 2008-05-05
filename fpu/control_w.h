@@ -27,6 +27,10 @@
 /* Control Word */
 /* ************ */
 
+#define FPU_CW_Reserved_Bits    (0xe0c0)  /* reserved bits */
+
+#define FPU_CW_Inf		(0x1000)  /* infinity control, legacy */
+
 #define FPU_CW_RC		(0x0C00)  /* rounding control */
 #define FPU_CW_PC		(0x0300)  /* precision control */
 
