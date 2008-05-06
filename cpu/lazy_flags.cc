@@ -266,8 +266,12 @@ bx_bool BX_CPU_C::get_OFLazy(void)
       break;
     case BX_LF_INSTR_NEG8:
     case BX_LF_INSTR_INC8:
+      of = (result_8 == 0x80);
+      break;
     case BX_LF_INSTR_NEG16:
     case BX_LF_INSTR_INC16:
+      of = (result_16 == 0x8000);
+      break;
     case BX_LF_INSTR_NEG32:
     case BX_LF_INSTR_INC32:
       of = (result_32 == 0x80000000);
