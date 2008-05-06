@@ -458,7 +458,7 @@ BX_CPU_C::long_iret(bxInstruction_c *i)
     }
 
     if ((raw_ss_selector & 0xfffc) == 0) {
-      if (! IS_LONG64_SEGMENT(cs_descriptor) || (cs_selector.rpl == 3)) {
+      if (! IS_LONG64_SEGMENT(cs_descriptor) || cs_selector.rpl == 3) {
         BX_ERROR(("iret64: SS selector null"));
         exception(BX_GP_EXCEPTION, 0, 0);
       }
@@ -540,6 +540,7 @@ BX_CPU_C::long_iret(bxInstruction_c *i)
     }
     else {
       // we are in 64-bit mode !
+      load_null_selector(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS]);
       loadSRegLMNominal(BX_SEG_REG_SS, raw_ss_selector, cs_selector.rpl);
     }
 
