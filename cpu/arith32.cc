@@ -728,7 +728,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CMPXCHG8B(bxInstruction_c *i)
   if (op1_64 == op2_64) {  // if accumulator == dest
     // dest <-- src (ECX:EBX)
     op2_64 = ((Bit64u) ECX << 32) | EBX;
-    write_RMW_virtual_dword(op2_64);
+    write_RMW_virtual_qword(op2_64);
     assert_ZF();
   }
   else {
