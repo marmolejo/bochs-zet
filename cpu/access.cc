@@ -113,8 +113,6 @@ BX_CPU_C::write_virtual_checks(bx_segment_reg_t *seg, bx_address offset, unsigne
           BX_ERROR(("write_virtual_checks(): write beyond limit, r/w ED"));
           exception(int_number(seg), 0, 0);
         }
-        if (seg->cache.u.segment.limit_scaled == 0)
-          seg->cache.valid |= SegAccessROK | SegAccessWOK | SegAccessROK4G | SegAccessWOK4G;
         break;
     }
 
@@ -203,8 +201,6 @@ BX_CPU_C::read_virtual_checks(bx_segment_reg_t *seg, bx_address offset, unsigned
           BX_ERROR(("read_virtual_checks(): read beyond limit ED"));
           exception(int_number(seg), 0, 0);
         }
-        if (seg->cache.u.segment.limit_scaled == 0)
-          seg->cache.valid |= SegAccessROK | SegAccessROK4G;
         break;
 
       case 8: case 9: /* execute only */
@@ -308,8 +304,6 @@ BX_CPU_C::execute_virtual_checks(bx_segment_reg_t *seg, bx_address offset, unsig
           BX_ERROR(("execute_virtual_checks(): read beyond limit ED"));
           exception(int_number(seg), 0, 0);
         }
-        if (seg->cache.u.segment.limit_scaled == 0)
-          seg->cache.valid |= SegAccessROK | SegAccessROK4G;
         break;
     }
     return;
