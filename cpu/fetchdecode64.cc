@@ -851,7 +851,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo64R[512*3] = {
   /* 8C /dr */ { 0, BX_IA_MOV_EwSwR },
   /* 8D /dr */ { 0, BX_IA_ERROR },       // LEA
   /* 8E /dr */ { 0, BX_IA_MOV_SwEw },
-  /* 8F /dr */ { BxGroup1A, BX_IA_ERROR, BxOpcodeInfoG1AEdR },
+  /* 8F /dr */ { BxGroup1A, BX_IA_ERROR, BxOpcodeInfo64G1AEqR },
   /* 90 /dr */ { 0, BX_IA_XCHG_ERXEAX }, // handles XCHG R8d, EAX
   /* 91 /dr */ { 0, BX_IA_XCHG_ERXEAX },
   /* 92 /dr */ { 0, BX_IA_XCHG_ERXEAX },
@@ -2438,7 +2438,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo64M[512*3] = {
   /* 8C /dm */ { 0, BX_IA_MOV_EwSwM },
   /* 8D /dm */ { 0, BX_IA_LEA_GdM },
   /* 8E /dm */ { 0, BX_IA_MOV_SwEw },
-  /* 8F /dm */ { BxGroup1A, BX_IA_ERROR, BxOpcodeInfoG1AEdM },
+  /* 8F /dm */ { BxGroup1A, BX_IA_ERROR, BxOpcodeInfo64G1AEqM },
   /* 90 /dm */ { 0, BX_IA_XCHG_ERXEAX }, // handles XCHG R8d, EAX
   /* 91 /dm */ { 0, BX_IA_XCHG_ERXEAX },
   /* 92 /dm */ { 0, BX_IA_XCHG_ERXEAX },
