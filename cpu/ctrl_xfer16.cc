@@ -48,7 +48,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RETnear16_Iw(bxInstruction_c *i)
 
   if (return_IP > BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.limit_scaled)
   {
-    BX_ERROR(("retnear_iw: IP > limit"));
+    BX_ERROR(("RETnear16_Iw: IP > limit"));
     exception(BX_GP_EXCEPTION, 0, 0);
   }
 
@@ -79,7 +79,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RETnear16(bxInstruction_c *i)
 
   if (return_IP > BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.limit_scaled)
   {
-    BX_ERROR(("retnear: IP > limit"));
+    BX_ERROR(("RETnear16: IP > limit"));
     exception(BX_GP_EXCEPTION, 0, 0);
   }
 

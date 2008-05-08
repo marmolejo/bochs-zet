@@ -1,4 +1,4 @@
-/////////////////////////////////////////////////////////////////////////
+////////c/////////////////////////////////////////////////////////////////
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
@@ -77,7 +77,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RETnear64(bxInstruction_c *i)
   Bit64u return_RIP = read_virtual_qword(BX_SEG_REG_SS, RSP);
 
   if (! IsCanonical(return_RIP)) {
-    BX_ERROR(("RETnear64_Iw: canonical RIP violation"));
+    BX_ERROR(("RETnear64: canonical RIP violation %08x%08x", GET32H(return_RIP), GET32L(return_RIP)));
     exception(BX_GP_EXCEPTION, 0, 0);
   }
 
