@@ -421,7 +421,7 @@ void BX_CPU_C::task_switch(bx_selector_t *tss_selector,
     // change CR3 only if it actually modified
     if (newCR3 != BX_CPU_THIS_PTR cr3) {
       CR3_change(newCR3); // Tell paging unit about new cr3 value
-      BX_DEBUG (("task_switch changing CR3 to 0x%08x", newCR3));
+      BX_DEBUG (("task_switch changing CR3 to 0x" FMT_PHY_ADDRX, newCR3));
       BX_INSTR_TLB_CNTRL(BX_CPU_ID, BX_INSTR_TASKSWITCH, newCR3);
     }
   }

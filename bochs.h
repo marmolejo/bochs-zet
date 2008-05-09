@@ -416,6 +416,9 @@ BOCHSAPI extern logfunc_t *genlog;
 #define FMT_ADDRX FMT_ADDRX32
 #endif
 
+#define FMT_PHY_ADDRX FMT_ADDRX32
+#define FMT_LIN_ADDRX FMT_ADDRX
+
 #if BX_GDBSTUB
 // defines for GDB stub
 void bx_gdbstub_init(void);
