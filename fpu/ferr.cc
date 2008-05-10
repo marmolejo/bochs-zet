@@ -36,7 +36,7 @@ void BX_CPU_C::FPU_stack_overflow(void)
   if (BX_CPU_THIS_PTR the_i387.is_IA_masked())
   {
     BX_CPU_THIS_PTR the_i387.FPU_push();
-    BX_WRITE_FPU_REGISTER_AND_TAG(floatx80_default_nan, FPU_Tag_Special, 0);
+    BX_WRITE_FPU_REG(floatx80_default_nan, 0);
   }
   FPU_exception(FPU_EX_Stack_Overflow);
 }
@@ -46,7 +46,7 @@ void BX_CPU_C::FPU_stack_underflow(int stnr, int pop_stack)
   /* The masked response */
   if (BX_CPU_THIS_PTR the_i387.is_IA_masked())
   {
-    BX_WRITE_FPU_REGISTER_AND_TAG(floatx80_default_nan, FPU_Tag_Special, stnr);
+    BX_WRITE_FPU_REG(floatx80_default_nan, stnr);
     if (pop_stack)
         BX_CPU_THIS_PTR the_i387.FPU_pop();
   }

@@ -51,11 +51,10 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FLD_STi(bxInstruction_c *i)
     return;
   }
 
-  int sti_tag = BX_CPU_THIS_PTR the_i387.FPU_gettagi(i->rm());
   floatx80 sti_reg = BX_READ_FPU_REG(i->rm());
 
   BX_CPU_THIS_PTR the_i387.FPU_push();
-  BX_WRITE_FPU_REGISTER_AND_TAG(sti_reg, sti_tag, 0);
+  BX_WRITE_FPU_REG(sti_reg, 0);
 #else
   BX_INFO(("FLD_STi: required FPU, configure --enable-fpu"));
 #endif
@@ -268,16 +267,14 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FST_STi(bxInstruction_c *i)
 
   clear_C1();
 
-  int st0_tag = BX_CPU_THIS_PTR the_i387.FPU_gettagi(0);
-  if (st0_tag == FPU_Tag_Empty)
-  {
+  if (IS_TAG_EMPTY(0)) {
     BX_CPU_THIS_PTR FPU_stack_underflow(i->rm(), pop_stack);
     return;
   }
 
   floatx80 st0_reg = BX_READ_FPU_REG(0);
 
-  BX_WRITE_FPU_REGISTER_AND_TAG(st0_reg, st0_tag, i->rm());
+  BX_WRITE_FPU_REG(st0_reg, i->rm());
   if (pop_stack)
      BX_CPU_THIS_PTR the_i387.FPU_pop();
 #else
