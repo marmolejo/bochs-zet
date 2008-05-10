@@ -664,7 +664,7 @@ void BX_CPU_C::prefetch(void)
     }
   }
 
-  BX_CPU_THIS_PTR pAddrA20Page = pAddr & 0xfffff000;
+  BX_CPU_THIS_PTR pAddrA20Page = LPFOf(pAddr);
 
   if (fetchPtr) {
     BX_CPU_THIS_PTR eipFetchPtr = fetchPtr;
