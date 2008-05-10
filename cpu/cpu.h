@@ -3132,6 +3132,7 @@ public: // for now...
   BX_SMF bx_bool FPU_exception(int exception);
   BX_SMF int  fpu_save_environment(bxInstruction_c *);
   BX_SMF int  fpu_load_environment(bxInstruction_c *);
+  BX_SMF Bit8u pack_FPU_TW(Bit16u tag_word);
   BX_SMF Bit16u unpack_FPU_TW(Bit16u tag_byte);
 #endif
 

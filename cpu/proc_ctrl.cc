@@ -2573,7 +2573,7 @@ Bit32u BX_CPU_C::hwdebug_compare(bx_address laddr_0, unsigned size,
   bx_address laddr_n = laddr_0 + (size - 1);
   static bx_address alignment_mask[4] =
     // 00b=1  01b=2  10b=undef  11b=4
-    {  0x0,   0x1,   0x0,       0x3   };
+    {  0x0,   0x1,   0x7,       0x3   };
 
   Bit32u len0 = (dr7>>18) & 3;
   Bit32u len1 = (dr7>>22) & 3;
