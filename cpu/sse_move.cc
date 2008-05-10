@@ -927,7 +927,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOVQ_VdqEq(bxInstruction_c *i)
   else {
     BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    op2 = read_virtual_qword(i->seg(), RMAddr(i));
+    op2 = read_virtual_qword_64(i->seg(), RMAddr(i));
   }
 
   op1.xmm64u(0) = op2;
@@ -983,7 +983,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOVQ_EqVq(bxInstruction_c *i)
   else {
     BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    write_virtual_qword(i->seg(), RMAddr(i), op2);
+    write_virtual_qword_64(i->seg(), RMAddr(i), op2);
   }
 #else
   BX_INFO(("MOVQ_EqVq: required SSE2, use --enable-sse option"));
@@ -1140,7 +1140,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOVNTI_MqGq(bxInstruction_c *i)
 {
 #if BX_SUPPORT_SSE >= 2
   BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
-  write_virtual_qword(i->seg(), RMAddr(i), BX_READ_64BIT_REG(i->nnn()));
+  write_virtual_qword_64(i->seg(), RMAddr(i), BX_READ_64BIT_REG(i->nnn()));
 #else
   BX_INFO(("MOVNTI_MqGq: required SSE2, use --enable-sse option"));
   UndefinedOpcode(i);

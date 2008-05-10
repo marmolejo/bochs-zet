@@ -380,7 +380,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CRC32_GdEv(bxInstruction_c *i)
     }
     else {
       BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
-      op1 = read_virtual_qword(i->seg(), RMAddr(i));
+      op1 = read_virtual_qword_64(i->seg(), RMAddr(i));
     }
 
     Bit64u tmp1 = ((Bit64u) BitReflect32(op1 & 0xffffffff)) << 32;

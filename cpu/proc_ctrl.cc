@@ -1204,13 +1204,6 @@ void BX_CPU_C::handleCpuModeChange(void)
     }
   }
 
-#if BX_SUPPORT_X86_64
-  if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)
-    BX_CPU_THIS_PTR laddr32b_mask = BX_CONST64(0xffffffffffffffff);
-  else
-    BX_CPU_THIS_PTR laddr32b_mask = BX_CONST64(0xffffffff);
-#endif
-
   if (mode != BX_CPU_THIS_PTR cpu_mode) {
     BX_DEBUG(("%s activated", cpu_mode_string(BX_CPU_THIS_PTR cpu_mode)));
 #if BX_DEBUGGER

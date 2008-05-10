@@ -176,7 +176,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CVTSI2SD_VsdEd(bxInstruction_c *i)
     else {
       BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
       /* pointer, segment address pair */
-      op = read_virtual_qword(i->seg(), RMAddr(i));
+      op = read_virtual_qword_64(i->seg(), RMAddr(i));
     }
 
     result = int64_to_float64(op, status_word);
@@ -235,7 +235,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CVTSI2SS_VssEd(bxInstruction_c *i)
     else {
       BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
       /* pointer, segment address pair */
-      op = read_virtual_qword(i->seg(), RMAddr(i));
+      op = read_virtual_qword_64(i->seg(), RMAddr(i));
     }
 
     result = int64_to_float32(op, status_word);
