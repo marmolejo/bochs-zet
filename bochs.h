@@ -198,9 +198,9 @@ void print_tree(bx_param_c *node, int level = 0);
 #define BX_GET_ENABLE_A20()         bx_pc_system.get_enable_a20()
 
 #if BX_SUPPORT_A20
-#  define A20ADDR(x)                ((bx_phy_address)(x) & bx_pc_system.a20_mask)
+#  define A20ADDR(x)                (bx_phy_address(x) & bx_pc_system.a20_mask)
 #else
-#  define A20ADDR(x)                ((bx_phy_address)(x))
+#  define A20ADDR(x)                (bx_phy_address(x))
 #endif
 
 #if BX_SUPPORT_SMP
@@ -420,7 +420,12 @@ BOCHSAPI extern logfunc_t *genlog;
 #define FMT_ADDRX FMT_ADDRX32
 #endif
 
-#define FMT_PHY_ADDRX FMT_ADDRX32
+#if BX_PHY_ADDRESS_LONG
+  #define FMT_PHY_ADDRX FMT_ADDRX64
+#else
+  #define FMT_PHY_ADDRX FMT_ADDRX32
+#endif
+
 #define FMT_LIN_ADDRX FMT_ADDRX
 
 #if BX_GDBSTUB

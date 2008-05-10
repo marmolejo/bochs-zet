@@ -135,16 +135,23 @@ void bx_pc_system_c::set_enable_a20(bx_bool value)
   if (value) {
     enable_a20 = 1;
 #if BX_CPU_LEVEL < 2
-    a20_mask   =    0xfffff;
+    a20_mask =    0xfffff;
 #elif BX_CPU_LEVEL == 2
-    a20_mask   =   0xffffff;
-#else /* 386+ */
-    a20_mask   = 0xffffffff;
+    a20_mask =   0xffffff;
+#elif BX_PHY_ADDRESS_LONG
+    a20_mask = BX_CONST64(0xffffffffffffffff);
+#else  /* 386+ */
+    a20_mask = 0xffffffff;
 #endif
   }
   else {
     enable_a20 = 0;
-    a20_mask   = 0xffefffff;   /* mask off A20 address line */
+    /* mask off A20 address line */
+#if BX_PHY_ADDRESS_LONG
+    a20_mask = BX_CONST64(0xffffffffffefffff);
+#else
+    a20_mask = 0xffefffff;
+#endif
   }
 
   BX_DBG_A20_REPORT(enable_a20);
