@@ -34,7 +34,7 @@
 #define LOG_THIS BX_MEM(0)->
 
 #define BX_MEM_VECTOR_ALIGN 4096
-#define BX_MEM_HANDLERS     4096 /* one per megabyte */
+#define BX_MEM_HANDLERS   ((BX_CONST64(1) << BX_PHY_ADDRESS_WIDTH) >> 20) /* one per megabyte */
 
 #if BX_PROVIDE_CPU_MEMORY
 
