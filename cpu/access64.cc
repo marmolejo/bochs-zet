@@ -614,8 +614,6 @@ BX_CPU_C::read_RMW_virtual_qword_64(unsigned s, Bit64u offset)
 
 void BX_CPU_C::write_new_stack_qword_64(Bit64u laddr, unsigned curr_pl, Bit64u data)
 {
-  BX_ASSERT(BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64);
-
 #if BX_SupportGuest2HostTLB
   unsigned tlbIndex = BX_TLB_INDEX_OF(laddr, 7);
   Bit64u lpf = AlignedAccessLPFOf(laddr, 7);
