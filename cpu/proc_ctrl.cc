@@ -1182,9 +1182,9 @@ void BX_CPU_C::handleCpuModeChange(void)
     }
     else {
       BX_CPU_THIS_PTR cpu_mode = BX_MODE_LONG_COMPAT;
-      if (BX_CPU_THIS_PTR gen_reg[BX_64BIT_REG_RIP].dword.hrx != 0) {
-        BX_PANIC(("handleCpuModeChange: leaving long mode with RIP upper != 0 !"));
-      }
+      // clear upper part of RIP/RSP when leaving 64-bit long mode
+      BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RIP);
+      BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RSP);
     }
   }
   else
