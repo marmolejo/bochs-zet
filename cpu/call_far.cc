@@ -578,9 +578,10 @@ BX_CPU_C::call_gate64(bx_selector_t *gate_selector)
   {
     BX_DEBUG(("CALL GATE TO SAME PRIVILEGE"));
 
-    // push return address onto stack
-    push_64(old_CS);
-    push_64(old_RIP);
+    // push to 64-bit stack, switch to long64 guaranteed
+    write_new_stack_qword_64(RSP -  8, CPL, old_CS);
+    write_new_stack_qword_64(RSP - 16, CPL, old_RIP);
+    RSP -= 16;
 
     // load CS:RIP (guaranteed to be in 64 bit mode)
     branch_far64(&cs_selector, &cs_descriptor, new_RIP, CPL);
