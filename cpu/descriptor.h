@@ -158,9 +158,9 @@ union {
 #define IS_CODE_SEGMENT(type)             (((type) >> 3) & 0x1)
 #define IS_CODE_SEGMENT_CONFORMING(type)  (((type) >> 2) & 0x1)
 #define IS_DATA_SEGMENT_EXPAND_DOWN(type) (((type) >> 2) & 0x1)
+#define IS_CODE_SEGMENT_READABLE(type)    (((type) >> 1) & 0x1)
 
-// readable/writeable bit is ignored when in 64-bit mode
-#define IS_CODE_SEGMENT_READABLE(type)    (Is64BitMode() || (((type) >> 1) & 0x1))
+// data segment writeable bit is ignored when in 64-bit mode
 #define IS_DATA_SEGMENT_WRITEABLE(type)   (Is64BitMode() || (((type) >> 1) & 0x1))
 
 #define IS_SEGMENT_ACCESSED(type)         ((type) & 0x1)
