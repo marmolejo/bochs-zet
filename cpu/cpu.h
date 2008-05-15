@@ -2944,10 +2944,8 @@ public: // for now...
   BX_SMF void long_mode_int(Bit8u vector, bx_bool is_INT, bx_bool is_error_code,
                  Bit16u error_code);
 #endif
-#if BX_CPU_LEVEL >= 2
-  BX_SMF void exception(unsigned vector, Bit16u error_code, bx_bool is_INT)
+  BX_SMF void exception(unsigned vector, Bit16u error_code, bx_bool trap)
                   BX_CPP_AttrNoReturn();
-#endif
   BX_SMF void smram_save_state(Bit32u *smm_saved_state);
   BX_SMF bx_bool smram_restore_state(const Bit32u *smm_saved_state);
   BX_SMF int  int_number(bx_segment_reg_t *seg);
