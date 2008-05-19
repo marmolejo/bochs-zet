@@ -607,7 +607,7 @@ void bx_dbg_print_sse_state(void)
        GET32H(hi), GET32L(hi), GET32H(lo), GET32L(lo));
   }
 #else
-  dbg_printf("The CPU doesn't support SSE state !");
+  dbg_printf("The CPU doesn't support SSE state !\n");
 #endif
 }
 
@@ -621,7 +621,7 @@ void bx_dbg_print_mmx_state(void)
     dbg_printf("MM[%d]: %08x:%08x\n", i, GET32H(mmreg), GET32L(mmreg));
   }
 #else
-  dbg_printf("The CPU doesn't support MMX state !");
+  dbg_printf("The CPU doesn't support MMX state !\n");
 #endif
 }
 
@@ -630,7 +630,7 @@ void bx_dbg_print_fpu_state(void)
 #if BX_SUPPORT_FPU
   BX_CPU(dbg_cpu)->print_state_FPU();
 #else
-  dbg_printf("The CPU doesn't support FPU state !");
+  dbg_printf("The CPU doesn't support FPU state !\n");
 #endif
 }
 
