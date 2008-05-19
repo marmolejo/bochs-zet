@@ -127,12 +127,12 @@ bx_bool BX_CPU_C::allow_io(Bit16u addr, unsigned len)
 
     access_read_linear(BX_CPU_THIS_PTR tr.cache.u.system.base + 102,
                    2, 0, BX_READ, &io_base);
-
+/*
     if (io_base <= 103) {
       BX_ERROR(("allow_io(): TR:io_base (%u) <= 103", io_base));
       return(0);
     }
-
+*/
     if ((Bit32s) (addr/8) >= (Bit32s) (BX_CPU_THIS_PTR tr.cache.u.system.limit_scaled - io_base)) {
       BX_ERROR(("allow_io(): IO addr %x (len %d) outside TSS IO permission map (base=%x, limit=%x) #GP(0)",
         addr, len, io_base, BX_CPU_THIS_PTR tr.cache.u.system.limit_scaled));
