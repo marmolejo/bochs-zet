@@ -552,6 +552,8 @@ void BX_CPU_C::TLB_flush(bx_bool invalidateGlobal)
 
 void BX_CPU_C::TLB_invlpg(bx_address laddr)
 {
+  BX_DEBUG(("TLB_invlpg(0x"FMT_ADDRX"): invalidate TLB entry", laddr));
+
   unsigned TLB_index = BX_TLB_INDEX_OF(laddr, 0);
   bx_TLB_entry *tlbEntry = &BX_CPU_THIS_PTR TLB.entry[TLB_index];
   if (tlbEntry->lpf == LPFOf(laddr)) {

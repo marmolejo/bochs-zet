@@ -240,7 +240,7 @@ void BX_CPU_C::long_mode_int(Bit8u vector, bx_bool is_INT, bx_bool is_error_code
 
     // check selector and descriptor for new stack in current TSS
     if (ist > 0) {
-      BX_DEBUG(("interrupt(long mode): trap to IST, vector = %d\n",ist));
+      BX_DEBUG(("interrupt(long mode): trap to IST, vector = %d", ist));
       get_RSP_from_TSS(ist+3, &RSP);
     }
 
