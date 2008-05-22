@@ -75,6 +75,7 @@ extern "C" {
 #define BX_SER_MODE_RAW   3
 #define BX_SER_MODE_MOUSE 4
 #define BX_SER_MODE_SOCKET 5
+#define BX_SER_MODE_PIPE  6
 
 enum {
   BX_SER_INT_IER,
@@ -119,6 +120,9 @@ typedef struct {
   int tty_id;
   int socket_id;
   FILE *output;
+#ifdef WIN32
+  HANDLE pipe;
+#endif
 
 #if USE_RAW_SERIAL
   serial_raw* raw;
