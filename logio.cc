@@ -579,6 +579,14 @@ static void carbonFatalDialog(const char *error, const char *exposition)
 void logfunctions::fatal(const char *prefix, const char *fmt, va_list ap, int exit_status)
 {
 #if !BX_DEBUGGER
+#if !BX_WITH_WX
+  // store prefix and message in 'exit_msg' before unloading device plugins
+  char tmpbuf[1024];
+  char exit_msg[1024];
+
+  vsprintf(tmpbuf, fmt, ap);
+  sprintf(exit_msg, "%s %s", prefix, tmpbuf);
+#endif
   bx_atexit();
 #endif
 #if BX_WITH_CARBON
@@ -596,8 +604,7 @@ void logfunctions::fatal(const char *prefix, const char *fmt, va_list ap, int ex
   static const char *divider = "========================================================================";
   fprintf(stderr, "%s\n", divider);
   fprintf(stderr, "Bochs is exiting with the following message:\n");
-  fprintf(stderr, "%s ", prefix);
-  vfprintf(stderr, fmt, ap);
+  fprintf(stderr, "%s", exit_msg);
   fprintf(stderr, "\n%s\n", divider);
 #endif
 #if !BX_DEBUGGER
