@@ -578,7 +578,6 @@ static void carbonFatalDialog(const char *error, const char *exposition)
 
 void logfunctions::fatal(const char *prefix, const char *fmt, va_list ap, int exit_status)
 {
-#if !BX_DEBUGGER
 #if !BX_WITH_WX
   // store prefix and message in 'exit_msg' before unloading device plugins
   char tmpbuf[1024];
@@ -587,6 +586,7 @@ void logfunctions::fatal(const char *prefix, const char *fmt, va_list ap, int ex
   vsprintf(tmpbuf, fmt, ap);
   sprintf(exit_msg, "%s %s", prefix, tmpbuf);
 #endif
+#if !BX_DEBUGGER
   bx_atexit();
 #endif
 #if BX_WITH_CARBON
