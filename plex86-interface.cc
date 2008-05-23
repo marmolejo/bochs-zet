@@ -201,10 +201,10 @@ unsigned plex86ExecuteInVM(BX_CPU_C *cpu)
   plex86GuestCPU->idtr.base  = cpu->idtr.base;
   plex86GuestCPU->idtr.limit = cpu->idtr.limit;
 
-  plex86GuestCPU->dr0 = cpu->dr0;
-  plex86GuestCPU->dr1 = cpu->dr1;
-  plex86GuestCPU->dr2 = cpu->dr2;
-  plex86GuestCPU->dr3 = cpu->dr3;
+  plex86GuestCPU->dr[0] = cpu->dr[0];
+  plex86GuestCPU->dr[1] = cpu->dr[1];
+  plex86GuestCPU->dr[2] = cpu->dr[2];
+  plex86GuestCPU->dr[3] = cpu->dr[3];
   plex86GuestCPU->dr6 = cpu->dr6;
   plex86GuestCPU->dr7 = cpu->dr7;
 

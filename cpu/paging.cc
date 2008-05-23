@@ -1102,7 +1102,10 @@ bx_phy_address BX_CPU_C::translate_linear(bx_address laddr, unsigned curr_pl, un
 
   if (tlbEntry->hostPageAddr) {
     // All access allowed also via direct pointer
-    accessBits |= (accessBits & 0xff00) >> 8;
+#if BX_X86_DEBUGGER
+    if (! hwbreakpoint_check(laddr, len, xlate_rw))
+#endif
+      accessBits |= (accessBits & 0xff00) >> 8;
   }
 #endif
   tlbEntry->accessBits = accessBits;
