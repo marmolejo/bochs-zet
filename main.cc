@@ -1130,17 +1130,9 @@ void bx_init_bx_dbg(void)
   bx_dbg.a20 = 0;
   bx_dbg.interrupts = 0;
   bx_dbg.exceptions = 0;
-  bx_dbg.unsupported = 0;
-  bx_dbg.temp = 0;
-  bx_dbg.reset = 0;
   bx_dbg.mouse = 0;
   bx_dbg.io = 0;
   bx_dbg.debugger = 0;
-  bx_dbg.xms = 0;
-  bx_dbg.v8086 = 0;
-  bx_dbg.paging = 0;
-  bx_dbg.creg = 0;
-  bx_dbg.dreg = 0;
   bx_dbg.dma = 0;
   bx_dbg.unsupported_io = 0;
   bx_dbg.record_io = 0;
