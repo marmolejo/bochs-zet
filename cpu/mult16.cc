@@ -148,8 +148,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::IDIV_AXEw(bxInstruction_c *i)
   if (op2_16 == 0)
     exception(BX_DE_EXCEPTION, 0, 0);
 
-  /* check MIN_INT divided by -1 case */
-  if ((op1_32 == ((Bit32s)0x80000000)) && (op2_16 == -1))
+  /* check MIN_INT case */
+  if (op1_32 == ((Bit32s)0x80000000))
     exception(BX_DE_EXCEPTION, 0, 0);
 
   quotient_32  = op1_32 / op2_16;
