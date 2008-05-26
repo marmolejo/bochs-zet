@@ -370,10 +370,7 @@ bx_bool BX_CPU_C::dbg_set_reg(unsigned reg, Bit32u val)
     seg->cache.p = 1;
     seg->cache.dpl = 0;
     seg->cache.segment = 1; // regular segment
-    if (reg == BX_DBG_REG_CS)
-      seg->cache.type = BX_CODE_EXEC_READ_ACCESSED;
-    else
-      seg->cache.type = BX_DATA_READ_WRITE_ACCESSED;
+    seg->cache.type = BX_DATA_READ_WRITE_ACCESSED;
     seg->cache.u.segment.base = val << 4;
     seg->cache.u.segment.limit        = 0xffff;
     seg->cache.u.segment.limit_scaled = 0xffff;

@@ -211,7 +211,7 @@ void BX_CPU_C::init_v8086_mode(void)
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.p       = 1;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.dpl     = 3;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.segment = 1;
-  BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.type    = BX_CODE_EXEC_READ_ACCESSED;
+  BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.type    = BX_DATA_READ_WRITE_ACCESSED;
 
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.base =
     BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value << 4;

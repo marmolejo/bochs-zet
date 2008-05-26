@@ -3032,8 +3032,6 @@ public: // for now...
 #if BX_SUPPORT_X86_64
   BX_SMF void    fetch_raw_descriptor_64(const bx_selector_t *selector,
                          Bit32u *dword1, Bit32u *dword2, Bit32u *dword3, unsigned exception_no);
-  BX_SMF bx_bool fetch_raw_descriptor2_64(const bx_selector_t *selector,
-                         Bit32u *dword1, Bit32u *dword2, Bit32u *dword3);
   BX_SMF void    loadSRegLMNominal(unsigned seg, unsigned selector, unsigned dpl);
 #endif
   BX_SMF void    push_16(Bit16u value16) BX_CPP_AttrRegparmN(1);
