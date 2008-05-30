@@ -1697,6 +1697,29 @@ if test "$support_sse" -lt 1 -a "$use_xsave" = 1; then
   AC_MSG_ERROR([XSAVE requires SSE support!])
 fi
 
+use_aes=0
+AC_MSG_CHECKING(for AES instructions support)
+AC_ARG_ENABLE(aes,
+  [  --enable-aes                      support for AES instructions],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_SUPPORT_AES, 1)
+    use_aes=1
+   elif test "$enableval" = no; then
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SUPPORT_AES, 0)
+   fi
+   ],
+  [
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SUPPORT_AES, 0)
+  ]
+  )
+
+if test "$support_sse" -lt 1 -a "$use_aes" = 1; then
+  AC_MSG_ERROR([AES requires SSE support!])
+fi
+
 AC_MSG_CHECKING(for alignment check support)
 AC_ARG_ENABLE(alignment-check,
   [  --enable-alignment-check          alignment check (#AC) support],

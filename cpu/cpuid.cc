@@ -178,6 +178,10 @@ Bit32u BX_CPU_C::get_extended_cpuid_features(void)
   features |= (1<<23);           // support POPCNT instruction
 #endif
 
+#if BX_SUPPORT_AES
+  features |= (1<<25);           // support AES instructions
+#endif
+
 #if BX_SUPPORT_XSAVE
   features |= (1<<26) | (1<<27); // support XSAVE extensions
 #endif

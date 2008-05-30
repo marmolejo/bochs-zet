@@ -1246,6 +1246,14 @@ bx_define_opcode(BX_IA_XSAVE, BX_CPU_C::XSAVE)
 bx_define_opcode(BX_IA_XSETBV, BX_CPU_C::XSETBV)
 bx_define_opcode(BX_IA_XGETBV, BX_CPU_C::XGETBV)
 
+// AES instructions
+bx_define_opcode(BX_IA_AESIMC_VdqWdq, BX_CPU_C::AESIMC_VdqWdq)
+bx_define_opcode(BX_IA_AESENC_VdqWdq, BX_CPU_C::AESENC_VdqWdq)
+bx_define_opcode(BX_IA_AESENCLAST_VdqWdq, BX_CPU_C::AESENCLAST_VdqWdq)
+bx_define_opcode(BX_IA_AESDEC_VdqWdq, BX_CPU_C::AESDEC_VdqWdq)
+bx_define_opcode(BX_IA_AESDECLAST_VdqWdq, BX_CPU_C::AESDECLAST_VdqWdq)
+bx_define_opcode(BX_IA_AESKEYGENASSIST_VdqWdqIb, BX_CPU_C::AESKEYGENASSIST_VdqWdqIb)
+
 #if BX_SUPPORT_X86_64
 bx_define_opcode(BX_IA_ADD_GqEqM, BX_CPU_C::ADD_GqEqM)
 bx_define_opcode(BX_IA_OR_GqEqM, BX_CPU_C::OR_GqEqM)
