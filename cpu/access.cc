@@ -251,7 +251,7 @@ BX_CPU_C::execute_virtual_checks(bx_segment_reg_t *seg, bx_address offset, unsig
       break;
 
     default:
-      BX_PANIC(("write_virtual_checks(): unknown descriptor type=%d", seg->cache.type));
+      BX_PANIC(("execute_virtual_checks(): unknown descriptor type=%d", seg->cache.type));
   }
 }
 
