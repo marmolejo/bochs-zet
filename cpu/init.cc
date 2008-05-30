@@ -645,6 +645,8 @@ Bit64s BX_CPU_C::param_restore(bx_param_c *param, Bit64s val)
 
 void BX_CPU_C::after_restore_state(void)
 {
+  if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_IA32_V8086) CPL = 3;
+
   SetCR0(cr0.val32);
   SetCR3(cr3);
   TLB_flush(1);
