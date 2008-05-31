@@ -707,6 +707,10 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_CqRq(bxInstruction_c *i)
       //   APIC.TPR[3:0] = 0
       // Reads of CR8 return zero extended APIC.TPR[7:4]
       // Write to CR8 update APIC.TPR[7:4]
+      if (val_64 & BX_CONST64(0xfffffffffffffff0)) {
+        BX_ERROR(("MOV_CqRq: Attempt to set reserved bits of CR8"));
+        exception(BX_GP_EXCEPTION, 0, 0);
+      }
       BX_CPU_THIS_PTR local_apic.set_tpr((val_64 & 0xF) << 0x4);
       break;
 #endif
