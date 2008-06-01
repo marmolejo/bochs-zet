@@ -1234,17 +1234,16 @@ LRESULT CALLBACK simWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
   case WM_SYSKEYUP:
     // check if it's keyup, alt key, non-repeat
     // see http://msdn2.microsoft.com/en-us/library/ms646267.aspx
-    if (wParam == VK_RETURN) {
-      if ((HIWORD(lParam) & BX_SYSKEY) == (KF_ALTDOWN | KF_UP)) {
-        if (!saveParent) {
-          BX_INFO(("entering fullscreen mode"));
-          theGui->dimension_update(desktop_x, desktop_y,
-                                   0, 0, current_bpp);
-        } else {
-          BX_INFO(("leaving fullscreen mode"));
-          theGui->dimension_update(dimension_x, desktop_y - 1,
+    if ((wParam == VK_RETURN) &&
+        ((HIWORD(lParam) & BX_SYSKEY) == (KF_ALTDOWN | KF_UP))) {
+      if (!saveParent) {
+        BX_INFO(("entering fullscreen mode"));
+        theGui->dimension_update(desktop_x, desktop_y,
                                  0, 0, current_bpp);
-        }
+      } else {
+        BX_INFO(("leaving fullscreen mode"));
+        theGui->dimension_update(dimension_x, desktop_y - 1,
+                               0, 0, current_bpp);
       }
     } else {
       EnterCriticalSection(&stInfo.keyCS);
