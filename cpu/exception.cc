@@ -1009,6 +1009,10 @@ void BX_CPU_C::exception(unsigned vector, Bit16u error_code, bx_bool trap)
     }
   }
 
+  // clear GD flag in the DR7 prior entering debug exception handler
+  if (vector == BX_DB_EXCEPTION)
+    BX_CPU_THIS_PTR dr7 &= ~0x00002000;
+
   if (exception_type != BX_ET_PAGE_FAULT) {
     // Page faults have different format
     error_code = (error_code & 0xfffe) | BX_CPU_THIS_PTR EXT;
