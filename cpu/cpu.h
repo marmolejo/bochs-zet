@@ -3592,7 +3592,7 @@ IMPLEMENT_EFLAG_ACCESSOR   (TF,   8)
 // For decoding...
 //
 
-// If the Immediate bit is set, the lowest 3 bits of the attribute
+// If the BxImmediate mask is set, the lowest 4 bits of the attribute
 // specify which kinds of immediate data a required by instruction.
 
 #define BxImmediate         0x000f // bits 3..0: any immediate
