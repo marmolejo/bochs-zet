@@ -18,7 +18,7 @@ public:
   virtual void init(void);
   virtual void reset (unsigned type) {}
   static void mem_write(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, void *data);
-  static void mem_read(BX_CPU_C *cpu, bx_phy_addressu addr, unsigned len, void *data);
+  static void mem_read(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, void *data);
 
 private:
   static Bit32u read_handler(void *this_ptr, Bit32u address, unsigned io_len);
