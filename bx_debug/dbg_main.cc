@@ -2946,7 +2946,7 @@ void bx_dbg_info_ldt_command(unsigned from, unsigned to)
 }
 
 /*form RB list*/
-static char* bx_dbg_ivt_desc(int intnum)
+static const char* bx_dbg_ivt_desc(int intnum)
 {
   const char* ret;
   switch (intnum) {
