@@ -69,13 +69,13 @@ BX_CPU_C::return_protected(bxInstruction_c *i, Bit16u pop_bytes)
   else
 #endif
   if (i->os32L()) {
-    raw_cs_selector = (Bit16u) read_virtual_dword(BX_SEG_REG_SS, temp_RSP + 4);
-    return_RIP      =          read_virtual_dword(BX_SEG_REG_SS, temp_RSP);
+    raw_cs_selector = (Bit16u) read_virtual_dword_32(BX_SEG_REG_SS, temp_RSP + 4);
+    return_RIP      =          read_virtual_dword_32(BX_SEG_REG_SS, temp_RSP);
     stack_param_offset = 8;
   }
   else {
-    raw_cs_selector = read_virtual_word(BX_SEG_REG_SS, temp_RSP + 2);
-    return_RIP      = read_virtual_word(BX_SEG_REG_SS, temp_RSP);
+    raw_cs_selector = read_virtual_word_32(BX_SEG_REG_SS, temp_RSP + 2);
+    return_RIP      = read_virtual_word_32(BX_SEG_REG_SS, temp_RSP);
     stack_param_offset = 4;
   }
 
@@ -139,18 +139,18 @@ BX_CPU_C::return_protected(bxInstruction_c *i, Bit16u pop_bytes)
 
 #if BX_SUPPORT_X86_64
     if (i->os64L()) {
-      raw_ss_selector = read_virtual_word_64 (BX_SEG_REG_SS, temp_RSP + 24 + pop_bytes);
+      raw_ss_selector = read_virtual_word_64(BX_SEG_REG_SS, temp_RSP + 24 + pop_bytes);
       return_RSP      = read_virtual_qword_64(BX_SEG_REG_SS, temp_RSP + 16 + pop_bytes);
     }
     else
 #endif
     if (i->os32L()) {
-      raw_ss_selector = read_virtual_word (BX_SEG_REG_SS, temp_RSP + 12 + pop_bytes);
-      return_RSP      = read_virtual_dword(BX_SEG_REG_SS, temp_RSP +  8 + pop_bytes);
+      raw_ss_selector = read_virtual_word_32(BX_SEG_REG_SS, temp_RSP + 12 + pop_bytes);
+      return_RSP      = read_virtual_dword_32(BX_SEG_REG_SS, temp_RSP +  8 + pop_bytes);
     }
     else {
-      raw_ss_selector = read_virtual_word(BX_SEG_REG_SS, temp_RSP + 6 + pop_bytes);
-      return_RSP      = read_virtual_word(BX_SEG_REG_SS, temp_RSP + 4 + pop_bytes);
+      raw_ss_selector = read_virtual_word_32(BX_SEG_REG_SS, temp_RSP + 6 + pop_bytes);
+      return_RSP      = read_virtual_word_32(BX_SEG_REG_SS, temp_RSP + 4 + pop_bytes);
     }
 
     /* selector index must be within its descriptor table limits,

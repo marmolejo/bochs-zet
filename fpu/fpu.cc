@@ -406,7 +406,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FRSTOR(bxInstruction_c *i)
   /* read all registers in stack order */
   for(int n=0;n<8;n++)
   {
-     read_virtual_tword(i->seg(), RMAddr(i) + offset + n*10, &tmp);
+     tmp.fraction = read_virtual_qword(i->seg(), RMAddr(i) + offset + n*10);
+     tmp.exp      = read_virtual_word (i->seg(), RMAddr(i) + offset + n*10 + 8);
+
      // update tag only if it is not empty
      BX_WRITE_FPU_REGISTER_AND_TAG(tmp,
               IS_TAG_EMPTY(n) ? FPU_Tag_Empty : FPU_tagof(tmp), n);
@@ -428,7 +430,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FNSAVE(bxInstruction_c *i)
   for(int n=0;n<8;n++)
   {
      floatx80 stn = BX_READ_FPU_REG(n);
-     write_virtual_tword(i->seg(), RMAddr(i) + offset + n*10, &stn);
+     write_virtual_qword(i->seg(), RMAddr(i) + offset + n*10,     stn.fraction);
+     write_virtual_word (i->seg(), RMAddr(i) + offset + n*10 + 8, stn.exp);
   }
 
   BX_CPU_THIS_PTR the_i387.init();
