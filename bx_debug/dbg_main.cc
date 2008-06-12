@@ -520,7 +520,10 @@ void bx_dbg_interrupt(unsigned cpu, Bit8u vector, Bit16u error_code)
 
 void bx_dbg_halt(unsigned cpu)
 {
-  dbg_printf("CPU %d: HALTED\n", cpu);
+  if (BX_CPU(dbg_cpu)->trace)
+  {
+    dbg_printf("CPU %d: HALTED\n", cpu);
+  }
 }
 
 void bx_dbg_check_memory_access_watchpoints(unsigned cpu, bx_phy_address phy, unsigned len, unsigned rw)
