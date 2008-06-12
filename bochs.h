@@ -403,7 +403,11 @@ typedef class BOCHSAPI iofunctions iofunc_t;
 #define BX_PANIC(x) (LOG_THIS panic) x
 #define BX_PASS(x) (LOG_THIS pass) x
 
-#define BX_ASSERT(x) do {if (!(x)) BX_PANIC(("failed assertion \"%s\" at %s:%d\n", #x, __FILE__, __LINE__));} while (0)
+#if BX_ASSERT_ENABLE
+  #define BX_ASSERT(x) do {if (!(x)) BX_PANIC(("failed assertion \"%s\" at %s:%d\n", #x, __FILE__, __LINE__));} while (0)
+#else
+  #define BX_ASSERT(x)
+#endif
 
 #endif
 
