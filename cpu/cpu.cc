@@ -171,9 +171,7 @@ no_async_event:
     }
 #else
     bxInstruction_c iStorage, *i = &iStorage;
-    unsigned remainingInPage = BX_CPU_THIS_PTR eipPageWindowSize - eipBiased;
-    const Bit8u *fetchPtr = BX_CPU_THIS_PTR eipFetchPtr + eipBiased;
-    fetchInstruction(i, fetchPtr, remainingInPage);
+    fetchInstruction(i, eipBiased);
 #endif
 
 #if BX_SUPPORT_TRACE_CACHE
