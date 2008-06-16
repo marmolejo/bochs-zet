@@ -1166,7 +1166,7 @@ void BX_CPU_C::handleCpuModeChange(void)
     if (BX_CPU_THIS_PTR cr0.get_PE()) {
       if (BX_CPU_THIS_PTR get_VM()) {
         BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_V8086;
-        BX_ASSERT(CPL == 3);
+//      BX_ASSERT(CPL == 3);
       }
       else
         BX_CPU_THIS_PTR cpu_mode = BX_MODE_IA32_PROTECTED;
