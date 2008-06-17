@@ -259,13 +259,15 @@ bx_local_apic_c::bx_local_apic_c(BX_CPU_C *mycpu)
             BX_CPU(0)->local_apic.periodic_smf, 0, 0, 0, "lapic");
   timer_active = 0;
 
-  reset();
+  reset(BX_RESET_HARDWARE);
 	
   INTR = 0;
 }
 
-void bx_local_apic_c::reset()
+void bx_local_apic_c::reset(unsigned type)
 {
+  UNUSED(type);
+
   /* same as INIT but also sets arbitration ID and APIC ID */
   init();
 }
