@@ -1536,7 +1536,7 @@ bx_serial_c::fifo_timer(void)
   void
 bx_serial_c::serial_mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state)
 {
-  Bit8u b1, b2, b3, mouse_data[4];
+  Bit8u b1, b2, b3, mouse_data[5];
   int bytes, tail;
 
   if (BX_SER_THIS mouse_port == -1) {
