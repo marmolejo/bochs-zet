@@ -126,9 +126,14 @@ static void do_scan(int key_event, int shift, int ctrl, int alt)
 
 Bit32u bx_term_gui_c::get_sighandler_mask()
 {
-  return (1<<SIGHUP)
+  return 0
+#ifdef SIGHUP
+       | (1<<SIGHUP)
+#endif
        | (1<<SIGINT)
+#ifdef SIGQUIT
        | (1<<SIGQUIT)
+#endif
 #ifdef SIGSTOP
        | (1<<SIGSTOP)
 #endif
@@ -154,9 +159,11 @@ void bx_term_gui_c::sighandler(int signo)
       do_scan(BX_KEY_Z,0,1,0);
       break;
 #endif
+#ifdef SIGHUP
     case SIGHUP:
       BX_PANIC(("Received SIGHUP: quit simulation"));
       break;
+#endif
     default:
       BX_INFO(("sig %d caught",signo));
       break;
@@ -200,9 +207,9 @@ void bx_term_gui_c::specific_init(int argc, char **argv, unsigned tilewidth, uns
 
 #if BX_HAVE_COLOR_SET
   if (has_colors()) {
-    for (int i=0; i<COLORS; i++) {
-      for (int j=0; j<COLORS; j++) {
-        if ((i!=0)||(j!=0)) init_pair(i * COLORS + j, j, i);
+    for (int i=0; i<8; i++) {
+      for (int j=0; j<8; j++) {
+        if ((i!=0)||(j!=0)) init_pair(i * 8 + j, j, i);
       }
     }
   }
