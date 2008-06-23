@@ -922,7 +922,7 @@ public: // for now...
   bxICache_c iCache BX_CPP_AlignN(32);
   Bit32u fetchModeMask;
   const Bit32u *currPageWriteStampPtr;
-  void updateFetchModeMask(void);
+  BX_SMF void updateFetchModeMask(void);
 #endif
 
   struct {
@@ -3331,7 +3331,7 @@ BX_CPP_INLINE void BX_CPU_C::prepareXSAVE(void)
 
 BX_CPP_INLINE void BX_CPU_C::updateFetchModeMask(void)
 {
-  fetchModeMask =
+  BX_CPU_THIS_PTR fetchModeMask =
 #if BX_SUPPORT_X86_64
     ((BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)<<30) |
 #endif

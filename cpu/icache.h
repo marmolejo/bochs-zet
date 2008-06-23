@@ -140,14 +140,15 @@ public:
 
   BX_CPP_INLINE unsigned hash(bx_phy_address pAddr) const
   {
-    // A pretty dumb hash function for now.
     return (pAddr + (pAddr << 2) + (pAddr>>6)) & (BxICacheEntries-1);
   }
 
 #if BX_SUPPORT_TRACE_CACHE
   BX_CPP_INLINE void alloc_trace(bxICacheEntry_c *e)
   {
-    if (mempool + BX_MAX_TRACE_LENGTH > BxICacheMemPool) flushICacheEntries();
+    if (mempool + BX_MAX_TRACE_LENGTH > BxICacheMemPool) {
+      flushICacheEntries();
+    }
     e->i = &pool[mempool];
     e->ilen = 0;
   }
