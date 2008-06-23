@@ -645,7 +645,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_RdCd(bxInstruction_c *i)
       val_32 = (Bit32u) BX_CPU_THIS_PTR cr3;
       break;
     case 4: // CR4
-#if BX_CPU_LEVEL < 4
+#if BX_CPU_LEVEL > 3
       BX_DEBUG(("MOV_RdCd: read of CR4"));
       val_32 = BX_CPU_THIS_PTR cr4.getRegister();
 #endif
