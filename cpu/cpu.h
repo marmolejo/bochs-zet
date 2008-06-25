@@ -2829,9 +2829,9 @@ public: // for now...
     BX_CPU_THIS_PTR eipPageWindowSize = 0;
   }
 
-  BX_SMF void write_virtual_checks(bx_segment_reg_t *seg, Bit32u offset, unsigned len) BX_CPP_AttrRegparmN(3);
-  BX_SMF void read_virtual_checks(bx_segment_reg_t *seg, Bit32u offset, unsigned len) BX_CPP_AttrRegparmN(3);
-  BX_SMF void execute_virtual_checks(bx_segment_reg_t *seg, Bit32u offset, unsigned len) BX_CPP_AttrRegparmN(3);
+  BX_SMF bx_bool write_virtual_checks(bx_segment_reg_t *seg, Bit32u offset, unsigned len) BX_CPP_AttrRegparmN(3);
+  BX_SMF bx_bool read_virtual_checks(bx_segment_reg_t *seg, Bit32u offset, unsigned len) BX_CPP_AttrRegparmN(3);
+  BX_SMF bx_bool execute_virtual_checks(bx_segment_reg_t *seg, Bit32u offset, unsigned len) BX_CPP_AttrRegparmN(3);
 
   BX_SMF Bit8u read_virtual_byte_32(unsigned seg, Bit32u offset) BX_CPP_AttrRegparmN(2);
   BX_SMF Bit16u read_virtual_word_32(unsigned seg, Bit32u offset) BX_CPP_AttrRegparmN(2);
@@ -3073,7 +3073,6 @@ public: // for now...
                   BX_CPP_AttrNoReturn();
   BX_SMF void smram_save_state(Bit32u *smm_saved_state);
   BX_SMF bx_bool smram_restore_state(const Bit32u *smm_saved_state);
-  BX_SMF int  int_number(bx_segment_reg_t *seg);
   BX_SMF int  int_number(unsigned s);
   BX_SMF void SetCR0(Bit32u val_32) BX_CPP_AttrRegparmN(1);
   BX_SMF void SetCR3(bx_address value) BX_CPP_AttrRegparmN(1);
