@@ -2931,7 +2931,10 @@ modrm_done:
   i->setB1(b1);
   i->setILen(ilen);
 
+#if BX_INSTRUMENTATION
+  i->ia_opcode = ia_opcode;
   BX_INSTR_FETCH_DECODE_COMPLETED(BX_CPU_ID, i);
+#endif
 
   return(1);
 }

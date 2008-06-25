@@ -1923,7 +1923,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MONITOR(bxInstruction_c *i)
 
   // check if we could access the memory segment
   if (!(seg->cache.valid & SegAccessROK4G)) {
-    read_virtual_checks(&BX_CPU_THIS_PTR sregs[i->seg()], offset, 1);
+    if (! read_virtual_checks(&BX_CPU_THIS_PTR sregs[i->seg()], offset, 1))
+      exception(int_number(i->seg()), 0, 0);
   }
 
   // set MONITOR

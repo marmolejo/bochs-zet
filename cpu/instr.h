@@ -45,6 +45,9 @@ public:
   // the memory address (if any).
   BxExecutePtr_tR ResolveModrm;
   BxExecutePtr_tR execute;
+#if BX_INSTRUMENTATION
+  Bit16u ia_opcode;
+#endif
 
   struct {
     //  7...2 (unused)
