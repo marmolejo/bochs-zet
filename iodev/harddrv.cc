@@ -1467,10 +1467,16 @@ void bx_hard_drive_c::write(Bit32u address, Bit32u value, unsigned io_len)
                 }
                 break;
 
-              case 0x5a: // mode sense
+              case 0x1a: // mode sense (6)
+              case 0x5a: // mode sense (10)
                 {
-                  Bit16u alloc_length = read_16bit(BX_SELECTED_CONTROLLER(channel).buffer + 7);
+                  Bit16u alloc_length;
 
+                  if (atapi_command == 0x5a) {
+                    alloc_length = read_16bit(BX_SELECTED_CONTROLLER(channel).buffer + 7);
+                  } else {
+                    alloc_length = BX_SELECTED_CONTROLLER(channel).buffer[4];
+                  }
                   Bit8u PC = BX_SELECTED_CONTROLLER(channel).buffer[2] >> 6;
                   Bit8u PageCode = BX_SELECTED_CONTROLLER(channel).buffer[2] & 0x3f;
 
@@ -3200,14 +3206,10 @@ bx_hard_drive_c::atapi_cmd_nop(Bit8u channel)
 
 void bx_hard_drive_c::init_mode_sense_single(Bit8u channel, const void* src, int size)
 {
-  char ata_name[20];
-
   // Header
   BX_SELECTED_CONTROLLER(channel).buffer[0] = (size+6) >> 8;
   BX_SELECTED_CONTROLLER(channel).buffer[1] = (size+6) & 0xff;
-  sprintf(ata_name, "ata.%d.%s", channel, BX_HD_THIS channels[channel].drive_select?"slave":"master");
-  bx_list_c *base = (bx_list_c*) SIM->get_param(ata_name);
-  if (SIM->get_param_enum("status", base)->get() == BX_INSERTED)
+  if (BX_SELECTED_DRIVE(channel).cdrom.ready)
     BX_SELECTED_CONTROLLER(channel).buffer[2] = 0x12; // media present 120mm CD-ROM (CD-R) data/audio  door closed
   else
     BX_SELECTED_CONTROLLER(channel).buffer[2] = 0x70; // no media present
