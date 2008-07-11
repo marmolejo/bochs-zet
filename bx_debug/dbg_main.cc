@@ -2304,9 +2304,11 @@ void bx_dbg_examine_command(char *command, char *format, bx_bool format_passed,
       }
     }
 
-    // store current options as default
-    bx_debugger.default_display_format = display_format;
-    bx_debugger.default_unit_size      = unit_size;
+    if (format_passed) {
+      // store current options as default
+      bx_debugger.default_display_format = display_format;
+      bx_debugger.default_unit_size      = unit_size;
+    }
   }
 
   if ((display_format == 'i') || (display_format == 's')) {
