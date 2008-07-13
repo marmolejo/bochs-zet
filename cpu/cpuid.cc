@@ -321,7 +321,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CPUID(bxInstruction_c *i)
   RDX = 0;
 #else
   BX_INFO(("CPUID: not available on < 486"));
-  UndefinedOpcode(i);
+  exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
 

@@ -344,7 +344,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::XADD_EbGbM(bxInstruction_c *i)
   SET_FLAGS_OSZAPC_ADD_8(op1, op2, sum);
 #else
   BX_INFO(("XADD_EbGb: not supported on < 80486"));
-  UndefinedOpcode(i);
+  exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
 
@@ -373,7 +373,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::XADD_EbGbR(bxInstruction_c *i)
   SET_FLAGS_OSZAPC_ADD_8(op1, op2, sum);
 #else
   BX_INFO(("XADD_EbGb: not supported on < 80486"));
-  UndefinedOpcode(i);
+  exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
 
@@ -562,7 +562,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CMPXCHG_EbGbM(bxInstruction_c *i)
 
 #else
   BX_INFO(("CMPXCHG_EbGb: not supported for cpulevel <= 3"));
-  UndefinedOpcode(i);
+  exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
 
@@ -587,6 +587,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CMPXCHG_EbGbR(bxInstruction_c *i)
 
 #else
   BX_INFO(("CMPXCHG_EbGb: not supported for cpulevel <= 3"));
-  UndefinedOpcode(i);
+  exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }

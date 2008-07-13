@@ -375,7 +375,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::XADD_EwGwM(bxInstruction_c *i)
   SET_FLAGS_OSZAPC_ADD_16(op1_16, op2_16, sum_16);
 #else
   BX_INFO(("XADD_EwGw: not supported on < 80486"));
-  UndefinedOpcode(i);
+  exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
 
@@ -404,7 +404,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::XADD_EwGwR(bxInstruction_c *i)
   SET_FLAGS_OSZAPC_ADD_16(op1_16, op2_16, sum_16);
 #else
   BX_INFO(("XADD_EwGw: not supported on < 80486"));
-  UndefinedOpcode(i);
+  exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
 
@@ -572,7 +572,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CMPXCHG_EwGwM(bxInstruction_c *i)
   }
 #else
   BX_INFO(("CMPXCHG_EwGw: not supported for cpu-level <= 3"));
-  UndefinedOpcode(i);
+  exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
 
@@ -596,6 +596,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CMPXCHG_EwGwR(bxInstruction_c *i)
   }
 #else
   BX_INFO(("CMPXCHG_EwGw: not supported for cpu-level <= 3"));
-  UndefinedOpcode(i);
+  exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }

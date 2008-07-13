@@ -603,7 +603,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FISTTP16(bxInstruction_c *i)
   BX_CPU_THIS_PTR the_i387.FPU_pop();
 #else
   BX_INFO(("FISTTP16: required SSE3, use --enable-sse option"));
-  UndefinedOpcode(i);
+  exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
 
@@ -639,7 +639,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FISTTP32(bxInstruction_c *i)
   BX_CPU_THIS_PTR the_i387.FPU_pop();
 #else
   BX_INFO(("FISTTP32: required SSE3, use --enable-sse option"));
-  UndefinedOpcode(i);
+  exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
 
@@ -675,7 +675,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FISTTP64(bxInstruction_c *i)
   BX_CPU_THIS_PTR the_i387.FPU_pop();
 #else
   BX_INFO(("FISTTP64: required SSE3, use --enable-sse option"));
-  UndefinedOpcode(i);
+  exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
 

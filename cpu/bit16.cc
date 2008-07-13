@@ -387,7 +387,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::POPCNT_GwEw(bxInstruction_c *i)
   BX_WRITE_16BIT_REG(i->nnn(), op1_16);
 #else
   BX_INFO(("POPCNT_GwEw: required POPCNT support, use --enable-popcnt option"));
-  UndefinedOpcode(i);
+  exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
 

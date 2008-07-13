@@ -576,7 +576,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::INVLPG(bxInstruction_c* i)
   TLB_invlpg(laddr);
 #else
   BX_INFO(("INVLPG: required i486, use --enable-cpu=4 option"));
-  UndefinedOpcode(i);
+  exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
 

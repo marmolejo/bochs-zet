@@ -2951,5 +2951,5 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::BxError(bxInstruction_c *i)
   BX_DEBUG(("modrm was 0x%02x, nnn was %u, rm was %u", i->modrm(), i->nnn(), i->rm()));
   BX_DEBUG(("WARNING: Encountered an unknown instruction (signalling #UD)"));
 
-  BX_CPU_THIS_PTR UndefinedOpcode(i);
+  exception(BX_UD_EXCEPTION, 0, 0);
 }

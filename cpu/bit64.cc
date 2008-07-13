@@ -372,7 +372,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::POPCNT_GqEq(bxInstruction_c *i)
   BX_WRITE_64BIT_REG(i->nnn(), op1_64);
 #else
   BX_INFO(("POPCNT_GqEq: required POPCNT support, use --enable-popcnt option"));
-  UndefinedOpcode(i);
+  exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
 
