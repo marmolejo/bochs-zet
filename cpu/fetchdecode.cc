@@ -184,8 +184,8 @@ static unsigned sreg_mod1or2_base32[8] = {
 #include "fetchdecode.h"
 
 // table of all Bochs opcodes
-BxExecutePtr_tR BxOpcodesTable[] = {
-#define bx_define_opcode(a, b) &b,
+bxIAOpcodeTable BxOpcodesTable[] = {
+#define bx_define_opcode(a, b, c) { &b, c },
 #include "ia_opcodes.h"
 };
 #undef  bx_define_opcode
@@ -2927,7 +2927,13 @@ modrm_done:
      i->setStopTraceAttr();
 #endif
 
-  i->execute = BxOpcodesTable[ia_opcode];
+  i->execute = BxOpcodesTable[ia_opcode].execute;
+
+  if (BxOpcodesTable[ia_opcode].attr == BxArithDstRM) {
+    i->setRm(nnn);
+    i->setNnn(rm);
+  }
+
   i->setB1(b1);
   i->setILen(ilen);
 

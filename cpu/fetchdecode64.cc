@@ -169,11 +169,11 @@ static unsigned sreg_mod1or2_base32[16] = {
   BX_SEG_REG_DS
 };
 
-// table of all Bochs opcodes
-extern BxExecutePtr_tR BxOpcodesTable[];
-
 // common fetchdecode32/64 opcode tables
 #include "fetchdecode.h"
+
+// table of all Bochs opcodes
+extern struct bxIAOpcodeTable BxOpcodesTable[];
 
 // 512 entries for 16bit operand size
 // 512 entries for 32bit operand size
@@ -3848,7 +3848,13 @@ modrm_done:
      i->setStopTraceAttr();
 #endif
 
-  i->execute = BxOpcodesTable[ia_opcode];
+  i->execute = BxOpcodesTable[ia_opcode].execute;
+
+  if (BxOpcodesTable[ia_opcode].attr == BxArithDstRM) {
+    i->setRm(nnn);
+    i->setNnn(rm);
+  }
+
   i->setB1(b1);
   i->setILen(ilen);
 

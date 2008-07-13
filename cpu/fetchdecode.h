@@ -59,8 +59,13 @@ BX_CPP_INLINE Bit64u FetchQWORD(const Bit8u *iptr)
 }
 #endif
 
+struct bxIAOpcodeTable {
+  BxExecutePtr_tR execute;
+  Bit16u attr;
+};
+
 enum {
-#define bx_define_opcode(a, b) a,
+#define bx_define_opcode(a, b, c) a,
 #include "ia_opcodes.h"
    BX_IA_LAST
 };
