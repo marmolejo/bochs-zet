@@ -51,11 +51,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_EqGqM(bxInstruction_c *i)
   write_virtual_qword_64(i->seg(), RMAddr(i), BX_READ_64BIT_REG(i->nnn()));
 }
 
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_EqGqR(bxInstruction_c *i)
-{
-  BX_WRITE_64BIT_REG(i->rm(), BX_READ_64BIT_REG(i->nnn()));
-}
-
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_GqEqM(bxInstruction_c *i)
 {
   BX_CPU_CALL_METHODR(i->ResolveModrm, (i));

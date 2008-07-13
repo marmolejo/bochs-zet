@@ -59,11 +59,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_EdGdM(bxInstruction_c *i)
   write_virtual_dword(i->seg(), RMAddr(i), BX_READ_32BIT_REG(i->nnn()));
 }
 
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_EdGdR(bxInstruction_c *i)
-{
-  BX_WRITE_32BIT_REGZ(i->rm(), BX_READ_32BIT_REG(i->nnn()));
-}
-
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_GdEdR(bxInstruction_c *i)
 {
   BX_WRITE_32BIT_REGZ(i->nnn(), BX_READ_32BIT_REG(i->rm()));

@@ -47,12 +47,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_EbGbM(bxInstruction_c *i)
   write_virtual_byte(i->seg(), RMAddr(i), BX_READ_8BIT_REGx(i->nnn(), i->extend8bitL()));
 }
 
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_EbGbR(bxInstruction_c *i)
-{
-  Bit8u op2 = BX_READ_8BIT_REGx(i->nnn(), i->extend8bitL());
-  BX_WRITE_8BIT_REGx(i->rm(), i->extend8bitL(), op2);
-}
-
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_GbEbM(bxInstruction_c *i)
 {
   BX_CPU_CALL_METHODR(i->ResolveModrm, (i));

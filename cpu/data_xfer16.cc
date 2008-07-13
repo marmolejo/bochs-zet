@@ -49,11 +49,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_EwGwM(bxInstruction_c *i)
   write_virtual_word(i->seg(), RMAddr(i), BX_READ_16BIT_REG(i->nnn()));
 }
 
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_EwGwR(bxInstruction_c *i)
-{
-  BX_WRITE_16BIT_REG(i->rm(), BX_READ_16BIT_REG(i->nnn()));
-}
-
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_GwEwR(bxInstruction_c *i)
 {
   BX_WRITE_16BIT_REG(i->nnn(), BX_READ_16BIT_REG(i->rm()));
