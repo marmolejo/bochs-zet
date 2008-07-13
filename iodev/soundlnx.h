@@ -68,14 +68,14 @@ private:
   bx_sb16_c *sb16;
   FILE *midi;
 #if BX_HAVE_ALSASOUND
+  bx_bool use_alsa_pcm;
   snd_pcm_t *handle;
   snd_pcm_uframes_t frames;
   int dir, alsa_bufsize, audio_bufsize;
   char *alsa_buffer;
-#else
+#endif
   char *wavedevice;
   int wave;
-#endif
   Bit8u audio_buffer[BX_SOUND_LINUX_BUFSIZE];
   int oldfreq,oldbits,oldstereo,oldformat;
 };
