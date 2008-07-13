@@ -30,8 +30,6 @@
 #include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
-#if BX_CPU_LEVEL >= 2
-
 // Notes:
 // ======
 
@@ -760,5 +758,3 @@ void BX_CPU_C::get_RSP_from_TSS(unsigned pl, Bit64u *rsp)
     TSSstackaddr, 8, 0, BX_READ, rsp);
 }
 #endif  // #if BX_SUPPORT_X86_64
-
-#endif
