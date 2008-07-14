@@ -155,6 +155,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FPTAN(bxInstruction_c *i)
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FPATAN(bxInstruction_c *i)
 {
 #if BX_SUPPORT_FPU
+  BX_CPU_THIS_PTR prepareFPU(i);
 
   clear_C1();
 
