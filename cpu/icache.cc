@@ -92,11 +92,13 @@ void BX_CPU_C::serveICacheMiss(bxICacheEntry_c *cache_entry, Bit32u eipBiased, b
 
   unsigned remainingInPage = BX_CPU_THIS_PTR eipPageWindowSize - eipBiased;
   const Bit8u *fetchPtr = BX_CPU_THIS_PTR eipFetchPtr + eipBiased;
-  unsigned ret;
+  unsigned ret, max_length = BX_MAX_TRACE_LENGTH;
 
   bxInstruction_c *i = cache_entry->i;
 
-  for (unsigned n=0;n<BX_MAX_TRACE_LENGTH;n++)
+  if (BX_CPU_THIS_PTR async_event) max_length = 1;
+
+  for (unsigned n=0;n<max_length;n++)
   {
 #if BX_SUPPORT_X86_64
     if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)
