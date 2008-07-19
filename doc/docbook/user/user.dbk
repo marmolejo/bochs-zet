@@ -3727,7 +3727,9 @@ are in the usual "property=value" format.
    midi: The filename is where the midi data is sent to. This
    can be a device or just a file if you want to record the midi data.
    On a Windows host this parameter is ignored when using output to the sound
-   device.
+   device. On a Linux host with ALSA present and this parameter starting with
+   "alsa:", the default sequencer device will be used with the given client
+   and port parameters instead of an OSS device.
    </para></listitem>
 
    <listitem><para>
