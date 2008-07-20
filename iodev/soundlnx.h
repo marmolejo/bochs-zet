@@ -73,8 +73,6 @@ private:
   bx_bool use_alsa_pcm;
   struct {
     snd_seq_t *handle;
-    int client;
-    int queue;
     int source_port;
   } alsa_seq;
   struct {
