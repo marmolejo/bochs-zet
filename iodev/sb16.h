@@ -135,7 +135,6 @@ typedef struct {
   int opnum[4];     // operator numbers
   Bit16u freq;      // frequency (in a special code)
   Bit32u afreq;     // actual frequency in milli-Hertz (10^-3 Hz)
-  bx_bool freqch;   // byte of the frequency that has changed recently
   Bit8u midichan;   // assigned midi channel
   bx_bool needprogch;  // has the instrument changed
   Bit8u midinote;   // currently playing midi note
