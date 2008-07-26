@@ -2949,7 +2949,7 @@ public: // for now...
   write_virtual_dword_32(seg, offset, data)
 #define write_virtual_qword(seg, offset, data) \
   write_virtual_qword_32(seg, offset, data)
-#define write_virtual_qword(seg, offset, data) \
+#define write_virtual_dqword(seg, offset, data) \
   write_virtual_dqword_32(seg, offset, (const BxPackedXmmRegister*)(data))
 
 // read
