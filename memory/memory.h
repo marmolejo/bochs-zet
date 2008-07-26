@@ -159,9 +159,7 @@ BX_CPP_INLINE Bit32u BX_MEM_C::get_num_allocated_pages(void)
 }
 
 #if BX_DEBUGGER
-#  define BX_DBG_DIRTY_PAGE(page) BX_MEM(0)->dbg_dirty_pages[page] = 1;
-#else
-#  define BX_DBG_DIRTY_PAGE(page)
+  #define BX_DBG_DIRTY_PAGE(page) BX_MEM(0)->dbg_dirty_pages[page] = 1;
 #endif
 
 #endif
