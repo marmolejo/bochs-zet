@@ -76,14 +76,14 @@ public:
     if ((pageWriteStampTable[pAddr] & ICacheWriteStampFetchModeMask) != ICacheWriteStampFetchModeMask)
     {
       handleSMC(); // one of the CPUs might be running trace from this page
+      // Decrement page write stamp, so iCache entries with older stamps are
+      // effectively invalidated.
+      pageWriteStampTable[pAddr]--;
     }
 #endif
 #if BX_DEBUGGER
     BX_DBG_DIRTY_PAGE(pAddr);
 #endif
-    // Decrement page write stamp, so iCache entries with older stamps are
-    // effectively invalidated.
-    pageWriteStampTable[pAddr]--;
   }
 
   BX_CPP_INLINE void resetWriteStamps(void);
