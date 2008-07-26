@@ -41,7 +41,7 @@
 
 #include "soundwin.h"
 
-#define LOG_THIS bx_devices.pluginSB16Device->
+#define LOG_THIS sb16->
 
 bx_sound_windows_c::bx_sound_windows_c(bx_sb16_c *sb16)
   :bx_sound_output_c(sb16)

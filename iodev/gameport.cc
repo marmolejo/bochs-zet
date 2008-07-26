@@ -62,7 +62,6 @@ bx_gameport_c *theGameport = NULL;
 int libgameport_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   theGameport = new bx_gameport_c();
-  bx_devices.pluginGameport = theGameport;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, theGameport, BX_PLUGIN_GAMEPORT);
   return(0); // Success
 }

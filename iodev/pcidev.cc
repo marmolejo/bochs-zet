@@ -46,7 +46,6 @@ bx_pcidev_c* thePciDevAdapter = NULL;
 int libpcidev_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   thePciDevAdapter = new bx_pcidev_c();
-  bx_devices.pluginPciDevAdapter = thePciDevAdapter;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, thePciDevAdapter, BX_PLUGIN_PCIDEV);
   return 0; // Success
 }
@@ -69,7 +68,7 @@ bx_pcidev_c::~bx_pcidev_c()
 
 static void pcidev_sighandler(int param)
 {
-  bx_pcidev_c *pcidev = (bx_pcidev_c *)bx_devices.pluginPciDevAdapter;
+  bx_pcidev_c *pcidev = thePciDevAdapter;
   BX_INFO(("Interrupt received."));
   DEV_pci_set_irq(pcidev->devfunc, pcidev->intpin, 0);
   /*

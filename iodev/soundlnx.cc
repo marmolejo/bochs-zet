@@ -36,7 +36,7 @@
 
 #if (defined(linux) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__)) && BX_SUPPORT_SB16
 
-#define LOG_THIS bx_devices.pluginSB16Device->
+#define LOG_THIS sb16->
 
 #include "soundlnx.h"
 

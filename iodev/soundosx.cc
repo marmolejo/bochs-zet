@@ -20,7 +20,7 @@
 
 #if defined(macintosh) && BX_SUPPORT_SB16
 
-#define LOG_THIS bx_devices.pluginSB16Device->
+#define LOG_THIS sb16->
 
 #include "soundosx.h"
 

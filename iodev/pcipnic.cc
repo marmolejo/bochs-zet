@@ -40,7 +40,6 @@ const Bit8u pnic_iomask[16] = {2, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 int libpcipnic_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   thePNICDevice = new bx_pcipnic_c();
-  bx_devices.pluginPciPNicAdapter = thePNICDevice;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, thePNICDevice, BX_PLUGIN_PCIPNIC);
   return 0; // Success
 }

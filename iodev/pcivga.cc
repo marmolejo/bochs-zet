@@ -43,7 +43,6 @@ bx_pcivga_c* thePciVgaAdapter = 0;
 int libpcivga_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   thePciVgaAdapter = new bx_pcivga_c();
-  bx_devices.pluginPciVgaAdapter = thePciVgaAdapter;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, thePciVgaAdapter, BX_PLUGIN_PCIVGA);
   return 0; // Success
 }

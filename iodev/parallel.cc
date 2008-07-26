@@ -42,7 +42,6 @@ bx_parallel_c *theParallelDevice = NULL;
 int libparallel_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   theParallelDevice = new bx_parallel_c();
-  bx_devices.pluginParallelDevice = theParallelDevice;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, theParallelDevice, BX_PLUGIN_PARALLEL);
   return(0); // Success
 }
