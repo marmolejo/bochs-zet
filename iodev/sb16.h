@@ -285,8 +285,8 @@ private:
     int drumchannel;              // midi channel for percussion (10)
     int index[2];                 // index register for the two chips
     int wsenable[2];              // wave form select enable
-    int timer[4];                 // two timers on each chip
-    int timerinit[4];             // initial timer counts
+    Bit16u timer[4];              // two timers on each chip
+    Bit16u timerinit[4];          // initial timer counts
     int tmask[2];                 // the timer masking byte for both chips
     int tflag[2];                 // shows if the timer overflow has occured
     int percmode[2];              // percussion mode enabled
