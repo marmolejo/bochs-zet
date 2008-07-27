@@ -1176,7 +1176,7 @@ void bx_init_options()
         "model",
         "Model name",
         "String returned by the 'identify device' command",
-        "Generic 1234", 40);
+        "Generic 1234", 41);
       model->set_ask_format("Enter new model name: [%s]");
 
       bx_param_enum_c *biosdetect = new bx_param_enum_c(menu,

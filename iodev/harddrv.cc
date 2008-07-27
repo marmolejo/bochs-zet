@@ -284,6 +284,7 @@ void bx_hard_drive_c::init(void)
       while (strlen((char *)BX_HD_THIS channels[channel].drives[device].model_no) < 40) {
         strcat((char*)BX_HD_THIS channels[channel].drives[device].model_no, " ");
       }
+      BX_HD_THIS channels[channel].drives[device].model_no[40] = 0;
 
       if (SIM->get_param_enum("type", base)->get() == BX_ATA_DEVICE_DISK) {
         BX_DEBUG(("Hard-Disk on target %d/%d",channel,device));
