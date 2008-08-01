@@ -453,7 +453,7 @@ typedef struct {
 typedef struct bx_guard_found_t {
   unsigned long guard_found;
   unsigned iaddr_index;
-  Bit32u icount; // number of completed instructions
+  Bit64u icount; // number of completed instructions from last breakpoint hit
   Bit32u  cs; // cs:eip and linear addr of instruction at guard point
   bx_address eip;
   bx_address laddr;
