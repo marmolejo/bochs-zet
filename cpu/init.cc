@@ -751,8 +751,8 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.avl = 0;
 #endif
 
+  updateFetchModeMask();
 #if BX_SUPPORT_ICACHE
-  BX_CPU_THIS_PTR updateFetchModeMask();
   flushICaches();
 #endif
 

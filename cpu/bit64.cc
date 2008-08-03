@@ -34,7 +34,6 @@
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::BSF_GqEq(bxInstruction_c *i)
 {
-  /* for 64 bit operand size mode */
   Bit64u op1_64, op2_64;
 
   /* op2_64 is a register or memory reference */
@@ -67,7 +66,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::BSF_GqEq(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::BSR_GqEq(bxInstruction_c *i)
 {
-  /* for 64 bit operand size mode */
   Bit64u op1_64, op2_64;
 
   /* op2_64 is a register or memory reference */

@@ -110,9 +110,7 @@ BX_CPU_C::load_cs(bx_selector_t *selector, bx_descriptor_t *descriptor, Bit8u cp
   }
 #endif
 
-#if BX_SUPPORT_ICACHE
-  BX_CPU_THIS_PTR updateFetchModeMask();
-#endif
+  updateFetchModeMask();
 
 #if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
   handleAlignmentCheck(); // CPL was modified
