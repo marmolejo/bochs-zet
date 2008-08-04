@@ -552,12 +552,12 @@ BX_CPU_C::read_virtual_dqword_aligned_64(unsigned s, Bit64u offset, BxPackedXmmR
 #endif
 
   if (laddr & 15) {
-    BX_ERROR(("read_virtual_dqword__aligned_64(): #GP misaligned access"));
+    BX_ERROR(("read_virtual_dqword_aligned_64(): #GP misaligned access"));
     exception(BX_GP_EXCEPTION, 0, 0);
   }
 
   if (! IsCanonical(laddr) || ! IsCanonical(laddr+15)) {
-    BX_ERROR(("read_virtual_dqword__aligned_64(): canonical failure"));
+    BX_ERROR(("read_virtual_dqword_aligned_64(): canonical failure"));
     exception(int_number(s), 0, 0);
   }
 
