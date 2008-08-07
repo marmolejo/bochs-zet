@@ -243,7 +243,9 @@
 
 #endif
 
-#define CPL (BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.rpl)
+#define CPL       (BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.rpl)
+
+#define USER_PL   (BX_CPU_THIS_PTR user_pl) /* CPL == 3 */
 
 #if BX_SUPPORT_SMP
 #define BX_CPU_ID (BX_CPU_THIS_PTR bx_cpuid)
