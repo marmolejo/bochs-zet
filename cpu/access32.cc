@@ -335,7 +335,7 @@ accessOK:
     }
 #endif
     if (laddr & 15) {
-      BX_ERROR(("write_virtual_dqword_aligned(): #GP misaligned access"));
+      BX_ERROR(("write_virtual_dqword_aligned_32(): #GP misaligned access"));
       exception(BX_GP_EXCEPTION, 0, 0);
     }
     access_write_linear(laddr, 16, CPL, (void *) data);
@@ -647,7 +647,7 @@ accessOK:
     }
 #endif
     if (laddr & 15) {
-      BX_ERROR(("read_virtual_dqword_aligned(): #GP misaligned access"));
+      BX_ERROR(("read_virtual_dqword_aligned_32(): #GP misaligned access"));
       exception(BX_GP_EXCEPTION, 0, 0);
     }
     access_read_linear(laddr, 16, CPL, BX_READ, (void *) data);
