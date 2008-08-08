@@ -42,16 +42,16 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_RHIb(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_EbGbM(bxInstruction_c *i)
 {
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  write_virtual_byte(i->seg(), RMAddr(i), BX_READ_8BIT_REGx(i->nnn(), i->extend8bitL()));
+  write_virtual_byte(i->seg(), eaddr, BX_READ_8BIT_REGx(i->nnn(), i->extend8bitL()));
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_GbEbM(bxInstruction_c *i)
 {
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  Bit8u val8 = read_virtual_byte(i->seg(), RMAddr(i));
+  Bit8u val8 = read_virtual_byte(i->seg(), eaddr);
   BX_WRITE_8BIT_REGx(i->nnn(), i->extend8bitL(), val8);
 }
 
@@ -73,9 +73,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_OdAL(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_EbIbM(bxInstruction_c *i)
 {
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  write_virtual_byte(i->seg(), RMAddr(i), i->Ib());
+  write_virtual_byte(i->seg(), eaddr, i->Ib());
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::XLAT(bxInstruction_c *i)
@@ -102,10 +102,10 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::XCHG_EbGbM(bxInstruction_c *i)
 {
   Bit8u op1, op2;
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
   /* pointer, segment address pair */
-  op1 = read_RMW_virtual_byte(i->seg(), RMAddr(i));
+  op1 = read_RMW_virtual_byte(i->seg(), eaddr);
   op2 = BX_READ_8BIT_REGx(i->nnn(), i->extend8bitL());
 
   write_RMW_virtual_byte(op2);

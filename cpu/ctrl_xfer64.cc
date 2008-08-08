@@ -153,13 +153,13 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CALL_Jq(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::CALL_EqM(bxInstruction_c *i)
 {
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
 #if BX_DEBUGGER
   BX_CPU_THIS_PTR show_flag |= Flag_call;
 #endif
 
-  Bit64u op1_64 = read_virtual_qword_64(i->seg(), RMAddr(i));
+  Bit64u op1_64 = read_virtual_qword_64(i->seg(), eaddr);
 
   if (! IsCanonical(op1_64))
   {
@@ -201,11 +201,11 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CALL64_Ep(bxInstruction_c *i)
   BX_CPU_THIS_PTR show_flag |= Flag_call;
 #endif
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
   /* pointer, segment address pair */
-  Bit64u op1_64 = read_virtual_qword_64(i->seg(), RMAddr(i));
-  Bit16u cs_raw = read_virtual_word_64(i->seg(), RMAddr(i)+8);
+  Bit64u op1_64 = read_virtual_qword_64(i->seg(), eaddr);
+  Bit16u cs_raw = read_virtual_word_64(i->seg(), eaddr+8);
 
   BX_ASSERT(protected_mode());
 
@@ -445,9 +445,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::JNLE_Jq(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::JMP_EqM(bxInstruction_c *i)
 {
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  Bit64u op1_64 = read_virtual_qword_64(i->seg(), RMAddr(i));
+  Bit64u op1_64 = read_virtual_qword_64(i->seg(), eaddr);
 
   if (! IsCanonical(op1_64)) {
     BX_ERROR(("JMP_Eq: canonical RIP violation"));
@@ -478,10 +478,10 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::JMP64_Ep(bxInstruction_c *i)
 {
   invalidate_prefetch_q();
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  Bit64u op1_64 = read_virtual_qword_64(i->seg(), RMAddr(i));
-  Bit16u cs_raw = read_virtual_word_64(i->seg(), RMAddr(i)+8);
+  Bit64u op1_64 = read_virtual_qword_64(i->seg(), eaddr);
+  Bit16u cs_raw = read_virtual_word_64(i->seg(), eaddr+8);
 
   BX_ASSERT(protected_mode());
 

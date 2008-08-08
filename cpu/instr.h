@@ -28,11 +28,11 @@ class bxInstruction_c;
 
 // <TAG-TYPE-EXECUTEPTR-START>
 #if BX_USE_CPU_SMF
-typedef void (*BxExecutePtr_t)(bxInstruction_c *);
 typedef void (BX_CPP_AttrRegparmN(1) *BxExecutePtr_tR)(bxInstruction_c *);
+typedef bx_address (BX_CPP_AttrRegparmN(1) *BxResolvePtr_tR)(bxInstruction_c *);
 #else
-typedef void (BX_CPU_C::*BxExecutePtr_t)(bxInstruction_c *);
 typedef void (BX_CPU_C::*BxExecutePtr_tR)(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
+typedef bx_address (BX_CPU_C::*BxResolvePtr_tR)(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
 #endif
 // <TAG-TYPE-EXECUTEPTR-END>
 
@@ -43,7 +43,7 @@ public:
   // given the current state of the CPU and the instruction data,
   // and a function to execute the instruction after resolving
   // the memory address (if any).
-  BxExecutePtr_tR ResolveModrm;
+  BxResolvePtr_tR ResolveModrm;
   BxExecutePtr_tR execute;
 #if BX_INSTRUMENTATION
   Bit16u ia_opcode;
