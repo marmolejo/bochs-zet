@@ -3398,7 +3398,6 @@ fetch_b1:
       }
       return(0);
     case 0x0f: // 2 byte escape
-      i->setOpcodeExtension();
       if (ilen < remain) {
         ilen++;
         b1 = 0x100 | *iptr++;
