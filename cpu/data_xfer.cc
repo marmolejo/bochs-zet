@@ -55,3 +55,19 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LOAD_Wdq(bxInstruction_c *i)
   readVirtualDQwordAligned(i->seg(), eaddr, (Bit8u *)(&BX_READ_XMM_REG(BX_TMP_REGISTER)));
   BX_CPU_CALL_METHOD(i->execute2, (i));
 }
+
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::LOAD_Wss(bxInstruction_c *i)
+{
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  Bit32u val_32 = read_virtual_dword(i->seg(), eaddr);
+  BX_WRITE_XMM_REG_LO_DWORD(BX_TMP_REGISTER, val_32);
+  BX_CPU_CALL_METHOD(i->execute2, (i));
+}
+
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::LOAD_Wsd(bxInstruction_c *i)
+{
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  Bit64u val_64 = read_virtual_qword(i->seg(), eaddr);
+  BX_WRITE_XMM_REG_LO_QWORD(BX_TMP_REGISTER, val_64);
+  BX_CPU_CALL_METHOD(i->execute2, (i));
+}

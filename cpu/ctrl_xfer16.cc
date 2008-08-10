@@ -251,28 +251,6 @@ done:
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, EIP);
 }
 
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::CALL_EwM(bxInstruction_c *i)
-{
-  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
-
-#if BX_DEBUGGER
-  BX_CPU_THIS_PTR show_flag |= Flag_call;
-#endif
-
-  Bit16u op1_16 = read_virtual_word(i->seg(), eaddr);
-
-  if (op1_16 > BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.limit_scaled)
-  {
-    BX_ERROR(("CALL_Ew: IP out of CS limits!"));
-    exception(BX_GP_EXCEPTION, 0, 0);
-  }
-
-  push_16(IP);
-  RIP = op1_16;
-
-  BX_INSTR_UCNEAR_BRANCH(BX_CPU_ID, BX_INSTR_IS_CALL, EIP);
-}
-
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::CALL_EwR(bxInstruction_c *i)
 {
   Bit16u op1_16 = BX_READ_16BIT_REG(i->rm());
@@ -566,16 +544,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::JNLE_Jw(bxInstruction_c *i)
     BX_INSTR_CNEAR_BRANCH_NOT_TAKEN(BX_CPU_ID);
   }
 #endif
-}
-
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::JMP_EwM(bxInstruction_c *i)
-{
-  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
-
-  Bit16u new_IP = read_virtual_word(i->seg(), eaddr);
-  branch_near16(new_IP);
-
-  BX_INSTR_UCNEAR_BRANCH(BX_CPU_ID, BX_INSTR_IS_JMP, new_IP);
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::JMP_EwR(bxInstruction_c *i)
