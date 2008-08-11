@@ -1830,6 +1830,23 @@ AC_ARG_ENABLE(popcnt,
     ]
   )
 
+AC_MSG_CHECKING(for MOVBE instruction support)
+AC_ARG_ENABLE(movbe,
+  [  --enable-movbe                    support for MOVBE Intel Atom(R) instruction],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_SUPPORT_MOVBE, 1)
+   elif test "$enableval" = no; then
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SUPPORT_MOVBE, 0)
+   fi
+   ],
+  [
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SUPPORT_MOVBE, 0)
+  ]
+  )
+
 AC_MSG_CHECKING(for MONITOR/MWAIT instructions support (experimental))
 AC_ARG_ENABLE(monitor_mwait,
   [  --enable-monitor-mwait            support for MONITOR/MWAIT instructions (experimental)],
