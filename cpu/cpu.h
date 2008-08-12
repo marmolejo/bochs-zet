@@ -190,8 +190,8 @@
 #define BX_READ_64BIT_REG(index) (BX_CPU_THIS_PTR gen_reg[index].rrx)
 #else
 #define BX_READ_8BIT_REG(index)  (((index) & 4) ? \
-  (BX_CPU_THIS_PTR gen_reg[(index)-4].word.byte.rh)) : \
-  (BX_CPU_THIS_PTR gen_reg[index].word.byte.rl)
+  (BX_CPU_THIS_PTR gen_reg[(index)-4].word.byte.rh) : \
+  (BX_CPU_THIS_PTR gen_reg[index].word.byte.rl))
 #define BX_READ_8BIT_REGx(index,ext) BX_READ_8BIT_REG(index)
 #endif
 
