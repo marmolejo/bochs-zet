@@ -41,6 +41,15 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::setEFlags(Bit32u val)
   }
 #endif
 
+  if (val & EFlagsTFMask) {
+    BX_CPU_THIS_PTR async_event = 1; // TF = 1
+  }
+
+  if (val & EFlagsIFMask) {
+    if (! BX_CPU_THIS_PTR get_IF())
+      BX_CPU_THIS_PTR async_event = 1; // IF bit was set
+  }
+
   BX_CPU_THIS_PTR eflags = val;
   BX_CPU_THIS_PTR lf_flags_status = 0; // OSZAPC flags are known.
 
@@ -71,10 +80,6 @@ BX_CPU_C::writeEFlags(Bit32u flags, Bit32u changeMask)
               (flags & changeMask);
   setEFlags(newEFlags);
   // OSZAPC flags are known - done in setEFlags(newEFlags)
-
-  if (newEFlags & EFlagsTFMask) {
-    BX_CPU_THIS_PTR async_event = 1; // TF = 1
-  }
 }
 
   void BX_CPP_AttrRegparmN(3)

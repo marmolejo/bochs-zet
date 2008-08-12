@@ -96,8 +96,6 @@ void BX_CPU_C::serveICacheMiss(bxICacheEntry_c *cache_entry, Bit32u eipBiased, b
 
   bxInstruction_c *i = cache_entry->i;
 
-  if (BX_CPU_THIS_PTR async_event) max_length = 1;
-
   for (unsigned n=0;n<max_length;n++)
   {
 #if BX_SUPPORT_X86_64
