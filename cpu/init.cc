@@ -649,7 +649,7 @@ void BX_CPU_C::after_restore_state(void)
 
   SetCR0(cr0.val32);
   SetCR3(cr3);
-  TLB_flush(1);
+  TLB_flush();
   assert_checks();
   invalidate_prefetch_q();
   debug(RIP);

@@ -1772,7 +1772,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::WRMSR(bxInstruction_c *i)
 #endif
         BX_CPU_THIS_PTR local_apic.set_base(BX_CPU_THIS_PTR msr.apicbase);
         // TLB flush is required for emulation correctness
-        TLB_flush(1);  // don't care about performance of apic relocation
+        TLB_flush();  // don't care about performance of apic relocation
       }
       else {
         BX_INFO(("WRMSR: MSR_APICBASE APIC global enable bit cleared !"));

@@ -183,7 +183,7 @@ bx_bool bx_pc_system_c::get_enable_a20(void)
 void bx_pc_system_c::MemoryMappingChanged(void)
 {
   for (unsigned i=0; i<BX_SMP_PROCESSORS; i++)
-    BX_CPU(i)->TLB_flush(1);
+    BX_CPU(i)->TLB_flush();
 }
 
 void bx_pc_system_c::invlpg(bx_address addr)
