@@ -889,9 +889,6 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR xcr0.setRegister(0x1);
 #endif
 
-  // CR0/CR4 paging might be modified
-  TLB_flush(1);
-
 /* initialise MSR registers to defaults */
 #if BX_CPU_LEVEL >= 5
 #if BX_SUPPORT_APIC
