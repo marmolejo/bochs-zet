@@ -427,7 +427,12 @@ BX_CPU_C::pagingCR4Changed(Bit32u oldCR4, Bit32u newCR4)
 BX_CPU_C::SetCR3(bx_address val)
 {
   // flush TLB even if value does not change
-  TLB_flushNonGlobal(); // Don't flush Global entries.
+#if BX_SUPPORT_GLOBAL_PAGES
+  if (BX_CPU_THIS_PTR cr4.get_PGE())
+    TLB_flushNonGlobal(); // Don't flush Global entries.
+  else
+#endif
+    TLB_flush();          // Flush Global entries also.
 
 #if BX_SUPPORT_PAE
   if (BX_CPU_THIS_PTR cr4.get_PAE() && !long_mode()) {

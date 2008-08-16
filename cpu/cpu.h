@@ -2996,8 +2996,6 @@ public: // for now...
 
 #if BX_SUPPORT_GLOBAL_PAGES
   BX_SMF void TLB_flushNonGlobal(void);
-#else
-  #define TLB_flushNonGlobal() TLB_flush()
 #endif
   BX_SMF void TLB_flush(void);
   BX_SMF void TLB_invlpg(bx_address laddr);
