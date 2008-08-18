@@ -939,6 +939,8 @@ bx_phy_address BX_CPU_C::translate_linear(bx_address laddr, unsigned curr_pl, un
   bx_bool isWrite = (rw >= BX_WRITE); // write or r-m-w
   unsigned pl = (curr_pl == 3);
 
+  BX_ASSERT(BX_CPU_THIS_PTR cr0.get_PG());
+
   InstrTLB_Increment(tlbLookups);
   InstrTLB_Stats();
 

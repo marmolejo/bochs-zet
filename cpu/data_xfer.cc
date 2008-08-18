@@ -56,6 +56,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LOAD_Eq(bxInstruction_c *i)
 }
 #endif
 
+#if BX_SUPPORT_SSE >= 1
+
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::LOAD_Wdq(bxInstruction_c *i)
 {
   bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
@@ -78,3 +80,5 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LOAD_Wsd(bxInstruction_c *i)
   BX_WRITE_XMM_REG_LO_QWORD(BX_TMP_REGISTER, val_64);
   BX_CPU_CALL_METHOD(i->execute2, (i));
 }
+
+#endif
