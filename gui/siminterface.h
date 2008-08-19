@@ -132,6 +132,8 @@ typedef enum {
 #define BXPN_IPS                         "cpu.ips"
 #define BXPN_SMP_QUANTUM                 "cpu.quantum"
 #define BXPN_RESET_ON_TRIPLE_FAULT       "cpu.reset_on_triple_fault"
+#define BXPN_VENDOR_STRING               "cpu.vendor_string"
+#define BXPN_BRAND_STRING                "cpu.brand_string"
 #define BXPN_MEM_SIZE                    "memory.standard.ram.size"
 #define BXPN_ROM_PATH                    "memory.standard.rom.path"
 #define BXPN_ROM_ADDRESS                 "memory.standard.rom.addr"
