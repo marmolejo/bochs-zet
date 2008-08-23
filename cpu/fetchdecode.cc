@@ -2865,6 +2865,24 @@ modrm_done:
           return(0);
         }
         break;
+      case BxImmediate_BrOff8:
+        if (ilen < remain) {
+          i->modRMForm.Id = (Bit8s) (*iptr);
+          ilen++;
+        }
+        else {
+          return(0);
+        }
+        break;
+      case BxImmediate_BrOff16:
+        if ((ilen+1) < remain) {
+          i->modRMForm.Id = (Bit16s) FetchWORD(iptr);
+          ilen += 2;
+        }
+        else {
+          return(0);
+        }
+        break;
       case BxImmediate_IbIb:
         if (ilen < remain) {
           i->IxIxForm.Ib = *iptr++;
@@ -2937,24 +2955,6 @@ modrm_done:
             ilen += 2;
           }
           else return(0);
-        }
-        break;
-      case BxImmediate_BrOff8:
-        if (ilen < remain) {
-          i->modRMForm.Id = (Bit8s) (*iptr);
-          ilen++;
-        }
-        else {
-          return(0);
-        }
-        break;
-      case BxImmediate_BrOff16:
-        if ((ilen+1) < remain) {
-          i->modRMForm.Id = (Bit16s) FetchWORD(iptr);
-          ilen += 2;
-        }
-        else {
-          return(0);
         }
         break;
       default:
