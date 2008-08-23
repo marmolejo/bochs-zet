@@ -3797,20 +3797,6 @@ modrm_done:
           return(0);
         }
         break;
-      case BxImmediate_IbIb:
-        if (ilen < remain) {
-          i->IxIxForm.Ib = *iptr++;
-          ilen++;
-        }
-        else return(0);
-        if (ilen < remain) {
-          i->IxIxForm.Ib2 = *iptr;
-          ilen++;
-        }
-        else {
-          return(0);
-        }
-        break;
       case BxImmediate_IwIb:
         if ((ilen+1) < remain) {
           i->IxIxForm.Iw = FetchWORD(iptr);
