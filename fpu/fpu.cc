@@ -53,9 +53,6 @@ void BX_CPU_C::prepareFPU(bxInstruction_c *i,
 
        BX_CPU_THIS_PTR the_i387.fds = BX_CPU_THIS_PTR sregs[i->seg()].selector.value;
        BX_CPU_THIS_PTR the_i387.fdp = RMAddr(i);
-    } else {
-       BX_CPU_THIS_PTR the_i387.fds = BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].selector.value;
-       BX_CPU_THIS_PTR the_i387.fdp = 0;
     }
   }
 }
