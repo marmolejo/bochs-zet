@@ -1257,7 +1257,8 @@ public: // for now...
 
   BX_SMF void ENTER16_IwIb(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void ENTER32_IwIb(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
-  BX_SMF void LEAVE(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
+  BX_SMF void LEAVE16(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
+  BX_SMF void LEAVE32(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
 
   BX_SMF void INT1(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void INT3(bxInstruction_c *) BX_CPP_AttrRegparmN(1);

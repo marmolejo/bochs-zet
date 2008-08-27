@@ -831,7 +831,6 @@ void BX_CPU_C::exception(unsigned vector, Bit16u error_code, bx_bool trap)
   unsigned exception_type = 0, exception_class = BX_EXCEPTION_CLASS_FAULT;
   bx_bool push_error = 0;
 
-  invalidate_prefetch_q();
   BX_INSTR_EXCEPTION(BX_CPU_ID, vector);
 
 #if BX_DEBUGGER
