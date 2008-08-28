@@ -1465,6 +1465,12 @@ void bx_dbg_print_stack_command(unsigned nwords)
   {
     if (BX_CPU(dbg_cpu)->sregs[BX_SEG_REG_SS].cache.u.segment.d_b) {
       linear_sp = BX_CPU(dbg_cpu)->get_reg32(BX_32BIT_REG_ESP);
+
+      if (BX_CPU(dbg_cpu)->protected_mode()) {
+        linear_sp += BX_CPU(dbg_cpu)->sregs[BX_SEG_REG_SS].cache.u.segment.base;
+        linear_sp &= 0xffffffff;
+      }
+
       len = 4;
     }
     else {
