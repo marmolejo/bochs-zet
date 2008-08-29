@@ -1407,6 +1407,7 @@ static const BxOpcodeInfo_t BxOpcodeGroupSSE_0fc6[3] = {
 };
 
 static const BxOpcodeInfo_t BxOpcodeGroupSSE_0fd0[3] = {
+  /* 66 */ { 0, BX_IA_ADDSUBPD_VpdWpd },	// SSE3
   /* F2 */ { 0, BX_IA_ADDSUBPS_VpsWps },	// SSE3
   /* F3 */ { 0, BX_IA_ERROR }
 };
