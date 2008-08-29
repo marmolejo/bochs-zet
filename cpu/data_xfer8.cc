@@ -80,22 +80,18 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_EbIbM(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::XLAT(bxInstruction_c *i)
 {
-  bx_address offset;
-
 #if BX_SUPPORT_X86_64
   if (i->as64L()) {
-    offset = RBX;
+    AL = read_virtual_byte_64(i->seg(), RBX + AL);
   }
   else
 #endif
   if (i->as32L()) {
-    offset = EBX;
+    AL = read_virtual_byte(i->seg(), (Bit32u) (EBX + AL));
   }
   else {
-    offset =  BX;
+    AL = read_virtual_byte_32(i->seg(), (Bit16u) (BX + AL));
   }
-
-  AL = read_virtual_byte(i->seg(), offset + AL);
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::XCHG_EbGbM(bxInstruction_c *i)

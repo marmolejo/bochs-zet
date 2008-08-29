@@ -3739,9 +3739,10 @@ IMPLEMENT_EFLAG_SET_ACCESSOR_TF(      8)
                                    // Group encoding: 111
 
 #define BxLockable          0x0080 // bit 7
+#define BxArithDstRM        0x0100 // bit 8
 
 #if BX_SUPPORT_TRACE_CACHE
-  #define BxTraceEnd        0x0100 // bit 8
+  #define BxTraceEnd        0x0200 // bit 9
 #else
   #define BxTraceEnd        0
 #endif
