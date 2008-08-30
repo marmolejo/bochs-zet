@@ -143,5 +143,9 @@ bx_bool BX_CPU_C::allow_io(Bit16u port, unsigned len)
       return(0);
   }
 
+#if BX_X86_DEBUGGER
+  iobreakpoint_match(port, len);
+#endif
+
   return(1);
 }
