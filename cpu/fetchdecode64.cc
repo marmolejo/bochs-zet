@@ -2394,7 +2394,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo64M[512*3] = {
   /* 60 /dm */ { 0, BX_IA_ERROR },
   /* 61 /dm */ { 0, BX_IA_ERROR },
   /* 62 /dm */ { 0, BX_IA_ERROR },
-  /* 63 /dm */ { 0, BX_IA_MOV_GdEdM }, // MOVSX_GdEd
+  /* 63 /dm */ { 0, BX_IA_MOV64_GdEdM }, // MOVSX_GdEd
   /* 64 /dm */ { 0, BX_IA_ERROR }, // FS:
   /* 65 /dm */ { 0, BX_IA_ERROR }, // GS:
   /* 66 /dm */ { 0, BX_IA_ERROR }, // OS:
@@ -2434,7 +2434,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo64M[512*3] = {
   /* 88 /dm */ { 0, BX_IA_MOV_EbGbM },
   /* 89 /dm */ { 0, BX_IA_MOV_EdGdM },
   /* 8A /dm */ { 0, BX_IA_MOV_GbEbM },
-  /* 8B /dm */ { 0, BX_IA_MOV_GdEdM },
+  /* 8B /dm */ { 0, BX_IA_MOV64_GdEdM },
   /* 8C /dm */ { 0, BX_IA_MOV_EwSwM },
   /* 8D /dm */ { 0, BX_IA_LEA_GdM },
   /* 8E /dm */ { 0, BX_IA_MOV_SwEw },

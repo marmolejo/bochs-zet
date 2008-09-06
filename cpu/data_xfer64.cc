@@ -44,6 +44,14 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_RRXIq(bxInstruction_c *i)
   BX_WRITE_64BIT_REG(i->opcodeReg(), i->Iq());
 }
 
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV64_GdEdM(bxInstruction_c *i)
+{
+  Bit64u eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+
+  Bit32u val32 = read_virtual_dword_64(i->seg(), eaddr);
+  BX_WRITE_32BIT_REGZ(i->nnn(), val32);
+}
+
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_EqGqM(bxInstruction_c *i)
 {
   bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));

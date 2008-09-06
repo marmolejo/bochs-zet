@@ -2032,7 +2032,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo32M[512*2] = {
   /* 88 /dm */ { 0, BX_IA_MOV_EbGbM },
   /* 89 /dm */ { 0, BX_IA_MOV_EdGdM },
   /* 8A /dm */ { 0, BX_IA_MOV_GbEbM },
-  /* 8B /dm */ { 0, BX_IA_MOV_GdEdM },
+  /* 8B /dm */ { 0, BX_IA_MOV32_GdEdM },
   /* 8C /dm */ { 0, BX_IA_MOV_EwSwM },
   /* 8D /dm */ { 0, BX_IA_LEA_GdM },
   /* 8E /dm */ { 0, BX_IA_MOV_SwEw },
