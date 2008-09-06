@@ -41,7 +41,7 @@
 
 #define X 0 /* undefined opcode */
 
-static const bx_bool BxOpcodeHasModrm32[512] = {
+static const Bit8u BxOpcodeHasModrm32[512] = {
   /*       0 1 2 3 4 5 6 7 8 9 a b c d e f          */
   /*       -------------------------------          */
   /* 00 */ 1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,X,

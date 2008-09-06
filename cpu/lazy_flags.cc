@@ -33,7 +33,7 @@
 // This array defines a look-up table for the even parity-ness
 // of an 8bit quantity, for optimal assignment of the parity bit
 // in the EFLAGS register
-const bx_bool bx_parity_lookup[256] = {
+const Bit8u bx_parity_lookup[256] = {
   1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1,
   0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0,
   0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0,

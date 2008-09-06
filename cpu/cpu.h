@@ -3490,7 +3490,7 @@ BX_CPP_INLINE bx_bool BX_CPU_C::alignment_check(void)
 }
 #endif
 
-BOCHSAPI extern const bx_bool bx_parity_lookup[256];
+BOCHSAPI extern const Bit8u bx_parity_lookup[256];
 
 BX_CPP_INLINE void BX_CPU_C::set_PF_base(Bit8u val)
 {
