@@ -81,12 +81,12 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LEA_GdM(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_EAXOd(bxInstruction_c *i)
 {
-  RAX = read_virtual_dword(i->seg(), i->Id());
+  RAX = read_virtual_dword_32(i->seg(), i->Id());
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_OdEAX(bxInstruction_c *i)
 {
-  write_virtual_dword(i->seg(), i->Id(), EAX);
+  write_virtual_dword_32(i->seg(), i->Id(), EAX);
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_EdIdM(bxInstruction_c *i)

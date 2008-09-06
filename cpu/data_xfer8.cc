@@ -63,12 +63,12 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_GbEbR(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_ALOd(bxInstruction_c *i)
 {
-  AL = read_virtual_byte(i->seg(), i->Id());
+  AL = read_virtual_byte_32(i->seg(), i->Id());
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_OdAL(bxInstruction_c *i)
 {
-  write_virtual_byte(i->seg(), i->Id(), AL);
+  write_virtual_byte_32(i->seg(), i->Id(), AL);
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_EbIbM(bxInstruction_c *i)
