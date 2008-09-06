@@ -76,9 +76,6 @@ void bx_instr_ucnear_branch(unsigned cpu, unsigned what, bx_address new_eip);
 void bx_instr_far_branch(unsigned cpu, unsigned what, Bit16u new_cs, bx_address new_eip);
 
 void bx_instr_opcode(unsigned cpu, const Bit8u *opcode, unsigned len, bx_bool is32, bx_bool is64);
-void bx_instr_fetch_decode_completed(unsigned cpu, bxInstruction_c *i);
-
-void bx_instr_prefix(unsigned cpu, Bit8u prefix);
 
 void bx_instr_interrupt(unsigned cpu, unsigned vector);
 void bx_instr_exception(unsigned cpu, unsigned vector);
@@ -131,8 +128,6 @@ void bx_instr_wrmsr(unsigned cpu, unsigned addr, Bit64u value);
 /* decoding completed */
 #  define BX_INSTR_OPCODE(cpu_id, opcode, len, is32, is64) \
                        bx_instr_opcode(cpu_id, opcode, len, is32, is64)
-#  define BX_INSTR_FETCH_DECODE_COMPLETED(cpu_id, i) \
-                       bx_instr_fetch_decode_completed(cpu_id, i)
 
 /* exceptional case and interrupt */
 #  define BX_INSTR_EXCEPTION(cpu_id, vector)            bx_instr_exception(cpu_id, vector)
@@ -194,7 +189,6 @@ void bx_instr_wrmsr(unsigned cpu, unsigned addr, Bit64u value);
 
 /* decoding completed */
 #  define BX_INSTR_OPCODE(cpu_id, opcode, len, is32, is64)
-#  define BX_INSTR_FETCH_DECODE_COMPLETED(cpu_id, i)
 
 /* exceptional case and interrupt */
 #  define BX_INSTR_EXCEPTION(cpu_id, vector)

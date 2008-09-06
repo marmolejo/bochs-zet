@@ -3865,7 +3865,6 @@ modrm_done:
 
 #if BX_INSTRUMENTATION
   i->ia_opcode = ia_opcode;
-  BX_INSTR_FETCH_DECODE_COMPLETED(BX_CPU_ID, i);
 #endif
 
   return(1);
