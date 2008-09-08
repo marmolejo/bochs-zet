@@ -729,7 +729,7 @@ void BX_CPU_C::reset(unsigned source)
   parse_selector(0xf000,
           &BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector);
 
-  BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.valid    = 1;
+  BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.valid    = SegValidCache | SegAccessROK | SegAccessWOK;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.p        = 1;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.dpl      = 0;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.segment  = 1;  /* data/code segment */
@@ -757,7 +757,7 @@ void BX_CPU_C::reset(unsigned source)
   parse_selector(0x0000,
           &BX_CPU_THIS_PTR sregs[BX_SEG_REG_DS].selector);
 
-  BX_CPU_THIS_PTR sregs[BX_SEG_REG_DS].cache.valid    = 1;
+  BX_CPU_THIS_PTR sregs[BX_SEG_REG_DS].cache.valid    = SegValidCache | SegAccessROK | SegAccessWOK;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_DS].cache.p        = 1;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_DS].cache.dpl      = 0;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_DS].cache.segment  = 1; /* data/code segment */
@@ -855,7 +855,7 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR in_smm = 0;
   BX_CPU_THIS_PTR nmi_disable = 0;
 #if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
-  BX_CPU_THIS_PTR alignment_check_mask = LPF_MASK;
+  BX_CPU_THIS_PTR alignment_check_mask = 0;
 #endif
 
   BX_CPU_THIS_PTR smbase = 0x30000;
