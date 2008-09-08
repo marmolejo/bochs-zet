@@ -193,7 +193,6 @@ public:
   {
     metaInfo.metaInfo1 = (os32<<3) | (as32<<4) | (os64<<5) | (as64<<6);
     metaInfo.metaInfo4 = 0;
-    metaData[BX_INSTR_METADATA_SEG] = BX_SEG_REG_NULL;
   }
   BX_CPP_INLINE unsigned seg(void) const {
     return metaData[BX_INSTR_METADATA_SEG];
