@@ -58,8 +58,6 @@ typedef struct
 #define SegValidCache  (0x01)
 #define SegAccessROK   (0x02)
 #define SegAccessWOK   (0x04)
-#define SegAccessROK4G (0x08)
-#define SegAccessWOK4G (0x10)
 
   unsigned valid;        // Holds above values, Or'd together.  Used to
                          // hold only 0 or 1.
