@@ -259,7 +259,7 @@ show_command:
     ;
 
 page_command:
-      BX_TOKEN_PAGE BX_TOKEN_NUMERIC '\n'
+      BX_TOKEN_PAGE expression '\n'
       {
           bx_dbg_xlate_address($2);
           free($1);
