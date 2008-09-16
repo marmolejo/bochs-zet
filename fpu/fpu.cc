@@ -198,7 +198,7 @@ bx_address BX_CPU_C::fpu_load_environment(bxInstruction_c *i)
 {
     unsigned offset;
 
-    Bit32u eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
     if (protected_mode())  /* Protected Mode */
     {
