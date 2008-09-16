@@ -31,11 +31,6 @@
 //
 
   bx_address  BX_CPP_AttrRegparmN(1)
-BX_CPU_C::BxResolve16Disp(bxInstruction_c *i)
-{
-  return i->displ16u();
-}
-  bx_address  BX_CPP_AttrRegparmN(1)
 BX_CPU_C::BxResolve16BaseIndex(bxInstruction_c *i)
 {
   return (Bit16u) (BX_READ_16BIT_REG(i->sibBase()) + BX_READ_16BIT_REG(i->sibIndex()) + (Bit16s) i->displ16u());

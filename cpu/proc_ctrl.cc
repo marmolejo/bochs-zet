@@ -1149,11 +1149,22 @@ void BX_CPU_C::handleCpuModeChange(void)
 void BX_CPU_C::handleAlignmentCheck(void)
 {
   if (CPL == 3 && BX_CPU_THIS_PTR cr0.get_AM() && BX_CPU_THIS_PTR get_AC()) {
-    BX_CPU_THIS_PTR alignment_check_mask = 0xF;
-    BX_INFO(("Enable alignment check (#AC exception)"));
+    if (BX_CPU_THIS_PTR alignment_check_mask == 0) {
+      BX_CPU_THIS_PTR alignment_check_mask = 0xF;
+      BX_INFO(("Enable alignment check (#AC exception)"));
+#if BX_SUPPORT_ICACHE
+      BX_CPU_THIS_PTR iCache.flushICacheEntries();
+#endif
+    }
   }
   else {
-    BX_CPU_THIS_PTR alignment_check_mask = 0;
+    if (BX_CPU_THIS_PTR alignment_check_mask != 0) {
+      BX_CPU_THIS_PTR alignment_check_mask = 0;
+      BX_INFO(("Disable alignment check (#AC exception)"));
+#if BX_SUPPORT_ICACHE
+      BX_CPU_THIS_PTR iCache.flushICacheEntries();
+#endif
+    }
   }
 }
 #endif
