@@ -2709,7 +2709,6 @@ fetch_b1:
         seg = sreg_mod00_rm16[rm];
         if (rm == 0x06) {
           i->setSibBase(BX_NIL_REGISTER);
-          i->setSibIndex(BX_NIL_REGISTER);
           if ((ilen+1) < remain) {
             i->modRMForm.displ16u = FetchWORD(iptr);
             iptr += 2;
