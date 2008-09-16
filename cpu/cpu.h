@@ -3783,7 +3783,7 @@ IMPLEMENT_EFLAG_SET_ACCESSOR_TF(      8)
 #define BxGroup15         BxGroupN
 #define BxGroup16         BxGroupN
 
-#define BxFPGroup         BxGroupN
+#define BxGroupFP         BxGroupN
 
 // <TAG-DEFINES-DECODE-END>
 
