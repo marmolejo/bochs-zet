@@ -137,7 +137,7 @@ bx_address BX_CPU_C::fpu_save_environment(bxInstruction_c *i)
             tmp = (BX_CPU_THIS_PTR the_i387.fds);
             write_virtual_word(i->seg(), eaddr + 0x0c, tmp);
 
-            offset = 0x1e;
+            offset = 0x0e;
         }
     }
     else   /* Real or V86 Mode */
