@@ -519,8 +519,8 @@ typedef struct {
 // the toolbar events.
 typedef struct {
   bx_toolbar_buttons button;
-  bool on;   // for toggling buttons, on=true means the toolbar button is
-             // pressed. on=false means it is not pressed.
+  bx_bool on; // for toggling buttons, on=true means the toolbar button is
+              // pressed. on=false means it is not pressed.
 } BxToolbarEvent;
 
 // The BxEvent structure should be used for all events.  Every event has

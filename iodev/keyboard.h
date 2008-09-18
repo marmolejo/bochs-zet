@@ -66,7 +66,7 @@ public:
 private:
   BX_KEY_SMF Bit8u    get_kbd_enable(void);
   BX_KEY_SMF void     service_paste_buf ();
-  BX_KEY_SMF void     create_mouse_packet(bool force_enq);
+  BX_KEY_SMF void     create_mouse_packet(bx_bool force_enq);
   BX_KEY_SMF unsigned periodic(Bit32u usec_delta);
 
 

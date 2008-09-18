@@ -1544,7 +1544,7 @@ void bx_keyb_c::kbd_ctrl_to_mouse(Bit8u value)
   }
 }
 
-void bx_keyb_c::create_mouse_packet(bool force_enq)
+void bx_keyb_c::create_mouse_packet(bx_bool force_enq)
 {
   Bit8u b1, b2, b3, b4;
 

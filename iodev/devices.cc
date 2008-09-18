@@ -975,9 +975,9 @@ bx_bool bx_devices_c::is_serial_enabled(void)
   for (int i=0; i<BX_N_SERIAL_PORTS; i++) {
     sprintf(pname, "ports.serial.%d.enabled", i+1);
     if (SIM->get_param_bool(pname)->get())
-      return true;
+      return 1;
   }
-  return false;
+  return 0;
 }
 
 bx_bool bx_devices_c::is_usb_enabled(void)
@@ -987,9 +987,9 @@ bx_bool bx_devices_c::is_usb_enabled(void)
   for (int i=0; i<BX_N_USB_HUBS; i++) {
     sprintf(pname, "ports.usb.%d.enabled", i+1);
     if (SIM->get_param_bool(pname)->get())
-       return true;
+       return 1;
   }
-  return false;
+  return 0;
 }
 
 bx_bool bx_devices_c::is_parallel_enabled(void)
@@ -999,9 +999,9 @@ bx_bool bx_devices_c::is_parallel_enabled(void)
   for (int i=0; i<BX_N_PARALLEL_PORTS; i++) {
     sprintf(pname, "ports.parallel.%d.enabled", i+1);
     if (SIM->get_param_bool(pname)->get())
-      return true;
+      return 1;
   }
-  return false;
+  return 0;
 }
 
 void bx_pci_device_stub_c::register_pci_state(bx_list_c *list, Bit8u *pci_conf)
