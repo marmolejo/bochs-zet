@@ -1309,7 +1309,6 @@ public: // for now...
   BX_SMF void LAR_GvEw(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void LSL_GvEw(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void CLTS(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
-  BX_SMF void INVD(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void WBINVD(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void CLFLUSH(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
 

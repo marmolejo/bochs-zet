@@ -352,7 +352,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RCR_EdM(bxInstruction_c *i)
   cf = (op1_32 >> (count - 1)) & 0x1;
   of = ((result_32 << 1) ^ result_32) >> 31; // of = result30 ^ result31
   SET_FLAGS_OxxxxC(of, cf);
-
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::RCR_EdR(bxInstruction_c *i)
@@ -384,7 +383,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RCR_EdR(bxInstruction_c *i)
   cf = (op1_32 >> (count - 1)) & 0x1;
   of = ((result_32 << 1) ^ result_32) >> 31; // of = result30 ^ result31
   SET_FLAGS_OxxxxC(of, cf);
-
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::SHL_EdM(bxInstruction_c *i)
