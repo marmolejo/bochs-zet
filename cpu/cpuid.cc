@@ -502,7 +502,7 @@ void BX_CPU_C::set_cpuid_defaults(void)
 
   // do not report CPUID functions above 0x3 if cpuid_limit_winnt is set
   // to workaround WinNT issue.
-  if (! cpuid_limit_winnt) return;
+  if (cpuid_limit_winnt) return;
 
   // ------------------------------------------------------
   // CPUID function 0x00000004 - Deterministic Cache Parameters
