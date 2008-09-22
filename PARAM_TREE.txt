@@ -23,6 +23,7 @@ cpu
   ips
   quantum
   reset_on_triple_fault
+  cpuid_limit_winnt
 
 memory
   standard
