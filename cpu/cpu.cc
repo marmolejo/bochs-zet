@@ -573,7 +573,7 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
         // boundary. (becomes a trap)
         if (! (BX_CPU_THIS_PTR inhibit_mask & BX_INHIBIT_DEBUG)) {
           // Commit debug events to DR6
-          BX_CPU_THIS_PTR dr6 = BX_CPU_THIS_PTR debug_trap;
+          BX_CPU_THIS_PTR dr6 |= BX_CPU_THIS_PTR debug_trap;
           exception(BX_DB_EXCEPTION, 0, 0); // no error, not interrupt
         }
       }
