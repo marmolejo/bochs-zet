@@ -233,7 +233,7 @@ static void AES_MixColumns(BxPackedXmmRegister &state)
                              AES_STATE(tmp, 3, j);
 
     AES_STATE(state, 2, j) = AES_STATE(tmp, 0, j) ^
-                             AES_STATE(tmp, 1, j);
+                             AES_STATE(tmp, 1, j) ^
                              gf_mul(0x2, AES_STATE(tmp, 2, j)) ^
                              gf_mul(0x3, AES_STATE(tmp, 3, j));
 
