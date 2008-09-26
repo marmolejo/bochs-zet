@@ -573,7 +573,15 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
         // boundary. (becomes a trap)
         if (! (BX_CPU_THIS_PTR inhibit_mask & BX_INHIBIT_DEBUG)) {
           // Commit debug events to DR6
-          BX_CPU_THIS_PTR dr6 = BX_CPU_THIS_PTR debug_trap;
+#if BX_CPU_LEVEL <= 4
+          // On 386/486 bit12 is settable
+          BX_CPU_THIS_PTR dr6 = (BX_CPU_THIS_PTR dr6 & 0xffff0ff0) |
+                            (BX_CPU_THIS_PTR debug_trap & 0x0000f00f);
+#else
+          // On Pentium+, bit12 is always zero
+          BX_CPU_THIS_PTR dr6 = (BX_CPU_THIS_PTR dr6 & 0xffff0ff0) |
+                            (BX_CPU_THIS_PTR debug_trap & 0x0000e00f);
+#endif
           exception(BX_DB_EXCEPTION, 0, 0); // no error, not interrupt
         }
       }
