@@ -843,7 +843,11 @@ bx_svga_tileinfo_t *bx_rfb_gui_c::graphics_tile_info(bx_svga_tileinfo_t *info)
   info->green_mask = 0x38;
   info->blue_mask = 0xc0;
   info->is_indexed = 0;
+#ifdef BX_LITTLE_ENDIAN
   info->is_little_endian = 1;
+#else
+  info->is_little_endian = 0;
+#endif
 
   return info;
 }
