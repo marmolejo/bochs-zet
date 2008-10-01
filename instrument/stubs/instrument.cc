@@ -29,6 +29,9 @@
 
 #if BX_INSTRUMENTATION
 
+void bx_instr_init_env(void) {}
+void bx_instr_exit_env(void) {}
+
 void bx_instr_init(unsigned cpu) {}
 void bx_instr_exit(unsigned cpu) {}
 void bx_instr_reset(unsigned cpu) {}

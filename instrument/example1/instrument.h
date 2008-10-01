@@ -123,6 +123,10 @@ void bx_instr_init(unsigned cpu);
 
 extern bxInstrumentation *icpu;
 
+/* initialization/deinitialization of instrumentalization*/
+#  define BX_INSTR_INIT_ENV() bx_instr_init_env()
+#  define BX_INSTR_EXIT_ENV() bx_instr_exit_env()
+
 /* simulation init, shutdown, reset */
 #  define BX_INSTR_INIT(cpu_id)	           bx_instr_init(cpu_id);
 #  define BX_INSTR_EXIT(cpu_id)
@@ -184,6 +188,10 @@ extern bxInstrumentation *icpu;
 #  define BX_INSTR_WRMSR(cpu_id, addr, value)
 
 #else
+
+/* initialization/deinitialization of instrumentalization*/
+#  define BX_INSTR_INIT_ENV()
+#  define BX_INSTR_EXIT_ENV()
 
 /* simulation init, shutdown, reset */
 #  define BX_INSTR_INIT(cpu_id)

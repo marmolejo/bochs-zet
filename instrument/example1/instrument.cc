@@ -33,6 +33,10 @@ bxInstrumentation *icpu = NULL;
 
 static disassembler bx_disassembler;
 
+
+void bx_instr_init_env(void) {}
+void bx_instr_exit_env(void) {}
+
 void bx_instr_init(unsigned cpu)
 {
   assert(cpu < BX_SMP_PROCESSORS);

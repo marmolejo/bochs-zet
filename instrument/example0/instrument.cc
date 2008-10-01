@@ -63,6 +63,9 @@ static struct instruction_t {
 static logfunctions *instrument_log = new logfunctions ();
 #define LOG_THIS instrument_log->
 
+void bx_instr_init_env(void) {}
+void bx_instr_exit_env(void) {}
+
 void bx_instr_init(unsigned cpu)
 {
   assert(cpu < BX_SMP_PROCESSORS);

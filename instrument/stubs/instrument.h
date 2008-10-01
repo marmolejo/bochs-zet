@@ -56,6 +56,9 @@
 
 class bxInstruction_c;
 
+void bx_instr_init_env(void);
+void bx_instr_exit_env(void);
+
 // called from the CPU core
 
 void bx_instr_init(unsigned cpu);
@@ -101,6 +104,10 @@ void bx_instr_phy_write(unsigned cpu, bx_address addr, unsigned len);
 void bx_instr_phy_read(unsigned cpu, bx_address addr, unsigned len);
 
 void bx_instr_wrmsr(unsigned cpu, unsigned addr, Bit64u value);
+
+/* initialization/deinitialization of instrumentalization*/
+#  define BX_INSTR_INIT_ENV() bx_instr_init_env()
+#  define BX_INSTR_EXIT_ENV() bx_instr_exit_env()
 
 /* simulation init, shutdown, reset */
 #  define BX_INSTR_INIT(cpu_id)            bx_instr_init(cpu_id)
@@ -166,6 +173,10 @@ void bx_instr_wrmsr(unsigned cpu, unsigned addr, Bit64u value);
 #  define BX_INSTR_WRMSR(cpu_id, addr, value)   bx_instr_wrmsr(cpu_id, addr, value)
 
 #else
+
+/* initialization/deinitialization of instrumentalization*/
+#  define BX_INSTR_INIT_ENV()
+#  define BX_INSTR_EXIT_ENV()
 
 /* simulation init, shutdown, reset */
 #  define BX_INSTR_INIT(cpu_id)
