@@ -477,7 +477,6 @@ void logfunctions::ask(int level, const char *prefix, const char *fmt, va_list a
   // the reentry check above.
   if (SIM->get_init_done()) DEV_vga_refresh();
 
-#if !BX_EXTERNAL_DEBUGGER
   // ensure the text screen is showing
   SIM->set_display_mode(DISP_MODE_CONFIG);
   int val = SIM->log_msg(prefix, level, buf1);
@@ -528,9 +527,6 @@ void logfunctions::ask(int level, const char *prefix, const char *fmt, va_list a
       // in gui/control.cc.
       fprintf(stderr, "WARNING: log_msg returned unexpected value %d\n", val);
   }
-#else
-  // external debugger ask code goes here
-#endif
   // return to simulation mode
   SIM->set_display_mode(DISP_MODE_SIM);
   in_ask_already = 0;

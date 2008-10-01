@@ -2302,11 +2302,6 @@ turn it off.
           will slow down the emulation.</entry>
     </row>
     <row>
-      <entry>--enable-external-debugger</entry>
-      <entry>no</entry>
-      <entry>Enable external debugger support (only available on Win32).</entry>
-    </row>
-    <row>
       <entry>--enable-pci</entry>
       <entry>no</entry>
       <entry>Enable limited i440FX PCI support. This is still incomplete, but usable.

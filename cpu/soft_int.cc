@@ -30,10 +30,6 @@
 #include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
-#if BX_EXTERNAL_DEBUGGER
-#include "extdb.h"
-#endif
-
 // Make code more tidy with a few macros.
 #if BX_SUPPORT_X86_64==0
 #define RSP ESP
@@ -78,10 +74,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::INT1(bxInstruction_c *i)
 
 #if BX_DEBUGGER
   BX_CPU_THIS_PTR show_flag |= Flag_softint;
-#endif
-
-#if BX_EXTERNAL_DEBUGGER
-  trap_debugger(0, BX_CPU_THIS);
 #endif
 
   BX_CPU_THIS_PTR speculative_rsp = 1;
