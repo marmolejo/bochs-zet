@@ -1906,7 +1906,7 @@ void BX_CPU_C::check_monitor(bx_phy_address begin_addr, unsigned len)
     BX_CPU_THIS_PTR debug_trap &= ~BX_DEBUG_TRAP_SPECIAL;
     // clear monitor
     BX_MEM(0)->clear_monitor(BX_CPU_THIS_PTR bx_cpuid);
-    BX_CPU_THIS_PTR monitor.reset_monitor();;
+    BX_CPU_THIS_PTR monitor.reset_monitor();
  }
 }
 #endif
