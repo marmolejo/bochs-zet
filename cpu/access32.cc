@@ -264,6 +264,8 @@ accessOK:
   goto accessOK;
 }
 
+#if BX_CPU_LEVEL >= 6
+
   void BX_CPP_AttrRegparmN(3)
 BX_CPU_C::write_virtual_dqword_32(unsigned s, Bit32u offset, const BxPackedXmmRegister *data)
 {
@@ -368,6 +370,8 @@ accessOK:
     exception(int_number(s), 0, 0);
   goto accessOK;
 }
+
+#endif
 
   Bit8u BX_CPP_AttrRegparmN(2)
 BX_CPU_C::read_virtual_byte_32(unsigned s, Bit32u offset)
@@ -599,6 +603,8 @@ accessOK:
   goto accessOK;
 }
 
+#if BX_CPU_LEVEL >= 6
+
   void BX_CPP_AttrRegparmN(3)
 BX_CPU_C::read_virtual_dqword_32(unsigned s, Bit32u offset, BxPackedXmmRegister *data)
 {
@@ -697,6 +703,8 @@ accessOK:
     exception(int_number(s), 0, 0);
   goto accessOK;
 }
+
+#endif
 
 //////////////////////////////////////////////////////////////
 // special Read-Modify-Write operations                     //
