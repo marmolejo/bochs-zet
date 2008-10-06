@@ -96,7 +96,7 @@ public:
   virtual int get_clipboard_text(Bit8u **bytes, Bit32s *nbytes)  = 0;
   virtual int set_clipboard_text(char *snapshot, Bit32u len) = 0;
   virtual void mouse_enabled_changed_specific (bx_bool val) = 0;
-  virtual void statusbar_setitem(int element, bx_bool active) {}
+  virtual void statusbar_setitem(int element, bx_bool active, bx_bool w=0) {}
   virtual void set_tooltip(unsigned hbar_id, const char *tip) {}
   virtual void exit(void) = 0;
   // set_display_mode() changes the mode between the configuration interface

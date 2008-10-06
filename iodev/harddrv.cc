@@ -3519,7 +3519,7 @@ bx_bool bx_hard_drive_c::ide_write_sector(Bit8u channel, Bit8u *buffer, Bit32u b
     }
     /* set status bar conditions for device */
     if (!BX_SELECTED_DRIVE(channel).iolight_counter)
-      bx_gui->statusbar_setitem(BX_SELECTED_DRIVE(channel).statusbar_id, 1);
+      bx_gui->statusbar_setitem(BX_SELECTED_DRIVE(channel).statusbar_id, 1, 1 /* write */);
     BX_SELECTED_DRIVE(channel).iolight_counter = 5;
     bx_pc_system.activate_timer(BX_HD_THIS iolight_timer_index, 100000, 0);
     ret = BX_SELECTED_DRIVE(channel).hard_drive->write((bx_ptr_t)bufptr, 512);
