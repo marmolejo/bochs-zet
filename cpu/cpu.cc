@@ -632,6 +632,7 @@ void BX_CPU_C::prefetch(void)
   else
 #endif
   {
+    BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RIP); /* avoid 32-bit EIP wrap */
     Bit32u temp_limit = BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.limit_scaled;
     if (EIP > temp_limit) {
       BX_ERROR(("prefetch: EIP [%08x] > CS.limit [%08x]", EIP, temp_limit));
