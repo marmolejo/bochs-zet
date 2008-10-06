@@ -929,7 +929,7 @@ public: // for now...
 #endif
 
 #if BX_DEBUGGER
-  bx_phy_address watchpoint
+  bx_phy_address watchpoint;
   Bit8u break_point;
   Bit8u magic_break;
   Bit8u stop_reason;
