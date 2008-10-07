@@ -435,6 +435,10 @@ int bxwrap(void)
   return(0); // keep compiler quiet
 }
 
+#ifdef WIN32
+char* bxtext;
+#endif
+
 void bxerror(char *s)
 {
   dbg_printf("%s:%d: %s at '%s'\n",
