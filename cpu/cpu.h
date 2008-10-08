@@ -3024,7 +3024,6 @@ public: // for now...
 
   BX_SMF void repeat(bxInstruction_c *i, BxExecutePtr_tR execute) BX_CPP_AttrRegparmN(2);
   BX_SMF void repeat_ZF(bxInstruction_c *i, BxExecutePtr_tR execute) BX_CPP_AttrRegparmN(2);
-  BX_SMF void repeat_NZF(bxInstruction_c *i, BxExecutePtr_tR execute) BX_CPP_AttrRegparmN(2);
 
   // linear address for access_linear expected to be canonical !
   BX_SMF void access_read_linear(bx_address address, unsigned length, unsigned curr_pl,
