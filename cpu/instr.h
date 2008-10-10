@@ -43,9 +43,9 @@ public:
   // given the current state of the CPU and the instruction data,
   // and a function to execute the instruction after resolving
   // the memory address (if any).
-  BxResolvePtr_tR ResolveModrm;
   BxExecutePtr_tR execute;
   BxExecutePtr_tR execute2;
+  BxResolvePtr_tR ResolveModrm;
 #if BX_INSTRUMENTATION
   Bit16u ia_opcode;
 #endif
