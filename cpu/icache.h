@@ -140,7 +140,8 @@ public:
 
   BX_CPP_INLINE unsigned hash(bx_phy_address pAddr) const
   {
-    return (pAddr + (pAddr << 2) + (pAddr>>6)) & (BxICacheEntries-1);
+//  return (pAddr + (pAddr << 2) + (pAddr>>6)) & (BxICacheEntries-1);
+    return (pAddr) & (BxICacheEntries-1);
   }
 
 #if BX_SUPPORT_TRACE_CACHE
