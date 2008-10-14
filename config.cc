@@ -418,7 +418,7 @@ void bx_init_options()
 #endif
 
   // cpu subtree
-  bx_list_c *cpu_param = new bx_list_c(root_param, "cpu", "CPU Options", 8);
+  bx_list_c *cpu_param = new bx_list_c(root_param, "cpu", "CPU Options", 8 + BX_SUPPORT_SMP);
 
   // cpu options
   bx_param_num_c *nprocessors = new bx_param_num_c(cpu_param,
