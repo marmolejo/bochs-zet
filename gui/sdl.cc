@@ -1564,12 +1564,12 @@ void bx_sdl_gui_c::set_display_mode(disp_mode_t newmode)
   if (sdl_fullscreen_toggle) {
     switch (newmode) {
       case DISP_MODE_CONFIG:
-	BX_DEBUG("switch to configuration mode (windowed)"));
-	switch_to_windowed ();
+	BX_DEBUG(("switch to configuration mode (windowed)"));
+	switch_to_windowed();
 	break;
       case DISP_MODE_SIM:
 	BX_DEBUG(("switch to simulation mode (fullscreen)"));
-	switch_to_fullscreen ();
+	switch_to_fullscreen();
 	break;
     }
   }
