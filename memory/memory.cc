@@ -353,6 +353,11 @@ inc_one:
 #endif
 
     for (unsigned i = 0; i < len; i++) {
+#if BX_PHY_ADDRESS_LONG
+      if (a20addr >= BX_CONST64(0xFFFFFFFF))
+        *data_ptr = 0xff;
+      else
+#endif      
       if (a20addr >= (bx_phy_address)~BIOS_MASK)
         *data_ptr = BX_MEM_THIS rom[a20addr & BIOS_MASK];
       else
