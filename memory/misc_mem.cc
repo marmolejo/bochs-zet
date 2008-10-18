@@ -585,7 +585,7 @@ Bit8u *BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, bx_phy_address a20Addr, unsigned 
       }
     }
 #if BX_PHY_ADDRESS_LONG
-    else if (addr >= BX_CONST64(0xFFFFFFFF)) {
+    else if (a20Addr >= BX_CONST64(0xFFFFFFFF)) {
       // Error, requested addr is out of bounds.
       return (Bit8u *) &BX_MEM_THIS bogus[a20Addr & 0xfff];
     }
