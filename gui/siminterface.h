@@ -239,6 +239,12 @@ typedef enum {
 // base value for generated new parameter id
 #define BXP_NEW_PARAM_ID 1001
 
+#if BX_SUPPORT_SMP
+  #define BX_SMP_PROCESSORS (bx_cpu_count)
+#else
+  #define BX_SMP_PROCESSORS 1
+#endif
+
 typedef enum {
   BX_TOOLBAR_UNDEFINED,
   BX_TOOLBAR_FLOPPYA,
