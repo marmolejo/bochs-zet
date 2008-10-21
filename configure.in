@@ -2641,7 +2641,7 @@ case $target in
         LIBS="$LIBS -lcomctl32"
       fi
     fi
-    DIALOG_OBJS="win32dialog.o"
+    DIALOG_OBJS="win32dialog.o win32_enh_dbg.o"
     EXPORT_DYNAMIC=""
     ;;
 esac
