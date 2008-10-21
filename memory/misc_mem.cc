@@ -629,10 +629,6 @@ Bit8u *BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, bx_phy_address a20Addr, unsigned 
       }
     }
 
-#if BX_SUPPORT_ICACHE
-    pageWriteStampTable.decWriteStamp(a20Addr);
-#endif
-
     return retAddr;
   }
 }
