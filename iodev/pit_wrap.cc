@@ -53,11 +53,6 @@ bx_pit_c bx_pit;
 #define this (&bx_pit)
 #endif
 
-//Workaround for environments where OUT is defined.
-#ifdef OUT
-#  undef OUT
-#endif
-
 
 //Generic MAX and MIN Functions
 #define BX_MAX(a,b) ( ((a)>(b))?(a):(b) )

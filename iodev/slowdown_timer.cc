@@ -30,7 +30,9 @@
 #include "slowdown_timer.h"
 
 #include <errno.h>
+#if !defined(_MSC_VER)
 #include <unistd.h>
+#endif
 
 //These need to stay printfs because they are useless in the log file.
 #define BX_SLOWDOWN_PRINTF_FEEDBACK 0

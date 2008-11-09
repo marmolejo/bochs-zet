@@ -38,10 +38,6 @@
 #  define BX_PIT_THIS this->
 #endif
 
-#ifdef OUT
-#  undef OUT
-#endif
-
 class bx_pit_c : public logfunctions {
 public:
   bx_pit_c();
