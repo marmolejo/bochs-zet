@@ -62,6 +62,7 @@ void flushICaches(void)
   for (unsigned i=0; i<BX_SMP_PROCESSORS; i++) {
     BX_CPU(i)->iCache.flushICacheEntries();
     BX_CPU(i)->invalidate_prefetch_q();
+    BX_CPU(i)->async_event |= BX_ASYNC_EVENT_STOP_TRACE;
   }
 
   pageWriteStampTable.resetWriteStamps();
