@@ -991,7 +991,7 @@ void BX_CPU_C::reset(unsigned source)
   // initialize CPUID values - make sure apicbase already initialized
   set_cpuid_defaults();
 
-  BX_INSTR_RESET(BX_CPU_ID);
+  BX_INSTR_RESET(BX_CPU_ID, source);
 }
 
 void BX_CPU_C::sanity_checks(void)

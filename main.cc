@@ -1080,7 +1080,7 @@ void bx_init_hardware()
   BX_CPU(0)->initialize();
   BX_CPU(0)->sanity_checks();
   BX_CPU(0)->register_state();
-  BX_INSTR_INIT(0);
+  BX_INSTR_INITIALIZE(0);
 #else
   bx_cpu_array = new BX_CPU_C_PTR[BX_SMP_PROCESSORS];
 
@@ -1089,7 +1089,7 @@ void bx_init_hardware()
     BX_CPU(i)->initialize();  // assign local apic id in 'initialize' method
     BX_CPU(i)->sanity_checks();
     BX_CPU(i)->register_state();
-    BX_INSTR_INIT(i);
+    BX_INSTR_INITIALIZE(i);
   }
 #endif
 
