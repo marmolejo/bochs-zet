@@ -32,9 +32,9 @@
 void bx_instr_init_env(void) {}
 void bx_instr_exit_env(void) {}
 
-void bx_instr_init(unsigned cpu) {}
+void bx_instr_initialize(unsigned cpu) {}
 void bx_instr_exit(unsigned cpu) {}
-void bx_instr_reset(unsigned cpu) {}
+void bx_instr_reset(unsigned cpu, unsigned type) {}
 void bx_instr_hlt(unsigned cpu) {}
 void bx_instr_mwait(unsigned cpu, bx_phy_address addr, unsigned len, Bit32u flags) {}
 void bx_instr_new_instruction(unsigned cpu) {}

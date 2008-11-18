@@ -22,7 +22,7 @@ extern "C" {
 #endif
 
 #define BX_PLUGIN_UNMAPPED  "unmapped"
-#define BX_PLUGIN_BIOSDEV   " biosdev"
+#define BX_PLUGIN_BIOSDEV   "biosdev"
 #define BX_PLUGIN_CMOS      "cmos"
 #define BX_PLUGIN_VGA       "vga"
 #define BX_PLUGIN_FLOPPY    "floppy"

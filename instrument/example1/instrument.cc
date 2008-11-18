@@ -37,7 +37,7 @@ static disassembler bx_disassembler;
 void bx_instr_init_env(void) {}
 void bx_instr_exit_env(void) {}
 
-void bx_instr_init(unsigned cpu)
+void bx_instr_initialize(unsigned cpu)
 {
   assert(cpu < BX_SMP_PROCESSORS);
 
@@ -49,7 +49,7 @@ void bx_instr_init(unsigned cpu)
   fprintf(stderr, "Initialize cpu %d\n", cpu);
 }
 
-void bxInstrumentation::bx_instr_reset()
+void bxInstrumentation::bx_instr_reset(unsigned type)
 {
   valid = is_branch = 0;
   num_data_accesses = 0;

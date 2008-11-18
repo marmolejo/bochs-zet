@@ -66,7 +66,7 @@ static logfunctions *instrument_log = new logfunctions ();
 void bx_instr_init_env(void) {}
 void bx_instr_exit_env(void) {}
 
-void bx_instr_init(unsigned cpu)
+void bx_instr_initialize(unsigned cpu)
 {
   assert(cpu < BX_SMP_PROCESSORS);
 
@@ -76,7 +76,7 @@ void bx_instr_init(unsigned cpu)
   fprintf(stderr, "Initialize cpu %d\n", cpu);
 }
 
-void bx_instr_reset(unsigned cpu)
+void bx_instr_reset(unsigned cpu, unsigned type)
 {
   instruction[cpu].valid = 0;
   instruction[cpu].num_data_accesses = 0;

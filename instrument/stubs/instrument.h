@@ -61,9 +61,9 @@ void bx_instr_exit_env(void);
 
 // called from the CPU core
 
-void bx_instr_init(unsigned cpu);
+void bx_instr_initialize(unsigned cpu);
 void bx_instr_exit(unsigned cpu);
-void bx_instr_reset(unsigned cpu);
+void bx_instr_reset(unsigned cpu, unsigned type);
 void bx_instr_hlt(unsigned cpu);
 void bx_instr_mwait(unsigned cpu, bx_phy_address addr, unsigned len, Bit32u flags);
 void bx_instr_new_instruction(unsigned cpu);
@@ -110,9 +110,9 @@ void bx_instr_wrmsr(unsigned cpu, unsigned addr, Bit64u value);
 #  define BX_INSTR_EXIT_ENV() bx_instr_exit_env()
 
 /* simulation init, shutdown, reset */
-#  define BX_INSTR_INIT(cpu_id)            bx_instr_init(cpu_id)
+#  define BX_INSTR_INITIALIZE(cpu_id)      bx_instr_initialize(cpu_id)
 #  define BX_INSTR_EXIT(cpu_id)            bx_instr_exit(cpu_id)
-#  define BX_INSTR_RESET(cpu_id)           bx_instr_reset(cpu_id)
+#  define BX_INSTR_RESET(cpu_id, type)     bx_instr_reset(cpu_id, type)
 #  define BX_INSTR_HLT(cpu_id)             bx_instr_hlt(cpu_id)
 
 #  define BX_INSTR_MWAIT(cpu_id, addr, len, flags) \
@@ -179,9 +179,9 @@ void bx_instr_wrmsr(unsigned cpu, unsigned addr, Bit64u value);
 #  define BX_INSTR_EXIT_ENV()
 
 /* simulation init, shutdown, reset */
-#  define BX_INSTR_INIT(cpu_id)
+#  define BX_INSTR_INITIALIZE(cpu_id)
 #  define BX_INSTR_EXIT(cpu_id)
-#  define BX_INSTR_RESET(cpu_id)
+#  define BX_INSTR_RESET(cpu_id, type)
 #  define BX_INSTR_HLT(cpu_id)
 #  define BX_INSTR_MWAIT(cpu_id, addr, len, flags)
 #  define BX_INSTR_NEW_INSTRUCTION(cpu_id)
