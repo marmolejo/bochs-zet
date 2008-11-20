@@ -821,6 +821,11 @@ void BX_CPU_C::boundaryFetch(const Bit8u *fetchPtr, unsigned remainingInPage, bx
       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b, Is64BitMode());
 }
 
+void BX_CPU_C::deliver_INIT(void)
+{
+  BX_CPU_THIS_PTR reset(BX_RESET_SOFTWARE);
+}
+
 void BX_CPU_C::deliver_NMI(void)
 {
   BX_CPU_THIS_PTR nmi_pending = 1;
