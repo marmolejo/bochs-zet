@@ -324,7 +324,7 @@ void bx_ne2k_c::write_cr(Bit32u value)
 
     // some more debug
     if (BX_NE2K_THIS s.tx_timer_active)
-      BX_PANIC(("CR write, tx timer still active"));
+      BX_ERROR(("CR write, tx timer still active"));
 
     // Schedule a timer to trigger a tx-complete interrupt
     // The number of microseconds is the bit-time / 10.
