@@ -818,7 +818,7 @@ bx_bool bx_local_apic_c::match_logical_addr(Bit8u address)
     if (address == 0xff) // broadcast all
       return 1;
 
-    if ((address & 0xf0) == (log_dest & 0xf0))
+    if ((unsigned)(address & 0xf0) == (unsigned)(log_dest & 0xf0))
       match = ((address & log_dest & 0x0f) != 0);
   }
   else {

@@ -76,7 +76,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RSM(bxInstruction_c *i)
 
   BX_INFO(("RSM: Resuming from System Management Mode"));
 
-  BX_CPU_THIS_PTR nmi_disable = 0;
+  BX_CPU_THIS_PTR disable_NMI = 0;
 
   Bit32u saved_state[SMM_SAVE_STATE_MAP_SIZE], n;
   // reset reserved bits
