@@ -389,11 +389,6 @@ static unsigned tlbNonGlobalFlushes=0;
 #define InstrTLB_Increment(v)
 #endif
 
-#define BX_PHY_ADDRESS_MASK ((((Bit64u)(1)) << BX_PHY_ADDRESS_WIDTH) - 1)
-
-#define BX_PHY_ADDRESS_RESERVED_BITS \
-      (~BX_PHY_ADDRESS_MASK & BX_CONST64(0xfffffffffffff))
-
 // ==============================================================
 
   void BX_CPP_AttrRegparmN(2)
