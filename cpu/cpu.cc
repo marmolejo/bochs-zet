@@ -823,7 +823,8 @@ void BX_CPU_C::boundaryFetch(const Bit8u *fetchPtr, unsigned remainingInPage, bx
 
 void BX_CPU_C::deliver_INIT(void)
 {
-  BX_CPU_THIS_PTR reset(BX_RESET_SOFTWARE);
+  if (! BX_CPU_THIS_PTR init_disable)
+    BX_CPU_THIS_PTR reset(BX_RESET_SOFTWARE);
 }
 
 void BX_CPU_C::deliver_NMI(void)

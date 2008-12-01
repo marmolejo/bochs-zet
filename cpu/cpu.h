@@ -925,6 +925,7 @@ public: // for now...
   bx_bool  user_pl;
   bx_bool  in_smm;
   bx_bool  nmi_disable;
+  bx_bool  init_disable;
 #if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
   unsigned alignment_check_mask;
 #endif
