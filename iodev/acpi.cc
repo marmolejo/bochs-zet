@@ -47,6 +47,9 @@ const Bit8u acpi_sm_iomask[16] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 0, 0, 0
 
 #define ACPI_DBG_IO_ADDR  0xb044
 
+#define RSM_STS (1 << 15)
+#define PWRBTN_STS (1 << 8)
+
 #define RTC_EN (1 << 10)
 #define PWRBTN_EN (1 << 8)
 #define GBL_EN (1 << 5)
@@ -413,12 +416,18 @@ void bx_acpi_ctrl_c::write(Bit32u address, Bit32u value, unsigned io_len)
           BX_ACPI_THIS s.pmcntrl = value & ~(SUS_EN);
           if (value & SUS_EN) {
             // change suspend type
-            Bit16u sus_typ = (value >> 10) & 3;
+            Bit16u sus_typ = (value >> 10) & 7;
             switch (sus_typ) {
               case 0: // soft power off
                 bx_user_quit = 1;
                 LOG_THIS setonoff(LOGLEV_PANIC, ACT_FATAL);
                 BX_PANIC(("ACPI control: soft power off"));
+                break;
+              case 1:
+                BX_INFO(("ACPI control: suspend to ram"));
+                BX_ACPI_THIS s.pmsts |= (RSM_STS | PWRBTN_STS);
+                DEV_cmos_set_reg(0xF, 0xFE);
+                bx_pc_system.Reset(BX_RESET_HARDWARE);
                 break;
               default:
                 break;
