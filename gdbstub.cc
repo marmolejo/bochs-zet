@@ -420,10 +420,10 @@ static int access_linear(Bit64u laddress,
   valid = BX_CPU(0)->dbg_xlate_linear2phy(laddress, (bx_phy_address*)&phys);
   if (!valid) return(0);
 
-  if (rw == BX_READ) {
-    valid = BX_MEM(0)->dbg_fetch_mem(BX_CPU(0), phys, len, data);
-  } else {
+  if (rw & 1) {
     valid = BX_MEM(0)->dbg_set_mem(phys, len, data);
+  } else {
+    valid = BX_MEM(0)->dbg_fetch_mem(BX_CPU(0), phys, len, data);
   }
 
   return(valid);

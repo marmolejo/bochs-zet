@@ -483,13 +483,11 @@ void CDECL bx_signal_handler(int signum);
 int bx_atexit(void);
 BOCHSAPI extern bx_debug_t bx_dbg;
 
-// memory access type (read/write/rw)
+// memory access type (read/write/execute/rw)
 #define BX_READ         0
 #define BX_WRITE        1
-#define BX_RW           2
-
-#define DATA_ACCESS     0
-#define CODE_ACCESS     1
+#define BX_EXECUTE      2
+#define BX_RW           3
 
 #include "memory/memory.h"
 #include "pc_system.h"

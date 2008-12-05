@@ -722,7 +722,7 @@ void BX_CPU_C::prefetch(void)
     bx_phy_address pAddr;
 
     if (BX_CPU_THIS_PTR cr0.get_PG()) {
-      pAddr = translate_linear(laddr, CPL, BX_READ, CODE_ACCESS);
+      pAddr = translate_linear(laddr, CPL, BX_READ);
       pAddr = A20ADDR(pAddr);
     } 
     else {
@@ -737,7 +737,7 @@ void BX_CPU_C::prefetch(void)
   }
   else {
     BX_CPU_THIS_PTR eipFetchPtr = BX_MEM(0)->getHostMemAddr(BX_CPU_THIS,
-        BX_CPU_THIS_PTR pAddrA20Page, BX_READ, CODE_ACCESS);
+        BX_CPU_THIS_PTR pAddrA20Page, BX_EXECUTE);
   }
 
   // Sanity checks
