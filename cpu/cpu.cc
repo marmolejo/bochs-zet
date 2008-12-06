@@ -722,7 +722,7 @@ void BX_CPU_C::prefetch(void)
     bx_phy_address pAddr;
 
     if (BX_CPU_THIS_PTR cr0.get_PG()) {
-      pAddr = translate_linear(laddr, CPL, BX_READ);
+      pAddr = translate_linear(laddr, CPL, BX_EXECUTE);
       pAddr = A20ADDR(pAddr);
     } 
     else {
