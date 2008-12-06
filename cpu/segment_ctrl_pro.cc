@@ -433,7 +433,7 @@ BX_CPU_C::get_descriptor_h(const bx_descriptor_t *d)
 
 #if BX_CPU_LEVEL >= 3
   Bit16u BX_CPP_AttrRegparmN(1)
-BX_CPU_C::get_segment_ar_data(const bx_descriptor_t *d)  // for SMM ONLY
+BX_CPU_C::get_segment_ar_data(const bx_descriptor_t *d)
 {
   Bit16u val = 0;
 
@@ -448,10 +448,6 @@ BX_CPU_C::get_segment_ar_data(const bx_descriptor_t *d)  // for SMM ONLY
 #endif
           (d->u.segment.d_b << 14) |
           (d->u.segment.g << 15);
-
-    // for SMM map the segment cache valid bit stored in AR[8]
-    if (d->valid)
-        val |= (1<<8);
 
     return val;
   }
@@ -475,15 +471,10 @@ BX_CPU_C::get_segment_ar_data(const bx_descriptor_t *d)  // for SMM ONLY
         BX_PANIC(("get_segment_ar_data(): case %u unsupported", (unsigned) d->type));
   }
 
-  // for SMM map the segment cache valid bit stored in AR[8]
-  if (d->valid)
-      val |= (1<<8);
-
   return val;
 }
 
-// for SMM ONLY
-bx_bool BX_CPU_C::set_segment_ar_data(bx_segment_reg_t *seg,
+bx_bool BX_CPU_C::set_segment_ar_data(bx_segment_reg_t *seg, bx_bool valid,
             Bit16u raw_selector, bx_address base, Bit32u limit, Bit16u ar_data)
 {
   parse_selector(raw_selector, &seg->selector);
@@ -495,8 +486,7 @@ bx_bool BX_CPU_C::set_segment_ar_data(bx_segment_reg_t *seg,
   d->segment  = (ar_data >> 4) & 0x1;
   d->type     = (ar_data & 0x0f);
 
-  // for SMM map the segment cache valid bit stored in AR[8]
-  d->valid    = (ar_data >> 8) & 0x1;
+  d->valid    = valid;
 
   if (d->segment) { /* data/code segment descriptors */
     d->u.segment.g     = (ar_data >> 15) & 0x1;
