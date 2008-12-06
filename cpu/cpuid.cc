@@ -540,7 +540,7 @@ void BX_CPU_C::set_cpuid_defaults(void)
   // EBX - Maximum size (in bytes) required by enabled features
   // ECX - Maximum size (in bytes) required by CPU supported features
   // EDX - XCR0 upper 32 bits
-  cpuid->eax = BX_CPU_THIS_PTR xcr0.getRegister();
+  cpuid->eax = BX_CPU_THIS_PTR xcr0.get32();
   cpuid->ebx = 512+64;
   cpuid->ecx = 512+64;
   cpuid->edx = 0;

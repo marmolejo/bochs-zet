@@ -162,7 +162,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RDMSR(bxInstruction_c *i)
 
 #if BX_SUPPORT_X86_64
     case BX_MSR_EFER:
-      RAX = BX_CPU_THIS_PTR efer.getRegister();
+      RAX = BX_CPU_THIS_PTR efer.get32();
       RDX = 0;
       break;
 
@@ -438,7 +438,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::WRMSR(bxInstruction_c *i)
         exception(BX_GP_EXCEPTION, 0, 0);
       }
 
-      BX_CPU_THIS_PTR efer.setRegister((EAX & BX_EFER_SUPPORTED_BITS & ~BX_EFER_LMA_MASK)
+      BX_CPU_THIS_PTR efer.set32((EAX & BX_EFER_SUPPORTED_BITS & ~BX_EFER_LMA_MASK)
               | (BX_CPU_THIS_PTR efer.val32 & BX_EFER_LMA_MASK)); // keep LMA untouched
       break;
 
