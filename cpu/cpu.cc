@@ -839,6 +839,12 @@ void BX_CPU_C::deliver_SMI(void)
   BX_CPU_THIS_PTR async_event = 1;
 }
 
+void BX_CPU_C::set_INTR(bx_bool value)
+{
+  BX_CPU_THIS_PTR INTR = value;
+  BX_CPU_THIS_PTR async_event = 1;
+}
+
 #if BX_DEBUGGER || BX_GDBSTUB
 bx_bool BX_CPU_C::dbg_instruction_prolog(void)
 {

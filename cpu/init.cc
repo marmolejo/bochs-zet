@@ -1173,9 +1173,3 @@ void BX_CPU_C::assert_checks(void)
     BX_PANIC(("assert_checks: MONITOR range is not set correctly !"));
 #endif
 }
-
-void BX_CPU_C::set_INTR(bx_bool value)
-{
-  BX_CPU_THIS_PTR INTR = value;
-  BX_CPU_THIS_PTR async_event = 1;
-}
