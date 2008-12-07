@@ -26,6 +26,12 @@
 #include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
+#if BX_SUPPORT_X86_64==0
+// Make life easier for merging code.
+#define RAX EAX
+#define RDX EDX
+#endif
+
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::RDMSR(bxInstruction_c *i)
 {
 #if BX_CPU_LEVEL >= 5
