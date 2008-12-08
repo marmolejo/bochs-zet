@@ -2062,9 +2062,9 @@ void BX_CPU_C::hwbreakpoint_match(bx_address laddr, unsigned len, unsigned rw)
 {
   if (BX_CPU_THIS_PTR dr7 & 0x000000ff) {
     // Only compare debug registers if any breakpoints are enabled
-    unsigned opa, opb;
+    unsigned opa, opb, write = rw & 1;
     opa = BX_HWDebugMemRW; // Read or Write always compares vs 11b
-    if (rw==BX_READ) // only compares vs 11b
+    if (! write) // only compares vs 11b
       opb = opa;
     else // BX_WRITE or BX_RW; also compare vs 01b
       opb = BX_HWDebugMemW;
