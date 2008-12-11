@@ -714,9 +714,7 @@ void BX_CPU_C::prefetch(void)
 
   if ((tlbEntry->lpf == lpf) && !(tlbEntry->accessBits & USER_PL)) {
     BX_CPU_THIS_PTR pAddrA20Page = A20ADDR(tlbEntry->ppf);
-#if BX_SupportGuest2HostTLB
     fetchPtr = (Bit8u*) (tlbEntry->hostPageAddr);
-#endif
   }  
   else {
     bx_phy_address pAddr;
