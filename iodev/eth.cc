@@ -89,7 +89,7 @@ extern class bx_vnet_locator_c bx_vnet_match;
 eth_pktmover_c *
 eth_locator_c::create(const char *type, const char *netif,
 		      const char *macaddr,
-		      eth_rx_handler_t rxh, void *rxarg, char *script)
+		      eth_rx_handler_t rxh, void *rxarg, const char *script)
 {
 #ifdef eth_static_constructors
   for (eth_locator_c *p = all; p != NULL; p = p->next) {
@@ -168,7 +168,7 @@ extern "C" {
 #define LOG_THIS bx_devices.pluginNE2kDevice->
 
 // This is a utility script used for tuntap or ethertap
-int execute_script(char* scriptname, char* arg1)
+int execute_script(const char* scriptname, char* arg1)
 {
   int pid,status;
 

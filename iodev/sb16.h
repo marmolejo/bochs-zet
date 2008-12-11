@@ -158,7 +158,7 @@ public:
 
       /* These functions return 1 on success and 0 on error */
   BX_SB16_BUFINL bx_bool put(Bit8u data);    // write one byte in the buffer
-  BX_SB16_BUFINL bx_bool puts(char *data, ...);  // write a formatted string to the buffer
+  BX_SB16_BUFINL bx_bool puts(const char *data, ...);  // write a formatted string to the buffer
   BX_SB16_BUFINL bx_bool get(Bit8u *data);   // read the next available byte
   BX_SB16_BUFINL bx_bool getw(Bit16u *data); // get word, in order lo/hi
   BX_SB16_BUFINL bx_bool getw1(Bit16u *data);// get word, in order hi/lo

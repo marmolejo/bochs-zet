@@ -3499,7 +3499,7 @@ bx_bool bx_sb16_buffer::put(Bit8u data)
 }
 
 // This writes a formatted string to the buffer
-bx_bool bx_sb16_buffer::puts(char *data, ...)
+bx_bool bx_sb16_buffer::puts(const char *data, ...)
 {
   if (data == NULL)
     return 0;  // invalid string

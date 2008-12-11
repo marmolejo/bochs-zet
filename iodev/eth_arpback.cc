@@ -85,7 +85,7 @@ public:
 protected:
   eth_pktmover_c *allocate(const char *netif, const char *macaddr,
 			   eth_rx_handler_t rxh,
-			   void *rxarg, char *script) {
+			   void *rxarg, const char *script) {
     return (new bx_arpback_pktmover_c(netif, macaddr, rxh, rxarg, script));
   }
 } bx_arpback_match;
@@ -100,7 +100,7 @@ bx_arpback_pktmover_c::bx_arpback_pktmover_c(const char *netif,
 				       const char *macaddr,
 				       eth_rx_handler_t rxh,
 				       void *rxarg,
-				       char *script)
+				       const char *script)
 {
   this->rx_timer_index =
     bx_pc_system.register_timer(this, this->rx_timer_handler, 1000,

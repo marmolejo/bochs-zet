@@ -100,7 +100,7 @@ public:
 		     const char *macaddr,
 		     eth_rx_handler_t rxh,
 		     void *rxarg,
-		     char *script);
+		     const char *script);
   void sendpkt(void *buf, unsigned io_len);
 
 private:
@@ -125,7 +125,7 @@ protected:
   eth_pktmover_c *allocate(const char *netif,
 			   const char *macaddr,
 			   eth_rx_handler_t rxh,
-			   void *rxarg, char *script) {
+			   void *rxarg, const char *script) {
     return (new bx_linux_pktmover_c(netif, macaddr, rxh, rxarg, script));
   }
 } bx_linux_match;
@@ -141,7 +141,7 @@ bx_linux_pktmover_c::bx_linux_pktmover_c(const char *netif,
 				       const char *macaddr,
 				       eth_rx_handler_t rxh,
 				       void *rxarg,
-				       char *script)
+				       const char *script)
 {
   struct sockaddr_ll sll;
   struct packet_mreq mr;

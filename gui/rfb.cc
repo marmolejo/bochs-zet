@@ -304,7 +304,7 @@ void rfbSetStatusText(int element, const char *text, bx_bool active, bx_bool w)
     newBits[((xsize / 8) + 1) * i] = 0;
   }
   if (element > 0) {
-    color = color = active?(w?0xc0:0xa0):0xf7;
+    color = active?(w?0xc0:0xa0):0xf7;
   } else {
     color = 0xf0;
   }
