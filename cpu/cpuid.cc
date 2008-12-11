@@ -638,6 +638,9 @@ void BX_CPU_C::set_cpuid_defaults(void)
 #endif
 #if BX_SUPPORT_X86_64
   features |= (1 << 29) | (1 << 27) | (1 << 25) | (1 << 20) | (1 << 11);
+#if BX_SUPPORT_1G_PAGES
+  features |= (1 << 27);
+#endif
 #endif
   cpuid->edx = features;
 
