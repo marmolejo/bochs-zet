@@ -539,10 +539,15 @@ BX_CPP_INLINE void DEV_MEM_READ_PHYSICAL(bx_phy_address phy_addr, unsigned len, 
 
 BX_CPP_INLINE void DEV_MEM_READ_PHYSICAL_BLOCK(bx_phy_address phy_addr, unsigned len, Bit8u *ptr)
 {
+  Bit8u *memptr;
+
   while(len > 0) { 
     unsigned remainingInPage = 0x1000 - (phy_addr & 0xfff);
     if (len < remainingInPage) remainingInPage = len;
-    BX_MEM(0)->readPhysicalPage(NULL, phy_addr, remainingInPage, ptr);
+    memptr = BX_MEM(0)->getHostMemAddr(NULL, phy_addr, BX_READ);
+    if (memptr != NULL) {
+      memcpy(ptr, memptr, remainingInPage);
+    }
     ptr += remainingInPage;
     phy_addr += remainingInPage;
     len -= remainingInPage;
@@ -567,10 +572,15 @@ BX_CPP_INLINE void DEV_MEM_WRITE_PHYSICAL(bx_phy_address phy_addr, unsigned len,
 
 BX_CPP_INLINE void DEV_MEM_WRITE_PHYSICAL_BLOCK(bx_phy_address phy_addr, unsigned len, Bit8u *ptr)
 {
+  Bit8u *memptr;
+
   while(len > 0) { 
     unsigned remainingInPage = 0x1000 - (phy_addr & 0xfff);
     if (len < remainingInPage) remainingInPage = len;
-    BX_MEM(0)->writePhysicalPage(NULL, phy_addr, remainingInPage, ptr);
+    memptr = BX_MEM(0)->getHostMemAddr(NULL, phy_addr, BX_WRITE);
+    if (memptr != NULL) {
+      memcpy(memptr, ptr, remainingInPage);
+    }
     ptr += remainingInPage;
     phy_addr += remainingInPage;
     len -= remainingInPage;
