@@ -777,7 +777,10 @@ void bx_pciusb_c::usb_timer(void)
           queue_num++;
         } else {  // else is a TD
           address = stack[stk].next;
-          DEV_MEM_READ_PHYSICAL(address, 32, (Bit8u*) &td);
+          DEV_MEM_READ_PHYSICAL(address,    4, (Bit8u*) &td.dword0);
+          DEV_MEM_READ_PHYSICAL(address+4,  4, (Bit8u*) &td.dword1);
+          DEV_MEM_READ_PHYSICAL(address+8,  4, (Bit8u*) &td.dword2);
+          DEV_MEM_READ_PHYSICAL(address+12, 4, (Bit8u*) &td.dword3);
           bx_bool spd = (td.dword1 & (1<<29)) ? 1 : 0;
           stack[stk].next = td.dword0 & ~0xF;
           bx_bool depthbreadth = (td.dword0 & 0x0004) ? 1 : 0;     // 1 = depth first, 0 = breadth first
