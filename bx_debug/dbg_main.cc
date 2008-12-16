@@ -2934,7 +2934,7 @@ void bx_dbg_info_idt_command(unsigned from, unsigned to)
   }
 
 #if BX_SUPPORT_X86_64
-  if (BX_CPU(dbg_cpu)->get_cpu_mode() == BX_MODE_LONG_64) {
+  if (BX_CPU(dbg_cpu)->long_mode()) {
     dbg_printf("Interrupt Descriptor Table (base=0x" FMT_ADDRX ", limit=%d):\n", idtr.base, idtr.limit);
     for (unsigned n = from; n<=to; n++) {
       Bit8u entry[16];
