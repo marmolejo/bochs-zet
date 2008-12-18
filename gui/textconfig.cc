@@ -286,7 +286,7 @@ static const char *startup_options_prompt =
 "\n"
 "Please choose one: [0] ";
 
-#ifndef WIN32
+#if !defined(WIN32) || (!BX_WITH_WIN32 && !BX_WITH_SDL)
 static const char *runtime_menu_prompt =
 "---------------------\n"
 "Bochs Runtime Options\n"
@@ -315,7 +315,7 @@ static const char *runtime_menu_prompt =
   do {fprintf(stderr, "ERROR: menu %d has no choice %d\n", menu, choice); \
       assert(0); } while (0)
 
-#ifndef WIN32
+#if !defined(WIN32) || (!BX_WITH_WIN32 && !BX_WITH_SDL)
 void build_runtime_options_prompt(const char *format, char *buf, int size)
 {
   bx_list_c *floppyop;
@@ -469,7 +469,7 @@ int bx_config_interface(int menu)
         {
           bx_list_c *cdromop = NULL;
           char pname[80];
-#ifdef WIN32
+#if defined(WIN32) && (BX_WITH_WIN32 || BX_WITH_SDL)
           choice = RuntimeOptionsDialog();
 #else
           char prompt[1024];

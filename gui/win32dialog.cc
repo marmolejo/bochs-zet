@@ -4,7 +4,7 @@
 
 #include "win32dialog.h"
 
-#if BX_USE_TEXTCONFIG && defined(WIN32)
+#if BX_USE_TEXTCONFIG && defined(WIN32) && (BX_WITH_WIN32 || BX_WITH_SDL)
 
 #include "bochs.h"
 #include "win32res.h"

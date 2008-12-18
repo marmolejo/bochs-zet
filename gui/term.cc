@@ -35,8 +35,6 @@
 #include "iodev.h"
 #if BX_WITH_TERM
 
-#include "icon_bochs.h"
-
 extern "C" {
 #include <curses.h>
 #include <signal.h>
