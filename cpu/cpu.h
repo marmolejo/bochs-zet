@@ -948,6 +948,9 @@ public: // for now...
   // for paging
   struct {
     bx_TLB_entry entry[BX_TLB_SIZE] BX_CPP_AlignN(16);
+#if BX_SUPPORT_LARGE_PAGES
+    bx_bool split_large;
+#endif
   } TLB;
 
 #if BX_SUPPORT_PAE
