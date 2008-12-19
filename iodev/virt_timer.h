@@ -79,6 +79,9 @@ private:
   Bit64u last_realtime_ticks;
   Bit64u ticks_per_second;
 
+  // Local copy of IPS value
+  Bit64u ips;
+
   bx_bool init_done;
 
   int system_timer_id;
