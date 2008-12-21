@@ -42,7 +42,7 @@ static bx_bool ioapic_read(bx_phy_address a20addr, unsigned len, void *data, voi
 static bx_bool ioapic_write(bx_phy_address a20addr, unsigned len, void *data, void *param)
 {
   if (len != 4) {
-    BX_PANIC (("I/O apic write with len=%ld (should be 4)", len));
+    BX_PANIC (("I/O apic write with len=%d (should be 4)", len));
   }
   bx_ioapic.write(a20addr, (Bit32u*) data, len);
   return 1;

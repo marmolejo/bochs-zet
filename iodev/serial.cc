@@ -384,8 +384,8 @@ bx_serial_c::init(void)
             i+1, server ? "server" : "client", socket, host, port));
       } else if (!strncmp(mode, "pipe", 4)) {
         if (strlen(dev) > 0) {
-          bx_bool server = !strcmp(mode, "pipe-server");
 #ifdef WIN32
+          bx_bool server = !strcmp(mode, "pipe-server");
           HANDLE pipe;
 
           BX_SER_THIS s[i].io_mode = BX_SER_MODE_PIPE;

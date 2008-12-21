@@ -153,7 +153,7 @@ void bx_null_pktmover_c::rx_timer_handler (void *this_ptr)
     // dump packet in hex into an ascii log file
     fprintf(class_ptr->rxlog_txt, "NE2K transmitting a packet, length %u\n", io_len);
     Bit8u *charbuf = (Bit8u *)buf;
-    for (n=0; n<io_len; n++) {
+    for (n=0; n<(size_t)io_len; n++) {
       if (((n % 16) == 0) && n>0)
 	fprintf(class_ptr->rxlog_txt, "\n");
       fprintf(class_ptr->rxlog_txt, "%02x ", charbuf[n]);

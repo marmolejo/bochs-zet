@@ -946,19 +946,20 @@ Bit32u bx_hard_drive_c::read(Bit32u address, unsigned io_len)
                   BX_SELECTED_DRIVE(channel).cdrom.next_lba++;
                   BX_SELECTED_DRIVE(channel).cdrom.remaining_blocks--;
 
-                  if (bx_dbg.disk || (BX_SELECTED_IS_CD(channel) && bx_dbg.cdrom))
-                    if (!BX_SELECTED_DRIVE(channel).cdrom.remaining_blocks)
+                  if (bx_dbg.disk || (BX_SELECTED_IS_CD(channel) && bx_dbg.cdrom)) {
+                    if (!BX_SELECTED_DRIVE(channel).cdrom.remaining_blocks) {
                       BX_INFO(("Last READ block loaded {CDROM}"));
-                    else
+                    } else {
                       BX_INFO(("READ block loaded (%d remaining) {CDROM}",
                                BX_SELECTED_DRIVE(channel).cdrom.remaining_blocks));
-
+                    }
+                  }
                   // one block transfered, start at beginning
                   index = 0;
 #else
                   BX_PANIC(("Read with no LOWLEVEL_CDROM"));
 #endif
-	          break;
+                  break;
 
                 default: // no need to load a new block
                   break;
