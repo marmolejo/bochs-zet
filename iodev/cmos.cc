@@ -81,6 +81,11 @@ bx_cmos_c *theCmosDevice = NULL;
 // 0x39   2   ata translation policy (ata0...ata3)
 // 0x3d   1   eltorito boot sequence (#1 + #2)
 //
+// Qemu CMOS map
+//
+// Idx  Len   Description
+// 0x5b   3   extra memory above 4GB
+// 0x5f   1   number of processors
 
 
 Bit8u bcd_to_bin(Bit8u value, bx_bool is_binary)

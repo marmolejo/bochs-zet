@@ -577,6 +577,7 @@ shows all CMOS registers and their meaning.
 <screen>
 Legend:
 S	- set by the emulator (Bochs)
+Q	- set by the emulator (Qemu)
 B	- set by the bios
 U	- unused by the bios
 
@@ -689,6 +690,8 @@ LOC	NOTES	MEANING
 	bits
 	3-0	boot drive #1
 	7-4	boot drive #2
+0x5b	Q	extra memory above 4GB
+0x5f	Q	number of processors
 </screen>
 </para>
 </section>
