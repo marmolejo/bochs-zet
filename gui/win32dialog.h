@@ -2,6 +2,9 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 
+#ifndef BX_WIN32_DIALOGS_H
+#define BX_WIN32_DIALOGS_H
+
 #include "config.h"
 
 #ifndef _WIN32_IE
@@ -25,9 +28,11 @@ extern "C" {
 
 int RuntimeOptionsDialog();
 #if BX_DEBUGGER
-void InitDebugDialog(HWND mainwnd);
+void InitDebugDialog(void* mainwnd);
 void RefreshDebugDialog();
 #endif
 void win32_init_notify_callback();
 
 #endif
+
+#endif // BX_WIN32_DIALOGS_H

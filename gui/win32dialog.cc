@@ -15,8 +15,8 @@ static bxevent_handler old_callback = NULL;
 static void *old_callback_arg = NULL;
 #if BX_DEBUGGER
 HWND hDebugDialog = NULL;
-char *debug_cmd = NULL;
-BOOL debug_cmd_ready = FALSE;
+extern char *debug_cmd;
+extern bx_bool debug_cmd_ready;
 #endif
 
 int AskFilename(HWND hwnd, bx_param_filename_c *param, const char *ext);
