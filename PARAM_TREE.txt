@@ -24,6 +24,9 @@ cpu
   quantum
   reset_on_triple_fault
   cpuid_limit_winnt
+  vendor_string
+  brand_string
+  msrs
 
 memory
   standard
