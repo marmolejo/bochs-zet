@@ -2502,7 +2502,7 @@ static int parse_line_formatted(const char *context, int num_params, char *param
           PARSE_ERR(("%s: cpu directive malformed.", context));
         }
       } else if (!strncmp(params[i], "msrs=", 5)) {
-        SIM->get_param_string(BXPN_CONFIGURABLE_MSRS_PATH)->set(&params[1][5]);
+        SIM->get_param_string(BXPN_CONFIGURABLE_MSRS_PATH)->set(&params[i][5]);
       } else if (!strncmp(params[i], "vendor_string=", 14)) {
         if (strlen(&params[i][14]) != BX_CPUID_VENDOR_LEN) {
           PARSE_ERR(("%s: cpu directive malformed.", context));
