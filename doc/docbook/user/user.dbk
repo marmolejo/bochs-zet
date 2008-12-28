@@ -3071,6 +3071,11 @@ will be completely bogus !
 Determine whether to limit maximum CPUID function to 3. This mode is required
 to workaround WinNT installation and boot issues.
 </para>
+<para><command>msrs</command></para>
+<para>
+Define path to user CPU Model Specific Registers (MSRs) specification.
+See example in msrs.def.
+</para>
 <para><command>vendor_string</command></para>
 <para>
 Set the CPUID vendor string returned by CPUID(0x0).  This should be a
