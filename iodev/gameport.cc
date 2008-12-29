@@ -34,6 +34,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "gameport.h"
 
 #ifdef __linux__
 

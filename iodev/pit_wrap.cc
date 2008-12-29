@@ -26,6 +26,8 @@
 
 
 #include "iodev.h"
+#include "pit_wrap.h"
+#include "virt_timer.h"
 
 #include "speaker.h"
 

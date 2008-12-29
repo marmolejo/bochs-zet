@@ -35,6 +35,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "harddrv.h"
 #include "hdimage.h"
 #include "vmware3.h"
 #include "vmware4.h"

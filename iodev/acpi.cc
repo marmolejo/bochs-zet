@@ -30,6 +30,8 @@
 
 #include "bochs.h"
 #include "iodev.h"
+#include "acpi.h"
+
 #if BX_SUPPORT_PCI && BX_SUPPORT_ACPI
 
 #define LOG_THIS theACPIController->

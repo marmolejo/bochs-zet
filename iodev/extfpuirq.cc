@@ -34,6 +34,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "extfpuirq.h"
 
 #define LOG_THIS theExternalFpuIrq->
 

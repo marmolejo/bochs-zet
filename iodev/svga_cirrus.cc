@@ -37,6 +37,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "vga.h"
 
 #if BX_SUPPORT_CLGD54XX
 

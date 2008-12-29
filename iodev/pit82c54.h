@@ -10,8 +10,6 @@
 #ifndef _PIT_82C54_H_
 #define _PIT_82C54_H_ 1
 
-//#include "bochs.h"
-
 typedef void (*out_handler_t)(bx_bool value);
 
 class pit_82C54 : public logfunctions {

@@ -31,8 +31,12 @@
 
 #include "bochs.h"
 #include "iodev.h"
-#define LOG_THIS bx_devices.
 
+#include "iodev/pit_wrap.h"
+#include "iodev/virt_timer.h"
+#include "iodev/slowdown_timer.h"
+
+#define LOG_THIS bx_devices.
 
 /* main memory size (in Kbytes)
  * subtract 1k for extended BIOS area

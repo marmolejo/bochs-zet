@@ -34,6 +34,9 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "pci.h"
+#include "pci2isa.h"
+
 #if BX_SUPPORT_PCI
 
 #define LOG_THIS thePci2IsaBridge->

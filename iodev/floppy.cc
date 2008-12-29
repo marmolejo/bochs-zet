@@ -55,6 +55,7 @@ extern "C" {
 }
 #endif
 #include "iodev.h"
+#include "floppy.h"
 // windows.h included by bochs.h
 #ifdef WIN32
 extern "C" {

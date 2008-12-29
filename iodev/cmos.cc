@@ -31,6 +31,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "cmos.h"
 
 #define LOG_THIS theCmosDevice->
 

@@ -34,6 +34,8 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "pci_ide.h"
+
 #if BX_SUPPORT_PCI
 
 #define LOG_THIS thePciIdeController->

@@ -44,6 +44,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "biosdev.h"
 
 bx_biosdev_c *theBiosDevice = NULL;
 

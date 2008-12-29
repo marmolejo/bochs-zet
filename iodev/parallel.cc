@@ -35,6 +35,8 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "parallel.h"
+
 #define LOG_THIS theParallelDevice->
 
 bx_parallel_c *theParallelDevice = NULL;

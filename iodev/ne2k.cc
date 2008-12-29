@@ -34,6 +34,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+
 #if BX_SUPPORT_NE2K
 
 #include "eth.h"
