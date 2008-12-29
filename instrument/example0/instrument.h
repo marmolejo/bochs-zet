@@ -136,8 +136,7 @@ void bx_instr_mem_data_access(unsigned cpu, unsigned seg, bx_address offset, uns
 /* feedback from device units */
 #  define BX_INSTR_INP(addr, len)
 #  define BX_INSTR_INP2(addr, len, val)
-#  define BX_INSTR_OUTP(addr, len)
-#  define BX_INSTR_OUTP2(addr, len, val)
+#  define BX_INSTR_OUTP(addr, len, val)
 
 /* wrmsr callback */
 #  define BX_INSTR_WRMSR(cpu_id, addr, value)
@@ -200,8 +199,7 @@ void bx_instr_mem_data_access(unsigned cpu, unsigned seg, bx_address offset, uns
 /* feedback from device units */
 #  define BX_INSTR_INP(addr, len)
 #  define BX_INSTR_INP2(addr, len, val)
-#  define BX_INSTR_OUTP(addr, len)
-#  define BX_INSTR_OUTP2(addr, len, val)
+#  define BX_INSTR_OUTP(addr, len, val)
 
 /* wrmsr callback */
 #  define BX_INSTR_WRMSR(cpu_id, addr, value)

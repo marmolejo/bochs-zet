@@ -181,8 +181,7 @@ extern bxInstrumentation *icpu;
 /* feedback from device units */
 #  define BX_INSTR_INP(addr, len)
 #  define BX_INSTR_INP2(addr, len, val)
-#  define BX_INSTR_OUTP(addr, len)
-#  define BX_INSTR_OUTP2(addr, len, val)
+#  define BX_INSTR_OUTP(addr, len, val)
 
 /* wrmsr callback */
 #  define BX_INSTR_WRMSR(cpu_id, addr, value)
@@ -245,8 +244,7 @@ extern bxInstrumentation *icpu;
 /* feedback from device units */
 #  define BX_INSTR_INP(addr, len)
 #  define BX_INSTR_INP2(addr, len, val)
-#  define BX_INSTR_OUTP(addr, len)
-#  define BX_INSTR_OUTP2(addr, len, val)
+#  define BX_INSTR_OUTP(addr, len, val)
 
 /* wrmsr callback */
 #  define BX_INSTR_WRMSR(cpu_id, addr, value)
