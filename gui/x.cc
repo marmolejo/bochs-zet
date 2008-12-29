@@ -1264,8 +1264,13 @@ void bx_x_gui_c::text_update(Bit8u *old_text, Bit8u *new_text,
   y = 0;
   cs_y = 0;
   text_base = new_text - tm_info.start_address;
-  split_textrow = (line_compare + v_panning) / font_height;
-  split_fontrows = ((line_compare + v_panning) % font_height) + 1;
+  if (line_compare < dimension_y) {
+    split_textrow = (line_compare + v_panning) / font_height;
+    split_fontrows = ((line_compare + v_panning) % font_height) + 1;
+  } else {
+    split_textrow = rows + 1;
+    split_fontrows = 0;
+  }
   split_screen = 0;
   do {
     hchars = text_cols;
