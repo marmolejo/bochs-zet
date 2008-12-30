@@ -30,6 +30,7 @@
 #if BX_SUPPORT_PCI && BX_SUPPORT_PCIPNIC
 
 #include "eth.h"
+#include "pcipnic.h"
 
 #define LOG_THIS thePNICDevice->
 

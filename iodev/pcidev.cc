@@ -33,6 +33,7 @@
 #include "iodev.h"
 #if BX_SUPPORT_PCI && BX_SUPPORT_PCIDEV
 
+#include "pcidev.h"
 #include "kernel_pcidev.h"
 
 #include <sys/ioctl.h>
