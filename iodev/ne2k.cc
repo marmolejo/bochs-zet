@@ -37,6 +37,7 @@
 
 #if BX_SUPPORT_NE2K
 
+#include "ne2k.h"
 #include "eth.h"
 
 //Never completely fill the ne2k ring so that we never

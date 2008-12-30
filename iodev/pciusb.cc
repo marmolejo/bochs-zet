@@ -58,6 +58,7 @@
 
 #include "iodev.h"
 #if BX_SUPPORT_PCI && BX_SUPPORT_PCIUSB
+#include "pciusb.h"
 #include "usb_hid.h"
 #include "usb_msd.h"
 

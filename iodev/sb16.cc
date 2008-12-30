@@ -36,6 +36,7 @@
 #include "iodev.h"
 #if BX_SUPPORT_SB16
 
+#include "sb16.h"
 #include "soundlnx.h"
 #include "soundwin.h"
 #include "soundosx.h"

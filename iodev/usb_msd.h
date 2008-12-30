@@ -23,6 +23,7 @@
 #ifndef BX_IODEV_USB_MSD_H
 #define BX_IODEV_USB_MSD_H
 
+class device_image_t;
 class scsi_device_t;
 
 

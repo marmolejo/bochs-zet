@@ -595,9 +595,6 @@ BX_CPP_INLINE void DEV_MEM_WRITE_PHYSICAL_BLOCK(bx_phy_address phy_addr, unsigne
 #if BX_SUPPORT_PCIDEV
 #include "iodev/pcidev.h"
 #endif
-#if BX_SUPPORT_PCIUSB
-#include "iodev/pciusb.h"
-#endif
 #endif
 #include "iodev/vga.h"
 #if BX_SUPPORT_APIC
@@ -608,10 +605,6 @@ BX_CPP_INLINE void DEV_MEM_WRITE_PHYSICAL_BLOCK(bx_phy_address phy_addr, unsigne
 #endif
 #include "iodev/keyboard.h"
 #include "iodev/serial.h"
-#if BX_SUPPORT_SB16
-#  include "iodev/sb16.h"
-#endif
-#include "iodev/ne2k.h"
 #if BX_SUPPORT_PCIPNIC
 #include "iodev/pcipnic.h"
 #endif
