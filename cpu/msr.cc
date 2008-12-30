@@ -522,7 +522,7 @@ int BX_CPU_C::load_MSRs(const char *file)
         BX_PANIC(("%s:%d > error parsing MSRs config file!", file, linenum));
         break;  // quit parsing after first error
       }
-      if (index > BX_MSR_MAX_INDEX) {
+      if (index >= BX_MSR_MAX_INDEX) {
         BX_PANIC(("%s:%d > MSR index is too big !", file, linenum));
         continue;
       }
