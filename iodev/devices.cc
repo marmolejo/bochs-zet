@@ -102,7 +102,7 @@ void bx_devices_c::init_stubs()
   pluginBusMouse = &stubBusMouse;
 #endif
 #if BX_SUPPORT_IODEBUG
-  iodebug = NULL;
+  pluginIODebug = &stubIODebug;
 #endif
 #if 0
   g2h = NULL;
@@ -251,6 +251,9 @@ void bx_devices_c::init(BX_MEM_C *newmem)
     BX_ERROR(("Bochs is not compiled with SB16 support"));
 #endif
   }
+#if BX_SUPPORT_IODEBUG
+  PLUG_load_plugin(iodebug, PLUGTYPE_OPTIONAL);
+#endif
 
 #if BX_SUPPORT_PCI
   pluginPciBridge->init ();
@@ -266,11 +269,6 @@ void bx_devices_c::init(BX_MEM_C *newmem)
   /*--- 8254 PIT ---*/
   pit = & bx_pit;
   pit->init();
-
-#if BX_SUPPORT_IODEBUG
-  iodebug = &bx_iodebug;
-  iodebug->init();
-#endif
 
 #if 0
   // Guest to Host interface.  Used with special guest drivers
@@ -337,9 +335,6 @@ void bx_devices_c::reset(unsigned type)
   pluginVgaDevice->reset(type);
   pluginPicDevice->reset(type);
   pit->reset(type);
-#if BX_SUPPORT_IODEBUG
-  iodebug->reset(type);
-#endif
   // now reset optional plugins
   bx_reset_plugins(type);
 }
