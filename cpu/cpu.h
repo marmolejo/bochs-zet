@@ -358,10 +358,12 @@ extern const char* cpu_state_string(Bit32u debug_trap);
 #define IsCanonical(offset) ((Bit64u)((((Bit64s)(offset)) >> (BX_LIN_ADDRESS_WIDTH-1)) + 1) < 2)
 #endif
 
+#define IsValidPhyAddr(addr) ((addr & BX_PHY_ADDRESS_RESERVED_BITS) == 0)
+
 #if BX_SUPPORT_X86_64
-  #define Is64BitMode()       (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)
+  #define Is64BitMode()     (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)
 #else
-  #define Is64BitMode()       (0)
+  #define Is64BitMode()     (0)
 #endif
 
 #define StackAddrSize64() Is64BitMode()
