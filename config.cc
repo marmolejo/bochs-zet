@@ -1440,8 +1440,9 @@ void bx_init_options()
     "macaddr",
     "MAC Address",
     "MAC address of the NE2K device. Don't use an address of a machine on your net.",
-    "\xfe\xfd\xde\xad\xbe\xef", 6);
+    "", 6);
   macaddr->get_options()->set(bx_param_string_c::RAW_BYTES);
+  macaddr->set_initial_val("\xfe\xfd\xde\xad\xbe\xef");
   macaddr->set_separator(':');
   ethmod = new bx_param_enum_c(menu,
     "ethmod",
@@ -1478,8 +1479,9 @@ void bx_init_options()
     "macaddr",
     "MAC Address",
     "MAC address of the Pseudo NIC device. Don't use an address of a machine on your net.",
-    "\xfe\xfd\xde\xad\xbe\xef", 6);
+    "", 6);
   macaddr->get_options()->set(bx_param_string_c::RAW_BYTES);
+  macaddr->set_initial_val("\xfe\xfd\xde\xad\xbe\xef");
   macaddr->set_separator(':');
   ethmod = new bx_param_enum_c(menu,
     "ethmod",
