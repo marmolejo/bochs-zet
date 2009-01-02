@@ -217,6 +217,12 @@ misc
     text_base
     data_base
     bss_base
+  user_plugin
+    1
+      name
+      options
+    2 ... 8
+      (same options as misc.user_plugin.1)
 
 log
   filename
