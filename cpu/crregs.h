@@ -179,7 +179,7 @@ typedef struct msr {
          break;
 #endif
        case BX_PHY_ADDRESS_MSR:
-         if (new_val & BX_PHY_ADDRESS_RESERVED_BITS) return 0;
+         if (! IsValidPhyAddr(new_val)) return 0;
          break;
        default:
          if ((val64 ^ new_val) & reserved) return 0;
