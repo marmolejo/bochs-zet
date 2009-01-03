@@ -333,6 +333,16 @@
   #define BX_MSR_MTRR_DEFTYPE      0x2ff
 #endif
 
+enum {
+  BX_MEMTYPE_UC = 0,
+  BX_MEMTYPE_WC,
+  BX_MEMTYPE_RESERVED2,
+  BX_MEMTYPE_RESERVED3,
+  BX_MEMTYPE_WT,
+  BX_MEMTYPE_WP,
+  BX_MEMTYPE_WB
+};
+
 #if BX_SUPPORT_X86_64
 #define BX_MSR_EFER             0xc0000080
 #define BX_MSR_STAR             0xc0000081

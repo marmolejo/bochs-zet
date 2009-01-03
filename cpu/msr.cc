@@ -219,11 +219,11 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RDMSR(bxInstruction_c *i)
 BX_CPP_INLINE bx_bool isMemTypeValidMTTR(Bit8u memtype)
 {
   switch(memtype) {
-  case 0x00: // UC
-  case 0x01: // WC
-  case 0x04: // WT
-  case 0x05: // WP
-  case 0x06: // WB
+  case BX_MEMTYPE_UC:
+  case BX_MEMTYPE_WC:
+  case BX_MEMTYPE_WT:
+  case BX_MEMTYPE_WP:
+  case BX_MEMTYPE_WB:
     return 1;
   default:
     return 0;
