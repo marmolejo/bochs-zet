@@ -24,11 +24,11 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-#include "bochs.h"
-#include "cpu/apic.h"
 #include "iodev.h"
 
 #if BX_SUPPORT_APIC
+
+#include "cpu/apic.h"
 
 class bx_ioapic_c bx_ioapic;
 #define LOG_THIS  bx_ioapic.

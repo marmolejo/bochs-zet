@@ -37,6 +37,9 @@
 
 #if BX_SUPPORT_NE2K
 
+#if BX_SUPPORT_PCI
+#include "pci.h"
+#endif
 #include "ne2k.h"
 #include "eth.h"
 

@@ -34,9 +34,11 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
-#include "pcivga.h"
 
 #if BX_SUPPORT_PCI && BX_SUPPORT_PCIVGA
+
+#include "pci.h"
+#include "pcivga.h"
 
 #define LOG_THIS thePciVgaAdapter->
 

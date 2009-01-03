@@ -34,9 +34,10 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
-#include "pci.h"
 
 #if BX_SUPPORT_PCI
+
+#include "pci.h"
 
 #define LOG_THIS thePciBridge->
 

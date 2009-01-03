@@ -28,11 +28,12 @@
 // is used to know when we are exporting symbols and when we are importing.
 #define BX_PLUGGABLE
 
-#include "bochs.h"
 #include "iodev.h"
-#include "acpi.h"
 
 #if BX_SUPPORT_PCI && BX_SUPPORT_ACPI
+
+#include "pci.h"
+#include "acpi.h"
 
 #define LOG_THIS theACPIController->
 

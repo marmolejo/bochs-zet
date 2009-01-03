@@ -602,15 +602,11 @@ BX_CPP_INLINE void DEV_MEM_WRITE_PHYSICAL_BLOCK(bx_phy_address phy_addr, unsigne
 
 #ifndef NO_DEVICE_INCLUDES
 
-#if BX_SUPPORT_PCI
-#include "iodev/pci.h"
-#endif
 #include "iodev/vga.h"
 #if BX_SUPPORT_APIC
 #  include "iodev/ioapic.h"
 #endif
 #include "iodev/keyboard.h"
-#include "iodev/serial.h"
 
 #endif /* NO_DEVICE_INCLUDES */
 

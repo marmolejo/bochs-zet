@@ -37,6 +37,8 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "serial.h"
+
 #ifndef WIN32
 #include <sys/socket.h>
 #include <netinet/in.h>

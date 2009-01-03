@@ -30,10 +30,11 @@
 // is used to know when we are exporting symbols and when we are importing.
 #define BX_PLUGGABLE
 
-#include "bochs.h"
-#include "cpu/cpu.h"
 #include "iodev.h"
+
 #if BX_SUPPORT_IODEBUG
+
+#include "cpu/cpu.h"
 #include "iodebug.h"
 
 #define BX_IODEBUG_THIS this->
