@@ -702,6 +702,10 @@ int bx_init_main(int argc, char *argv[])
 #endif
 #endif  /* if BX_PLUGINS */
 
+  // initialize plugin system. This must happen before we attempt to
+  // load any modules.
+  plugin_startup();
+
   int norcfile = 1;
 
   if (SIM->get_param_bool(BXPN_RESTORE_FLAG)->get()) {
@@ -753,9 +757,6 @@ int bx_init_main(int argc, char *argv[])
       return -1;
     }
   }
-  // initialize plugin system. This must happen before we attempt to
-  // load any modules.
-  plugin_startup();
   return 0;
 }
 

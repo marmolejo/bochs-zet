@@ -77,7 +77,6 @@ typedef void   (*bx_write_handler_t)(void *, Bit32u, Bit32u, unsigned);
 class BOCHSAPI bx_devmodel_c : public logfunctions {
   public:
   virtual ~bx_devmodel_c() {}
-  virtual void init_mem(BX_MEM_C *) {}
   virtual void init(void) {}
   virtual void reset(unsigned type) {}
   virtual void register_state(void) {}

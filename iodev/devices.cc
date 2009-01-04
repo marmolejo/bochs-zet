@@ -112,10 +112,6 @@ void bx_devices_c::init(BX_MEM_C *newmem)
 {
   unsigned i;
   const char def_name[] = "Default";
-#if BX_PLUGINS
-  char tmpstr[80];
-  char *plugin;
-#endif
 
   BX_DEBUG(("Init $Id$"));
   mem = newmem;
@@ -256,18 +252,6 @@ void bx_devices_c::init(BX_MEM_C *newmem)
   }
 #if BX_SUPPORT_IODEBUG
   PLUG_load_plugin(iodebug, PLUGTYPE_OPTIONAL);
-#endif
-
-#if BX_PLUGINS
-  // user plugins
-  for (i = 0; i < BX_N_USER_PLUGINS; i++) {
-    sprintf(tmpstr, "misc.user_plugin.%d.name", i+1);
-    plugin = SIM->get_param_string(tmpstr)->getptr();
-    if (strlen(plugin) > 0) {
-      sprintf(tmpstr, "misc.user_plugin.%d.options", i+1);
-      PLUG_load_user_plugin(plugin, SIM->get_param_string(tmpstr)->getptr());
-    }
-  }
 #endif
 
 #if BX_SUPPORT_PCI
