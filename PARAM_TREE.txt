@@ -239,4 +239,4 @@ wxdebug
 user
   (subtree for user-defined options)
 
-(updated Oct  8, 2006 by vruppert)
+(updated Jan  6, 2008 by vruppert)
