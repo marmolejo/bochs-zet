@@ -165,7 +165,7 @@ void BX_CPU_C::initialize(void)
   sprintf(name, "CPU %d", BX_CPU_ID);
 
 #if BX_CONFIGURE_MSRS
-  for (unsigned n=0; n <= BX_MSR_MAX_INDEX; n++) {
+  for (unsigned n=0; n < BX_MSR_MAX_INDEX; n++) {
     BX_CPU_THIS_PTR msrs[n] = 0;
   }
   const char *msrs_filename = SIM->get_param_string(BXPN_CONFIGURABLE_MSRS_PATH)->getptr();
@@ -960,7 +960,7 @@ void BX_CPU_C::reset(unsigned source)
   // All configurable MSRs do not change on INIT
 #if BX_CONFIGURE_MSRS
   if (source == BX_RESET_HARDWARE) {
-    for (n=0; n <= BX_MSR_MAX_INDEX; n++) {
+    for (n=0; n < BX_MSR_MAX_INDEX; n++) {
       if (BX_CPU_THIS_PTR msrs[n])
         BX_CPU_THIS_PTR msrs[n]->reset();
     }
