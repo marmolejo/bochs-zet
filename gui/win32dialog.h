@@ -28,8 +28,9 @@ extern "C" {
 
 int RuntimeOptionsDialog();
 #if BX_DEBUGGER
-void InitDebugDialog(void* mainwnd);
-void RefreshDebugDialog();
+void InitDebugDialog();
+void ParseIDText (char *p);
+void HitBreak();
 #endif
 void win32_init_notify_callback();
 
