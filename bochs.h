@@ -325,7 +325,7 @@ public:
   iofunctions(const char *);
  ~iofunctions(void);
 
-  void out(int facility, int level, const char *pre, const char *fmt, va_list ap);
+  void out(int level, const char *pre, const char *fmt, va_list ap);
 
   void init_log(const char *fn);
   void init_log(int fd);
