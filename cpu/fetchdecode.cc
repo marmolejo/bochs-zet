@@ -466,7 +466,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo32R[512*2] = {
   /* FF /wr */ { BxGroup5, BX_IA_ERROR, BxOpcodeInfoG5wR },
 
   /* 0F 00 /wr */ { BxGroup6, BX_IA_ERROR, BxOpcodeInfoG6 },
-  /* 0F 01 /wr */ { BxGroup7, BX_IA_ERROR, BxOpcodeInfoG7R },
+  /* 0F 01 /wr */ { BxFPEscape, BX_IA_ERROR, BxOpcodeInfoG7R },
   /* 0F 02 /wr */ { 0, BX_IA_LAR_GvEw },
   /* 0F 03 /wr */ { 0, BX_IA_LSL_GvEw },
   /* 0F 04 /wr */ { 0, BX_IA_ERROR },
@@ -1029,7 +1029,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo32R[512*2] = {
   /* FF /dr */ { BxGroup5, BX_IA_ERROR, BxOpcodeInfoG5dR },
 
   /* 0F 00 /dr */ { BxGroup6, BX_IA_ERROR, BxOpcodeInfoG6 },
-  /* 0F 01 /dr */ { BxGroup7, BX_IA_ERROR, BxOpcodeInfoG7R },
+  /* 0F 01 /dr */ { BxFPEscape, BX_IA_ERROR, BxOpcodeInfoG7R },
   /* 0F 02 /dr */ { 0, BX_IA_LAR_GvEw },
   /* 0F 03 /dr */ { 0, BX_IA_LSL_GvEw },
   /* 0F 04 /dr */ { 0, BX_IA_ERROR },
