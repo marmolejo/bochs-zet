@@ -100,10 +100,12 @@ struct bx_cr4_t {
 };
 #endif  // #if BX_CPU_LEVEL >= 4
 
+extern bx_address get_cr4_allow_mask(void);
+
 #if BX_SUPPORT_VME
-  #define CR4_VME_ENABLED (BX_CPU_THIS_PTR cr4.get_VME())
+  #define BX_CR4_VME_ENABLED (BX_CPU_THIS_PTR cr4.get_VME())
 #else
-  #define CR4_VME_ENABLED (0)
+  #define BX_CR4_VME_ENABLED (0)
 #endif
 
 #if BX_SUPPORT_X86_64
