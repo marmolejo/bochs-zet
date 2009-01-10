@@ -195,7 +195,9 @@ symbol_entry_t* context_t::get_symbol_entry(Bit32u ip)
     return 0;
   }
 
-  return *(--iter);
+  --iter;
+  if(iter == syms->end()) return 0;
+  return *iter;
 }
 
 symbol_entry_t* context_t::get_symbol_entry(const char *Symbol) const
