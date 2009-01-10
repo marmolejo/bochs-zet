@@ -24,7 +24,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -51,7 +51,6 @@ bx_devices_c bx_devices;
 bx_devices_c::bx_devices_c()
 {
   put("DEV");
-  settype(DEVLOG);
 
   read_port_to_handler = NULL;
   write_port_to_handler = NULL;

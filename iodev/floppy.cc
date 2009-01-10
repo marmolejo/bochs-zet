@@ -22,7 +22,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -129,7 +129,6 @@ void libfloppy_LTX_plugin_fini(void)
 bx_floppy_ctrl_c::bx_floppy_ctrl_c()
 {
   put("FDD");
-  settype(FDLOG);
   s.floppy_timer_index = BX_NULL_TIMER_HANDLE;
 }
 

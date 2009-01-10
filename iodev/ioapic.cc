@@ -22,7 +22,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "iodev.h"
 
@@ -74,7 +74,6 @@ bx_ioapic_c::bx_ioapic_c()
   : bx_generic_apic_c(BX_IOAPIC_BASE_ADDR)
 {
   put("IOAP");
-  settype(IOAPICLOG);
 }
 
 #define BX_IOAPIC_DEFAULT_ID (BX_SMP_PROCESSORS)

@@ -22,7 +22,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /////////////////////////////////////////////////////////////////////////
 
 #include "iodev.h"
@@ -35,7 +35,6 @@ bx_g2h_c bx_g2h;
 bx_g2h_c::bx_g2h_c()
 {
   put("G2H");
-  settype(G2HLOG);
   unsigned i;
 
   for (i=0; i<BX_MAX_G2H_CHANNELS; i++) {

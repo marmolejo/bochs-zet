@@ -155,7 +155,6 @@ pit_82C54::decrement (counter_type &thisctr)
 void pit_82C54::init(void)
 {
   put("PIT81");
-  settype(PIT81LOG);
 
   for(int i=0;i<3;i++) {
     BX_DEBUG(("Setting read_state to LSB"));

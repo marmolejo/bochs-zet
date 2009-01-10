@@ -22,7 +22,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /////////////////////////////////////////////////////////////////////////
 
 // Peter Grehan (grehan@iprg.nokia.com) coded the initial version of this
@@ -70,7 +70,6 @@ void libne2k_LTX_plugin_fini(void)
 bx_ne2k_c::bx_ne2k_c()
 {
   put("NE2K");
-  settype(NE2KLOG);
   s.tx_timer_index = BX_NULL_TIMER_HANDLE;
   ethdev = NULL;
 }

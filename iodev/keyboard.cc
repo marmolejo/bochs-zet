@@ -22,7 +22,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /////////////////////////////////////////////////////////////////////////
 
 // Now features proper implementation of keyboard opcodes 0xF4 to 0xF6
@@ -82,7 +82,6 @@ void libkeyboard_LTX_plugin_fini(void)
 bx_keyb_c::bx_keyb_c()
 {
   put("KBD");
-  settype(KBDLOG);
   pastebuf = NULL;
 }
 
