@@ -55,6 +55,7 @@ typedef struct { /* bx_selector_t */
 typedef struct
 {
 
+// do not go above 4 bits !
 #define SegValidCache  (0x01)
 #define SegAccessROK   (0x02)
 #define SegAccessWOK   (0x04)

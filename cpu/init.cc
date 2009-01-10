@@ -670,7 +670,8 @@ void BX_CPU_C::after_restore_state(void)
 {
   if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_IA32_V8086) CPL = 3;
 
-  SetCR0(cr0.val32);
+  if (!SetCR0(cr0.val32))
+    BX_PANIC(("Incorrect CR0 state !"));
   SetCR3(cr3);
   TLB_flush();
   assert_checks();
