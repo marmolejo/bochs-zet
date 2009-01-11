@@ -31,7 +31,6 @@
 
 #include "iodev.h"
 
-#include "iodev/pit_wrap.h"
 #include "iodev/virt_timer.h"
 #include "iodev/slowdown_timer.h"
 
@@ -84,7 +83,6 @@ void bx_devices_c::init_stubs()
     pluginPciUSBAdapter = &stubUsbAdapter;
 #endif
 #endif
-  pit = NULL;
   pluginKeyboard = &stubKeyboard;
   pluginDmaDevice = &stubDma;
   pluginFloppyDevice = &stubFloppy;
@@ -159,6 +157,7 @@ void bx_devices_c::init(BX_MEM_C *newmem)
   PLUG_load_plugin(cmos, PLUGTYPE_CORE);
   PLUG_load_plugin(dma, PLUGTYPE_CORE);
   PLUG_load_plugin(pic, PLUGTYPE_CORE);
+  PLUG_load_plugin(pit, PLUGTYPE_CORE);
   PLUG_load_plugin(vga, PLUGTYPE_CORE);
   PLUG_load_plugin(floppy, PLUGTYPE_CORE);
   PLUG_load_plugin(biosdev, PLUGTYPE_OPTIONAL);
@@ -264,9 +263,8 @@ void bx_devices_c::init(BX_MEM_C *newmem)
   /*--- 8259A PIC ---*/
   pluginPicDevice->init();
 
-  /*--- 8254 PIT ---*/
-  pit = & bx_pit;
-  pit->init();
+  /*--- 82C54 PIT ---*/
+  pluginPitDevice->init();
 
 #if 0
   // Guest to Host interface.  Used with special guest drivers
@@ -332,7 +330,7 @@ void bx_devices_c::reset(unsigned type)
   pluginFloppyDevice->reset(type);
   pluginVgaDevice->reset(type);
   pluginPicDevice->reset(type);
-  pit->reset(type);
+  pluginPitDevice->reset(type);
   // now reset optional plugins
   bx_reset_plugins(type);
 }
@@ -354,7 +352,7 @@ void bx_devices_c::register_state()
   pluginFloppyDevice->register_state();
   pluginVgaDevice->register_state();
   pluginPicDevice->register_state();
-  pit->register_state();
+  pluginPitDevice->register_state();
   // now register state of optional plugins
   bx_plugins_register_state();
 }
@@ -396,10 +394,10 @@ void bx_devices_c::exit()
     delete curr;
   }
 
-  pit->exit();
   bx_virt_timer.setup();
   bx_slowdown_timer.exit();
 
+  PLUG_unload_plugin(pit);
   PLUG_unload_plugin(unmapped);
   PLUG_unload_plugin(cmos);
   PLUG_unload_plugin(dma);
