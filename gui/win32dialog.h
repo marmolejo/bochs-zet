@@ -27,7 +27,7 @@ extern "C" {
 #if BX_USE_TEXTCONFIG && defined(WIN32)
 
 int RuntimeOptionsDialog();
-#if BX_DEBUGGER
+#if BX_DEBUGGER && BX_DEBUGGER_GUI
 void InitDebugDialog();
 void ParseIDText (char *p);
 void HitBreak();

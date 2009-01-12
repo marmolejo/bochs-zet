@@ -908,7 +908,7 @@ BxEvent* win32_notify_callback(void *unused, BxEvent *event)
     case BX_SYNC_EVT_LOG_ASK:
       LogAskDialog(event);
       return event;
-#if BX_DEBUGGER
+#if BX_DEBUGGER && BX_DEBUGGER_GUI
     case BX_SYNC_EVT_GET_DBG_COMMAND:
       {
         // sim is at a "break" -- internal debugger is ready for a command
