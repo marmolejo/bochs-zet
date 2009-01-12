@@ -173,8 +173,8 @@ public:
   BX_CPP_INLINE unsigned sibBase() const {
     return metaData[BX_INSTR_METADATA_BASE];
   }
-  BX_CPP_INLINE Bit32u displ32u() const { return modRMForm.displ32u; }
-  BX_CPP_INLINE Bit16u displ16u() const { return modRMForm.displ16u; }
+  BX_CPP_INLINE Bit32s displ32s() const { return (Bit32s) modRMForm.displ32u; }
+  BX_CPP_INLINE Bit16s displ16s() const { return (Bit16s) modRMForm.displ16u; }
   BX_CPP_INLINE Bit32u Id() const  { return modRMForm.Id; }
   BX_CPP_INLINE Bit16u Iw() const  { return modRMForm.Iw; }
   BX_CPP_INLINE Bit8u  Ib() const  { return modRMForm.Ib; }

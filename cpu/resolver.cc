@@ -33,7 +33,7 @@
   bx_address  BX_CPP_AttrRegparmN(1)
 BX_CPU_C::BxResolve16BaseIndex(bxInstruction_c *i)
 {
-  return (Bit16u) (BX_READ_16BIT_REG(i->sibBase()) + BX_READ_16BIT_REG(i->sibIndex()) + (Bit16s) i->displ16u());
+  return (Bit16u) (BX_READ_16BIT_REG(i->sibBase()) + BX_READ_16BIT_REG(i->sibIndex()) + i->displ16s());
 }
 
 //
@@ -43,12 +43,12 @@ BX_CPU_C::BxResolve16BaseIndex(bxInstruction_c *i)
   bx_address  BX_CPP_AttrRegparmN(1)
 BX_CPU_C::BxResolve32Base(bxInstruction_c *i)
 {
-  return (Bit32u) (BX_READ_32BIT_REG(i->sibBase()) + (Bit32s) i->displ32u());
+  return (Bit32u) (BX_READ_32BIT_REG(i->sibBase()) + i->displ32s());
 }
   bx_address  BX_CPP_AttrRegparmN(1)
 BX_CPU_C::BxResolve32BaseIndex(bxInstruction_c *i)
 {
-  return (Bit32u) (BX_READ_32BIT_REG(i->sibBase()) + (BX_READ_32BIT_REG(i->sibIndex()) << i->sibScale()) + (Bit32s) i->displ32u());
+  return (Bit32u) (BX_READ_32BIT_REG(i->sibBase()) + (BX_READ_32BIT_REG(i->sibIndex()) << i->sibScale()) + i->displ32s());
 }
 
 //
@@ -59,11 +59,11 @@ BX_CPU_C::BxResolve32BaseIndex(bxInstruction_c *i)
   bx_address  BX_CPP_AttrRegparmN(1)
 BX_CPU_C::BxResolve64Base(bxInstruction_c *i)
 {
-  return BX_READ_64BIT_REG(i->sibBase()) + (Bit32s) i->displ32u();
+  return BX_READ_64BIT_REG(i->sibBase()) + i->displ32s();
 }
   bx_address  BX_CPP_AttrRegparmN(1)
 BX_CPU_C::BxResolve64BaseIndex(bxInstruction_c *i)
 {
-  return BX_READ_64BIT_REG(i->sibBase()) + (BX_READ_64BIT_REG(i->sibIndex()) << i->sibScale()) + (Bit32s) i->displ32u();
+  return BX_READ_64BIT_REG(i->sibBase()) + (BX_READ_64BIT_REG(i->sibIndex()) << i->sibScale()) + i->displ32s();
 }
 #endif
