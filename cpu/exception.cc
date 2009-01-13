@@ -114,7 +114,7 @@ void BX_CPU_C::long_mode_int(Bit8u vector, bx_bool is_INT, bx_bool is_error_code
 
   // Gate must be present, else #NP(vector * 16 + 2 + EXT)
   if (! IS_PRESENT(gate_descriptor)) {
-    BX_ERROR(("interrupt(long mode): p == 0"));
+    BX_ERROR(("interrupt(long mode): gate.p == 0"));
     exception(BX_NP_EXCEPTION, vector*16 + 2, 0);
   }
 
