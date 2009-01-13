@@ -29,6 +29,7 @@
 #include "iodev.h"
 #if BX_SUPPORT_PCI && BX_SUPPORT_PCIPNIC
 
+#include "pci.h"
 #include "eth.h"
 #include "pcipnic.h"
 
