@@ -323,8 +323,12 @@ public:
 
 class BOCHSAPI bx_speaker_stub_c : public bx_devmodel_c {
 public:
-  virtual void beep_on(float frequency) {}
-  virtual void beep_off() {}
+  virtual void beep_on(float frequency) {
+    bx_gui->beep_on(frequency);
+  }
+  virtual void beep_off() {
+    bx_gui->beep_off();
+  }
 };
 
 class BOCHSAPI bx_serial_stub_c : public bx_devmodel_c {
@@ -445,7 +449,6 @@ public:
 #if BX_SUPPORT_PCIUSB
   bx_pci_usb_stub_c *pluginPciUSBAdapter;
 #endif
-  bx_devmodel_c     *pluginUnmapped;
   bx_vga_stub_c     *pluginVgaDevice;
   bx_pic_stub_c     *pluginPicDevice;
   bx_hard_drive_stub_c *pluginHardDrive;
