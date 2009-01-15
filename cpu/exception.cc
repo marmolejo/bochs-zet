@@ -386,7 +386,7 @@ void BX_CPU_C::protected_mode_int(Bit8u vector, bx_bool is_INT, bx_bool is_error
 
     // switch tasks with nesting to TSS
     task_switch(&tss_selector, &tss_descriptor,
-                    BX_TASK_FROM_CALL_OR_INT, dword1, dword2);
+                    BX_TASK_FROM_INT, dword1, dword2);
 
     // if interrupt was caused by fault with error code
     //   stack limits must allow push of 2 more bytes, else #SS(0)

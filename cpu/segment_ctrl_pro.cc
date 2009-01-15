@@ -522,7 +522,7 @@ bx_bool BX_CPU_C::set_segment_ar_data(bx_segment_reg_t *seg, bx_bool valid,
         break;
 
       default:
-        BX_PANIC(("set_segment_ar_data(): case %u unsupported, valid=%d", (unsigned) d->type, d->valid));
+        BX_ERROR(("set_segment_ar_data(): case %u unsupported, valid=%d", (unsigned) d->type, d->valid));
     }
   }
 
