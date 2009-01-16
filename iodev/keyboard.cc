@@ -54,6 +54,7 @@
 
 #include "iodev.h"
 #include <math.h>
+#include "keyboard.h"
 #include "scancodes.h"
 
 #define LOG_THIS  theKeyboard->

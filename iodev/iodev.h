@@ -33,19 +33,13 @@
 
 #include "bochs.h"
 
-/* maximum number of emulated devices allowed.  floppy, vga, etc...
-   you can increase this to anything below 256 since an 8-bit handle
-   is used for each device */
-#define BX_MAX_IO_DEVICES 30
-
-/* the last device in the array is the "default" I/O device */
-#define BX_DEFAULT_IO_DEVICE   (BX_MAX_IO_DEVICES-1)
-
 /* number of IRQ lines supported.  In an ISA PC there are two
    PIC chips cascaded together.  each has 8 IRQ lines, so there
    should be 16 IRQ's total */
 #define BX_MAX_IRQS 16
-#define BX_NO_IRQ  -1
+
+/* size of internal buffer for mouse devices */
+#define BX_MOUSE_BUFF_SIZE 48
 
 #if BX_SUPPORT_APIC
 class bx_ioapic_c;
@@ -612,7 +606,6 @@ BX_CPP_INLINE void DEV_MEM_WRITE_PHYSICAL_BLOCK(bx_phy_address phy_addr, unsigne
 #if BX_SUPPORT_APIC
 #  include "iodev/ioapic.h"
 #endif
-#include "iodev/keyboard.h"
 
 #endif /* NO_DEVICE_INCLUDES */
 
