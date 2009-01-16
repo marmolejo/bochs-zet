@@ -22,7 +22,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /////////////////////////////////////////////////////////////////////////
 
 #ifndef _BX_VIRT_TIMER_H
@@ -34,7 +34,7 @@
 
 #define BX_MAX_VIRTUAL_TIME (0x7fffffff)
 
-class bx_virt_timer_c : public logfunctions {
+class BOCHSAPI bx_virt_timer_c : public logfunctions {
 private:
 
   struct {
@@ -155,6 +155,6 @@ public:
   void register_state(void);
 };
 
-extern bx_virt_timer_c bx_virt_timer;
+BOCHSAPI extern bx_virt_timer_c bx_virt_timer;
 
 #endif // _BX_VIRT_TIMER_H
