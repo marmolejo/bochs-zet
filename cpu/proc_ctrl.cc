@@ -1578,6 +1578,10 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MWAIT(bxInstruction_c *i)
   bx_gui->sim_is_idle();
 #endif
 
+#if BX_DEBUGGER
+  bx_dbg_halt(BX_CPU_ID);
+#endif
+
 #else
   BX_INFO(("MWAIT: use --enable-monitor-mwait to enable MONITOR/MWAIT support"));
   exception(BX_UD_EXCEPTION, 0, 0);
