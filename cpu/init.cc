@@ -171,6 +171,8 @@ void BX_CPU_C::initialize(void)
   load_MSRs(msrs_filename);
 #endif
 
+  init_SMRAM();
+
 #if BX_WITH_WX
   register_wx_state();
 #endif

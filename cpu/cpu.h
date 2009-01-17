@@ -3084,6 +3084,7 @@ public: // for now...
 #endif
   BX_SMF void exception(unsigned vector, Bit16u error_code, bx_bool trap)
                   BX_CPP_AttrNoReturn();
+  BX_SMF void init_SMRAM(void);
   BX_SMF void smram_save_state(Bit32u *smm_saved_state);
   BX_SMF bx_bool smram_restore_state(const Bit32u *smm_saved_state);
   BX_SMF int  int_number(unsigned s);
