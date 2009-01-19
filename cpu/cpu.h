@@ -30,10 +30,6 @@
 
 #include <setjmp.h>
 
-#if BX_DISASM
-#  include "disasm/disasm.h"
-#endif
-
 // <TAG-DEFINES-DECODE-START>
 // segment register encoding
 #define BX_SEG_REG_ES    0

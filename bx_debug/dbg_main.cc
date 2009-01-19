@@ -32,7 +32,10 @@ extern "C" {
 #include "bochs.h"
 #include "cpu/cpu.h"
 #include "iodev/iodev.h"
+
 #if BX_DEBUGGER
+
+#include "disasm/disasm.h"
 
 #define LOG_THIS genlog->
 

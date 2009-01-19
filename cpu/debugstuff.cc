@@ -33,6 +33,8 @@
 
 #if BX_DISASM
 
+#include "disasm/disasm.h"
+
 void BX_CPU_C::debug_disasm_instruction(bx_address offset)
 {
 #if BX_DEBUGGER
