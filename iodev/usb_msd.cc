@@ -142,7 +142,8 @@ usb_msd_device_c::usb_msd_device_c(void)
 
 usb_msd_device_c::~usb_msd_device_c(void)
 {
-  delete s.scsi_dev;
+  if (s.scsi_dev != NULL)
+    delete s.scsi_dev;
   s.hdimage->close();
   delete s.hdimage;
 }
