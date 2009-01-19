@@ -860,9 +860,14 @@ void bx_keyb_c::gen_scancode(Bit32u key)
   else
     scancode=(unsigned char *)scancodes[(key&0xFF)][BX_KEY_THIS s.kbd_controller.current_scancodes_set].make;
 
-#if BX_SUPPORT_PCIUSB
   // if we have a keyboard/keypad installed, we need to call its handler first
-  if (DEV_usb_key_enq(scancode)) {
+#if BX_SUPPORT_USB_UHCI
+  if (DEV_usb_uhci_key_enq(scancode)) {
+    return;
+  }
+#endif
+#if BX_SUPPORT_USB_OHCI
+  if (DEV_usb_ohci_key_enq(scancode)) {
     return;
   }
 #endif

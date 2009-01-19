@@ -24,10 +24,10 @@
 #define BX_IODEV_USB_HID_H
 
 
-class usb_hid_device_t : public usb_device_t {
+class usb_hid_device_c : public usb_device_c {
 public:
-  usb_hid_device_t(usbdev_type type);
-  virtual ~usb_hid_device_t(void);
+  usb_hid_device_c(usbdev_type type);
+  virtual ~usb_hid_device_c(void);
 
   virtual void handle_reset();
   virtual int handle_control(int request, int value, int index, int length, Bit8u *data);

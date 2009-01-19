@@ -18,8 +18,8 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-#ifndef BX_USB_COMMON_H
-#define BX_USB_COMMON_H
+#ifndef BX_IODEV_USB_COMMON_H
+#define BX_IODEV_USB_COMMON_H
 
 #define USB_TOKEN_IN    0x69
 #define USB_TOKEN_OUT   0xE1
@@ -115,10 +115,10 @@ enum usbdev_type {
 };
 
 
-class usb_device_t : public logfunctions {
+class usb_device_c : public logfunctions {
 public:
-  usb_device_t(void);
-  virtual ~usb_device_t(void) {}
+  usb_device_c(void);
+  virtual ~usb_device_c(void) {}
 
   virtual int handle_packet(USBPacket *p);
   virtual void handle_reset() {}

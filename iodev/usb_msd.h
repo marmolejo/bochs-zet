@@ -27,10 +27,10 @@ class device_image_t;
 class scsi_device_t;
 
 
-class usb_msd_device_t : public usb_device_t {
+class usb_msd_device_c : public usb_device_c {
 public:
-  usb_msd_device_t(void);
-  virtual ~usb_msd_device_t(void);
+  usb_msd_device_c(void);
+  virtual ~usb_msd_device_c(void);
 
   bx_bool init(const char *filename);
   virtual void handle_reset();
