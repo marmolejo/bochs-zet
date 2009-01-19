@@ -209,7 +209,7 @@ private:
 
   USBPacket usb_packet;
 
-  static void   set_irq_level(bx_bool level);
+  static void set_irq_level(bx_bool level);
 
   static void init_device(Bit8u port, const char *devname);
   static void usb_set_connect_status(Bit8u port, int type, bx_bool connected);

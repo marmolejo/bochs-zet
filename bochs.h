@@ -504,7 +504,6 @@ extern bx_bool bx_gui_sighandler;
 #define BX_N_OPTRAM_IMAGES 4
 #define BX_N_SERIAL_PORTS 4
 #define BX_N_PARALLEL_PORTS 2
-#define BX_N_USB_HUBS 1
 #define BX_N_PCI_SLOTS 5
 #define BX_N_USER_PLUGINS 8
 
