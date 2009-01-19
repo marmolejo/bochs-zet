@@ -3103,6 +3103,11 @@ public: // for now...
   BX_SMF void handleAlignmentCheck(void);
 #endif
 
+#if BX_CPU_LEVEL >= 5
+  BX_SMF bx_bool rdmsr(Bit32u index, Bit64u *val_64) BX_CPP_AttrRegparmN(2);
+  BX_SMF bx_bool wrmsr(Bit32u index, Bit64u  val_64) BX_CPP_AttrRegparmN(2);
+#endif
+
   BX_SMF void jump_protected(bxInstruction_c *, Bit16u cs, bx_address disp) BX_CPP_AttrRegparmN(3);
   BX_SMF void jmp_task_gate(bx_descriptor_t *gate_descriptor) BX_CPP_AttrRegparmN(1);
   BX_SMF void jmp_call_gate(bx_descriptor_t *gate_descriptor) BX_CPP_AttrRegparmN(1);
