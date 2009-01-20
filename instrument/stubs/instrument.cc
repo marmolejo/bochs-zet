@@ -52,7 +52,7 @@ void bx_instr_far_branch(unsigned cpu, unsigned what, Bit16u new_cs, bx_address 
 void bx_instr_opcode(unsigned cpu, const Bit8u *opcode, unsigned len, bx_bool is32, bx_bool is64) {}
 
 void bx_instr_interrupt(unsigned cpu, unsigned vector) {}
-void bx_instr_exception(unsigned cpu, unsigned vector) {}
+void bx_instr_exception(unsigned cpu, unsigned vector, unsigned error_code) {}
 void bx_instr_hwinterrupt(unsigned cpu, unsigned vector, Bit16u cs, bx_address eip) {}
 
 void bx_instr_tlb_cntrl(unsigned cpu, unsigned what, bx_phy_address new_cr3) {}

@@ -279,7 +279,7 @@
 #define BX_MC_EXCEPTION  18
 #define BX_XM_EXCEPTION  19
 
-#define BX_MSR_MAX_INDEX          0x1000
+#define BX_CPU_HANDLED_EXCEPTIONS  20
 
 /* MSR registers */
 #define BX_MSR_TSC                 0x010
@@ -328,6 +328,8 @@
   #define BX_MSR_PAT               0x277
   #define BX_MSR_MTRR_DEFTYPE      0x2ff
 #endif
+
+#define BX_MSR_MAX_INDEX          0x1000
 
 enum {
   BX_MEMTYPE_UC = 0,

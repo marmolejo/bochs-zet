@@ -187,11 +187,11 @@ void bx_instr_interrupt(unsigned cpu, unsigned vector)
   }
 }
 
-void bx_instr_exception(unsigned cpu, unsigned vector)
+void bx_instr_exception(unsigned cpu, unsigned vector, unsigned error_code)
 {
   if(active)
   {
-    fprintf(stderr, "CPU %u: exception %02xh\n", cpu, vector);
+    fprintf(stderr, "CPU %u: exception %02xh, error_code = %x\n", cpu, vector, error_code);
   }
 }
 

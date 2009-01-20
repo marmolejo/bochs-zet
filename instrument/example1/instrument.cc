@@ -155,11 +155,11 @@ void bxInstrumentation::bx_instr_interrupt(unsigned vector)
   }
 }
 
-void bxInstrumentation::bx_instr_exception(unsigned vector)
+void bxInstrumentation::bx_instr_exception(unsigned vector, unsigned error_code)
 {
   if(active)
   {
-    fprintf(stderr, "CPU %u: exception %02xh\n", cpu_id, vector);
+    fprintf(stderr, "CPU %u: exception %02xh error_code=%x\n", cpu_id, vector, error_code);
   }
 }
 
