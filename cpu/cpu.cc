@@ -149,7 +149,7 @@ no_async_event:
     InstrICache_Increment(iCacheLookups);
     InstrICache_Stats();
 
-    if ((entry->pAddr == pAddr) && (entry->writeStamp != ICacheWriteStampInvalid) &&
+    if ((entry->pAddr == pAddr) &&
         (entry->writeStamp == *(BX_CPU_THIS_PTR currPageWriteStampPtr)))
     {
       // iCache hit. An instruction was found in the iCache
