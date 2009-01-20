@@ -279,7 +279,7 @@ static const char *startup_options_prompt =
 "8. Bochs Display & Interface options\n"
 "9. Keyboard & Mouse options\n"
 "10. Disk options\n"
-"11. Serial & Parallel port options\n"
+"11. Serial / Parallel / USB options\n"
 "12. Network card options\n"
 "13. Sound Blaster 16 options\n"
 "14. Other options\n"
