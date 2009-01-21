@@ -334,7 +334,6 @@ protected:
 
 #if BX_SUPPORT_CLGD54XX
 void libvga_set_smf_pointer(bx_vga_c *theVga_ptr);
-#include "iodev/svga_cirrus.h"
 #endif
 
 #endif
