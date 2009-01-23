@@ -528,7 +528,6 @@ void BX_CPU_C::register_state(void)
 
   BXRS_HEX_PARAM_SIMPLE32(cpu, async_event);
 
-  BXRS_PARAM_BOOL(cpu, EXT, EXT);
   BXRS_PARAM_BOOL(cpu, INTR, INTR);
   BXRS_PARAM_BOOL(cpu, in_smm, in_smm);
   BXRS_PARAM_BOOL(cpu, disable_SMI, disable_SMI);
