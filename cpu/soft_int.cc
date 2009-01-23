@@ -166,11 +166,12 @@ done:
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::INTO(bxInstruction_c *i)
 {
+  if (get_OF()) {
+
 #if BX_DEBUGGER
-  BX_CPU_THIS_PTR show_flag |= Flag_softint;
+    BX_CPU_THIS_PTR show_flag |= Flag_softint;
 #endif
 
-  if (get_OF()) {
     BX_CPU_THIS_PTR speculative_rsp = 1;
     BX_CPU_THIS_PTR prev_rsp = RSP;
 
