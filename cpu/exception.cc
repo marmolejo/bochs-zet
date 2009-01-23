@@ -890,7 +890,7 @@ void BX_CPU_C::exception(unsigned vector, Bit16u error_code, unsigned unused)
      BX_PANIC(("exception(%u): bad vector", vector));
   }
 
-  if (vector != BX_PF_EXCEPTION && exception_type != BX_DF_EXCEPTION) {
+  if (vector != BX_PF_EXCEPTION && vector != BX_DF_EXCEPTION) {
     // Page faults have different format
     error_code = (error_code & 0xfffe) | BX_CPU_THIS_PTR EXT;
   }
