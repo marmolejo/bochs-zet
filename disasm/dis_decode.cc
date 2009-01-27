@@ -266,6 +266,9 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
       dis_sprintf("%s ", OPCODE(prefix)->IntelOpcode);
     }
 
+    if (insn.b1 == 0x90 && !insn.rex_b && prefix_byte == 0xF3)
+      continue;
+
     if (prefix_byte == 0xF3 || prefix_byte == 0xF2) {
       if (attr != _GRPSSE) {
         const BxDisasmOpcodeTable_t *prefix = &(opcode_table[prefix_byte]);
@@ -289,8 +292,11 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
     opcode = &Ia_jecxz_Jb;
 
   // fix nop opcode
-  if (insn.b1 == 0x90 && !insn.rex_b) {
-    opcode = &Ia_nop;
+  if (insn.b1 == 0x90) {
+    if (sse_prefix == SSE_PREFIX_F3)
+      opcode = &Ia_pause;
+    else if (!insn.rex_b)
+      opcode = &Ia_nop;
   }
 
   // print instruction disassembly
