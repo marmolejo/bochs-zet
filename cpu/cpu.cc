@@ -819,6 +819,19 @@ void BX_CPU_C::boundaryFetch(const Bit8u *fetchPtr, unsigned remainingInPage, bx
       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b, Is64BitMode());
 }
 
+void BX_CPU_C::deliver_SIPI(unsigned vector)
+{
+  if (BX_CPU_THIS_PTR debug_trap & BX_DEBUG_TRAP_SPECIAL) {
+    BX_CPU_THIS_PTR debug_trap &= ~BX_DEBUG_TRAP_SPECIAL;
+    RIP = 0;
+    load_seg_reg(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS], vector*0x100);
+    BX_INFO(("%s started up at %04X:%08X by APIC",
+                   BX_CPU_THIS_PTR name, vector*0x100, EIP));
+  } else {
+    BX_INFO(("%s started up by APIC, but was not halted at the time", BX_CPU_THIS_PTR name));
+  }
+}
+
 void BX_CPU_C::deliver_INIT(void)
 {
   if (! BX_CPU_THIS_PTR disable_INIT)
