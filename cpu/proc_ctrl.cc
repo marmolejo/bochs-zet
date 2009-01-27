@@ -50,6 +50,11 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::NOP(bxInstruction_c *i)
   // No operation.
 }
 
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::PAUSE(bxInstruction_c *i)
+{
+  // No operation.
+}
+
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::PREFETCH(bxInstruction_c *i)
 {
 #if BX_INSTRUMENTATION

@@ -2402,6 +2402,7 @@ public: // for now...
   BX_SMF void IMUL_GwEwR(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
 
   BX_SMF void NOP(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
+  BX_SMF void PAUSE(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void MOV_RLIb(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void MOV_RHIb(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void MOV_RXIw(bxInstruction_c *) BX_CPP_AttrRegparmN(1);

@@ -1006,6 +1006,12 @@ static const BxOpcodeInfo_t BxOpcodeGroupSSE_ERR[3] = {
   /* F3 */ { 0, BX_IA_ERROR }
 };
 
+static const BxOpcodeInfo_t BxOpcodeGroupSSE_PAUSE[3] = {
+  /* 66 */ { 0, BX_IA_NOP },
+  /* F2 */ { 0, BX_IA_NOP },
+  /* F3 */ { 0, BX_IA_PAUSE }
+};
+
 static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f10[3] = {
   /* 66 */ { 0, BX_IA_MOVUPD_VpdWpd },
   /* F2 */ { 0, BX_IA_MOVSD_VsdWsd },
