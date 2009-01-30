@@ -538,10 +538,10 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FPLEGACY(bxInstruction_c *i)
 void BX_CPU_C::print_state_FPU(void)
 {
   static double scale_factor = pow(2.0, -63.0);
-  static char* cw_round_control[] = {
+  static const char* cw_round_control[] = {
     "NEAREST", "DOWN", "UP", "CHOP"
   };
-  static char* cw_precision_control[] = {
+  static const char* cw_precision_control[] = {
     "32", "RES", "64", "80"
   };
 
