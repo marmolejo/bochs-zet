@@ -1768,6 +1768,12 @@ static const BxOpcodeInfo_t BxOpcodeGroupSSE_G1407[3] = {
   /* F3 */ { 0, BX_IA_ERROR }
 };
 
+static const BxOpcodeInfo_t BxOpcodeGroupSSE_G9VMX6[3] = {
+  /* 66 */ { 0, BX_IA_VMCLEAR_Mq },
+  /* F2 */ { 0, BX_IA_ERROR },
+  /* F3 */ { 0, BX_IA_VMXON_Mq }
+};
+
 #if (BX_SUPPORT_SSE >= 4) || (BX_SUPPORT_SSE >= 3 && BX_SUPPORT_SSE_EXTENSION > 0)
 
 static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f3800[3] = {
@@ -2254,12 +2260,6 @@ static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f3adf[3] = {
   /* 66 */ { 0, BX_IA_AESKEYGENASSIST_VdqWdqIb },
   /* F2 */ { 0, BX_IA_ERROR },
   /* F3 */ { 0, BX_IA_ERROR }
-};
-
-static const BxOpcodeInfo_t BxOpcodeGroupSSE_G9VMX6[3] = {
-  /* 66 */ { 0, BX_IA_VMCLEAR_Mq },
-  /* F2 */ { 0, BX_IA_ERROR },
-  /* F3 */ { 0, BX_IA_VMXON_Mq }
 };
 
 
