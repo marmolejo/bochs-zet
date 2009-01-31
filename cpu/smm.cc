@@ -72,6 +72,13 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RSM(bxInstruction_c *i)
     exception(BX_UD_EXCEPTION, 0, 0);
   }
 
+#if BX_SUPPORT_VMX
+  if (BX_CPU_THIS_PTR in_vmx_guest) {
+    BX_ERROR(("VMEXIT: RSM in VMX non-root operation"));
+    VMexit(i, VMX_VMEXIT_RSM, 0);
+  }
+#endif
+
   invalidate_prefetch_q();
 
   BX_INFO(("RSM: Resuming from System Management Mode"));

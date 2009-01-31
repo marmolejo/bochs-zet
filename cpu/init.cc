@@ -173,6 +173,10 @@ void BX_CPU_C::initialize(void)
 
   init_SMRAM();
 
+#if BX_SUPPORT_VMX
+  init_VMCS();
+#endif
+
 #if BX_WITH_WX
   register_wx_state();
 #endif
@@ -525,6 +529,10 @@ void BX_CPU_C::register_state(void)
 
 #if BX_SUPPORT_APIC
   local_apic.register_state(cpu);
+#endif
+
+#if BX_SUPPORT_VMX
+  register_vmx_state(cpu);
 #endif
 
   BXRS_HEX_PARAM_SIMPLE32(cpu, async_event);
@@ -1008,6 +1016,13 @@ void BX_CPU_C::reset(unsigned source)
 
     BX_CPU_THIS_PTR mxcsr.mxcsr = MXCSR_RESET;
   }
+#endif
+
+#if BX_SUPPORT_VMX
+  BX_CPU_THIS_PTR in_vmx = BX_CPU_THIS_PTR in_vmx_guest = 0;
+  BX_CPU_THIS_PTR in_event = 0;
+  BX_CPU_THIS_PTR intr_pending_vmx = 0;
+  BX_CPU_THIS_PTR vmcsptr = BX_CONST64(0xFFFFFFFFFFFFFFFF);
 #endif
 
 #if BX_SUPPORT_SMP

@@ -862,6 +862,10 @@ bx_bool BX_CPP_AttrRegparmN(3) BX_CPU_C::allow_io(bxInstruction_c *i, Bit16u por
       return(0);
   }
 
+#if BX_SUPPORT_VMX
+  VMexit_IO(i, port, len);
+#endif
+
 #if BX_X86_DEBUGGER
   iobreakpoint_match(port, len);
 #endif

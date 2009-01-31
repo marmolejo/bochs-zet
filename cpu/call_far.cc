@@ -202,7 +202,7 @@ BX_CPU_C::call_protected(bxInstruction_c *i, Bit16u cs_raw, bx_address disp)
           BX_DEBUG(("call_protected: 32bit available TSS"));
 
         // SWITCH_TASKS _without_ nesting to TSS
-        task_switch(&gate_selector, &gate_descriptor,
+        task_switch(i, &gate_selector, &gate_descriptor,
           BX_TASK_FROM_CALL, dword1, dword2);
 
         // EIP must be in code seg limit, else #GP(0)
@@ -248,7 +248,7 @@ BX_CPU_C::call_protected(bxInstruction_c *i, Bit16u cs_raw, bx_address disp)
         }
 
         // SWITCH_TASKS without nesting to TSS
-        task_switch(&tss_selector, &tss_descriptor,
+        task_switch(i, &tss_selector, &tss_descriptor,
                     BX_TASK_FROM_CALL, dword1, dword2);
 
         // EIP must be within code segment limit, else #TS(0)
