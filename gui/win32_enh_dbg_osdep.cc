@@ -1117,7 +1117,7 @@ void EndListUpdate(int listnum)
     ShowWindow(hL[listnum],SW_SHOW);
 }
 
-void DispMessage(char *msg, char *title)
+void DispMessage(const char *msg, const char *title)
 {
     MessageBox (hY, msg, title, MB_OK);
 }

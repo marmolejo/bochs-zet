@@ -25,7 +25,7 @@
 void MoveLists();
 void SetStatusText(int column, char *buf); // should it be here ?
 void MakeListsGray();
-void DispMessage(char *msg, char *title);
+void DispMessage(const char *msg, const char *title);
 void InsertListRow(char *ColumnText[], int ColumnCount, int listnum, int LineCount, int grouping);
 void StartListUpdate(int listnum);
 void EndListUpdate(int listnum);
@@ -191,7 +191,7 @@ extern unsigned CurrentCPU;   // cpu that is being displayed
 
 // AskTest stuff -- for the generic dialog box
 struct ASKTEXT {
-    char* title;
+    const char* title;
     char* prompt;
     char* reply;
 };
