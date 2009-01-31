@@ -23,7 +23,7 @@
 #endif
 
 void MoveLists();
-void SetStatusText(int column, char *buf); // should it be here ?
+void SetStatusText(int column, const char *buf); // should it be here ?
 void MakeListsGray();
 void DispMessage(const char *msg, const char *title);
 void InsertListRow(char *ColumnText[], int ColumnCount, int listnum, int LineCount, int grouping);
@@ -392,7 +392,7 @@ extern Bit32s yClick;          // values are in Listview coordinates
 
 #include "wenhdbg_res.h"    // MenuIDs
 
-static char* DC0txt[2] = {"P.Address","L.Address"};    // DumpMode definitions in text
+static const char* DC0txt[2] = {"P.Address","L.Address"};    // DumpMode definitions in text
 
 static const char* BTxt[6] = {
   "Continue [c]",
