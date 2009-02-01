@@ -192,7 +192,7 @@ extern unsigned CurrentCPU;   // cpu that is being displayed
 // AskTest stuff -- for the generic dialog box
 struct ASKTEXT {
     const char* title;
-    char* prompt;
+    const char* prompt;
     char* reply;
 };
 
