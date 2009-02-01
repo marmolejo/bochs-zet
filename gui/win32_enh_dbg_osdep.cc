@@ -966,7 +966,7 @@ void Invalidate(int i)
     InvalidateRect(hL[i],0,TRUE);
 }
 
-void SetStatusText(int column, char *buf)
+void SetStatusText(int column, const char *buf)
 {
     SendMessage(hS_S,SB_SETTEXT, column,(LPARAM) buf);
 }
@@ -1128,7 +1128,7 @@ void ShowMemData(bx_bool initting)
     int i = 1;
     if (LinearDump == FALSE)
         i = 0;
-    LV_COLUMN lvgc = {LVCF_TEXT,0,0,DC0txt[i]};
+    LV_COLUMN lvgc = {LVCF_TEXT,0,0,(LPSTR)DC0txt[i]};
     if (initting != FALSE)
     {
         GrayMenuItem (0, CMD_WPTWR);
