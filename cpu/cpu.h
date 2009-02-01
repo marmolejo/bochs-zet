@@ -942,7 +942,11 @@ public: // for now...
 #define BX_ACTIVITY_STATE_MWAIT_IF      (5)
   unsigned activity_state;
 
+#define BX_DEBUG_DR_ACCESS_BIT          (1 << 13)
+#define BX_DEBUG_SINGLE_STEP_BIT        (1 << 14)
+#define BX_DEBUG_TRAP_TASK_SWITCH_BIT   (1 << 15)
   Bit32u   debug_trap; // holds DR6 value (16bit) to be set as well
+
   volatile Bit32u  async_event;
 
 #if BX_SUPPORT_TRACE_CACHE

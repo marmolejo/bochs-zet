@@ -653,7 +653,7 @@ void BX_CPU_C::task_switch(bxInstruction_c *i, bx_selector_t *tss_selector,
 
 
   if ((tss_descriptor->type>=9) && (trap_word & 0x1)) {
-    BX_CPU_THIS_PTR debug_trap |= 0x00008000; // BT flag in DR6
+    BX_CPU_THIS_PTR debug_trap |= BX_DEBUG_TRAP_TASK_SWITCH_BIT; // BT flag
     BX_CPU_THIS_PTR async_event = 1; // so processor knows to check
     BX_INFO(("task_switch: T bit set in new TSS"));
   }
