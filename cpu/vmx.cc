@@ -1049,7 +1049,7 @@ Bit32u BX_CPU_C::VMenterLoadCheckGuestState(Bit64u *qualification)
   guest.tmpDR6 = VMread64(VMCS_GUEST_PENDING_DBG_EXCEPTIONS);
 
   if (guest.tmpDR6 & BX_CONST64(0xFFFFFFFFFFFFAFF0)) {
-    BX_ERROR(("VMENTER FAIL: VMCS guest tmpDR6 reserved bits %08x:%08x", GET32H(guest.tmpDR6), GET32L(guest.tmpDR6)));
+    BX_ERROR(("VMENTER FAIL: VMCS guest tmpDR6 reserved bits"));
     return VMX_VMEXIT_VMENTRY_FAILURE_GUEST_STATE;
   }
 
@@ -1180,7 +1180,10 @@ Bit32u BX_CPU_C::VMenterLoadCheckGuestState(Bit64u *qualification)
     BX_CPU_THIS_PTR debug_trap = 0;
   }
   else {
-    BX_CPU_THIS_PTR debug_trap = guest.tmpDR6 & 0x0000400f;
+    if (guest.tmpDR6 & (1 << 12))
+      BX_CPU_THIS_PTR debug_trap = guest.tmpDR6 & 0x0000400F;
+    else
+      BX_CPU_THIS_PTR debug_trap = guest.tmpDR6 & 0x00004000;
     if (BX_CPU_THIS_PTR debug_trap)
       BX_CPU_THIS_PTR async_event = 1;
 
