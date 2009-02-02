@@ -161,6 +161,15 @@ extern "C" {
   extern char *bx_strrev(char *str);
 #endif
 
+#if BX_HAVE_STRICMP
+  // great, just use the usual function
+#elif BX_HAVE_STRCASECMP
+  #define stricmp strcasecmp
+#else
+  // FIXME: for now using case sensitive function
+  #define stricmp strcmp
+#endif
+
 #if !BX_HAVE_SOCKLEN_T
 // needed on MacOS X 10.1
 typedef int socklen_t;
