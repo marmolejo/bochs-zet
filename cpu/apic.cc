@@ -702,7 +702,7 @@ bx_bool bx_local_apic_c::deliver(Bit8u vector, Bit8u delivery_mode, Bit8u trig_m
     cpu->deliver_INIT();
     break;
   case APIC_DM_SIPI:
-    BX_DEBUG(("Deliver Start Up IPI"));
+    BX_INFO(("Deliver Start Up IPI"));
     startup_msg(vector);
     break;
   case APIC_DM_EXTINT:
