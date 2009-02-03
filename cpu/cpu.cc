@@ -854,8 +854,10 @@ void BX_CPU_C::deliver_SIPI(unsigned vector)
 
 void BX_CPU_C::deliver_INIT(void)
 {
-  BX_CPU_THIS_PTR pending_INIT = 1;
-  BX_CPU_THIS_PTR async_event = 1;
+  if (! BX_CPU_THIS_PTR disable_INIT) {
+    BX_CPU_THIS_PTR pending_INIT = 1;
+    BX_CPU_THIS_PTR async_event = 1;
+  }
 }
 
 void BX_CPU_C::deliver_NMI(void)
