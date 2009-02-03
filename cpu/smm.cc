@@ -116,6 +116,7 @@ void BX_CPU_C::enter_system_management_mode(void)
   // debug(BX_CPU_THIS_PTR prev_rip);
 
   BX_CPU_THIS_PTR in_smm = 1;
+  BX_CPU_THIS_PTR disable_NMI = 1;
 
   Bit32u saved_state[SMM_SAVE_STATE_MAP_SIZE], n;
   // reset reserved bits

@@ -601,11 +601,14 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::IRET16(bxInstruction_c *i)
 
   invalidate_prefetch_q();
 
+#if BX_SUPPORT_VMX
+  if (!BX_CPU_THIS_PTR in_vmx_guest || !VMEXIT(VMX_VM_EXEC_CTRL1_NMI_VMEXIT))
+#endif
+    BX_CPU_THIS_PTR disable_NMI = 0;
+
 #if BX_DEBUGGER
   BX_CPU_THIS_PTR show_flag |= Flag_iret;
 #endif
-
-  BX_CPU_THIS_PTR disable_NMI = 0;
 
   BX_CPU_THIS_PTR speculative_rsp = 1;
   BX_CPU_THIS_PTR prev_rsp = RSP;

@@ -924,7 +924,7 @@ public: // for now...
   bx_bool in_event;
   bx_bool in_vmx;
   bx_bool in_vmx_guest;
-  bx_bool intr_pending_vmx;
+  bx_bool vmx_interrupt_window;
   Bit64u  vmcsptr;
   VMCS_CACHE vmcs;
 #endif
