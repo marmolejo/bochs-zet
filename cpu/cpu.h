@@ -3140,8 +3140,8 @@ public: // for now...
   BX_SMF void smram_save_state(Bit32u *smm_saved_state);
   BX_SMF bx_bool smram_restore_state(const Bit32u *smm_saved_state);
   BX_SMF int  int_number(unsigned s);
-  BX_SMF bx_bool SetCR0(Bit32u val_32) BX_CPP_AttrRegparmN(1);
-  BX_SMF void SetCR3(bx_address value) BX_CPP_AttrRegparmN(1);
+  BX_SMF bx_bool SetCR0(bx_address val) BX_CPP_AttrRegparmN(1);
+  BX_SMF void SetCR3(bx_address val) BX_CPP_AttrRegparmN(1);
 #if BX_CPU_LEVEL >= 4
   BX_SMF bx_bool SetCR4(bx_address val) BX_CPP_AttrRegparmN(1);
 #endif
