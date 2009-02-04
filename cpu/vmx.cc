@@ -782,7 +782,6 @@ Bit32u BX_CPU_C::VMenterLoadCheckGuestState(Bit64u *qualification)
         if (x86_64_guest && guest.sregs[BX_SEG_REG_CS].cache.u.segment.l)
            continue;
      }
-#endif
 
      if (n < BX_SEG_REG_FS) {
         if (GET32H(base) != 0) {
@@ -790,6 +789,7 @@ Bit32u BX_CPU_C::VMenterLoadCheckGuestState(Bit64u *qualification)
           return VMX_VMEXIT_VMENTRY_FAILURE_GUEST_STATE;
         }
      }
+#endif
 
      if (! guest.sregs[n].cache.segment) {
         BX_ERROR(("VMENTER FAIL: VMCS guest %s not segment", segname[n]));

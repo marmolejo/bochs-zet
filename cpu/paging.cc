@@ -613,15 +613,15 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::INVLPG(bxInstruction_c* i)
   bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
   bx_address laddr = get_laddr(i->seg(), eaddr);
 
+#if BX_SUPPORT_VMX
+  VMexit_INVLPG(i, laddr);
+#endif
+
 #if BX_SUPPORT_X86_64
   if (! IsCanonical(laddr)) {
     BX_ERROR(("INVLPG: non-canonical access !"));
     exception(int_number(i->seg()), 0, 0);
   }
-#endif
-
-#if BX_SUPPORT_VMX
-  VMexit_INVLPG(i, laddr);
 #endif
 
   BX_INSTR_TLB_CNTRL(BX_CPU_ID, BX_INSTR_INVLPG, laddr);
