@@ -521,6 +521,11 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_DqRq(bxInstruction_c *i)
       // Pentium+: bits15,14,12 are hardwired to 0, rest are settable.
       // Even bits 11,10 are changeable though reserved.
       BX_CPU_THIS_PTR dr7 = (val_64 & 0xffff2fff) | 0x00000400;
+
+      // if we have breakpoints enabled then we must check
+      // breakpoints condition in cpu loop
+      if(BX_CPU_THIS_PTR dr7 & 0xff)
+        BX_CPU_THIS_PTR async_event = 1;
       break;
 
     default:
