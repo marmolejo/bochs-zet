@@ -1141,6 +1141,7 @@ void bx_vnet_pktmover_c::udpipv4_dhcp_handler_ns(
           memcpy(replyopts, hostname, hostname_len);
           *replyopts += hostname_len;
           free(hostname);
+          hostname = NULL;
           break;
         }
       default:
