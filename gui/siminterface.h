@@ -143,8 +143,6 @@ typedef enum {
 #define BXPN_BOCHS_BENCHMARK             "general.benchmark"
 #define BXPN_RESTORE_FLAG                "general.restore"
 #define BXPN_RESTORE_PATH                "general.restore_path"
-#define BXPN_LOAD_FLAG                   "general.load"
-#define BXPN_LOAD_PATH                   "general.load_path"
 #define BXPN_DEBUG_RUNNING               "general.debug_running"
 #define BXPN_CPU_NPROCESSORS             "cpu.n_processors"
 #define BXPN_CPU_NCORES                  "cpu.n_cores"
