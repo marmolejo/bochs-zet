@@ -941,9 +941,7 @@ BxEvent* win32_notify_callback(void *unused, BxEvent *event)
         return event;
       }
     case BX_ASYNC_EVT_DBG_MSG:
-      ParseIDText ((char*) event->u.logmsg.msg);
-      // free the char* which was allocated in dbg_printf
-      delete [] ((char*)event->u.logmsg.msg);
+      ParseIDText (event->u.logmsg.msg);
       return event;
 #endif
     case BX_SYNC_EVT_ASK_PARAM:

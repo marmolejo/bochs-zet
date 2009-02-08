@@ -505,7 +505,7 @@ typedef struct {
   const char *msg;
 } BxLogMsgEvent;
 
-// Event type: BX_ASYNC_EVT_DBG_MSG   (unused)
+// Event type: BX_ASYNC_EVT_DBG_MSG
 //
 // Also uses BxLogMsgEvent, but this is a message to be displayed in
 // the debugger history window.

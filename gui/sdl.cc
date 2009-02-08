@@ -1606,13 +1606,11 @@ void bx_sdl_gui_c::show_ips(Bit32u ips_count)
 #endif
 
 #if !defined(WIN32) && BX_DEBUGGER && BX_DEBUGGER_GUI
+
+#include "enh_dbg.h"
+
 BxEvent *sdl_notify_callback (void *unused, BxEvent *event)
 {
-  extern char *debug_cmd;
-  extern bx_bool debug_cmd_ready;
-  extern bx_bool vgaw_refresh;
-  extern void ParseIDText (char *p);
-  extern void HitBreak();
   switch (event->type)
   {
     case BX_SYNC_EVT_GET_DBG_COMMAND:
@@ -1640,9 +1638,7 @@ BxEvent *sdl_notify_callback (void *unused, BxEvent *event)
       }
     case BX_ASYNC_EVT_DBG_MSG:
       {
-        ParseIDText ((char*) event->u.logmsg.msg);
-        // free the char* which was allocated in dbg_printf
-        delete [] ((char*)event->u.logmsg.msg);
+        ParseIDText (event->u.logmsg.msg);
         return event;
       }
     default:

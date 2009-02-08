@@ -130,7 +130,7 @@ void dbg_printf(const char *fmt, ...)
 {
   va_list ap;
   va_start(ap, fmt);
-  char *buf = new char[DBG_PRINTF_BUFFER_LEN+1];
+  char buf[DBG_PRINTF_BUFFER_LEN+1];
   vsnprintf(buf, DBG_PRINTF_BUFFER_LEN, fmt, ap);
   va_end(ap);
   if (debugger_log != NULL) {

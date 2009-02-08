@@ -59,7 +59,7 @@ bx_bool OSInit();
 void SpecialInit();
 
 void HitBreak();
-void ParseIDText(char *x);
+void ParseIDText(const char *x);
 
 extern char *debug_cmd;
 extern bx_bool debug_cmd_ready;

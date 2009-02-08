@@ -1818,7 +1818,7 @@ static gboolean VGAWrefreshTick(GtkWidget *widget)
     if (PO_Tdelay > 0)      // output window is delaying display of a partial line?
     {
         if (--PO_Tdelay == 0)   // on a timeout, add a lf to complete the line
-            ParseIDText ((char*)"\n");
+            ParseIDText ("\n");
     }
     Invalidate (0);
     Invalidate (1);

@@ -730,11 +730,9 @@ void bx_real_sim_c::debug_puts(const char *text)
     event->type = BX_ASYNC_EVT_DBG_MSG;
     event->u.logmsg.msg = text;
     sim_to_ci_event(event);
-    // the event will be freed by the recipient
   } else {
     // text mode debugger: just write to console
     fputs(text, stderr);
-    delete [] (char *)text;
   }
 }
 #endif

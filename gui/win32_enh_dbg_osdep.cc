@@ -72,7 +72,7 @@ COLORREF AsmColors[4] = {
 
 void DockResize (int j, Bit32u x);      // need some function prototypes
 void SetHorzLimits(void);
-void ParseIDText(char *x);
+void ParseIDText(const char *x);
 void ShowData();
 void UpdateStatus();
 void doUpdate();
