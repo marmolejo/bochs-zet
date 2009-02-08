@@ -815,10 +815,10 @@ void BX_CPU_C::boundaryFetch(const Bit8u *fetchPtr, unsigned remainingInPage, bx
   }
 #if BX_SUPPORT_X86_64
   if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)
-    ret = fetchDecode64(fetchBuffer, i, fetchBufferLimit);
+    ret = fetchDecode64(fetchBuffer, i, remainingInPage+fetchBufferLimit);
   else
 #endif
-    ret = fetchDecode32(fetchBuffer, i, fetchBufferLimit);
+    ret = fetchDecode32(fetchBuffer, i, remainingInPage+fetchBufferLimit);
 
   if (ret==0) {
     BX_INFO(("boundaryFetch #GP(0): failed to complete instruction decoding"));
