@@ -3375,7 +3375,9 @@ public: // for now...
 #endif
 
   BX_SMF bx_address read_CR0(void);
+#if BX_CPU_LEVEL > 3
   BX_SMF bx_address read_CR4(void);
+#endif
 #if BX_SUPPORT_VMX
   BX_SMF Bit32u VMread32(unsigned encoding);
   BX_SMF void VMwrite32(unsigned encoding, Bit32u val_32);
