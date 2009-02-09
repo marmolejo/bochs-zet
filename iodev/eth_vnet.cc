@@ -354,7 +354,7 @@ void bx_vnet_pktmover_c::pktmover_init(
   host_macaddr[5] = (host_macaddr[5] & (~0x01)) ^ 0x02;
 
   memcpy(&host_ipv4addr[0], &default_host_ipv4addr[0], 4);
-  memcpy(&guest_ipv4addr[0], &broadcast_ipv4addr[0][0], 4);
+  memcpy(&guest_ipv4addr[0], &broadcast_ipv4addr[1][0], 4);
 
   l4data_used = 0;
 
