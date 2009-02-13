@@ -789,9 +789,9 @@ void BX_CPU_C::interrupt(Bit8u vector, unsigned type, bx_bool push_error, Bit16u
   switch(type) {
     case BX_SOFTWARE_INTERRUPT:
     case BX_SOFTWARE_EXCEPTION:
-    case BX_PRIVILEGED_SOFTWARE_INTERRUPT:
       is_INT = 1;
       break;
+    case BX_PRIVILEGED_SOFTWARE_INTERRUPT:
     case BX_EXTERNAL_INTERRUPT:
     case BX_NMI:
     case BX_HARDWARE_EXCEPTION:
