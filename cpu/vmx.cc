@@ -1170,6 +1170,8 @@ Bit32u BX_CPU_C::VMenterLoadCheckGuestState(Bit64u *qualification)
   //
 
   BX_CPU_THIS_PTR async_event = 0;
+  if (guest.rflags & (EFlagsTFMask|EFlagsRFMask))
+    BX_CPU_THIS_PTR async_event = 1;
 
   if (vm->vmentry_ctrls & VMX_VMENTRY_CTRL1_SMM_ENTER)
     BX_PANIC(("VMENTER: entry to SMM is not implemented yet !"));

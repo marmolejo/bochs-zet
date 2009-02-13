@@ -41,8 +41,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::setEFlags(Bit32u val)
   }
 #endif
 
-  if (val & EFlagsTFMask) {
-    BX_CPU_THIS_PTR async_event = 1; // TF = 1
+  if (val & (EFlagsTFMask|EFlagsRFMask)) {
+    BX_CPU_THIS_PTR async_event = 1; // TF == 1 || RF == 1
   }
 
   if (val & EFlagsIFMask) {
