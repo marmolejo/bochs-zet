@@ -217,8 +217,11 @@ int usb_device_c::handle_packet(USBPacket *p)
                   d.setup_state = SETUP_STATE_ACK;
                 ret = l;
               } else {
+                // it is okay for a host to send an OUT before it reads
+                //  all of the expected IN.  It is telling the controller
+                //  that it doesn't want any more from that particular call.
+                ret = 0;
                 d.setup_state = SETUP_STATE_IDLE;
-                goto fail;
               }
               break;
             default:

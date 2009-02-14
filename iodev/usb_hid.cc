@@ -504,12 +504,12 @@ int usb_hid_device_c::handle_control(int request, int value, int index, int leng
               ret = set_usb_string(data, "Endpoint1 Interrupt Pipe");
               break;
             default:
-              BX_ERROR(("USB HID handle_control: unknown descriptor 0x%02x", value & 0xff));
+              BX_ERROR(("USB HID handle_control: unknown string descriptor 0x%02x", value & 0xff));
               goto fail;
           }
           break;
         default:
-          BX_ERROR(("USB HID handle_control: unknown descriptor 0x%02x", value & 0xff));
+          BX_ERROR(("USB HID handle_control: unknown descriptor type 0x%02x", value >> 8));
           goto fail;
       }
       break;
@@ -554,7 +554,7 @@ int usb_hid_device_c::handle_control(int request, int value, int index, int leng
           }
           break;
         default:
-          BX_ERROR(("USB HID handle_control: unknown HID descriptor 0x%02x", value & 0xff));
+          BX_ERROR(("USB HID handle_control: unknown HID descriptor 0x%02x", value >> 8));
           goto fail;
         }
         break;
