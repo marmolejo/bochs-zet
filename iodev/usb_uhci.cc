@@ -282,6 +282,11 @@ void bx_usb_uhci_c::init_device(Bit8u port, const char *devname)
 
   if (!strlen(devname) || !strcmp(devname, "none")) return;
 
+  if (BX_UHCI_THIS hub.usb_port[port].device != NULL) {
+    BX_ERROR(("init_device(): port%d already in use", port+1));
+    return;
+  }
+
   if (!strcmp(devname, "mouse")) {
     type = USB_DEV_TYPE_MOUSE;
     BX_UHCI_THIS hub.usb_port[port].device = new usb_hid_device_c(type);
