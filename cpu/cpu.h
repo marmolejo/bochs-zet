@@ -3128,6 +3128,10 @@ public: // for now...
   BX_SMF bx_bool wrmsr(Bit32u index, Bit64u  val_64) BX_CPP_AttrRegparmN(2);
 #endif
 
+#if BX_SUPPORT_APIC
+  BX_SMF void relocate_apic(Bit64u val_64);
+#endif
+
   BX_SMF void jump_protected(bxInstruction_c *, Bit16u cs, bx_address disp) BX_CPP_AttrRegparmN(3);
   BX_SMF void jmp_task_gate(bxInstruction_c *, bx_descriptor_t *gate_descriptor) BX_CPP_AttrRegparmN(2);
   BX_SMF void jmp_call_gate(bx_descriptor_t *gate_descriptor) BX_CPP_AttrRegparmN(1);
