@@ -410,7 +410,7 @@ bx_bool BX_CPP_AttrRegparmN(2) BX_CPU_C::wrmsr(Bit32u index, Bit64u val_64)
         }
 #endif
         BX_CPU_THIS_PTR msr.apicbase = val_64;
-        BX_CPU_THIS_PTR local_apic.set_base(BX_CPU_THIS_PTR msr.apicbase);
+        BX_CPU_THIS_PTR lapic.set_base(BX_CPU_THIS_PTR msr.apicbase);
         // TLB flush is required for emulation correctness
         TLB_flush();  // don't care about performance of apic relocation
       }

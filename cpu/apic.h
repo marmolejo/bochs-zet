@@ -56,7 +56,7 @@ public:
 
 #ifdef BX_INCLUDE_LOCAL_APIC
 
-#define BX_CPU_APIC(i) (&(BX_CPU(i)->local_apic))
+#define BX_CPU_APIC(i) (&(BX_CPU(i)->lapic))
 
 #ifdef BX_IMPLEMENT_XAPIC
 #  define BX_LAPIC_VERSION_ID 0x00050014  // P4 has 6 LVT entries

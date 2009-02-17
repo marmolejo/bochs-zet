@@ -568,8 +568,8 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
 #endif
     // NOTE: similar code in ::take_irq()
 #if BX_SUPPORT_APIC
-    if (BX_CPU_THIS_PTR local_apic.INTR)
-      vector = BX_CPU_THIS_PTR local_apic.acknowledge_int();
+    if (BX_CPU_THIS_PTR lapic.INTR)
+      vector = BX_CPU_THIS_PTR lapic.acknowledge_int();
     else
 #endif
       // if no local APIC, always acknowledge the PIC.

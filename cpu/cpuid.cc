@@ -407,7 +407,7 @@ void BX_CPU_C::set_cpuid_defaults(void)
 
   cpuid->ebx = 0;
 #if BX_SUPPORT_APIC
-  cpuid->ebx |= (BX_CPU_THIS_PTR local_apic.get_id() << 24);
+  cpuid->ebx |= (BX_CPU_THIS_PTR lapic.get_id() << 24);
 #endif
 #if BX_SUPPORT_CLFLUSH
   cpuid->ebx |= (CACHE_LINE_SIZE / 8) << 8;
