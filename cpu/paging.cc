@@ -1657,7 +1657,7 @@ void BX_CPU_C::access_write_physical(bx_phy_address paddr, unsigned len, void *d
 {
   bx_phy_address a20addr = A20ADDR(paddr);
 
-  if (BX_CPU_THIS_PTR lapic.is_selected(a20addr, len)) {
+  if (BX_CPU_THIS_PTR lapic.is_selected(a20addr)) {
     BX_CPU_THIS_PTR lapic.write(a20addr, data, len);
     return;
   }
@@ -1669,7 +1669,7 @@ void BX_CPU_C::access_read_physical(bx_phy_address paddr, unsigned len, void *da
 {
   bx_phy_address a20addr = A20ADDR(paddr);
 
-  if (BX_CPU_THIS_PTR lapic.is_selected(a20addr, len)) {
+  if (BX_CPU_THIS_PTR lapic.is_selected(a20addr)) {
     BX_CPU_THIS_PTR lapic.read(a20addr, data, len);
     return;
   }

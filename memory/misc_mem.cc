@@ -514,8 +514,7 @@ Bit8u *BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, bx_phy_address a20Addr, unsigned 
 {
 #if BX_SUPPORT_APIC
   if (cpu != NULL) {
-    bx_generic_apic_c *lapic = &cpu->lapic;
-    if (lapic->get_base() == (a20Addr & ~0xfff))
+    if (cpu->lapic.is_selected(a20Addr))
       return(NULL); // Vetoed!  APIC address space
   }
 #endif

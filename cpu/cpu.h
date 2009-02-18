@@ -3129,7 +3129,7 @@ public: // for now...
 #endif
 
 #if BX_SUPPORT_APIC
-  BX_SMF void relocate_apic(Bit64u val_64);
+  BX_SMF bx_bool relocate_apic(Bit64u val_64);
 #endif
 
   BX_SMF void jump_protected(bxInstruction_c *, Bit16u cs, bx_address disp) BX_CPP_AttrRegparmN(3);
