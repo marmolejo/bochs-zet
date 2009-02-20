@@ -1101,13 +1101,17 @@ static void mptable_init(void)
             putb(&q, 3); /* cpu flags: enabled, bootstrap cpu */
         else
             putb(&q, 1); /* cpu flags: enabled */
-        putb(&q, 0); /* cpu signature */
-        putb(&q, 6);
-        putb(&q, 0);
-        putb(&q, 0);
-        putle16(&q, 0x201); /* feature flags */
-        putle16(&q, 0);
-
+        if (cpuid_signature) {
+            putle32(&q, cpuid_signature);
+            putle32(&q, cpuid_features);
+        } else {
+            putb(&q, 0); /* cpu signature */
+            putb(&q, 6);
+            putb(&q, 0);
+            putb(&q, 0);
+            putle16(&q, 0x201); /* feature flags */
+            putle16(&q, 0);
+        }
         putle16(&q, 0); /* reserved */
         putle16(&q, 0);
         putle16(&q, 0);
