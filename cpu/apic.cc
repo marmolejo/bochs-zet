@@ -552,7 +552,7 @@ Bit32u bx_local_apic_c::read_aligned(bx_phy_address addr)
   case BX_LAPIC_LDR:     // logical destination
     data = (ldr & APIC_ID_MASK) << 24; break;
   case BX_LAPIC_DESTINATION_FORMAT:
-    data = ((dest_format & 0xf) << 24) | 0x0fffffff; break;
+    data = ((dest_format & 0xf) << 28) | 0x0fffffff; break;
   case BX_LAPIC_SPURIOUS_VECTOR:
     {
       Bit32u reg = spurious_vector;
