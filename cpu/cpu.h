@@ -771,8 +771,6 @@ class BOCHSAPI BX_CPU_C : public logfunctions {
 
 public: // for now...
 
-  char name[64];
-
   unsigned bx_cpuid;
 
   // cpuid

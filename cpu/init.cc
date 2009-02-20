@@ -159,10 +159,6 @@ void BX_CPU_C::initialize(void)
   BX_CPU_THIS_PTR lapic.init();
 #endif
 
-  // in SMP mode, the prefix of the CPU will be changed to [CPUn] in
-  // bx_local_apic_c::set_id as soon as the apic ID is assigned.
-  sprintf(name, "CPU %d", BX_CPU_ID);
-
 #if BX_CONFIGURE_MSRS
   for (unsigned n=0; n < BX_MSR_MAX_INDEX; n++) {
     BX_CPU_THIS_PTR msrs[n] = 0;
