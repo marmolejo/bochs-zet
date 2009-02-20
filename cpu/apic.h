@@ -21,11 +21,7 @@
 /////////////////////////////////////////////////////////////////////////
 
 #ifndef BX_CPU_APIC_H
-#  define BX_CPU_APIC_H 1
-
-#if BX_CPU_LEVEL == 6 && BX_SUPPORT_SSE >= 2
-  #define BX_IMPLEMENT_XAPIC 1
-#endif
+#define BX_CPU_APIC_H 1
 
 #if BX_SUPPORT_APIC
 
