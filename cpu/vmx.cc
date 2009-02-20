@@ -173,7 +173,7 @@ void BX_CPU_C::VMabort(VMX_vmabort_code error_code)
 // VMenter
 ////////////////////////////////////////////////////////////
 
-extern struct ExceptionInfo exceptions_info[];
+extern struct BxExceptionInfo exceptions_info[];
 
 #define VMENTRY_INJECTING_EVENT(vmentry_interr_info) (vmentry_interr_info & 0x80000000)
 

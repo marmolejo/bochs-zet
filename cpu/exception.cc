@@ -838,7 +838,7 @@ void BX_CPU_C::interrupt(Bit8u vector, unsigned type, bx_bool push_error, Bit16u
 #endif
 }
 
-struct ExceptionInfo exceptions_info[BX_CPU_HANDLED_EXCEPTIONS+1] = {
+struct BxExceptionInfo exceptions_info[BX_CPU_HANDLED_EXCEPTIONS+1] = {
   /* DE */ { BX_ET_CONTRIBUTORY, BX_EXCEPTION_CLASS_FAULT, 0 },
   /* DB */ { BX_ET_BENIGN,       BX_EXCEPTION_CLASS_FAULT, 0 },
   /* -- */ { BX_ET_BENIGN,       BX_EXCEPTION_CLASS_FAULT, 0 }, // NMI

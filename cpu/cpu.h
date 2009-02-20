@@ -261,7 +261,7 @@
 
 #endif  // defined(NEED_CPU_REG_SHORTCUTS)
 
-struct ExceptionInfo {
+struct BxExceptionInfo {
   unsigned exception_type;
   unsigned exception_class;
   bx_bool push_error;
