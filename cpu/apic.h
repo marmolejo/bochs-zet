@@ -119,13 +119,11 @@ class BOCHSAPI bx_local_apic_c : public logfunctions
 
 public:
   bx_bool INTR;
-  bx_local_apic_c(BX_CPU_C *cpu);
+  bx_local_apic_c(BX_CPU_C *cpu, unsigned id);
  ~bx_local_apic_c() { }
   void reset(unsigned type);
-  void init(void);
   bx_phy_address get_base(void) const { return base_addr; }
   void set_base(bx_phy_address newbase);
-  void set_id(Bit32u newid);
   Bit32u get_id() const { return apic_id; }
   bx_bool is_selected(bx_phy_address addr);
   void read(bx_phy_address addr, void *data, unsigned len);
