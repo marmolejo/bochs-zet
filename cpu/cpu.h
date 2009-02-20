@@ -739,7 +739,6 @@ typedef struct {
 #endif  // #if BX_SUPPORT_X86_64
 
 #if BX_SUPPORT_APIC
-#define BX_INCLUDE_LOCAL_APIC 1
 #include "apic.h"
 #endif
 

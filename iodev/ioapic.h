@@ -29,7 +29,9 @@
 #ifndef BX_DEVICES_IOAPIC_H
 #define BX_DEVICES_IOAPIC_H
 
-#include "cpu/apic.h"
+extern int apic_bus_deliver_lowest_priority(Bit8u vector, Bit8u dest, bx_bool trig_mode, bx_bool broadcast);
+extern int apic_bus_deliver_interrupt(Bit8u vector, Bit8u dest, Bit8u delivery_mode, bx_bool logical_dest, bx_bool level, bx_bool trig_mode);
+extern int apic_bus_broadcast_interrupt(Bit8u vector, Bit8u delivery_mode, bx_bool trig_mode, int exclude_cpu);
 
 extern class bx_ioapic_c bx_ioapic;
 
