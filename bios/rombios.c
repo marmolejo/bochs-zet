@@ -4582,7 +4582,7 @@ ASM_END
 #else
                         set_e820_range(ES, regs.u.r16.di,
                                        0x00100000L,
-                                       extended_memory_size, 1);
+                                       extended_memory_size, 0, 0, 1);
                         regs.u.r32.ebx = 5;
 #endif
                         break;
