@@ -34,7 +34,6 @@
 
 #if BX_SUPPORT_APIC
 
-#include "cpu/apic.h"
 #include "ioapic.h"
 
 #define LOG_THIS theIOAPIC->
