@@ -1655,24 +1655,28 @@ void BX_CPU_C::access_read_linear(bx_address laddr, unsigned len, unsigned curr_
 
 void BX_CPU_C::access_write_physical(bx_phy_address paddr, unsigned len, void *data)
 {
+#if BX_SUPPORT_APIC
   bx_phy_address a20addr = A20ADDR(paddr);
 
   if (BX_CPU_THIS_PTR lapic.is_selected(a20addr)) {
     BX_CPU_THIS_PTR lapic.write(a20addr, data, len);
     return;
   }
+#endif
 
   BX_MEM(0)->writePhysicalPage(BX_CPU_THIS, paddr, len, data);
 }
 
 void BX_CPU_C::access_read_physical(bx_phy_address paddr, unsigned len, void *data)
 {
+#if BX_SUPPORT_APIC
   bx_phy_address a20addr = A20ADDR(paddr);
 
   if (BX_CPU_THIS_PTR lapic.is_selected(a20addr)) {
     BX_CPU_THIS_PTR lapic.read(a20addr, data, len);
     return;
   }
+#endif
 
   BX_MEM(0)->readPhysicalPage(BX_CPU_THIS, paddr, len, data);
 }
