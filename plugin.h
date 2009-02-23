@@ -126,7 +126,7 @@ extern "C" {
 #define DEV_mouse_motion_ext(dx, dy, dz, state) (bx_devices.mouse_motion(dx, dy, dz, state))
 
 ///////// I/O APIC macros
-#define DEV_ioapic_present() (bx_devices.pluginIOAPIC != NULL)
+#define DEV_ioapic_present() (bx_devices.pluginIOAPIC != &bx_devices.stubIOAPIC)
 #define DEV_ioapic_receive_eoi(a) (bx_devices.pluginIOAPIC->receive_eoi(a))
 #define DEV_ioapic_set_irq_level(a,b) (bx_devices.pluginIOAPIC->set_irq_level(a,b))
 

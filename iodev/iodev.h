@@ -460,7 +460,7 @@ public:
   bx_iodebug_stub_c *pluginIODebug;
 #endif
 #if BX_SUPPORT_APIC
-  bx_ioapic_stub_c       *pluginIOAPIC;
+  bx_ioapic_stub_c  *pluginIOAPIC;
 #endif
 #if 0
   bx_g2h_c          *g2h;
@@ -541,6 +541,7 @@ private:
 
   int timer_handle;
 
+  bx_bool is_harddrv_enabled();
   bx_bool is_serial_enabled();
   bx_bool is_parallel_enabled();
   bx_bool is_usb_ohci_enabled();
