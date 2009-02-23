@@ -35,6 +35,7 @@
 #define BX_PLUGGABLE
 
 #include "bochs.h"
+#include "keymap.h"
 #include "iodev/iodev.h"
 #if BX_WITH_WIN32
 

@@ -480,8 +480,6 @@ BOCHSAPI extern bx_debug_t bx_dbg;
 #include "pc_system.h"
 #include "plugin.h"
 #include "gui/gui.h"
-#include "gui/textconfig.h"
-#include "gui/keymap.h"
 
 /* --- EXTERNS --- */
 

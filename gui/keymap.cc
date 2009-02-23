@@ -26,6 +26,7 @@
 //
 
 #include "bochs.h"
+#include "keymap.h"
 
 // Table of bochs "BX_KEY_*" symbols
 // the table must be in BX_KEY_* order
