@@ -212,6 +212,7 @@ private:
   static void set_irq_level(bx_bool level);
 
   static void init_device(Bit8u port, const char *devname);
+  static void remove_device(Bit8u port);
   static void usb_set_connect_status(Bit8u port, int type, bx_bool connected);
 
   static void usb_timer_handler(void *);
