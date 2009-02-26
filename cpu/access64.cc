@@ -261,7 +261,7 @@ BX_CPU_C::write_virtual_dqword_aligned_64(unsigned s, Bit64u offset, const BxPac
   BX_INSTR_MEM_DATA_ACCESS(BX_CPU_ID, s, offset, 16, BX_WRITE);
 
   Bit64u laddr = BX_CPU_THIS_PTR get_laddr64(s, offset);
-  unsigned tlbIndex = BX_TLB_INDEX_OF(laddr, 15);
+  unsigned tlbIndex = BX_TLB_INDEX_OF(laddr, 0);
   Bit64u lpf = AlignedAccessLPFOf(laddr, 15);
   bx_TLB_entry *tlbEntry = &BX_CPU_THIS_PTR TLB.entry[tlbIndex];
   if (tlbEntry->lpf == lpf) {
@@ -515,7 +515,7 @@ BX_CPU_C::read_virtual_dqword_aligned_64(unsigned s, Bit64u offset, BxPackedXmmR
   BX_INSTR_MEM_DATA_ACCESS(BX_CPU_ID, s, offset, 16, BX_READ);
 
   Bit64u laddr = BX_CPU_THIS_PTR get_laddr64(s, offset);
-  unsigned tlbIndex = BX_TLB_INDEX_OF(laddr, 15);
+  unsigned tlbIndex = BX_TLB_INDEX_OF(laddr, 0);
   Bit64u lpf = AlignedAccessLPFOf(laddr, 15);
   bx_TLB_entry *tlbEntry = &BX_CPU_THIS_PTR TLB.entry[tlbIndex];
   if (tlbEntry->lpf == lpf) {

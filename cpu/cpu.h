@@ -3866,11 +3866,11 @@ enum {
 #define BxGroupX            0x0070 // bits 6..4: opcode groups definition
 #define BxGroupN            0x0010 // Group encoding: 001
 #define BxPrefixSSE         0x0020 // Group encoding: 010
-#define BxFPEscape          0x0030 // Group encoding: 011
-#define BxRMGroup           0x0040 // Group encoding: 100
-#define Bx3ByteOp           0x0050 // Group encoding: 101
-#define BxOSizeGrp          0x0060 // Group encoding: 110
-                                   // Group encoding: 111
+#define BxPrefixSSE66       0x0030 // Group encoding: 011
+#define BxFPEscape          0x0040 // Group encoding: 100
+#define BxRMGroup           0x0050 // Group encoding: 101
+#define Bx3ByteOp           0x0060 // Group encoding: 110
+#define BxOSizeGrp          0x0070 // Group encoding: 111
 
 #define BxLockable          0x0080 // bit 7
 #define BxArithDstRM        0x0100 // bit 8
