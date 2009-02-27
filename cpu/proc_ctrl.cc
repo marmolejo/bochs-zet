@@ -835,7 +835,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_RqCq(bxInstruction_c *i)
       // Reads of CR8 return zero extended APIC.TPR[7:4]
       // Write to CR8 update APIC.TPR[7:4]
 #if BX_SUPPORT_APIC
-      val_64 = (BX_CPU_THIS_PTR lapic.get_tpr() & 0xF) >> 4;
+      val_64 = (BX_CPU_THIS_PTR lapic.get_tpr() >> 4) & 0xF;
       break;
 #endif
     default:
