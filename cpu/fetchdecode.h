@@ -1276,18 +1276,6 @@ static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f6b[3] = {
   /* F3 */ { 0, BX_IA_ERROR }
 };
 
-static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f6c[3] = {
-  /* 66 */ { 0, BX_IA_PUNPCKLQDQ_VdqWdq },
-  /* F2 */ { 0, BX_IA_ERROR },
-  /* F3 */ { 0, BX_IA_ERROR }
-};
-
-static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f6d[3] = {
-  /* 66 */ { 0, BX_IA_PUNPCKHQDQ_VdqWdq },
-  /* F2 */ { 0, BX_IA_ERROR },
-  /* F3 */ { 0, BX_IA_ERROR }
-};
-
 static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f6e[3] = {
   /* 66 */ { 0, BX_IA_MOVD_VdqEd },
   /* F2 */ { 0, BX_IA_ERROR },
