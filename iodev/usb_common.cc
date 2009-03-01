@@ -255,4 +255,13 @@ usb_device_c::usb_device_c(void) {
   memset((void*)&d, 0, sizeof(d));
 }
 
+// Send an internal message to a USB device
+void usb_device_c::usb_send_msg(int msg)
+{
+  USBPacket p;
+  memset(&p, 0, sizeof(p));
+  p.pid = msg;
+  handle_packet(&p);
+}
+
 #endif // BX_SUPPORT_PCI && BX_SUPPORT_PCIUSB

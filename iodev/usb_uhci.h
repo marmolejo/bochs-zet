@@ -227,7 +227,6 @@ private:
   Bit32u read(Bit32u address, unsigned io_len);
   void   write(Bit32u address, Bit32u value, unsigned io_len);
 #endif
-  void usb_send_msg(usb_device_c *dev, int msg);
 };
 
 #endif

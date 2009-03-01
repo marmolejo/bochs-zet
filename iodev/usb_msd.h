@@ -29,10 +29,11 @@ class scsi_device_t;
 
 class usb_msd_device_c : public usb_device_c {
 public:
-  usb_msd_device_c(void);
+  usb_msd_device_c(const char *filename);
   virtual ~usb_msd_device_c(void);
 
-  bx_bool init(const char *filename);
+  bx_bool init();
+  const char* get_path() {return s.fname;}
   virtual void handle_reset();
   virtual int handle_control(int request, int value, int index, int length, Bit8u *data);
   virtual int handle_data(USBPacket *p);
@@ -59,6 +60,7 @@ private:
     scsi_device_t *scsi_dev;
     USBPacket *packet;
     bx_list_c *sr_list;
+    const char *fname;
   } s;
 };
 

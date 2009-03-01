@@ -140,6 +140,8 @@ public:
   int get_speed() {return d.speed;}
   Bit8u get_address() {return d.addr;}
 
+  void usb_send_msg(int msg);
+
 protected:
   struct {
     enum usbdev_type type;
