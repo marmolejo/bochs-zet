@@ -124,6 +124,8 @@ extern "C" {
 #define DEV_mouse_enabled_changed(en) (bx_devices.mouse_enabled_changed(en))
 #define DEV_mouse_motion(dx, dy, state) (bx_devices.mouse_motion(dx, dy, 0, state))
 #define DEV_mouse_motion_ext(dx, dy, dz, state) (bx_devices.mouse_motion(dx, dy, dz, state))
+#define DEV_register_removable_mouse(a,b,c) (bx_devices.register_removable_mouse(a,b,c))
+#define DEV_unregister_removable_mouse(a) (bx_devices.unregister_removable_mouse(a))
 
 ///////// I/O APIC macros
 #define DEV_ioapic_present() (bx_devices.pluginIOAPIC != &bx_devices.stubIOAPIC)
