@@ -181,13 +181,12 @@ struct HCSTACK {
   bx_bool t;
 };
 
-class bx_usb_uhci_c : public bx_pci_usb_stub_c {
+class bx_usb_uhci_c : public bx_devmodel_c, public bx_pci_device_stub_c {
 public:
   bx_usb_uhci_c();
   virtual ~bx_usb_uhci_c();
   virtual void init(void);
   virtual void reset(unsigned);
-  virtual bx_bool usb_key_enq(Bit8u *scan_code);
   virtual void register_state(void);
   virtual void after_restore_state(void);
   virtual Bit32u  pci_read_handler(Bit8u address, unsigned io_len);
@@ -201,8 +200,6 @@ private:
   Bit8u         global_reset;
   bx_bool       busy;
   Bit8u         *device_buffer;
-
-  usb_hid_device_c *keybdev;
 
   USBPacket usb_packet;
 
