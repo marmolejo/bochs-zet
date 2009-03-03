@@ -279,7 +279,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::BSWAP_RRX(bxInstruction_c *i)
   b5 = val64 & 0xff; val64 >>= 8;
   b6 = val64 & 0xff; val64 >>= 8;
   b7 = val64;
-  val64 = (b0<<56) | (b1<<48) | (b2<<40) | (b3<<32) | (b4<<24) | (b4<<16) | (b4<<8) | b7;
+  val64 = (b0<<56) | (b1<<48) | (b2<<40) | (b3<<32) | (b4<<24) | (b5<<16) | (b6<<8) | b7;
 
   BX_WRITE_64BIT_REG(i->opcodeReg(), val64);
 }
