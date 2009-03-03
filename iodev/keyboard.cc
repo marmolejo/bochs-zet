@@ -259,6 +259,11 @@ void bx_keyb_c::init(void)
   }
 #endif
 
+  if ((BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_PS2) ||
+      (BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_IMPS2)) {
+    DEV_register_default_mouse(this, mouse_enq_static, mouse_enabled_changed_static);
+  }
+
   // init runtime parameter
   SIM->get_param_num(BXPN_KBD_PASTE_DELAY)->set_handler(kbd_param_handler);
   SIM->get_param_num(BXPN_KBD_PASTE_DELAY)->set_runtime_param(1);
@@ -1602,6 +1607,11 @@ void bx_keyb_c::create_mouse_packet(bx_bool force_enq)
 }
 
 
+void bx_keyb_c::mouse_enabled_changed_static(void *dev, bx_bool enabled)
+{
+  ((bx_keyb_c*)dev)->mouse_enabled_changed(enabled);
+}
+
 void bx_keyb_c::mouse_enabled_changed(bx_bool enabled)
 {
   if (BX_KEY_THIS s.mouse.delayed_dx || BX_KEY_THIS s.mouse.delayed_dy ||
@@ -1612,6 +1622,11 @@ void bx_keyb_c::mouse_enabled_changed(bx_bool enabled)
   BX_KEY_THIS s.mouse.delayed_dy=0;
   BX_KEY_THIS s.mouse.delayed_dz=0;
   BX_DEBUG(("PS/2 mouse %s", enabled?"enabled":"disabled"));
+}
+
+void bx_keyb_c::mouse_enq_static(void *dev, int delta_x, int delta_y, int delta_z, unsigned button_state)
+{
+  ((bx_keyb_c*)dev)->mouse_motion(delta_x, delta_y, delta_z, button_state);
 }
 
 void bx_keyb_c::mouse_motion(int delta_x, int delta_y, int delta_z, unsigned button_state)

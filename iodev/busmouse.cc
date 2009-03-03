@@ -45,9 +45,6 @@ int libbusmouse_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, c
 {
   // Create one instance of the busmouse device object.
   theBusMouse = new bx_busm_c();
-  // Before this plugin was loaded, pluginBusMouse pointed to a stub.
-  // Now make it point to the real thing.
-  bx_devices.pluginBusMouse = theBusMouse;
   // Register this device.
   BX_REGISTER_DEVICE_DEVMODEL (plugin, type, theBusMouse, BX_PLUGIN_BUSMOUSE);
   return(0); // Success
@@ -82,6 +79,7 @@ void bx_busm_c::init(void)
     DEV_register_ioread_handler(this, read_handler, i, "Bus Mouse", 1);
     DEV_register_iowrite_handler(this, write_handler, i, "Bus Mouse", 1);
   }
+  DEV_register_default_mouse(this, mouse_enq_static, NULL);
 
   BX_BUSM_THIS mouse_delayed_dx = 0;
   BX_BUSM_THIS mouse_delayed_dy = 0;
@@ -272,7 +270,12 @@ void bx_busm_c::write(Bit32u address, Bit32u value, unsigned io_len)
   }
 }
 
-void bx_busm_c::bus_mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state)
+void bx_busm_c::mouse_enq_static(void *dev, int delta_x, int delta_y, int delta_z, unsigned button_state)
+{
+  ((bx_busm_c*)dev)->mouse_enq(delta_x, delta_y, delta_z, button_state);
+}
+
+void bx_busm_c::mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state)
 {
   // scale down the motion
   if ((delta_x < -1) || (delta_x > 1))
