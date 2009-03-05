@@ -275,6 +275,7 @@ private:
 
   static void init_device(Bit8u port, const char *devname);
   static void remove_device(Bit8u port);
+  static int  broadcast_packet(USBPacket *p);
   static void usb_set_connect_status(Bit8u port, int type, bx_bool connected);
 
   static void usb_frame_handler(void *);
