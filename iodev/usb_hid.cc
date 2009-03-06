@@ -111,7 +111,7 @@ static const Bit8u bx_mouse_config_descriptor[] = {
   /* HID descriptor */
   0x09,        /*  u8  bLength; */
   0x21,        /*  u8 bDescriptorType; */
-  0x01, 0x00,  /*  u16 HID_class */
+  0x00, 0x01,  /*  u16 HID_class */
   0x00,        /*  u8 country_code */
   0x01,        /*  u8 num_descriptors */
   0x22,        /*  u8 type; Report */
@@ -165,7 +165,7 @@ static const Bit8u bx_tablet_config_descriptor[] = {
   /* HID descriptor */
   0x09,        /*  u8  bLength; */
   0x21,        /*  u8 bDescriptorType; */
-  0x01, 0x00,  /*  u16 HID_class */
+  0x00, 0x01,  /*  u16 HID_class */
   0x00,        /*  u8 country_code */
   0x01,        /*  u8 num_descriptors */
   0x22,        /*  u8 type; Report */
