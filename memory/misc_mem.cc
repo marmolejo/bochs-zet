@@ -510,8 +510,10 @@ bx_bool BX_MEM_C::dbg_crc32(bx_phy_address addr1, bx_phy_address addr2, Bit32u *
 // 0xf0000 - 0xfffff    Upper BIOS Area (64K)
 //
 
-Bit8u *BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, bx_phy_address a20Addr, unsigned rw)
+Bit8u *BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, bx_phy_address addr, unsigned rw)
 {
+  bx_phy_address a20Addr = A20ADDR(addr);
+
 #if BX_SUPPORT_APIC
   if (cpu != NULL) {
     if (cpu->lapic.is_selected(a20Addr))
