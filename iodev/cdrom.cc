@@ -501,7 +501,7 @@ int GetCDCapacity(unsigned int hid, unsigned int tid, unsigned int lun)
 
 #endif
 
-cdrom_interface::cdrom_interface(char *dev)
+cdrom_interface::cdrom_interface(const char *dev)
 {
   put("CD");
   fd = -1; // File descriptor not yet allocated
@@ -539,7 +539,7 @@ cdrom_interface::~cdrom_interface(void)
 }
 
   bx_bool
-cdrom_interface::insert_cdrom(char *dev)
+cdrom_interface::insert_cdrom(const char *dev)
 {
   unsigned char buffer[BX_CD_FRAMESIZE];
 #ifndef WIN32

@@ -88,6 +88,7 @@ private:
   int tcq;
   scsi_completionfn completion;
   void *dev;
+  bx_bool locked;
 };
 
 #endif

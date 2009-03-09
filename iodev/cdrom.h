@@ -30,12 +30,12 @@
 
 class cdrom_interface : public logfunctions {
 public:
-  cdrom_interface(char *dev);
+  cdrom_interface(const char *dev);
   virtual ~cdrom_interface(void);
   void init(void);
 
   // Load CD-ROM. Returns 0 if CD is not ready.
-  bx_bool insert_cdrom(char *dev = NULL);
+  bx_bool insert_cdrom(const char *dev = NULL);
 
   // Logically eject the CD.
   void eject_cdrom();
