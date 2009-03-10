@@ -34,7 +34,7 @@
 
 #if BX_SUPPORT_FPU
 void BX_CPU_C::prepareFPU(bxInstruction_c *i,
-	bx_bool check_pending_exceptions, bx_bool update_last_instruction)
+        bx_bool check_pending_exceptions, bx_bool update_last_instruction)
 {
   if (BX_CPU_THIS_PTR cr0.get_EM() || BX_CPU_THIS_PTR cr0.get_TS())
     exception(BX_NM_EXCEPTION, 0, 0);
@@ -448,8 +448,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FNCLEX(bxInstruction_c *i)
   BX_CPU_THIS_PTR prepareFPU(i, !CHECK_PENDING_EXCEPTIONS, !UPDATE_LAST_OPCODE);
 
   FPU_PARTIAL_STATUS &= ~(FPU_SW_Backward|FPU_SW_Summary|FPU_SW_Stack_Fault|FPU_SW_Precision|
-		   FPU_SW_Underflow|FPU_SW_Overflow|FPU_SW_Zero_Div|FPU_SW_Denormal_Op|
-		   FPU_SW_Invalid);
+                   FPU_SW_Underflow|FPU_SW_Overflow|FPU_SW_Zero_Div|FPU_SW_Denormal_Op|
+                   FPU_SW_Invalid);
 
   // do not update last fpu instruction pointer
 #else

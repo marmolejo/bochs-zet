@@ -41,7 +41,7 @@ int FPU_tagof(const floatx80 &reg)
    if (exp == 0)
    {
       if (! floatx80_fraction(reg))
-	  return FPU_Tag_Zero;
+          return FPU_Tag_Zero;
 
       /* The number is a de-normal or pseudodenormal. */
       return FPU_Tag_Special;
