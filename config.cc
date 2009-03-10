@@ -902,7 +902,7 @@ void bx_init_options()
   type->set_ask_format("Choose the type of mouse [%s] ");
 
   enabled = new bx_param_bool_c(mouse,
-      "enabled", "Enable the mouse capture",
+      "enabled", "Enable mouse capture",
       "Controls whether the mouse sends events to the guest. The hardware emulation is always enabled.",
       0);
   enabled->set_handler(bx_param_handler);
