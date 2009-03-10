@@ -26,8 +26,8 @@
 
 #if BX_SUPPORT_ICACHE
 
-// bit31: 1=CS is 32/64-bit, 0=CS is 16-bit.
-// bit30: 1=Long Mode, 0=not Long Mode.
+// bit31: 1=Long Mode, 0=not Long Mode.
+// bit30: 1=CS is 32/64-bit, 0=CS is 16-bit.
 // Combination bit31=1 & bit30=1 is invalid (data page)
 const Bit32u ICacheWriteStampInvalid  = 0xffffffff;
 const Bit32u ICacheWriteStampStart    = 0x3fffffff;

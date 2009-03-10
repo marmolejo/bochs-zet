@@ -485,6 +485,23 @@ AC_TRY_COMPILE([], [ { 42LL; } ],
       AC_DEFINE(BX_64BIT_CONSTANTS_USE_LL, 0)
     ])
 
+AC_MSG_CHECKING(for A20 support)
+AC_ARG_ENABLE(a20-pin,
+  [  --enable-a20-pin                  compile in support for A20 pin],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_SUPPORT_A20, 1)
+   else
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SUPPORT_A20, 0)
+   fi
+   ],
+  [
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_SUPPORT_A20, 1)
+    ]
+  )
+
 use_x86_64=0
 AC_MSG_CHECKING(for x86-64 support)
 AC_ARG_ENABLE(x86-64,

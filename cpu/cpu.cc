@@ -996,13 +996,10 @@ bx_bool BX_CPU_C::dbg_check_begin_instr_bpoint(void)
 bx_bool BX_CPU_C::dbg_check_end_instr_bpoint(void)
 {
   BX_CPU_THIS_PTR guard_found.icount++;
-  BX_CPU_THIS_PTR guard_found.cs  =
-    BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value;
+  BX_CPU_THIS_PTR guard_found.cs = BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value;
   BX_CPU_THIS_PTR guard_found.eip = RIP;
   BX_CPU_THIS_PTR guard_found.laddr = BX_CPU_THIS_PTR get_laddr(BX_SEG_REG_CS, RIP);
-  BX_CPU_THIS_PTR guard_found.is_32bit_code =
-    BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b;
-  BX_CPU_THIS_PTR guard_found.is_64bit_code = Is64BitMode();
+  BX_CPU_THIS_PTR guard_found.code_32_64 = BX_CPU_THIS_PTR fetchModeMask >> 30;
 
   // Check if we hit read/write or time breakpoint
   if (BX_CPU_THIS_PTR break_point) {
