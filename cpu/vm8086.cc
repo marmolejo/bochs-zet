@@ -222,7 +222,6 @@ void BX_CPU_C::init_v8086_mode(void)
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.avl          = 0;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.rpl                 = 3;
 
-  updateFetchModeMask();
   handleCpuModeChange();
 
 #if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK

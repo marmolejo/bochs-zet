@@ -172,7 +172,6 @@ void BX_CPU_C::enter_system_management_mode(void)
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.l   = 0; /* 16bit default size */
 #endif
 
-  updateFetchModeMask();
   handleCpuModeChange();
 
 #if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
