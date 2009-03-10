@@ -225,6 +225,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::POPF_Fw(bxInstruction_c *i)
       Bit32u flags32 = (Bit32u) flags16;
       if (BX_CPU_THIS_PTR get_IF()) flags32 |= EFlagsVIFMask;
       writeEFlags(flags32, changeMask);
+
+      RSP_COMMIT;
       return;
     }
 #endif
