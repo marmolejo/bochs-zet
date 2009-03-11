@@ -43,7 +43,7 @@ extern "C" {
 #if BX_USE_TEXTCONFIG && defined(WIN32)
 
 int AskFilename(HWND hwnd, bx_param_filename_c *param, const char *ext);
-int win32ParamDialog(HWND parent, bx_list_c *list);
+int win32ParamDialog(HWND parent, const char *menu);
 
 #endif
 
