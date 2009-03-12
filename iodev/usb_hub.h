@@ -29,7 +29,7 @@
 
 class usb_hub_device_c : public usb_device_c {
 public:
-  usb_hub_device_c(void);
+  usb_hub_device_c(Bit8u ports);
   virtual ~usb_hub_device_c(void);
 
   virtual int handle_packet(USBPacket *p);
@@ -42,6 +42,7 @@ public:
 
 private:
   struct {
+    Bit8u n_ports;
     bx_list_c *config;
     bx_list_c *state;
     struct {
