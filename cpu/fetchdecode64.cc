@@ -3879,9 +3879,4 @@ modrm_done:
   return(1);
 }
 
-void BX_CPP_AttrRegparmN(2) BX_CPU_C::optimize64(bxInstruction_c *i, unsigned resolve)
-{
-  // empty for now
-}
-
 #endif /* if BX_SUPPORT_X86_64 */

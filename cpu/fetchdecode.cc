@@ -2984,45 +2984,7 @@ modrm_done:
   i->ia_opcode = ia_opcode;
 #endif
 
-  if (i->execute2 != NULL) {
-    optimize32(i, resolve);
-  }
-
   return(1);
-}
-
-void BX_CPP_AttrRegparmN(2) BX_CPU_C::optimize32(bxInstruction_c *i, unsigned resolve)
-{
-  // LOAD speedups
-  static const BxExecutePtr_tR BxTableLoad32_Eb[3] = {
-    &BX_CPU_C::LOAD_Eb_Resolve16BaseIndex,
-    &BX_CPU_C::LOAD_Eb_Resolve32Base,
-    &BX_CPU_C::LOAD_Eb_Resolve32BaseIndex
-  };
-
-  static const BxExecutePtr_tR BxTableLoad32_Ew[3] = {
-    &BX_CPU_C::LOAD_Ew_Resolve16BaseIndex,
-    &BX_CPU_C::LOAD_Ew_Resolve32Base,
-    &BX_CPU_C::LOAD_Ew_Resolve32BaseIndex
-  };
-
-  static const BxExecutePtr_tR BxTableLoad32_Ed[3] = {
-    &BX_CPU_C::LOAD_Ed_Resolve16BaseIndex,
-    &BX_CPU_C::LOAD_Ed_Resolve32Base,
-    &BX_CPU_C::LOAD_Ed_Resolve32BaseIndex
-  };
-
-#if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
-  if (! BX_CPU_THIS_PTR alignment_check())
-#endif
-  {
-    if (i->execute == &BX_CPU_C::LOAD_Eb)
-      i->execute = BxTableLoad32_Eb[resolve];
-    else if (i->execute == &BX_CPU_C::LOAD_Ew)
-      i->execute = BxTableLoad32_Ew[resolve];
-    else if (i->execute == &BX_CPU_C::LOAD_Ed)
-      i->execute = BxTableLoad32_Ed[resolve];
-  }
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::BxError(bxInstruction_c *i)
