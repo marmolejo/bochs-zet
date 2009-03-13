@@ -778,9 +778,7 @@ void BX_CPU_C::reset(unsigned source)
 #endif
 
   updateFetchModeMask();
-#if BX_SUPPORT_ICACHE
   flushICaches();
-#endif
 
   /* DS (Data Segment) and descriptor cache */
   parse_selector(0x0000,

@@ -24,8 +24,6 @@
 #ifndef BX_ICACHE_H
 #define BX_ICACHE_H
 
-#if BX_SUPPORT_ICACHE
-
 // bit31: 1=Long Mode, 0=not Long Mode.
 // bit30: 1=CS is 32/64-bit, 0=CS is 16-bit.
 // Combination bit31=1 & bit30=1 is invalid (data page)
@@ -198,7 +196,5 @@ BX_CPP_INLINE void bxICache_c::purgeICacheEntries(void)
 
 extern void purgeICaches(void);
 extern void flushICaches(void);
-
-#endif // BX_SUPPORT_ICACHE
 
 #endif

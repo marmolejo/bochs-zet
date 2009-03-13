@@ -26,35 +26,6 @@
 #include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
-bx_bool BX_CPU_C::fetchInstruction(bxInstruction_c *iStorage, Bit32u eipBiased)
-{
-  unsigned remainingInPage = BX_CPU_THIS_PTR eipPageWindowSize - eipBiased;
-  const Bit8u *fetchPtr = BX_CPU_THIS_PTR eipFetchPtr + eipBiased;
-  unsigned ret;
-
-#if BX_SUPPORT_X86_64
-  if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)
-    ret = fetchDecode64(fetchPtr, iStorage, remainingInPage);
-  else
-#endif
-    ret = fetchDecode32(fetchPtr, iStorage, remainingInPage);
-
-  if (ret==0) {
-    // handle instrumentation callback inside boundaryFetch
-    boundaryFetch(fetchPtr, remainingInPage, iStorage);
-    return 0;
-  }
-
-#if BX_INSTRUMENTATION
-  BX_INSTR_OPCODE(BX_CPU_ID, fetchPtr, iStorage->ilen(),
-       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b, Is64BitMode());
-#endif
-
-  return 1;
-}
-
-#if BX_SUPPORT_ICACHE
-
 bxPageWriteStampTable pageWriteStampTable;
 
 void flushICaches(void)
@@ -163,6 +134,33 @@ bx_bool BX_CPU_C::mergeTraces(bxICacheEntry_c *entry, bxInstruction_c *i, bx_phy
 
 #else // BX_SUPPORT_TRACE_CACHE == 0
 
+bx_bool BX_CPU_C::fetchInstruction(bxInstruction_c *iStorage, Bit32u eipBiased)
+{
+  unsigned remainingInPage = BX_CPU_THIS_PTR eipPageWindowSize - eipBiased;
+  const Bit8u *fetchPtr = BX_CPU_THIS_PTR eipFetchPtr + eipBiased;
+  unsigned ret;
+
+#if BX_SUPPORT_X86_64
+  if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)
+    ret = fetchDecode64(fetchPtr, iStorage, remainingInPage);
+  else
+#endif
+    ret = fetchDecode32(fetchPtr, iStorage, remainingInPage);
+
+  if (ret==0) {
+    // handle instrumentation callback inside boundaryFetch
+    boundaryFetch(fetchPtr, remainingInPage, iStorage);
+    return 0;
+  }
+
+#if BX_INSTRUMENTATION
+  BX_INSTR_OPCODE(BX_CPU_ID, fetchPtr, iStorage->ilen(),
+       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b, Is64BitMode());
+#endif
+
+  return 1;
+}
+
 void BX_CPU_C::serveICacheMiss(bxICacheEntry_c *cache_entry, Bit32u eipBiased, bx_phy_address pAddr)
 {
   // The entry will be marked valid if fetchdecode will succeed
@@ -175,5 +173,3 @@ void BX_CPU_C::serveICacheMiss(bxICacheEntry_c *cache_entry, Bit32u eipBiased, b
 }
 
 #endif
-
-#endif // BX_SUPPORT_ICACHE
