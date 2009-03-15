@@ -96,7 +96,7 @@ usbdev_type usb_init_device(const char *devname, logfunctions *hub, usb_device_c
     if (strlen(devname) > 3) {
       if (devname[3] == ':') {
         ports = atoi(&devname[4]);
-        if ((ports < 2) || (ports > 8)) {
+        if ((ports < 2) || (ports > BX_N_USB_HUB_PORTS)) {
           hub->panic("USB device 'hub': invalid number of ports");
         }
       } else {

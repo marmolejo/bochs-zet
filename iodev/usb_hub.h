@@ -25,7 +25,7 @@
 #define BX_IODEV_USB_HUB_H
 
 
-#define USB_HUB_NUM_PORTS 8
+// number of ports defined in bochs.h
 
 class usb_hub_device_c : public usb_device_c {
 public:
@@ -51,7 +51,7 @@ private:
 
       Bit16u PortStatus;
       Bit16u PortChange;
-    } usb_port[USB_HUB_NUM_PORTS];
+    } usb_port[BX_N_USB_HUB_PORTS];
   } hub;
 
   int broadcast_packet(USBPacket *p);

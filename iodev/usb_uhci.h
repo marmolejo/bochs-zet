@@ -29,7 +29,7 @@
 #  define BX_UHCI_THIS_PTR this
 #endif
 
-#define USB_UHCI_NUM_PORTS   2  /* UHCI supports 2 ports per root hub */
+// defined in bochs.h: UHCI supports 2 ports per root hub
 
 typedef struct {
   Bit32u base_ioaddr;
@@ -153,7 +153,7 @@ typedef struct {
     bx_bool enabled;
     bx_bool connect_changed;
     bx_bool status;
-  } usb_port[USB_UHCI_NUM_PORTS];
+  } usb_port[BX_N_USB_UHCI_PORTS];
 
   Bit8u pci_conf[256];
   Bit8u devfunc;
