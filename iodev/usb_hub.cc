@@ -256,7 +256,7 @@ usb_hub_device_c::usb_hub_device_c(Bit8u ports)
   sprintf(pname, "exthub%d", ++hub_count);
   sprintf(label, "External Hub #%d Configuration", hub_count);
   hub.config = new bx_list_c(usb, pname, label, hub.n_ports);
-  hub.config->get_options()->set(bx_list_c::SHOW_PARENT | bx_list_c::USE_BOX_TITLE);
+  hub.config->set_options(bx_list_c::SHOW_PARENT | bx_list_c::USE_BOX_TITLE);
   usb_rt->add(hub.config);
   for(i = 0; i < hub.n_ports; i++) {
     sprintf(pname, "port%d", i+1);

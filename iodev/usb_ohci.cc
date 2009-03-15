@@ -139,7 +139,7 @@ void bx_usb_ohci_c::init(void)
 
   bx_list_c *usb_rt = (bx_list_c*)SIM->get_param(BXPN_MENU_RUNTIME_USB);
   bx_list_c *ohci = new bx_list_c(usb_rt, "ohci", "OHCI Configuration");
-  ohci->get_options()->set(bx_list_c::SHOW_PARENT);
+  ohci->set_options(ohci->SHOW_PARENT);
   for (i=0; i<BX_N_USB_OHCI_PORTS; i++) {
     sprintf(pname, "port%d", i+1);
     port = SIM->get_param_string(pname, SIM->get_param(BXPN_USB_OHCI));

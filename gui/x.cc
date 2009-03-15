@@ -2537,7 +2537,7 @@ BxEvent *x11_notify_callback (void *unused, BxEvent *event)
       param = event->u.param.param;
       if (param->get_type() == BXT_PARAM_STRING) {
         sparam = (bx_param_string_c *)param;
-        opts = sparam->get_options()->get();
+        opts = sparam->get_options();
         if ((opts & sparam->IS_FILENAME) == 0) {
           event->retcode = x11_string_dialog(sparam, NULL);
           return event;
