@@ -923,7 +923,7 @@ void bx_init_options()
   iolog->set_ask_format("Enter pathname of I/O log: [%s] ");
   initrd->set_ask_format("Enter pathname of initrd: [%s] ");
   load32bitos->set_options(menu->SERIES_ASK);
-  whichOS->set_dependent_list(load32bitos->clone(), TRUE);
+  whichOS->set_dependent_list(load32bitos->clone(), 1);
   whichOS->set_dependent_bitmap(Load32bitOSNone, 0);
   whichOS->set(Load32bitOSNone);
   boot_params->set_options(menu->SHOW_PARENT);
