@@ -1812,12 +1812,16 @@ bx_bool bx_param_enum_c::set_by_name(const char *string)
   return 1;
 }
 
-void bx_param_enum_c::set_dependent_list(bx_list_c *l)
+void bx_param_enum_c::set_dependent_list(bx_list_c *l, bx_bool enable_all)
 {
   dependent_list = l;
   deps_bitmap = (Bit64u*)malloc(sizeof(Bit64u) * (max - min + 1));
   for (int i=0; i<(max-min+1); i++) {
-    deps_bitmap[i] = (1 << (l->get_size())) - 1;
+    if (enable_all) {
+      deps_bitmap[i] = (1 << (l->get_size())) - 1;
+    } else {
+      deps_bitmap[i] = 0;
+    }
   }
   update_dependents();
 }
