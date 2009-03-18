@@ -404,7 +404,7 @@ protected:
   void EnableParam(const char *pname, bool enabled);
   void EnableParam(const char *pname, bx_list_c *base, bool enabled);
   void EnumChanged(ParamStruct *pstr);
-  void EnableChangedRecursive(bx_list_c *list, bool en, ParamStruct *pstrOfCheckbox);
+  void EnableChangedRecursive(bx_list_c *list, bool en, ParamStruct *pstr);
   void EnableChanged(ParamStruct *pstr);
   bool CopyGuiToParam();
 public:
