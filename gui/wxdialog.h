@@ -400,12 +400,9 @@ protected:
   // map parameter ID onto ParamStruct.
   wxHashTable *paramHash;
   virtual void EnableChanged();
-  void EnableParam(int param_id, bool enabled);
-  void EnableParam(const char *pname, bool enabled);
-  void EnableParam(const char *pname, bx_list_c *base, bool enabled);
-  void EnumChanged(ParamStruct *pstr);
-  void EnableChangedRecursive(bx_list_c *list, bool en, ParamStruct *pstr);
   void EnableChanged(ParamStruct *pstr);
+  void EnableParam(int param_id, bool enabled);
+  void ProcessDependentList(ParamStruct *pstrChanged, bool enabled);
   bool CopyGuiToParam();
 public:
   ParamDialog(wxWindow* parent, wxWindowID id);
