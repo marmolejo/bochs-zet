@@ -56,6 +56,10 @@
 
 class bxInstruction_c;
 
+void bx_instr_init_env(void);
+void bx_instr_exit_env(void);
+void bx_instr_initialize(unsigned cpu);
+
 // maximum size of an instruction
 #define MAX_OPCODE_SIZE 16
 

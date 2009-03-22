@@ -28,6 +28,7 @@
 
 #include "bochs.h"
 #include "cpu/cpu.h"
+#include "disasm/disasm.h"
 
 bxInstrumentation *icpu = NULL;
 

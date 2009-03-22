@@ -29,6 +29,7 @@
 
 #include "bochs.h"
 #include "cpu/cpu.h"
+#include "disasm/disasm.h"
 
 // maximum size of an instruction
 #define MAX_OPCODE_SIZE 16
