@@ -42,6 +42,7 @@ extern "C" {
 
 #if BX_USE_TEXTCONFIG && defined(WIN32)
 
+void StartMenuDialog(HWND hwnd);
 int RuntimeOptionsDialog();
 #if BX_DEBUGGER && BX_DEBUGGER_GUI
 void InitDebugDialog();

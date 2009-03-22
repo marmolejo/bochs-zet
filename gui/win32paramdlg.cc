@@ -168,7 +168,9 @@ int AskFilename(HWND hwnd, bx_param_filename_c *param)
   ofn.lpstrTitle = title;
   ofn.Flags = OFN_EXPLORER | OFN_HIDEREADONLY;
   ofn.lpstrDefExt = ext;
-  if (!lstrcmp(ext, "img")) {
+  if (!lstrcmp(ext, "bxrc")) {
+    ofn.lpstrFilter = "Bochs config files (*.bxrc)\0*.bxrc\0All files (*.*)\0*.*\0";
+  } else if (!lstrcmp(ext, "img")) {
     ofn.lpstrFilter = "Disk image files (*.img)\0*.img\0All files (*.*)\0*.*\0";
   } else if (!lstrcmp(ext, "iso")) {
     ofn.lpstrFilter = "CD-ROM image files (*.iso)\0*.iso\0All files (*.*)\0*.*\0";
