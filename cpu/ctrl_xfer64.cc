@@ -108,27 +108,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RETfar64_Iw(bxInstruction_c *i)
                       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, RIP);
 }
 
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::RETfar64(bxInstruction_c *i)
-{
-  invalidate_prefetch_q();
-
-#if BX_DEBUGGER
-  BX_CPU_THIS_PTR show_flag |= Flag_ret;
-#endif
-
-  BX_ASSERT(protected_mode());
-
-  RSP_SPECULATIVE;
-
-  // return_protected is not RSP safe
-  return_protected(i, 0);
-
-  RSP_COMMIT;
-
-  BX_INSTR_FAR_BRANCH(BX_CPU_ID, BX_INSTR_IS_RET,
-                      BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, RIP);
-}
-
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::CALL_Jq(bxInstruction_c *i)
 {
   Bit64u new_RIP = RIP + (Bit32s) i->Id();

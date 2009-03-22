@@ -2824,6 +2824,7 @@ modrm_done:
     }
   }
 
+  i->modRMForm.Id = 0;
   imm_mode = attr & BxImmediate;
   if (imm_mode) {
     switch (imm_mode) {
