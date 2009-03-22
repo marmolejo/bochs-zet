@@ -475,7 +475,6 @@ const char *keyboard_type_names[] = { "xt", "at", "mf", NULL };
 const char *atadevice_type_names[] = { "disk", "cdrom", NULL };
 //const char *atadevice_mode_names[] = { "flat", "concat", "external", "dll", "sparse", "vmware3", "vmware4", "undoable", "growing", "volatile", "z-undoable", "z-volatile", NULL };
 const char *atadevice_mode_names[] = { "flat", "concat", "external", "dll", "sparse", "vmware3", "vmware4", "undoable", "growing", "volatile", NULL };
-const char *atadevice_status_names[] = { "ejected", "inserted", NULL };
 const char *atadevice_biosdetect_names[] = { "none", "auto", "cmos", NULL };
 const char *atadevice_translation_names[] = { "none", "lba", "large", "rechs", "auto", NULL };
 const char *clock_sync_names[] = { "none", "realtime", "slowdown", "both", NULL };

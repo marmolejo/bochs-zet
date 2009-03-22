@@ -55,8 +55,6 @@ extern "C" {
 
 #define CI_PATH_LENGTH 512
 
-#define BX_INSERTED 11
-
 /* functions for changing particular options */
 void bx_config_interface_init();
 int bx_read_rc(char *rc);
@@ -369,7 +367,7 @@ void build_runtime_options_prompt(const char *format, char *buf, int size)
     else
       sprintf(buffer[2+cdrom], "(%s on ata%d) %s, %s",
         device&1?"slave":"master", device/2, SIM->get_param_string("path", cdromop)->getptr(),
-        (SIM->get_param_enum("status", cdromop)->get() == BX_INSERTED)? "inserted" : "ejected");
+        (SIM->get_param_bool("status", cdromop)->get()) ? "inserted" : "ejected");
     }
 
   snprintf(buf, size, format, buffer[0], buffer[1], buffer[2],

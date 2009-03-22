@@ -302,7 +302,7 @@ typedef enum {
 #define BX_RESET_SOFTWARE 10
 #define BX_RESET_HARDWARE 11
 
-//cdrom
+// floppy
 #define BX_EJECTED   10
 #define BX_INSERTED  11
 
@@ -1095,7 +1095,6 @@ BOCHSAPI extern const char *loader_os_names[];
 BOCHSAPI extern const char *keyboard_type_names[];
 BOCHSAPI extern const char *atadevice_type_names[];
 BOCHSAPI extern const char *atadevice_mode_names[];
-BOCHSAPI extern const char *atadevice_status_names[];
 BOCHSAPI extern const char *atadevice_biosdetect_names[];
 BOCHSAPI extern const char *atadevice_translation_names[];
 BOCHSAPI extern const char *clock_sync_names[];
