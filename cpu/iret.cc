@@ -370,15 +370,15 @@ BX_CPU_C::long_iret(bxInstruction_c *i)
   else
 #endif
   if (i->os32L()) {
-    new_eflags      =          read_virtual_dword_32(BX_SEG_REG_SS, temp_RSP + 8);
-    raw_cs_selector = (Bit16u) read_virtual_dword_32(BX_SEG_REG_SS, temp_RSP + 4);
-    new_rip         = (Bit64u) read_virtual_dword_32(BX_SEG_REG_SS, temp_RSP + 0);
+    new_eflags      =          read_virtual_dword(BX_SEG_REG_SS, temp_RSP + 8);
+    raw_cs_selector = (Bit16u) read_virtual_dword(BX_SEG_REG_SS, temp_RSP + 4);
+    new_rip         = (Bit64u) read_virtual_dword(BX_SEG_REG_SS, temp_RSP + 0);
     top_nbytes_same = 12;
   }
   else {
-    new_eflags      =          read_virtual_word_32(BX_SEG_REG_SS, temp_RSP + 4);
-    raw_cs_selector =          read_virtual_word_32(BX_SEG_REG_SS, temp_RSP + 2);
-    new_rip         = (Bit64u) read_virtual_word_32(BX_SEG_REG_SS, temp_RSP + 0);
+    new_eflags      =          read_virtual_word(BX_SEG_REG_SS, temp_RSP + 4);
+    raw_cs_selector =          read_virtual_word(BX_SEG_REG_SS, temp_RSP + 2);
+    new_rip         = (Bit64u) read_virtual_word(BX_SEG_REG_SS, temp_RSP + 0);
     top_nbytes_same = 6;
   }
 
@@ -459,12 +459,12 @@ BX_CPU_C::long_iret(bxInstruction_c *i)
 #endif
     {
       if (i->os32L()) {
-        raw_ss_selector = (Bit16u) read_virtual_dword_32(BX_SEG_REG_SS, temp_RSP + 16);
-        new_rsp         = (Bit64u) read_virtual_dword_32(BX_SEG_REG_SS, temp_RSP + 12);
+        raw_ss_selector = (Bit16u) read_virtual_dword(BX_SEG_REG_SS, temp_RSP + 16);
+        new_rsp         = (Bit64u) read_virtual_dword(BX_SEG_REG_SS, temp_RSP + 12);
       }
       else {
-        raw_ss_selector =          read_virtual_word_32(BX_SEG_REG_SS, temp_RSP + 8);
-        new_rsp         = (Bit64u) read_virtual_word_32(BX_SEG_REG_SS, temp_RSP + 6);
+        raw_ss_selector =          read_virtual_word(BX_SEG_REG_SS, temp_RSP + 8);
+        new_rsp         = (Bit64u) read_virtual_word(BX_SEG_REG_SS, temp_RSP + 6);
       }
     }
 
