@@ -229,7 +229,7 @@ static BOOL CALLBACK FloppyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
         mediatype = SIM->get_param_enum(BXPN_FLOPPYB_TYPE);
       }
       cap = devtype->get() - (int)devtype->get_min();
-      SetWindowText(GetDlgItem(hDlg, IDDEVTYPE), floppy_type_names[cap]);
+      SetWindowText(GetDlgItem(hDlg, IDDEVTYPE), floppy_devtype_names[cap]);
       i = 0;
       while (floppy_type_names[i] != NULL) {
         SendMessage(GetDlgItem(hDlg, IDMEDIATYPE), CB_ADDSTRING, 0, (LPARAM)floppy_type_names[i]);
