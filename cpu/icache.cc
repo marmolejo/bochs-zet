@@ -61,6 +61,7 @@ void BX_CPU_C::serveICacheMiss(bxICacheEntry_c *cache_entry, Bit32u eipBiased, b
   // Cache miss. We weren't so lucky, but let's be optimistic - try to build 
   // trace from incoming instruction bytes stream !
   cache_entry->pAddr = pAddr;
+  pageWriteStampTable.markICache(pAddr);
   cache_entry->writeStamp = *(BX_CPU_THIS_PTR currPageWriteStampPtr);
 
   unsigned remainingInPage = BX_CPU_THIS_PTR eipPageWindowSize - eipBiased;
