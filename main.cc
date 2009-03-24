@@ -26,6 +26,9 @@
 
 #include "bochs.h"
 #include "gui/textconfig.h"
+#ifdef WIN32
+#include "gui/win32dialog.h"
+#endif
 #include "cpu/cpu.h"
 #include "iodev/iodev.h"
 
@@ -278,6 +281,13 @@ int bxmain (void) {
       init_text_config_interface();   // in textconfig.h
 #else
       BX_PANIC(("configuration interface 'textconfig' not present"));
+#endif
+    }
+    else if (!strcmp(ci_name, "win32config")) {
+#ifdef WIN32
+      init_win32_config_interface();
+#else
+      BX_PANIC(("configuration interface 'win32config' not present"));
 #endif
     }
 #if BX_WITH_WX

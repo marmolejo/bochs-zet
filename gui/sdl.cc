@@ -286,7 +286,9 @@ void bx_sdl_gui_c::specific_init(int argc, char **argv,
 {
   int i,j;
   Uint32 flags;
+  bx_bool gui_ci;
 
+  gui_ci = !strcmp(SIM->get_param_enum(BXPN_SEL_CONFIG_INTERFACE)->get_selected(), "win32config");
   put("SDL");
 
   UNUSED(bochs_icon_bits);
@@ -366,8 +368,9 @@ void bx_sdl_gui_c::specific_init(int argc, char **argv,
 
   new_gfx_api = 1;
 #ifdef WIN32
-  win32_init_notify_callback();
-  dialog_caps = BX_GUI_DLG_ALL;
+  if (gui_ci) {
+    dialog_caps = BX_GUI_DLG_ALL;
+  }
 #endif
 }
 
