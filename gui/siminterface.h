@@ -302,10 +302,6 @@ typedef enum {
 #define BX_RESET_SOFTWARE 10
 #define BX_RESET_HARDWARE 11
 
-// floppy
-#define BX_EJECTED   10
-#define BX_INSERTED  11
-
 // boot devices (using the same values as the rombios)
 #define BX_BOOT_NONE    0
 #define BX_BOOT_FLOPPYA 1
@@ -1097,7 +1093,6 @@ BOCHSAPI extern const char *bochs_start_names[];
 BOCHSAPI extern const char *floppy_devtype_names[];
 BOCHSAPI extern const char *floppy_type_names[];
 BOCHSAPI extern int floppy_type_n_sectors[];
-BOCHSAPI extern const char *floppy_status_names[];
 BOCHSAPI extern const char *bochs_bootdisk_names[];
 BOCHSAPI extern const char *loader_os_names[];
 BOCHSAPI extern const char *keyboard_type_names[];
