@@ -117,17 +117,17 @@ BOCHSAPI BX_MEM_C bx_mem;
 
 char *bochsrc_filename = NULL;
 
-void bx_print_header ()
+void bx_print_header()
 {
-  fprintf (stderr, "%s\n", divider);
+  printf("%s\n", divider);
   char buffer[128];
   sprintf (buffer, "Bochs x86 Emulator %s\n", VER_STRING);
-  bx_center_print (stderr, buffer, 72);
+  bx_center_print(stdout, buffer, 72);
   if (REL_STRING[0]) {
-    sprintf (buffer, "%s\n", REL_STRING);
-    bx_center_print (stderr, buffer, 72);
+    sprintf(buffer, "%s\n", REL_STRING);
+    bx_center_print(stdout, buffer, 72);
   }
-  fprintf (stderr, "%s\n", divider);
+  printf("%s\n", divider);
 }
 
 #if BX_WITH_CARBON
