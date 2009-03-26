@@ -115,11 +115,6 @@ void BX_CPU_C::cpu_loop(Bit32u max_instr_count)
   BX_CPU_THIS_PTR EXT = 0;
   BX_CPU_THIS_PTR errorno = 0;
 
-  cpu_loop_core(max_instr_count);
-}
-
-void BX_CPU_C::cpu_loop_core(Bit32u max_instr_count)
-{
   while (1) {
 
     // check on events which occurred for previous instructions (traps)
