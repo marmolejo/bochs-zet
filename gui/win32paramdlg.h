@@ -25,7 +25,7 @@
 
 #if BX_USE_TEXTCONFIG && defined(WIN32)
 
-int AskFilename(HWND hwnd, bx_param_filename_c *param);
+int AskFilename(HWND hwnd, bx_param_filename_c *param, char *buffer);
 int win32ParamDialog(HWND parent, const char *menu);
 
 #endif
