@@ -2761,6 +2761,7 @@ public: // for now...
 
   // now for some ancillary functions...
   BX_SMF void cpu_loop(Bit32u max_instr_count);
+  BX_SMF void cpu_loop_core(Bit32u max_instr_count);
   BX_SMF unsigned handleAsyncEvent(void);
 
   BX_SMF unsigned fetchDecode32(const Bit8u *fetchPtr, bxInstruction_c *i, unsigned remainingInPage) BX_CPP_AttrRegparmN(3);
