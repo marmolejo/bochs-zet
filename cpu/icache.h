@@ -25,7 +25,7 @@
 #define BX_ICACHE_H
 
 // bit 31 indicates code page
-const Bit32u ICacheWriteStampInvalid  = 0x7fffffff;
+const Bit32u ICacheWriteStampInvalid  = 0xffffffff;
 const Bit32u ICacheWriteStampStart    = 0x7fffffff;
 const Bit32u ICacheWriteStampFetchModeMask = ~ICacheWriteStampStart;
 
@@ -102,7 +102,7 @@ public:
 BX_CPP_INLINE void bxPageWriteStampTable::resetWriteStamps(void)
 {
   for (Bit32u i=0; i<PHY_MEM_PAGES; i++) {
-    pageWriteStampTable[i] = ICacheWriteStampInvalid;
+    pageWriteStampTable[i] = ICacheWriteStampStart - 1;
   }
 }
 
