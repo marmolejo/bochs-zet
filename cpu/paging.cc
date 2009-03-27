@@ -666,7 +666,7 @@ void BX_CPU_C::page_fault(unsigned fault, bx_address laddr, unsigned user, unsig
 }
 
 /* PAE PML4: bits [51 .. physical address width], [7] - support 1G paging */
-  #define PAGING_PAE_PML4_RESERVED_BITS \
+#define PAGING_PAE_PML4_RESERVED_BITS \
     (BX_PHY_ADDRESS_RESERVED_BITS | BX_CONST64(0x80))
 
 #if BX_SUPPORT_1G_PAGES

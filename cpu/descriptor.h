@@ -154,6 +154,7 @@ union {
 #if BX_CPU_LEVEL >= 3
     Bit32u  limit_scaled;  // Same notes as for 'segment' field
     bx_bool g;             /* granularity: 0=byte, 1=4K (page) */
+    bx_bool d_b;           /* default size: 0=16bit, 1=32bit */
     bx_bool avl;           /* available for use by system */
 #endif
   } system;                /* TSS and LDT */
