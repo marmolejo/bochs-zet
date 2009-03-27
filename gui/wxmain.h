@@ -9,7 +9,6 @@
 class MyFrame;
 class MyPanel;
 class SimThread;
-class FloppyConfigDialog;
 class ParamDialog;
 #if BX_DEBUGGER
 class DebugLogDialog;
@@ -83,17 +82,9 @@ enum
   ID_Debugger,
   ID_Help,
   // dialog box: FloppyConfigDialog
-  ID_None,
-  ID_Physical_A,
-  ID_Physical_B,
-  ID_Filename,
-  ID_FilenameText,
-  ID_Browse,
-  ID_Capacity,
   ID_Create,
   // dialog box: LogOptions
-  ID_Advanced,
-  ID_Browse2,
+  ID_Browse,
   // dialog box: CpuRegistersDialog
   ID_Debug_Continue,
   ID_Debug_Stop,
@@ -198,7 +189,6 @@ public:
   void DebugCommand(wxString string);
   void DebugCommand(const char *cmd);
 #endif
-  static bool editFloppyValidate(FloppyConfigDialog *dialog);
   void editFloppyConfig(int drive);
   void editFirstCdrom();
   void OnToolbarClick(wxCommandEvent& event);
