@@ -465,6 +465,7 @@ bx_bool BX_CPU_C::set_segment_ar_data(bx_segment_reg_t *seg, bx_bool valid,
       case BX_SYS_SEGMENT_AVAIL_386_TSS:
       case BX_SYS_SEGMENT_BUSY_386_TSS:
         d->u.system.avl   = (ar_data >> 12) & 0x1;
+        d->u.system.d_b   = (ar_data >> 14) & 0x1;
         d->u.system.g     = (ar_data >> 15) & 0x1;
         d->u.system.base  = base;
         d->u.system.limit_scaled = limit_scaled;
