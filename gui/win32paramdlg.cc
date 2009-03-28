@@ -779,6 +779,7 @@ static BOOL CALLBACK ParamDlgProc(HWND Window, UINT AMessage, WPARAM wParam, LPA
               GetDlgItemText(Window, ID_PARAM + i, fname, BX_PATHNAME_LEN);
               if (AskFilename(Window, (bx_param_filename_c *)sparam, fname) > 0) {
                 SetWindowText(GetDlgItem(Window, ID_PARAM + i), fname);
+                SendMessage(GetDlgItem(Window, ID_PARAM + i), EM_SETMODIFY, 1, 0);
                 SetFocus(GetDlgItem(Window, ID_PARAM + i));
               }
             }

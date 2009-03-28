@@ -859,6 +859,7 @@ public:
   void set_dependent_list(bx_list_c *l, bx_bool enable_all);
   void set_dependent_bitmap(Bit64s value, Bit64u bitmap);
   Bit64u get_dependent_bitmap(Bit64s value);
+  virtual void set_enabled(int enabled);
 #if BX_USE_TEXTCONFIG
   virtual void text_print(FILE *fp);
   virtual int text_ask(FILE *fpin, FILE *fpout);

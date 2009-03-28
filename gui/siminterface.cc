@@ -1856,6 +1856,16 @@ void bx_param_enum_c::update_dependents()
   }
 }
 
+void bx_param_enum_c::set_enabled(int en)
+{
+  // The enable handler may wish to allow/disallow the action
+  if (enable_handler) {
+    en = (*enable_handler)(this, en);
+  }
+  bx_param_c::set_enabled(en);
+  update_dependents();
+}
+
 bx_param_string_c::bx_param_string_c(bx_param_c *parent,
     const char *name,
     const char *label,
