@@ -517,7 +517,7 @@ int bx_config_interface(int menu)
             case BX_CI_RT_LOGOPTS2: bx_log_options(1); break;
             case BX_CI_RT_INST_TR: NOT_IMPLEMENTED(choice); break;
             case BX_CI_RT_USB: do_menu(BXPN_MENU_RUNTIME_USB); break;
-            case BX_CI_RT_MISC: do_menu(BXPN_MENU_RUNTIME); break;
+            case BX_CI_RT_MISC: do_menu(BXPN_MENU_RUNTIME_MISC); break;
             case BX_CI_RT_CONT: fprintf(stderr, "Continuing simulation\n"); return 0;
             case BX_CI_RT_QUIT:
               fprintf(stderr, "You chose quit on the configuration interface.\n");

@@ -232,6 +232,9 @@ menu
   disk_win32
   memory
   runtime
+    cdrom
+    usb
+    misc
 
 bochs
   (subtree containing Bochs state)

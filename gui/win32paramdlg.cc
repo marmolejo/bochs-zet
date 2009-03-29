@@ -628,6 +628,7 @@ void SetParamList(HWND hDlg, bx_list_c *list)
         }
       }
     }
+    if ((i + 1) >= (UINT)list->get_size()) break;
   }
 }
 
