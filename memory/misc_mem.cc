@@ -218,7 +218,7 @@ void BX_MEM_C::load_ROM(const char *path, bx_phy_address romaddress, Bit8u type)
   size = (unsigned long)stat_buf.st_size;
 
   if (type > 0) {
-    max_size = 0x10000;
+    max_size = 0x20000;
   } else {
     max_size = BIOSROMSZ;
   }
