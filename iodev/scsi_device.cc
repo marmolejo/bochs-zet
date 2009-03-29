@@ -564,6 +564,9 @@ Bit32s scsi_device_t::scsi_send_command(Bit32u tag, Bit8u *buf, int lun)
       outbuf[3] = 8;
       r->buf_len = 16;
       break;
+    case 0x2f:
+      BX_INFO(("Verify"));
+      break;
     default:
       BX_ERROR(("Unknown SCSI command (%2.2x)", buf[0]));
     fail:
