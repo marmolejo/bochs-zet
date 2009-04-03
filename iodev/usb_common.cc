@@ -82,14 +82,14 @@ usbdev_type usb_init_device(const char *devname, logfunctions *hub, usb_device_c
       hub->panic("USB device 'disk' needs a filename separated with a colon");
       return type;
     }
-//  } else if (!strncmp(devname, "cdrom", 5)) {
-//    if ((strlen(devname) > 6) && (devname[5] == ':')) {
-//      type = USB_DEV_TYPE_CDROM;
-//      *device = new usb_msd_device_c(type, devname+6);
-//    } else {
-//      hub->panic("USB device 'cdrom' needs a filename separated with a colon");
-//      return type;
-//    }
+  } else if (!strncmp(devname, "cdrom", 5)) {
+    if ((strlen(devname) > 6) && (devname[5] == ':')) {
+      type = USB_DEV_TYPE_CDROM;
+      *device = new usb_msd_device_c(type, devname+6);
+    } else {
+      hub->panic("USB device 'cdrom' needs a filename separated with a colon");
+      return type;
+    }
   } else if (!strncmp(devname, "hub", 3)) {
     type = USB_DEV_TYPE_HUB;
     ports = 4;
