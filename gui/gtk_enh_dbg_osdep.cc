@@ -1066,14 +1066,6 @@ void MakeTreeChild (TreeParent *h_P, int ChildCount, TreeParent *h_TC)
     gtk_tree_store_set(GTK_TREE_STORE(treestore), h_TC, 0, tmpcb, -1);  // and put a name (+ data) on it
 }
 
-// technically, this is a copy of a non-os-specific code fragment
-void DelWatchpoint(bx_phy_address *wp_array, unsigned int *TotEntries, int i)
-{
-    while (++i < (int) *TotEntries)
-        wp_array[i-1] = wp_array[i];
-    -- *TotEntries;
-}
-
 bx_bool NewFont()
 {
     char *ofn;

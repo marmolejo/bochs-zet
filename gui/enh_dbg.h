@@ -44,6 +44,7 @@ void SetOutWinTxt();
 void ShowFW();
 void GetInputEntry(char *buf);
 void SelectHistory(int UpDown);
+void DelWatchpoint(bx_phy_address *wp_array, unsigned *TotEntries, int i);
 
 void HideTree();
 void FillPTree();

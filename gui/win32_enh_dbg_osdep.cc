@@ -1202,14 +1202,6 @@ void MakeTreeChild (HTREEITEM *h_P, int ChildCount, HTREEITEM *h_TC)
     *h_TC = (HTREEITEM) CallWindowProc(wTreeView,hT,TVM_INSERTITEM,(WPARAM) 0,(LPARAM) &tvis);
 }
 
-// technically, this is a copy of a non-os-specific code fragment
-void DelWatchpoint(bx_phy_address *wp_array, unsigned int *TotEntries, int i)
-{
-    while (++i < (int) *TotEntries)
-        wp_array[i-1] = wp_array[i];
-    -- *TotEntries;
-}
-
 bx_bool NewFont()
 {
     LOGFONT lf;

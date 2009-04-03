@@ -2654,6 +2654,13 @@ void SetBreak(int OneEntry)
     Invalidate(ASM_WND);    // redraw the ASM window -- colors may have changed
 }
 
+void DelWatchpoint(bx_phy_address *wp_array, unsigned *TotEntries, int i)
+{
+    while (++i < (int) *TotEntries)
+        wp_array[i-1] = wp_array[i];
+    -- *TotEntries;
+}
+
 void SetWatchpoint(unsigned * num_watchpoints, bx_phy_address * watchpoint)
 {
     int iExist1 = -1;
