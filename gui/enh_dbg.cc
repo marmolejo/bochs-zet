@@ -2686,7 +2686,7 @@ void SetWatchpoint(unsigned * num_watchpoints, bx_phy_address * watchpoint)
     else
     {
         // Set a watchpoint to last clicked address -- the list is not sorted
-        if (*num_watchpoints >= 16)
+        if (*num_watchpoints >= BX_DBG_MAX_WATCHPONTS)
             DispMessage ("Too many of that type of watchpoint. Max: 16",
                 "Table Overflow") ;
         else
