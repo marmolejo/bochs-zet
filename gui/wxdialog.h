@@ -294,6 +294,7 @@ protected:
   void EnableParam(int param_id, bool enabled);
   void ProcessDependentList(ParamStruct *pstrChanged, bool enabled);
   bool CopyGuiToParam();
+  bool CopyGuiToParam(bx_param_c *param);
   bool isGeneratedId(int id);
 public:
   ParamDialog(wxWindow* parent, wxWindowID id);
