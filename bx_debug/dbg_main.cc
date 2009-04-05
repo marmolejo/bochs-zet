@@ -3604,11 +3604,11 @@ Bit32u bx_dbg_get_laddr(Bit16u sel, Bit32u ofs)
     Bit32u desc_base;
     if (selector.ti) {
       // LDT
-      if (((Bit32u)selector.index*8 + 7) > BX_CPU(dbg_cpu)->ldtr.cache.u.system.limit_scaled) {
+      if (((Bit32u)selector.index*8 + 7) > BX_CPU(dbg_cpu)->ldtr.cache.u.segment.limit_scaled) {
         dbg_printf("ERROR: selector (%04x) > GDT size limit\n", selector.index*8);
         return 0;
       }
-      desc_base = BX_CPU(dbg_cpu)->ldtr.cache.u.system.base;
+      desc_base = BX_CPU(dbg_cpu)->ldtr.cache.u.segment.base;
     }
     else {
       // GDT
