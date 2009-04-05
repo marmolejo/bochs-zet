@@ -1470,7 +1470,6 @@ void BX_CPU_C::VMexitLoadHostState(void)
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.type     = BX_CODE_EXEC_READ_ACCESSED;
 
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.base         = 0;
-  BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.limit        = 0xffff;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.limit_scaled = 0xffffffff;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.avl = 0;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.g   = 1; /* page granular */
@@ -1506,7 +1505,6 @@ void BX_CPU_C::VMexitLoadHostState(void)
        BX_CPU_THIS_PTR sregs[segreg].cache.segment  = 1;  /* data/code segment */
        BX_CPU_THIS_PTR sregs[segreg].cache.type     = BX_DATA_READ_WRITE_ACCESSED;
        BX_CPU_THIS_PTR sregs[segreg].cache.u.segment.base         = 0;
-       BX_CPU_THIS_PTR sregs[segreg].cache.u.segment.limit        = 0xffff;
        BX_CPU_THIS_PTR sregs[segreg].cache.u.segment.limit_scaled = 0xffffffff;
        BX_CPU_THIS_PTR sregs[segreg].cache.u.segment.avl = 0;
        BX_CPU_THIS_PTR sregs[segreg].cache.u.segment.g   = 1; /* page granular */
@@ -1535,7 +1533,6 @@ void BX_CPU_C::VMexitLoadHostState(void)
   BX_CPU_THIS_PTR tr.cache.segment  = 0; /* system segment */
   BX_CPU_THIS_PTR tr.cache.type     = BX_SYS_SEGMENT_BUSY_386_TSS;
   BX_CPU_THIS_PTR tr.cache.u.system.base         = host_state->tr_base;
-  BX_CPU_THIS_PTR tr.cache.u.system.limit        = 0x67;
   BX_CPU_THIS_PTR tr.cache.u.system.limit_scaled = 0x67;
   BX_CPU_THIS_PTR tr.cache.u.system.avl = 0;
   BX_CPU_THIS_PTR tr.cache.u.system.g   = 0; /* byte granular */
