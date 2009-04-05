@@ -351,7 +351,7 @@ BX_CPU_C::get_descriptor_l(const bx_descriptor_t *d)
   }
   else {
     Bit32u limit = d->u.system.limit_scaled;
-    if (d->u.segment.g)
+    if (d->u.system.g)
       limit >>= 12;
 
     switch (d->type) {
@@ -381,7 +381,7 @@ BX_CPU_C::get_descriptor_h(const bx_descriptor_t *d)
 
   if (d->segment) {
     Bit32u limit = d->u.segment.limit_scaled;
-    if (d->u.system.g)
+    if (d->u.segment.g)
       limit >>= 12;
     val = (d->u.segment.base & 0xff000000) |
           ((d->u.segment.base >> 16) & 0x000000ff) |
