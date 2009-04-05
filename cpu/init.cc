@@ -514,9 +514,10 @@ void BX_CPU_C::register_state(void)
 #endif
 
 #if BX_SUPPORT_MONITOR_MWAIT
-  bx_list_c *monitor_list = new bx_list_c(cpu, "MONITOR", 2);
+  bx_list_c *monitor_list = new bx_list_c(cpu, "MONITOR", 3);
   BXRS_HEX_PARAM_FIELD(monitor_list, begin_addr, monitor.monitor_begin);
   BXRS_HEX_PARAM_FIELD(monitor_list, end_addr,   monitor.monitor_end);
+  BXRS_PARAM_BOOL(monitor_list, armed, monitor.armed);
 #endif
 
 #if BX_SUPPORT_APIC
