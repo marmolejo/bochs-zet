@@ -451,7 +451,7 @@ void bx_hard_drive_c::init(void)
       } else if (SIM->get_param_enum("type", base)->get() == BX_ATA_DEVICE_CDROM) {
         bx_list_c *cdrom_rt = (bx_list_c*)SIM->get_param(BXPN_MENU_RUNTIME_CDROM);
         cdrom_rt->add(base);
-        base->set_options(base->USE_BOX_TITLE);
+        base->set_options(base->SERIES_ASK | base->USE_BOX_TITLE);
         base->set_runtime_param(1);
         SIM->get_param("path", base)->set_runtime_param(1);
         SIM->get_param("status", base)->set_runtime_param(1);
