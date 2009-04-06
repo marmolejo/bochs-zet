@@ -643,6 +643,7 @@ protected:
   // parameter type will enable those parameters when the enable condition is
   // true, and disable them it is false.
   bx_list_c *dependent_list;
+  void *device;
 public:
   bx_param_c(Bit32u id, const char *name, const char *description);
   bx_param_c(Bit32u id, const char *name, const char *label, const char *description);
@@ -673,6 +674,8 @@ public:
   bx_list_c *get_dependent_list() { return dependent_list; }
   void set_options(Bit32u options) { this->options = options; }
   Bit32u get_options() const { return options; }
+  void set_device_param(void *dev) { device = dev; }
+  void *get_device_param() { return device; }
 #if BX_USE_TEXTCONFIG
   virtual void text_print(FILE *fp) {}
   virtual int text_ask(FILE *fpin, FILE *fpout) {return -1;}
