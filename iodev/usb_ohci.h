@@ -239,7 +239,9 @@ typedef struct {
   bx_bool  use_bulk_head;
   Bit64u   sof_time;
 
-  int statusbar_id[2]; // IDs of the status LEDs
+  int statusbar_id; // ID of the status LEDs
+  int iolight_counter;
+  int iolight_timer_index;
 } bx_usb_ohci_t;
 
 
@@ -290,6 +292,10 @@ private:
   bx_bool read_handler(bx_phy_address addr, unsigned len, void *data, void *param);
   bx_bool write_handler(bx_phy_address addr, unsigned len, void *data, void *param);
 #endif
+
+  static void iolight_timer_handler(void *);
+  void iolight_timer(void);
+
 };
 
 #endif  // BX_IODEV_USB_OHCI_H

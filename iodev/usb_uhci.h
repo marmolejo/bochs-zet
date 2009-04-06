@@ -158,8 +158,9 @@ typedef struct {
   Bit8u pci_conf[256];
   Bit8u devfunc;
 
-  int statusbar_id[2]; // IDs of the status LEDs
-
+  int statusbar_id; // ID of the status LEDs
+  int iolight_counter;
+  int iolight_timer_index;
 } bx_usb_uhci_t;
 
 #pragma pack (push, 1)
@@ -222,6 +223,10 @@ private:
   Bit32u read(Bit32u address, unsigned io_len);
   void   write(Bit32u address, Bit32u value, unsigned io_len);
 #endif
+
+  static void iolight_timer_handler(void *);
+  void iolight_timer(void);
+
 };
 
 #endif
