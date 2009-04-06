@@ -38,7 +38,6 @@ public:
   virtual int handle_data(USBPacket *p);
   virtual void register_state_specific(bx_list_c *parent);
   virtual void after_restore_state();
-  const char *get_name() {return hub.config->get_name();}
 
 private:
   struct {

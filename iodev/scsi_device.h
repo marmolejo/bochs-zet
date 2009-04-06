@@ -52,8 +52,8 @@ enum scsi_reason {
 typedef struct SCSIRequest {
   scsi_device_t *dev;
   Bit32u tag;
-  int sector;
-  int sector_count;
+  Bit64u sector;
+  Bit32u sector_count;
   int buf_len;
   Bit8u dma_buf[SCSI_DMA_BUF_SIZE];
   Bit32u status;
@@ -80,6 +80,8 @@ public:
   Bit8u* scsi_get_buf(Bit32u tag);
   const char *get_serial_number() {return drive_serial_str;}
   void set_inserted(bx_bool value) {inserted = value;}
+  bx_bool get_inserted() {return inserted;}
+
 protected:
   SCSIRequest* scsi_new_request(Bit32u tag);
   void scsi_remove_request(SCSIRequest *r);
