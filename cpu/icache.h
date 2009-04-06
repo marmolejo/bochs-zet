@@ -82,15 +82,14 @@ public:
   BX_CPP_INLINE void decWriteStamp(bx_phy_address pAddr)
   {
     Bit32u index = hash(pAddr);
+    if (pageWriteStampTable[index] & ICacheWriteStampFetchModeMask) {
 #if BX_SUPPORT_TRACE_CACHE
-    if (pageWriteStampTable[index] & ICacheWriteStampFetchModeMask)
-    {
       handleSMC(); // one of the CPUs might be running trace from this page
+#endif
       // Decrement page write stamp, so iCache entries with older stamps are
       // effectively invalidated.
       pageWriteStampTable[index] = (pageWriteStampTable[index] - 1) & ~ICacheWriteStampFetchModeMask;
     }
-#endif
 #if BX_DEBUGGER
     BX_DBG_DIRTY_PAGE(index);
 #endif
