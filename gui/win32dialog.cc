@@ -471,9 +471,12 @@ static BOOL CALLBACK LogOptDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
             case IDAPPLY:
               ApplyLogOptions(hDlg, advanced);
               EnableWindow(GetDlgItem(hDlg, IDAPPLY), FALSE);
+              changed = FALSE;
               break;
             case IDOK:
-              ApplyLogOptions(hDlg, advanced);
+              if (changed) {
+                ApplyLogOptions(hDlg, advanced);
+              }
               EndDialog(hDlg, 1);
               break;
             case IDCANCEL:
