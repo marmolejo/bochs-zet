@@ -706,7 +706,8 @@ bx_phy_address BX_CPU_C::translate_linear_PAE(bx_address laddr, bx_address &lpf_
   bx_phy_address pdpe_addr, ppf;
   Bit64u pdpe, pde, pte;
 #if BX_SUPPORT_X86_64
-  Bit64u pml4, pml4_addr = 0;
+  Bit64u pml4;
+  bx_phy_address pml4_addr = 0;
 #endif
   unsigned priv_index, nx_fault = 0;
   bx_bool isWrite = (rw & 1); // write or r-m-w

@@ -530,7 +530,7 @@ bx_bool BX_CPU_C::relocate_apic(Bit64u val_64)
       BX_ERROR(("relocate_apic: attempt to set reserved bits"));
       return 0;
     }
-    BX_CPU_THIS_PTR msr.apicbase = val_64;
+    BX_CPU_THIS_PTR msr.apicbase = (bx_phy_address) val_64;
     BX_CPU_THIS_PTR lapic.set_base(BX_CPU_THIS_PTR msr.apicbase);
     // TLB flush is required for emulation correctness
     TLB_flush();  // don't care about performance of apic relocation

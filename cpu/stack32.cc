@@ -156,7 +156,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PUSH_Id(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::PUSH_EdM(bxInstruction_c *i)
 {
-  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  Bit32u eaddr = (Bit32u) BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
   Bit32u op1_32 = read_virtual_dword_32(i->seg(), eaddr);
 

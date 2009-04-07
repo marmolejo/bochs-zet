@@ -522,7 +522,7 @@ bx_bool BX_CPU_C::smram_restore_state(const Bit32u *saved_state)
   }
   setEFlags(temp_eflags);
 
-  bx_phy_address temp_cr3 = SMRAM_FIELD64(saved_state, SMRAM_FIELD_CR3_HI32, SMRAM_FIELD_CR3);
+  bx_phy_address temp_cr3 = (bx_phy_address) SMRAM_FIELD64(saved_state, SMRAM_FIELD_CR3_HI32, SMRAM_FIELD_CR3);
   SetCR3(temp_cr3);
 
   for (int n=0; n<BX_GENERAL_REGISTERS; n++) {

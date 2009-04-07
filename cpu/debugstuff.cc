@@ -273,7 +273,7 @@ void BX_CPU_C::debug(bx_address offset)
 
 
 #if BX_DEBUGGER
-Bit32u BX_CPU_C::dbg_get_reg(unsigned reg)
+bx_address BX_CPU_C::dbg_get_reg(unsigned reg)
 {
   Bit32u return_val32;
 

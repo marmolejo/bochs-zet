@@ -8,6 +8,7 @@
 
 #ifdef WIN32
 	#include <io.h>
+	#define YY_NO_UNISTD_H
 #endif
 
 #include "debug.h"

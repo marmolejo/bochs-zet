@@ -65,6 +65,11 @@ COLORREF AsmColors[4] = {
 #define LVIF_GROUPID    0
 #endif
 
+#ifndef IS_WIN98
+// workaround broken code if IS_WIN98 not defined
+#define IS_WIN98
+#endif
+
 // The wordsize popup is the 15th entry in the Opt menu -- COUNTING SEPARATORS
 // Index = (entry number - 1) -- if the Opt menu is modified, then update this value
 // -- or else the popup checkmarks won't work
@@ -1282,7 +1287,7 @@ LRESULT CALLBACK B_WP(HWND hh,UINT mm,WPARAM ww,LPARAM ll)
             bx_bool Group_OK = TRUE;
             MajWinVer = (Bit8u)(PackedVer & 0xff);      // Major version # is in the LOW byte
             MinWinVer = (Bit8u)((PackedVer>>8) & 0xff);
-            if (MajWinVer > 5 || (MajWinVer == 5 && MinWinVer >= 1)     // is it XP or higher?
+            if (MajWinVer > 5 || (MajWinVer == 5 && MinWinVer >= 1))     // is it XP or higher?
             {
                 wchar_t* txt[] = {L"General Purpose",L"Segment",L"Control",L"MMX",L"SSE",L"Debug",L"Test",L"Other"};
                 ListView_EnableGroupView(hL[REG_WND],TRUE);
