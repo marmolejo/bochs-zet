@@ -833,18 +833,20 @@ bx_bool bx_usb_uhci_c::DoTransfer(Bit32u address, Bit32u queue_num, struct TD *t
   //if (dev && dev->in_stall && (pid != USB_TOKEN_SETUP))
   //  return FALSE;
 
-  /* set status bar conditions for device */
-  if (!BX_UHCI_THIS hub.iolight_counter) {
-    if (pid == USB_TOKEN_OUT)
-      bx_gui->statusbar_setitem(BX_UHCI_THIS hub.statusbar_id, 1, 1);  // write
-    else
-      bx_gui->statusbar_setitem(BX_UHCI_THIS hub.statusbar_id, 1);     // read
-  }
-  BX_UHCI_THIS hub.iolight_counter = 5;
-  bx_pc_system.activate_timer(BX_UHCI_THIS hub.iolight_timer_index, 5000, 0);
-
   maxlen++;
   maxlen &= 0x7FF;
+
+  /* set status bar conditions for device */
+  if (maxlen > 0) {
+    if (!BX_UHCI_THIS hub.iolight_counter) {
+      if (pid == USB_TOKEN_OUT)
+        bx_gui->statusbar_setitem(BX_UHCI_THIS hub.statusbar_id, 1, 1);  // write
+      else
+        bx_gui->statusbar_setitem(BX_UHCI_THIS hub.statusbar_id, 1);     // read
+    }
+    BX_UHCI_THIS hub.iolight_counter = 5;
+    bx_pc_system.activate_timer(BX_UHCI_THIS hub.iolight_timer_index, 5000, 0);
+  }
 
   BX_UHCI_THIS usb_packet.pid = pid;
   BX_UHCI_THIS usb_packet.devaddr = addr;
