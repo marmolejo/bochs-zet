@@ -2233,7 +2233,7 @@ VOID CALLBACK MyTimer(HWND hwnd,UINT uMsg, UINT idEvent, DWORD dwTime)
 void alarm(int time)
 {
   UINT idTimer = 2;
-  SetTimer(stInfo.simWnd,idTimer,time*1000,MyTimer);
+  SetTimer(stInfo.simWnd,idTimer,time*1000,(TIMERPROC)MyTimer);
 }
 #endif
 #endif
