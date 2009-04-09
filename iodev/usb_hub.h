@@ -44,6 +44,7 @@ private:
     Bit8u n_ports;
     bx_list_c *config;
     bx_list_c *state;
+    char serial_number[16];
     struct {
       // our data
       usb_device_c *device;  // device connected to this port
