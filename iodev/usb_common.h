@@ -46,8 +46,8 @@
 #define USB_STATE_ATTACHED    1
 //#define USB_STATE_POWERED     2
 #define USB_STATE_DEFAULT     3
-//#define USB_STATE_ADDRESS     4
-//#define USB_STATE_CONFIGURED  5
+#define USB_STATE_ADDRESS     4
+#define USB_STATE_CONFIGURED  5
 #define USB_STATE_SUSPENDED   6
 
 #define USB_DIR_OUT  0
