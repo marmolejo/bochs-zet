@@ -356,6 +356,7 @@ int usb_msd_device_c::handle_control(int request, int value, int index, int leng
     default:
       BX_ERROR(("USB MSD handle_control: unknown request 0x%04x", request));
     fail:
+      d.stall = 1;
       ret = USB_RET_STALL;
       break;
   }
@@ -449,6 +450,13 @@ int usb_msd_device_c::handle_data(USBPacket *p)
 
       switch (s.mode) {
         case USB_MSDM_DATAOUT:
+          if ((s.data_len > 0) && (len == 13)) {
+            s.usb_len = len;
+            s.usb_buf = data;
+            send_status();
+            ret = 13;
+            break;
+          }
           if (s.data_len != 0 || len < 13)
             goto fail;
           usb_defer_packet(p, this);
@@ -505,6 +513,7 @@ int usb_msd_device_c::handle_data(USBPacket *p)
     default:
       BX_ERROR(("USB MSD handle_data: bad token"));
 fail:
+      d.stall = 1;
       ret = USB_RET_STALL;
       break;
   }

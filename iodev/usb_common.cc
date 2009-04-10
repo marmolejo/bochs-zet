@@ -180,6 +180,7 @@ int usb_device_c::handle_packet(USBPacket *p)
         return USB_RET_NODEV;
       if (len != 8)
         goto fail;
+      d.stall = 0;
       memcpy(d.setup_buf, data, 8);
       d.setup_len = (d.setup_buf[7] << 8) | d.setup_buf[6];
       d.setup_index = 0;
@@ -203,6 +204,7 @@ int usb_device_c::handle_packet(USBPacket *p)
     case USB_TOKEN_IN:
       if (d.state < USB_STATE_DEFAULT || p->devaddr != d.addr)
         return USB_RET_NODEV;
+      if (d.stall) goto fail;
       switch(p->devep) {
         case 0:
           switch(d.setup_state) {
@@ -246,6 +248,7 @@ int usb_device_c::handle_packet(USBPacket *p)
     case USB_TOKEN_OUT:
         if (d.state < USB_STATE_DEFAULT || p->devaddr != d.addr)
           return USB_RET_NODEV;
+        if (d.stall) goto fail;
         switch(p->devep) {
         case 0:
           switch(d.setup_state) {
@@ -286,6 +289,7 @@ int usb_device_c::handle_packet(USBPacket *p)
       break;
     default:
     fail:
+      d.stall = 1;
       ret = USB_RET_STALL;
       break;
   }

@@ -166,6 +166,7 @@ protected:
     int setup_state;
     int setup_len;
     int setup_index;
+    bx_bool stall;
   } d;
 
   void usb_dump_packet(Bit8u *data, unsigned size);

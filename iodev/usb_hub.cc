@@ -32,7 +32,6 @@
 
 #if BX_SUPPORT_PCI && BX_SUPPORT_PCIUSB
 #include "usb_common.h"
-#include "usb_hid.h"
 #include "usb_hub.h"
 #include "usb_msd.h"
 
@@ -467,6 +466,7 @@ int usb_hub_device_c::handle_control(int request, int value, int index, int leng
         }
     default:
     fail:
+      d.stall = 1;
       ret = USB_RET_STALL;
       break;
   }
@@ -508,6 +508,7 @@ int usb_hub_device_c::handle_data(USBPacket *p)
     case USB_TOKEN_OUT:
     default:
     fail:
+      d.stall = 1;
       ret = USB_RET_STALL;
       break;
   }
