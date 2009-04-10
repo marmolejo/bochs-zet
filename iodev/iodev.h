@@ -259,6 +259,9 @@ public:
     return 0;
   }
   virtual void dump_status(void) {}
+  virtual bx_bool vbe_set_base_addr(Bit32u *addr, Bit8u *pci_conf) {
+    return 0;
+  }
 };
 
 class BOCHSAPI bx_pci_bridge_stub_c : public bx_devmodel_c, public bx_pci_device_stub_c {

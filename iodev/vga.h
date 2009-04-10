@@ -142,9 +142,9 @@ public:
   virtual void   dump_status(void);
   virtual void   register_state(void);
   virtual void   after_restore_state(void);
-
 #if BX_SUPPORT_VBE
-  BX_VGA_SMF bx_bool vbe_set_base_addr(Bit32u *addr, Bit8u *pci_conf);
+  virtual bx_bool vbe_set_base_addr(Bit32u *addr, Bit8u *pci_conf);
+
   BX_VGA_SMF Bit8u   vbe_mem_read(bx_phy_address addr) BX_CPP_AttrRegparmN(1);
   BX_VGA_SMF void    vbe_mem_write(bx_phy_address addr, Bit8u value) BX_CPP_AttrRegparmN(2);
 #endif

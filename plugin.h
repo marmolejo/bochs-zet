@@ -210,6 +210,7 @@ extern "C" {
   (bx_devices.pluginVgaDevice->trigger_timer(bx_devices.pluginVgaDevice))
 #define DEV_vga_get_actl_pal_idx(index) (bx_devices.pluginVgaDevice->get_actl_palette_idx(index))
 #define DEV_vga_dump_status() (bx_devices.pluginVgaDevice->dump_status())
+#define DEV_vbe_set_base_addr(a,b) (bx_devices.pluginVgaDevice->vbe_set_base_addr(a,b))
 
 ///////// PCI macros
 #define DEV_register_pci_handlers(a,b,c,d) \
