@@ -638,8 +638,10 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
         // If debug events are not inhibited on this boundary,
         // fire off a debug fault.  Otherwise handle it on the next
         // boundary. (becomes a trap)
-        if (! (BX_CPU_THIS_PTR inhibit_mask & BX_INHIBIT_DEBUG))
+        if (! (BX_CPU_THIS_PTR inhibit_mask & BX_INHIBIT_DEBUG)) {
+          BX_ERROR(("#DB: x86 code breakpoint catched"));
           exception(BX_DB_EXCEPTION, 0, 0); // no error, not interrupt
+        }
       }
     }
   }
