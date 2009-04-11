@@ -840,7 +840,7 @@ void RedrawColumns(int listnum)
     }
     else
     {
-        char tmpc[20];
+        char tmpc[32];
         int i = 17;
         // MemDump resizes/uses ALL columns -- there ARE no unused ones
         if (DViewMode != VIEW_MEMDUMP && PrevDV != DViewMode)
