@@ -646,11 +646,12 @@ void SpecialInit()
 // Note: LineCount should start at 0
 void InsertListRow(char *ColumnText[], int ColumnCount, int listnum, int LineCount, int grouping)
 {
-    LV_ITEM lvi = {LVIF_TEXT | LVIF_GROUPID,LineCount,0,0,0,(LPSTR) *ColumnText,80,0,0};
+    LV_ITEM lvi = {LVIF_TEXT,LineCount,0,0,0,(LPSTR) *ColumnText,80,0,0};
 
-#ifndef IS_WIN98
-    lvi.iGroupId = grouping;
-#endif
+//#ifndef IS_WIN98
+//  lvi.iGroupId = grouping;
+//#endif
+
     // insert data for the first column
     CallWindowProc(wListView,hL[listnum],LVM_INSERTITEM,(WPARAM) 0,(LPARAM) &lvi);
 

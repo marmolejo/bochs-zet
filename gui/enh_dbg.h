@@ -14,6 +14,11 @@
 
 #if BX_DEBUGGER && BX_DEBUGGER_GUI
 
+#ifndef IS_WIN98
+// workaround broken code if IS_WIN98 not defined
+#define IS_WIN98
+#endif
+
 #ifndef FALSE
 #define FALSE 0
 #endif

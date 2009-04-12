@@ -1453,7 +1453,7 @@ void FillGDT()
 #ifndef IS_WIN98
             GroupId = j;            // use GroupIDs on XP and higher systems
 #else
-            cols[17] = GDTt2[j];    // otherwise, put descriptive text in "info" column
+            cols[17] = (char*)GDTt2[j];    // otherwise, put descriptive text in "info" column
 #endif
         }
 
