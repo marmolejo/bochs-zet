@@ -547,7 +547,7 @@ void BX_CPU_C::print_state_FPU(void)
     "32", "RES", "64", "80"
   };
   static const char* fp_class[] = {
-    "ZERO", "xNAN", "-INF", "+INF", "DENORMAL" "NORMAL"
+    "ZERO", "xNAN", "-INF", "+INF", "DENORMAL", "NORMAL"
   };
 
   Bit32u reg;
