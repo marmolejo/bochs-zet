@@ -65,7 +65,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FLDL2T(bxInstruction_c *i)
   }
   else {
     BX_CPU_THIS_PTR the_i387.FPU_push();
-    BX_WRITE_FPU_REG(FPU_round_const(Const_L2T, (FPU_CONTROL_WORD == FPU_RC_UP) ? 1 : 0), 0);
+    BX_WRITE_FPU_REG(FPU_round_const(Const_L2T, (FPU_CONTROL_WORD & FPU_CW_RC) == FPU_RC_UP), 0);
   }
 #else
   BX_INFO(("FLDL2T: required FPU, configure --enable-fpu"));
