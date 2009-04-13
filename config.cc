@@ -3032,10 +3032,6 @@ static int parse_line_formatted(const char *context, int num_params, char *param
     for (i=1; i<num_params; i++) {
       if (!strncmp(params[i], "enabled=", 8)) {
         if (atol(&params[i][8]) == 0) valid |= 0x80;
-      } else if (!strncmp(params[i], "ioaddr=", 7)) {
-        PARSE_WARN(("%s: pnic ioaddr is now DEPRECATED (assigned by BIOS).", context));
-      } else if (!strncmp(params[i], "irq=", 4)) {
-        PARSE_WARN(("%s: pnic irq is now DEPRECATED (assigned by BIOS).", context));
       } else if (!strncmp(params[i], "mac=", 4)) {
         n = sscanf(&params[i][4], "%x:%x:%x:%x:%x:%x",
                    &tmp[0],&tmp[1],&tmp[2],&tmp[3],&tmp[4],&tmp[5]);
