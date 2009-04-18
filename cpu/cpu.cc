@@ -128,11 +128,11 @@ void BX_CPU_C::cpu_loop(Bit32u max_instr_count)
 
 no_async_event:
 
-    Bit32u eipBiased = (Bit32u)(RIP + BX_CPU_THIS_PTR eipPageBias);
+    bx_address eipBiased = RIP + BX_CPU_THIS_PTR eipPageBias;
 
     if (eipBiased >= BX_CPU_THIS_PTR eipPageWindowSize) {
       prefetch();
-      eipBiased = (Bit32u)(RIP + BX_CPU_THIS_PTR eipPageBias);
+      eipBiased = RIP + BX_CPU_THIS_PTR eipPageBias;
     }
 
     bx_phy_address pAddr = BX_CPU_THIS_PTR pAddrPage + eipBiased;
@@ -151,7 +151,7 @@ no_async_event:
       // iCache miss. No validated instruction with matching fetch parameters
       // is in the iCache.
       InstrICache_Increment(iCacheMisses);
-      serveICacheMiss(entry, eipBiased, pAddr);
+      serveICacheMiss(entry, (Bit32u) eipBiased, pAddr);
       i = entry->i;
     }
 
