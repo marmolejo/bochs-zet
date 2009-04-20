@@ -373,6 +373,8 @@ Bit32s bx_gui_c::make_text_snapshot(char **snapshot, Bit32u *length)
   for (unsigned i=0; i<txHeight; i++) {
     line_addr = i * txWidth * 2;
     for (unsigned j=0; j<(txWidth*2); j+=2) {
+      if (!raw_snap[line_addr+j])
+        raw_snap[line_addr+j] = 0x20;
       clean_snap[txt_addr++] = raw_snap[line_addr+j];
     }
     while ((txt_addr > 0) && (clean_snap[txt_addr-1] == ' ')) txt_addr--;
