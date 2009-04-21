@@ -2828,7 +2828,7 @@ Bit8u bx_vga_c::get_actl_palette_idx(Bit8u index)
   return BX_VGA_THIS s.attribute_ctrl.palette_reg[index];
 }
 
-void bx_vga_c::dump_status(void)
+void bx_vga_c::debug_dump(void)
 {
 #if BX_DEBUGGER
   dbg_printf("s.misc_output.color_emulation = %u\n",

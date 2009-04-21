@@ -77,7 +77,9 @@ public:
   virtual void raise_irq(unsigned irq_no);
   virtual void set_mode(bx_bool ma_sl, Bit8u mode);
   virtual Bit8u IAC(void);
-  virtual void show_pic_state(void);
+#if BX_DEBUGGER
+  virtual void debug_dump(void);
+#endif
   virtual void register_state(void);
 
 private:

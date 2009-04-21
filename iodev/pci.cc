@@ -63,7 +63,7 @@ bx_pci_bridge_c::bx_pci_bridge_c()
 
 bx_pci_bridge_c::~bx_pci_bridge_c()
 {
-  print_i440fx_state();
+  debug_dump();
   BX_DEBUG(("Exit"));
 }
 
@@ -461,7 +461,7 @@ Bit8u bx_pci_bridge_c::wr_memType(Bit32u addr)
    return(0); // keep compiler happy
 }
 
-void bx_pci_bridge_c::print_i440fx_state()
+void bx_pci_bridge_c::debug_dump()
 {
   int i;
 
