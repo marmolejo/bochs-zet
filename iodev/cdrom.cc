@@ -1391,7 +1391,7 @@ Bit32u cdrom_interface::capacity()
 #endif
 }
 
-bx_bool BX_CPP_AttrRegparmN(3) cdrom_interface::read_block(Bit8u* buf, int lba, int blocksize)
+bx_bool BX_CPP_AttrRegparmN(3) cdrom_interface::read_block(Bit8u* buf, Bit32u lba, int blocksize)
 {
   // Read a single block from the CD
 
@@ -1407,7 +1407,7 @@ bx_bool BX_CPP_AttrRegparmN(3) cdrom_interface::read_block(Bit8u* buf, int lba, 
   if (blocksize == 2352) {
     memset(buf, 0, 2352);
     memset(buf+1, 0xff, 10);
-    int raw_block = lba + 150;
+    Bit32u raw_block = lba + 150;
     buf[12] = (raw_block / 75) / 60;
     buf[13] = (raw_block / 75) % 60;
     buf[14] = (raw_block % 75);
@@ -1445,7 +1445,7 @@ bx_bool BX_CPP_AttrRegparmN(3) cdrom_interface::read_block(Bit8u* buf, int lba, 
     {
       // This seek will leave us 16 bytes from the start of the data
       // hence the magic number.
-      pos = lseek(fd, (off_t) lba *CD_SEEK_DISTANCE + 16, SEEK_SET);
+      pos = lseek(fd, (off_t) lba * CD_SEEK_DISTANCE + 16, SEEK_SET);
       if (pos < 0) {
         BX_PANIC(("cdrom: read_block: lseek returned error."));
       } else {
@@ -1465,7 +1465,7 @@ bx_bool BX_CPP_AttrRegparmN(3) cdrom_interface::read_block(Bit8u* buf, int lba, 
   return (n == BX_CD_FRAMESIZE);
 }
 
-void cdrom_interface::seek(int lba)
+void cdrom_interface::seek(Bit32u lba)
 {
   unsigned char buffer[BX_CD_FRAMESIZE];
 
