@@ -497,12 +497,6 @@ Bit32u bx_acpi_ctrl_c::pci_read_handler(Bit8u address, unsigned io_len)
 {
   Bit32u value = 0;
 
-  if (io_len > 4 || io_len == 0) {
-    BX_DEBUG(("ACPI controller read register 0x%02x, len=%u !",
-             (unsigned) address, (unsigned) io_len));
-    return 0xffffffff;
-  }
-
   const char* pszName = "                  ";
   switch (address) {
     case 0x00: if (io_len == 2) {

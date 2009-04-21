@@ -252,12 +252,6 @@ Bit32u bx_pcidev_c::pci_read_handler(Bit8u address, unsigned io_len)
 {
   int ret = -1;
 
-  if (io_len > 4 || io_len == 0) {
-    BX_DEBUG(("Experimental PCIDEV read register 0x%02x, len=%u !",
-             (unsigned) address, (unsigned) io_len));
-    return 0xffffffff;
-  }
-
   int fd = BX_PCIDEV_THIS pcidev_fd;
   if (fd == -1)
     return 0xffffffff;
@@ -299,12 +293,6 @@ void bx_pcidev_c::pci_write_handler(Bit8u address, Bit32u value, unsigned io_len
   int ret = -1;
   Bit8u *iomask;
   Bit32u bitmask;
-
-  if (io_len > 4 || io_len == 0) {
-    BX_DEBUG(("Experimental PCIDEV write register 0x%02x, len=%u !",
-              (unsigned) address, (unsigned) io_len));
-    return;
-  }
 
   int fd = BX_PCIDEV_THIS pcidev_fd;
   if (fd == -1)
