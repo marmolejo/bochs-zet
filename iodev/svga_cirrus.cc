@@ -2362,7 +2362,7 @@ Bit32u bx_svga_cirrus_c::pci_read_handler(Bit8u address, unsigned io_len)
     ret |= (Bit32u)(BX_CIRRUS_THIS pci_conf[address + i]) << (i*8);
   }
 
-  BX_DEBUG(("pci_read: address 0x%02x, io_len 0x%02x, value 0x%x",
+  BX_DEBUG(("pci_read:  address 0x%02x, io_len 0x%02x, value 0x%x",
     (unsigned)address, (unsigned)io_len, (unsigned)ret));
 
   return ret;

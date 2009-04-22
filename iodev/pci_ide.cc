@@ -419,7 +419,7 @@ Bit32u bx_pci_ide_c::pci_read_handler(Bit8u address, unsigned io_len)
   for (unsigned i=0; i<io_len; i++) {
     value |= (BX_PIDE_THIS s.pci_conf[address+i] << (i*8));
   }
-  BX_DEBUG(("PIIX3 PCI IDE read register 0x%02x value 0x%08x", address, value));
+  BX_DEBUG(("PIIX3 PCI IDE read  register 0x%02x value 0x%08x", address, value));
   return value;
 }
 
