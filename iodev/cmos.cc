@@ -366,9 +366,7 @@ Bit32u bx_cmos_c::read(Bit32u address, unsigned io_len)
 #endif
   Bit8u ret8;
 
-  if (bx_dbg.cmos)
-    BX_INFO(("CMOS read of CMOS register 0x%02x",
-      (unsigned) BX_CMOS_THIS s.cmos_mem_address));
+  BX_DEBUG(("CMOS read of CMOS register 0x%02x", (unsigned) BX_CMOS_THIS s.cmos_mem_address));
 
   switch (address) {
     case 0x0070:
