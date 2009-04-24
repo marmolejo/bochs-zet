@@ -166,8 +166,7 @@ void bx_pc_system_c::set_enable_a20(bx_bool value)
 bx_bool bx_pc_system_c::get_enable_a20(void)
 {
 #if BX_SUPPORT_A20
-  if (bx_dbg.a20)
-    BX_INFO(("A20: get() = %u", (unsigned) enable_a20));
+  BX_DEBUG(("A20: get() = %u", (unsigned) enable_a20));
 
   return enable_a20;
 #else

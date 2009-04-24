@@ -437,9 +437,6 @@ typedef struct {
   bx_bool exceptions;
   bx_bool debugger;
   bx_bool mouse;
-  bx_bool a20;
-  bx_bool io;
-  bx_bool dma;
   bx_bool unsupported_io;
   bx_bool cdrom;
   bx_bool print_timestamps;

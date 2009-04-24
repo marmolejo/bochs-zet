@@ -288,7 +288,7 @@ return_from_write:
         BX_INFO(("unmapped: 32-bit write to %04x = %08x", address, value));
         break;
       default:
-        BX_INFO(("unmapped: %d-bit write to %04x = %x", io_len * 8, address, value));
+        BX_PANIC(("unmapped: %d-bit write to %04x = %x", io_len * 8, address, value));
         break;
     }
   }
