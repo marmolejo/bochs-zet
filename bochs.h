@@ -431,12 +431,9 @@ int bx_gdbstub_check(unsigned int eip);
 #endif
 
 typedef struct {
-  bx_bool disk;
   bx_bool interrupts;
   bx_bool exceptions;
   bx_bool debugger;
-  bx_bool mouse;
-  bx_bool cdrom;
   bx_bool print_timestamps;
   bx_bool port_e9_hack;
 #if BX_DEBUGGER
