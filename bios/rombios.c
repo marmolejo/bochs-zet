@@ -10402,8 +10402,6 @@ post:
   jz normal_post
   cmp AL, #0x0d
   jae normal_post
-  cmp AL, #0x09
-  je normal_post
 
   ;; 0x05 = eoi + jmp via [0x40:0x67] jump
   cmp al, #0x05
@@ -10422,7 +10420,7 @@ post:
   je  retf_post_0x467
 
   ;; Examine CMOS shutdown status.
-  ;;  0x01,0x02,0x03,0x04,0x06,0x07,0x08 = Unimplemented shutdown status.
+  ;;  0x01,0x02,0x03,0x04,0x06,0x07,0x08,0x09 = Unimplemented shutdown status.
   push bx
   call _shutdown_status_panic
 

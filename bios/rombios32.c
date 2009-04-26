@@ -416,8 +416,11 @@ void delay_ms(int n)
     int i, j;
     for(i = 0; i < n; i++) {
 #ifdef BX_QEMU
+        volatile int k;
         /* approximative ! */
-        for(j = 0; j < 1000000; j++);
+        for(j = 0; j < 1000000; j++) {
+          k++;
+        }
 #else
         {
           int r1, r2;
