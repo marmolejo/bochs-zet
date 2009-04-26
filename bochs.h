@@ -435,7 +435,6 @@ typedef struct {
   bx_bool exceptions;
   bx_bool debugger;
   bx_bool print_timestamps;
-  bx_bool port_e9_hack;
 #if BX_DEBUGGER
   bx_bool magic_break_enabled;
 #endif

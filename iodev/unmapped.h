@@ -55,6 +55,7 @@ private:
     Bit8u port80;
     Bit8u port8e;
     Bit8u shutdown;
+    bx_bool port_e9_hack;
   } s;  // state information
 };
 
