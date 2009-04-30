@@ -427,7 +427,7 @@ void bx_hard_drive_c::init(void)
             disk_size = BX_HD_THIS channels[channel].drives[device].hard_drive->hd_size;
             if (image_mode != BX_ATA_MODE_VMWARE3 && image_mode != BX_ATA_MODE_VMWARE4) {
               cyl = (int)(disk_size / (heads * spt * 512));
-              if (disk_size != (Bit64u)(cyl * heads * spt * 512)) {
+              if (disk_size != ((Bit64u)cyl * heads * spt * 512)) {
                 BX_PANIC(("ata%d-%d: geometry autodetection failed", channel, device));
               }
               BX_HD_THIS channels[channel].drives[device].hard_drive->cylinders = cyl;
