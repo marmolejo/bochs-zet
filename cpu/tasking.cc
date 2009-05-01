@@ -472,6 +472,11 @@ void BX_CPU_C::task_switch(bxInstruction_c *i, bx_selector_t *tss_selector,
     }
   }
 
+  unsigned save_CPL = CPL;
+  /* set CPL to 3 to force a privilege level change and stack switch if SS
+     is not properly loaded */
+  CPL = 3;
+
   // LDTR
   if (ldt_selector.ti) {
     // LDT selector must be in GDT
@@ -518,13 +523,9 @@ void BX_CPU_C::task_switch(bxInstruction_c *i, bx_selector_t *tss_selector,
     load_seg_reg(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS], raw_fs_selector);
     load_seg_reg(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_GS], raw_gs_selector);
     load_seg_reg(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS], raw_cs_selector);
+    // CPL is set from CS selector
   }
   else {
-
-    unsigned save_CPL = CPL;
-    /* set CPL to 3 to force a privilege level change and stack switch if SS
-       is not properly loaded */
-    CPL = 3;
 
     // SS
     if ((raw_ss_selector & 0xfffc) != 0)
