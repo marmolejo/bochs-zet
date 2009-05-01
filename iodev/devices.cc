@@ -596,7 +596,7 @@ bx_bool bx_devices_c::register_io_read_handler(void *this_ptr, bx_read_handler_t
     if (curr->funct == f &&
         curr->mask == mask &&
         curr->this_ptr == this_ptr &&
-        curr->handler_name == name) { // really want the same name too
+        !strcmp(curr->handler_name, name)) { // really want the same name too
       io_read_handler = curr;
       break;
     }
@@ -648,7 +648,7 @@ bx_bool bx_devices_c::register_io_write_handler(void *this_ptr, bx_write_handler
     if (curr->funct == f &&
         curr->mask == mask &&
         curr->this_ptr == this_ptr &&
-        curr->handler_name == name) { // really want the same name too
+        !strcmp(curr->handler_name, name)) { // really want the same name too
       io_write_handler = curr;
       break;
     }
@@ -711,7 +711,7 @@ bx_bool bx_devices_c::register_io_read_handler_range(void *this_ptr, bx_read_han
     if (curr->funct == f &&
         curr->mask == mask &&
         curr->this_ptr == this_ptr &&
-        curr->handler_name == name) {
+        !strcmp(curr->handler_name, name)) {
       io_read_handler = curr;
       break;
     }
@@ -775,7 +775,7 @@ bx_bool bx_devices_c::register_io_write_handler_range(void *this_ptr, bx_write_h
     if (curr->funct == f &&
         curr->mask == mask &&
         curr->this_ptr == this_ptr &&
-        curr->handler_name == name) {
+        !strcmp(curr->handler_name, name)) {
       io_write_handler = curr;
       break;
     }
