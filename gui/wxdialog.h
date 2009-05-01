@@ -449,7 +449,7 @@ class CpuRegistersDialog : public ParamDialog
   { "TR3", "TR4", "TR5", "TR6", "TR7", \
     NULL }
 #define CPU_REGS_CONTROL_REGS          \
-  { "CR0", "CR1", "CR2", "CR3", "CR4", \
+  { "CR0", "CR2", "CR3", "CR4", \
     NULL  }
 
   void Init();  // called automatically by ShowModal()

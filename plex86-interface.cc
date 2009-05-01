@@ -214,7 +214,7 @@ unsigned plex86ExecuteInVM(BX_CPU_C *cpu)
   plex86GuestCPU->tr7 = 0; // Unimplemented in bochs.
 
   plex86GuestCPU->cr0.raw = cpu->cr0.val32;
-  plex86GuestCPU->cr1     = cpu->cr1;
+  plex86GuestCPU->cr1     = 0;
   plex86GuestCPU->cr2     = cpu->cr2;
   plex86GuestCPU->cr3     = cpu->cr3;
   plex86GuestCPU->cr4.raw = cpu->cr4.registerValue;

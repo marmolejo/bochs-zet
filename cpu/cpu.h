@@ -835,7 +835,6 @@ public: // for now...
 
   /* Control registers */
   bx_cr0_t       cr0;
-  Bit32u         cr1;
   bx_address     cr2;
   bx_address     cr3;
   bx_phy_address cr3_masked;
