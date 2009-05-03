@@ -2671,7 +2671,7 @@ void bx_dbg_disassemble_command(const char *format, Bit64u from, Bit64u to)
     unsigned ilen = bx_disassemble.disasm(dis_size==32, dis_size==64,
        (bx_address)(-1), (bx_address)(-1), bx_disasm_ibuf, bx_disasm_tbuf);
 
-    char *Sym=bx_dbg_disasm_symbolic_address((Bit32u)from, 0);
+    const char *Sym=bx_dbg_disasm_symbolic_address((Bit32u)from, 0);
 
     dbg_printf("%08x: ", (unsigned) from);
     dbg_printf("(%20s): ", Sym?Sym:"");
