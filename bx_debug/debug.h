@@ -309,10 +309,10 @@ void bx_dbg_check_memory_watchpoints(unsigned cpu, bx_phy_address phy, unsigned 
 
 // commands that work with Bochs param tree
 void bx_dbg_restore_command(const char *param_name, const char *path);
-void bx_dbg_show_param_command(char *param);
+void bx_dbg_show_param_command(const char *param);
 
 int bx_dbg_show_symbolic(void);
-void bx_dbg_set_symbol_command(char *symbol, Bit32u val);
+void bx_dbg_set_symbol_command(const char *symbol, Bit32u val);
 const char* bx_dbg_symbolic_address(Bit32u context, Bit32u eip, Bit32u base);
 const char* bx_dbg_symbolic_address_16bit(Bit32u eip, Bit32u cs);
 int bx_dbg_symbol_command(const char* filename, bx_bool global, Bit32u offset);
