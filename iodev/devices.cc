@@ -176,10 +176,15 @@ void bx_devices_c::init(BX_MEM_C *newmem)
 #if BX_SUPPORT_PCI
     PLUG_load_plugin(pci, PLUGTYPE_CORE);
     PLUG_load_plugin(pci2isa, PLUGTYPE_CORE);
+  } else {
+    plugin_ctrl = (bx_list_c*)SIM->get_param(BXPN_PLUGIN_CTRL);
+    SIM->get_param_bool(BX_PLUGIN_PCI_IDE, plugin_ctrl)->set(0);
+    SIM->get_param_bool(BX_PLUGIN_ACPI, plugin_ctrl)->set(0);
+  }
 #else
     BX_ERROR(("Bochs is not compiled with PCI support"));
-#endif
   }
+#endif
 
   // optional plugins not controlled by separate option
   plugin_ctrl = (bx_list_c*)SIM->get_param(BXPN_PLUGIN_CTRL);
