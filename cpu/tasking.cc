@@ -78,7 +78,7 @@
   // |                EBP                     | 3c  60  dynamic
   // |                ESP                     | 38  56  dynamic
   // |                EBX                     | 34  52  dynamic
-  // |                EDX                     | 30  48  dyn amic
+  // |                EDX                     | 30  48  dynamic
   // |                ECX                     | 2c  44  dynamic
   // |                EAX                     | 28  40  dynamic
   // |                EFLAGS                  | 24  36  dynamic
