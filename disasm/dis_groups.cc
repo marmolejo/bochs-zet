@@ -85,9 +85,9 @@ void disassembler::Cq(const x86_insn *insn) { Cd(insn); }
 void disassembler::Dd(const x86_insn *insn)
 {
   if (intel_mode)
-    dis_sprintf  ("db%d", insn->nnn);
+    dis_sprintf  ("dr%d", insn->nnn);
   else
-    dis_sprintf("%%db%d", insn->nnn);
+    dis_sprintf("%%dr%d", insn->nnn);
 }
 
 void disassembler::Dq(const x86_insn *insn) { Dd(insn); }
