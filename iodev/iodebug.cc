@@ -196,8 +196,8 @@ void bx_iodebug_c::mem_write(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, v
 
 #if BX_DEBUGGER
     if (cpu != NULL) {
-      fprintf(stdout, "IODEBUG %s @ eip: " FMT_ADDRX " write at monitored memory location %8X\n", 
-         cpu->name, cpu->get_instruction_pointer(), addr);
+      fprintf(stdout, "IODEBUG CPU %d @ eip: " FMT_ADDRX " write at monitored memory location %8X\n", 
+         cpu->bx_cpuid, cpu->get_instruction_pointer(), addr);
     }
     else {
       fprintf(stdout, "IODEBUG write at monitored memory location %8X\n", addr);
@@ -259,8 +259,8 @@ void bx_iodebug_c::mem_read(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, vo
 
 #if BX_DEBUGGER
     if (cpu != NULL) {
-      fprintf(stdout, "IODEBUG %s @ eip: " FMT_ADDRX " read at monitored memory location %8X\n", 
-        cpu->name, cpu->get_instruction_pointer(), addr);
+      fprintf(stdout, "IODEBUG CPU %d @ eip: " FMT_ADDRX " read at monitored memory location %8X\n", 
+        cpu->bx_cpuid, cpu->get_instruction_pointer(), addr);
     }
     else {
       fprintf(stdout, "IODEBUG read at monitored memory location %8X\n", addr);
