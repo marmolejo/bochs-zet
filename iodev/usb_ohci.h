@@ -136,7 +136,7 @@ struct OHCI_ISO_TD {
 
 
 typedef struct {
-  bx_phy_address base_addr;
+  Bit32u base_addr;
 
   int   frame_index;
   int   interval_index;
