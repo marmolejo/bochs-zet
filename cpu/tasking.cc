@@ -218,7 +218,7 @@ void BX_CPU_C::task_switch(bxInstruction_c *i, bx_selector_t *tss_selector,
     if (source == BX_TASK_FROM_CALL || source == BX_TASK_FROM_INT)
     {
       dtranslate_linear(nbase32,     0, BX_WRITE);
-      dtranslate_linear(nbase32 + 2, 0, BX_WRITE);
+      dtranslate_linear(nbase32 + 1, 0, BX_WRITE);
     }
   }
 
