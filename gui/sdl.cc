@@ -151,8 +151,6 @@ void *old_callback_arg = NULL;
 
 #if BX_SHOW_IPS
 #if  defined(__MINGW32__) || defined(_MSC_VER)
-  Uint32 SDLCALL sdlTimer(Uint32 interval);
-  void alarm(int);
   void bx_signal_handler(int);
 #endif
 #endif
@@ -258,11 +256,6 @@ Uint32 SDLCALL sdlTimer(Uint32 interval)
 {
   bx_signal_handler(SIGALRM);
   return interval;
-}
-
-void alarm(int time)
-{
-  SDL_SetTimer(time*1000, sdlTimer);
 }
 #endif
 #endif
@@ -371,6 +364,9 @@ void bx_sdl_gui_c::specific_init(int argc, char **argv,
   if (gui_ci) {
     dialog_caps = BX_GUI_DLG_ALL;
   }
+#if BX_SHOW_IPS
+  SDL_SetTimer(1000, sdlTimer);
+#endif
 #endif
 }
 
