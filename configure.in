@@ -1014,9 +1014,9 @@ if test "$bx_cpu_level" -lt 5 -a "$support_global_pages" = 1; then
   AC_MSG_ERROR([for Global Pages support the CPU level must be >= 5])
 fi
 
-AC_MSG_CHECKING(for MTRRs support)
+AC_MSG_CHECKING(for MTRR/PAT support)
 AC_ARG_ENABLE(mtrr,
-  [  --enable-mtrr                     support for MTRRs],
+  [  --enable-mtrr                     support for MTRR/PAT registers],
   [if test "$enableval" = yes; then
     AC_MSG_RESULT(yes)
     AC_DEFINE(BX_SUPPORT_MTRR, 1)
