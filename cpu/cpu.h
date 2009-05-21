@@ -596,8 +596,7 @@ typedef struct
 #if BX_SUPPORT_MTRR
   Bit64u mtrrphys[16];
   Bit64u mtrrfix64k_00000;
-  Bit64u mtrrfix16k_80000;
-  Bit64u mtrrfix16k_a0000;
+  Bit64u mtrrfix16k[2];
   Bit64u mtrrfix4k[8];
   Bit16u mtrr_deftype;
   Bit64u pat;
