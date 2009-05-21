@@ -187,8 +187,6 @@ void bx_local_apic_c::reset(unsigned type)
 {
   int i;
 
-  BX_INFO(("local apic %d initializing", apic_id));
-
   // default address for a local APIC, can be moved
   base_addr = BX_LAPIC_BASE_ADDR;
   error_status = shadow_error_status = 0;
