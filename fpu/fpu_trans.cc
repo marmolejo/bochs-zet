@@ -230,6 +230,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FPREM1(bxInstruction_c *i)
   BX_CPU_THIS_PTR FPU_update_last_instruction(i);
 
   clear_C1();
+  clear_C2();
 
   if (IS_TAG_EMPTY(0) || IS_TAG_EMPTY(1))
   {
@@ -271,6 +272,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FPREM(bxInstruction_c *i)
   BX_CPU_THIS_PTR FPU_update_last_instruction(i);
 
   clear_C1();
+  clear_C2();
 
   if (IS_TAG_EMPTY(0) || IS_TAG_EMPTY(1))
   {
