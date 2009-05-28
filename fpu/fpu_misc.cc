@@ -47,7 +47,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FXCH_STi(bxInstruction_c *i)
 
   if (st0_tag == FPU_Tag_Empty || sti_tag == FPU_Tag_Empty)
   {
-      BX_CPU_THIS_PTR FPU_exception(FPU_EX_Stack_Underflow);
+      FPU_exception(FPU_EX_Stack_Underflow);
 
       if(BX_CPU_THIS_PTR the_i387.is_IA_masked())
       {
@@ -76,7 +76,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FCHS(bxInstruction_c *i)
   BX_CPU_THIS_PTR FPU_update_last_instruction(i);
 
   if (IS_TAG_EMPTY(0)) {
-     BX_CPU_THIS_PTR FPU_stack_underflow(0);
+     FPU_stack_underflow(0);
   }
   else {
      clear_C1();
@@ -96,7 +96,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FABS(bxInstruction_c *i)
   BX_CPU_THIS_PTR FPU_update_last_instruction(i);
 
   if (IS_TAG_EMPTY(0)) {
-     BX_CPU_THIS_PTR FPU_stack_underflow(0);
+     FPU_stack_underflow(0);
   }
   else {
      clear_C1();

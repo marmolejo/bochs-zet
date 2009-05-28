@@ -62,7 +62,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FLDL2T(bxInstruction_c *i)
 
   if (! IS_TAG_EMPTY(-1))
   {
-    BX_CPU_THIS_PTR FPU_stack_overflow();
+    FPU_stack_overflow();
   }
   else {
     BX_CPU_THIS_PTR the_i387.FPU_push();
@@ -83,7 +83,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FLDL2E(bxInstruction_c *i)
 
   if (! IS_TAG_EMPTY(-1))
   {
-    BX_CPU_THIS_PTR FPU_stack_overflow();
+    FPU_stack_overflow();
   }
   else {
     BX_CPU_THIS_PTR the_i387.FPU_push();
@@ -104,7 +104,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FLDPI(bxInstruction_c *i)
 
   if (! IS_TAG_EMPTY(-1))
   {
-    BX_CPU_THIS_PTR FPU_stack_overflow();
+    FPU_stack_overflow();
   }
   else {
     BX_CPU_THIS_PTR the_i387.FPU_push();
@@ -125,7 +125,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FLDLG2(bxInstruction_c *i)
 
   if (! IS_TAG_EMPTY(-1))
   {
-    BX_CPU_THIS_PTR FPU_stack_overflow();
+    FPU_stack_overflow();
   }
   else {
     BX_CPU_THIS_PTR the_i387.FPU_push();
@@ -146,7 +146,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FLDLN2(bxInstruction_c *i)
 
   if (! IS_TAG_EMPTY(-1))
   {
-    BX_CPU_THIS_PTR FPU_stack_overflow();
+    FPU_stack_overflow();
   }
   else {
     BX_CPU_THIS_PTR the_i387.FPU_push();
@@ -167,7 +167,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FLD1(bxInstruction_c *i)
 
   if (! IS_TAG_EMPTY(-1))
   {
-    BX_CPU_THIS_PTR FPU_stack_overflow();
+    FPU_stack_overflow();
   }
   else {
     BX_CPU_THIS_PTR the_i387.FPU_push();
@@ -188,7 +188,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FLDZ(bxInstruction_c *i)
 
   if (! IS_TAG_EMPTY(-1))
   {
-    BX_CPU_THIS_PTR FPU_stack_overflow();
+    FPU_stack_overflow();
   }
   else {
     BX_CPU_THIS_PTR the_i387.FPU_push();
