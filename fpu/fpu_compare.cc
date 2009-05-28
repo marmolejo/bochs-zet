@@ -264,7 +264,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FCOM_SINGLE_REAL(bxInstruction_c *i)
 
   floatx80 a = BX_READ_FPU_REG(0);
 
-  if (floatx80_is_nan(a) || float32_is_nan(load_reg)) {
+  if (floatx80_is_nan(a) || floatx80_is_unsupported(a) || float32_is_nan(load_reg)) {
     rc = float_relation_unordered;
     float_raise(status, float_flag_invalid);
   }
@@ -314,7 +314,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FCOM_DOUBLE_REAL(bxInstruction_c *i)
 
   floatx80 a = BX_READ_FPU_REG(0);
 
-  if (floatx80_is_nan(a) || float64_is_nan(load_reg)) {
+  if (floatx80_is_nan(a) || floatx80_is_unsupported(a) || float64_is_nan(load_reg)) {
     rc = float_relation_unordered;
     float_raise(status, float_flag_invalid);
   }
