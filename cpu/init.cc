@@ -1007,7 +1007,7 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR in_vmx = BX_CPU_THIS_PTR in_vmx_guest = 0;
   BX_CPU_THIS_PTR in_event = 0;
   BX_CPU_THIS_PTR vmx_interrupt_window = 0;
-  BX_CPU_THIS_PTR vmcsptr = BX_CONST64(0xFFFFFFFFFFFFFFFF);
+  BX_CPU_THIS_PTR vmcsptr = BX_CPU_THIS_PTR vmxonptr = BX_INVALID_VMCSPTR;
   BX_CPU_THIS_PTR vmcshostptr = 0;
 #endif
 
