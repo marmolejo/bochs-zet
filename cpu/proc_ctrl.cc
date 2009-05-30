@@ -1429,11 +1429,11 @@ bx_address get_cr4_allow_mask(void)
   allowMask |= (1<<3);   /* DE  */
 
 #if BX_SUPPORT_LARGE_PAGES
-  allowMask |= (1<<4);
+  allowMask |= (1<<4);   /* PSE */
 #endif
 
 #if BX_SUPPORT_PAE
-  allowMask |= (1<<5);
+  allowMask |= (1<<5);   /* PAE */
 #endif
 
 #if BX_CPU_LEVEL >= 5
