@@ -53,6 +53,7 @@ BX_CPP_INLINE void mxcsr_to_softfloat_status_word(float_status_t &status, bx_mxc
   // if underflow is masked and FUZ is 1, set it to 1, else to 0
   status.flush_underflow_to_zero =
        (mxcsr.get_flush_masked_underflow() && mxcsr.get_UM()) ? 1 : 0;
+  status.float_exception_masks = mxcsr.get_exceptions_masks();
 }
 
 /* Comparison predicate for CMPSS/CMPPS instructions */
