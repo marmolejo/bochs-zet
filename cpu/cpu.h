@@ -3329,6 +3329,7 @@ public: // for now...
   BX_SMF void VMabort(VMX_vmabort_code error_code);
   BX_SMF Bit32u LoadMSRs(Bit32u msr_cnt, bx_phy_address pAddr);
   BX_SMF Bit32u StoreMSRs(Bit32u msr_cnt, bx_phy_address pAddr);
+  BX_SMF unsigned VMXReadRevisionID(bx_phy_address pAddr);
   BX_SMF VMX_error_code VMenterLoadCheckVmControls(void);
   BX_SMF VMX_error_code VMenterLoadCheckHostState(void);
   BX_SMF Bit32u VMenterLoadCheckGuestState(Bit64u *qualification);
