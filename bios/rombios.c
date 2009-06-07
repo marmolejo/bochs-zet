@@ -10259,6 +10259,7 @@ rom_checksum:
   shl  cx, #1
 
   jnc checksum_loop
+  jz checksum_loop
   xchg dx, cx
   dec  cx
 
