@@ -650,12 +650,14 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_CdRd(bxInstruction_c *i)
 #if BX_SUPPORT_VMX
       VMexit_CR3_Write(i, val_32);
 #endif
+#if BX_SUPPORT_PAE
       if (BX_CPU_THIS_PTR cr0.get_PG() && BX_CPU_THIS_PTR cr4.get_PAE() && !long_mode()) {
         if (! CheckPDPTR(val_32)) {
           BX_ERROR(("SetCR3(): PDPTR check failed !"));
           exception(BX_GP_EXCEPTION, 0, 0);
         }
       }
+#endif
       SetCR3(val_32);
       BX_INSTR_TLB_CNTRL(BX_CPU_ID, BX_INSTR_MOV_CR3, val_32);
       break;
@@ -664,12 +666,14 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_CdRd(bxInstruction_c *i)
 #if BX_SUPPORT_VMX
       val_32 = VMexit_CR4_Write(i, val_32);
 #endif
+#if BX_SUPPORT_PAE
       if (BX_CPU_THIS_PTR cr0.get_PG() && (val_32 & (1<<5)) != 0 /* PAE */ && !long_mode()) {
         if (! CheckPDPTR(BX_CPU_THIS_PTR cr3)) {
           BX_ERROR(("SetCR4(): PDPTR check failed !"));
           exception(BX_GP_EXCEPTION, 0, 0);
         }
       }
+#endif
       // Protected mode: #GP(0) if attempt to write a 1 to
       // any reserved bit of CR4
       if (! SetCR4(val_32))
