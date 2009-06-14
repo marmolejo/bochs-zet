@@ -10489,7 +10489,7 @@ post:
   ;; Examine CMOS shutdown status.
   mov al, bl
 
-  ;; 0x00, 0x09, 0x0D+ = normal startup
+  ;; 0x00, 0x0D+ = normal startup
   cmp AL, #0x00
   jz normal_post
   cmp AL, #0x0d
