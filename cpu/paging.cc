@@ -904,10 +904,8 @@ bx_phy_address BX_CPU_C::translate_linear_PAE(bx_address laddr, bx_address &lpf_
     if (!priv_check[priv_index] || nx_fault)
       page_fault(ERROR_PROTECTION, laddr, pl, rw);
 
-#if BX_CPU_LEVEL >= 6
     if (BX_CPU_THIS_PTR cr4.get_PGE())
       combined_access |= (pde & 0x100);      // G
-#endif
 
 #if BX_SUPPORT_X86_64
     if (long_mode()) {
@@ -967,10 +965,8 @@ bx_phy_address BX_CPU_C::translate_linear_PAE(bx_address laddr, bx_address &lpf_
   if (!priv_check[priv_index] || nx_fault)
     page_fault(ERROR_PROTECTION, laddr, pl, rw);
 
-#if BX_CPU_LEVEL >= 6
   if (BX_CPU_THIS_PTR cr4.get_PGE())
     combined_access |= (pte & 0x100);     // G
-#endif
 
 #if BX_SUPPORT_X86_64
   if (long_mode()) {
