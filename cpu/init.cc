@@ -432,7 +432,7 @@ void BX_CPU_C::register_state(void)
   BXRS_HEX_PARAM_FIELD(MSR, sysenter_esp_msr, msr.sysenter_esp_msr);
   BXRS_HEX_PARAM_FIELD(MSR, sysenter_eip_msr, msr.sysenter_eip_msr);
 #endif
-#if CPU_LEVEL >= 6
+#if BX_CPU_LEVEL >= 6
   BXRS_HEX_PARAM_FIELD(MSR, mtrrphysbase0, msr.mtrrphys[0]);
   BXRS_HEX_PARAM_FIELD(MSR, mtrrphysmask0, msr.mtrrphys[1]);
   BXRS_HEX_PARAM_FIELD(MSR, mtrrphysbase1, msr.mtrrphys[2]);
@@ -936,7 +936,7 @@ void BX_CPU_C::reset(unsigned source)
 #endif
 
   // Do not change MTRR on INIT
-#if CPU_LEVEL >= 6
+#if BX_CPU_LEVEL >= 6
   if (source == BX_RESET_HARDWARE) {
     for (n=0; n<16; n++)
       BX_CPU_THIS_PTR msr.mtrrphys[n] = 0;
