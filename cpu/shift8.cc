@@ -218,7 +218,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RCR_Eb(bxInstruction_c *i)
   }
 
   cf = (op1_8 >> (count - 1)) & 0x1;
-  of = ((result_8 << 1) ^ result_8) >> 7; // of = result6 ^ result7
+  of = (((result_8 << 1) ^ result_8) >> 7) & 0x1; // of = result6 ^ result7
   SET_FLAGS_OxxxxC(of, cf);
 }
 

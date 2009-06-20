@@ -159,7 +159,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SHRD_EwGwM(bxInstruction_c *i)
   SET_FLAGS_OSZAPC_LOGIC_16(result_16); /* handle SF, ZF and AF flags */
 
   cf = (op1_16 >> (count - 1)) & 0x1;
-  of = ((result_16 << 1) ^ result_16) >> 15; // of = result14 ^ result15
+  of = (((result_16 << 1) ^ result_16) >> 15) & 0x1; // of = result14 ^ result15
   SET_FLAGS_OxxxxC(of, cf);
 }
 
@@ -200,7 +200,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SHRD_EwGwR(bxInstruction_c *i)
   SET_FLAGS_OSZAPC_LOGIC_16(result_16); /* handle SF, ZF and AF flags */
 
   cf = (op1_16 >> (count - 1)) & 0x1;
-  of = ((result_16 << 1) ^ result_16) >> 15; // of = result14 ^ result15
+  of = (((result_16 << 1) ^ result_16) >> 15) & 0x1; // of = result14 ^ result15
   SET_FLAGS_OxxxxC(of, cf);
 }
 
@@ -388,7 +388,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RCR_Ew(bxInstruction_c *i)
   }
 
   cf = (op1_16 >> (count - 1)) & 0x1;
-  of = ((result_16 << 1) ^ result_16) >> 15; // of = result15 ^ result14
+  of = (((result_16 << 1) ^ result_16) >> 15) & 0x1; // of = result15 ^ result14
   SET_FLAGS_OxxxxC(of, cf);
 }
 
