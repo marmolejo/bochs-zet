@@ -32,7 +32,7 @@
 
 void BX_CPU_C::check_exceptionsSSE(int exceptions_flags)
 {
-  exceptions_flags &= 0x3F;
+  exceptions_flags &= MXCSR_EXCEPTIONS;
   int unmasked = ~(MXCSR.get_exceptions_masks()) & exceptions_flags;
   MXCSR.set_exceptions(exceptions_flags);
 

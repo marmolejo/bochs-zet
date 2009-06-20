@@ -1306,7 +1306,9 @@ Bit32u BX_CPU_C::VMenterLoadCheckGuestState(Bit64u *qualification)
 #endif
 
   invalidate_prefetch_q();
+#if BX_SUPPORT_ALIGNMENT_CHECK
   handleAlignmentCheck();
+#endif
   handleCpuModeChange();
 
   return VMXERR_NO_ERROR;
@@ -1653,7 +1655,9 @@ void BX_CPU_C::VMexitLoadHostState(void)
 #endif
 
   invalidate_prefetch_q();
+#if BX_SUPPORT_ALIGNMENT_CHECK
   handleAlignmentCheck();
+#endif
   handleCpuModeChange();
 }
 
