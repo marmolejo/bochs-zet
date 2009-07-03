@@ -92,9 +92,7 @@ void bx_instr_mem_data_access(unsigned cpu, unsigned seg, bx_address offset, uns
 
 /* called from command line debugger */
 #define BX_INSTR_DEBUG_PROMPT()
-#define BX_INSTR_START()
-#define BX_INSTR_STOP()
-#define BX_INSTR_PRINT()
+#define BX_INSTR_DEBUG_CMD(cmd)
 
 /* branch resoultion */
 #define BX_INSTR_CNEAR_BRANCH_TAKEN(cpu_id, new_eip)       bx_instr_cnear_branch_taken(cpu_id, new_eip)
@@ -159,9 +157,7 @@ void bx_instr_mem_data_access(unsigned cpu, unsigned seg, bx_address offset, uns
 
 /* called from command line debugger */
 #define BX_INSTR_DEBUG_PROMPT()
-#define BX_INSTR_START()
-#define BX_INSTR_STOP()
-#define BX_INSTR_PRINT()
+#define BX_INSTR_DEBUG_CMD(cmd)
 
 /* branch resoultion */
 #define BX_INSTR_CNEAR_BRANCH_TAKEN(cpu_id, new_eip)
