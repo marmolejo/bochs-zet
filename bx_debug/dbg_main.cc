@@ -2705,7 +2705,7 @@ void bx_dbg_instrument_command(const char *comm)
 {
 #if BX_INSTRUMENTATION
   dbg_printf("Command '%s' passed to instrumentation module\n", comm);
-  bx_instr_debug_cmd(comm);
+  BX_INSTR_DEBUG_CMD(comm);
 #else
   UNUSED(comm);
   dbg_printf("Error: instrumentation not enabled.\n");
