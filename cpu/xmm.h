@@ -201,9 +201,9 @@ struct BOCHSAPI bx_mxcsr_t
 };
 
 /* reset reserved bits */
-#define MXCSR_MASK (0x0000FFBF |                 \
-         (BX_SUPPORT_DAZ ? MXCSR_DAZ : 0) |      \
-         (BX_SUPPORT_MISALIGNED_SSE ? MXCSR_MISALIGNED_EXCEPTION_MASK : 0))
+#define MXCSR_MASK (0x0000FFBF |                        \
+         ((BX_SUPPORT_SSE >= 2) ? MXCSR_DAZ : 0) |      \
+         ((BX_SUPPORT_MISALIGNED_SSE) ? MXCSR_MISALIGNED_EXCEPTION_MASK : 0))
 
 #if defined(NEED_CPU_REG_SHORTCUTS)
   #define MXCSR             (BX_CPU_THIS_PTR mxcsr)
