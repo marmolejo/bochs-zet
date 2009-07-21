@@ -2880,7 +2880,7 @@ AC_ARG_ENABLE(pae,
    AC_MSG_RESULT(no)
   ])
 
-AC_MSG_CHECKING(for MTRR/PAR support (deprecated))
+AC_MSG_CHECKING(for MTRR/PAT support (deprecated))
 AC_ARG_ENABLE(mtrr,
   [  --enable-mtrr                     enables MTRR/PAT support (deprecated)],
   [AC_MSG_RESULT($enableval)
