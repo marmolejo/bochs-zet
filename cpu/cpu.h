@@ -3319,10 +3319,12 @@ public: // for now...
   BX_SMF bx_address read_CR4(void);
 #endif
 #if BX_SUPPORT_VMX
+  BX_SMF Bit16u VMread16(unsigned encoding);
   BX_SMF Bit32u VMread32(unsigned encoding);
+  BX_SMF Bit64u VMread64(unsigned encoding);
+  BX_SMF void VMwrite16(unsigned encoding, Bit16u val_16);
   BX_SMF void VMwrite32(unsigned encoding, Bit32u val_32);
   BX_SMF void VMwrite64(unsigned encoding, Bit64u val_64);
-  BX_SMF Bit64u VMread64(unsigned encoding);
   BX_SMF void VMsucceed(void);
   BX_SMF void VMfailInvalid(void);
   BX_SMF void VMfail(Bit32u error_code);
