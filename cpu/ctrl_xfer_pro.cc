@@ -96,6 +96,8 @@ BX_CPU_C::load_cs(bx_selector_t *selector, bx_descriptor_t *descriptor, Bit8u cp
   // Add cpl to the selector value.
   selector->value = (0xfffc & selector->value) | cpl;
 
+  touch_segment(selector, descriptor);
+
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector = *selector;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache = *descriptor;
   BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.rpl = cpl;
