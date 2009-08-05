@@ -371,9 +371,6 @@ BX_CPU_C::get_descriptor_h(const bx_descriptor_t *d)
     switch (d->type) {
       case BX_SYS_SEGMENT_AVAIL_286_TSS:
       case BX_SYS_SEGMENT_BUSY_286_TSS:
-        BX_ASSERT(d->u.segment.g   == 0);
-        BX_ASSERT(d->u.segment.avl == 0);
-        // fall through
       case BX_SYS_SEGMENT_LDT:
       case BX_SYS_SEGMENT_AVAIL_386_TSS:
       case BX_SYS_SEGMENT_BUSY_386_TSS:
