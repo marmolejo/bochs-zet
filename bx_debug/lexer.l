@@ -71,10 +71,10 @@ b|pb            |
 pbreak          { bxlval.sval = strdup(bxtext); return(BX_TOKEN_PBREAKPOINT); }
 info            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_INFO); }
 cr		|
-creg		|
-cregs		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_CONTROL_REGS); }
-sreg		|
-sregs		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_SEGMENT_REGS); }
+creg		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_CONTROL_REGS); }
+dr		|
+dreg		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_DEBUG_REGS); }
+sreg		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_SEGMENT_REGS); }
 r               { bxlval.sval = strdup(bxtext); return(BX_TOKEN_R); }
 reg|regs        |
 registers       { bxlval.sval = strdup(bxtext); return(BX_TOKEN_REGS); }

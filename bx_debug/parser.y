@@ -65,6 +65,7 @@
 %token <sval> BX_TOKEN_TAB
 %token <sval> BX_TOKEN_DIRTY
 %token <sval> BX_TOKEN_LINUX
+%token <sval> BX_TOKEN_DEBUG_REGS
 %token <sval> BX_TOKEN_CONTROL_REGS
 %token <sval> BX_TOKEN_SEGMENT_REGS
 %token <sval> BX_TOKEN_EXAMINE
@@ -150,6 +151,7 @@ command:
     | mmx_regs_command
     | sse_regs_command
     | segment_regs_command
+    | debug_regs_command
     | control_regs_command
     | blist_command
     | slist_command
@@ -675,6 +677,14 @@ control_regs_command:
       BX_TOKEN_CONTROL_REGS '\n'
       {
         bx_dbg_info_control_regs_command();
+        free($1);
+      }
+    ;
+
+debug_regs_command:
+      BX_TOKEN_DEBUG_REGS '\n'
+      {
+        bx_dbg_info_debug_regs_command();
         free($1);
       }
     ;
