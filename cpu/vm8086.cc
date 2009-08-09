@@ -129,7 +129,7 @@ void BX_CPU_C::iret16_stack_return_from_v86(bxInstruction_c *i)
     Bit32u changeMask = EFlagsOSZAPCMask | EFlagsTFMask |
                             EFlagsDFMask | EFlagsNTMask | EFlagsVIFMask;
     Bit32u flags32 = (Bit32u) flags16;
-    if (BX_CPU_THIS_PTR get_IF()) flags32 |= EFlagsVIFMask;
+    if (flags16 & EFlagsIFMask) flags32 |= EFlagsVIFMask;
     writeEFlags(flags32, changeMask);
 
     return;
