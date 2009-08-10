@@ -36,8 +36,6 @@
 #define BX_MEM_VECTOR_ALIGN 4096
 #define BX_MEM_HANDLERS   ((BX_CONST64(1) << BX_PHY_ADDRESS_WIDTH) >> 20) /* one per megabyte */
 
-#if BX_PROVIDE_CPU_MEMORY
-
 BX_MEM_C::BX_MEM_C()
 {
   put("MEM0");
@@ -351,8 +349,6 @@ void BX_MEM_C::load_RAM(const char *path, bx_phy_address ramaddress, Bit8u type)
 			(unsigned) stat_buf.st_size,
  			path));
 }
-#endif // #if BX_PROVIDE_CPU_MEMORY
-
 
 #if (BX_DEBUGGER || BX_DISASM || BX_GDBSTUB)
 bx_bool BX_MEM_C::dbg_fetch_mem(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, Bit8u *buf)

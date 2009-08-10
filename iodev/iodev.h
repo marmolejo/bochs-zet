@@ -587,8 +587,6 @@ BX_CPP_INLINE void DEV_MEM_WRITE_PHYSICAL_BLOCK(bx_phy_address phy_addr, unsigne
 
 #endif /* NO_DEVICE_INCLUDES */
 
-#if BX_PROVIDE_DEVICE_MODELS
 BOCHSAPI extern bx_devices_c bx_devices;
-#endif
 
 #endif /* IODEV_H */

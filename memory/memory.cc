@@ -31,8 +31,6 @@
 #include "iodev/iodev.h"
 #define LOG_THIS BX_MEM_THIS
 
-#if BX_PROVIDE_CPU_MEMORY
-
 //
 // Memory map inside the 1st megabyte:
 //
@@ -356,5 +354,3 @@ inc_one:
     }
   }
 }
-
-#endif // #if BX_PROVIDE_CPU_MEMORY

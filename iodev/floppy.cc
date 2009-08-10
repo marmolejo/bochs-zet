@@ -669,10 +669,6 @@ void bx_floppy_ctrl_c::write(Bit32u address, Bit32u value, unsigned io_len)
 
 void bx_floppy_ctrl_c::floppy_command(void)
 {
-#if BX_PROVIDE_CPU_MEMORY==0
-  BX_PANIC(("floppy_command(): uses DMA: not supported for"
-           " external environment"));
-#else
   unsigned i;
   Bit8u motor_on;
   Bit8u head, drive, cylinder, sector, eot;
@@ -1005,7 +1001,6 @@ void bx_floppy_ctrl_c::floppy_command(void)
       BX_PANIC(("You should never get here! cmd = 0x%02x",
                 BX_FD_THIS s.command[0]));
   }
-#endif
 }
 
 void bx_floppy_ctrl_c::floppy_xfer(Bit8u drive, Bit32u offset, Bit8u *buffer,

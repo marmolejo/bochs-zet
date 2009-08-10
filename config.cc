@@ -1776,7 +1776,6 @@ int bx_parse_cmdline(int arg, int argc, char *argv[])
   return 0;
 }
 
-#if BX_PROVIDE_MAIN
 char *bx_find_bochsrc()
 {
   FILE *fd = NULL;
@@ -3689,5 +3688,3 @@ int bx_write_configuration(const char *rc, int overwrite)
   fclose(fp);
   return 0;
 }
-
-#endif // #if BX_PROVIDE_MAIN

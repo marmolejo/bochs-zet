@@ -129,9 +129,7 @@ public:
   BX_MEM_SMF void register_state(void);
 };
 
-#if BX_PROVIDE_CPU_MEMORY
 BOCHSAPI extern BX_MEM_C bx_mem;
-#endif
 
 BX_CPP_INLINE Bit8u* BX_MEM_C::get_vector(void)
 {
