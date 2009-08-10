@@ -112,7 +112,7 @@ void BX_CPU_C::iret16_stack_return_from_v86(bxInstruction_c *i)
   cs_raw  = pop_16();
   flags16 = pop_16();
 
-#if BX_SUPPORT_VME
+#if BX_CPU_LEVEL >= 5
   if (BX_CR4_VME_ENABLED && BX_CPU_THIS_PTR get_IOPL() < 3)
   {
     if (((flags16 & EFlagsIFMask) && BX_CPU_THIS_PTR get_VIP()) ||
@@ -169,7 +169,7 @@ void BX_CPU_C::iret32_stack_return_from_v86(bxInstruction_c *i)
   writeEFlags(flags32, change_mask);
 }
 
-#if BX_SUPPORT_VME
+#if BX_CPU_LEVEL >= 5
 void BX_CPU_C::v86_redirect_interrupt(Bit32u vector)
 {
   Bit16u temp_flags = (Bit16u) read_eflags();

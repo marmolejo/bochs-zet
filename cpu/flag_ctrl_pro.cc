@@ -69,7 +69,7 @@ BX_CPU_C::writeEFlags(Bit32u flags, Bit32u changeMask)
 #if BX_CPU_LEVEL >= 4
   supportMask |= (EFlagsIDMask | EFlagsACMask); // ID/AC
 #endif
-#if BX_SUPPORT_VME
+#if BX_CPU_LEVEL >= 5
   supportMask |= (EFlagsVIPMask | EFlagsVIFMask); // VIP/VIF
 #endif
 

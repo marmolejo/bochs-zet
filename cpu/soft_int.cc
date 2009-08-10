@@ -128,7 +128,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::INT_Ib(bxInstruction_c *i)
   RSP_SPECULATIVE;
 
   if (v8086_mode()) {
-#if BX_SUPPORT_VME
+#if BX_CPU_LEVEL >= 5
     if (BX_CPU_THIS_PTR cr4.get_VME())
     {
       bx_address tr_base = BX_CPU_THIS_PTR tr.cache.u.segment.base;

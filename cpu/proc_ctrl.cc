@@ -1442,7 +1442,7 @@ bx_address get_cr4_allow_mask(void)
   //   [1]     PVI: Protected-Mode Virtual Interrupts R/W
   //   [0]     VME: Virtual-8086 Mode Extensions R/W
 
-#if BX_SUPPORT_VME
+#if BX_CPU_LEVEL >= 5
   allowMask |= (1<<0) | (1<<1);  /* VME */
 #endif
 
