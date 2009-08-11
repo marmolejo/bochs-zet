@@ -326,7 +326,7 @@ inc_one:
   else  // access outside limits of physical memory
   {
 #if BX_PHY_ADDRESS_LONG
-    if (a20addr >= BX_CONST64(0xffffffff)) {
+    if (a20addr > BX_CONST64(0xffffffff)) {
       memset(data, 0xFF, len);
       return;
     }

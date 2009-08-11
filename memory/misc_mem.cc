@@ -33,6 +33,7 @@
 #include "iodev/iodev.h"
 #define LOG_THIS BX_MEM(0)->
 
+// alignment of memory vector, must be a power of 2
 #define BX_MEM_VECTOR_ALIGN 4096
 #define BX_MEM_HANDLERS   ((BX_CONST64(1) << BX_PHY_ADDRESS_WIDTH) >> 20) /* one per megabyte */
 
@@ -397,7 +398,7 @@ bx_bool BX_MEM_C::dbg_fetch_mem(BX_CPU_C *cpu, bx_phy_address addr, unsigned len
       }
     }
 #if BX_PHY_ADDRESS_LONG
-    else if (addr >= BX_CONST64(0xffffffff)) {
+    else if (addr > BX_CONST64(0xffffffff)) {
       *buf = 0xff;
       ret = 0; // error, beyond limits of memory
     }
@@ -579,7 +580,7 @@ Bit8u *BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, bx_phy_address addr, unsigned rw)
       }
     }
 #if BX_PHY_ADDRESS_LONG
-    else if (a20addr >= BX_CONST64(0xffffffff)) {
+    else if (a20addr > BX_CONST64(0xffffffff)) {
       // Error, requested addr is out of bounds.
       return (Bit8u *) &BX_MEM_THIS bogus[a20addr & 0xfff];
     }
