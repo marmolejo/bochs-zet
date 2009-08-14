@@ -282,6 +282,10 @@ void BX_CPU_C::VMexit_Event(bxInstruction_c *i, unsigned type, unsigned vector, 
   // [31:31] | interruption info valid
   //
 
+  if (i) {
+    VMwrite32(VMCS_32BIT_VMEXIT_INSTRUCTION_LENGTH, i->ilen());
+  }
+
   if (! vmexit) {
     // record IDT vectoring information 
     vm->idt_vector_error_code = errcode;
@@ -310,7 +314,7 @@ void BX_CPU_C::VMexit_Event(bxInstruction_c *i, unsigned type, unsigned vector, 
   VMwrite32(VMCS_32BIT_VMEXIT_INTERRUPTION_INFO, interruption_info);
   VMwrite32(VMCS_32BIT_VMEXIT_INTERRUPTION_ERR_CODE, errcode);
 
-  VMexit(i, reason, qualification);
+  VMexit(0, reason, qualification);
 }
 
 void BX_CPU_C::VMexit_TripleFault(void)
