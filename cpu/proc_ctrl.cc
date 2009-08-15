@@ -1825,7 +1825,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SYSENTER(bxInstruction_c *i)
     }
     if (!IsCanonical(BX_CPU_THIS_PTR msr.sysenter_esp_msr)) {
       BX_ERROR(("SYSENTER with non-canonical SYSENTER_ESP_MSR !"));
-      exception(BX_SS_EXCEPTION, 0, 0);
+      exception(BX_GP_EXCEPTION, 0, 0);
     }
   }
 #endif
@@ -1914,7 +1914,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SYSEXIT(bxInstruction_c *i)
     }
     if (!IsCanonical(RCX)) {
       BX_ERROR(("SYSEXIT with non-canonical RCX (RSP) pointer !"));
-      exception(BX_SS_EXCEPTION, 0, 0);
+      exception(BX_GP_EXCEPTION, 0, 0);
     }
   }
 #endif
