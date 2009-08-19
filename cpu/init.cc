@@ -853,7 +853,7 @@ void BX_CPU_C::reset(unsigned source)
   // DR0 - DR7 (Debug Registers)
 #if BX_CPU_LEVEL >= 3
   for (n=0; n<4; n++)
-    BX_CPU_THIS_PTR dr[n] = 0;   /* undefined */
+    BX_CPU_THIS_PTR dr[n] = 0;
 #endif
 
   BX_CPU_THIS_PTR dr7 = 0x00000400;
