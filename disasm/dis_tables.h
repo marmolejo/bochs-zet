@@ -147,6 +147,9 @@
 #define Yd &disassembler::Yd
 #define Yq &disassembler::Yq
 
+#define sYq  &disassembler::sYq
+#define sYdq &disassembler::sYdq
+
 #define Jb &disassembler::Jb
 #define Jw &disassembler::Jw
 #define Jd &disassembler::Jd
