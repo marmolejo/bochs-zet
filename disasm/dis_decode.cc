@@ -230,7 +230,7 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
          break;
 
        case _GRP3DNOW:
-         entry = &(BxDisasm3DNowGroup[peek_byte()]);
+         entry = &(BxDisasm3DNowGroup[fetch_byte()]);
          break;
 
        case _GRP3BOP:
