@@ -707,7 +707,7 @@ void BX_CPU_C::page_fault(unsigned fault, bx_address laddr, unsigned user, unsig
 
   error_code |= (user << 2) | (isWrite << 1);
 #if BX_SUPPORT_X86_64
-  if (BX_CPU_THIS_PTR efer.get_NXE() && (rw == BX_EXECUTE))
+  if (BX_CPU_THIS_PTR cr4.get_PAE() && BX_CPU_THIS_PTR efer.get_NXE() && rw == BX_EXECUTE)
     error_code |= ERROR_CODE_ACCESS; // I/D = 1
 #endif
 
