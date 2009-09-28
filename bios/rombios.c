@@ -11255,7 +11255,7 @@ int1a_handler:
   jne  int1a_normal
   call pcibios_real
   jc   pcibios_error
-  retf 2
+  iret
 pcibios_error:
   mov  bl, ah
   mov  ah, #0xb1
