@@ -741,8 +741,8 @@ void bx_dbg_info_debug_regs_command(void)
 {
   bx_address dr0 = SIM->get_param_num("DR0", dbg_cpu_list)->get();
   bx_address dr1 = SIM->get_param_num("DR1", dbg_cpu_list)->get();
-  bx_address dr2 = SIM->get_param_num("DR1", dbg_cpu_list)->get();
-  bx_address dr3 = SIM->get_param_num("DR1", dbg_cpu_list)->get();
+  bx_address dr2 = SIM->get_param_num("DR2", dbg_cpu_list)->get();
+  bx_address dr3 = SIM->get_param_num("DR3", dbg_cpu_list)->get();
   Bit32u dr6 = SIM->get_param_num("DR6", dbg_cpu_list)->get();
   Bit32u dr7 = SIM->get_param_num("DR7", dbg_cpu_list)->get();
 
