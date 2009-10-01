@@ -660,7 +660,7 @@ void bx_dbg_print_sse_state(void)
 {
 #if BX_SUPPORT_SSE
   Bit32u mxcsr = SIM->get_param_num("SSE.mxcsr", dbg_cpu_list)->get();
-  dbg_printf("MXCSR: 0x%08x: %s %s RC:%d %s %s %s %s %s %s %s %s %s %s %s %s\n", mxcsr,
+  dbg_printf("MXCSR: 0x%08x: %s %s RC:%d %s %s %s %s %s %s %s %s %s %s %s %s %s\n", mxcsr,
      (mxcsr & (1<<17)) ? "ULE" : "ule",
      (mxcsr & (1<<15)) ? "FUZ" : "fuz",
      (mxcsr >> 13) & 3,
