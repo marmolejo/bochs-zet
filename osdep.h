@@ -91,6 +91,8 @@ extern "C" {
 #define unlink _unlink
 #define strdup _strdup
 #define strrev _strrev
+#undef BX_HAVE_STRREV
+#define BX_HAVE_STRREV 1
 #define getch _getch
 #endif
 
