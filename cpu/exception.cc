@@ -461,15 +461,15 @@ void BX_CPU_C::protected_mode_int(Bit8u vector, unsigned is_INT, bx_bool push_er
 
       BX_DEBUG(("interrupt(): INTERRUPT TO INNER PRIVILEGE"));
 
+      // check selector and descriptor for new stack in current TSS
+      get_SS_ESP_from_TSS(cs_descriptor.dpl,
+                              &SS_for_cpl_x, &ESP_for_cpl_x);
+
       if (is_v8086_mode && cs_descriptor.dpl != 0) {
         // if code segment DPL != 0 then #GP(new code segment selector)
         BX_ERROR(("interrupt(): code segment DPL(%d) != 0 in v8086 mode", cs_descriptor.dpl));
         exception(BX_GP_EXCEPTION, cs_selector.value & 0xfffc, 0);
       }
-
-      // check selector and descriptor for new stack in current TSS
-      get_SS_ESP_from_TSS(cs_descriptor.dpl,
-                              &SS_for_cpl_x, &ESP_for_cpl_x);
 
       // Selector must be non-null else #TS(EXT)
       if ((SS_for_cpl_x & 0xfffc) == 0) {
