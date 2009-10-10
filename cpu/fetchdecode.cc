@@ -190,6 +190,15 @@ bxIAOpcodeTable BxOpcodesTable[] = {
 };
 #undef  bx_define_opcode
 
+#if BX_INSTRUMENTATION
+const char* BxOpcodeNamesTable[BX_IA_LAST] =
+{
+#define bx_define_opcode(a, b, c) #a,
+#include "ia_opcodes.h"
+};
+#undef  bx_define_opcode
+#endif
+
 /* ************************** */
 /* 512 entries for 16bit mode */
 /* 512 entries for 32bit mode */
