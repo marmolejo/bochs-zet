@@ -303,9 +303,14 @@ void BX_CPU_C::VMexit_Event(bxInstruction_c *i, unsigned type, unsigned vector, 
   if (vector == BX_DF_EXCEPTION)
     BX_CPU_THIS_PTR in_event = 0; // clear in_event indication on #DF
 
-  // qualifcation for debug exceptions similar to debug_trap field
-  if (vector == BX_DB_EXCEPTION) 
+  if (vector == BX_DB_EXCEPTION)  {
+    // qualifcation for debug exceptions similar to debug_trap field
     qualification = BX_CPU_THIS_PTR debug_trap & 0x0000600f;
+  }
+
+  // clear debug_trap field
+  BX_CPU_THIS_PTR debug_trap = 0;
+  BX_CPU_THIS_PTR inhibit_mask = 0;
 
   Bit32u interruption_info = vector | (type << 8);
   if (errcode_valid)
