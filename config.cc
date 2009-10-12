@@ -242,7 +242,7 @@ void bx_init_options()
   bx_param_c *root_param = SIM->get_param(".");
 
   // general options subtree
-  menu = new bx_list_c(root_param, "general", "");
+  menu = new bx_list_c(root_param, "general", "", 10);
 
  // config interface option, set in bochsrc or command line
   static const char *config_interface_list[] = {
