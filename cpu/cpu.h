@@ -3183,7 +3183,7 @@ public: // for now...
   BX_SMF bx_bool fetch_raw_descriptor2(const bx_selector_t *selector,
                          Bit32u *dword1, Bit32u *dword2) BX_CPP_AttrRegparmN(3);
   BX_SMF void    load_seg_reg(bx_segment_reg_t *seg, Bit16u new_value) BX_CPP_AttrRegparmN(2);
-  BX_SMF void    load_null_selector(bx_segment_reg_t *seg) BX_CPP_AttrRegparmN(1);
+  BX_SMF void    load_null_selector(bx_segment_reg_t *seg, unsigned value) BX_CPP_AttrRegparmN(2);
 #if BX_SUPPORT_X86_64
   BX_SMF void    fetch_raw_descriptor_64(const bx_selector_t *selector,
                          Bit32u *dword1, Bit32u *dword2, Bit32u *dword3, unsigned exception_no);
