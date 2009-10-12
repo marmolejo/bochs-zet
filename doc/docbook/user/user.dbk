@@ -2226,11 +2226,6 @@ turn it off.
       <entry>Intel Virtualization Extensions (VMX) support</entry>
     </row>
     <row>
-      <entry>--enable-vme</entry>
-      <entry>no (yes for <link linkend="configure-enable-cpu-level">CPU</link> >= 5)</entry>
-      <entry>Add support for VME (v8086 mode extensions)</entry>
-    </row>
-    <row>
       <entry>--enable-compressed-hd</entry>
       <entry>no</entry>
       <entry>
