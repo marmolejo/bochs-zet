@@ -754,6 +754,9 @@ void bx_dbg_info_debug_regs_command(void)
   dbg_printf("DR2=0x" FMT_ADDRX "\n", dr2);
   dbg_printf("DR3=0x" FMT_ADDRX "\n", dr3);
 
+  static const char *dr_ln[4] = { "Byte", "Word", "QWord", "Dword" };
+  static const char *dr_rw[4] = { "Code", "DataW", "I/O", "DataRW" };
+
   dbg_printf("DR6=0x%08x: %s %s %s %s %s %s %s\n", dr6,
       (dr6 & (1<<15)) ? "BT" : "bt",
       (dr6 & (1<<14)) ? "BS" : "bs",
