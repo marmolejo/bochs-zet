@@ -336,7 +336,8 @@ void bx_devices_c::init(BX_MEM_C *newmem)
                             "Port 92h System Control", 1);
 
   // misc. CMOS
-  Bit32u extended_memory_in_k = mem->get_memory_in_k() > 1024 ? (mem->get_memory_in_k() - 1024) : 0;
+  Bit32u memory_in_k = mem->get_memory_len() / 1024;
+  Bit32u extended_memory_in_k = memory_in_k > 1024 ? (memory_in_k - 1024) : 0;
   if (extended_memory_in_k > 0xfc00) extended_memory_in_k = 0xfc00;
 
   DEV_cmos_set_reg(0x15, (Bit8u) BASE_MEMORY_IN_K);
@@ -346,7 +347,7 @@ void bx_devices_c::init(BX_MEM_C *newmem)
   DEV_cmos_set_reg(0x30, (Bit8u) (extended_memory_in_k & 0xff));
   DEV_cmos_set_reg(0x31, (Bit8u) ((extended_memory_in_k >> 8) & 0xff));
 
-  Bit32u extended_memory_in_64k = mem->get_memory_in_k() > 16384 ? (mem->get_memory_in_k() - 16384) / 64 : 0;
+  Bit32u extended_memory_in_64k = memory_in_k > 16384 ? (memory_in_k - 16384) / 64 : 0;
   if (extended_memory_in_64k > 0xffff) extended_memory_in_64k = 0xffff;
 
   DEV_cmos_set_reg(0x34, (Bit8u) (extended_memory_in_64k & 0xff));

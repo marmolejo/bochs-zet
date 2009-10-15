@@ -408,8 +408,7 @@ static int access_linear(Bit64u laddress,
     valid = access_linear(laddress,
                           len + (laddress & 0xfff) - 4096,
                           rw,
-                          (Bit8u *)((unsigned long)data +
-                                    4096 - (laddress & 0xfff)));
+                          (Bit8u *)(data + (4096 - (laddress & 0xfff))));
     return(valid);
   }
 
