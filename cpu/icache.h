@@ -90,9 +90,6 @@ public:
       // effectively invalidated.
       pageWriteStampTable[index] = (pageWriteStampTable[index] - 1) & ~ICacheWriteStampFetchModeMask;
     }
-#if BX_DEBUGGER
-    BX_DBG_DIRTY_PAGE(index);
-#endif
   }
 
   BX_CPP_INLINE void resetWriteStamps(void);

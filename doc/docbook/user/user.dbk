@@ -6353,8 +6353,6 @@ From here, you may use the following commands:
                                datasize to value val.
 
   crc  addr1  addr2            Show CRC32 for physical memory range addr1..addr2
-  info dirty                   Show physical pages dirtied (written to) since last display
-                               Values displayed are the top 20 bits only (page addresses)
 
 </screen>
 </para>
