@@ -1055,7 +1055,7 @@ void bx_init_hardware()
   bx_param_num_c *bxp_memsize = SIM->get_param_num(BXPN_MEM_SIZE);
   Bit32u memSize = bxp_memsize->get() * 1024*1024;
 
-  BX_MEM(0)->init_memory(memSize);
+  BX_MEM(0)->init_memory(memSize, memSize);
 
   // First load the BIOS and VGABIOS
   BX_MEM(0)->load_ROM(SIM->get_param_string(BXPN_ROM_PATH)->getptr(),
