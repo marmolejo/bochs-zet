@@ -224,6 +224,9 @@ void BX_MEM_C::cleanup_memory()
     BX_MEM_THIS vector = NULL;
     BX_MEM_THIS rom = NULL;
     BX_MEM_THIS bogus = NULL;
+    delete [] BX_MEM_THIS blocks;
+    BX_MEM_THIS blocks = 0;
+    BX_MEM_THIS used_blocks = 0;
     if (BX_MEM_THIS memory_handlers != NULL) {
       for (idx = 0; idx < BX_MEM_HANDLERS; idx++) {
         struct memory_handler_struct *memory_handler = BX_MEM_THIS memory_handlers[idx];
