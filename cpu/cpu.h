@@ -1067,11 +1067,11 @@ public: // for now...
 #if BX_WITH_WX
   void register_wx_state(void);
 #endif
-  static Bit64s param_save_handler(void *devptr, bx_param_c *param, Bit64s val);
-  static Bit64s param_restore_handler(void *devptr, bx_param_c *param, Bit64s val);
+  static Bit64s param_save_handler(void *devptr, bx_param_c *param);
+  static void param_restore_handler(void *devptr, bx_param_c *param, Bit64s val);
 #if !BX_USE_CPU_SMF
-  Bit64s param_save(bx_param_c *param, Bit64s val);
-  Bit64s param_restore(bx_param_c *param, Bit64s val);
+  Bit64s param_save(bx_param_c *param);
+  void param_restore(bx_param_c *param, Bit64s val);
 #endif
 
 // <TAG-CLASS-CPU-START>

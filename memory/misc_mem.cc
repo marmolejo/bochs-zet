@@ -153,7 +153,7 @@ void BX_MEM_C::allocate_block(Bit32u block)
   }
 }
 
-Bit64s memory_param_save_handler(void *devptr, bx_param_c *param, Bit64s val)
+Bit64s memory_param_save_handler(void *devptr, bx_param_c *param)
 {
   const char *pname = param->get_name();
   if (! strncmp(pname, "blk", 3)) {
@@ -162,16 +162,16 @@ Bit64s memory_param_save_handler(void *devptr, bx_param_c *param, Bit64s val)
         return -1;
      }
      else {
-        val = (Bit32u) (BX_MEM(0)->blocks[blk_index] - BX_MEM(0)->vector);
-        if (val & (BX_MEM_BLOCK_LEN-1)) return -2;
-        return val / BX_MEM_BLOCK_LEN;
+        Bit32u val = (Bit32u) (BX_MEM(0)->blocks[blk_index] - BX_MEM(0)->vector);
+        if ((val & (BX_MEM_BLOCK_LEN-1)) == 0)
+           return val / BX_MEM_BLOCK_LEN;
      }
   }
 
   return -1;
 }
 
-Bit64s memory_param_restore_handler(void *devptr, bx_param_c *param, Bit64s val)
+void memory_param_restore_handler(void *devptr, bx_param_c *param, Bit64s val)
 {
   const char *pname = param->get_name();
   if (! strncmp(pname, "blk", 3)) {
@@ -181,8 +181,6 @@ Bit64s memory_param_restore_handler(void *devptr, bx_param_c *param, Bit64s val)
      else
         BX_MEM(0)->blocks[blk_index] = BX_MEM(0)->vector + val * BX_MEM_BLOCK_LEN;
   }
-
-  return -1;
 }
 
 void BX_MEM_C::register_state()

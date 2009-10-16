@@ -123,8 +123,8 @@ public:
 
   void register_state(void);
 
-  friend Bit64s memory_param_save_handler(void *devptr, bx_param_c *param, Bit64s val);
-  friend Bit64s memory_param_restore_handler(void *devptr, bx_param_c *param, Bit64s val);
+  friend Bit64s memory_param_save_handler(void *devptr, bx_param_c *param);
+  friend void memory_param_restore_handler(void *devptr, bx_param_c *param, Bit64s val);
 };
 
 BOCHSAPI extern BX_MEM_C bx_mem;
