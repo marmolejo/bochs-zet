@@ -1053,10 +1053,10 @@ void bx_init_hardware()
 
   // set up memory and CPU objects
   bx_param_num_c *bxp_memsize = SIM->get_param_num(BXPN_MEM_SIZE);
-  Bit64u memSize = bxp_memsize->get() * 1024*1024;
+  Bit64u memSize = bxp_memsize->get64() * BX_CONST64(1024*1024);
 
   bx_param_num_c *bxp_host_memsize = SIM->get_param_num(BXPN_HOST_MEM_SIZE);
-  Bit64u hostMemSize = bxp_host_memsize->get() * 1024*1024;
+  Bit64u hostMemSize = bxp_host_memsize->get64() * BX_CONST64(1024*1024);
 
   // do not allocate more host memory than needed for emulation of guest RAM 
   if (memSize < hostMemSize) hostMemSize = memSize;
