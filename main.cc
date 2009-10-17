@@ -1053,9 +1053,12 @@ void bx_init_hardware()
 
   // set up memory and CPU objects
   bx_param_num_c *bxp_memsize = SIM->get_param_num(BXPN_MEM_SIZE);
-  Bit32u memSize = bxp_memsize->get() * 1024*1024;
+  Bit64u memSize = bxp_memsize->get() * 1024*1024;
 
-  BX_MEM(0)->init_memory(memSize, memSize);
+  bx_param_num_c *bxp_host_memsize = SIM->get_param_num(BXPN_HOST_MEM_SIZE);
+  Bit64u hostMemSize = bxp_host_memsize->get() * 1024*1024;
+
+  BX_MEM(0)->init_memory(memSize, hostMemSize);
 
   // First load the BIOS and VGABIOS
   BX_MEM(0)->load_ROM(SIM->get_param_string(BXPN_ROM_PATH)->getptr(),
