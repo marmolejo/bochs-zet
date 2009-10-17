@@ -1058,6 +1058,9 @@ void bx_init_hardware()
   bx_param_num_c *bxp_host_memsize = SIM->get_param_num(BXPN_HOST_MEM_SIZE);
   Bit64u hostMemSize = bxp_host_memsize->get() * 1024*1024;
 
+  // do not allocate more host memory than needed for emulation of guest RAM 
+  if (memSize < hostMemSize) hostMemSize = memSize;
+
   BX_MEM(0)->init_memory(memSize, hostMemSize);
 
   // First load the BIOS and VGABIOS
