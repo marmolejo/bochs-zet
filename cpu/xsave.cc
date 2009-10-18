@@ -260,6 +260,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::XRSTOR(bxInstruction_c *i)
     Bit32u new_mxcsr = read_virtual_dword(i->seg(), eaddr + 24);
     if(new_mxcsr & ~MXCSR_MASK)
        exception(BX_GP_EXCEPTION, 0, 0);
+    BX_MXCSR_REGISTER = new_mxcsr;
 
     if (header1 & BX_XCR0_SSE_MASK) {
       // load SSE state from XSAVE area
