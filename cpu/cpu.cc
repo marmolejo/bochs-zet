@@ -629,12 +629,11 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
       bx_address iaddr = get_laddr(BX_SEG_REG_CS, BX_CPU_THIS_PTR prev_rip);
       Bit32u dr6_bits = hwdebug_compare(iaddr, 1, BX_HWDebugInstruction, BX_HWDebugInstruction);
       if (dr6_bits) {
-        // Add to the list of debug events thus far.
-        BX_CPU_THIS_PTR debug_trap |= dr6_bits;
         // If debug events are not inhibited on this boundary,
-        // fire off a debug fault.  Otherwise handle it on the next
-        // boundary. (becomes a trap)
+        // fire off a debug fault.
         if (! (BX_CPU_THIS_PTR inhibit_mask & BX_INHIBIT_DEBUG_SHADOW)) {
+          // Add to the list of debug events thus far.
+          BX_CPU_THIS_PTR debug_trap |= dr6_bits;
           BX_ERROR(("#DB: x86 code breakpoint catched"));
           exception(BX_DB_EXCEPTION, 0, 0); // no error, not interrupt
         }
