@@ -117,6 +117,9 @@ bx_bool BX_CPP_AttrRegparmN(2) BX_CPU_C::rdmsr(Bit32u index, Bit64u *msr)
 #endif
 
 #if BX_SUPPORT_VMX
+    case BX_MSR_IA32_SMM_MONITOR_CTL:
+      BX_PANIC(("Dual-monitor treatment of SMI and SMM is not implemented"));
+      break;
     case BX_MSR_VMX_BASIC:
       val64 = VMX_MSR_VMX_BASIC;
       break;
