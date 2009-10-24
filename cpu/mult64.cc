@@ -254,8 +254,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::IMUL_RAXEqR(bxInstruction_c *i)
    */
 
   SET_FLAGS_OSZAPC_LOGIC_64(product_128.lo);
-  if (((Bit64s)(product_128.lo) >= 0 && product_128.hi == 0) ||
-      ((Bit64s)(product_128.lo) <  0 && product_128.hi == (Bit64s) BX_CONST64(0xffffffffffffffff)))
+  if(!(((Bit64s)(product_128.lo) >= 0 && product_128.hi == 0) ||
+       ((Bit64s)(product_128.lo) <  0 && product_128.hi == (Bit64s) BX_CONST64(0xffffffffffffffff))))
   {
     ASSERT_FLAGS_OxxxxC();
   }
@@ -346,8 +346,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::IMUL_GqEqIdR(bxInstruction_c *i)
   BX_WRITE_64BIT_REG(i->nnn(), product_128.lo);
 
   SET_FLAGS_OSZAPC_LOGIC_64(product_128.lo);
-  if (((Bit64s)(product_128.lo) >= 0 && product_128.hi == 0) ||
-      ((Bit64s)(product_128.lo) <  0 && product_128.hi == (Bit64s) BX_CONST64(0xffffffffffffffff)))
+  if(!(((Bit64s)(product_128.lo) >= 0 && product_128.hi == 0) ||
+       ((Bit64s)(product_128.lo) <  0 && product_128.hi == (Bit64s) BX_CONST64(0xffffffffffffffff))))
   {
     ASSERT_FLAGS_OxxxxC();
   }
@@ -366,8 +366,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::IMUL_GqEqR(bxInstruction_c *i)
   BX_WRITE_64BIT_REG(i->nnn(), product_128.lo);
 
   SET_FLAGS_OSZAPC_LOGIC_64(product_128.lo);
-  if (((Bit64s)(product_128.lo) >= 0 && product_128.hi == 0) ||
-      ((Bit64s)(product_128.lo) <  0 && product_128.hi == (Bit64s) BX_CONST64(0xffffffffffffffff)))
+  if(!(((Bit64s)(product_128.lo) >= 0 && product_128.hi == 0) ||
+       ((Bit64s)(product_128.lo) <  0 && product_128.hi == (Bit64s) BX_CONST64(0xffffffffffffffff))))
   {
     ASSERT_FLAGS_OxxxxC();
   }
