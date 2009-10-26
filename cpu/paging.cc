@@ -1451,7 +1451,7 @@ bx_bool BX_CPU_C::dbg_xlate_linear2phy(bx_address laddr, bx_phy_address *phy)
       if (level == 1 && (pte & 0x80)) { // PSE page
 	offset_mask = 0x3fffff;
 #if BX_PHY_ADDRESS_WIDTH > 32
-        pt_address += ((bx_phy_address)(pte & 0x003f7000)) << 19;
+        pt_address += ((bx_phy_address)(pte & 0x003fe000)) << 19;
 #endif
 	break;
       }
