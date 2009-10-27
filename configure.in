@@ -2898,7 +2898,7 @@ AC_ARG_ENABLE(daz,
    AC_MSG_RESULT(no)
   ])
 
-AC_MSG_CHECKING(for VME support)
+AC_MSG_CHECKING(for VME support (deprecated))
 AC_ARG_ENABLE(vme,
   [  --enable-vme                      virtual 8086 mode extensions (deprecated)],
   [AC_MSG_RESULT($enableval)
