@@ -1493,6 +1493,10 @@ bx_address get_cr4_allow_mask(void)
   allowMask |= (1<<13);  /* VMX Enable */
 #endif
 
+#if BX_SUPPORT_SMX
+  allowMask |= (1<<14);  /* SMX Enable */
+#endif
+
 #if BX_SUPPORT_XSAVE
   allowMask |= (1<<18);  /* OSXSAVE */
 #endif

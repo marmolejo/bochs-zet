@@ -839,6 +839,10 @@ void BX_CPU_C::interrupt(Bit8u vector, unsigned type, bx_bool push_error, Bit16u
     }
   }
 
+#if BX_X86_DEBUGGER
+  BX_CPU_THIS_PTR in_repeat = 0;
+#endif
+
 #if BX_SUPPORT_VMX
   BX_CPU_THIS_PTR in_event = 0;
 #endif

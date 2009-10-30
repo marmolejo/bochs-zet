@@ -922,6 +922,9 @@ public: // for now...
   #define BX_ASYNC_EVENT_STOP_TRACE (0x80000000)
 #endif
 
+#if BX_X86_DEBUGGER
+  bx_bool  in_repeat;
+#endif
   bx_bool  in_smm;
   unsigned cpu_mode;
   bx_bool  user_pl;
