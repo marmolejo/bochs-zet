@@ -1003,7 +1003,7 @@ help_command:
        }
      | BX_TOKEN_HELP BX_TOKEN_FPU '\n'
        {
-         dbg_printf("fp|fpu| - print FPU state\n");
+         dbg_printf("fp|fpu - print FPU state\n");
          free($1);free($2);
        }
      | BX_TOKEN_HELP BX_TOKEN_MMX '\n'
@@ -1070,10 +1070,7 @@ help_command:
        }
      | BX_TOKEN_HELP BX_TOKEN_INSTRUMENT '\n'
        {
-         dbg_printf("instrument start - calls bx_instr_start() callback\n");
-         dbg_printf("instrument stop  - calls bx_instr_stop () callback\n");
-         dbg_printf("instrument reset - calls bx_instr_reset() callback\n");
-         dbg_printf("instrument print - calls bx_instr_print() callback\n");
+         dbg_printf("instrument <command> - calls BX_INSTR_DEBUG_CMD instrumentation callback with <command>\n");
          free($1);free($2);
        }
      | BX_TOKEN_HELP BX_TOKEN_SET '\n'
