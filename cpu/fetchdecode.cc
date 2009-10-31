@@ -190,7 +190,7 @@ bxIAOpcodeTable BxOpcodesTable[] = {
 };
 #undef  bx_define_opcode
 
-#if BX_INSTRUMENTATION
+#if BX_INSTRUMENT_IA_OPCODE
 const char* BxOpcodeNamesTable[BX_IA_LAST] =
 {
 #define bx_define_opcode(a, b, c) #a,
@@ -2990,7 +2990,7 @@ modrm_done:
   i->setB1(b1);
   i->setILen(ilen);
 
-#if BX_INSTRUMENTATION
+#if BX_INSTRUMENT_IA_OPCODE
   i->ia_opcode = ia_opcode;
 #endif
 

@@ -3873,7 +3873,7 @@ modrm_done:
   i->setB1(b1);
   i->setILen(ilen);
 
-#if BX_INSTRUMENTATION
+#if BX_INSTRUMENT_IA_OPCODE
   i->ia_opcode = ia_opcode;
 #endif
 
