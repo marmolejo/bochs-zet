@@ -70,7 +70,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FYL2X(bxInstruction_c *i)
 
   if (IS_TAG_EMPTY(0) || IS_TAG_EMPTY(1))
   {
-     FPU_stack_underflow(0, 1);
+     FPU_stack_underflow(1, 1 /* pop_stack */);
      return;
   }
 
@@ -161,7 +161,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FPATAN(bxInstruction_c *i)
 
   if (IS_TAG_EMPTY(0) || IS_TAG_EMPTY(1))
   {
-     FPU_stack_underflow(0, 1);
+     FPU_stack_underflow(1, 1 /* pop_stack */);
      return;
   }
 
@@ -318,7 +318,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FYL2XP1(bxInstruction_c *i)
 
   if (IS_TAG_EMPTY(0) || IS_TAG_EMPTY(1))
   {
-     FPU_stack_underflow(0, 1);
+     FPU_stack_underflow(1, 1 /* pop_stack */);
      return;
   }
 
