@@ -991,6 +991,7 @@ void bx_local_apic_c::register_state(bx_param_c *parent)
   BXRS_HEX_PARAM_SIMPLE(lapic, timer_current);
   BXRS_HEX_PARAM_SIMPLE(lapic, timer_divconf);
   BXRS_DEC_PARAM_SIMPLE(lapic, timer_divide_factor);
+  BXRS_DEC_PARAM_SIMPLE(lapic, timer_handle);
   BXRS_PARAM_BOOL(lapic, timer_active, timer_active);
   BXRS_HEX_PARAM_SIMPLE(lapic, ticksInitial);
   BXRS_PARAM_BOOL(lapic, INTR, INTR);

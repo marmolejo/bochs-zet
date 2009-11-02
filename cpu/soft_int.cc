@@ -37,13 +37,12 @@
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::BOUND_GwMa(bxInstruction_c *i)
 {
-  Bit16s bound_min, bound_max;
   Bit16s op1_16 = BX_READ_16BIT_REG(i->nnn());
 
-  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  Bit32u eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  bound_min = (Bit16s) read_virtual_word(i->seg(), eaddr);
-  bound_max = (Bit16s) read_virtual_word(i->seg(), eaddr+2);
+  Bit16s bound_min = (Bit16s) read_virtual_word_32(i->seg(), eaddr);
+  Bit16s bound_max = (Bit16s) read_virtual_word_32(i->seg(), eaddr+2);
 
   if (op1_16 < bound_min || op1_16 > bound_max) {
     BX_INFO(("BOUND_GdMa: fails bounds test"));
@@ -53,13 +52,12 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::BOUND_GwMa(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::BOUND_GdMa(bxInstruction_c *i)
 {
-  Bit32s bound_min, bound_max;
   Bit32s op1_32 = BX_READ_32BIT_REG(i->nnn());
 
-  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  Bit32u eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  bound_min = (Bit32s) read_virtual_dword(i->seg(), eaddr);
-  bound_max = (Bit32s) read_virtual_dword(i->seg(), eaddr+4);
+  Bit32s bound_min = (Bit32s) read_virtual_dword_32(i->seg(), eaddr);
+  Bit32s bound_max = (Bit32s) read_virtual_dword_32(i->seg(), eaddr+4);
 
   if (op1_32 < bound_min || op1_32 > bound_max) {
     BX_INFO(("BOUND_GdMa: fails bounds test"));
