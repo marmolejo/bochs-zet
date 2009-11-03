@@ -4981,6 +4981,12 @@ using the fixed filename "snapshot.txt".</para>
 <para>Press this button to trigger a hardware reset.</para>
 </listitem>
 <listitem>
+<para>suspend button</para>
+<para>Press this button to save current simulation state to a disk. The simulation
+could be restored back using bochs -r command. For more details read
+"Save and restore simulation" section of the user manual.</para>
+</listitem>
+<listitem>
 <para>power button</para>
 <para>This button stops the simulation and quits bochs.</para>
 </listitem>
