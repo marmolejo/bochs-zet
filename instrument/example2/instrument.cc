@@ -88,7 +88,7 @@ void bx_instr_before_execution(unsigned cpu, bxInstruction_c *i)
                 ia_stats[cpu].ia_cnt[n] = 0;
             }
         }
-        ia_stats[cpu].total_cnt = 0;
+        ia_stats[cpu].interrupts = ia_stats[cpu].exceptions = ia_stats[cpu].total_cnt = 0;
     }
   }
 }
