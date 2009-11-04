@@ -64,13 +64,6 @@ struct bxIAOpcodeTable {
   BxExecutePtr_tR execute2;
 };
 
-enum {
-#define bx_define_opcode(a, b, c) a,
-#include "ia_opcodes.h"
-   BX_IA_LAST
-};
-#undef  bx_define_opcode
-
 //
 // Common FetchDecode Opcode Tables
 //
