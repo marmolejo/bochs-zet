@@ -142,12 +142,9 @@ no_async_event:
     InstrICache_Increment(iCacheLookups);
     InstrICache_Stats();
 
-    if ((entry->pAddr == pAddr) &&
-        (entry->writeStamp == *(BX_CPU_THIS_PTR currPageWriteStampPtr)))
+    if ((entry->pAddr != pAddr) ||
+        (entry->writeStamp != *(BX_CPU_THIS_PTR currPageWriteStampPtr)))
     {
-      // iCache hit. An instruction was found in the iCache
-    }
-    else {
       // iCache miss. No validated instruction with matching fetch parameters
       // is in the iCache.
       InstrICache_Increment(iCacheMisses);
