@@ -2528,7 +2528,7 @@ fetch_b1:
       return(0);
     case 0xf2: // REPNE/REPNZ
     case 0xf3: // REP/REPE/REPZ
-      sse_prefix = b1 & 0xf;
+      sse_prefix = b1 & 3;
       i->setRepUsed(b1 & 3);
       if (ilen < remain) {
         goto fetch_b1;
