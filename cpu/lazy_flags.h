@@ -42,9 +42,9 @@
 #define BX_LF_INSTR_ADC64          8
 
 #define BX_LF_INSTR_ADD_ADC8(cf)  (1 + (cf))
-#define BX_LF_INSTR_ADD_ADC16(cf) (2 + (cf))
-#define BX_LF_INSTR_ADD_ADC32(cf) (3 + (cf))
-#define BX_LF_INSTR_ADD_ADC64(cf) (4 + (cf))
+#define BX_LF_INSTR_ADD_ADC16(cf) (3 + (cf))
+#define BX_LF_INSTR_ADD_ADC32(cf) (5 + (cf))
+#define BX_LF_INSTR_ADD_ADC64(cf) (7 + (cf))
 
 #define BX_LF_INSTR_SUB8           9
 #define BX_LF_INSTR_SBB8           10
@@ -59,9 +59,9 @@
 #define BX_LF_INSTR_SBB64          16
 
 #define BX_LF_INSTR_SUB_SBB8(cf)  (9  + (cf))
-#define BX_LF_INSTR_SUB_SBB16(cf) (10 + (cf))
-#define BX_LF_INSTR_SUB_SBB32(cf) (11 + (cf))
-#define BX_LF_INSTR_SUB_SBB64(cf) (12 + (cf))
+#define BX_LF_INSTR_SUB_SBB16(cf) (11 + (cf))
+#define BX_LF_INSTR_SUB_SBB32(cf) (13 + (cf))
+#define BX_LF_INSTR_SUB_SBB64(cf) (15 + (cf))
 
 #define BX_LF_INSTR_INC8           17
 #define BX_LF_INSTR_INC16          18
