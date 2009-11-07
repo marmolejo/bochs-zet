@@ -1474,7 +1474,7 @@ int bx_dbg_show_symbolic(void)
       if (!valid) dbg_printf(" phys not valid");
       else {
         dbg_printf(" (phy: 0x" FMT_PHY_ADDRX ") %s", phy,
-          bx_dbg_symbolic_address(BX_CPU(dbg_cpu)->cr3,
+          bx_dbg_symbolic_address(BX_CPU(dbg_cpu)->cr3 >> 12,
               BX_CPU(dbg_cpu)->guard_found.eip,
               BX_CPU(dbg_cpu)->guard_found.laddr - BX_CPU(dbg_cpu)->guard_found.eip));
       }
@@ -1803,7 +1803,7 @@ void bx_dbg_disassemble_current(int which_cpu, int print_time)
       dbg_printf("[0x"FMT_PHY_ADDRX"] %04x:" FMT_ADDRX " (%s): ",
         phy, BX_CPU(which_cpu)->guard_found.cs,
         BX_CPU(which_cpu)->guard_found.eip,
-        bx_dbg_symbolic_address((BX_CPU(which_cpu)->cr3) >> 12,
+        bx_dbg_symbolic_address(BX_CPU(which_cpu)->cr3 >> 12,
            BX_CPU(which_cpu)->guard_found.eip,
            BX_CPU(which_cpu)->get_segment_base(BX_SEG_REG_CS)));
     }
