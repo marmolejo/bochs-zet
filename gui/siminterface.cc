@@ -97,11 +97,11 @@ public:
   virtual int read_rc(const char *path);
   virtual int write_rc(const char *path, int overwrite);
   virtual int get_log_file(char *path, int len);
-  virtual int set_log_file(char *path);
+  virtual int set_log_file(const char *path);
   virtual int get_log_prefix(char *prefix, int len);
-  virtual int set_log_prefix(char *prefix);
+  virtual int set_log_prefix(const char *prefix);
   virtual int get_debugger_log_file(char *path, int len);
-  virtual int set_debugger_log_file(char *path);
+  virtual int set_debugger_log_file(const char *path);
   virtual int get_cdrom_options(int drive, bx_list_c **out, int *device = NULL);
   virtual void set_notify_callback(bxevent_handler func, void *arg);
   virtual void get_notify_callback(bxevent_handler *func, void **arg);
@@ -410,7 +410,7 @@ int bx_real_sim_c::get_log_file(char *path, int len)
   return 0;
 }
 
-int bx_real_sim_c::set_log_file(char *path)
+int bx_real_sim_c::set_log_file(const char *path)
 {
   SIM->get_param_string(BXPN_LOG_FILENAME)->set(path);
   return 0;
@@ -422,7 +422,7 @@ int bx_real_sim_c::get_log_prefix(char *prefix, int len)
   return 0;
 }
 
-int bx_real_sim_c::set_log_prefix(char *prefix)
+int bx_real_sim_c::set_log_prefix(const char *prefix)
 {
   SIM->get_param_string(BXPN_LOG_PREFIX)->set(prefix);
   return 0;
@@ -434,7 +434,7 @@ int bx_real_sim_c::get_debugger_log_file(char *path, int len)
   return 0;
 }
 
-int bx_real_sim_c::set_debugger_log_file(char *path)
+int bx_real_sim_c::set_debugger_log_file(const char *path)
 {
   SIM->get_param_string(BXPN_DEBUGGER_LOG_FILENAME)->set(path);
   return 0;
