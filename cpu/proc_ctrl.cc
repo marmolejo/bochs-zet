@@ -539,7 +539,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_DqRq(bxInstruction_c *i)
             ((BX_CPU_THIS_PTR dr7 >> 24) & 3) == 0 ||
             ((BX_CPU_THIS_PTR dr7 >> 28) & 3) == 0)
         {
-          BX_INFO(("MOV_DdRd(): code breakpoint is set"));
+          BX_INFO(("MOV_DqRq(): code breakpoint is set"));
           BX_CPU_THIS_PTR async_event = 1;
         }
       }
