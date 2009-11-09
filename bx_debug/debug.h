@@ -31,8 +31,6 @@
 
 #define BX_DBG_NO_HANDLE 1000
 
-extern Bit32u dbg_cpu;
-
 Bit32u crc32(const Bit8u *buf, int len);
 
 #if BX_DEBUGGER
@@ -41,6 +39,8 @@ Bit32u crc32(const Bit8u *buf, int len);
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+extern Bit32u dbg_cpu;
 
 void dbg_printf (const char *fmt, ...);
 
