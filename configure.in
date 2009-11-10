@@ -8,8 +8,8 @@ AC_CONFIG_HEADER(ltdlconf.h)
 
 dnl // Put Bochs version information right here so that it gets substituted
 dnl // into all the right places.
-VERSION="2.4.2.0"
-VER_STRING="2.4.2.0"
+VERSION="2.4.2"
+VER_STRING="2.4.2"
 dnl // WIN_VER_STRING format is "a, b, c, d"
 dnl // c should be > 90 for pre-release of next version otherwise patch level
 dnl // d should be 0 for release and 1 for cvs version
