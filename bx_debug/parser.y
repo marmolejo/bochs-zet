@@ -426,7 +426,7 @@ stepN_command:
       }
     | BX_TOKEN_STEPN BX_TOKEN_ALL BX_TOKEN_NUMERIC '\n'
       {
-        bx_dbg_stepN_command(-1, $2);
+        bx_dbg_stepN_command(-1, $3);
         free($1); free($2);
       }
     | BX_TOKEN_STEPN BX_TOKEN_NUMERIC BX_TOKEN_NUMERIC '\n'
