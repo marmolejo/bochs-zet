@@ -1039,6 +1039,11 @@ void BX_CPU_C::reset(unsigned source)
   // initialize CPUID values - make sure apicbase already initialized
   set_cpuid_defaults();
 
+  // ignore bad MSRS if user asked for it
+#if BX_CPU_LEVEL >= 5
+  BX_CPU_THIS_PTR ignore_bad_msrs = SIM->get_param_bool(BXPN_IGNORE_BAD_MSRS)->get();
+#endif
+
   BX_INSTR_RESET(BX_CPU_ID, source);
 }
 

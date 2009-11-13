@@ -935,6 +935,9 @@ public: // for now...
   bx_bool  disable_SMI;
   bx_bool  disable_NMI;
   bx_bool  disable_INIT;
+#if BX_CPU_LEVEL >= 5
+  bx_bool  ignore_bad_msrs;
+#endif
 
   // for exceptions
   jmp_buf jmp_buf_env;

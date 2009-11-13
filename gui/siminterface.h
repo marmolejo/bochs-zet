@@ -150,6 +150,7 @@ typedef enum {
 #define BXPN_IPS                         "cpu.ips"
 #define BXPN_SMP_QUANTUM                 "cpu.quantum"
 #define BXPN_RESET_ON_TRIPLE_FAULT       "cpu.reset_on_triple_fault"
+#define BXPN_IGNORE_BAD_MSRS             "cpu.ignore_bad_msrs"
 #define BXPN_CPUID_LIMIT_WINNT           "cpu.cpuid_limit_winnt"
 #define BXPN_CONFIGURABLE_MSRS_PATH      "cpu.msrs"
 #define BXPN_VENDOR_STRING               "cpu.vendor_string"

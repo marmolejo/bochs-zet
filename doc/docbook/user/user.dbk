@@ -2176,11 +2176,6 @@ turn it off.
       </entry>
     </row>
     <row>
-      <entry>--enable-ignore-bad-msr</entry>
-      <entry>yes</entry>
-      <entry>ignore MSR references that Bochs does not understand, instead of doing a panic</entry>
-    </row>
-    <row>
       <entry>--enable-x86-64</entry>
       <entry>no</entry>
       <entry>
@@ -3040,6 +3035,12 @@ to workaround WinNT installation and boot issues.
 <para>
 Define path to user CPU Model Specific Registers (MSRs) specification.
 See example in msrs.def.
+</para>
+<para><command>ignore_bad_msrs</command></para>
+<para>
+Ignore MSR references that Bochs does not understand; print a warning message
+instead of generating #GP exception. This option is enabled by default but 
+will not be avaiable if configurable MSRs are enabled.
 </para>
 <para><command>vendor_string</command></para>
 <para>
