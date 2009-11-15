@@ -457,6 +457,10 @@ BOCHSAPI extern bx_debug_t bx_dbg;
 #define BX_EXECUTE      2
 #define BX_RW           3
 
+// types of reset
+#define BX_RESET_SOFTWARE 10
+#define BX_RESET_HARDWARE 11
+
 #include "memory/memory.h"
 #include "pc_system.h"
 #include "plugin.h"
