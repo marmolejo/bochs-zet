@@ -1921,7 +1921,7 @@ static int parse_line_unformatted(const char *context, char *line)
   // if passed nothing but whitespace, just return
   for (i=0; i<strlen(line); i++) {
     if (!isspace(line[i])) break;
-    }
+  }
   if (i>=strlen(line))
     return 0;
 
