@@ -2768,9 +2768,6 @@ modrm_done:
         case BxGroupN:
           OpcodeInfoPtr = &(OpcodeInfoPtr->AnotherArray[nnn]);
           break;
-        case BxRMGroup:
-          OpcodeInfoPtr = &(OpcodeInfoPtr->AnotherArray[rm]);
-          break;
 #if (BX_SUPPORT_SSE >= 4) || (BX_SUPPORT_SSE >= 3 && BX_SUPPORT_SSE_EXTENSION > 0)
         case Bx3ByteOp:
           OpcodeInfoPtr = &(OpcodeInfoPtr->AnotherArray[b3]);

@@ -3890,9 +3890,9 @@ enum {
 #define BxPrefixSSE         0x0020 // Group encoding: 0010
 #define BxPrefixSSE66       0x0030 // Group encoding: 0011
 #define BxFPEscape          0x0040 // Group encoding: 0100
-#define BxRMGroup           0x0050 // Group encoding: 0101
-#define Bx3ByteOp           0x0060 // Group encoding: 0110
-#define BxOSizeGrp          0x0070 // Group encoding: 0111
+#define Bx3ByteOp           0x0050 // Group encoding: 0101
+#define BxOSizeGrp          0x0060 // Group encoding: 0110
+//                          0x0070 // Group encoding: 0111
 
 #define BxLockable          0x0100 // bit 8
 #define BxArithDstRM        0x0200 // bit 9
