@@ -58,7 +58,7 @@ void RefreshDataWin();
 void OnBreak();
 void ParseBkpt();
 void SetBreak(int i);
-void SetWatchpoint(unsigned * num_watchpoints, bx_phy_address * watchpoint);
+void SetWatchpoint(unsigned *num_watchpoints, bx_phy_address *watchpoint);
 void ChangeReg();
 int HotKey (int ww, int Alt, int Shift, int Control);
 void ActivateMenuItem (int LW);
@@ -207,6 +207,11 @@ unsigned int CurScrX;
 char SelMem[260];       // flag array for which list rows are "selected"
 char SelAsm[MAX_ASM];
 char SelReg[TOT_REG_NUM + EXTRA_REGS];
+
+extern unsigned num_write_watchpoints;
+extern unsigned num_read_watchpoints;
+extern bx_phy_address write_watchpoint[];
+extern bx_phy_address read_watchpoint[];
 
 // "run" the standard dialog box -- get text from the user
 bx_bool ShowAskDialog()
@@ -1476,10 +1481,6 @@ void Asm_DblClick (GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *
 
 void Mem_DblClick (GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *col, gpointer data)
 {
-    extern unsigned num_write_watchpoints;
-    extern unsigned num_read_watchpoints;
-    extern bx_phy_address write_watchpoint[];
-    extern bx_phy_address read_watchpoint[];
     sizing_cancel();
     if (AtBreak == FALSE || (DViewMode != VIEW_MEMDUMP && DViewMode != VIEW_BREAK))
         return;
@@ -1864,10 +1865,6 @@ void ListClr_PaintCb(GtkTreeViewColumn *col,
 {
     int colnum = GPOINTER_TO_INT ( acolnum );
     gint rownum = 0;
-    extern unsigned num_write_watchpoints;
-    extern unsigned num_read_watchpoints;
-    extern bx_phy_address write_watchpoint[];
-    extern bx_phy_address read_watchpoint[];
 
     if (AtBreak == FALSE)
         g_object_set(renderer, "cell-background-gdk", &mgray, "cell-background-set", TRUE, NULL);
@@ -1993,7 +1990,7 @@ void ListClr_PaintCb(GtkTreeViewColumn *col,
             {
                 if (write_watchpoint[--j] == h)
                 {
-                    DmpClrNum = 1;      // write watchpoint
+                    DmpClrNum = 1;  // write watchpoint
                     j = -1;         // on a match j<0 -- else j == 0
                 }
             }
@@ -2001,11 +1998,11 @@ void ListClr_PaintCb(GtkTreeViewColumn *col,
             {
                 if (read_watchpoint[i] == h)
                 {
-                    if (j < 0)          // BOTH read and write
+                    if (j < 0)         // BOTH read and write
                         DmpClrNum = 2;
                     else
-                        DmpClrNum = 3;      // read watchpoint
-                    i = 0;          // end the loop on a match
+                        DmpClrNum = 3; // read watchpoint
+                    i = 0;             // end the loop on a match
                 }
             }
         }

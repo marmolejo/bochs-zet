@@ -2640,7 +2640,7 @@ void DelWatchpoint(bx_phy_address *wp_array, unsigned *TotEntries, int i)
     -- *TotEntries;
 }
 
-void SetWatchpoint(unsigned * num_watchpoints, bx_phy_address * watchpoint)
+void SetWatchpoint(unsigned *num_watchpoints, bx_phy_address *watchpoint)
 {
     int iExist1 = -1;
     int i = (int) *num_watchpoints;
@@ -2658,9 +2658,7 @@ void SetWatchpoint(unsigned * num_watchpoints, bx_phy_address * watchpoint)
     if (iExist1 >= 0)
     {
         // existing watchpoint, remove by copying the list down
-        while (++iExist1 < (int) *num_watchpoints)
-            watchpoint[iExist1 - 1] = watchpoint[iExist1];
-        -- *num_watchpoints;
+        DelWatchpoint(watchpoint, num_watchpoints, iExist1);
     }
     else
     {

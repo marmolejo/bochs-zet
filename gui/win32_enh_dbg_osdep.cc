@@ -85,7 +85,7 @@ void RefreshDataWin();
 void OnBreak();
 void ParseBkpt();
 void SetBreak(int i);
-void SetWatchpoint(unsigned * num_watchpoints, bx_phy_address * watchpoint);
+void SetWatchpoint(unsigned *num_watchpoints, bx_phy_address *watchpoint);
 void ChangeReg();
 int HotKey (int ww, int Alt, int Shift, int Control);
 void ActivateMenuItem (int LW);
