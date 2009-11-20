@@ -71,7 +71,6 @@
 %token <sval> BX_TOKEN_EXAMINE
 %token <sval> BX_TOKEN_XFORMAT
 %token <sval> BX_TOKEN_DISFORMAT
-%token <sval> BX_TOKEN_SAVE
 %token <sval> BX_TOKEN_RESTORE
 %token <sval> BX_TOKEN_SETPMEM
 %token <sval> BX_TOKEN_SYMBOLNAME
