@@ -92,7 +92,7 @@ void bx_devices_c::init_stubs()
 #if BX_SUPPORT_IODEBUG
   pluginIODebug = &stubIODebug;
 #endif
-#if BX_SUPPORT_IOAPIC
+#if BX_SUPPORT_APIC
   pluginIOAPIC = &stubIOAPIC;
 #endif
 #if 0
