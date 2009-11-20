@@ -284,7 +284,6 @@ bx_bool BX_CPU_C::dbg_set_reg(unsigned reg, Bit32u val)
       invalidate_prefetch_q();
       return(1);
     case BX_DBG_REG_EFLAGS:
-      BX_INFO(("dbg_set_reg: can not handle eflags yet."));
       if (val & 0xffff0000) {
         BX_INFO(("dbg_set_reg: can not set upper 16 bits of eflags."));
         return(0);
@@ -305,8 +304,6 @@ bx_bool BX_CPU_C::dbg_set_reg(unsigned reg, Bit32u val)
       BX_CPU_THIS_PTR set_IF(val & 0x01); val >>= 1;
       BX_CPU_THIS_PTR set_DF(val & 0x01); val >>= 1;
       BX_CPU_THIS_PTR set_OF(val & 0x01);
-      if (BX_CPU_THIS_PTR get_IF())
-        BX_CPU_THIS_PTR async_event = 1;
       return(1);
   }
 
