@@ -2658,10 +2658,14 @@ void SetWatchpoint(unsigned *num_watchpoints, bx_watchpoint *watchpoint)
     else
     {
         // Set a watchpoint to last clicked address -- the list is not sorted
-        if (*num_watchpoints >= BX_DBG_MAX_WATCHPONTS)
+        if (*num_watchpoints >= BX_DBG_MAX_WATCHPONTS) {
             DispMessage("Too many of that type of watchpoint. Max: 16", "Table Overflow");
-        else
-            watchpoint[(*num_watchpoints)++].addr = (bx_phy_address) SelectedDataAddress;
+        }
+        else {
+            watchpoint[*num_watchpoints].len  = 1;
+            watchpoint[*num_watchpoints].addr = (bx_phy_address) SelectedDataAddress;
+            ++(*num_watchpoints);
+        }
     }
     Invalidate(DUMP_WND);   // redraw the MemDump window -- colors may have changed
 }

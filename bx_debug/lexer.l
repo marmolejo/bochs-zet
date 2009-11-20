@@ -99,6 +99,7 @@ exit            |
 q               { bxlval.sval = strdup(bxtext); return(BX_TOKEN_QUIT); }
 x               |
 xp              { BEGIN(EXAMINE); bxlval.sval = strdup(bxtext); return(BX_TOKEN_EXAMINE); }
+save            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_SAVE); }
 restore         { bxlval.sval = strdup(bxtext); return(BX_TOKEN_RESTORE); }
 setpmem         { bxlval.sval = strdup(bxtext); return(BX_TOKEN_SETPMEM); }
 query           { bxlval.sval = strdup(bxtext); return(BX_TOKEN_QUERY); }
