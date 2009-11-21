@@ -32,7 +32,7 @@
 #define BX_CPU_APIC(i) (&(BX_CPU(i)->lapic))
 
 #define BX_LAPIC_FIRST_VECTOR	0x10
-#define BX_LAPIC_LAST_VECTOR	0xfe
+#define BX_LAPIC_LAST_VECTOR	0xff
 
 ///////////// APIC BUS /////////////
 
