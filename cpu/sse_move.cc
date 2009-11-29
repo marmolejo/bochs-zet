@@ -252,7 +252,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FXSAVE(bxInstruction_c *i)
   }
 
 #if BX_SUPPORT_X86_64
-  if (BX_CPU_THIS_PTR efer.get_FFXSR() && CPL == 0 && Is64BitMode())
+  if (BX_CPU_THIS_PTR efer.get_FFXSR() && CPL == 0 && long64_mode())
     return; // skip saving of the XMM state
 #endif
 
@@ -261,7 +261,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FXSAVE(bxInstruction_c *i)
   for(index=0; index < BX_XMM_REGISTERS; index++)
   {
     // save XMM8-XMM15 only in 64-bit mode
-    if (index < 8 || Is64BitMode()) {
+    if (index < 8 || long64_mode()) {
        write_virtual_dqword(i->seg(),
            eaddr+index*16+160, (Bit8u *) &(BX_CPU_THIS_PTR xmm[index]));
     }
@@ -369,7 +369,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FXRSTOR(bxInstruction_c *i)
   }
 
 #if BX_SUPPORT_X86_64
-  if (BX_CPU_THIS_PTR efer.get_FFXSR() && CPL == 0 && Is64BitMode())
+  if (BX_CPU_THIS_PTR efer.get_FFXSR() && CPL == 0 && long64_mode())
     return; // skip restore of the XMM state
 #endif
 
@@ -382,7 +382,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FXRSTOR(bxInstruction_c *i)
     for(index=0; index < BX_XMM_REGISTERS; index++)
     {
       // restore XMM8-XMM15 only in 64-bit mode
-      if (index < 8 || Is64BitMode()) {
+      if (index < 8 || long64_mode()) {
          read_virtual_dqword(i->seg(),
              eaddr+index*16+160, (Bit8u *) &(BX_CPU_THIS_PTR xmm[index]));
       }

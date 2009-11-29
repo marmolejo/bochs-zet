@@ -46,7 +46,7 @@ BX_CPU_C::load_seg_reg(bx_segment_reg_t *seg, Bit16u new_value)
       if ((new_value & 0xfffc) == 0) { /* null selector */
 #if BX_SUPPORT_X86_64
         // allow SS = 0 in 64 bit mode only with cpl != 3 and rpl=cpl
-        if (Is64BitMode() && CPL != 3 && ss_selector.rpl == CPL) {
+        if (long64_mode() && CPL != 3 && ss_selector.rpl == CPL) {
           load_null_selector(seg, new_value);
           return;
         }
