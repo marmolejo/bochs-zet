@@ -3615,7 +3615,7 @@ BX_CPP_INLINE bx_bool BX_CPU_C::long_mode(void)
 BX_CPP_INLINE bx_bool BX_CPU_C::long64_mode(void)
 {
 #if BX_SUPPORT_X86_64
-  return (BX_CPU_THIS_PTR cpu_mode >= BX_MODE_LONG_64);
+  return (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64);
 #else
   return 0;
 #endif
