@@ -17,6 +17,7 @@
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+/////////////////////////////////////////////////////////////////////////
 
 // Experimental PCI USB adapter
 
@@ -51,6 +52,7 @@
 #include "usb_hid.h"
 #include "usb_hub.h"
 #include "usb_msd.h"
+#include "usb_printer.h"
 
 #define LOG_THIS
 
@@ -98,6 +100,14 @@ usbdev_type usb_init_device(const char *devname, logfunctions *hub, usb_device_c
       }
     }
     *device = new usb_hub_device_c(ports);
+  } else if (!strncmp(devname, "printer", 7)) {
+    if ((strlen(devname) > 8) && (devname[7] == ':')) {
+      type = USB_DEV_TYPE_PRINTER;
+      *device = new usb_printer_device_c(type, devname+8);
+    } else {
+      hub->panic("USB device 'printer' needs a filename separated with a colon");
+      return type;
+    }
   } else {
     hub->panic("unknown USB device: %s", devname);
     return type;
@@ -300,7 +310,8 @@ void usb_device_c::register_state(bx_list_c *parent)
 }
 
 // base class for USB devices
-usb_device_c::usb_device_c(void) {
+usb_device_c::usb_device_c(void)
+{
   memset((void*)&d, 0, sizeof(d));
 }
 

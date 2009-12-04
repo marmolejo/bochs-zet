@@ -780,7 +780,7 @@ AC_ARG_ENABLE(usb-ohci,
   )
 
 if test "$use_usb" = 1; then
-  USBDEV_OBJS="usb_common.o usb_hid.o usb_hub.o usb_msd.o"
+  USBDEV_OBJS="usb_common.o usb_hid.o usb_hub.o usb_msd.o usb_printer.o"
   SCSI_OBJS="scsi_device.o"
   AC_SUBST(USBDEV_OBJS)
   AC_SUBST(SCSI_OBJS)
