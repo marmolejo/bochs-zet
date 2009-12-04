@@ -35,7 +35,7 @@ public:
 private:
   struct {
     Bit8u printer_status;
-    char fname[256];
+    char fname[BX_PATHNAME_LEN];
     FILE *fp;
   } s;
 };
