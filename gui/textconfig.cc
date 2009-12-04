@@ -18,6 +18,9 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 //
+/////////////////////////////////////////////////////////////////////////
+
+//
 // This is code for a text-mode configuration interface.  Note that this file
 // does NOT include bochs.h.  Instead, it does all of its contact with
 // the simulator through an object called SIM, defined in siminterface.cc

@@ -2,6 +2,8 @@
 // $Id$
 /////////////////////////////////////////////////////////////////
 //
+//  Copyright (C) 2009  The Bochs Project
+//
 // wxmain.cc implements the wxWidgets frame, toolbar, menus, and dialogs.
 // When the application starts, the user is given a chance to choose/edit/save
 // a configuration.  When they decide to start the simulation, functions in

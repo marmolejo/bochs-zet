@@ -2,6 +2,8 @@
 // $Id$
 /////////////////////////////////////////////////////////////////
 //
+//  Copyright (C) 2009  The Bochs Project
+//
 // wxWidgets VGA display for Bochs.  wx.cc implements a custom
 // wxPanel called a MyPanel, which has methods to display
 // text and VGA graphics on the panel.  Normally, a MyPanel
