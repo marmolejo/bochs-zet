@@ -1422,6 +1422,9 @@ void BX_CPU_C::VMenterInjectEvents(void)
   vm->idt_vector_error_code = error_code;
 
   interrupt(vector, type, push_error, error_code);
+
+  BX_CPU_THIS_PTR errorno = 0; // injection success
+  BX_CPU_THIS_PTR EXT = 0;
 }
 
 Bit32u BX_CPU_C::LoadMSRs(Bit32u msr_cnt, bx_phy_address pAddr)
