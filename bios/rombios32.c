@@ -581,7 +581,7 @@ void setup_mtrr(void)
     wrmsr_smp(MTRRphysBase_MSR(0), 0xe0000000 | MTRR_MEMTYPE_UC);
     /* Make sure no reserved bit set to '1 in MTRRphysMask_MSR */
     wrmsr_smp(MTRRphysMask_MSR(0), (uint32_t)(~(0x20000000 - 1)) | 0x800);
-    wrmsr_smp(MSR_MTRRdefType, 0xc00 | MTRR_MEMTYPE_UC);
+    wrmsr_smp(MSR_MTRRdefType, 0xc00 | MTRR_MEMTYPE_WB);
 }
 
 void ram_probe(void)
