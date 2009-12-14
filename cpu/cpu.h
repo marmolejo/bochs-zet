@@ -1851,7 +1851,8 @@ public: // for now...
   BX_SMF void PUNPCKHDQ_PqQq(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void PACKSSDW_PqQq(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void MOVD_PqEd(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
-  BX_SMF void MOVQ_PqQq(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
+  BX_SMF void MOVQ_PqQqR(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
+  BX_SMF void MOVQ_PqQqM(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void PCMPEQB_PqQq(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void PCMPEQW_PqQq(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void PCMPEQD_PqQq(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
@@ -2721,7 +2722,6 @@ public: // for now...
   BX_SMF void MOVQ_EqPq(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void MOVQ_EqVqR(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void MOVQ_PqEqR(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
-  BX_SMF void MOVQ_PqEqM(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void MOVQ_VdqEqR(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void MOVNTI_MqGq(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
 #endif  // #if BX_SUPPORT_X86_64
