@@ -172,6 +172,7 @@ void BX_CPU_C::serveICacheMiss(bxICacheEntry_c *entry, Bit32u eipBiased, bx_phy_
   if (fetchInstruction(entry->i, eipBiased)) {
     entry->pAddr = pAddr;
     entry->writeStamp = *(BX_CPU_THIS_PTR currPageWriteStampPtr);
+    pageWriteStampTable.markICache(pAddr);
   }
 }
 
