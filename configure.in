@@ -554,22 +554,18 @@ AC_ARG_ENABLE(cpu-level,
      3)
        AC_MSG_RESULT(3)
        AC_DEFINE(BX_CPU_LEVEL, 3)
-       AC_DEFINE(BX_CPU_LEVEL_HACKED, 3)
        ;;
      4)
        AC_MSG_RESULT(4)
        AC_DEFINE(BX_CPU_LEVEL, 4)
-       AC_DEFINE(BX_CPU_LEVEL_HACKED, 4)
        ;;
      5)
        AC_MSG_RESULT(5)
        AC_DEFINE(BX_CPU_LEVEL, 5)
-       AC_DEFINE(BX_CPU_LEVEL_HACKED, 5)
        ;;
      6)
        AC_MSG_RESULT(6)
        AC_DEFINE(BX_CPU_LEVEL, 6)
-       AC_DEFINE(BX_CPU_LEVEL_HACKED, 6)
        ;;
      *)
        echo " "
@@ -588,12 +584,10 @@ AC_ARG_ENABLE(cpu-level,
     if test "$use_smp" = 1 -o "$use_x86_64" = 1; then
       AC_MSG_RESULT(6)
       AC_DEFINE(BX_CPU_LEVEL, 6)
-      AC_DEFINE(BX_CPU_LEVEL_HACKED, 6)
       bx_cpu_level=6
     else
       AC_MSG_RESULT(5)
       AC_DEFINE(BX_CPU_LEVEL, 5)
-      AC_DEFINE(BX_CPU_LEVEL_HACKED, 5)
       bx_cpu_level=5
     fi
   ]
@@ -1575,8 +1569,8 @@ AC_ARG_ENABLE(aes,
   ]
   )
 
-if test "$support_sse" -lt 1 -a "$use_aes" = 1; then
-  AC_MSG_ERROR([AES requires SSE support!])
+if test "$support_sse" -lt 3 -a "$use_aes" = 1; then
+  AC_MSG_ERROR([AES requires SSE3E support with 3-byte opcodes!])
 fi
 
 AC_MSG_CHECKING(for alignment check support)

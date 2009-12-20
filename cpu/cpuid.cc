@@ -180,7 +180,7 @@ Bit32u BX_CPU_C::get_extended_cpuid_features(void)
 #endif
 
 #if BX_SUPPORT_AES
-  features |= (1<<25);           // support AES instructions
+  features |= (1<<1)  | (1<<25); // support AES and PCLMULQDQ instructions
 #endif
 
 #if BX_SUPPORT_XSAVE
