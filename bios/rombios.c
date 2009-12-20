@@ -4628,9 +4628,8 @@ ASM_END
                 extended_memory_size <<= 8;
                 extended_memory_size |= inb_cmos(0x34);
                 extended_memory_size *= 64;
-                // greater than EFF00000???
-                if(extended_memory_size > 0x3bc000) {
-                    extended_memory_size = 0x3bc000; // everything after this is reserved memory until we get to 0x100000000
+                if(extended_memory_size > 0x2fc000) {
+                    extended_memory_size = 0x2fc000; // everything after this is reserved memory until we get to 0x100000000
                 }
                 extended_memory_size *= 1024;
                 extended_memory_size += (16L * 1024 * 1024);
