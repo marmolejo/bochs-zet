@@ -4653,42 +4653,42 @@ ASM_END
                 {
                     case 0:
                         set_e820_range(ES, regs.u.r16.di,
-                                       0x0000000L, 0x0009f000L, 0, 0, 1);
+                                       0x0000000L, 0x0009f000L, 0, 0, E820_RAM);
                         regs.u.r32.ebx = 1;
                         break;
                     case 1:
                         set_e820_range(ES, regs.u.r16.di,
-                                       0x0009f000L, 0x000a0000L, 0, 0, 2);
+                                       0x0009f000L, 0x000a0000L, 0, 0, E820_RESERVED);
                         regs.u.r32.ebx = 2;
                         break;
                     case 2:
                         set_e820_range(ES, regs.u.r16.di,
-                                       0x000e8000L, 0x00100000L, 0, 0, 2);
+                                       0x000e8000L, 0x00100000L, 0, 0, E820_RESERVED);
                         regs.u.r32.ebx = 3;
                         break;
                     case 3:
 #if BX_ROMBIOS32
                         set_e820_range(ES, regs.u.r16.di,
                                        0x00100000L,
-                                       extended_memory_size - ACPI_DATA_SIZE, 0, 0, 1);
+                                       extended_memory_size - ACPI_DATA_SIZE, 0, 0, E820_RAM);
                         regs.u.r32.ebx = 4;
 #else
                         set_e820_range(ES, regs.u.r16.di,
                                        0x00100000L,
-                                       extended_memory_size, 0, 0, 1);
+                                       extended_memory_size, 0, 0, E820_RAM);
                         regs.u.r32.ebx = 5;
 #endif
                         break;
                     case 4:
                         set_e820_range(ES, regs.u.r16.di,
                                        extended_memory_size - ACPI_DATA_SIZE,
-                                       extended_memory_size, 0, 0, 3); // ACPI RAM
+                                       extended_memory_size, 0, 0, E820_ACPI);
                         regs.u.r32.ebx = 5;
                         break;
                     case 5:
                         /* 256KB BIOS area at the end of 4 GB */
                         set_e820_range(ES, regs.u.r16.di,
-                                       0xfffc0000L, 0x00000000L, 0, 0, 2);
+                                       0xfffc0000L, 0x00000000L, 0, 0, E820_RESERVED);
                         if (extra_highbits_memory_size || extra_lowbits_memory_size)
                             regs.u.r32.ebx = 6;
                         else
@@ -4698,7 +4698,7 @@ ASM_END
                         /* Maping of memory above 4 GB */
                         set_e820_range(ES, regs.u.r16.di, 0x00000000L,
                             extra_lowbits_memory_size, 1, extra_highbits_memory_size
-                                       + 1, 1);
+                                       + 1, E820_RAM);
                         regs.u.r32.ebx = 0;
                         break;
                     default:  /* AX=E820, DX=534D4150, BX unrecognized */
