@@ -495,19 +495,20 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PCLMULQDQ_VdqWdqIb(bxInstruction_c *i)
   Bit8u imm8 = i->Ib();
 
   //
-  // Iniailize sources for Carry Less Multiplication [R = A MUL B]
+  // Initialize sources for Carry Less Multiplication [R = A CLMUL B]
+  //
 
   // A determined by imm8[0]
   a.xmm64u(0) = op1.xmm64u(imm8 & 1);
   a.xmm64u(1) = 0;
 
-  // A determined by imm8[4]
+  // B determined by imm8[4]
   Bit64u b = op2.xmm64u((imm8 >> 4) & 1);
 
   r.xmm64u(0) = 0;
   r.xmm64u(1) = 0;
 
-  for (int i = 0; b && i < 64; i++) {
+  for (int n = 0; b && n < 64; n++) {
       if (b & 1) {
           r.xmm64u(0) ^= a.xmm64u(0);
           r.xmm64u(1) ^= a.xmm64u(1);

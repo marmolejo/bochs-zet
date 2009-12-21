@@ -776,7 +776,7 @@ void BX_CPU_C::boundaryFetch(const Bit8u *fetchPtr, unsigned remainingInPage, bx
 {
   unsigned j, k;
   Bit8u fetchBuffer[32];
-  unsigned ret;
+  int ret;
 
   if (remainingInPage >= 15) {
     BX_ERROR(("boundaryFetch #GP(0): too many instruction prefixes"));
@@ -816,7 +816,7 @@ void BX_CPU_C::boundaryFetch(const Bit8u *fetchPtr, unsigned remainingInPage, bx
 #endif
     ret = fetchDecode32(fetchBuffer, i, remainingInPage+fetchBufferLimit);
 
-  if (ret==0) {
+  if (ret < 0) {
     BX_INFO(("boundaryFetch #GP(0): failed to complete instruction decoding"));
     exception(BX_GP_EXCEPTION, 0, 0);
   }

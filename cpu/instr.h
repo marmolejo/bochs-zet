@@ -55,8 +55,7 @@ public:
 #endif
 
   struct {
-    //  7...1 (unused)
-    //  0...0 stop trace (used with trace cache)
+    //  7...0 (unused)
     Bit8u metaInfo4;
 
     //  7...0 b1 - opcode byte
@@ -276,15 +275,6 @@ public:
   BX_CPP_INLINE void setB1(unsigned b1) {
     metaInfo.metaInfo3 = b1 & 0xff;
   }
-
-#if BX_SUPPORT_TRACE_CACHE
-  BX_CPP_INLINE void setStopTraceAttr(void) {
-   metaInfo.metaInfo4 |= 1;
-  }
-  BX_CPP_INLINE unsigned getStopTraceAttr(void) const {
-    return metaInfo.metaInfo4 & 1;
-  }
-#endif
 };
 // <TAG-CLASS-INSTRUCTION-END>
 
