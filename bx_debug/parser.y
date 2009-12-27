@@ -488,6 +488,10 @@ set_command:
       { 
         bx_dbg_set_reg64_value($2, $4);
       }
+    | BX_TOKEN_SET BX_TOKEN_SEGREG '=' expression '\n'
+      { 
+        bx_dbg_load_segreg($2, $4);
+      }
     ;
 
 breakpoint_command:
@@ -1173,6 +1177,7 @@ BX_TOKEN_NONSEG_REG:
 /* Arithmetic expression for vbreak command */
 vexpression:
      BX_TOKEN_NUMERIC                { $$ = $1; }
+   | BX_TOKEN_STRING                 { $$ = bx_dbg_get_symbol_value($1); free($1);}
    | BX_TOKEN_8BL_REG                { $$ = bx_dbg_get_reg8l_value($1); }
    | BX_TOKEN_8BH_REG                { $$ = bx_dbg_get_reg8h_value($1); }
    | BX_TOKEN_16B_REG                { $$ = bx_dbg_get_reg16_value($1); }

@@ -333,6 +333,19 @@ bx_bool BX_CPU_C::dbg_get_sreg(bx_dbg_sreg_t *sreg, unsigned sreg_no)
   return(1);
 }
 
+bx_bool BX_CPU_C::dbg_set_sreg(unsigned sreg_no, bx_segment_reg_t *sreg)
+{
+  if (sreg_no < 6) {
+    BX_CPU_THIS_PTR sregs[sreg_no] = *sreg;
+    if (sreg_no == BX_SEG_REG_CS)
+      invalidate_prefetch_q();
+
+    return 1;
+  }
+
+  return 0;
+}
+
 void BX_CPU_C::dbg_get_tr(bx_dbg_sreg_t *sreg)
 {
   sreg->valid = BX_CPU_THIS_PTR tr.cache.valid;

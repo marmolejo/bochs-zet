@@ -284,8 +284,7 @@ void BX_CPU_C::validate_seg_regs(void)
   validate_seg_reg(BX_SEG_REG_GS);
 }
 
-  void BX_CPP_AttrRegparmN(2)
-BX_CPU_C::parse_selector(Bit16u raw_selector, bx_selector_t *selector)
+void parse_selector(Bit16u raw_selector, bx_selector_t *selector)
 {
   selector->value = raw_selector;
   selector->index = raw_selector >> 3;

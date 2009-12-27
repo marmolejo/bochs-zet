@@ -183,13 +183,11 @@ typedef struct {
   bx_descriptor_t  cache;
 } bx_segment_reg_t;
 
-#if BX_CPU_LEVEL < 2
-  /* no GDTR or IDTR register in an 8086 */
-#else
 typedef struct {
   bx_address       base;   /* base address: 24bits=286,32bits=386,64bits=x86-64 */
   Bit16u           limit;  /* limit, 16bits */
 } bx_global_segment_reg_t;
-#endif
+
+void parse_selector(Bit16u raw_selector, bx_selector_t *selector);
 
 #endif
