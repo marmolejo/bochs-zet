@@ -188,6 +188,8 @@ typedef struct {
   Bit16u           limit;  /* limit, 16bits */
 } bx_global_segment_reg_t;
 
-void parse_selector(Bit16u raw_selector, bx_selector_t *selector);
+void  parse_selector(Bit16u raw_selector, bx_selector_t *selector);
+Bit8u get_ar_byte(const bx_descriptor_t *d);
+void  set_ar_byte(bx_descriptor_t *d, Bit8u ar_byte);
 
 #endif
