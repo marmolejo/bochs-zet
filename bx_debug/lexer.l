@@ -108,8 +108,8 @@ dma             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_DMA); }
 irq             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_IRQ); }
 pic             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_PIC); }
 u               |
-disasm          |
-disassemble     { BEGIN(DISASM); bxlval.sval = strdup(bxtext); return(BX_TOKEN_DISASSEMBLE); }
+disasm          { BEGIN(DISASM); bxlval.sval = strdup(bxtext); return(BX_TOKEN_DISASM); }
+hex             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_HEX); }
 instrument      { bxlval.sval = strdup(bxtext); return(BX_TOKEN_INSTRUMENT); }
 stop            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_STOP); }
 doit            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_DOIT); }
