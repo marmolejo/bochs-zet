@@ -310,9 +310,10 @@ private:
 
   void print_memory_access16(int datasize,
           const char *seg, const char *index, Bit16u disp);
-  void print_memory_access  (int datasize,
-          const char *seg, const char *base, const char *index, int scale,
-          Bit32s disp, bx_bool disp64 = 0);
+  void print_memory_access32(int datasize,
+          const char *seg, const char *base, const char *index, int scale, Bit32s disp);
+  void print_memory_access64(int datasize,
+          const char *seg, const char *base, const char *index, int scale, Bit32s disp);
 
   void print_disassembly_intel(const x86_insn *insn, const BxDisasmOpcodeInfo_t *entry);
   void print_disassembly_att  (const x86_insn *insn, const BxDisasmOpcodeInfo_t *entry);
