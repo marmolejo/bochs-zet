@@ -820,6 +820,11 @@ static void debug_loop(void)
       case 'k':
         BX_PANIC(("Debugger asked us to quit"));
         break;
+      case 'D':
+        BX_INFO(("Debugger detached"));
+        put_reply("OK");
+        return;
+        break;
 
       default:
         put_reply("");
