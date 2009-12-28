@@ -3603,7 +3603,7 @@ bx_bool bx_dbg_read_pmode_descriptor(Bit16u sel, bx_descriptor_t *descriptor)
   }
 
   memset (descriptor, 0, sizeof (descriptor));
-  BX_CPU(dbg_cpu)->parse_descriptor(dword1, dword2, descriptor);
+  parse_descriptor(dword1, dword2, descriptor);
 
   if (!descriptor->segment) {
     dbg_printf("bx_dbg_read_pmode_descriptor: selector 0x%04x points to a system descriptor and is not supported!\n", sel);
