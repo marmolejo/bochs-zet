@@ -1049,6 +1049,11 @@ help_command:
          dbg_printf("creg - show control registers\n");
          free($1);free($2);
        }
+     | BX_TOKEN_HELP BX_TOKEN_DEBUG_REGS '\n'
+       {
+         dbg_printf("dreg - show debug registers\n");
+         free($1);free($2);
+       }
      | BX_TOKEN_HELP BX_TOKEN_SETPMEM '\n'
        {
          dbg_printf("setpmem <addr> <datasize> <val> - set physical memory location of size 'datasize' to value 'val'\n");
