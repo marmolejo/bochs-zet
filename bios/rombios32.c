@@ -602,7 +602,7 @@ void ram_probe(void)
     ram_end = ram_size;
   BX_INFO("ram_end=%ldMB\n", ram_end >> 20);
 #ifdef BX_USE_EBDA_TABLES
-  ebda_cur_addr = ((*(uint16_t *)(0x40e)) << 4) + 0x380;
+  ebda_cur_addr = ((*(uint16_t *)(0x40e)) << 4) + 0x386;
   BX_INFO("ebda_cur_addr: 0x%08lx\n", ebda_cur_addr);
 #endif
 }
