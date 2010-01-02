@@ -133,13 +133,8 @@ usb_printer_device_c::~usb_printer_device_c(void)
 
 void usb_printer_device_c::register_state_specific(bx_list_c *parent)
 {
-/*
-  bx_param_string_c *path;
-  bx_list_c *list = new bx_list_c(parent, "s", "USB PRINTER Device State", 3);
+  bx_list_c *list = new bx_list_c(parent, "s", "USB PRINTER Device State", 1);
   new bx_shadow_num_c(list, "printer_status", &s.printer_status);
-  path = new bx_param_string_c(list, "fname", "File", "", "", BX_PATHNAME_LEN);
-  path->set(s.fname);
-*/
 }
 
 void usb_printer_device_c::handle_reset()
