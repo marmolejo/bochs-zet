@@ -807,7 +807,7 @@ static void debug_loop(void)
         }
         else
         {
-          put_reply("Eff");
+          put_reply(""); /* not supported */
         }
         break;
 
