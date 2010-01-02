@@ -2208,13 +2208,8 @@ void smbios_init(void)
                   (ram_end - (1ull << 32) + ram_size) / (1024 * 1024);
     int i, nr_mem_devs;
 
-#ifdef BX_USE_EBDA_TABLES
-    ebda_cur_addr = align(ebda_cur_addr, 16);
-    start = (void *)(ebda_cur_addr);
-#else
     bios_table_cur_addr = align(bios_table_cur_addr, 16);
     start = (void *)(bios_table_cur_addr);
-#endif
 
 	p = (char *)start + sizeof(struct smbios_entry_point);
 
@@ -2255,11 +2250,7 @@ void smbios_init(void)
         (uint32_t)(start + sizeof(struct smbios_entry_point)),
         nr_structs);
 
-#ifdef BX_USE_EBDA_TABLES
-    ebda_cur_addr += (p - (char *)start);
-#else
     bios_table_cur_addr += (p - (char *)start);
-#endif
 
     BX_INFO("SMBIOS table addr=0x%08lx\n", (unsigned long)start);
 }
