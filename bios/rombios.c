@@ -4642,7 +4642,10 @@ ASM_END
                     case 2:
                         set_e820_range(ES, regs.u.r16.di,
                                        0x000e8000L, 0x00100000L, 0, 0, E820_RESERVED);
-                        regs.u.r32.ebx = 3;
+                        if (extended_memory_size <= 0x100000)
+                            regs.u.r32.ebx = 6;
+                        else
+                            regs.u.r32.ebx = 3;
                         break;
                     case 3:
 #if BX_ROMBIOS32
