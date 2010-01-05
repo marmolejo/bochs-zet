@@ -235,6 +235,7 @@ calc            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_CALC); }
 "|"             { return ('|'); }
 "^"             { return ('^'); }
 "!"             { return ('!'); }
+"@"             { return ('@'); }
 "("             { return ('('); }
 ")"             { return (')'); }
 \'([^\\\'\n]|(\\.))*\'    |       /* throw away leading and trailing \" */

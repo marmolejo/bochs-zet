@@ -2552,6 +2552,34 @@ void bx_dbg_examine_command(char *command, char *format, bx_bool format_passed,
   dbg_printf("\n");
 }
 
+Bit32u bx_dbg_lin_indirect(bx_address addr)
+{
+  Bit8u  databuf[4];
+  Bit32u result;
+
+  if (! bx_dbg_read_linear(dbg_cpu, addr, 4, databuf)) {
+    /* bx_dbg_read_linear already printed an error message if it failed */
+    return 0;
+  }
+
+  ReadHostDWordFromLittleEndian(databuf, result);
+  return result;
+}
+
+Bit32u bx_dbg_phy_indirect(bx_phy_address paddr)
+{
+  Bit8u  databuf[4];
+  Bit32u result;
+
+  if (! BX_MEM(0)->dbg_fetch_mem(BX_CPU(dbg_cpu), paddr, 4, databuf)) {
+    /* dbg_fetch_mem already printed an error message if it failed */
+    return 0;
+  }
+
+  ReadHostDWordFromLittleEndian(databuf, result);
+  return result;
+}
+
 void bx_dbg_setpmem_command(bx_phy_address paddr, unsigned len, Bit32u val)
 {
   Bit8u buf[4];
