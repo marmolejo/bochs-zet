@@ -184,15 +184,6 @@ bxIAOpcodeTable BxOpcodesTable[] = {
 };
 #undef  bx_define_opcode
 
-#if BX_INSTRUMENT_IA_OPCODE
-const char* BxOpcodeNamesTable[BX_IA_LAST] =
-{
-#define bx_define_opcode(a, b, c) #a,
-#include "ia_opcodes.h"
-};
-#undef  bx_define_opcode
-#endif
-
 /* ************************** */
 /* 512 entries for 16bit mode */
 /* 512 entries for 32bit mode */
@@ -2957,10 +2948,7 @@ modrm_done:
 
   i->setB1(b1);
   i->setILen(ilen);
-
-#if BX_INSTRUMENT_IA_OPCODE
-  i->ia_opcode = ia_opcode;
-#endif
+  i->setIaOpcode(ia_opcode);
 
 #if BX_SUPPORT_TRACE_CACHE
   if ((attr & BxTraceEnd) || ia_opcode == BX_IA_ERROR)
@@ -2981,4 +2969,16 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::BxError(bxInstruction_c *i)
 #endif
 
   exception(BX_UD_EXCEPTION, 0, 0);
+}
+
+const char *get_bx_opcode_name(Bit16u ia_opcode)
+{
+  static const char* BxOpcodeNamesTable[BX_IA_LAST] =
+  {
+#define bx_define_opcode(a, b, c) #a,
+#include "ia_opcodes.h"
+  };
+#undef  bx_define_opcode
+
+  return (ia_opcode < BX_IA_LAST) ? BxOpcodeNamesTable[ia_opcode] : 0;
 }

@@ -46,8 +46,6 @@
 #define BX_INSTR_PREFETCH_T1  2
 #define BX_INSTR_PREFETCH_T2  3
 
-#define BX_INSTRUMENT_IA_OPCODE 1
-
 #if BX_INSTRUMENTATION
 
 class bxInstruction_c;
