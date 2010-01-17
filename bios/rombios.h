@@ -53,9 +53,8 @@
 #define BX_INFO(format, p...)   bios_printf(BIOS_PRINTF_INFO, format, ##p)
 #define BX_PANIC(format, p...)  bios_printf(BIOS_PRINTF_DEBHALT, format, ##p)
 
-/* if true, put the MP float table and ACPI RSDT in EBDA and the MP
-   table in RAM. Unfortunately, Linux has bugs with that, so we prefer
-   to modify the BIOS in shadow RAM */
+/* put the MP float table and ACPI RSDP in EBDA and the MP and ACPI tables in
+   high memory. Linux kernels < 2.6.30 might not work with this configuration */
 //#define BX_USE_EBDA_TABLES
 
 #define ACPI_DATA_SIZE    0x00010000L
