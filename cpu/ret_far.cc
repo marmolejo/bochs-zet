@@ -216,7 +216,7 @@ BX_CPU_C::return_protected(bxInstruction_c *i, Bit16u pop_bytes)
     else {
       // we are in 64-bit mode !
       load_null_selector(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS], raw_ss_selector);
-      loadSRegLMNominal(BX_SEG_REG_SS, raw_ss_selector, cs_selector.rpl);
+//    loadSRegLMNominal(BX_SEG_REG_SS, raw_ss_selector, cs_selector.rpl);
     }
 
     if (StackAddrSize64())

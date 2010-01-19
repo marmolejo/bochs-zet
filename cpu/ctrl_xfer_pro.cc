@@ -106,9 +106,6 @@ BX_CPU_C::load_cs(bx_selector_t *selector, bx_descriptor_t *descriptor, Bit8u cp
 
 #if BX_SUPPORT_X86_64
   if (long_mode()) {
-    if (descriptor->u.segment.l) {
-      loadSRegLMNominal(BX_SEG_REG_CS, selector->value, cpl);
-    }
     handleCpuModeChange();
   }
 #endif

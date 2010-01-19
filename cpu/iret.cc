@@ -542,7 +542,7 @@ BX_CPU_C::long_iret(bxInstruction_c *i)
     else {
       // we are in 64-bit mode !
       load_null_selector(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS], raw_ss_selector);
-      loadSRegLMNominal(BX_SEG_REG_SS, raw_ss_selector, cs_selector.rpl);
+//    loadSRegLMNominal(BX_SEG_REG_SS, raw_ss_selector, cs_selector.rpl);
     }
 
     if (StackAddrSize64()) RSP = new_rsp;
