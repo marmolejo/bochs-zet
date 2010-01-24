@@ -133,8 +133,8 @@ static int FontId = 2;
 
 // Headerbar stuff
 HWND hwndTB, hwndSB;
-unsigned bx_bitmap_entries;
-struct {
+static unsigned bx_bitmap_entries;
+static struct {
   HBITMAP bmap;
   unsigned xdim;
   unsigned ydim;
