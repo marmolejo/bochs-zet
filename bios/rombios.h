@@ -66,8 +66,10 @@
   // Define the application NAME
 #if defined(BX_QEMU)
 #  define BX_APPNAME "QEMU"
+#  define BX_APPVENDOR "QEMU"
 #else
 #  define BX_APPNAME "Bochs"
+#  define BX_APPVENDOR "The Bochs Project"
 #endif
 
 #define E820_RAM          1
