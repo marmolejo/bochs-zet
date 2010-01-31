@@ -225,15 +225,17 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
          /* SSE opcode group with only prefix 0x66 allowed */
          sse_opcode = 1;
          if (sse_prefix != SSE_PREFIX_66)
-             entry = &(OPCODE_TABLE(entry)[sse_prefix]);
-         break;
+             entry = &(BxDisasmGroupSSE_ERR[sse_prefix]);
+         attr = 0;
+         continue;
 
        case _GRPSSEF2:
          /* SSE opcode group with only prefix 0xF2 allowed */
          sse_opcode = 1;
          if (sse_prefix != SSE_PREFIX_F2)
-             entry = &(OPCODE_TABLE(entry)[sse_prefix]);
-         break;
+             entry = &(BxDisasmGroupSSE_ERR[sse_prefix]);
+         attr = 0;
+         continue;
 
        case _GRPSSE:
          sse_opcode = 1;

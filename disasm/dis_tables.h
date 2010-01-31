@@ -36,8 +36,6 @@
 
 /* ************************************************************************ */
 #define GRPSSE(n)       _GRPSSE,   BxDisasmGroupSSE_##n
-#define GRPSSE66(n)     _GRPSSE66, BxDisasmGroupSSE_ERR
-#define GRPSSEF2(n)     _GRPSSEF2, BxDisasmGroupSSE_ERR
 #define GRPN(n)         _GROUPN,   BxDisasmGroup##n
 #define GRPRM(n)        _GRPRM,    BxDisasmGroupRm##n
 #define GRPMOD(n)       _SPLIT11B, BxDisasmGroupMod##n
@@ -45,6 +43,11 @@
 #define GRP3DNOW        _GRP3DNOW, BxDisasm3DNowGroup
 #define GR3BTAB(n)      _GRP3BOP,  BxDisasm3ByteOpTable##n
 #define GR64BIT(n)      _GRP64B,   BxDisasmGrpOs64B_##n
+/* ************************************************************************ */
+
+/* ************************************************************************ */
+#define GRPSSE66(n)     _GRPSSE66, &n
+#define GRPSSEF2(n)     _GRPSSEF2, &n
 /* ************************************************************************ */
 
 #define Apw &disassembler::Apw
