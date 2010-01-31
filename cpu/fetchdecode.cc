@@ -141,6 +141,17 @@ static unsigned sreg_mod01or10_rm16[8] = {
 };
 
 // decoding instructions; accessing seg reg's by index
+static unsigned sreg_mod01or10_rm32[8] = {
+  BX_SEG_REG_DS,
+  BX_SEG_REG_DS,
+  BX_SEG_REG_DS,
+  BX_SEG_REG_DS,
+  BX_SEG_REG_NULL, // escape to SIB-byte
+  BX_SEG_REG_SS,
+  BX_SEG_REG_DS,
+  BX_SEG_REG_DS
+};
+
 static unsigned sreg_mod0_base32[8] = {
   BX_SEG_REG_DS,
   BX_SEG_REG_DS,
@@ -2601,7 +2612,7 @@ fetch_b1:
           // mod==00b, rm!=4, rm!=5
           goto modrm_done;
         }
-        seg = sreg_mod1or2_base32[rm];
+        seg = sreg_mod01or10_rm32[rm];
         if (mod == 0x40) { // mod == 01b
           if (ilen < remain) {
             // 8 sign extended to 32
