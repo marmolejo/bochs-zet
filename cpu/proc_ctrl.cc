@@ -1274,14 +1274,14 @@ void BX_CPU_C::handleAlignmentCheck(void)
     if (BX_CPU_THIS_PTR alignment_check_mask == 0) {
       BX_CPU_THIS_PTR alignment_check_mask = 0xF;
       BX_INFO(("Enable alignment check (#AC exception)"));
-      BX_CPU_THIS_PTR iCache.flushICacheEntries();
+//    BX_CPU_THIS_PTR iCache.flushICacheEntries();
     }
   }
   else {
     if (BX_CPU_THIS_PTR alignment_check_mask != 0) {
       BX_CPU_THIS_PTR alignment_check_mask = 0;
       BX_INFO(("Disable alignment check (#AC exception)"));
-      BX_CPU_THIS_PTR iCache.flushICacheEntries();
+//    BX_CPU_THIS_PTR iCache.flushICacheEntries();
     }
   }
 }
