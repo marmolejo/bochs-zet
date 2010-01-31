@@ -221,6 +221,20 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
          entry = &(OPCODE_TABLE(entry)[insn.nnn & 7]);
          break;
 
+       case _GRPSSE66:
+         /* SSE opcode group with only prefix 0x66 allowed */
+         sse_opcode = 1;
+         if (sse_prefix != SSE_PREFIX_66)
+             entry = &(OPCODE_TABLE(entry)[sse_prefix]);
+         break;
+
+       case _GRPSSEF2:
+         /* SSE opcode group with only prefix 0xF2 allowed */
+         sse_opcode = 1;
+         if (sse_prefix != SSE_PREFIX_F2)
+             entry = &(OPCODE_TABLE(entry)[sse_prefix]);
+         break;
+
        case _GRPSSE:
          sse_opcode = 1;
          /* For SSE opcodes, look into another 4 entries table

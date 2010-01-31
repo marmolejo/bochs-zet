@@ -66,7 +66,6 @@
 #define IA_PCLMULQDQ        0x01000000        /* PCLMULQDQ instruction */
 #define IA_MOVBE            0x02000000        /* MOVBE Intel Atom(R) instruction */
 #define IA_AVX              0x04000000        /* AVX instruction */
-#define IA_LEGACY           0x80000000        /* legacy instruction */
 
 /* general purpose bit register */
 enum {
