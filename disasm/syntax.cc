@@ -163,23 +163,6 @@ void disassembler::initialize_modrm_segregs()
   sreg_mod01or10_rm16[6] = segment_name[SS_REG];
   sreg_mod01or10_rm16[7] = segment_name[DS_REG];
 
-  sreg_mod01or10_rm32[0]  = segment_name[DS_REG];
-  sreg_mod01or10_rm32[1]  = segment_name[DS_REG];
-  sreg_mod01or10_rm32[2]  = segment_name[DS_REG];
-  sreg_mod01or10_rm32[3]  = segment_name[DS_REG];
-  sreg_mod01or10_rm32[4]  = segment_name[NULL_SEGMENT_REGISTER];
-  sreg_mod01or10_rm32[5]  = segment_name[SS_REG];
-  sreg_mod01or10_rm32[6]  = segment_name[DS_REG];
-  sreg_mod01or10_rm32[7]  = segment_name[DS_REG];
-  sreg_mod01or10_rm32[8]  = segment_name[DS_REG];
-  sreg_mod01or10_rm32[9]  = segment_name[DS_REG];
-  sreg_mod01or10_rm32[10] = segment_name[DS_REG];
-  sreg_mod01or10_rm32[11] = segment_name[DS_REG];
-  sreg_mod01or10_rm32[12] = segment_name[NULL_SEGMENT_REGISTER];
-  sreg_mod01or10_rm32[13] = segment_name[DS_REG];
-  sreg_mod01or10_rm32[14] = segment_name[DS_REG];
-  sreg_mod01or10_rm32[15] = segment_name[DS_REG];
-
   sreg_mod00_base32[0]  = segment_name[DS_REG];
   sreg_mod00_base32[1]  = segment_name[DS_REG];
   sreg_mod00_base32[2]  = segment_name[DS_REG];
