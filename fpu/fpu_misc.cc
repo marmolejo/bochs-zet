@@ -47,22 +47,22 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FXCH_STi(bxInstruction_c *i)
 
   if (st0_tag == FPU_Tag_Empty || sti_tag == FPU_Tag_Empty)
   {
-      FPU_exception(FPU_EX_Stack_Underflow);
+     FPU_exception(FPU_EX_Stack_Underflow);
 
-      if(BX_CPU_THIS_PTR the_i387.is_IA_masked())
-      {
-          /* Masked response */
-          if (st0_tag == FPU_Tag_Empty)
-              st0_reg = floatx80_default_nan;
+     if(BX_CPU_THIS_PTR the_i387.is_IA_masked())
+     {
+         /* Masked response */
+         if (st0_tag == FPU_Tag_Empty)
+             st0_reg = floatx80_default_nan;
 
-          if (sti_tag == FPU_Tag_Empty)
-              sti_reg = floatx80_default_nan;
-      }
-      else return;
+         if (sti_tag == FPU_Tag_Empty)
+             sti_reg = floatx80_default_nan;
+     }
   }
-
-  BX_WRITE_FPU_REG(st0_reg, i->rm());
-  BX_WRITE_FPU_REG(sti_reg, 0);
+  else {
+     BX_WRITE_FPU_REG(st0_reg, i->rm());
+     BX_WRITE_FPU_REG(sti_reg, 0);
+  }
 #else
   BX_INFO(("FXCH_STi: required FPU, configure --enable-fpu"));
 #endif
