@@ -64,7 +64,7 @@ void bx_instr_mwait(unsigned cpu, bx_phy_address addr, unsigned len, Bit32u flag
 void bx_instr_new_instruction(unsigned cpu);
 
 void bx_instr_debug_promt();
-void bx_instr_debug_command(const char *cmd);
+void bx_instr_debug_cmd(const char *cmd);
 
 void bx_instr_cnear_branch_taken(unsigned cpu, bx_address new_eip);
 void bx_instr_cnear_branch_not_taken(unsigned cpu);
