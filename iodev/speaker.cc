@@ -112,7 +112,7 @@ void bx_speaker_c::beep_on(float frequency)
 
 #if defined(WIN32)
 
-struct {
+static struct {
   DWORD frequency;
   DWORD msec;
 } beep_info;
