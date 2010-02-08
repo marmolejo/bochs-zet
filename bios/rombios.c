@@ -9101,6 +9101,28 @@ ebda_post:
 ;--------------------
 ; relocated here because the primary POST area isnt big enough.
 eoi_jmp_post:
+  mov al, #0x11 ; send initialisation commands
+  out 0x20, al
+  out 0xa0, al
+  mov al, #0x08
+  out 0x21, al
+  mov al, #0x70
+  out 0xa1, al
+  mov al, #0x04
+  out 0x21, al
+  mov al, #0x02
+  out 0xa1, al
+  mov al, #0x01
+  out 0x21, al
+  out 0xa1, al
+  mov  al, #0xb8
+  out  0x21, AL ;master pic: unmask IRQ 0, 1, 2, 6
+#if BX_USE_PS2_MOUSE
+  mov  al, #0x8f
+#else
+  mov  al, #0x9f
+#endif
+  out  0xa1, AL ;slave  pic: unmask IRQ 12, 13, 14
   mov   al, #0x20
   out   #0xA0, al ;; slave  PIC EOI
   mov   al, #0x20
