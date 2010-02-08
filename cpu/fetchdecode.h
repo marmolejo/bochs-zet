@@ -914,11 +914,11 @@ static const BxOpcodeInfo_t BxOpcodeInfoG14R[8] = {
   /* 0 */ { 0, BX_IA_ERROR },
   /* 1 */ { 0, BX_IA_ERROR },
   /* 2 */ { BxImmediate_Ib | BxPrefixSSE, BX_IA_PSRLQ_PqIb, BxOpcodeGroupSSE_G1402 },
-  /* 3 */ { BxImmediate_Ib | BxPrefixSSE, BX_IA_ERROR,      BxOpcodeGroupSSE_G1403 },
+  /* 3 */ { BxImmediate_Ib | BxPrefixSSE66, BX_IA_PSRLDQ_UdqIb },
   /* 4 */ { 0, BX_IA_ERROR },
   /* 5 */ { 0, BX_IA_ERROR },
   /* 6 */ { BxImmediate_Ib | BxPrefixSSE, BX_IA_PSLLQ_PqIb, BxOpcodeGroupSSE_G1406 },
-  /* 7 */ { BxImmediate_Ib | BxPrefixSSE, BX_IA_ERROR,      BxOpcodeGroupSSE_G1407 }
+  /* 7 */ { BxImmediate_Ib | BxPrefixSSE66, BX_IA_PSLLDQ_UdqIb }
 };
 
 /* ******** */

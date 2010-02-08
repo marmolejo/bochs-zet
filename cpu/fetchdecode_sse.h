@@ -800,20 +800,8 @@ static const BxOpcodeInfo_t BxOpcodeGroupSSE_G1402[3] = {
   /* F3 */ { 0, BX_IA_ERROR }
 };
 
-static const BxOpcodeInfo_t BxOpcodeGroupSSE_G1403[3] = {
-  /* 66 */ { 0, BX_IA_PSRLDQ_UdqIb },
-  /* F2 */ { 0, BX_IA_ERROR },
-  /* F3 */ { 0, BX_IA_ERROR }
-};
-
 static const BxOpcodeInfo_t BxOpcodeGroupSSE_G1406[3] = {
   /* 66 */ { 0, BX_IA_PSLLQ_UdqIb },
-  /* F2 */ { 0, BX_IA_ERROR },
-  /* F3 */ { 0, BX_IA_ERROR }
-};
-
-static const BxOpcodeInfo_t BxOpcodeGroupSSE_G1407[3] = {
-  /* 66 */ { 0, BX_IA_PSLLDQ_UdqIb },
   /* F2 */ { 0, BX_IA_ERROR },
   /* F3 */ { 0, BX_IA_ERROR }
 };
