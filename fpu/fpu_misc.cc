@@ -58,11 +58,13 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FXCH_STi(bxInstruction_c *i)
          if (sti_tag == FPU_Tag_Empty)
              sti_reg = floatx80_default_nan;
      }
+     else {
+         return;
+     }
   }
-  else {
-     BX_WRITE_FPU_REG(st0_reg, i->rm());
-     BX_WRITE_FPU_REG(sti_reg, 0);
-  }
+
+  BX_WRITE_FPU_REG(st0_reg, i->rm());
+  BX_WRITE_FPU_REG(sti_reg, 0);
 #else
   BX_INFO(("FXCH_STi: required FPU, configure --enable-fpu"));
 #endif
