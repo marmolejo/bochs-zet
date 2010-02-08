@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//   Copyright (c) 2005-2009 Stanislav Shwartsman
+//   Copyright (c) 2005-2010 Stanislav Shwartsman
 //          Written by Stanislav Shwartsman [sshwarts at sourceforge net]
 //
 //  This library is free software; you can redistribute it and/or
@@ -182,6 +182,8 @@
 
 const struct BxDisasmOpcodeInfo_t
 #include "opcodes.inc"
+#include "dis_tables_x87.inc"
+#include "dis_tables_sse.inc"
 #include "dis_tables.inc"
 
 #undef XX
