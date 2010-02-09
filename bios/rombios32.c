@@ -682,7 +682,7 @@ static uint32_t pci_bios_io_addr;
 static uint32_t pci_bios_mem_addr;
 /* host irqs corresponding to PCI irqs A-D */
 static uint8_t pci_irqs[4] = { 11, 9, 11, 9 };
-static PCIDevice i440_pcidev;
+static PCIDevice i440_pcidev = {-1, -1};
 
 static void pci_config_writel(PCIDevice *d, uint32_t addr, uint32_t val)
 {
