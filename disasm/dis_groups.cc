@@ -438,39 +438,21 @@ void disassembler::Ww(const x86_insn *insn)
 
 void disassembler::Wd(const x86_insn *insn)
 {
-  if (insn->mod == 3)
-  {
-    if (intel_mode)
-      dis_sprintf  ("xmm%d", insn->rm);
-    else
-      dis_sprintf("%%xmm%d", insn->rm);
-  }
+  if (insn->mod == 3) Udq(insn);
   else
     (this->*resolve_modrm)(insn, D_SIZE);
 }
 
 void disassembler::Wq(const x86_insn *insn)
 {
-  if (insn->mod == 3)
-  {
-    if (intel_mode)
-      dis_sprintf  ("xmm%d", insn->rm);
-    else
-      dis_sprintf("%%xmm%d", insn->rm);
-  }
+  if (insn->mod == 3) Udq(insn);
   else
     (this->*resolve_modrm)(insn, Q_SIZE);
 }
 
 void disassembler::Wdq(const x86_insn *insn)
 {
-  if (insn->mod == 3)
-  {
-    if (intel_mode)
-      dis_sprintf  ("xmm%d", insn->rm);
-    else
-      dis_sprintf("%%xmm%d", insn->rm);
-  }
+  if (insn->mod == 3) Udq(insn);
   else
     (this->*resolve_modrm)(insn, O_SIZE);
 }

@@ -668,12 +668,6 @@ static const BxOpcodeInfo_t BxOpcodeGroupSSE_0fef[3] = {
   /* F3 */ { 0, BX_IA_ERROR }
 };
 
-static const BxOpcodeInfo_t BxOpcodeGroupSSE_0ff0M[3] = {
-  /* 66 */ { 0, BX_IA_ERROR },
-  /* F2 */ { 0, BX_IA_LDDQU_VdqMdq },	// SSE3
-  /* F3 */ { 0, BX_IA_ERROR }
-};
-
 static const BxOpcodeInfo_t BxOpcodeGroupSSE_0ff1[3] = {
   /* 66 */ { 0, BX_IA_PSLLW_VdqWdq },
   /* F2 */ { 0, BX_IA_ERROR },
