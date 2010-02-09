@@ -425,13 +425,7 @@ void disassembler::Vpd(const x86_insn *insn) { Vq(insn); }
 
 void disassembler::Ww(const x86_insn *insn)
 {
-  if (insn->mod == 3)
-  {
-    if (intel_mode)
-      dis_sprintf  ("xmm%d", insn->rm);
-    else
-      dis_sprintf("%%xmm%d", insn->rm);
-  }
+  if (insn->mod == 3) Udq(insn);
   else
     (this->*resolve_modrm)(insn, W_SIZE);
 }
