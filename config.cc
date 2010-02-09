@@ -2969,7 +2969,7 @@ static int parse_line_formatted(const char *context, int num_params, char *param
       PARSE_ERR(("%s: magic_break directive malformed.", context));
     }
 #else
-    PARSE_ERR(("%s: Bochs is not compiled with internal debugger support", context));
+    PARSE_WARN(("%s: Bochs is not compiled with internal debugger support", context));
 #endif
   }
   else if (!strcmp(params[0], "debug_symbols")) {
