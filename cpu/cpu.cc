@@ -147,7 +147,7 @@ no_async_event:
     }
 
 #if BX_SUPPORT_TRACE_CACHE
-    bxInstruction_c *last = i + (entry->ilen);
+    bxInstruction_c *last = i + (entry->tlen);
 
     for(;;) {
 #endif

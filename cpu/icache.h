@@ -117,7 +117,7 @@ struct bxICacheEntry_c
   Bit32u writeStamp;    // Generation ID. Each write to a physical page
                         // decrements this value
 #if BX_SUPPORT_TRACE_CACHE
-  Bit32u ilen;          // Trace length in instructions
+  Bit32u tlen;          // Trace length in instructions
   bxInstruction_c *i;
 #else
   // ... define as array of 1 to simplify merge with trace cache code
@@ -149,7 +149,7 @@ public:
       flushICacheEntries();
     }
     e->i = &mpool[mpindex];
-    e->ilen = 0;
+    e->tlen = 0;
   }
 
   BX_CPP_INLINE void commit_trace(unsigned len) { mpindex += len; }
