@@ -693,6 +693,7 @@ static void debug_loop(void)
       }
 
       case 'g':
+      {
 #if BX_SUPPORT_X86_64 == 0
         WriteHostDWordToLittleEndian(registers + 0, EAX);
         WriteHostDWordToLittleEndian(registers + 1, ECX);
@@ -764,6 +765,7 @@ static void debug_loop(void)
 #endif
         put_reply(obuf);
         break;
+      }
 
       case '?':
         sprintf(obuf, "S%02x", SIGTRAP);
