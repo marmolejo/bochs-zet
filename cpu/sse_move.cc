@@ -1550,7 +1550,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PALIGNR_VdqWdqIb(bxInstruction_c *i)
   /* now write result back to destination */
   BX_WRITE_XMM_REG(i->nnn(), result);
 #else
-  BX_INFO(("PALIGNR_VdqWdqIb: required SSE3E, use --enable-sse and --enable-sse-extension options"));
+  BX_INFO(("PALIGNR_VdqWdqIb: required SSSE3, use --enable-sse option"));
   exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }

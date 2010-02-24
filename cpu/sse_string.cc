@@ -356,7 +356,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PCMPESTRM_VdqWdqIb(bxInstruction_c *i)
 
   BX_WRITE_XMM_REG(0, result); /* store result XMM0 */
 #else
-  BX_INFO(("PCMPESTRM_VdqWdqIb: required SSE4.2, use --enable-sse and --enable-sse-extension options"));
+  BX_INFO(("PCMPESTRM_VdqWdqIb: required SSE4.2, use --enable-sse option"));
   exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
@@ -423,7 +423,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PCMPESTRI_VdqWdqIb(bxInstruction_c *i)
   setEFlagsOSZAPC(flags);
 
 #else
-  BX_INFO(("PCMPESTRI_VdqWdqIb: required SSE4.2, use --enable-sse and --enable-sse-extension options"));
+  BX_INFO(("PCMPESTRI_VdqWdqIb: required SSE4.2, use --enable-sse option"));
   exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
@@ -484,7 +484,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PCMPISTRM_VdqWdqIb(bxInstruction_c *i)
 
   BX_WRITE_XMM_REG(0, result); /* store result XMM0 */
 #else
-  BX_INFO(("PCMPISTRM_VdqWdqIb: required SSE4.2, use --enable-sse and --enable-sse-extension options"));
+  BX_INFO(("PCMPISTRM_VdqWdqIb: required SSE4.2, use --enable-sse option"));
   exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
@@ -542,7 +542,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PCMPISTRI_VdqWdqIb(bxInstruction_c *i)
   setEFlagsOSZAPC(flags);
 
 #else
-  BX_INFO(("PCMPISTRI_VdqWdqIb: required SSE4.2, use --enable-sse and --enable-sse-extension options"));
+  BX_INFO(("PCMPISTRI_VdqWdqIb: required SSE4.2, use --enable-sse option"));
   exception(BX_UD_EXCEPTION, 0, 0);
 #endif
 }
