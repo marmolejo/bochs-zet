@@ -28,7 +28,7 @@
 #define APIC_LEVEL_TRIGGERED	1
 #define APIC_EDGE_TRIGGERED	0
 
-#ifdef BX_IMPLEMENT_XAPIC
+#if BX_SUPPORT_XAPIC
 #  define BX_LAPIC_VERSION_ID 0x00050014  // P4 has 6 LVT entries
 #else
 #  define BX_LAPIC_VERSION_ID 0x00040010  // P6 has 4 LVT entries

@@ -21,6 +21,8 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
+bx_define_opcode(BX_IA_ERROR, &BX_CPU_C::BxError, NULL, 0)
+
 bx_define_opcode(BX_IA_AAA, &BX_CPU_C::AAA, NULL, 0)
 bx_define_opcode(BX_IA_AAD, &BX_CPU_C::AAD, NULL, 0)
 bx_define_opcode(BX_IA_AAM, &BX_CPU_C::AAM, NULL, 0)
@@ -124,7 +126,6 @@ bx_define_opcode(BX_IA_BTS_EwGwM, &BX_CPU_C::BTS_EwGwM, NULL, 0)
 bx_define_opcode(BX_IA_BTS_EwGwR, &BX_CPU_C::BTS_EwGwR, NULL, 0)
 bx_define_opcode(BX_IA_BTS_EwIbM, &BX_CPU_C::BTS_EwIbM, NULL, 0)
 bx_define_opcode(BX_IA_BTS_EwIbR, &BX_CPU_C::BTS_EwIbR, NULL, 0)
-bx_define_opcode(BX_IA_ERROR, &BX_CPU_C::BxError, NULL, 0)
 bx_define_opcode(BX_IA_CALL_EdM, &BX_CPU_C::LOAD_Ed, &BX_CPU_C::CALL_EdR, 0)
 bx_define_opcode(BX_IA_CALL_EdR, &BX_CPU_C::CALL_EdR, NULL, 0)
 bx_define_opcode(BX_IA_CALL_EwM, &BX_CPU_C::LOAD_Ew, &BX_CPU_C::CALL_EwR, 0)
