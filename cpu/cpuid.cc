@@ -792,7 +792,7 @@ void BX_CPU_C::init_cpu_features_bitmask(void)
      }
 
      if (sse_enabled >= BX_CPUID_SUPPORT_SSE2) {
-       if (BX_SUPPORT_XAPIC) {
+       if (! BX_SUPPORT_XAPIC) {
          BX_PANIC(("PANIC: SSE2 is enabled and XAPIC is not configured in !"));
          return;
        }
@@ -806,7 +806,7 @@ void BX_CPU_C::init_cpu_features_bitmask(void)
   }
 
 #if BX_SUPPORT_X86_64
-  if (sse_enabled <= BX_CPUID_SUPPORT_SSE2) {
+  if (sse_enabled < BX_CPUID_SUPPORT_SSE2) {
     BX_PANIC(("PANIC: x86-64 emulation requires SSE2 support !"));
     return;
   }
