@@ -501,6 +501,7 @@ edit_opts_t start_options[] = {
   {"Logfile", "log"},
   {"Log Options", "*"},
   {"CPU", "cpu"},
+  {"CPUID", "cpuid"},
   {"Memory", "memory"},
   {"Clock & CMOS", "clock_cmos"},
   {"PCI", "pci"},

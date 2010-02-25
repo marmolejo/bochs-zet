@@ -57,8 +57,6 @@ typedef union bx_xmm_reg_t {
 #define xmm64u(i)   _u64[(i)]
 #endif
 
-#if BX_SUPPORT_SSE >= 1
-
 #if BX_SUPPORT_X86_64
 #  define BX_XMM_REGISTERS 16
 #else
@@ -200,17 +198,11 @@ struct BOCHSAPI bx_mxcsr_t
 
 };
 
-/* reset reserved bits */
-#define MXCSR_MASK (0x0000FFBF |                        \
-         ((BX_SUPPORT_SSE >= 2) ? MXCSR_DAZ : 0) |      \
-         ((BX_SUPPORT_MISALIGNED_SSE) ? MXCSR_MISALIGNED_EXCEPTION_MASK : 0))
-
 #if defined(NEED_CPU_REG_SHORTCUTS)
   #define MXCSR             (BX_CPU_THIS_PTR mxcsr)
   #define BX_MXCSR_REGISTER (BX_CPU_THIS_PTR mxcsr.mxcsr)
+  #define MXCSR_MASK        (BX_CPU_THIS_PTR mxcsr_mask)
 #endif
-
-#endif // BX_SUPPORT_SSE
 
 /* INTEGER SATURATION */
 

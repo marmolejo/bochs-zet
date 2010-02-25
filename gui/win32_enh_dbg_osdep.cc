@@ -636,9 +636,8 @@ void SpecialInit()
     EnableMenuItem (hOptMenu, CMD_FPUR, MF_GRAYED);
 #endif
 
-#if BX_SUPPORT_SSE == 0
-    EnableMenuItem (hOptMenu, CMD_XMMR, MF_GRAYED);
-#endif
+    if (! bx_cpu_support_sse)
+      EnableMenuItem (hOptMenu, CMD_XMMR, MF_GRAYED);
 }
 
 // append a whole row of text into a ListView, all at once

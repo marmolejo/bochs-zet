@@ -338,7 +338,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::BTR_EdIbR(bxInstruction_c *i)
 /* F3 0F B8 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::POPCNT_GdEdR(bxInstruction_c *i)
 {
-#if BX_SUPPORT_POPCNT || (BX_SUPPORT_SSE > 4) || (BX_SUPPORT_SSE >= 4 && BX_SUPPORT_SSE_EXTENSION > 0)
   Bit32u op2_32 = BX_READ_32BIT_REG(i->rm());
 
   Bit32u op1_32 = 0;
@@ -352,10 +351,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::POPCNT_GdEdR(bxInstruction_c *i)
 
   /* now write result back to destination */
   BX_WRITE_32BIT_REGZ(i->nnn(), op1_32);
-#else
-  BX_INFO(("POPCNT_GdEd: required POPCNT support, use --enable-popcnt option"));
-  exception(BX_UD_EXCEPTION, 0, 0);
-#endif
 }
 
 #endif // (BX_CPU_LEVEL >= 3)

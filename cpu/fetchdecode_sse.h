@@ -806,8 +806,6 @@ static const BxOpcodeInfo_t BxOpcodeGroupSSE_G9VMX6[3] = {
   /* F3 */ { 0, BX_IA_VMXON_Mq }
 };
 
-#if (BX_SUPPORT_SSE >= 4) || (BX_SUPPORT_SSE >= 3 && BX_SUPPORT_SSE_EXTENSION > 0)
-
 static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f3800[3] = {
   /* 66 */ { 0, BX_IA_PSHUFB_VdqWdq },
   /* F2 */ { 0, BX_IA_ERROR },
@@ -1469,7 +1467,5 @@ static const BxOpcodeInfo_t BxOpcode3ByteTable0f3a[256] = {
   /* FE */ { 0, BX_IA_ERROR },
   /* FF */ { 0, BX_IA_ERROR }
 };
-
-#endif // BX_SUPPORT_SSE >= 4 || (BX_SUPPORT_SSE >= 3 && BX_SUPPORT_SSE_EXTENSION > 0)
 
 #endif // BX_SSE_FETCHDECODE_TABLES_H
