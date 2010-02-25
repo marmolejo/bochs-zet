@@ -2594,7 +2594,7 @@ static int parse_line_formatted(const char *context, int num_params, char *param
           PARSE_ERR(("%s: unsupported sse option.", context));
       } else if (!strncmp(params[i], "aes=", 4)) {
         if (params[i][4] == '0' || params[i][4] == '1') {
-          SIM->get_param_bool(BXPN_CPUID_MOVBE)->set(params[i][4] - '0');
+          SIM->get_param_bool(BXPN_CPUID_AES)->set(params[i][4] - '0');
         } else {
           PARSE_ERR(("%s: cpuid directive malformed.", context));
         }
