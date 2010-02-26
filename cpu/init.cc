@@ -362,8 +362,10 @@ void BX_CPU_C::register_state(void)
 #if BX_CPU_LEVEL >= 4
   BXRS_HEX_PARAM_FIELD(cpu, CR4, cr4.val32);
 #endif
-#if BX_SUPPORT_XSAVE
-  BXRS_HEX_PARAM_FIELD(cpu, XCR0, xcr0.val32);
+#if BX_CPU_LEVEL >= 6
+  if (BX_CPU_SUPPORT_FEATURE(BX_CPU_XSAVE)) {
+    BXRS_HEX_PARAM_FIELD(cpu, XCR0, xcr0.val32);
+  }
 #endif
 
   for(n=0; n<6; n++) {
@@ -915,7 +917,7 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR cr4.set32(0);
 #endif
 
-#if BX_SUPPORT_XSAVE
+#if BX_CPU_LEVEL >= 6
   BX_CPU_THIS_PTR xcr0.set32(0x1);
 #endif
 

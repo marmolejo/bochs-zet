@@ -1460,8 +1460,10 @@ bx_address get_cr4_allow_mask(void)
   allowMask |= (1<<14);  /* SMX Enable */
 #endif
 
-#if BX_SUPPORT_XSAVE
-  allowMask |= (1<<18);  /* OSXSAVE */
+#if BX_CPU_LEVEL >= 6
+  /* OSXSAVE */
+  if (BX_CPU_SUPPORT_FEATURE(BX_CPU_XSAVE))
+    allowMask |= (1<<18);
 #endif
 
   return allowMask;

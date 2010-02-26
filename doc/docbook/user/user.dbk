@@ -2092,11 +2092,6 @@ turn it off.
       </entry>
     </row>
     <row>
-      <entry>--enable-xsave</entry>
-      <entry>no</entry>
-      <entry>XSAVE support</entry>
-    </row>
-    <row>
       <entry>--enable-vmx</entry>
       <entry>no</entry>
       <entry>Intel Virtualization Extensions (VMX) support</entry>
