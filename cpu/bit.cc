@@ -238,7 +238,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SETNLE_EbR(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::BSWAP_ERX(bxInstruction_c *i)
 {
-#if BX_CPU_LEVEL >= 4
   Bit32u val32, b0, b1, b2, b3;
 
   if (i->os32L() == 0) {
@@ -253,10 +252,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::BSWAP_ERX(bxInstruction_c *i)
   val32 = (b0<<24) | (b1<<16) | (b2<<8) | b3;
 
   BX_WRITE_32BIT_REGZ(i->opcodeReg(), val32);
-#else
-  BX_INFO(("BSWAP_ERX: required CPU >= 4, use --enable-cpu-level=4 option"));
-  exception(BX_UD_EXCEPTION, 0, 0);
-#endif
 }
 
 #if BX_SUPPORT_X86_64

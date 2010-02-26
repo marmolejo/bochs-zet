@@ -46,6 +46,7 @@
 #define BXPN_CPUID_SSE                   "cpuid.sse"
 #define BXPN_CPUID_AES                   "cpuid.aes"
 #define BXPN_CPUID_MOVBE                 "cpuid.movbe"
+#define BXPN_CPUID_SEP                   "cpuid.sep"
 #define BXPN_MEM_SIZE                    "memory.standard.ram.size"
 #define BXPN_HOST_MEM_SIZE               "memory.standard.ram.host_size"
 #define BXPN_ROM_PATH                    "memory.standard.rom.path"

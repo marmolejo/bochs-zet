@@ -2906,7 +2906,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::BxError(bxInstruction_c *i)
 #endif
   }
   else {
-    BX_INFO(("%s: instruction not supported (signalling #UD)", get_bx_opcode_name(ia_opcode)));
+    BX_INFO(("%s: instruction not supported - signalling #UD (features bitmask: 0x%08x)",
+      get_bx_opcode_name(ia_opcode), BX_CPU_THIS_PTR cpuid_features_bitmask));
   }
 
   exception(BX_UD_EXCEPTION, 0, 0);
