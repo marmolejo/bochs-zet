@@ -25,6 +25,7 @@
 #include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
+#include "param_names.h"
 #include "iodev/iodev.h"
 
 #if BX_SUPPORT_X86_64==0

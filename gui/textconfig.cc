@@ -49,6 +49,7 @@ extern "C" {
 #endif
 
 #include "osdep.h"
+#include "param_names.h"
 #include "textconfig.h"
 #include "siminterface.h"
 #include "extplugin.h"

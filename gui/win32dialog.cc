@@ -23,6 +23,7 @@
 #if BX_USE_TEXTCONFIG && defined(WIN32) && (BX_WITH_WIN32 || BX_WITH_SDL)
 
 #include "bochs.h"
+#include "param_names.h"
 #include "win32res.h"
 #include "win32paramdlg.h"
 

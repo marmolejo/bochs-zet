@@ -25,12 +25,6 @@
 
 #include "bochs.h"
 
-// Do not include OSX sound headers here;
-// They define types Float64 and Float32,
-// which are already used elsewhere in bochs.
-// All OSX-specific types are hidden inside
-// soundosx.cc, where nobody else has to see them.
-
 // uncomment one of these two:
 #if BX_WITH_MACOS
 #define BX_SOUND_OSX_use_quicktime

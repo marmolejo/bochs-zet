@@ -22,17 +22,12 @@
 
 #ifdef PARANOID
 #include <MacTypes.h>
-#else
-#define Float32 KLUDGE_Float32
-#define Float64 KLUDGE_Float64
 #endif
 
 #define NO_DEVICE_INCLUDES
 #include "iodev.h"
 #define BX_SOUNDLOW
 #include "sb16.h"
-#undef Float32
-#undef Float64
 
 #if defined(macintosh) && BX_SUPPORT_SB16
 

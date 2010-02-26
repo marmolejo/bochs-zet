@@ -24,6 +24,7 @@ extern "C" {
 }
 
 #include "bochs.h"
+#include "param_names.h"
 #include "cpu/cpu.h"
 #include "iodev/iodev.h"
 

@@ -26,6 +26,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "param_names.h"
 #include "vga.h"
 
 #define LOG_THIS theVga->

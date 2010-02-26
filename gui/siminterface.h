@@ -135,8 +135,6 @@ typedef enum {
   BXT_LIST
 } bx_objtype;
 
-#include "param_names.h"
-
 // base value for generated new parameter id
 #define BXP_NEW_PARAM_ID 1001
 

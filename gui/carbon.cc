@@ -35,13 +35,11 @@
 
 
 // BOCHS INCLUDES
-#define Float32 KLUDGE_Float32
-#define Float64 KLUDGE_Float64
 #include "bochs.h"
 #include "keymap.h"
 #include "iodev.h"
-#undef Float32
-#undef Float64
+
+#include "param_names.h"
 
 #if BX_WITH_CARBON
 

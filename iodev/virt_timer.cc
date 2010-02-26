@@ -58,6 +58,7 @@
 /////////////////////////////////////////////////////////////////////////
 
 #include "bochs.h"
+#include "param_names.h"
 #include "virt_timer.h"
 
 #define BX_USE_VIRTUAL_TIMERS 1

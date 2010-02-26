@@ -23,6 +23,7 @@
 /////////////////////////////////////////////////////////////////////////
 
 #include "bochs.h"
+#include "param_names.h"
 #include "cpu/cpu.h"
 #include "iodev/iodev.h"
 #define LOG_THIS BX_MEM(0)->

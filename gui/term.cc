@@ -24,6 +24,7 @@
 #define BX_PLUGGABLE
 
 #include "bochs.h"
+#include "param_names.h"
 #include "iodev.h"
 #if BX_WITH_TERM
 

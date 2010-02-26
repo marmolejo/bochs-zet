@@ -38,6 +38,7 @@
 #define NEED_CPU_REG_SHORTCUTS 1
 
 #include "bochs.h"
+#include "param_names.h"
 #include "cpu/cpu.h"
 #include "iodev/iodev.h"
 

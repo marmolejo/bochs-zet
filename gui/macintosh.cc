@@ -30,6 +30,8 @@
 
 // BOCHS INCLUDES
 #include <MacTypes.h>
+
+#include "param_names.h"
 #include "bochs.h"
 #include "iodev.h"
 

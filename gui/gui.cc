@@ -20,6 +20,7 @@
 
 
 #include <signal.h>
+#include "param_names.h"
 #include "bochs.h"
 #include "keymap.h"
 #include "iodev.h"

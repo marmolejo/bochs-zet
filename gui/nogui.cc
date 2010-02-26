@@ -25,6 +25,8 @@
 #define BX_PLUGGABLE
 
 #include "bochs.h"
+#include "param_names.h"
+
 #if BX_WITH_NOGUI
 #include "icon_bochs.h"
 

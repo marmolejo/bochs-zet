@@ -41,6 +41,8 @@
 #define BX_PLUGGABLE
 
 #include "config.h"              // definitions based on configure script
+#include "param_names.h"
+
 #if BX_WITH_WX
 
 // For compilers that support precompilation, includes "wx/wx.h".

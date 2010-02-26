@@ -29,6 +29,7 @@
 #include <ctype.h>
 #include <string.h>
 
+#include "param_names.h"
 #include "bochs.h"
 #include "iodev.h"
 #if BX_WITH_BEOS

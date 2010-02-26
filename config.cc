@@ -20,6 +20,7 @@
 
 #include "bochs.h"
 #include "iodev/iodev.h"
+#include "param_names.h"
 #include <assert.h>
 
 #ifdef HAVE_LOCALE_H

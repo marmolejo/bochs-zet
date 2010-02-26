@@ -25,6 +25,8 @@
 #include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
+#include "param_names.h"
+
 #if BX_SUPPORT_X86_64==0
 // Make life easier merging cpu64 & cpu code.
 #define RIP EIP
