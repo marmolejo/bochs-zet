@@ -636,7 +636,7 @@ void SpecialInit()
     EnableMenuItem (hOptMenu, CMD_FPUR, MF_GRAYED);
 #endif
 
-    if (! bx_cpu_support_sse)
+    if (! CpuSupportSSE)
       EnableMenuItem (hOptMenu, CMD_XMMR, MF_GRAYED);
 }
 

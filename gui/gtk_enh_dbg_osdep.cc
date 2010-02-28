@@ -775,7 +775,7 @@ void SpecialInit()
     GrayMenuItem (0, CMD_FPUR);
 #endif
 
-    if (! bx_cpu_support_sse)
+    if (! CpuSupportSSE)
       GrayMenuItem (0, CMD_XMMR);
 
     doOneTimeInit = FALSE;      // make sure this function is never called again

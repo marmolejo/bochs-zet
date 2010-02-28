@@ -1171,5 +1171,3 @@ typedef struct BOCHSAPI {
 BOCHSAPI extern bx_startup_flags_t bx_startup_flags;
 BOCHSAPI extern bx_bool bx_user_quit;
 BOCHSAPI extern Bit8u bx_cpu_count;
-// for GUI debugger
-BOCHSAPI extern bx_bool bx_cpu_support_sse;
