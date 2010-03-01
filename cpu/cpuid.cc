@@ -885,6 +885,9 @@ void BX_CPU_C::init_cpu_features_bitmask(void)
 
   if (movbe_enabled)
     features_bitmask |= BX_CPU_MOVBE;
+
+  if (xapic_enabled)
+    features_bitmask |= BX_CPU_XAPIC;
 #endif
 
 #if BX_SUPPORT_VMX

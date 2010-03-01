@@ -623,6 +623,7 @@ typedef struct
 #define BX_CPU_AVX              0x00800000        /* AVX instruction */
 #define BX_CPU_AVX_FMA          0x01000000        /* AVX FMA instruction */
 #define BX_CPU_X86_64           0x02000000        /* x86-64 instruction */
+#define BX_CPU_XAPIC            0x04000000        /* XAPIC extensions */
 
 struct cpuid_function_t {
   Bit32u eax;
