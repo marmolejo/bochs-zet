@@ -482,7 +482,7 @@ void BX_CPU_C::register_state(void)
 #endif
 #endif
 
-#if BX_SUPPORT_FPU || BX_SUPPORT_MMX
+#if BX_SUPPORT_FPU
   bx_list_c *fpu = new bx_list_c(cpu, "FPU", 17);
   BXRS_HEX_PARAM_FIELD(fpu, cwd, the_i387.cwd);
   BXRS_HEX_PARAM_FIELD(fpu, swd, the_i387.swd);

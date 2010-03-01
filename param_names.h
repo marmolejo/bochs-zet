@@ -43,6 +43,7 @@
 #define BXPN_VENDOR_STRING               "cpuid.vendor_string"
 #define BXPN_BRAND_STRING                "cpuid.brand_string"
 #define BXPN_CPUID_LIMIT_WINNT           "cpuid.cpuid_limit_winnt"
+#define BXPN_CPUID_MMX                   "cpuid.mmx"
 #define BXPN_CPUID_SSE                   "cpuid.sse"
 #define BXPN_CPUID_AES                   "cpuid.aes"
 #define BXPN_CPUID_MOVBE                 "cpuid.movbe"

@@ -29,6 +29,7 @@ cpuid
   cpuid_limit_winnt
   vendor_string
   brand_string
+  mmx
   sep
   sse
   aes
