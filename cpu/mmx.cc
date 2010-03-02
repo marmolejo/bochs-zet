@@ -1109,7 +1109,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PCMPEQD_PqQq(bxInstruction_c *i)
 /* 0F 77 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::EMMS(bxInstruction_c *i)
 {
-#if BX_SUPPORT_3DNOW
+#if BX_CPU_LEVEL >= 5
   BX_CPU_THIS_PTR prepareMMX();
   FPU_TAG_WORD  = 0xffff;
   FPU_TOS = 0;        /* reset FPU Top-Of-Stack */
