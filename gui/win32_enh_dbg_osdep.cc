@@ -1190,7 +1190,7 @@ void FillPTree()
     tvis.item.stateMask = TVIS_EXPANDED;
     h_PTroot = TreeView_InsertItem(hT,&tvis);
     tvis.item.mask = TVIF_TEXT | TVIF_CHILDREN; // don't expand any other layers
-    iny i = root_param->get_size();
+    int i = root_param->get_size();
     while (--i >= 0)
         MakeBL(&h_PTroot, root_param->get(i));
     ShowWindow(hT,SW_SHOW);
