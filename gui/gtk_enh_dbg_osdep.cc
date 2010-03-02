@@ -985,7 +985,7 @@ void DispMessage(const char *msg, const char *title)
         GTK_DIALOG_DESTROY_WITH_PARENT,
         GTK_MESSAGE_WARNING,
         GTK_BUTTONS_OK,
-        msg);
+        "%s", msg);
     gtk_window_set_title(GTK_WINDOW(dialog), title);
     gtk_dialog_run(GTK_DIALOG(dialog));
     gtk_widget_destroy(dialog);

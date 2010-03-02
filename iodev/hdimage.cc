@@ -605,7 +605,7 @@ void sparse_image_t::panic(const char * message)
   {
     snprintf(buffer, sizeof(buffer), "error with sparse disk image %s - %s", pathname, message);
   }
-  BX_PANIC((buffer));
+  BX_PANIC(("%s", buffer));
 }
 
 ssize_t sparse_image_t::write (const void* buf, size_t count)

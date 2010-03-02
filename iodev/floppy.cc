@@ -675,7 +675,7 @@ void bx_floppy_ctrl_c::floppy_command(void)
   for (i=0; i<BX_FD_THIS s.command_size; i++) {
     p += sprintf(p, "[%02x] ", (unsigned) BX_FD_THIS s.command[i]);
   }
-  BX_DEBUG((buf));
+  BX_DEBUG(("%s", buf));
 
   BX_FD_THIS s.pending_command = BX_FD_THIS s.command[0];
   switch (BX_FD_THIS s.pending_command) {
@@ -1801,7 +1801,7 @@ void bx_floppy_ctrl_c::enter_result_phase(void)
   for (i=0; i<BX_FD_THIS s.result_size; i++) {
     p += sprintf(p, "[%02x] ", (unsigned) BX_FD_THIS s.result[i]);
   }
-  BX_DEBUG((buf));
+  BX_DEBUG(("%s", buf));
 }
 
 void bx_floppy_ctrl_c::enter_idle_phase(void)
