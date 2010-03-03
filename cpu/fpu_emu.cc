@@ -33,8 +33,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FWAIT(bxInstruction_c *i)
     exception(BX_NM_EXCEPTION, 0, 0);
 
   BX_CPU_THIS_PTR FPU_check_pending_exceptions();
-#else
-  BX_INFO(("FWAIT: requred FPU, use --enable-fpu"));
 #endif
 }
 

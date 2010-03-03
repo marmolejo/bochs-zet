@@ -703,11 +703,11 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_RdCd(bxInstruction_c *i)
 #endif
       val_32 = (Bit32u) BX_CPU_THIS_PTR cr3;
       break;
-    case 4: // CR4
 #if BX_CPU_LEVEL > 3
+    case 4: // CR4
       val_32 = (Bit32u) read_CR4(); /* correctly handle VMX */
-#endif
       break;
+#endif
     default:
       BX_ERROR(("MOV_RdCd: #UD - control register %d index out of range", i->nnn()));
       exception(BX_UD_EXCEPTION, 0, 0);
