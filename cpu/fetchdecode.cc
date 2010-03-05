@@ -2937,6 +2937,10 @@ void BX_CPU_C::init_FetchDecodeTables(void)
   Bit32u features = BX_CPU_THIS_PTR cpuid_features_bitmask;
   if (! features)
     BX_PANIC(("init_FetchDecodeTables: CPU features bitmask is empty !"));
+
+
+  if (BX_IA_LAST > 0xffff)
+    BX_PANIC(("init_FetchDecodeTables: too many opcodes defined !"));
   
   for (unsigned n=0; n < BX_IA_LAST; n++) {
     Bit32u ia_opcode_features = BxOpcodeFeatures[n];
