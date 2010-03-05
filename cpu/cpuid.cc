@@ -339,8 +339,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CPUID(bxInstruction_c *i)
     }
   }
   else {
-    function -= 0x80000000;
     if(function <= max_ext_function) {
+      function -= 0x80000000;
       RAX = BX_CPU_THIS_PTR cpuid_ext_function[function].eax;
       RBX = BX_CPU_THIS_PTR cpuid_ext_function[function].ebx;
       RCX = BX_CPU_THIS_PTR cpuid_ext_function[function].ecx;
