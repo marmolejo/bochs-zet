@@ -867,6 +867,10 @@ void BX_CPU_C::init_cpu_features_bitmask(void)
     BX_PANIC(("PANIC: x86-64 emulation requires XAPIC support !"));
     return;
   }
+  if (! sep_enabled) {
+    BX_PANIC(("PANIC: x86-64 emulation requires SYSENTER/SYSEXIT support !"));
+    return;
+  }
 #endif
 
 #if BX_SUPPORT_VMX
