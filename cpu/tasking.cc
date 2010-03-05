@@ -435,7 +435,8 @@ void BX_CPU_C::task_switch(bxInstruction_c *i, bx_selector_t *tss_selector,
 
   BX_CPU_THIS_PTR speculative_rsp = 0;
 
-  BX_CPU_THIS_PTR errorno = 0;
+  BX_CPU_THIS_PTR save_eip = EIP;
+  BX_CPU_THIS_PTR save_esp = ESP;
 
   writeEFlags(newEFLAGS, EFlagsValidMask);
 
