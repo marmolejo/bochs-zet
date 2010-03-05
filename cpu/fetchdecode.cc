@@ -2938,7 +2938,6 @@ void BX_CPU_C::init_FetchDecodeTables(void)
   if (! features)
     BX_PANIC(("init_FetchDecodeTables: CPU features bitmask is empty !"));
 
-
   if (BX_IA_LAST > 0xffff)
     BX_PANIC(("init_FetchDecodeTables: too many opcodes defined !"));
   
