@@ -320,8 +320,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CPUID(bxInstruction_c *i)
   }
 #endif
 
-  unsigned max_std_function = BX_CPU_THIS_PTR cpuid_std_function[0].eax - 1;
-  unsigned max_ext_function = BX_CPU_THIS_PTR cpuid_ext_function[0].eax - 1;
+  unsigned max_std_function = BX_CPU_THIS_PTR cpuid_std_function[0].eax;
+  unsigned max_ext_function = BX_CPU_THIS_PTR cpuid_ext_function[0].eax;
 
   if(function < 0x80000000) {
     if(function <= max_std_function) {
