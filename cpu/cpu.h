@@ -770,16 +770,21 @@ typedef struct {
 
 #if BX_SUPPORT_MONITOR_MWAIT
 struct monitor_addr_t {
+
     bx_phy_address monitor_begin;
     bx_phy_address monitor_end;
     bx_bool armed;
-    // avoid false trigger when MONITOR was not set up properly
+
     monitor_addr_t():
       monitor_begin(0xffffffff), monitor_end(0xffffffff), armed(0) {}
-    monitor_addr_t(bx_phy_address addr, unsigned len):
-      monitor_begin(addr), monitor_end(addr+len), armed(1) {}
 
-    void reset_monitor(void) { monitor_begin = monitor_end = 0xffffffff; armed = 0; }
+    BX_CPP_INLINE void arm(bx_phy_address addr) {
+      monitor_begin = addr;
+      monitor_end = addr + CACHE_LINE_SIZE - 1;
+      armed = 1;
+    }
+
+    BX_CPP_INLINE void reset_monitor(void) { armed = 0; }
 };
 #endif
 
