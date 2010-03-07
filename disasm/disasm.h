@@ -387,6 +387,8 @@ public:
  * sd - Scalar element of a 128-bit packed double-precision floating data.
  * v  - Word, doubleword or quadword, depending on operand-size attribute.
  * w  - Word, regardless of operand-size attr.
+ * y  - Doubleword or quadword (in 64-bit mode) depending on 32/64 bit
+ *      operand size.
  */
 
   // far call/jmp
@@ -446,6 +448,7 @@ public:
   void Ew(const x86_insn *insn);
   void Ed(const x86_insn *insn);
   void Eq(const x86_insn *insn);
+  void Ey(const x86_insn *insn);
 
   // general purpose register
   void Gb(const x86_insn *insn);

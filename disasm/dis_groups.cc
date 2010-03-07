@@ -175,6 +175,12 @@ void disassembler::Eq(const x86_insn *insn)
     (this->*resolve_modrm)(insn, Q_SIZE);
 }
 
+void disassembler::Ey(const x86_insn *insn)
+{
+  if (insn->os_64) Eq(insn);
+  else Ed(insn);
+}
+
 void disassembler::Hbd(const x86_insn *insn)
 {
   if (insn->mod == 3)

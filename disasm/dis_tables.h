@@ -89,6 +89,7 @@
 #define Ew &disassembler::Ew
 #define Ed &disassembler::Ed
 #define Eq &disassembler::Eq
+#define Ey &disassembler::Ey
 
 #define Gb &disassembler::Gb
 #define Gw &disassembler::Gw
