@@ -434,7 +434,7 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
         // interrupt ends the HALT condition
 #if BX_SUPPORT_MONITOR_MWAIT
         if (BX_CPU_THIS_PTR activity_state >= BX_ACTIVITY_STATE_MWAIT)
-          BX_MEM(0)->clear_monitor(BX_CPU_THIS_PTR bx_cpuid);
+          BX_CPU_THIS_PTR monitor.reset_monitor();
 #endif
         BX_CPU_THIS_PTR activity_state = 0;
         BX_CPU_THIS_PTR inhibit_mask = 0; // clear inhibits for after resume
