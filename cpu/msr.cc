@@ -158,6 +158,9 @@ bx_bool BX_CPP_AttrRegparmN(2) BX_CPU_C::rdmsr(Bit32u index, Bit64u *msr)
     case BX_MSR_VMX_VMENTRY_CTRLS:
       val64 = VMX_MSR_VMX_VMENTRY_CTRLS;
       break;
+    case BX_MSR_VMX_MISC:
+      val64 = VMX_MSR_MISC;
+      break;
     case BX_MSR_VMX_CR0_FIXED0:
       val64 = VMX_MSR_CR0_FIXED0;
       break;
