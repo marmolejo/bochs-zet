@@ -1735,6 +1735,12 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MWAIT(bxInstruction_c *i)
     return;
   }
 
+  static bool mwait_is_nop = SIM->get_param_bool(BXPN_CPUID_MWAIT_IS_NOP)->get();
+  if (mwait_is_nop) {
+    BX_DEBUG(("MWAIT: stay awake"));
+    return;
+  }
+
   // stops instruction execution and places the processor in a optimized
   // state.  Events that cause exit from MWAIT state are:
   // A store from another processor to monitored range, any unmasked

@@ -36,6 +36,7 @@ cpuid
   movbe
   xsave
   xapic
+  mwait_is_nop
 
 memory
   standard
