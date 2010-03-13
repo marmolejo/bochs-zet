@@ -3390,8 +3390,8 @@ public: // for now...
   BX_SMF void init_VMCS(void);
   BX_SMF void register_vmx_state(bx_param_c *parent);
   BX_SMF Bit64s VMX_TSC_Offset(void);
-#if BX_SUPPORT_X86_64
   BX_SMF Bit32u VMX_Read_TPR_Shadow(void);
+#if BX_SUPPORT_X86_64
   BX_SMF void VMX_Write_TPR_Shadow(Bit8u tpr_shadow);
 #endif
   // vmexit reasons
