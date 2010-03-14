@@ -105,7 +105,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AAM(bxInstruction_c *i)
   Bit8u al, imm8 = i->Ib();
 
   if (imm8 == 0)
-    exception(BX_DE_EXCEPTION, 0, 0);
+    exception(BX_DE_EXCEPTION, 0);
 
   al = AL;
   AH = al / imm8;

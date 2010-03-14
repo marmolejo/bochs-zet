@@ -39,9 +39,9 @@ void BX_CPU_C::check_exceptionsSSE(int exceptions_flags)
   if (unmasked)
   {
      if(BX_CPU_THIS_PTR cr4.get_OSXMMEXCPT())
-        exception(BX_XM_EXCEPTION, 0, 0);
+        exception(BX_XM_EXCEPTION, 0);
      else
-        exception(BX_UD_EXCEPTION, 0, 0);
+        exception(BX_UD_EXCEPTION, 0);
   }
 }
 

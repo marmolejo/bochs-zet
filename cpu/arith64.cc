@@ -561,7 +561,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CMPXCHG16B(bxInstruction_c *i)
 
   if (laddr & 0xf) {
     BX_ERROR(("CMPXCHG16B: not aligned memory location (#GP)"));
-    exception(BX_GP_EXCEPTION, 0, 0);
+    exception(BX_GP_EXCEPTION, 0);
   }
 
   // check write permission for following write

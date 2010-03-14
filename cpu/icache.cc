@@ -191,7 +191,7 @@ void BX_CPU_C::boundaryFetch(const Bit8u *fetchPtr, unsigned remainingInPage, bx
 
   if (remainingInPage >= 15) {
     BX_ERROR(("boundaryFetch #GP(0): too many instruction prefixes"));
-    exception(BX_GP_EXCEPTION, 0, 0);
+    exception(BX_GP_EXCEPTION, 0);
   }
 
   // Read all leftover bytes in current page up to boundary.
@@ -229,7 +229,7 @@ void BX_CPU_C::boundaryFetch(const Bit8u *fetchPtr, unsigned remainingInPage, bx
 
   if (ret < 0) {
     BX_INFO(("boundaryFetch #GP(0): failed to complete instruction decoding"));
-    exception(BX_GP_EXCEPTION, 0, 0);
+    exception(BX_GP_EXCEPTION, 0);
   }
 
   // Restore EIP since we fudged it to start at the 2nd page boundary.

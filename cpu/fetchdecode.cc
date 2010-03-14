@@ -2910,7 +2910,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::BxError(bxInstruction_c *i)
       get_bx_opcode_name(ia_opcode), BX_CPU_THIS_PTR cpuid_features_bitmask));
   }
 
-  exception(BX_UD_EXCEPTION, 0, 0);
+  exception(BX_UD_EXCEPTION, 0);
 }
 
 const char *get_bx_opcode_name(Bit16u ia_opcode)

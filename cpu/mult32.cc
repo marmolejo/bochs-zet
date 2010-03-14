@@ -78,7 +78,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::DIV_EAXEdR(bxInstruction_c *i)
 {
   Bit32u op2_32 = BX_READ_32BIT_REG(i->rm());
   if (op2_32 == 0) {
-    exception(BX_DE_EXCEPTION, 0, 0);
+    exception(BX_DE_EXCEPTION, 0);
   }
 
   Bit64u op1_64 = (((Bit64u) EDX) << 32) + ((Bit64u) EAX);
@@ -89,7 +89,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::DIV_EAXEdR(bxInstruction_c *i)
 
   if (quotient_64 != quotient_32l)
   {
-    exception(BX_DE_EXCEPTION, 0, 0);
+    exception(BX_DE_EXCEPTION, 0);
   }
 
   /* set EFLAGS:
@@ -107,12 +107,12 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::IDIV_EAXEdR(bxInstruction_c *i)
 
   /* check MIN_INT case */
   if (op1_64 == ((Bit64s)BX_CONST64(0x8000000000000000)))
-    exception(BX_DE_EXCEPTION, 0, 0);
+    exception(BX_DE_EXCEPTION, 0);
 
   Bit32s op2_32 = BX_READ_32BIT_REG(i->rm());
 
   if (op2_32 == 0)
-    exception(BX_DE_EXCEPTION, 0, 0);
+    exception(BX_DE_EXCEPTION, 0);
 
   Bit64s quotient_64  = op1_64 / op2_32;
   Bit32s remainder_32 = (Bit32s) (op1_64 % op2_32);
@@ -120,7 +120,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::IDIV_EAXEdR(bxInstruction_c *i)
 
   if (quotient_64 != quotient_32l)
   {
-    exception(BX_DE_EXCEPTION, 0, 0);
+    exception(BX_DE_EXCEPTION, 0);
   }
 
   /* set EFLAGS:

@@ -72,7 +72,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::DIV_ALEbR(bxInstruction_c *i)
 {
   Bit8u op2 = BX_READ_8BIT_REGx(i->rm(), i->extend8bitL());
   if (op2 == 0) {
-    exception(BX_DE_EXCEPTION, 0, 0);
+    exception(BX_DE_EXCEPTION, 0);
   }
 
   Bit16u op1 = AX;
@@ -83,7 +83,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::DIV_ALEbR(bxInstruction_c *i)
 
   if (quotient_16 != quotient_8l)
   {
-    exception(BX_DE_EXCEPTION, 0, 0);
+    exception(BX_DE_EXCEPTION, 0);
   }
 
   /* now write quotient back to destination */
@@ -97,19 +97,19 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::IDIV_ALEbR(bxInstruction_c *i)
 
   /* check MIN_INT case */
   if (op1 == ((Bit16s)0x8000))
-    exception(BX_DE_EXCEPTION, 0, 0);
+    exception(BX_DE_EXCEPTION, 0);
 
   Bit8s op2 = BX_READ_8BIT_REGx(i->rm(), i->extend8bitL());
 
   if (op2 == 0)
-    exception(BX_DE_EXCEPTION, 0, 0);
+    exception(BX_DE_EXCEPTION, 0);
 
   Bit16s quotient_16 = op1 / op2;
   Bit8s remainder_8 = op1 % op2;
   Bit8s quotient_8l = quotient_16 & 0xFF;
 
   if (quotient_16 != quotient_8l)
-    exception(BX_DE_EXCEPTION, 0, 0);
+    exception(BX_DE_EXCEPTION, 0);
 
   /* now write quotient back to destination */
   AL = quotient_8l;
