@@ -699,8 +699,7 @@ enum VMX_Activity_State {
 #define PIN_VMEXIT(ctrl) (BX_CPU_THIS_PTR vmcs.vmexec_ctrls1 & (ctrl))
 #define     VMEXIT(ctrl) (BX_CPU_THIS_PTR vmcs.vmexec_ctrls2 & (ctrl))
 
-#define SECONDARY_VMEXEC_CONTROL(ctrl) \
-  (VMEXIT(VMX_VM_EXEC_CTRL2_SECONDARY_CONTROLS) && (BX_CPU_THIS_PTR vmcs.vmexec_ctrls3 & (ctrl)))
+#define SECONDARY_VMEXEC_CONTROL(ctrl) (BX_CPU_THIS_PTR vmcs.vmexec_ctrls3 & (ctrl))
 
 #define BX_VMX_INTERRUPTS_BLOCKED_BY_STI      (1 << 0)
 #define BX_VMX_INTERRUPTS_BLOCKED_BY_MOV_SS   (1 << 1)
