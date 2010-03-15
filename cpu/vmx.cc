@@ -330,6 +330,16 @@ VMX_error_code BX_CPU_C::VMenterLoadCheckVmControls(void)
      return VMXERR_VMENTRY_INVALID_VM_CONTROL_FIELD;
   }
 
+  if (~vm->vmexec_ctrls3 & VMX_MSR_VMX_PROCBASED_CTRLS2_LO) {
+     BX_ERROR(("VMFAIL: VMCS EXEC CTRL: VMX secondary proc-based controls allowed 0-settings"));
+     return VMXERR_VMENTRY_INVALID_VM_CONTROL_FIELD;
+  }
+
+  if (vm->vmexec_ctrls3 & ~VMX_MSR_VMX_PROCBASED_CTRLS2_HI) {
+     BX_ERROR(("VMFAIL: VMCS EXEC CTRL: VMX secondary proc-based controls allowed 1-settings"));
+     return VMXERR_VMENTRY_INVALID_VM_CONTROL_FIELD;
+  }
+
   if (vm->vm_cr3_target_cnt > VMX_CR3_TARGET_MAX_CNT) {
      BX_ERROR(("VMFAIL: VMCS EXEC CTRL: too may CR3 targets %d", vm->vm_cr3_target_cnt));
      return VMXERR_VMENTRY_INVALID_VM_CONTROL_FIELD;
@@ -2300,6 +2310,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::VMREAD(bxInstruction_c *i)
     case VMCS_32BIT_CONTROL_VMENTRY_EXCEPTION_ERR_CODE:
     case VMCS_32BIT_CONTROL_VMENTRY_INSTRUCTION_LENGTH:
     case VMCS_32BIT_CONTROL_TPR_THRESHOLD:
+    case VMCS_32BIT_CONTROL_SECONDARY_VMEXEC_CONTROLS:
       // fall through
 
     /* VMCS 32-bit read only data fields */
@@ -2613,6 +2624,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::VMWRITE(bxInstruction_c *i)
     case VMCS_32BIT_CONTROL_VMENTRY_EXCEPTION_ERR_CODE:
     case VMCS_32BIT_CONTROL_VMENTRY_INSTRUCTION_LENGTH:
     case VMCS_32BIT_CONTROL_TPR_THRESHOLD:
+    case VMCS_32BIT_CONTROL_SECONDARY_VMEXEC_CONTROLS:
       // fall through
 
     /* VMCS 32-bit guest-state fields */
