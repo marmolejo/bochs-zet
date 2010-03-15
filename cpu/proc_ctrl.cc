@@ -785,7 +785,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_CqRq(bxInstruction_c *i)
         exception(BX_GP_EXCEPTION, 0);
       }
 #if BX_SUPPORT_VMX
-      if (VMEXIT(VMX_VM_EXEC_CTRL2_TPR_SHADOW)) {
+      if (BX_CPU_THIS_PTR in_vmx_guest && VMEXIT(VMX_VM_EXEC_CTRL2_TPR_SHADOW)) {
         VMX_Write_TPR_Shadow(val_64 & 0xF);
         break;
       }
@@ -843,7 +843,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_RqCq(bxInstruction_c *i)
     case 8: // CR8
 #if BX_SUPPORT_VMX
       VMexit_CR8_Read(i);
-      if (VMEXIT(VMX_VM_EXEC_CTRL2_TPR_SHADOW)) {
+      if (BX_CPU_THIS_PTR in_vmx_guest && VMEXIT(VMX_VM_EXEC_CTRL2_TPR_SHADOW)) {
          val_64 = VMX_Read_TPR_Shadow();
          break;
       }
