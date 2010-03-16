@@ -749,8 +749,7 @@ void BX_CPU_C::prefetch(void)
     BX_CPU_THIS_PTR eipFetchPtr = fetchPtr;
   }
   else {
-    BX_CPU_THIS_PTR eipFetchPtr = BX_MEM(0)->getHostMemAddr(BX_CPU_THIS,
-        BX_CPU_THIS_PTR pAddrPage, BX_EXECUTE);
+    BX_CPU_THIS_PTR eipFetchPtr = (const Bit8u*) getHostMemAddr(BX_CPU_THIS_PTR pAddrPage, BX_EXECUTE);
 
     // Sanity checks
     if (! BX_CPU_THIS_PTR eipFetchPtr) {

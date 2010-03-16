@@ -572,13 +572,6 @@ Bit8u *BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, bx_phy_address addr, unsigned rw)
   if (a20addr > BX_CONST64(0xffffffff)) is_bios = 0;
 #endif
 
-#if BX_SUPPORT_APIC
-  if (cpu != NULL) {
-    if (cpu->lapic.is_selected(a20addr))
-      return(NULL); // Vetoed!  APIC address space
-  }
-#endif
-
   bx_bool write = rw & 1;
 
   // allow direct access to SMRAM memory space for code and veto data
@@ -592,7 +585,7 @@ Bit8u *BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, bx_phy_address addr, unsigned rw)
   }
 
 #if BX_SUPPORT_MONITOR_MWAIT
-  if (write && BX_MEM_THIS is_monitor(a20addr & ~0xfff, 0x1000)) {
+  if (write && BX_MEM_THIS is_monitor(a20addr & ~((bx_phy_address)(0xfff)), 0xfff)) {
     // Vetoed! Write monitored page !
     return(NULL);
   }
