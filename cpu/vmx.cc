@@ -1743,7 +1743,8 @@ void BX_CPU_C::VMexit(bxInstruction_c *i, Bit32u reason, Bit64u qualification)
   VMCS_CACHE *vm = &BX_CPU_THIS_PTR vmcs;
 
   if (!BX_CPU_THIS_PTR in_vmx || !BX_CPU_THIS_PTR in_vmx_guest) {
-    BX_PANIC(("PANIC: VMEXIT not in VMX guest mode !"));
+    if ((reason & 0x80000000) == 0)
+      BX_PANIC(("PANIC: VMEXIT not in VMX guest mode !"));
   }
 
   // VMEXITs are FAULT-like: restore RIP/RSP to value before VMEXIT occurred
