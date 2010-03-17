@@ -1395,11 +1395,14 @@ void BX_CPU_C::VMenterInjectEvents(void)
     case BX_NMI:
     case BX_HARDWARE_EXCEPTION:
       BX_CPU_THIS_PTR EXT = 1;
-      is_INT = 0;
+      break;
+
+    case BX_PRIVILEGED_SOFTWARE_INTERRUPT:
+      BX_CPU_THIS_PTR EXT = 1;
+      is_INT = 1;
       break;
 
     case BX_SOFTWARE_INTERRUPT:
-    case BX_PRIVILEGED_SOFTWARE_INTERRUPT:
     case BX_SOFTWARE_EXCEPTION:
       is_INT = 1;
       break;

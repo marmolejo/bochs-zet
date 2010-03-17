@@ -3119,12 +3119,11 @@ public: // for now...
   BX_SMF const char *strseg(bx_segment_reg_t *seg);
   BX_SMF void interrupt(Bit8u vector, unsigned type, bx_bool push_error,
                  Bit16u error_code);
-  BX_SMF void real_mode_int(Bit8u vector, unsigned is_INT, bx_bool push_error,
-                 Bit16u error_code);
-  BX_SMF void protected_mode_int(Bit8u vector, unsigned is_INT, bx_bool push_error,
+  BX_SMF void real_mode_int(Bit8u vector, bx_bool push_error, Bit16u error_code);
+  BX_SMF void protected_mode_int(Bit8u vector, unsigned soft_int, bx_bool push_error,
                  Bit16u error_code);
 #if BX_SUPPORT_X86_64
-  BX_SMF void long_mode_int(Bit8u vector, unsigned is_INT, bx_bool push_error,
+  BX_SMF void long_mode_int(Bit8u vector, unsigned soft_int, bx_bool push_error,
                  Bit16u error_code);
 #endif
   BX_SMF void exception(unsigned vector, Bit16u error_code)
