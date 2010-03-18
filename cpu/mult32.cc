@@ -128,8 +128,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::IDIV_EAXEdR(bxInstruction_c *i)
    */
 
   /* now write quotient back to destination */
-  RAX = quotient_32l;
-  RDX = remainder_32;
+  RAX = (Bit32u) quotient_32l;
+  RDX = (Bit32u) remainder_32;
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::IMUL_GdEdIdR(bxInstruction_c *i)
