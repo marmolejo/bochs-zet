@@ -977,9 +977,6 @@ public: // for now...
   jmp_buf jmp_buf_env;
   Bit8u curr_exception;
 
-  bx_address save_eip;
-  bx_address save_esp;
-
   // Boundaries of current page, based on EIP
   bx_address eipPageBias;
   Bit32u     eipPageWindowSize;
