@@ -588,9 +588,9 @@ static BxDisasmOpcodeTable_t BxDisasmGroupSSE_0fd5[4] = {
 };
 
 static BxDisasmOpcodeTable_t BxDisasmGroupSSE_0fd6[4] = {
-  /* -- */ { 0, &Ia_Invalid        },
-  /* 66 */ { 0, &Ia_movq_Wq_Vq     },
-  /* F2 */ { 0, &Ia_movdq2q_Pq_Vq  },
+  /* -- */ { 0, &Ia_Invalid },
+  /* 66 */ { 0, &Ia_movq_Wq_Vq },
+  /* F2 */ { 0, &Ia_movdq2q_Pq_Udq },
   /* F3 */ { 0, &Ia_movq2dq_Vdq_Qq },
 };
 

@@ -883,9 +883,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOVDQ2Q_PqVRq(bxInstruction_c *i)
   BX_CPU_THIS_PTR prepareFPU2MMX();
 
   BxPackedMmxRegister mm;
-  MMXUQ(mm) = BX_READ_XMM_REG_LO_QWORD(i->nnn());
+  MMXUQ(mm) = BX_READ_XMM_REG_LO_QWORD(i->rm());
 
-  BX_WRITE_MMX_REG(i->rm(), mm);
+  BX_WRITE_MMX_REG(i->nnn(), mm);
 #endif
 }
 
