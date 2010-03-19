@@ -236,13 +236,15 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SETNLE_EbR(bxInstruction_c *i)
   BX_WRITE_8BIT_REGx(i->rm(), i->extend8bitL(), result_8);
 }
 
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::BSWAP_RX(bxInstruction_c *i)
+{
+  BX_ERROR(("BSWAP with 16-bit opsize: undefined behavior !"));
+  BX_WRITE_16BIT_REG(i->opcodeReg(), 0);
+}
+
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::BSWAP_ERX(bxInstruction_c *i)
 {
   Bit32u val32, b0, b1, b2, b3;
-
-  if (i->os32L() == 0) {
-    BX_ERROR(("BSWAP with 16-bit opsize: undefined behavior !"));
-  }
 
   val32 = BX_READ_32BIT_REG(i->opcodeReg());
   b0 = val32 & 0xff; val32 >>= 8;

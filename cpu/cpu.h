@@ -1518,6 +1518,7 @@ public: // for now...
   BX_SMF void MOVSX_GdEbR(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void MOVSX_GdEwR(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
 
+  BX_SMF void BSWAP_RX(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
   BX_SMF void BSWAP_ERX(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
 
   BX_SMF void ADD_GbEbR(bxInstruction_c *) BX_CPP_AttrRegparmN(1);
