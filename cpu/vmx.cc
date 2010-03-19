@@ -2094,7 +2094,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::VMLAUNCH(bxInstruction_c *i)
   Bit32u state_load_error = VMenterLoadCheckGuestState(&qualification);
   if (state_load_error) {
     BX_ERROR(("VMEXIT: Guest State Checks Failed"));
-    VMexit(0, state_load_error | (1 << 31), qualification);
+    VMexit(0, VMX_VMEXIT_VMENTRY_FAILURE_GUEST_STATE | (1 << 31), qualification);
   }
 
   Bit32u msr = LoadMSRs(BX_CPU_THIS_PTR vmcs.vmentry_msr_load_cnt, BX_CPU_THIS_PTR vmcs.vmentry_msr_load_addr);
