@@ -37,6 +37,9 @@ bx_bool BX_CPP_AttrRegparmN(2) BX_CPU_C::rdmsr(Bit32u index, Bit64u *msr)
 {
   Bit64u val64 = 0;
 
+  if ((index & 0x3FFFFFFF) >= BX_MSR_MAX_INDEX)
+    return 0;
+
   switch(index) {
 
 #if BX_CPU_LEVEL >= 6
@@ -289,6 +292,9 @@ bx_bool BX_CPP_AttrRegparmN(2) BX_CPU_C::wrmsr(Bit32u index, Bit64u val_64)
   Bit32u val32_hi = GET32H(val_64);
 
   BX_INSTR_WRMSR(BX_CPU_ID, index, val_64);
+
+  if ((index & 0x3FFFFFFF) >= BX_MSR_MAX_INDEX)
+    return 0;
 
   switch(index) {
 
