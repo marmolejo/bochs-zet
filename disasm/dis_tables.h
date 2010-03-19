@@ -133,6 +133,9 @@
 #define Vsd &disassembler::Vsd
 #define Vps &disassembler::Vps
 #define Vpd &disassembler::Vpd
+
+#define Ups &disassembler::Ups
+#define Upd &disassembler::Upd
 #define Udq &disassembler::Udq
 
 #define  Ww &disassembler::Ww

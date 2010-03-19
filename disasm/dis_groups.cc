@@ -415,6 +415,9 @@ void disassembler::Udq(const x86_insn *insn)
     dis_sprintf("%%xmm%d", insn->rm);
 }
 
+void disassembler::Ups(const x86_insn *insn) { Udq(insn); }
+void disassembler::Upd(const x86_insn *insn) { Udq(insn); }
+
 void disassembler::Vq(const x86_insn *insn)
 {
   if (intel_mode)

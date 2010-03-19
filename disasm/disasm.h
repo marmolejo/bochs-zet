@@ -497,7 +497,10 @@ public:
   void Nq(const x86_insn *insn);
 
   // xmm register
+  void Ups(const x86_insn *insn);
+  void Upd(const x86_insn *insn);
   void Udq(const x86_insn *insn);
+
   void Vdq(const x86_insn *insn);
   void Vss(const x86_insn *insn);
   void Vsd(const x86_insn *insn);
