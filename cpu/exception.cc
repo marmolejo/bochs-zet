@@ -897,6 +897,11 @@ void BX_CPU_C::exception(unsigned vector, Bit16u error_code)
 
   if (BX_CPU_THIS_PTR errorno > 0) {
     if (BX_CPU_THIS_PTR errorno > 2 || BX_CPU_THIS_PTR curr_exception == BX_ET_DOUBLE_FAULT) {
+      // restore RIP/RSP to value before error occurred
+      RIP = BX_CPU_THIS_PTR prev_rip;
+      if (BX_CPU_THIS_PTR speculative_rsp)
+        RSP = BX_CPU_THIS_PTR prev_rsp;
+
       debug(BX_CPU_THIS_PTR prev_rip); // print debug information to the log
 #if BX_SUPPORT_VMX
       VMexit_TripleFault();
