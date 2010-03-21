@@ -404,8 +404,8 @@ static BxDisasmOpcodeTable_t BxDisasmGroupSSE_0f6f[4] = {
 static BxDisasmOpcodeTable_t BxDisasmGroupSSE_0f70[4] = {
   /* -- */ { 0, &Ia_pshufw_Pq_Qq_Ib    },
   /* 66 */ { 0, &Ia_pshufd_Vdq_Wdq_Ib  },
-  /* F2 */ { 0, &Ia_pshufhw_Vdq_Wdq_Ib },
-  /* F3 */ { 0, &Ia_pshuflw_Vdq_Wdq_Ib }
+  /* F2 */ { 0, &Ia_pshuflw_Vdq_Wdq_Ib },
+  /* F3 */ { 0, &Ia_pshufhw_Vdq_Wdq_Ib }
 };
 
 static BxDisasmOpcodeTable_t BxDisasmGroupSSE_0f74[4] = {
