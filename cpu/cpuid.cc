@@ -350,10 +350,10 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CPUID(bxInstruction_c *i)
   }
 
   // unknown CPUID function - return maximum standard leaf
-  RAX = BX_CPU_THIS_PTR cpuid_ext_function[max_std_function].eax;
-  RBX = BX_CPU_THIS_PTR cpuid_ext_function[max_std_function].ebx;
-  RCX = BX_CPU_THIS_PTR cpuid_ext_function[max_std_function].ecx;
-  RDX = BX_CPU_THIS_PTR cpuid_ext_function[max_std_function].edx;
+  RAX = BX_CPU_THIS_PTR cpuid_std_function[max_std_function].eax;
+  RBX = BX_CPU_THIS_PTR cpuid_std_function[max_std_function].ebx;
+  RCX = BX_CPU_THIS_PTR cpuid_std_function[max_std_function].ecx;
+  RDX = BX_CPU_THIS_PTR cpuid_std_function[max_std_function].edx;
 #endif
 }
 
