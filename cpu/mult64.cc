@@ -194,7 +194,7 @@ void long_idiv(Bit128s *quotient,Bit64s *remainder,Bit128s *dividend,Bit64s divi
   if (s1 ^ s2) {
     long_neg(quotient);
   }
-  if (s2) {
+  if (s1) {
     *remainder = -*remainder;
   }
 }
