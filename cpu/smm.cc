@@ -756,7 +756,10 @@ bx_bool BX_CPU_C::smram_restore_state(const Bit32u *saved_state)
     BX_PANIC(("SMM restore: failed to restore CR0 !"));
     return 0;
   }
-  SetCR3(temp_cr3);
+  if (!SetCR3(temp_cr3)) {
+    BX_PANIC(("SMM restore: failed to restore CR3 !"));
+    return 0;
+  }
   setEFlags(temp_eflags);
 
 #if BX_CPU_LEVEL >= 4
