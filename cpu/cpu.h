@@ -1012,7 +1012,7 @@ public: // for now...
   struct {
     bx_bool valid;
     Bit64u entry[4];
-  } PDPE_CACHE;
+  } PDPTR_CACHE;
 #endif
 
 #if BX_SUPPORT_X86_64
