@@ -237,6 +237,12 @@ void disassembler::Gq(const x86_insn *insn)
   dis_sprintf("%s", general_64bit_regname[insn->nnn]);
 }
 
+void disassembler::Gy(const x86_insn *insn)
+{
+  if (insn->os_64) Gq(insn);
+  else Gd(insn);
+}
+
 // immediate
 void disassembler::I1(const x86_insn *insn)
 {

@@ -95,6 +95,7 @@
 #define Gw &disassembler::Gw
 #define Gd &disassembler::Gd
 #define Gq &disassembler::Gq
+#define Gy &disassembler::Gy
 
 #define Hbd &disassembler::Hbd
 #define Hwd &disassembler::Hwd

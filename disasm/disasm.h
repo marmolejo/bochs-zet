@@ -455,6 +455,7 @@ public:
   void Gw(const x86_insn *insn);
   void Gd(const x86_insn *insn);
   void Gq(const x86_insn *insn);
+  void Gy(const x86_insn *insn);
 
   void Hbd(const x86_insn *insn);
   void Hwd(const x86_insn *insn);
