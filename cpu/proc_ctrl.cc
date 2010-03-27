@@ -1262,14 +1262,10 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SYSRET(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::SWAPGS(bxInstruction_c *i)
 {
-  Bit64u temp_GS_base;
-
-  BX_ASSERT(protected_mode());
-
   if(CPL != 0)
     exception(BX_GP_EXCEPTION, 0);
 
-  temp_GS_base = MSR_GSBASE;
+  Bit64u temp_GS_base = MSR_GSBASE;
   MSR_GSBASE = MSR_KERNELGSBASE;
   MSR_KERNELGSBASE = temp_GS_base;
 }
