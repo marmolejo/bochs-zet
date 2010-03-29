@@ -290,7 +290,7 @@ void BX_CPU_C::VMexit_Event(bxInstruction_c *i, unsigned type, unsigned vector, 
     return;
   }
 
-  BX_ERROR(("VMEXIT: event vector 0x%02x error code 0x%04x", vector, errcode));
+  BX_ERROR(("VMEXIT: event vector 0x%02x type %d error code=0x%04x", vector, type, errcode));
 
   // VMEXIT is not considered to occur during event delivery if it results
   // in a double fault exception that causes VMEXIT directly
