@@ -88,7 +88,13 @@ static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f15[3] = {
   /* F3 */ { 0, BX_IA_ERROR }
 };
 
-static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f16[3] = {
+static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f16R[3] = {
+  /* 66 */ { 0, BX_IA_ERROR },
+  /* F2 */ { 0, BX_IA_ERROR },
+  /* F3 */ { 0, BX_IA_MOVSHDUP_VpsWps }	// SSE3
+};
+
+static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f16M[3] = {
   /* 66 */ { 0, BX_IA_MOVHPD_VsdMq },
   /* F2 */ { 0, BX_IA_ERROR },
   /* F3 */ { 0, BX_IA_MOVSHDUP_VpsWps }	// SSE3
