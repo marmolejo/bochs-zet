@@ -1125,8 +1125,8 @@ bx_phy_address BX_CPU_C::translate_linear(bx_address laddr, unsigned curr_pl, un
   {
     paddress = tlbEntry->ppf | poffset;
 
-//  bx_bool isExecute = (rw == BX_EXECUTE);
-    if (! (tlbEntry->accessBits & (/* (isExecute<<2) |*/ (isWrite<<1) | pl)))
+    bx_bool isExecute = (rw == BX_EXECUTE);
+    if (! (tlbEntry->accessBits & ((isExecute<<2) | (isWrite<<1) | pl)))
       return paddress;
 
     // The current access does not have permission according to the info
