@@ -938,7 +938,10 @@ bx_address get_cr4_allow_mask(Bit32u cpuid_features_bitmask)
 #if BX_CPU_LEVEL >= 6
   allowMask |= (1<<7);   /* PGE */
   allowMask |= (1<<8);   /* PCE */
-  allowMask |= (1<<9);   /* OSFXSR */
+
+  /* OSFXSR */
+  if (cpuid_features_bitmask & BX_CPU_FXSAVE_FXRSTOR)
+    allowMask |= (1<<9);   /* OSFXSR */
 
   /* OSXMMECPT */
   if (cpuid_features_bitmask & BX_CPU_SSE)

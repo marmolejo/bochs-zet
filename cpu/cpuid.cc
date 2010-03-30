@@ -166,7 +166,8 @@ Bit32u BX_CPU_C::get_extended_cpuid_features(void)
   if (BX_CPU_THIS_PTR cpuid_features_bitmask & BX_CPU_SSE3)
     features |= (1<<0);
 
-  if (BX_CPU_THIS_PTR cpuid_features_bitmask & BX_CPU_PCLMULQDQ)
+  // support for PCLMULQDQ
+  if (BX_CPU_THIS_PTR cpuid_features_bitmask & BX_CPU_AES_PCLMULQDQ)
     features |= (1<<1);
 
   if (BX_CPU_THIS_PTR cpuid_features_bitmask & BX_CPU_MONITOR_MWAIT)
@@ -197,7 +198,8 @@ Bit32u BX_CPU_C::get_extended_cpuid_features(void)
   if (BX_CPU_THIS_PTR cpuid_features_bitmask & BX_CPU_SSE4_2)
     features |= (1<<23);
 
-  if (BX_CPU_THIS_PTR cpuid_features_bitmask & BX_CPU_AES)
+  // support for AES
+  if (BX_CPU_THIS_PTR cpuid_features_bitmask & BX_CPU_AES_PCLMULQDQ)
     features |= (1<<25);
 
   // support XSAVE extensions
@@ -931,7 +933,7 @@ void BX_CPU_C::init_cpu_features_bitmask(void)
     features_bitmask |= BX_CPU_XSAVE;
 
   if (aes_enabled)
-    features_bitmask |= BX_CPU_AES | BX_CPU_PCLMULQDQ;
+    features_bitmask |= BX_CPU_AES_PCLMULQDQ;
 
   if (movbe_enabled)
     features_bitmask |= BX_CPU_MOVBE;
