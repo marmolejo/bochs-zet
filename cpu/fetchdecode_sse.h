@@ -512,12 +512,6 @@ static const BxOpcodeInfo_t BxOpcodeGroupSSE_0fd6R[3] = {
   /* F3 */ { 0, BX_IA_MOVQ2DQ_VdqQq }
 };
 
-static const BxOpcodeInfo_t BxOpcodeGroupSSE_0fd6M[3] = {
-  /* 66 */ { 0, BX_IA_MOVQ_WqVqM    },
-  /* F2 */ { 0, BX_IA_MOVDQ2Q_PqVRq },
-  /* F3 */ { 0, BX_IA_MOVQ2DQ_VdqQq }
-};
-
 static const BxOpcodeInfo_t BxOpcodeGroupSSE_0fd7[3] = {
   /* 66 */ { 0, BX_IA_PMOVMSKB_GdUdq },
   /* F2 */ { 0, BX_IA_ERROR },
