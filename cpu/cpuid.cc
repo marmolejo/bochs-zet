@@ -146,7 +146,8 @@ Bit32u BX_CPU_C::get_extended_cpuid_features(void)
   // [12:12] FMA Instructions support
   // [13:13] CMPXCHG16B: CMPXCHG16B instruction support
   // [14:14] xTPR update control
-  // [17:15] reserved
+  // [16:15] reserved
+  // [17:17] PCID: Process Context Identifiers
   // [18:18] DCA - Direct Cache Access
   // [19:19] SSE4.1 Instructions
   // [20:20] SSE4.2 Instructions
@@ -462,7 +463,8 @@ void BX_CPU_C::set_cpuid_defaults(void)
   //   [12:12] FMA Instructions support
   //   [13:13] CMPXCHG16B: CMPXCHG16B instruction support
   //   [14:14] xTPR update control
-  //   [17:15] reserved
+  //   [16:15] reserved
+  //   [17:17] PCID: Process Context Identifiers
   //   [18:18] DCA - Direct Cache Access
   //   [19:19] SSE4.1 Instructions
   //   [20:20] SSE4.2 Instructions
@@ -477,6 +479,7 @@ void BX_CPU_C::set_cpuid_defaults(void)
   //   [31:29] reserved
   cpuid->ecx = get_extended_cpuid_features();
 
+  // EDX:       Standard Feature Flags
   //   [0:0]   FPU on chip
   //   [1:1]   VME: Virtual-8086 Mode enhancements
   //   [2:2]   DE: Debug Extensions (I/O breakpoints)
