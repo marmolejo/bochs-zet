@@ -64,7 +64,13 @@ static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f11M[3] = {
   /* F3 */ { 0, BX_IA_MOVSS_WssVssM }
 };
 
-static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f12[3] = {
+static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f12R[3] = {
+  /* 66 */ { 0, BX_IA_ERROR },
+  /* F2 */ { 0, BX_IA_MOVDDUP_VpdWq },	// SSE3
+  /* F3 */ { 0, BX_IA_MOVSLDUP_VpsWps }	// SSE3
+};
+
+static const BxOpcodeInfo_t BxOpcodeGroupSSE_0f12M[3] = {
   /* 66 */ { 0, BX_IA_MOVLPD_VsdMq },
   /* F2 */ { 0, BX_IA_MOVDDUP_VpdWq },	// SSE3
   /* F3 */ { 0, BX_IA_MOVSLDUP_VpsWps }	// SSE3
