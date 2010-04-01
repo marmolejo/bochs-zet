@@ -575,7 +575,7 @@ typedef struct bx_VMCS
 
 #ifdef BX_VMX_ENABLE_ALL
 
-#define VMX_VM_EXEC_CTRL3_SUPPORTED_BITS (0x0000004f)
+#define VMX_VM_EXEC_CTRL3_SUPPORTED_BITS (0x000004ff)
 
 #else // only really supported features
 
