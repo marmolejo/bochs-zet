@@ -181,36 +181,20 @@ void disassembler::Ey(const x86_insn *insn)
   else Ed(insn);
 }
 
-void disassembler::Hbd(const x86_insn *insn)
+void disassembler::Ebd(const x86_insn *insn)
 {
   if (insn->mod == 3)
-    dis_sprintf("%s", general_32bit_regname[insn->nnn]);
+    dis_sprintf("%s", general_32bit_regname[insn->rm]);
   else
     (this->*resolve_modrm)(insn, B_SIZE);
 }
 
-void disassembler::Hwd(const x86_insn *insn)
+void disassembler::Ewd(const x86_insn *insn)
 {
   if (insn->mod == 3)
-    dis_sprintf("%s", general_32bit_regname[insn->nnn]);
+    dis_sprintf("%s", general_32bit_regname[insn->rm]);
   else
     (this->*resolve_modrm)(insn, W_SIZE);
-}
-
-void disassembler::Hd(const x86_insn *insn)
-{
-  if (insn->mod == 3)
-    dis_sprintf("%s", general_32bit_regname[insn->nnn]);
-  else
-    (this->*resolve_modrm)(insn, D_SIZE);
-}
-
-void disassembler::Hq(const x86_insn *insn)
-{
-  if (insn->mod == 3)
-    dis_sprintf("%s", general_32bit_regname[insn->nnn]);
-  else
-    (this->*resolve_modrm)(insn, Q_SIZE);
 }
 
 // general purpose register

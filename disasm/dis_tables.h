@@ -85,22 +85,19 @@
 #define  ERX &disassembler::ERX
 #define  RRX &disassembler::RRX
 
-#define Eb &disassembler::Eb
-#define Ew &disassembler::Ew
-#define Ed &disassembler::Ed
-#define Eq &disassembler::Eq
-#define Ey &disassembler::Ey
+#define Eb  &disassembler::Eb
+#define Ew  &disassembler::Ew
+#define Ed  &disassembler::Ed
+#define Eq  &disassembler::Eq
+#define Ey  &disassembler::Ey
+#define Ebd &disassembler::Ebd
+#define Ewd &disassembler::Ewd
 
 #define Gb &disassembler::Gb
 #define Gw &disassembler::Gw
 #define Gd &disassembler::Gd
 #define Gq &disassembler::Gq
 #define Gy &disassembler::Gy
-
-#define Hbd &disassembler::Hbd
-#define Hwd &disassembler::Hwd
-#define  Hd &disassembler::Hd
-#define  Hq &disassembler::Hq
 
 #define I1 &disassembler::I1
 #define Ib &disassembler::Ib
