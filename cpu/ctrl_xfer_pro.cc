@@ -42,12 +42,9 @@ void BX_CPU_C::check_cs(bx_descriptor_t *descriptor, Bit16u cs_raw, Bit8u check_
   }
 
 #if BX_SUPPORT_X86_64
-  if (descriptor->u.segment.l) {
-    if (! BX_CPU_THIS_PTR efer.get_LMA()) {
-      BX_ERROR(("check_cs(0x%04x): attempt to jump to long mode without enabling EFER.LMA !", cs_raw));
-    }
-    else if (descriptor->u.segment.d_b) {
-      BX_ERROR(("check_cs(0x%04x): Both L and D bits enabled for segment descriptor !", cs_raw));
+  if (long_mode()) {
+    if (descriptor->u.segment.l && descriptor->u.segment.d_b) {
+      BX_ERROR(("check_cs(0x%04x): Both CS.L and CS.D_B bits enabled !", cs_raw));
       exception(BX_GP_EXCEPTION, cs_raw & 0xfffc);
     }
   }
