@@ -558,11 +558,6 @@ int BX_CPU_C::check_entry_PAE(const char *s, Bit64u entry, Bit64u reserved, unsi
     return ERROR_NOT_PRESENT;
   }
 
-#if BX_PHY_ADDRESS_WIDTH == 32
-  if (entry & BX_CONST64(0x000fffff00000000)) {
-    BX_PANIC(("%s: 0x%08x%08x: Only 32 bit physical address space is emulated !", s, GET32H(entry), GET32L(entry)));
-  }
-#endif
   if (entry & reserved) {
     BX_DEBUG(("%s: reserved bit is set %08x:%08x", s, GET32H(entry), GET32L(entry)));
     return ERROR_RESERVED | ERROR_PROTECTION;
