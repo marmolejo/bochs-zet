@@ -1407,7 +1407,7 @@ AC_ARG_ENABLE(vmx,
   ]
   )
 
-if test "$support_vmx" -lt 0 -a "$bx_cpu_level" -lt 6; then
+if test "$support_vmx" -gt 0 -a "$bx_cpu_level" -lt 6; then
   AC_MSG_ERROR([for VMX support the CPU level must be set to 6])
 fi
 
