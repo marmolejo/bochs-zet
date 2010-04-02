@@ -440,9 +440,15 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
         BX_CPU_THIS_PTR inhibit_mask = 0; // clear inhibits for after resume
         break;
       }
+
       if (BX_CPU_THIS_PTR activity_state == BX_ACTIVITY_STATE_ACTIVE) {
         BX_INFO(("handleAsyncEvent: reset detected in HLT state"));
         break;
+      }
+
+      if (BX_HRQ && BX_DBG_ASYNC_DMA) {
+        // handle DMA also when CPU is halted
+        DEV_dma_raise_hlda();
       }
 
       // for multiprocessor simulation, even if this CPU is halted we still
