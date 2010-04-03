@@ -1736,9 +1736,11 @@ void BX_CPU_C::VMexitLoadHostState(void)
 
   TLB_flush(); // CR0/CR4 updated
 
-  if (! CheckPDPTR(host_state->cr3)) {
-    BX_ERROR(("VMABORT: host PDPTRs are corrupted !"));
-    VMabort(VMABORT_HOST_PDPTR_CORRUPTED);
+  if (! x86_64_host && BX_CPU_THIS_PTR cr4.get_PAE()) {
+    if (! CheckPDPTR(host_state->cr3)) {
+      BX_ERROR(("VMABORT: host PDPTRs are corrupted !"));
+      VMabort(VMABORT_HOST_PDPTR_CORRUPTED);
+    }
   }
 
   if (! SetCR3(host_state->cr3)) {
