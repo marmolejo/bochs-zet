@@ -692,6 +692,7 @@ void BX_CPU_C::VMX_Write_TPR_Shadow(Bit8u tpr_shadow)
   }
 }
 
+#if BX_SUPPORT_VMX >= 2
 bx_bool BX_CPP_AttrRegparmN(1) BX_CPU_C::is_virtual_apic_page(bx_phy_address paddr)
 {
   VMCS_CACHE *vm = &BX_CPU_THIS_PTR vmcs;
@@ -755,5 +756,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::VMexit_WBINVD(bxInstruction_c *i)
     VMexit(i, VMX_VMEXIT_WBINVD, 0);
   }
 }
+#endif
 
 #endif // BX_SUPPORT_VMX

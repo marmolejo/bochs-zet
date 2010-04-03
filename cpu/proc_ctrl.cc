@@ -178,7 +178,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::WBINVD(bxInstruction_c *i)
     exception(BX_GP_EXCEPTION, 0);
   }
 
-#if BX_SUPPORT_VMX
+#if BX_SUPPORT_VMX >= 2
   VMexit_WBINVD(i);
 #endif
 
@@ -635,6 +635,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RDTSC(bxInstruction_c *i)
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::RDTSCP(bxInstruction_c *i)
 {
 #if BX_SUPPORT_VMX
+  // RDTSCP will always #UD in legacy VMX mode
   if (BX_CPU_THIS_PTR in_vmx_guest) {
     if (! SECONDARY_VMEXEC_CONTROL(VMX_VM_EXEC_CTRL3_RDTSCP)) {
        BX_ERROR(("RDTSCP in VMX guest: not allowed to use instruction !"));
