@@ -794,10 +794,7 @@ bx_bool BX_CPP_AttrRegparmN(1) BX_CPU_C::CheckPDPTR(Bit32u cr3_val)
     access_read_physical(pdpe_entry_addr, 8, &(pdptr[n]));
     BX_DBG_PHY_MEMORY_ACCESS(BX_CPU_ID, pdpe_entry_addr, 8, BX_READ, (Bit8u*) &(pdptr[n]));
     if (pdptr[n] & 0x1) {
-       if (pdptr[n] & PAGING_PAE_PDPTE_RESERVED_BITS) {
-          BX_CPU_THIS_PTR PDPTR_CACHE.valid = 0;
-          return 0;
-       }
+       if (pdptr[n] & PAGING_PAE_PDPTE_RESERVED_BITS) return 0;
     }
   }
 
