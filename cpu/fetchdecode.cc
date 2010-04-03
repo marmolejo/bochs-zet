@@ -2907,7 +2907,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::BxError(bxInstruction_c *i)
   }
   else {
     BX_INFO(("%s: instruction not supported - signalling #UD (features bitmask: 0x%08x)",
-      get_bx_opcode_name(ia_opcode), BX_CPU_THIS_PTR cpuid_features_bitmask));
+      get_bx_opcode_name(ia_opcode), BX_CPU_THIS_PTR isa_extensions_bitmask));
   }
 
   exception(BX_UD_EXCEPTION, 0);
@@ -2934,7 +2934,7 @@ void BX_CPU_C::init_FetchDecodeTables(void)
   };
 #undef  bx_define_opcode
 
-  Bit32u features = BX_CPU_THIS_PTR cpuid_features_bitmask;
+  Bit32u features = BX_CPU_THIS_PTR isa_extensions_bitmask;
   if (! features)
     BX_PANIC(("init_FetchDecodeTables: CPU features bitmask is empty !"));
 
