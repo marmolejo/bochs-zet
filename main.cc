@@ -1047,7 +1047,7 @@ void bx_init_hardware()
 #if BX_SUPPORT_VMX
   BX_INFO(("  VMX support: %d",BX_SUPPORT_VMX));
 #else
-  BX_INFO(("  VMX support: no",));
+  BX_INFO(("  VMX support: no"));
 #endif
 #endif
   BX_INFO(("Optimization configuration"));
