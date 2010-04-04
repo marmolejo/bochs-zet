@@ -979,8 +979,7 @@ bx_phy_address BX_CPU_C::translate_linear(bx_address laddr, unsigned curr_pl, un
     BX_DEBUG(("page walk for address 0x" FMT_LIN_ADDRX, laddr));
 
 #if BX_CPU_LEVEL >= 6
-    if (BX_CPU_THIS_PTR cr4.get_PAE())
-    {
+    if (BX_CPU_THIS_PTR cr4.get_PAE()) {
       ppf = translate_linear_PAE(laddr, lpf_mask, combined_access, curr_pl, rw);
     }
     else
