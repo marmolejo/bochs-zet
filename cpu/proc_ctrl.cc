@@ -634,6 +634,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RDTSC(bxInstruction_c *i)
 #if BX_SUPPORT_X86_64
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::RDTSCP(bxInstruction_c *i)
 {
+  if(! long64_mode())
+    exception(BX_UD_EXCEPTION, 0);
+
 #if BX_SUPPORT_VMX
   // RDTSCP will always #UD in legacy VMX mode
   if (BX_CPU_THIS_PTR in_vmx_guest) {
@@ -1257,6 +1260,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SYSRET(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::SWAPGS(bxInstruction_c *i)
 {
+  if(! long64_mode())
+    exception(BX_UD_EXCEPTION, 0);
+
   if(CPL != 0)
     exception(BX_GP_EXCEPTION, 0);
 

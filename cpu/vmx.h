@@ -894,6 +894,9 @@ enum VMX_Activity_State {
 // IA32_MSR_VMX_MISC MSR (0x485)
 // -----------------
 
+//   [4:0] - TSC:VMX_PREEMPTION_TIMER ratio
+//     [5] - VMEXITs store the value of EFER.LMA into the “x86-64 guest"
+//           VMENTRY control (set to '1 if 'unrestricted guest' is supported)
 //     [6] - support VMENTER to HLT state
 //     [7] - support VMENTER to SHUTDOWN state
 //     [8] - support VMENTER to WAIT_FOR_SIPI state
