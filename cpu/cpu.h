@@ -875,7 +875,6 @@ public: // for now...
   bx_cr0_t       cr0;
   bx_address     cr2;
   bx_address     cr3;
-  bx_phy_address cr3_masked;
 #if BX_CPU_LEVEL >= 4
   bx_cr4_t       cr4;
 #endif
