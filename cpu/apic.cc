@@ -236,7 +236,7 @@ void bx_local_apic_c::reset(unsigned type)
   if (xapic)
     apic_version_id = 0x00050014; // P4 has 6 LVT entries
   else 
-    apic_version_id = 0x00040010; // P6 has 4 LVT entries
+    apic_version_id = 0x00040010; // P6 has 5 LVT entries
 }
 
 void bx_local_apic_c::set_base(bx_phy_address newbase)
