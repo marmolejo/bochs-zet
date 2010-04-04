@@ -2371,7 +2371,7 @@ void rombios32_init(uint32_t *s3_resume_vector, uint8_t *shutdown_flag)
 
     pci_bios_init();
 
-    if (bios_table_cur_addr != 0) {
+    if (bios_table_cur_addr != 0 && i440_pcidev.bus != -1) {
 
         mptable_init();
 

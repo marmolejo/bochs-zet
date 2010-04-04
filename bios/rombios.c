@@ -5348,7 +5348,7 @@ int13_harddisk(EHAX, DS, ES, DI, SI, BP, ELDX, BX, DX, CX, AX, IP, CS, FLAGS)
       nlspt = read_word(ebda_seg, &EbdaData->ata.devices[device].lchs.spt);
       count = read_byte(ebda_seg, &EbdaData->ata.hdcount);
 
-      nlc = nlc - 2; /* 0 based, last sector not used */
+      nlc = nlc - 1; /* 0 based */
       SET_AL(0);
       SET_CH(nlc & 0xff);
       SET_CL(((nlc >> 2) & 0xc0) | (nlspt & 0x3f));
@@ -6705,7 +6705,7 @@ BX_DEBUG_INT13_HD("int13_f08\n");
         hd_heads <<= 4;
       }
 
-      max_cylinder = hd_cylinders - 2; /* 0 based */
+      max_cylinder = hd_cylinders - 1; /* 0 based */
       SET_AL(0);
       SET_CH(max_cylinder & 0xff);
       SET_CL(((max_cylinder >> 2) & 0xc0) | (hd_sectors & 0x3f));
