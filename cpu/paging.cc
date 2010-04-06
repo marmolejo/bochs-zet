@@ -413,10 +413,6 @@ void BX_CPU_C::TLB_flush(void)
     BX_CPU_THIS_PTR TLB.entry[n].lpf = BX_INVALID_TLB_ENTRY;
   }
 
-#if BX_CPU_LEVEL >= 6
-  BX_CPU_THIS_PTR PDPTR_CACHE.valid = 0;
-#endif
-
 #if BX_CPU_LEVEL >= 5
   BX_CPU_THIS_PTR TLB.split_large = 0;  // flush whole TLB
 #endif

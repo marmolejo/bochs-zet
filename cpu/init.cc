@@ -693,12 +693,17 @@ void BX_CPU_C::after_restore_state(void)
     if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_IA32_V8086) CPL = 3;
   }
 
-  if (!SetCR0(cr0.val32))
-    BX_PANIC(("Incorrect CR0 state !"));
   TLB_flush();
+
+#if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
+  handleAlignmentCheck();
+#endif
+  handleCpuModeChange();
+
 #if BX_SUPPORT_VMX
   set_VMCSPTR(BX_CPU_THIS_PTR vmcsptr);
 #endif
+
   assert_checks();
   invalidate_prefetch_q();
   debug(RIP);
