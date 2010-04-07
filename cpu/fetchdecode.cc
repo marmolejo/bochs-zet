@@ -2935,8 +2935,10 @@ void BX_CPU_C::init_FetchDecodeTables(void)
 #undef  bx_define_opcode
 
   Bit32u features = BX_CPU_THIS_PTR isa_extensions_bitmask;
+#if BX_CPU_LEVEL > 3
   if (! features)
     BX_PANIC(("init_FetchDecodeTables: CPU features bitmask is empty !"));
+#endif
 
   if (BX_IA_LAST > 0xffff)
     BX_PANIC(("init_FetchDecodeTables: too many opcodes defined !"));
