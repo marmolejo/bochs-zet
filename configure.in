@@ -860,6 +860,22 @@ fi
 
 AC_SUBST(NETLOW_OBJS)
 
+AC_MSG_CHECKING(for X2APIC support)
+AC_ARG_ENABLE(x2apic,
+  [  --enable-x2apic                   support for X2APIC],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_SUPPORT_X2APIC, 1)
+   else
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SUPPORT_X2APIC, 0)
+   fi],
+  [
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SUPPORT_X2APIC, 0)
+    ]
+  )
+
 AC_MSG_CHECKING(for long mode 1G pages support)
 AC_ARG_ENABLE(1g-pages,
   [  --enable-1g-pages                 support for 1G pages in long mode],

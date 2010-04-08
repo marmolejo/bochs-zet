@@ -45,7 +45,7 @@
 #define IA_P6               0x00000008        /* P6 new instruction */
 #define IA_MMX              0x00000010        /* MMX instruction */
 #define IA_3DNOW            0x00000020        /* 3DNow! instruction */
-#define IA_FXSAVE_FXRSTOR   0x00000040        /* SYSENTER/SYSEXIT instruction */
+#define IA_FXSAVE_FXRSTOR   0x00000040        /* FXSAVE/FXRSTOR instruction */
 #define IA_SYSENTER_SYSEXIT 0x00000080        /* SYSENTER/SYSEXIT instruction */
 #define IA_CLFLUSH          0x00000100        /* CLFLUSH instruction */
 #define IA_SSE              0x00000200        /* SSE  instruction */
