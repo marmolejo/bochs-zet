@@ -473,8 +473,8 @@ VMX_error_code BX_CPU_C::VMenterLoadCheckVmControls(void)
 
   if (vm->vmexec_ctrls3 & VMX_VM_EXEC_CTRL3_VPID_ENABLE) {
      vm->vpid = VMread16(VMCS_16BIT_CONTROL_VPID);
-     if (vm->vpid != 0) {
-       BX_ERROR(("VMFAIL: VMCS EXEC CTRL: guest VPID != 0"));
+     if (vm->vpid == 0) {
+       BX_ERROR(("VMFAIL: VMCS EXEC CTRL: guest VPID == 0"));
        return VMXERR_VMENTRY_INVALID_VM_CONTROL_FIELD;
      }
   }
@@ -1524,6 +1524,11 @@ Bit32u BX_CPU_C::VMenterLoadCheckGuestState(Bit64u *qualification)
     BX_CPU_THIS_PTR sregs[segreg] = guest.sregs[segreg];
 
   if (v8086_guest) CPL = 3;
+#if BX_SUPPORT_VMX >= 2
+  else {
+    if (real_mode_guest) CPL = 0;
+  }
+#endif
 
   BX_CPU_THIS_PTR gdtr.base = gdtr_base;
   BX_CPU_THIS_PTR gdtr.limit = gdtr_limit;
