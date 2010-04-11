@@ -218,6 +218,7 @@ BX_CPU_C::iret_protected(bxInstruction_c *i)
     return;
   }
   else { /* INTERRUPT RETURN TO OUTER PRIVILEGE LEVEL */
+
     /* 16bit opsize  |   32bit opsize
      * ==============================
      * SS     eSP+8  |   SS     eSP+16
@@ -229,7 +230,7 @@ BX_CPU_C::iret_protected(bxInstruction_c *i)
 
     /* examine return SS selector and associated descriptor */
     if (i->os32L()) {
-      raw_ss_selector = (Bit16u) read_virtual_dword_32(BX_SEG_REG_SS, temp_ESP + 16);
+      raw_ss_selector = read_virtual_word_32(BX_SEG_REG_SS, temp_ESP + 16);
     }
     else {
       raw_ss_selector = read_virtual_word_32(BX_SEG_REG_SS, temp_ESP + 8);
