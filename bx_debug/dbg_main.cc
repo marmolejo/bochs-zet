@@ -612,6 +612,31 @@ void bx_dbg_phy_memory_access(unsigned cpu, bx_phy_address phy, unsigned len, un
   if (! BX_CPU(cpu)->trace_mem)
     return;
 
+  unsigned access = rw >> 4;
+
+  static const char *access_string[] = {
+    "",
+    "PDPTR0",
+    "PDPTR1",
+    "PDPTR2",
+    "PDPTR3",
+    "PTE",
+    "PDE",
+    "PDPTE",
+    "PML4E",
+    "EPT PTE",
+    "EPT PDE",
+    "EPT PDPTE",
+    "EPT PML4E",
+    "VMCS",
+    "VMX MSR BITMAP",
+    "VMX I/O BITMAP",
+    "VMX LDMSR",
+    "VMX STMSR",
+    "VMX VTPR",
+    "SMRAM"
+  };
+
   bx_bool write = rw & 1;
 
   dbg_printf("[CPU%d %s]: PHY 0x" FMT_PHY_ADDRX " (len=%d)",
@@ -644,7 +669,10 @@ void bx_dbg_phy_memory_access(unsigned cpu, bx_phy_address phy, unsigned len, un
   }
 #endif
 
-  dbg_printf("\n");
+  if (access != 0)
+    dbg_printf("\t; %s\n", access_string[access]);
+  else
+    dbg_printf("\n");
 }
 
 void bx_dbg_exit(int code)
