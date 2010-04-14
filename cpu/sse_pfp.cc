@@ -34,6 +34,8 @@ void BX_CPU_C::check_exceptionsSSE(int exceptions_flags)
 {
   exceptions_flags &= MXCSR_EXCEPTIONS;
   int unmasked = ~(MXCSR.get_exceptions_masks()) & exceptions_flags;
+  // unmasked pre-computational exception detected (#IA, #DE or #DZ)
+  if (unmasked & 0x7) exceptions_flags &= 0x7;
   MXCSR.set_exceptions(exceptions_flags);
 
   if (unmasked)
