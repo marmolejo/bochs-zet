@@ -246,8 +246,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::IMUL_RAXEqR(bxInstruction_c *i)
    *   RDX:RAX = sign-extend of RAX
    */
 
-  /* magic compare between RDX:RAX and sign extended RAX */
+  SET_FLAGS_OSZAPC_LOGIC_64(product_128.lo);
 
+  /* magic compare between RDX:RAX and sign extended RAX */
   if (((Bit64u)(product_128.hi) + (product_128.lo >> 63)) != 0) {
     ASSERT_FLAGS_OxxxxC();
   }
