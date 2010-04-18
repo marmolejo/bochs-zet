@@ -942,9 +942,9 @@ static const BxOpcodeInfo_t BxOpcodeInfoG15R[8] = {
   /* 2 */ { 0, BX_IA_ERROR },
   /* 3 */ { 0, BX_IA_ERROR },
   /* 4 */ { 0, BX_IA_ERROR },
-  /* 5 */ { BxPrefixSSE, BX_IA_NOP, BxOpcodeGroupSSE_ERR }, /* LFENCE */
-  /* 6 */ { BxPrefixSSE, BX_IA_NOP, BxOpcodeGroupSSE_ERR }, /* MFENCE */
-  /* 7 */ { BxPrefixSSE, BX_IA_NOP, BxOpcodeGroupSSE_ERR }  /* SFENCE */
+  /* 5 */ { BxPrefixSSE, BX_IA_LFENCE, BxOpcodeGroupSSE_ERR },
+  /* 6 */ { BxPrefixSSE, BX_IA_MFENCE, BxOpcodeGroupSSE_ERR },
+  /* 7 */ { BxPrefixSSE, BX_IA_SFENCE, BxOpcodeGroupSSE_ERR }
 };
 
 #endif // BX_COMMON_FETCHDECODE_TABLES_H
