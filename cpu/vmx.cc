@@ -2123,6 +2123,8 @@ void BX_CPU_C::VMexit(bxInstruction_c *i, Bit32u reason, Bit64u qualification)
 
   BX_CPU_THIS_PTR disable_INIT = 1; // INIT is disabled in VMX root mode
   BX_CPU_THIS_PTR vmx_interrupt_window = 0;
+  BX_CPU_THIS_PTR errorno = 0;
+  BX_CPU_THIS_PTR EXT = 0;
 
   longjmp(BX_CPU_THIS_PTR jmp_buf_env, 1); // go back to main decode loop
 }

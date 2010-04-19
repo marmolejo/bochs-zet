@@ -992,6 +992,7 @@ void BX_CPU_C::reset(unsigned source)
 #endif
 
   BX_CPU_THIS_PTR EXT = 0;
+  BX_CPU_THIS_PTR errorno = 0;
 
   TLB_flush();
 #if BX_CPU_LEVEL >= 6
