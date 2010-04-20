@@ -107,7 +107,6 @@ void BX_CPU_C::cpu_loop(Bit32u max_instr_count)
   BX_CPU_THIS_PTR prev_rip = RIP; // commit new EIP
   BX_CPU_THIS_PTR speculative_rsp = 0;
   BX_CPU_THIS_PTR EXT = 0;
-  BX_CPU_THIS_PTR errorno = 0;
 
   while (1) {
 
@@ -589,7 +588,6 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
     // it was a sofware interrupt instruction, and need to effect the
     // commit here.  This code mirrors similar code above.
     BX_CPU_THIS_PTR prev_rip = RIP; // commit new RIP
-    BX_CPU_THIS_PTR speculative_rsp = 0;
     BX_CPU_THIS_PTR EXT = 0;
   }
   else if (BX_HRQ && BX_DBG_ASYNC_DMA) {
