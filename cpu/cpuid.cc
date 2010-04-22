@@ -340,10 +340,12 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CPUID(bxInstruction_c *i)
         return;
       }
 #endif
+#if BX_CPU_LEVEL >= 6
       if (function == 0xd) {
         bx_cpuid_xsave_leaf(subfunction);
         return;
       }
+#endif
       RAX = BX_CPU_THIS_PTR cpuid_std_function[function].eax;
       RBX = BX_CPU_THIS_PTR cpuid_std_function[function].ebx;
       RCX = BX_CPU_THIS_PTR cpuid_std_function[function].ecx;
@@ -903,6 +905,7 @@ void BX_CPU_C::bx_cpuid_extended_topology_leaf(Bit32u subfunction)
 
 #endif
 
+#if BX_CPU_LEVEL >= 6
 void BX_CPU_C::bx_cpuid_xsave_leaf(Bit32u subfunction)
 {
   BX_ASSERT(BX_CPU_SUPPORT_ISA_EXTENSION(BX_CPU_XSAVE));
@@ -919,6 +922,7 @@ void BX_CPU_C::bx_cpuid_xsave_leaf(Bit32u subfunction)
     RDX = 0; // reserved
   }
 }
+#endif
 
 void BX_CPU_C::init_isa_features_bitmask(void)
 {
