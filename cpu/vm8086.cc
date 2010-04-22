@@ -256,7 +256,7 @@ void BX_CPU_C::init_v8086_mode(void)
   handleCpuModeChange();
 
 #if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
-  handleAlignmentCheck(); // CPL was modified
+  handleAlignmentCheck(/* CPL change */);
 #endif
 }
 

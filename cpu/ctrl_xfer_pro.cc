@@ -107,10 +107,10 @@ BX_CPU_C::load_cs(bx_selector_t *selector, bx_descriptor_t *descriptor, Bit8u cp
   }
 #endif
 
-  updateFetchModeMask();
+  updateFetchModeMask(/* CS reloaded */);
 
 #if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
-  handleAlignmentCheck(); // CPL was modified
+  handleAlignmentCheck(/* CPL change */);
 #endif
 
   // Loading CS will invalidate the EIP fetch window.

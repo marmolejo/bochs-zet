@@ -48,7 +48,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::setEFlags(Bit32u val)
   BX_CPU_THIS_PTR lf_flags_status = 0; // OSZAPC flags are known.
 
 #if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
-  handleAlignmentCheck();
+  handleAlignmentCheck(/* EFLAGS.AC reloaded */);
 #endif
 
   handleCpuModeChange(); // VM flag might be changed

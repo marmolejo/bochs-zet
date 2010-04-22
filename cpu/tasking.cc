@@ -668,7 +668,7 @@ void BX_CPU_C::task_switch(bxInstruction_c *i, bx_selector_t *tss_selector,
       exception(BX_TS_EXCEPTION, raw_cs_selector & 0xfffc);
     }
 
-    updateFetchModeMask();
+    updateFetchModeMask(/* CS reloaded */);
 
 #if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
     handleAlignmentCheck(); // task switch, CPL was modified
