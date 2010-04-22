@@ -212,7 +212,7 @@ bx_bool BX_CPU_C::get_AFLazy(void)
 }
 
 #define GET_ADD_OVERFLOW(op1, op2, result, mask) \
-  (((~((op1) ^ (op2)) & ((op2) ^ (result))) & (mask)) != 0)
+  (((((op1) ^ (result)) & ((op2) ^ (result))) & (mask)) != 0)
 
 #define GET_SUB_OVERFLOW(op1, op2, result, mask) \
    (((((op1) ^ (op2)) & ((op1) ^ (result))) & (mask)) != 0)
