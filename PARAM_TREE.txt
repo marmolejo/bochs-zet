@@ -36,6 +36,7 @@ cpuid
   movbe
   xsave
   xapic
+  1g_pages
   mwait_is_nop
 
 memory
