@@ -2075,11 +2075,6 @@ turn it off.
       </entry>
     </row>
     <row>
-      <entry>--enable-1g-pages</entry>
-      <entry>no</entry>
-      <entry>support for 1G page extensions in x86-64 long mode</entry>
-    </row>
-    <row>
       <entry>--enable-vmx</entry>
       <entry>no</entry>
       <entry>Intel Virtualization Extensions (VMX) support</entry>
