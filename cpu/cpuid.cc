@@ -184,6 +184,9 @@ Bit32u BX_CPU_C::get_extended_cpuid_features(void)
   // support CMPXCHG16B
   if (BX_CPU_SUPPORT_ISA_EXTENSION(BX_CPU_X86_64))
     features |= (1<<13);
+
+  if (SIM->get_param_bool(BXPN_CPUID_PCID)->get())
+    features |= (1<<17);
 #endif
 
   if (BX_CPU_SUPPORT_ISA_EXTENSION(BX_CPU_SSE4_1))

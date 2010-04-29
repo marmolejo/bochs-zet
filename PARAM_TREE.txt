@@ -37,6 +37,7 @@ cpuid
   xsave
   xapic
   1g_pages
+  pcid
   mwait_is_nop
 
 memory
