@@ -474,7 +474,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo32R[512*2] = {
   /* 0F 0D /wr */ { 0, BX_IA_PREFETCHW },       // 3DNow! PREFETCH on AMD, NOP on Intel
   /* 0F 0E /wr */ { 0, BX_IA_FEMMS },           // 3DNow! FEMMS
 #if BX_SUPPORT_3DNOW
-  /* 0F 0F /wr */ { BxImmediate_Ib, BX_IA_ERROR, Bx3DNowOpcodeInfo },
+  /* 0F 0F /wr */ { BxImmediate_Ib, BX_IA_ERROR },
 #else
   /* 0F 0F /wr */ { 0, BX_IA_ERROR },
 #endif
@@ -1025,7 +1025,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo32R[512*2] = {
   /* 0F 0D /dr */ { 0, BX_IA_PREFETCHW },       // 3DNow! PREFETCH on AMD, NOP on Intel
   /* 0F 0E /dr */ { 0, BX_IA_FEMMS },           // 3DNow! FEMMS
 #if BX_SUPPORT_3DNOW
-  /* 0F 0F /dr */ { BxImmediate_Ib, BX_IA_ERROR, Bx3DNowOpcodeInfo },
+  /* 0F 0F /dr */ { BxImmediate_Ib, BX_IA_ERROR },
 #else
   /* 0F 0F /dr */ { 0, BX_IA_ERROR },
 #endif
@@ -1583,7 +1583,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo32M[512*2] = {
   /* 0F 0D /wm */ { 0, BX_IA_PREFETCHW },       // 3DNow! PREFETCH on AMD, NOP on Intel
   /* 0F 0E /wm */ { 0, BX_IA_FEMMS },           // 3DNow! FEMMS
 #if BX_SUPPORT_3DNOW
-  /* 0F 0F /wm */ { BxImmediate_Ib, BX_IA_ERROR, Bx3DNowOpcodeInfo },
+  /* 0F 0F /wm */ { BxImmediate_Ib, BX_IA_ERROR },
 #else
   /* 0F 0F /wm */ { 0, BX_IA_ERROR },
 #endif
@@ -2134,7 +2134,7 @@ static const BxOpcodeInfo_t BxOpcodeInfo32M[512*2] = {
   /* 0F 0D /dm */ { 0, BX_IA_PREFETCHW },       // 3DNow! PREFETCH on AMD, NOP on Intel
   /* 0F 0E /dm */ { 0, BX_IA_FEMMS },           // 3DNow! FEMMS
 #if BX_SUPPORT_3DNOW
-  /* 0F 0F /dm */ { BxImmediate_Ib, BX_IA_ERROR, Bx3DNowOpcodeInfo },
+  /* 0F 0F /dm */ { BxImmediate_Ib, BX_IA_ERROR },
 #else
   /* 0F 0F /dm */ { 0, BX_IA_ERROR },
 #endif
