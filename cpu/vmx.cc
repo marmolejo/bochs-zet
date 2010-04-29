@@ -662,15 +662,18 @@ VMX_error_code BX_CPU_C::VMenterLoadCheckHostState(void)
      x86_64_guest = 1;
   }
 
-  if (! long_mode()) {
-     if (x86_64_host || x86_64_guest) {
-        BX_ERROR(("VMFAIL: VMCS x86-64 guest(%d)/host(%d) controls invalid on VMENTRY", x86_64_guest, x86_64_host));
+#if BX_SUPPORT_X86_64
+  if (long_mode()) {
+     if (! x86_64_host) {
+        BX_ERROR(("VMFAIL: VMCS x86-64 host control invalid on VMENTRY"));
         return VMXERR_VMENTRY_INVALID_VM_HOST_STATE_FIELD;
      }
   }
-  else {
-     if (! x86_64_host) {
-        BX_ERROR(("VMFAIL: VMCS x86-64 host control invalid on VMENTRY"));
+  else
+#endif
+  {
+     if (x86_64_host || x86_64_guest) {
+        BX_ERROR(("VMFAIL: VMCS x86-64 guest(%d)/host(%d) controls invalid on VMENTRY", x86_64_guest, x86_64_host));
         return VMXERR_VMENTRY_INVALID_VM_HOST_STATE_FIELD;
      }
   }
