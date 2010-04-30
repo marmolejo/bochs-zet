@@ -64,16 +64,14 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PUSH64_GS(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::POP64_FS(bxInstruction_c *i)
 {
-  // this way is faster and RSP safe
-  Bit64u fs = read_virtual_qword_64(BX_SEG_REG_SS, RSP);
+  Bit64u fs = read_virtual_word_64(BX_SEG_REG_SS, RSP);
   load_seg_reg(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS], (Bit16u) fs);
   RSP += 8;
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::POP64_GS(bxInstruction_c *i)
 {
-  // this way is faster and RSP safe
-  Bit64u gs = read_virtual_qword_64(BX_SEG_REG_SS, RSP);
+  Bit64u gs = read_virtual_word_64(BX_SEG_REG_SS, RSP);
   load_seg_reg(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_GS], (Bit16u) gs);
   RSP += 8;
 }
