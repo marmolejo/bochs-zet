@@ -143,7 +143,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOV_EwIwM(bxInstruction_c *i)
   write_virtual_word(i->seg(), eaddr, i->Iw());
 }
 
-#if BX_CPU_LEVEL >= 3
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOVZX_GwEbM(bxInstruction_c *i)
 {
   bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
@@ -179,7 +178,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOVSX_GwEbR(bxInstruction_c *i)
   /* sign extend byte op2 into word op1 */
   BX_WRITE_16BIT_REG(i->nnn(), (Bit8s) op2_8);
 }
-#endif
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::XCHG_EwGwM(bxInstruction_c *i)
 {
