@@ -640,7 +640,7 @@ BX_CPU_C::read_virtual_dqword_aligned_32(unsigned s, Bit32u offset, BxPackedXmmR
     if (offset <= (seg->cache.u.segment.limit_scaled-15)) {
 accessOK:
       unsigned tlbIndex = BX_TLB_INDEX_OF(laddr, 0);
-      Bit32u lpf = AlignedAccessLPFOf(laddr, 15);
+      Bit32u lpf = LPFOf(laddr);
       bx_TLB_entry *tlbEntry = &BX_CPU_THIS_PTR TLB.entry[tlbIndex];
       if (tlbEntry->lpf == lpf) {
         // See if the TLB entry privilege level allows us read access
