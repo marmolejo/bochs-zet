@@ -1449,11 +1449,12 @@ bx_bool BX_CPU_C::dbg_xlate_linear2phy(bx_address laddr, bx_phy_address *phy)
       }
 #endif
       BX_MEM(0)->readPhysicalPage(BX_CPU_THIS, pt_address, 4, &pte);
-      if (!(pte & 1))
+      if (!(pte & 1)) 
         goto page_fault;
       pt_address = pte & 0xfffff000;
-      if (level == BX_LEVEL_PDE && (pte & 0x80)) { // PSE page
+      if (level == BX_LEVEL_PDE && (pte & 0x80) != 0 && BX_CPU_THIS_PTR cr4.get_PSE()) {
         offset_mask = 0x3fffff;
+        pt_address = pte & 0xffc00000;
 #if BX_PHY_ADDRESS_WIDTH > 32
         pt_address += ((bx_phy_address)(pte & 0x003fe000)) << 19;
 #endif
