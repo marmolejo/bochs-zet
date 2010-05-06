@@ -298,6 +298,7 @@ Bit32u BX_CPU_C::get_std_cpuid_features(void)
     features |= (1<<15);  // support CMOV instructions
     features |= (1<<16);  // support PAT
     features |= (1<<17);  // support PSE-36
+    features |= (1<<22);  // support ACPI
   }
 
   if (BX_CPU_SUPPORT_ISA_EXTENSION(BX_CPU_FXSAVE_FXRSTOR))
