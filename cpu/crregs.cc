@@ -929,17 +929,13 @@ Bit32u BX_CPU_C::get_cr4_allow_mask(void)
   /* VME */
   if (bx_cpuid_support_vme())
     allowMask |= BX_CR4_VME_MASK | BX_CR4_PVI_MASK;
-#endif
 
-#if BX_CPU_LEVEL >= 5
   allowMask |= BX_CR4_TSD_MASK;
-#endif
 
   if (bx_cpuid_support_debug_extensions())
     allowMask |= BX_CR4_DE_MASK;
 
-#if BX_CPU_LEVEL >= 5
-  if (bx_cpuid_support_pse36())
+  if (bx_cpuid_support_pse())
     allowMask |= BX_CR4_PSE_MASK;
 #endif
 
