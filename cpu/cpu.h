@@ -3275,6 +3275,7 @@ public: // for now...
   BX_SMF void bx_cpuid_xsave_leaf(Bit32u subfunction);
 #endif
 
+  BX_SMF BX_CPP_INLINE int bx_cpuid_support_debug_extensions(void);
   BX_SMF BX_CPP_INLINE int bx_cpuid_support_1g_paging(void);
   BX_SMF BX_CPP_INLINE int bx_cpuid_support_vme(void);
   BX_SMF BX_CPP_INLINE int bx_cpuid_support_pae(void);
@@ -3707,6 +3708,11 @@ BX_CPP_INLINE int BX_CPU_C::bx_cpuid_support_pcid(void)
 BX_CPP_INLINE int BX_CPU_C::bx_cpuid_support_vme(void)
 {
   return (BX_CPU_THIS_PTR cpuid_std_function[1].edx >>  1) & 0x1;
+}
+
+BX_CPP_INLINE int BX_CPU_C::bx_cpuid_support_debug_extensions(void)
+{
+  return (BX_CPU_THIS_PTR cpuid_std_function[1].edx >>  2) & 0x1;
 }
 
 BX_CPP_INLINE int BX_CPU_C::bx_cpuid_support_pae(void)
