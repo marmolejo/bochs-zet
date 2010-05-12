@@ -95,10 +95,8 @@ struct bx_cr0_t {
 struct bx_cr4_t {
   Bit32u  val32; // 32bit value of register
 
-#if BX_CPU_LEVEL >= 5
   IMPLEMENT_CRREG_ACCESSORS(VME, 0);
   IMPLEMENT_CRREG_ACCESSORS(PVI, 1);
-#endif
   IMPLEMENT_CRREG_ACCESSORS(TSD, 2);
   IMPLEMENT_CRREG_ACCESSORS(DE,  3);
   IMPLEMENT_CRREG_ACCESSORS(PSE, 4);

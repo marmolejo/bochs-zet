@@ -262,6 +262,7 @@ Bit32u BX_CPU_C::get_std_cpuid_features(void)
   if (BX_CPU_SUPPORT_ISA_EXTENSION(BX_CPU_PENTIUM)) {
     // Pentium only features
     features |= (1<<1);             // support VME
+    features |= (1<<2);             // support Debug Extensions
     features |= (1<<3);             // support PSE
     features |= (1<<4);             // support Time Stamp Counter
     features |= (1<<5);             // support RDMSR/WRMSR
@@ -269,8 +270,6 @@ Bit32u BX_CPU_C::get_std_cpuid_features(void)
     features |= (1<<8);             // support CMPXCHG8B instruction
   }
 #endif
-
-  features |= (1<<2);   // support Debug Extensions
 
 #if BX_SUPPORT_APIC
   // if MSR_APICBASE APIC Global Enable bit has been cleared,
