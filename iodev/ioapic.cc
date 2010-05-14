@@ -34,6 +34,8 @@
 
 bx_ioapic_c *theIOAPIC = NULL;
 
+extern Bit32u apic_id_mask;
+
 int libioapic_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   theIOAPIC = new bx_ioapic_c();
