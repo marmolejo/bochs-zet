@@ -27,7 +27,6 @@
 
 #if BX_SUPPORT_APIC
 
-extern Bit32u apic_id_mask;
 extern bx_bool simulate_xapic;
 
 #define LOG_THIS this->
