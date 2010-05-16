@@ -904,6 +904,12 @@ enum {
   BX_MOUSE_TYPE_SERIAL_MSYS
 };
 
+enum {
+  BX_MOUSE_TOGGLE_CTRL_MB,
+  BX_MOUSE_TOGGLE_CTRL_F10,
+  BX_MOUSE_TOGGLE_CTRL_ALT
+};
+
 #define BX_FDD_NONE  0 // floppy not present
 #define BX_FDD_525DD 1 // 360K  5.25"
 #define BX_FDD_525HD 2 // 1.2M  5.25"
