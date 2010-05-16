@@ -525,6 +525,8 @@ void BX_CPU_C::page_fault(unsigned fault, bx_address laddr, unsigned user, unsig
 #define BX_LEVEL_PDE  1
 #define BX_LEVEL_PTE  0
 
+static const char *bx_paging_level[4] = { "PTE", "PDE", "PDPE", "PML4" };
+
 #if BX_CPU_LEVEL >= 6
 
 int BX_CPU_C::check_entry_PAE(const char *s, Bit64u entry, Bit64u reserved, unsigned rw, bx_bool *nx_fault)
@@ -644,8 +646,6 @@ int BX_CPU_C::check_entry_PAE(const char *s, Bit64u entry, Bit64u reserved, unsi
 // 62-52 | ignored in long mode, reserved (must be 0) in legacy PAE mode
 // 63    | Execute-Disable (XD) (if EFER.NXE=1, reserved otherwise)
 // -----------------------------------------------------------
-
-static const char *bx_paging_level[4] = { "PTE", "PDE", "PDPE", "PML4" };
 
 #if BX_SUPPORT_X86_64
 
