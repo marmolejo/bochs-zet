@@ -58,7 +58,6 @@ struct memory_handler_struct {
 class BOCHSAPI BX_MEM_C : public logfunctions {
 private:
   struct memory_handler_struct **memory_handlers;
-  bx_bool rom_present[65];
   bx_bool pci_enabled;
   bx_bool smram_available;
   bx_bool smram_enable;
