@@ -381,6 +381,10 @@ void bx_pic_c::write(Bit32u address, Bit32u value, unsigned io_len)
           service_master_pic();
           break;
 
+        case 0x02: // single mode bit: 1 = single, 0 = cascade
+          // ignore. 386BSD writes this value but works with it ignored.
+          break;
+
         default:
           BX_PANIC(("write to port 20h = %02x", value));
       } /* switch (value) */
@@ -554,6 +558,10 @@ void bx_pic_c::write(Bit32u address, Bit32u value, unsigned io_len)
           BX_PIC_THIS s.slave_pic.isr &= ~(1 << (value-0xE0));
           BX_PIC_THIS s.slave_pic.lowest_priority = (value - 0xE0);
           service_slave_pic();
+          break;
+
+        case 0x02: // single mode bit: 1 = single, 0 = cascade
+          // ignore. 386BSD writes this value but works with it ignored.
           break;
 
         default:
