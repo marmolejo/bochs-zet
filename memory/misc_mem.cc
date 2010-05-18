@@ -431,7 +431,7 @@ bx_bool BX_MEM_C::dbg_fetch_mem(BX_CPU_C *cpu, bx_phy_address addr, unsigned len
         case 0x0:  // Read from ROM
           if ((addr & 0xfffe0000) == 0x000e0000) {
             // last 128K of BIOS ROM mapped to 0xE0000-0xFFFFF
-            *buf = BX_MEM_THIS rom[addr & BIOS_MASK];
+            *buf = BX_MEM_THIS rom[BIOS_MAP_LAST128K(addr)];
           }
           else {
             *buf = BX_MEM_THIS rom[(addr & EXROM_MASK) + BIOSROMSZ];
@@ -453,7 +453,7 @@ bx_bool BX_MEM_C::dbg_fetch_mem(BX_CPU_C *cpu, bx_phy_address addr, unsigned len
       // must be in C0000 - FFFFF range
       else if ((addr & 0xfffe0000) == 0x000e0000) {
         // last 128K of BIOS ROM mapped to 0xE0000-0xFFFFF
-        *buf = BX_MEM_THIS rom[addr & BIOS_MASK];
+        *buf = BX_MEM_THIS rom[BIOS_MAP_LAST128K(addr)];
       }
       else {
         *buf = BX_MEM_THIS rom[(addr & EXROM_MASK) + BIOSROMSZ];
@@ -612,7 +612,7 @@ Bit8u *BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, bx_phy_address addr, unsigned rw)
         case 0x0:   // Read from ROM
           if ((a20addr & 0xfffe0000) == 0x000e0000) {
             // last 128K of BIOS ROM mapped to 0xE0000-0xFFFFF
-            return (Bit8u *) &BX_MEM_THIS rom[a20addr & BIOS_MASK];
+            return (Bit8u *) &BX_MEM_THIS rom[BIOS_MAP_LAST128K(a20addr)];
           }
           else {
             return (Bit8u *) &BX_MEM_THIS rom[(a20addr & EXROM_MASK) + BIOSROMSZ];
@@ -634,7 +634,7 @@ Bit8u *BX_MEM_C::getHostMemAddr(BX_CPU_C *cpu, bx_phy_address addr, unsigned rw)
       // must be in C0000 - FFFFF range
       else if ((a20addr & 0xfffe0000) == 0x000e0000) {
         // last 128K of BIOS ROM mapped to 0xE0000-0xFFFFF
-        return (Bit8u *) &BX_MEM_THIS rom[a20addr & BIOS_MASK];
+        return (Bit8u *) &BX_MEM_THIS rom[BIOS_MAP_LAST128K(a20addr)];
       }
       else {
         return((Bit8u *) &BX_MEM_THIS rom[(a20addr & EXROM_MASK) + BIOSROMSZ]);
