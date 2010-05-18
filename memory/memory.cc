@@ -290,6 +290,7 @@ mem_read:
         switch (DEV_pci_rd_memtype(a20addr)) {
           case 0x0:  // Read from ROM
             if ((a20addr & 0xfffe0000) == 0x000e0000) {
+              // last 128K of BIOS ROM mapped to 0xE0000-0xFFFFF
               *data_ptr = BX_MEM_THIS rom[a20addr & BIOS_MASK];
             }
             else {
@@ -310,6 +311,7 @@ mem_read:
           *data_ptr = *(BX_MEM_THIS get_vector(a20addr));
         }
         else if ((a20addr & 0xfffe0000) == 0x000e0000) {
+          // last 128K of BIOS ROM mapped to 0xE0000-0xFFFFF
           *data_ptr = BX_MEM_THIS rom[a20addr & BIOS_MASK];
         }
         else {
