@@ -858,6 +858,7 @@ void bx_init_options()
     "ctrl+mbutton",
     "ctrl+f10",
     "ctrl+alt",
+    "f12",
     NULL
   };
   toggle = new bx_param_enum_c(mouse,

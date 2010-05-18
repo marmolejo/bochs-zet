@@ -765,6 +765,8 @@ bx_bool MyPanel::fillBxKeyEvent(wxKeyEvent& wxev, BxKeyEvent& bxev, bx_bool rele
     mouse_toggle = bx_gui->mouse_toggle_check(BX_MT_KEY_ALT, !release);
   } else if (key == WXK_F10) {
     mouse_toggle = bx_gui->mouse_toggle_check(BX_MT_KEY_F10, !release);
+  } else if (key == WXK_F12) {
+    mouse_toggle = bx_gui->mouse_toggle_check(BX_MT_KEY_F12, !release);
   }
   if (mouse_toggle) {
     ToggleMouse(false);

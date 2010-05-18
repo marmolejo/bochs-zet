@@ -128,6 +128,8 @@ void bx_gui_c::init(int argc, char **argv, unsigned tilewidth, unsigned tileheig
       break;
     case BX_MOUSE_TOGGLE_CTRL_ALT:
       strcpy(mouse_toggle_text, "CTRL + ALT");
+    case BX_MOUSE_TOGGLE_F12:
+      strcpy(mouse_toggle_text, "F12");
       break;
   }
 
@@ -538,12 +540,18 @@ bx_bool bx_gui_c::mouse_toggle_check(Bit32u key, bx_bool pressed)
     switch (toggle_method) {
       case BX_MOUSE_TOGGLE_CTRL_MB:
         toggle = (newstate & BX_GUI_MT_CTRL_MB) == BX_GUI_MT_CTRL_MB;
+        if (!toggle) {
+          toggle = (newstate & BX_GUI_MT_CTRL_LRB) == BX_GUI_MT_CTRL_LRB;
+        }
         break;
       case BX_MOUSE_TOGGLE_CTRL_F10:
         toggle = (newstate & BX_GUI_MT_CTRL_F10) == BX_GUI_MT_CTRL_F10;
         break;
       case BX_MOUSE_TOGGLE_CTRL_ALT:
         toggle = (newstate & BX_GUI_MT_CTRL_ALT) == BX_GUI_MT_CTRL_ALT;
+        break;
+      case BX_MOUSE_TOGGLE_F12:
+        toggle = (newstate == BX_GUI_MT_F12);
         break;
     }
     toggle_keystate = newstate;
