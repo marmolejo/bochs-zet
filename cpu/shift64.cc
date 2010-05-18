@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001-2009  The Bochs Project
+//  Copyright (C) 2001-2010  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -515,12 +515,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SAR_EqM(bxInstruction_c *i)
   if (!count) return;
 
   /* count < 64, since only lower 6 bits used */
-  if (op1_64 & BX_CONST64(0x8000000000000000)) {
-    result_64 = (op1_64 >> count) | (BX_CONST64(0xffffffffffffffff) << (64 - count));
-  }
-  else {
-    result_64 = (op1_64 >> count);
-  }
+  result_64 = ((Bit64s) op1_64) >> count;
 
   write_RMW_virtual_qword(result_64);
 
@@ -545,12 +540,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SAR_EqR(bxInstruction_c *i)
   op1_64 = BX_READ_64BIT_REG(i->rm());
 
   /* count < 64, since only lower 6 bits used */
-  if (op1_64 & BX_CONST64(0x8000000000000000)) {
-    result_64 = (op1_64 >> count) | (BX_CONST64(0xffffffffffffffff) << (64 - count));
-  }
-  else {
-    result_64 = (op1_64 >> count);
-  }
+  result_64 = ((Bit64s) op1_64) >> count;
 
   BX_WRITE_64BIT_REG(i->rm(), result_64);
 
