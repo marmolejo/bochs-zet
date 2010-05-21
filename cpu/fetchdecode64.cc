@@ -3552,10 +3552,20 @@ modrm_done:
     attr = BxOpcodeInfo64[index].Attr;
 
     while(attr & BxGroupX) {
-      Bit32u Group = attr & BxGroupX;
+      Bit32u group = attr & BxGroupX;
       attr &= ~BxGroupX;
 
-      switch(Group) {
+      if (group < BxPrefixSSE) {
+        /* For opcodes with only one allowed SSE prefix */
+        if (sse_prefix != (group >> 4)) {
+          OpcodeInfoPtr = &BxOpcodeGroupSSE_ERR[0]; // BX_IA_ERROR
+        }
+        /* get additional attributes from group table */
+        attr |= OpcodeInfoPtr->Attr;
+        break;
+      }
+
+      switch(group) {
         case BxGroupN:
           OpcodeInfoPtr = &(OpcodeInfoPtr->AnotherArray[nnn & 0x7]);
           break;
@@ -3571,24 +3581,6 @@ modrm_done:
           if (sse_prefix) {
             OpcodeInfoPtr = &(OpcodeInfoPtr->AnotherArray[sse_prefix-1]);
             break;
-          }
-          continue;
-        case BxPrefixSSE66:
-          /* For SSE opcodes with prefix 66 only */
-          if (sse_prefix != SSE_PREFIX_66) {
-            OpcodeInfoPtr = &BxOpcodeGroupSSE_ERR[0]; // BX_IA_ERROR
-          }
-          continue;
-        case BxPrefixSSEF2:
-          /* For SSE opcodes with prefix F2 only */
-          if (sse_prefix != SSE_PREFIX_F2) {
-            OpcodeInfoPtr = &BxOpcodeGroupSSE_ERR[0]; // BX_IA_ERROR
-          }
-          continue;
-        case BxPrefixSSEF3:
-          /* For SSE opcodes with prefix F3 only */
-          if (sse_prefix != SSE_PREFIX_F3) {
-            OpcodeInfoPtr = &BxOpcodeGroupSSE_ERR[0]; // BX_IA_ERROR
           }
           continue;
         case BxFPEscape:
