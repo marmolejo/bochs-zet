@@ -1047,8 +1047,9 @@ void BX_CPU_C::reset(unsigned source)
   BX_CPU_THIS_PTR vmx_interrupt_window = 0;
   BX_CPU_THIS_PTR vmcsptr = BX_CPU_THIS_PTR vmxonptr = BX_INVALID_VMCSPTR;
   BX_CPU_THIS_PTR vmcshostptr = 0;
-  BX_CPU_THIS_PTR msr.ia32_feature_ctrl = 0x4; /* enable VMX, should be done in BIOS instead */
-
+  /* enable VMX, should be done in BIOS instead */
+  BX_CPU_THIS_PTR msr.ia32_feature_ctrl =
+    BX_IA32_FEATURE_CONTROL_LOCK_BIT | BX_IA32_FEATURE_CONTROL_VMX_ENABLE_BIT;
 #endif
 
 #if BX_SUPPORT_SMP
