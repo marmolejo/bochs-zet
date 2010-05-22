@@ -303,8 +303,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PCMPESTRM_VdqWdqIb(bxInstruction_c *i)
   }
   else {
     bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
-    /* pointer, segment address pair */
-    readVirtualDQwordAligned(i->seg(), eaddr, (Bit8u *) &op2);
+    read_virtual_dqword(i->seg(), eaddr, (Bit8u *) &op2);
   }
 
   // compare all pairs of Ai, Bj
@@ -370,8 +369,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PCMPESTRI_VdqWdqIb(bxInstruction_c *i)
   }
   else {
     bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
-    /* pointer, segment address pair */
-    readVirtualDQwordAligned(i->seg(), eaddr, (Bit8u *) &op2);
+    read_virtual_dqword(i->seg(), eaddr, (Bit8u *) &op2);
   }
 
   // compare all pairs of Ai, Bj
@@ -433,8 +431,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PCMPISTRM_VdqWdqIb(bxInstruction_c *i)
   }
   else {
     bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
-    /* pointer, segment address pair */
-    readVirtualDQwordAligned(i->seg(), eaddr, (Bit8u *) &op2);
+    read_virtual_dqword(i->seg(), eaddr, (Bit8u *) &op2);
   }
 
   // compare all pairs of Ai, Bj
@@ -491,8 +488,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PCMPISTRI_VdqWdqIb(bxInstruction_c *i)
   }
   else {
     bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
-    /* pointer, segment address pair */
-    readVirtualDQwordAligned(i->seg(), eaddr, (Bit8u *) &op2);
+    read_virtual_dqword(i->seg(), eaddr, (Bit8u *) &op2);
   }
 
   // compare all pairs of Ai, Bj
