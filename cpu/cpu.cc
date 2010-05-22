@@ -469,7 +469,7 @@ unsigned BX_CPU_C::handleAsyncEvent(void)
         return 1; // Return to caller of cpu_loop.
 #endif
 
-      BX_TICK1();
+      BX_TICKN(10); // when in HLT tun time faster for single CPU
     }
   } else if (bx_pc_system.kill_bochs_request) {
     // setting kill_bochs_request causes the cpu loop to return ASAP.
