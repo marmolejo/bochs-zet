@@ -1511,8 +1511,8 @@ void FillIDT()
     unsigned int k = (IDT_Len + 1) / entrysize;
     StartListUpdate(DUMP_WND);
 
-    // recover the IDT linear base address (aligned)
-    laddr = rV[IDTRnum] & (~(entrysize - 1));
+    // recover the IDT linear base address
+    laddr = rV[IDTRnum];
 
     if (k > 256)    // if IDT_Len is unreasonably large, set a reasonable maximum
         k = 256;
