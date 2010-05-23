@@ -2350,8 +2350,8 @@ BX_CPU_C::fetchDecode32(const Bit8u *iptr, bxInstruction_c *i, unsigned remainin
 
 #define SSE_PREFIX_NONE 0
 #define SSE_PREFIX_66   1
-#define SSE_PREFIX_F2   2
-#define SSE_PREFIX_F3   3
+#define SSE_PREFIX_F3   2
+#define SSE_PREFIX_F2   3
   unsigned sse_prefix = SSE_PREFIX_NONE;
 
   os_32 = is_32 =
@@ -2392,7 +2392,7 @@ fetch_b1:
       return(-1);
     case 0xf2: // REPNE/REPNZ
     case 0xf3: // REP/REPE/REPZ
-      sse_prefix = b1 & 3;
+      sse_prefix = (b1 & 3) ^ 1;
       i->setRepUsed(b1 & 3);
       if (ilen < remain) {
         goto fetch_b1;

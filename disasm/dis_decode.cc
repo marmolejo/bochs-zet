@@ -90,8 +90,8 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
 
 #define SSE_PREFIX_NONE 0
 #define SSE_PREFIX_66   1
-#define SSE_PREFIX_F2   2
-#define SSE_PREFIX_F3   3      /* only one SSE prefix could be used */
+#define SSE_PREFIX_F3   2
+#define SSE_PREFIX_F2   3      /* only one SSE prefix could be used */
   unsigned sse_prefix = SSE_PREFIX_NONE, sse_opcode = 0;
   unsigned rex_prefix = 0, prefixes = 0;
 
@@ -153,11 +153,7 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
 
       case 0xf2:     // repne
       case 0xf3:     // rep
-        sse_prefix = insn.b1 & 0xf;
-        rex_prefix = 0;
-        continue;
-
-        sse_prefix = SSE_PREFIX_F3;
+        sse_prefix = (insn.b1 & 0xf) ^ 1;
         rex_prefix = 0;
         continue;
 

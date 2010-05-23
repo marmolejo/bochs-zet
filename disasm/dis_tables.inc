@@ -399,8 +399,8 @@ static BxDisasmOpcodeTable_t BxDisasmGroupRmG7VMX[8] = {
 static BxDisasmOpcodeTable_t BxDisasmGroupSSE_G7VMX[4] = {
   /* -- */ { GRPRM(G7VMX)   },
   /* 66 */ { 0, &Ia_Invalid },
-  /* F2 */ { 0, &Ia_Invalid },
-  /* F3 */ { 0, &Ia_Invalid }
+  /* F3 */ { 0, &Ia_Invalid },
+  /* F2 */ { 0, &Ia_Invalid }
 };
 
 static BxDisasmOpcodeTable_t BxDisasmGroupRmMONITOR[8] = {
@@ -481,16 +481,16 @@ static BxDisasmOpcodeTable_t BxDisasmGroupG8EqIb[8] = {
 static BxDisasmOpcodeTable_t BxDisasmGroupSSE_G9VMX6[4] = {
   /* -- */ { 0, &Ia_vmptrld_Mq },
   /* 66 */ { 0, &Ia_vmclear_Mq },
-  /* F2 */ { 0, &Ia_Invalid  },
-  /* F3 */ { 0, &Ia_vmxon_Mq }
+  /* F3 */ { 0, &Ia_vmxon_Mq },
+  /* F2 */ { 0, &Ia_Invalid  }
 };
 
 /* VMX */
 static BxDisasmOpcodeTable_t BxDisasmGroupSSE_G9VMX7[4] = {
   /* -- */ { 0, &Ia_vmptrst_Mq },
   /* 66 */ { 0, &Ia_Invalid },
-  /* F2 */ { 0, &Ia_Invalid },
-  /* F3 */ { 0, &Ia_Invalid }
+  /* F3 */ { 0, &Ia_Invalid },
+  /* F2 */ { 0, &Ia_Invalid }
 };
 
 static BxDisasmOpcodeTable_t BxDisasmGroupG9[8] = {

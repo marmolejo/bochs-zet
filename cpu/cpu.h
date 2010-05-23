@@ -3828,8 +3828,8 @@ enum {
 // Totally 15 opcode groups supported
 #define BxGroupX            0x00f0 // bits 7..4: opcode groups definition
 #define BxPrefixSSE66       0x0010 // Group encoding: 0001, SSE_PREFIX_66
-#define BxPrefixSSEF2       0x0020 // Group encoding: 0010, SSE_PREFIX_F2
-#define BxPrefixSSEF3       0x0030 // Group encoding: 0011, SSE_PREFIX_F3
+#define BxPrefixSSEF3       0x0020 // Group encoding: 0010, SSE_PREFIX_F3
+#define BxPrefixSSEF2       0x0030 // Group encoding: 0011, SSE_PREFIX_F2
 #define BxPrefixSSE         0x0040 // Group encoding: 0100
 #define BxGroupN            0x0050 // Group encoding: 0101
 #define BxFPEscape          0x0060 // Group encoding: 0110
