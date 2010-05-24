@@ -1278,6 +1278,8 @@ LRESULT CALLBACK simWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         bx_gui->mouse_toggle_check(BX_MT_KEY_ALT, 0);
       } else if (wParam == VK_F10) {
         bx_gui->mouse_toggle_check(BX_MT_KEY_F10, 0);
+      } else if (wParam == VK_F12) {
+        bx_gui->mouse_toggle_check(BX_MT_KEY_F12, 0);
       }
       EnterCriticalSection(&stInfo.keyCS);
       enq_key_event(HIWORD (lParam) & 0x01FF, BX_KEY_RELEASED);
