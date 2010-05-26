@@ -3243,7 +3243,7 @@ BX_CPU_C::fetchDecode64(const Bit8u *iptr, bxInstruction_c *i, unsigned remainin
   if (remainingInPage > 15) remainingInPage = 15;
 
   unsigned remain = remainingInPage; // remain must be at least 1
-  unsigned b1, b2, attr, lock=0, ia_opcode = 0;
+  unsigned b1, b2 = 0, attr, lock=0, ia_opcode = 0;
   unsigned imm_mode, offset = 512, rex_r = 0, rex_x = 0, rex_b = 0;
   unsigned rm = 0, mod = 0, nnn = 0, index = 0;
   unsigned seg = BX_SEG_REG_DS, seg_override = BX_SEG_REG_NULL;

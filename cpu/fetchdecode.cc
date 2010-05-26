@@ -2343,7 +2343,7 @@ BX_CPU_C::fetchDecode32(const Bit8u *iptr, bxInstruction_c *i, unsigned remainin
 
   unsigned remain = remainingInPage; // remain must be at least 1
   bx_bool is_32, lock=0;
-  unsigned b1, b2, attr, os_32, ia_opcode = 0;
+  unsigned b1, b2 = 0, attr, os_32, ia_opcode = 0;
   unsigned imm_mode, offset, index = 0;
   unsigned rm = 0, mod=0, nnn=0;
   unsigned seg = BX_SEG_REG_DS, seg_override = BX_SEG_REG_NULL;
