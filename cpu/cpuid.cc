@@ -812,7 +812,12 @@ void BX_CPU_C::set_cpuid_defaults(void)
 
 #if BX_SUPPORT_X2APIC
 
-#include <math.h>
+Bit32u ilog2(Bit32u x)
+{
+  Bit32u count = 0;
+  while(x>>=1) count++;
+  return count;
+}
 
 void BX_CPU_C::bx_cpuid_extended_topology_leaf(Bit32u subfunction)
 {
@@ -823,17 +828,17 @@ void BX_CPU_C::bx_cpuid_extended_topology_leaf(Bit32u subfunction)
   switch(subfunction) {
   case 0:
      if (nthreads > 1) {
-        RAX = (bx_address) ceil(log(nthreads)/log(2));
+        RAX = ilog2(nthreads-1)+1;
         RBX = nthreads;
         RCX = subfunction | (1<<8);
      }
      else if (ncores > 1) {
-        RAX = (bx_address) ceil(log(ncores)/log(2));
+        RAX = ilog2(ncores-1)+1;
         RBX = ncores;
         RCX = subfunction | (2<<8);
      }
      else if (nprocessors > 1) {
-        RAX = (bx_address) ceil(log(nprocessors)/log(2));
+        RAX = ilog2(nprocessors-1)+1;
         RBX = nprocessors;
         RCX = subfunction;
      }
@@ -847,12 +852,12 @@ void BX_CPU_C::bx_cpuid_extended_topology_leaf(Bit32u subfunction)
   case 1:
      if (nthreads > 1) {
         if (ncores > 1) {
-           RAX = (bx_address) ceil(log(ncores)/log(2));
+           RAX = ilog2(ncores-1)+1;
            RBX = ncores;
            RCX = subfunction | (2<<8);
         }
         else if (nprocessors > 1) {
-           RAX = (bx_address) ceil(log(nprocessors)/log(2));
+           RAX = ilog2(nprocessors-1)+1;
            RBX = nprocessors;
            RCX = subfunction;
         }
@@ -864,7 +869,7 @@ void BX_CPU_C::bx_cpuid_extended_topology_leaf(Bit32u subfunction)
      }
      else if (ncores > 1) {
         if (nprocessors > 1) {
-           RAX = (bx_address) ceil(log(nprocessors)/log(2));
+           RAX = ilog2(nprocessors-1)+1;
            RBX = nprocessors;
            RCX = subfunction;
         }
@@ -883,7 +888,7 @@ void BX_CPU_C::bx_cpuid_extended_topology_leaf(Bit32u subfunction)
   case 2:
      if (nthreads > 1) {
         if (nprocessors > 1) {
-           RAX = (bx_address) ceil(log(nprocessors)/log(2));
+           RAX = ilog2(nprocessors-1)+1;
            RBX = nprocessors;
         }
         else {
