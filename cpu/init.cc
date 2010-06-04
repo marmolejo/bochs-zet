@@ -688,17 +688,17 @@ void BX_CPU_C::param_restore(bx_param_c *param, Bit64s val)
 
 void BX_CPU_C::after_restore_state(void)
 {
-  if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_IA32_REAL) CPL = 0;
-  else {
-    if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_IA32_V8086) CPL = 3;
-  }
-
   TLB_flush();
 
 #if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
   handleAlignmentCheck();
 #endif
   handleCpuModeChange();
+
+  if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_IA32_REAL) CPL = 0;
+  else {
+    if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_IA32_V8086) CPL = 3;
+  }
 
 #if BX_SUPPORT_VMX
   set_VMCSPTR(BX_CPU_THIS_PTR vmcsptr);
