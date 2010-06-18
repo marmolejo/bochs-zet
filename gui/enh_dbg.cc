@@ -446,9 +446,9 @@ void UpdateStatus()
 
     if (AtBreak != FALSE)   // modify status line only during a break
     {
-        char eflags_bug[80];
-        ShowEflags(eflags_bug);         // prints out eflags
-        SetStatusText(3, eflags_bug);   // display eflags
+        char eflags_buf[80];
+        ShowEflags(eflags_buf);         // prints out eflags
+        SetStatusText(3, eflags_buf);   // display eflags
 
         if (CpuModeChange != FALSE)     // Did CR0 bits or EFER bits change value?
         {
