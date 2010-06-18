@@ -159,9 +159,6 @@ public:
 
 class BOCHSAPI bx_floppy_stub_c : public bx_devmodel_c {
 public:
-  virtual unsigned get_media_status(unsigned drive) {
-    STUBFUNC(floppy,  get_media_status); return 0;
-  }
   virtual unsigned set_media_status(unsigned drive, unsigned status) {
     STUBFUNC(floppy, set_media_status); return 0;
   }

@@ -1457,11 +1457,6 @@ unsigned bx_floppy_ctrl_c::set_media_status(unsigned drive, unsigned status)
   }
 }
 
-unsigned bx_floppy_ctrl_c::get_media_status(unsigned drive)
-{
-  return BX_FD_THIS s.media_present[drive];
-}
-
 #ifdef O_BINARY
 #define BX_RDONLY O_RDONLY | O_BINARY
 #define BX_RDWR O_RDWR | O_BINARY
