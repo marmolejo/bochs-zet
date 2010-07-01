@@ -190,7 +190,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::VMexit_RDTSC(bxInstruction_c *i)
 
   if (VMEXIT(VMX_VM_EXEC_CTRL2_RDTSC_VMEXIT)) {
     BX_ERROR(("VMEXIT: RDTSC"));
-    VMexit(i, VMX_VMEXIT_RDTSC, 0);
+    VMexit(i, (i->b1() == 0x31) ? VMX_VMEXIT_RDTSC : VMX_VMEXIT_RDTSCP, 0);
   }
 }
 
