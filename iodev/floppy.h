@@ -54,6 +54,7 @@ public:
   virtual void init(void);
   virtual void reset(unsigned type);
   virtual unsigned set_media_status(unsigned drive, unsigned status);
+  virtual void set_media_readonly(unsigned drive, unsigned status);
   virtual void register_state(void);
 
 private:

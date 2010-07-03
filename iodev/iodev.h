@@ -162,6 +162,9 @@ public:
   virtual unsigned set_media_status(unsigned drive, unsigned status) {
     STUBFUNC(floppy, set_media_status); return 0;
   }
+  virtual void set_media_readonly(unsigned drive, unsigned status) {
+    STUBFUNC(floppy, set_media_readonly);
+  }
 };
 
 class BOCHSAPI bx_cmos_stub_c : public bx_devmodel_c {

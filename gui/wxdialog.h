@@ -330,7 +330,7 @@ class FloppyConfigDialog : public ParamDialog
 {
 private:
   wxButton *createButton;
-  ParamStruct *pstrDevice, *pstrPath, *pstrMedia, *pstrStatus;
+  ParamStruct *pstrDevice, *pstrPath, *pstrMedia, *pstrStatus, *pstrReadonly;
 public:
   FloppyConfigDialog(wxWindow* parent, wxWindowID id);
   void Setup(bx_list_c *list);

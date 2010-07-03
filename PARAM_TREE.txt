@@ -133,11 +133,13 @@ floppy
     devtype
     path
     type
+    readonly
     status
   1
     devtype
     path
     type
+    readonly
     status
 
 ata

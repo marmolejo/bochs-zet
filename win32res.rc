@@ -2,7 +2,8 @@
 #include <windows.h>
 #include "gui\win32res.h"
 
-ICON_BOCHS ICON build\win32\nsis\bochs.ico
+ICON_BOCHS ICON build\win32\nsis\logo.ico
+1 ICON build\win32\nsis\bochs.ico
 
 // Manifest for WinXP & Win2003
 1 24 build\win32\bochs.manifest
@@ -44,6 +45,7 @@ BEGIN
     LTEXT           "Media Type", IDMEDIATX, 5, 52, 45, 14
     COMBOBOX        IDMEDIATYPE, 50, 50, 40, 14, CBS_DROPDOWNLIST | WS_TABSTOP
     AUTOCHECKBOX    "Inserted", IDSTATUS, 50, 70, 50, 14
+    AUTOCHECKBOX    "Write Protection", IDREADONLY, 116, 70, 70, 14
     LTEXT           "Clicking OK signals a media change for this drive.",
                     IDCHANGETX, 35, 90, 185, 8
     PUSHBUTTON      "Create Image", IDCREATE, 35, 105, 50, 14
