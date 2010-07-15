@@ -154,7 +154,7 @@ Bit32u BX_CPU_C::get_extended_cpuid_features(void)
   // [21:21] X2APIC
   // [22:22] MOVBE instruction
   // [23:23] POPCNT instruction
-  // [24:24] reserved
+  // [24:24] TSC Deadline
   // [25:25] AES Instructions
   // [26:26] XSAVE extensions support
   // [27:27] OSXSAVE support
@@ -490,7 +490,7 @@ void BX_CPU_C::set_cpuid_defaults(void)
   //   [21:21] X2APIC
   //   [22:22] MOVBE instruction
   //   [23:23] POPCNT instruction
-  //   [24:24] reserved
+  //   [24:24] TSC Deadline
   //   [25:25] AES Instructions
   //   [26:26] XSAVE extensions support
   //   [27:27] OSXSAVE support
