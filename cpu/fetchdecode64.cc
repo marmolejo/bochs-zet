@@ -3580,6 +3580,11 @@ modrm_done:
     }
 
     ia_opcode = OpcodeInfoPtr->IA;
+
+    if (attr & BxArithDstRM) {
+      i->setRm(nnn);
+      i->setNnn(rm);
+    }
   }
   else {
     // Opcode does not require a MODRM byte.
@@ -3719,11 +3724,6 @@ modrm_done:
   if (! BX_NULL_SEG_REG(seg_override))
      seg = seg_override;
   i->setSeg(seg);
-
-  if (attr & BxArithDstRM) {
-    i->setRm(nnn);
-    i->setNnn(rm);
-  }
 
   i->execute  = BxOpcodesTable[ia_opcode].execute1;
   i->execute2 = BxOpcodesTable[ia_opcode].execute2;

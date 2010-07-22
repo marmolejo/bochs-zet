@@ -1058,7 +1058,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SYSCALL(bxInstruction_c *i)
 
     handleCpuModeChange(); // mode change could only happen when in long_mode()
 
-#if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
+#if BX_SUPPORT_ALIGNMENT_CHECK
     BX_CPU_THIS_PTR alignment_check_mask = 0; // CPL=0
 #endif
 
@@ -1106,7 +1106,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SYSCALL(bxInstruction_c *i)
 
     updateFetchModeMask(/* CS reloaded */);
 
-#if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
+#if BX_SUPPORT_ALIGNMENT_CHECK
     BX_CPU_THIS_PTR alignment_check_mask = 0; // CPL=0
 #endif
 
