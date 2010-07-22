@@ -3702,7 +3702,7 @@ BX_CPP_INLINE int BX_CPU_C::bx_cpuid_support_pcid(void)
 BX_CPP_INLINE int BX_CPU_C::bx_cpuid_support_fsgsbase(void)
 {
 #if BX_SUPPORT_X86_64
-  return BX_CPU_THIS_PTR cpuid_std_function[7].ecx & 0x1;
+  return BX_CPU_THIS_PTR cpuid_std_function[7].ebx & 0x1;
 #else
   return 0;
 #endif
