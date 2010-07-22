@@ -119,6 +119,7 @@
 #define Rw &disassembler::Rw
 #define Rd &disassembler::Rd
 #define Rq &disassembler::Rq
+#define Ry &disassembler::Ry
 
 #define Pq &disassembler::Pq
 #define Qd &disassembler::Qd

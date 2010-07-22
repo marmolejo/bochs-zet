@@ -353,6 +353,12 @@ void disassembler::Rq(const x86_insn *insn)
   dis_sprintf("%s", general_64bit_regname[insn->rm]);
 }
 
+void disassembler::Ry(const x86_insn *insn)
+{
+  if (insn->os_64) Rq(insn);
+  else Rd(insn);
+}
+
 // mmx register
 void disassembler::Pq(const x86_insn *insn)
 {
