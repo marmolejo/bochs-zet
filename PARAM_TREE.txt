@@ -27,6 +27,7 @@ cpu
 
 cpuid
   cpuid_limit_winnt
+  stepping
   vendor_string
   brand_string
   mmx
@@ -38,6 +39,7 @@ cpuid
   xapic
   1g_pages
   pcid
+  fsgsbase
   mwait_is_nop
 
 memory

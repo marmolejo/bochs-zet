@@ -971,4 +971,17 @@ static const BxOpcodeInfo_t BxOpcodeInfoG15R[8] = {
   /* 7 */ { BxPrefixSSE, BX_IA_SFENCE, BxOpcodeGroupSSE_ERR }
 };
 
+#if BX_SUPPORT_X86_64
+static const BxOpcodeInfo_t BxOpcodeInfoG15R64[8] = {
+  /* 0 */ { BxPrefixSSEF3, BX_IA_RDFSBASE },
+  /* 1 */ { BxPrefixSSEF3, BX_IA_RDGSBASE },
+  /* 2 */ { BxPrefixSSEF3, BX_IA_WRFSBASE },
+  /* 3 */ { BxPrefixSSEF3, BX_IA_WRGSBASE },
+  /* 4 */ { 0, BX_IA_ERROR },
+  /* 5 */ { BxPrefixSSE, BX_IA_LFENCE, BxOpcodeGroupSSE_ERR },
+  /* 6 */ { BxPrefixSSE, BX_IA_MFENCE, BxOpcodeGroupSSE_ERR },
+  /* 7 */ { BxPrefixSSE, BX_IA_SFENCE, BxOpcodeGroupSSE_ERR }
+};
+#endif
+
 #endif // BX_COMMON_FETCHDECODE_TABLES_H
