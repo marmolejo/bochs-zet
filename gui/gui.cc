@@ -128,6 +128,7 @@ void bx_gui_c::init(int argc, char **argv, unsigned tilewidth, unsigned tileheig
       break;
     case BX_MOUSE_TOGGLE_CTRL_ALT:
       strcpy(mouse_toggle_text, "CTRL + ALT");
+      break;
     case BX_MOUSE_TOGGLE_F12:
       strcpy(mouse_toggle_text, "F12");
       break;
