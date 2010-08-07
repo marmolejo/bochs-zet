@@ -5523,10 +5523,7 @@ int13_harddisk(EHAX, DS, ES, DI, SI, BP, ELDX, BX, DX, CX, AX, IP, CS, FLAGS)
         write_byte(ebda_seg, &EbdaData->ata.dpte.pio, 0 );
         write_word(ebda_seg, &EbdaData->ata.dpte.options, options);
         write_word(ebda_seg, &EbdaData->ata.dpte.reserved, 0);
-        if (size >= 66)
-          write_byte(ebda_seg, &EbdaData->ata.dpte.revision, 0x11);
-        else
-          write_byte(ebda_seg, &EbdaData->ata.dpte.revision, 0x10);
+        write_byte(ebda_seg, &EbdaData->ata.dpte.revision, 0x11);
 
         checksum=0;
         for (i=0; i<15; i++) checksum+=read_byte(ebda_seg, ((Bit8u*)(&EbdaData->ata.dpte)) + i);
@@ -5543,7 +5540,6 @@ int13_harddisk(EHAX, DS, ES, DI, SI, BP, ELDX, BX, DX, CX, AX, IP, CS, FLAGS)
         iface = read_byte(ebda_seg, &EbdaData->ata.channels[channel].iface);
         iobase1 = read_word(ebda_seg, &EbdaData->ata.channels[channel].iobase1);
 
-        write_word(DS, SI+(Bit16u)&Int13DPT->size, 66);
         write_word(DS, SI+(Bit16u)&Int13DPT->key, 0xbedd);
         write_byte(DS, SI+(Bit16u)&Int13DPT->dpi_length, 36);
         write_byte(DS, SI+(Bit16u)&Int13DPT->reserved1, 0);
@@ -5575,6 +5571,8 @@ int13_harddisk(EHAX, DS, ES, DI, SI, BP, ELDX, BX, DX, CX, AX, IP, CS, FLAGS)
         write_byte(DS, SI+(Bit16u)&Int13DPT->device_path[1], 0);
         write_word(DS, SI+(Bit16u)&Int13DPT->device_path[2], 0);
         write_dword(DS, SI+(Bit16u)&Int13DPT->device_path[4], 0L);
+
+        write_byte(DS, SI+(Bit16u)&Int13DPT->reserved3, 0);
 
         checksum=0;
         for (i=30; i<65; i++) checksum+=read_byte(DS, SI + i);
