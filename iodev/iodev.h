@@ -237,10 +237,10 @@ public:
                            unsigned width, unsigned height) {
     STUBFUNC(vga, redraw_area);
   }
-  virtual Bit8u mem_read(Bit32u addr) {
+  virtual Bit8u mem_read(bx_phy_address addr) {
     STUBFUNC(vga, mem_read);  return 0;
   }
-  virtual void mem_write(Bit32u addr, Bit8u value) {
+  virtual void mem_write(bx_phy_address addr, Bit8u value) {
     STUBFUNC(vga, mem_write);
   }
   virtual void get_text_snapshot(Bit8u **text_snapshot,

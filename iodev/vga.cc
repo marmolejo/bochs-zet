@@ -2387,19 +2387,19 @@ void bx_vga_c::mem_write(bx_phy_address addr, Bit8u value)
   switch (BX_VGA_THIS s.graphics_ctrl.memory_mapping) {
     case 1: // 0xA0000 .. 0xAFFFF
       if ((addr < 0xA0000) || (addr > 0xAFFFF)) return;
-      offset = addr - 0xA0000;
+      offset = (Bit32u)addr - 0xA0000;
       break;
     case 2: // 0xB0000 .. 0xB7FFF
       if ((addr < 0xB0000) || (addr > 0xB7FFF)) return;
-      offset = addr - 0xB0000;
+      offset = (Bit32u)addr - 0xB0000;
       break;
     case 3: // 0xB8000 .. 0xBFFFF
       if ((addr < 0xB8000) || (addr > 0xBFFFF)) return;
-      offset = addr - 0xB8000;
+      offset = (Bit32u)addr - 0xB8000;
       break;
     default: // 0xA0000 .. 0xBFFFF
       if ((addr < 0xA0000) || (addr > 0xBFFFF)) return;
-      offset = addr - 0xA0000;
+      offset = (Bit32u)addr - 0xA0000;
   }
 
   start_addr = (BX_VGA_THIS s.CRTC.reg[0x0c] << 8) | BX_VGA_THIS s.CRTC.reg[0x0d];

@@ -131,7 +131,7 @@ BX_CPP_INLINE Bit8u* BX_MEM_C::get_vector(bx_phy_address addr)
 
 BX_CPP_INLINE Bit8u* BX_MEM_C::get_vector(bx_phy_address addr)
 {
-  Bit32u block = addr / BX_MEM_BLOCK_LEN;
+  Bit32u block = (Bit32u)(addr / BX_MEM_BLOCK_LEN);
   if (! BX_MEM_THIS blocks[block]) allocate_block(block);
   return BX_MEM_THIS blocks[block] + (Bit32u)(addr & (BX_MEM_BLOCK_LEN-1));
 }
