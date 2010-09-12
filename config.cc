@@ -802,6 +802,8 @@ void bx_init_options()
   bx_list_c *keyboard = new bx_list_c(kbd_mouse, "keyboard", "Keyboard Options");
   bx_list_c *mouse = new bx_list_c(kbd_mouse, "mouse", "Mouse Options");
 
+  static const char *keyboard_type_names[] = { "xt", "at", "mf", NULL };
+
   // keyboard & mouse options
   type = new bx_param_enum_c(keyboard,
       "type", "Keyboard type",
