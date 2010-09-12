@@ -2696,7 +2696,12 @@ modrm_done:
         break;
       case BxImmediate_Ib_SE: // Sign extend to OS size
         if (remain != 0) {
-          i->modRMForm.Id = (Bit8s) (*iptr);
+          Bit8s temp8s = *iptr;
+          // this code works correctly both for LE and BE hosts
+          if (i->os32L())
+            i->modRMForm.Id = (Bit32s) temp8s;
+          else
+            i->modRMForm.Iw = (Bit16s) temp8s;
           remain--;
         }
         else {
