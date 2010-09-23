@@ -53,7 +53,7 @@ public:
 
     //  7...4 (unused)
     //  3...0 ilen (0..15)
-    Bit8u metaInfo2;
+    Bit8u ilen;
 
     //  7...7 extend8bit
     //  6...6 as64
@@ -238,10 +238,10 @@ public:
 #endif
 
   BX_CPP_INLINE unsigned ilen(void) const {
-    return metaInfo.metaInfo2;
+    return metaInfo.ilen;
   }
   BX_CPP_INLINE void setILen(unsigned ilen) {
-    metaInfo.metaInfo2 = ilen;
+    metaInfo.ilen = ilen;
   }
 
   BX_CPP_INLINE unsigned getIaOpcode(void) const {

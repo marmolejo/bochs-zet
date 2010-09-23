@@ -3360,11 +3360,15 @@ fetch_b1:
     rex_b = ((rex_prefix & 0x1) << 3);
   }
 
+  i->setB1(b1);
+
   index = (b1+offset) << 1;
 
   attr = BxOpcodeInfo64[index].Attr;
 
-  if (BxOpcodeHasModrm64[b1]) {
+  bx_bool has_modrm = BxOpcodeHasModrm64[b1];
+
+  if (has_modrm) {
 
     unsigned b3 = 0;
     // handle 3-byte escape
@@ -3720,7 +3724,6 @@ modrm_done:
   i->execute  = BxOpcodesTable[ia_opcode].execute1;
   i->execute2 = BxOpcodesTable[ia_opcode].execute2;
 
-  i->setB1(b1);
   i->setILen(remainingInPage - remain);
   i->setIaOpcode(ia_opcode);
 
