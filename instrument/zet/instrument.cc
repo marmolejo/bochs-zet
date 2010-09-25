@@ -35,6 +35,7 @@ using std::endl;
 
 #include "bochs.h"
 #include "cpu/cpu.h"
+#include "disasm/disasm.h"
 
 // maximum size of an instruction
 #define MAX_OPCODE_SIZE 16
@@ -73,7 +74,10 @@ static struct instruction_t {
 static logfunctions *instrument_log = new logfunctions ();
 #define LOG_THIS instrument_log->
 
-void bx_instr_init(unsigned cpu)
+void bx_instr_init_env(void) {}
+void bx_instr_exit_env(void) {}
+
+void bx_instr_initialize(unsigned cpu)
 {
   assert(cpu < BX_SMP_PROCESSORS);
 
@@ -95,14 +99,14 @@ void bx_instr_reset(unsigned cpu, unsigned type)
 
 void bx_instr_debug_cmd(const char *comm)
 {
-  if(strcmp(comm,"start"))
+  if(!strcmp(comm,"start"))
     {
       if (stats) cerr << "instrumentation already started" << endl;
       else stats = new TStrUIntMap;
     }
   else
     {
-      if (strcmp(comm,"stop"))
+      if (!strcmp(comm,"stop"))
         {
           if (stats)
             {
@@ -116,7 +120,7 @@ void bx_instr_debug_cmd(const char *comm)
         }
       else
         {
-          if (strcmp(comm,"print"))
+          if (!strcmp(comm,"print"))
             {
               if (stats)
                 {
@@ -254,7 +258,7 @@ void bx_instr_interrupt(unsigned cpu, unsigned vector)
         bx_cpu.gen_reg[0].word.byte.rh); */
 }
 
-void bx_instr_exception(unsigned cpu, unsigned vector)
+void bx_instr_exception(unsigned cpu, unsigned vector, unsigned error_code)
 {
   char tmpbuf[50];
   if(stats)
@@ -330,7 +334,7 @@ void bx_instr_inp2(Bit16u addr, unsigned len, Bit32u val)
   }
 }
 
-void bx_instr_outp2(Bit16u addr, unsigned len, Bit32u val)
+void bx_instr_outp(Bit16u addr, unsigned len, Bit32u val)
 {
   char tmpbuf[50];
   Bit16u sel;

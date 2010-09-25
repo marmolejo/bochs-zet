@@ -56,9 +56,13 @@
 
 class bxInstruction_c;
 
+void bx_instr_init_env(void);
+void bx_instr_exit_env(void);
+
 // called from the CPU core
 
-void bx_instr_init(unsigned cpu);
+void bx_instr_initialize(unsigned cpu);
+void bx_instr_exit(unsigned cpu);
 void bx_instr_reset(unsigned cpu, unsigned type);
 void bx_instr_debug_cmd(const char *comm);
 void bx_instr_new_instruction(unsigned cpu);
@@ -74,17 +78,21 @@ void bx_instr_fetch_decode_completed(unsigned cpu, bxInstruction_c *i);
 void bx_instr_prefix(unsigned cpu, Bit8u prefix);
 
 void bx_instr_interrupt(unsigned cpu, unsigned vector);
-void bx_instr_exception(unsigned cpu, unsigned vector);
+void bx_instr_exception(unsigned cpu, unsigned vector, unsigned error_code);
 void bx_instr_hwinterrupt(unsigned cpu, unsigned vector, Bit16u cs, bx_address eip);
 
 void bx_instr_mem_data_access(unsigned cpu, unsigned seg, bx_address offset, unsigned len, unsigned rw);
 void bx_instr_phy_write(unsigned cpu, bx_address addr, unsigned len, void *data);
 
 void bx_instr_inp2(Bit16u addr, unsigned len, Bit32u val);
-void bx_instr_outp2(Bit16u addr, unsigned len, Bit32u val);
+void bx_instr_outp(Bit16u addr, unsigned len, Bit32u val);
+
+/* initialization/deinitialization of instrumentalization*/
+#define BX_INSTR_INIT_ENV() bx_instr_init_env()
+#define BX_INSTR_EXIT_ENV() bx_instr_exit_env()
 
 /* simulation init, shutdown, reset */
-#  define BX_INSTR_INIT(cpu_id)            bx_instr_init(cpu_id)
+#define BX_INSTR_INITIALIZE(cpu_id)      bx_instr_initialize(cpu_id)
 #  define BX_INSTR_EXIT(cpu_id)
 #  define BX_INSTR_RESET(cpu_id, type)     bx_instr_reset(cpu_id, type)
 #  define BX_INSTR_HLT(cpu_id)
@@ -111,7 +119,7 @@ void bx_instr_outp2(Bit16u addr, unsigned len, Bit32u val);
 #  define BX_INSTR_PREFIX(cpu_id, prefix)  bx_instr_prefix(cpu_id, prefix)
 
 /* exceptional case and interrupt */
-#  define BX_INSTR_EXCEPTION(cpu_id, vector)            bx_instr_exception(cpu_id, vector)
+#define BX_INSTR_EXCEPTION(cpu_id, vector, error_code)  bx_instr_exception(cpu_id, vector, error_code)
 #  define BX_INSTR_INTERRUPT(cpu_id, vector)            bx_instr_interrupt(cpu_id, vector)
 #  define BX_INSTR_HWINTERRUPT(cpu_id, vector, cs, eip) bx_instr_hwinterrupt(cpu_id, vector, cs, eip)
 
@@ -134,14 +142,13 @@ void bx_instr_outp2(Bit16u addr, unsigned len, Bit32u val);
                 bx_instr_mem_data_access(cpu_id, seg, offset, len, rw)
 
 /* called from memory object */
-#  define BX_INSTR_PHY_WRITE(cpu_id, addr, len, data)
-#  define BX_INSTR_PHY_READ(cpu_id, addr, len)
+#define BX_INSTR_PHY_WRITE(cpu_id, addr, len)
+#define BX_INSTR_PHY_READ(cpu_id, addr, len)
 
 /* feedback from device units */
-#  define BX_INSTR_INP(addr, len)
+#define BX_INSTR_INP(addr, len)
 #  define BX_INSTR_INP2(addr, len, val)         bx_instr_inp2(addr, len, val)
-#  define BX_INSTR_OUTP(addr, len)
-#  define BX_INSTR_OUTP2(addr, len, val)        bx_instr_outp2(addr, len, val)
+#define BX_INSTR_OUTP(addr, len, val)        bx_instr_outp(addr, len, val)
 
 /* wrmsr callback */
 #  define BX_INSTR_WRMSR(cpu_id, addr, value)

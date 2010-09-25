@@ -8,4 +8,5 @@ CFLAGS='-g3 -O0' CXXFLAGS='-g3 -O0' ./configure \
   --disable-fpu \
   --enable-cpu-level=3 \
   --disable-cdrom \
-  --enable-logging
+  --enable-logging \
+  --enable-instrumentation="instrument/zet"
