@@ -51,6 +51,8 @@ crc             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_CRC); }
 c               |
 cont            |
 continue        { bxlval.sval = strdup(bxtext); return(BX_TOKEN_CONTINUE); }
+dump-video      { bxlval.sval = strdup(bxtext); return(BX_TOKEN_DUMPVIDEO); }
+load-video      { bxlval.sval = strdup(bxtext); return(BX_TOKEN_LOADVIDEO); }
 stepi           |
 step            |
 s               { bxlval.sval = strdup(bxtext); return(BX_TOKEN_STEPN); }

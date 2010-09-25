@@ -313,6 +313,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AND_EdIdR(bxInstruction_c *i)
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::TEST_EdGdM(bxInstruction_c *i)
 {
   Bit32u op1_32, op2_32;
+printf("testl1 %x:%x\n", BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, IP);
 
   BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
@@ -326,6 +327,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::TEST_EdGdM(bxInstruction_c *i)
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::TEST_EdGdR(bxInstruction_c *i)
 {
   Bit32u op1_32, op2_32;
+printf("testl2 %x:%x\n", BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, IP);
 
   op1_32 = BX_READ_32BIT_REG(i->rm());
   op2_32 = BX_READ_32BIT_REG(i->nnn());
@@ -337,6 +339,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::TEST_EdGdR(bxInstruction_c *i)
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::TEST_EAXId(bxInstruction_c *i)
 {
   Bit32u op1_32, op2_32;
+printf("testl3 %x:%x\n", BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, IP);
 
   op1_32 = EAX;
   op2_32 = i->Id();
@@ -348,6 +351,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::TEST_EAXId(bxInstruction_c *i)
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::TEST_EdIdM(bxInstruction_c *i)
 {
   BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+printf("testl4 %x:%x\n", BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, IP);
 
   Bit32u op1_32 = read_virtual_dword(i->seg(), RMAddr(i));
   op1_32 &= i->Id();
@@ -357,6 +361,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::TEST_EdIdM(bxInstruction_c *i)
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::TEST_EdIdR(bxInstruction_c *i)
 {
   Bit32u op1_32 = BX_READ_32BIT_REG(i->rm());
+printf("testl5 %x:%x\n", BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, IP);
+
   op1_32 &= i->Id();
   SET_FLAGS_OSZAPC_LOGIC_32(op1_32);
 }

@@ -64,7 +64,7 @@ void BX_MEM_C::writePhysicalPage(BX_CPU_C *cpu, bx_phy_address addr, unsigned le
     bx_iodebug_c::mem_write(cpu, a20addr, len, data);
 #endif
 
-    BX_INSTR_PHY_WRITE(cpu->which_cpu(), a20addr, len);
+    BX_INSTR_PHY_WRITE(cpu->which_cpu(), a20addr, len, data);
 
 #if BX_SUPPORT_APIC
     bx_generic_apic_c *local_apic = &cpu->local_apic;

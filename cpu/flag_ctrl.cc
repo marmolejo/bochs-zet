@@ -201,7 +201,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::POPF_Fw(bxInstruction_c *i)
   // x,NT,IOPL,OF,DF,IF,TF,SF,ZF,x,AF,x,PF,x,CF
   Bit32u changeMask = EFlagsOSZAPCMask | EFlagsTFMask | EFlagsDFMask;
 #if BX_CPU_LEVEL >= 3
-  changeMask |= EFlagsNTMask;     // NT could be modified
+// Zet better emulation
+//  changeMask |= EFlagsNTMask;     // NT could be modified
 #endif
   Bit16u flags16;
 
@@ -245,7 +246,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::POPF_Fw(bxInstruction_c *i)
   else {
     flags16 = pop_16();
     // All non-reserved flags can be modified
-    changeMask |= (EFlagsIOPLMask | EFlagsIFMask);
+    // Zet better emulation
+    changeMask |= (/* EFlagsIOPLMask | */ EFlagsIFMask);
   }
 
   writeEFlags((Bit32u) flags16, changeMask);
@@ -259,6 +261,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PUSHF_Fd(bxInstruction_c *i)
     BX_DEBUG(("PUSHFD: #GP(0) in v8086 mode"));
     exception(BX_GP_EXCEPTION, 0, 0);
   }
+printf("PUSHF_Fd %x:%x\n", BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value, IP);
 
   // VM & RF flags cleared in image stored on the stack
   push_32(read_eflags() & 0x00fcffff);

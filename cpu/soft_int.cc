@@ -44,6 +44,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::BOUND_GwMa(bxInstruction_c *i)
   Bit16s bound_min, bound_max;
   Bit16s op1_16 = BX_READ_16BIT_REG(i->nnn());
 
+  printf("BOUND!!\n");
   BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
   bound_min = (Bit16s) read_virtual_word(i->seg(), RMAddr(i));

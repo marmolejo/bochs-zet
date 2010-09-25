@@ -449,7 +449,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SHR_Ew(bxInstruction_c *i)
   else // 0xc1 or 0xd1
     count = i->Ib();
 
-  count &= 0x1f; /* use only 5 LSB's */
+  // Zet better emulation: 8086 uses 8 bits
+  // count &= 0x1f; /* use only 5 LSB's */
 
   /* op1 is a register or memory reference */
   if (i->modC0()) {
@@ -463,7 +464,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SHR_Ew(bxInstruction_c *i)
 
   if (!count) return;
 
-  result_16 = (op1_16 >> count);
+  // Zet better emulation: in 8086 the 8 bits are taken into account
+  result_16 = (count>15) ? 0 : (op1_16 >> count);
 
   /* now write result back to destination */
   if (i->modC0()) {

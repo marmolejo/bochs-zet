@@ -1078,6 +1078,16 @@ void bx_dbg_playback_command(char* path_quoted)
   }
 }
 
+void bx_dbg_dump_video_command(char* path_quoted)
+{
+  DEV_vga_dump_video(path_quoted);
+}
+
+void bx_dbg_load_video_command(char* path_quoted)
+{
+  DEV_vga_load_video(path_quoted);
+}
+
 // toggles mode switch breakpoint
 void bx_dbg_modebp_command()
 {

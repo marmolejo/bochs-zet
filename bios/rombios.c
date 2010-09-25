@@ -141,11 +141,11 @@
 #define BX_USE_EBDA      1
 #define BX_SUPPORT_FLOPPY 1
 #define BX_FLOPPY_ON_CNT 37   /* 2 seconds */
-#define BX_PCIBIOS       1
-#define BX_APM           1
+#define BX_PCIBIOS       0
+#define BX_APM           0
 
-#define BX_USE_ATADRV    1
-#define BX_ELTORITO_BOOT 1
+#define BX_USE_ATADRV    0
+#define BX_ELTORITO_BOOT 0
 
 #define BX_MAX_ATA_INTERFACES   4
 #define BX_MAX_ATA_DEVICES      (BX_MAX_ATA_INTERFACES*2)
@@ -4914,6 +4914,7 @@ int09_function(DI, SI, BP, SP, BX, DX, CX, AX)
 
 
   scancode = GET_AL();
+  BX_INFO("KBD scancode: %x\n", scancode);
 
   if (scancode == 0) {
     BX_INFO("KBD: int09 handler: AL=0\n");
@@ -6279,6 +6280,8 @@ int13_harddisk(EHAX, DS, ES, DI, SI, BP, ELDX, BX, DX, CX, AX, IP, CS, FLAGS)
   Bit32u   lba;
   Bit16u   error;
 
+  Bit32u   log_sector;
+
   BX_DEBUG_INT13_HD("int13 harddisk: AX=%04x BX=%04x CX=%04x DX=%04x ES=%04x\n", AX, BX, CX, DX, ES);
 
   write_byte(0x0040, 0x008e, 0);  // clear completion flag
@@ -6300,6 +6303,7 @@ int13_harddisk(EHAX, DS, ES, DI, SI, BP, ELDX, BX, DX, CX, AX, IP, CS, FLAGS)
     return;
     }
 
+  printf("int13_hard (%x)\n", GET_AH());
   switch (GET_AH()) {
 
     case 0x00: /* disk controller reset */
@@ -6410,6 +6414,19 @@ BX_DEBUG_INT13_HD("CHS: %x %x %x\n", cylinder, head, sector);
 
       sector_count = 0;
       tempbx = BX;
+
+      log_sector = ((Bit32u)cylinder) * ((Bit32u)hd_heads) * ((Bit32u)hd_sectors)
+                 + ((Bit32u)head) * ((Bit32u)hd_sectors)
+                 + ((Bit32u)sector) - 1;
+      printf("l: %d, ", log_sector);
+      printf("d: %d, ", drive);
+      printf("hc: %d, ", hd_cylinders);
+      printf("hh: %d, ", hd_heads);
+      printf("hs: %d, ", hd_sectors);
+      printf("c: %d, ", cylinder);
+      printf("h: %d, ", head);
+      printf("s: %d\n", sector);
+      printf("num_sectors: %d\n", num_sectors);
 
 ASM_START
   sti  ;; enable higher priority interrupts

@@ -35,6 +35,8 @@
 
 void BX_CPU_C::debug_disasm_instruction(bx_address offset)
 {
+  Bit16u cs = BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value;
+  if (cs == 0xc000  || cs == 0xf000) return;
 #if BX_DEBUGGER
   bx_dbg_disassemble_current(BX_CPU_ID, 1); // only one cpu, print time stamp
 #else

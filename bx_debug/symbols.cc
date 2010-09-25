@@ -95,6 +95,9 @@ char* bx_dbg_disasm_symbolic_address(Bit32u eip, Bit32u base)
 #endif
 
 using namespace std;
+#ifdef __GNUC__
+using namespace __gnu_cxx;
+#endif
 
 struct symbol_entry_t
 {

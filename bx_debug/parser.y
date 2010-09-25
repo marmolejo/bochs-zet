@@ -92,6 +92,8 @@
 %token <sval> BX_TOKEN_TIMEBP
 %token <sval> BX_TOKEN_RECORD
 %token <sval> BX_TOKEN_PLAYBACK
+%token <sval> BX_TOKEN_DUMPVIDEO
+%token <sval> BX_TOKEN_LOADVIDEO
 %token <sval> BX_TOKEN_MODEBP
 %token <sval> BX_TOKEN_PRINT_STACK
 %token <sval> BX_TOKEN_WATCH
@@ -171,6 +173,8 @@ command:
     | timebp_command
     | record_command
     | playback_command
+    | dump_video_command
+    | load_video_command
     | modebp_command
     | print_stack_command
     | watch_point_command
@@ -228,6 +232,22 @@ playback_command:
       BX_TOKEN_PLAYBACK BX_TOKEN_STRING '\n'
       {
           bx_dbg_playback_command($2);
+          free($1); free($2);
+      }
+    ;
+
+dump_video_command:
+      BX_TOKEN_DUMPVIDEO BX_TOKEN_STRING '\n'
+      {
+          bx_dbg_dump_video_command($2);
+          free($1); free($2);
+      }
+    ;
+
+load_video_command:
+      BX_TOKEN_LOADVIDEO BX_TOKEN_STRING '\n'
+      {
+          bx_dbg_load_video_command($2);
           free($1); free($2);
       }
     ;

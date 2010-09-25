@@ -272,6 +272,8 @@ public:
     return 0;
   }
   virtual void dump_status(void) {}
+  virtual void dump_video(char *file) {}
+  virtual void load_video(char *file) {}
 };
 
 class BOCHSAPI bx_pci_bridge_stub_c : public bx_devmodel_c, public bx_pci_device_stub_c {

@@ -1246,6 +1246,7 @@ void bx_vga_c::write(Bit32u address, Bit32u value, unsigned io_len, bx_bool no_l
           BX_VGA_THIS s.sequencer.odd_even       = (value >> 2) & 0x01;
           BX_VGA_THIS s.sequencer.chain_four     = (value >> 3) & 0x01;
 
+          printf("chan_four = %d\n", BX_VGA_THIS s.sequencer.chain_four);
 #if !defined(VGA_TRACE_FEATURE)
           BX_DEBUG(("io write 0x3c5: memory mode:"));
           BX_DEBUG(("  extended_mem = %u",
@@ -1457,6 +1458,7 @@ void bx_vga_c::write(Bit32u address, Bit32u value, unsigned io_len, bx_bool no_l
             break;
           case 0x09:
             BX_VGA_THIS s.y_doublescan = ((value & 0x9f) > 0);
+            printf("s.y_doublescan = %x\n", BX_VGA_THIS s.y_doublescan);
             BX_VGA_THIS s.line_compare &= 0x1ff;
             if (BX_VGA_THIS s.CRTC.reg[0x09] & 0x40) BX_VGA_THIS s.line_compare |= 0x200;
             needs_update = 1;
@@ -1495,6 +1497,7 @@ void bx_vga_c::write(Bit32u address, Bit32u value, unsigned io_len, bx_bool no_l
               BX_VGA_THIS s.line_offset = BX_VGA_THIS s.CRTC.reg[0x13] << 1;
               if (BX_VGA_THIS s.CRTC.reg[0x14] & 0x40) BX_VGA_THIS s.line_offset <<= 2;
               else if ((BX_VGA_THIS s.CRTC.reg[0x17] & 0x40) == 0) BX_VGA_THIS s.line_offset <<= 1;
+              printf("s.line_offset = %x\n", BX_VGA_THIS s.line_offset);
               needs_update = 1;
             }
             break;
@@ -1859,8 +1862,14 @@ void bx_vga_c::update(void)
     unsigned bit_no, r, c, x, y;
     unsigned long byte_offset, start_addr;
     unsigned xc, yc, xti, yti;
+    static unsigned long start_addr_old;
 
     start_addr = (BX_VGA_THIS s.CRTC.reg[0x0c] << 8) | BX_VGA_THIS s.CRTC.reg[0x0d];
+    if (start_addr != start_addr_old)
+    {
+      start_addr_old = start_addr;
+      printf("New start_addr: %x\n", start_addr);
+    }
 
 //BX_DEBUG(("update: shiftreg=%u, chain4=%u, mapping=%u",
 //  (unsigned) BX_VGA_THIS s.graphics_ctrl.shift_reg,
@@ -1871,6 +1880,7 @@ void bx_vga_c::update(void)
     if((iWidth != old_iWidth) || (iHeight != old_iHeight) ||
         (BX_VGA_THIS s.last_bpp > 8))
     {
+      determine_screen_dimensions(&iHeight, &iWidth);
       bx_gui->dimension_update(iWidth, iHeight);
       old_iWidth = iWidth;
       old_iHeight = iHeight;
@@ -1946,13 +1956,13 @@ void bx_vga_c::update(void)
                     x = xc + c;
                     if (BX_VGA_THIS s.x_dotclockdiv2) x >>= 1;
                     bit_no = 7 - (x % 8);
-                    if (y > line_compare) {
+                  /* if (y > line_compare) {
                       byte_offset = x / 8 +
                         ((y - line_compare - 1) * BX_VGA_THIS s.line_offset);
-                    } else {
+                    } else { */
                       byte_offset = start_addr + x / 8 +
                         (y * BX_VGA_THIS s.line_offset);
-                    }
+                   // }
                     attribute =
                       (((plane0[byte_offset] >> bit_no) & 0x01) << 0) |
                       (((plane1[byte_offset] >> bit_no) & 0x01) << 1) |
@@ -2873,6 +2883,26 @@ void bx_vga_c::dump_status(void)
     case 3: dbg_printf("(B8000-BFFFF)\n"); break;
     default: dbg_printf("(A0000-BFFFF)\n"); break;
   }
+  dbg_printf("s.graphics_ctrl.write_mode = %u\n",
+            (unsigned) BX_VGA_THIS s.graphics_ctrl.write_mode);
+  dbg_printf("s.graphics_ctrl.raster_op = %u\n",
+            (unsigned) BX_VGA_THIS s.graphics_ctrl.raster_op);
+  dbg_printf("s.graphics_ctrl.read_mode = %u\n",
+            (unsigned) BX_VGA_THIS s.graphics_ctrl.read_mode);
+  dbg_printf("s.graphics_ctrl.bitmask = %x\n",
+            (unsigned) BX_VGA_THIS s.graphics_ctrl.bitmask);
+  dbg_printf("s.graphics_ctrl.set_reset = %x\n",
+            (unsigned) BX_VGA_THIS s.graphics_ctrl.set_reset);
+  dbg_printf("s.graphics_ctrl.enable_set_reset = %x\n",
+            (unsigned) BX_VGA_THIS s.graphics_ctrl.enable_set_reset);
+  dbg_printf("s.sequencer.map_mask = %u\n",
+            (unsigned) BX_VGA_THIS s.sequencer.map_mask);
+  dbg_printf("s.graphics_ctrl.read_map_select = %x\n",
+            (unsigned) BX_VGA_THIS s.graphics_ctrl.read_map_select);
+  dbg_printf("s.graphics_ctrl.color_compare = %x\n",
+            (unsigned) BX_VGA_THIS s.graphics_ctrl.color_compare);
+  dbg_printf("s.graphics_ctrl.color_dont_care = %x\n",
+            (unsigned) BX_VGA_THIS s.graphics_ctrl.color_dont_care);
 
   dbg_printf("s.sequencer.extended_mem = %u\n",
             (unsigned) BX_VGA_THIS s.sequencer.extended_mem);
@@ -2894,12 +2924,81 @@ void bx_vga_c::dump_status(void)
 #endif
 }
 
+
+void bx_vga_c::dump_video(char *file)
+{
+#if BX_DEBUGGER
+  size_t len;
+
+  FILE *f = fopen (file, "w");
+  if (!f) {
+    dbg_printf("Error opening file %s for writing.\n", file);
+    return;
+  }
+/*
+  len = fwrite(&(BX_VGA_THIS s), sizeof(BX_VGA_THIS s), 1, f);
+  if (len!=1)
+    {
+      dbg_printf("Couldn't write state to disk, written %d\n", file, len);
+      return;
+    }
+*/
+  len = fwrite(BX_VGA_THIS s.memory, 0x40000, 1, f);
+  if (len!=1)
+    {
+      dbg_printf("Couldn't write 0x40000 bytes to disk, written %d\n", file, len*0x40000);
+      return;
+    }
+
+  dbg_printf("Written video state to file %s\n", file);
+  fclose(f);
+
+  int i, j;
+  for (i=0; i<0x40000; i+=0x10000)
+    for (j=0xc000; j<0x10000; j++)
+      BX_VGA_THIS s.memory[i|j] = 0x0;
+#endif
+}
+
+void bx_vga_c::load_video(char *file)
+{
+#if BX_DEBUGGER
+  size_t len;
+  Bit8u *mem = BX_VGA_THIS s.memory;
+
+  FILE *f = fopen (file, "r");
+  if (!f) {
+    dbg_printf("Error opening file %s for reading.\n", file);
+    return;
+  }
+
+/*
+  len = fread(&(BX_VGA_THIS s), sizeof(BX_VGA_THIS s), 1, f);
+  if (len!=1)
+    {
+      dbg_printf("Couldn't read state from disk, read %d\n", file, len);
+      return;
+    }
+  BX_VGA_THIS s.memory = mem;
+*/
+  len = fread(BX_VGA_THIS s.memory, 0x40000, 1, f);
+  if (len!=1)
+    {
+      dbg_printf("Couldn't read 0x40000 bytes from disk, read %d\n", file, len*0x40000);
+      return;
+    }
+
+  dbg_printf("Read video status from file %s\n", file);
+  fclose(f);
+#endif
+}
+
 void bx_vga_c::redraw_area(unsigned x0, unsigned y0, unsigned width,
                       unsigned height)
 {
   unsigned xti, yti, xt0, xt1, yt0, yt1, xmax, ymax;
 
-  if ((width == 0) || (height == 0)) {
+  if ((width == 0) || (height == 0) || (old_iWidth == 0) || (old_iHeight == 0)) {
     return;
   }
 

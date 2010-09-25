@@ -244,6 +244,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::ENTER16_IwIb(bxInstruction_c *i)
 {
   Bit16u imm16 = i->Iw();
   Bit8u level = i->Ib2();
+
+  // printf("80186 ENTER16: imm: %x, level: %x\n", imm16, level);
   level &= 0x1F;
 
   BX_CPU_THIS_PTR speculative_rsp = 1;

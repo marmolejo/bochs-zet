@@ -144,6 +144,8 @@ public:
   virtual void   mem_write(bx_phy_address addr, Bit8u value);
   virtual void   trigger_timer(void *this_ptr);
   virtual void   dump_status(void);
+  virtual void   dump_video(char *file);
+  virtual void   load_video(char *file);
   virtual void   register_state(void);
   virtual void   after_restore_state(void);
 
