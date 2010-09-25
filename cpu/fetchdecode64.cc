@@ -3714,22 +3714,22 @@ modrm_done:
         BX_INFO(("b1 was %x", b1));
         BX_PANIC(("fetchdecode: imm_mode = %u", imm_mode));
     }
-  }
 
-  unsigned imm_mode2 = attr & BxImmediate2;
-  if (imm_mode2) {
-    if (imm_mode2 == BxImmediate_Ib2) {
-      if (remain != 0) {
-        i->modRMForm.Ib2 = *iptr;
-        remain--;
+    unsigned imm_mode2 = attr & BxImmediate2;
+    if (imm_mode2) {
+      if (imm_mode2 == BxImmediate_Ib2) {
+        if (remain != 0) {
+          i->modRMForm.Ib2 = *iptr;
+          remain--;
+        }
+        else {
+          return(-1);
+        }
       }
       else {
-        return(-1);
+        BX_INFO(("b1 was %x", b1));
+        BX_PANIC(("fetchdecode: imm_mode2 = %u", imm_mode2));
       }
-    }
-    else {
-      BX_INFO(("b1 was %x", b1));
-      BX_PANIC(("fetchdecode: imm_mode2 = %u", imm_mode2));
     }
   }
 
