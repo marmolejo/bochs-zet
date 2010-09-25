@@ -61,7 +61,7 @@ void BX_MEM_C::writePhysicalPage(BX_CPU_C *cpu, bx_phy_address addr, unsigned le
     bx_devices.pluginIODebug->mem_write(cpu, a20addr, len, data);
 #endif
 
-    BX_INSTR_PHY_WRITE(cpu->which_cpu(), a20addr, len, data);
+    BX_INSTR_PHY_WRITE(cpu->which_cpu(), a20addr, len);
 
     if ((a20addr >= 0x000a0000 && a20addr < 0x000c0000) && BX_MEM_THIS smram_available)
     {

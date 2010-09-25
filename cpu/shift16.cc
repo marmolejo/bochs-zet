@@ -532,6 +532,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SHL_EwR(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::SHR_EwM(bxInstruction_c *i)
 {
+  Bit16u result_16;
   unsigned count;
   unsigned of, cf;
 

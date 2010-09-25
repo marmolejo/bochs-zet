@@ -85,7 +85,7 @@ void bx_instr_init(unsigned cpu)
   bx_disassembler.toggle_syntax_mode();
 }
 
-void bx_instr_reset(unsigned cpu)
+void bx_instr_reset(unsigned cpu, unsigned type)
 {
   instruction[cpu].valid = 0;
   instruction[cpu].nprefixes = 0;
@@ -93,44 +93,55 @@ void bx_instr_reset(unsigned cpu)
   instruction[cpu].is_branch = 0;
 }
 
-void bx_instr_print()
+void bx_instr_debug_cmd(const char *comm)
 {
-   if (stats)
-     {
-       cerr << "stats contains:\nKey\tValue\n";
-
-       // use const_iterator to walk through elements of pairs
-       for ( std::map<std::string, unsigned>
-              ::const_iterator iter = stats->begin();
-             iter != stats->end(); ++iter )
-
-         cerr << iter->first << '\t' << iter->second << '\n';
-
-       cerr << endl;
-       cerr << "# instr: " << ninstr << endl;
-     }
-   else
-     {
-       cerr << "There's no statistics to show!" << endl;
-     }
-}
-
-void bx_instr_start()
-{
-  if (stats) cerr << "instrumentation already started" << endl;
-  else stats = new TStrUIntMap;
-}
-
-void bx_instr_stop()
-{
-  if (stats)
+  if(strcmp(comm,"start"))
     {
-      delete stats;
-      stats = 0;
+      if (stats) cerr << "instrumentation already started" << endl;
+      else stats = new TStrUIntMap;
     }
   else
     {
-      cerr << "there's no statistics to stop!" << endl;
+      if (strcmp(comm,"stop"))
+        {
+          if (stats)
+            {
+              delete stats;
+              stats = 0;
+            }
+          else
+            {
+              cerr << "there's no statistics to stop!" << endl;
+            }
+        }
+      else
+        {
+          if (strcmp(comm,"print"))
+            {
+              if (stats)
+                {
+                  cerr << "stats contains:\nKey\tValue\n";
+
+                  // use const_iterator to walk through elements of pairs
+                  for ( std::map<std::string, unsigned>
+                        ::const_iterator iter = stats->begin();
+                        iter != stats->end(); ++iter )
+
+                  cerr << iter->first << '\t' << iter->second << '\n';
+
+                  cerr << endl;
+                  cerr << "# instr: " << ninstr << endl;
+                }
+              else
+                {
+                  cerr << "There's no statistics to show!" << endl;
+                }
+            }
+          else
+            {
+              cerr << "Unknown instrumentation command" << endl;
+            }
+        }
     }
 }
 

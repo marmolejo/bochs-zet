@@ -257,7 +257,6 @@ public:
     return 0;
   }
 
-  virtual void dump_status(void) {}
   virtual void dump_video(char *file) {}
   virtual void load_video(char *file) {}
 };

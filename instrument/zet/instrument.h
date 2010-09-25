@@ -59,10 +59,8 @@ class bxInstruction_c;
 // called from the CPU core
 
 void bx_instr_init(unsigned cpu);
-void bx_instr_reset(unsigned cpu);
-void bx_instr_start();
-void bx_instr_stop();
-void bx_instr_print();
+void bx_instr_reset(unsigned cpu, unsigned type);
+void bx_instr_debug_cmd(const char *comm);
 void bx_instr_new_instruction(unsigned cpu);
 
 void bx_instr_cnear_branch_taken(unsigned cpu, bx_address new_eip);
@@ -88,16 +86,14 @@ void bx_instr_outp2(Bit16u addr, unsigned len, Bit32u val);
 /* simulation init, shutdown, reset */
 #  define BX_INSTR_INIT(cpu_id)            bx_instr_init(cpu_id)
 #  define BX_INSTR_EXIT(cpu_id)
-#  define BX_INSTR_RESET(cpu_id)           bx_instr_reset(cpu_id)
+#  define BX_INSTR_RESET(cpu_id, type)     bx_instr_reset(cpu_id, type)
 #  define BX_INSTR_HLT(cpu_id)
 #  define BX_INSTR_MWAIT(cpu_id, addr, len, flags)
 #  define BX_INSTR_NEW_INSTRUCTION(cpu_id) bx_instr_new_instruction(cpu_id)
 
 /* called from command line debugger */
 #  define BX_INSTR_DEBUG_PROMPT()
-#  define BX_INSTR_START() bx_instr_start()
-#  define BX_INSTR_STOP()  bx_instr_stop()
-#  define BX_INSTR_PRINT() bx_instr_print()
+#define BX_INSTR_DEBUG_CMD(cmd)          bx_instr_debug_cmd(cmd)
 
 /* branch resoultion */
 #  define BX_INSTR_CNEAR_BRANCH_TAKEN(cpu_id, new_eip)       bx_instr_cnear_branch_taken(cpu_id, new_eip)
