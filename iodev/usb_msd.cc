@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2007  Volker Ruppert
+//  Copyright (C) 2009  Volker Ruppert
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -16,10 +16,10 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+/////////////////////////////////////////////////////////////////////////
 
 // USB mass storage device support ported from the Qemu project
-
 
 // Define BX_PLUGGABLE in files that can be compiled into plugins.  For
 // platforms that require a special tag on exported symbols, BX_PLUGGABLE
@@ -28,8 +28,10 @@
 
 #define NO_DEVICE_INCLUDES
 #include "iodev.h"
+
 #if BX_SUPPORT_PCI && BX_SUPPORT_PCIUSB
-#include "pciusb.h"
+#include "usb_common.h"
+#include "cdrom.h"
 #include "hdimage.h"
 #include "scsi_device.h"
 #include "usb_msd.h"
@@ -129,40 +131,92 @@ static const Bit8u bx_msd_config_descriptor[] = {
   0x00        /*  u8  ep_bInterval; */
 };
 
-usb_msd_device_t::usb_msd_device_t(void)
+static int cdrom_count = 0;
+
+
+usb_msd_device_c::usb_msd_device_c(usbdev_type type, const char *filename)
 {
-  d.type = USB_DEV_TYPE_DISK;
+  char pname[10];
+  char label[32];
+  bx_param_string_c *path;
+  bx_param_bool_c *status;
+
+  d.type = type;
   d.speed = USB_SPEED_FULL;
-  strcpy(d.devname, "BOCHS USB HARDDRIVE");
   memset((void*)&s, 0, sizeof(s));
+  s.fname = filename;
+  if (d.type == USB_DEV_TYPE_DISK) {
+    strcpy(d.devname, "BOCHS USB HARDDRIVE");
+  } else if (d.type == USB_DEV_TYPE_CDROM) {
+    strcpy(d.devname, "BOCHS USB CDROM");
+    // config options
+    bx_list_c *usb_rt = (bx_list_c*)SIM->get_param(BXPN_MENU_RUNTIME_USB);
+    sprintf(pname, "cdrom%d", ++cdrom_count);
+    sprintf(label, "USB CD-ROM #%d Configuration", cdrom_count);
+    s.config = new bx_list_c(usb_rt, pname, label, 2);
+    s.config->set_options(bx_list_c::SERIES_ASK | bx_list_c::USE_BOX_TITLE);
+    s.config->set_runtime_param(1);
+    s.config->set_device_param(this);
+    path = new bx_param_string_c(s.config, "path", "Path", "", "", BX_PATHNAME_LEN);
+    path->set(s.fname);
+    path->set_handler(cd_param_string_handler);
+    path->set_runtime_param(1);
+    status = new bx_param_bool_c(s.config, "status", "Inserted", "", 1);
+    status->set_handler(cd_param_handler);
+    status->set_runtime_param(1);
+    // TODO: status
+#if BX_WITH_WX
+    bx_list_c *usb = (bx_list_c*)SIM->get_param("ports.usb");
+    usb->add(s.config);
+#endif
+  }
 
   put("USBMS");
-  settype(PCIUSBLOG);
 }
 
-usb_msd_device_t::~usb_msd_device_t(void)
+usb_msd_device_c::~usb_msd_device_c(void)
 {
-  delete s.scsi_dev;
-  s.hdimage->close();
-  delete s.hdimage;
-}
-
-bx_bool usb_msd_device_t::init(const char *filename)
-{
-  s.hdimage = new default_image_t();
-  if (s.hdimage->open(filename) < 0) {
-    BX_ERROR(("could not open hard drive image file '%s'", filename));
-    return 0;
-  } else {
-    s.scsi_dev = new scsi_device_t(s.hdimage, 0, usb_msd_command_complete, (void*)this);
-    s.scsi_dev->register_state(s.sr_list, "scsidev");
-    s.mode = USB_MSDM_CBW;
-    d.connected = 1;
-    return 1;
+  if (s.scsi_dev != NULL)
+    delete s.scsi_dev;
+  if (s.hdimage != NULL) {
+    delete s.hdimage;
+  } else if (s.cdrom != NULL) {
+    delete s.cdrom;
+#if BX_WITH_WX
+    bx_list_c *usb = (bx_list_c*)SIM->get_param("ports.usb");
+    usb->remove(s.config->get_name());
+#endif
+    bx_list_c *usb_rt = (bx_list_c*)SIM->get_param(BXPN_MENU_RUNTIME_USB);
+    usb_rt->remove(s.config->get_name());
   }
 }
 
-void usb_msd_device_t::register_state_specific(bx_list_c *parent)
+bx_bool usb_msd_device_c::init()
+{
+  if (d.type == USB_DEV_TYPE_DISK) {
+    s.hdimage = new default_image_t();
+    if (s.hdimage->open(s.fname) < 0) {
+      BX_ERROR(("could not open hard drive image file '%s'", s.fname));
+      return 0;
+    } else {
+      s.scsi_dev = new scsi_device_t(s.hdimage, 0, usb_msd_command_complete, (void*)this);
+    }
+  } else if (d.type == USB_DEV_TYPE_CDROM) {
+    s.cdrom = new LOWLEVEL_CDROM(s.fname);
+    if (!s.cdrom->insert_cdrom()) {
+      BX_ERROR(("could not open cdrom image file '%s'", s.fname));
+      return 0;
+    } else {
+      s.scsi_dev = new scsi_device_t(s.cdrom, 0, usb_msd_command_complete, (void*)this);
+    }
+  }
+  s.scsi_dev->register_state(s.sr_list, "scsidev");
+  s.mode = USB_MSDM_CBW;
+  d.connected = 1;
+  return 1;
+}
+
+void usb_msd_device_c::register_state_specific(bx_list_c *parent)
 {
   s.sr_list = new bx_list_c(parent, "s", "USB MSD Device State", 8);
   new bx_shadow_num_c(s.sr_list, "mode", &s.mode);
@@ -174,18 +228,19 @@ void usb_msd_device_t::register_state_specific(bx_list_c *parent)
   new bx_shadow_num_c(s.sr_list, "result", &s.result);
 }
 
-void usb_msd_device_t::handle_reset()
+void usb_msd_device_c::handle_reset()
 {
   BX_DEBUG(("Reset"));
   s.mode = USB_MSDM_CBW;
 }
 
-int usb_msd_device_t::handle_control(int request, int value, int index, int length, Bit8u *data)
+int usb_msd_device_c::handle_control(int request, int value, int index, int length, Bit8u *data)
 {
   int ret = 0;
 
   switch (request) {
     case DeviceRequest | USB_REQ_GET_STATUS:
+    case EndpointRequest | USB_REQ_GET_STATUS:
       data[0] = (1 << USB_DEVICE_SELF_POWERED) |
         (d.remote_wakeup << USB_DEVICE_REMOTE_WAKEUP);
       data[1] = 0x00;
@@ -245,10 +300,10 @@ int usb_msd_device_t::handle_control(int request, int value, int index, int leng
               break;
             case 3:
               // serial number
-              ret = set_usb_string(data, "1");
+              ret = set_usb_string(data, s.scsi_dev->get_serial_number());
               break;
             default:
-              BX_ERROR(("USB MSD handle_control: unknown descriptor 0x%02x", value & 0xff));
+              BX_ERROR(("USB MSD handle_control: unknown string descriptor 0x%02x", value & 0xff));
               goto fail;
           }
           break;
@@ -262,6 +317,7 @@ int usb_msd_device_t::handle_control(int request, int value, int index, int leng
           ret = 10;
           break;
         default:
+          BX_ERROR(("USB MSD handle_control: unknown descriptor type 0x%02x", value >> 8));
           goto fail;
       }
       break;
@@ -277,6 +333,7 @@ int usb_msd_device_t::handle_control(int request, int value, int index, int leng
       ret = 1;
       break;
     case DeviceOutRequest | USB_REQ_SET_INTERFACE:
+    case InterfaceOutRequest | USB_REQ_SET_INTERFACE:
       ret = 0;
       break;
     case EndpointOutRequest | USB_REQ_CLEAR_FEATURE:
@@ -286,13 +343,12 @@ int usb_msd_device_t::handle_control(int request, int value, int index, int leng
       ret = 0;
       break;
       // Class specific requests
+    case InterfaceOutClassRequest | MassStorageReset:
     case MassStorageReset:
-      // Ben: Hack for 0x21 | MassStorageReset
-      // 0x21 = (REQ_TYPE_CLASS | RECPT_INTERFACE);
-    case 0x21FF:
       s.mode = USB_MSDM_CBW;
       ret = 0;
       break;
+    case InterfaceInClassRequest | GetMaxLun:
     case GetMaxLun:
       data[0] = 0;
       ret = 1;
@@ -300,13 +356,14 @@ int usb_msd_device_t::handle_control(int request, int value, int index, int leng
     default:
       BX_ERROR(("USB MSD handle_control: unknown request 0x%04x", request));
     fail:
+      d.stall = 1;
       ret = USB_RET_STALL;
       break;
   }
   return ret;
 }
 
-int usb_msd_device_t::handle_data(USBPacket *p)
+int usb_msd_device_c::handle_data(USBPacket *p)
 {
   struct usb_msd_cbw cbw;
   int ret = 0;
@@ -373,7 +430,7 @@ int usb_msd_device_t::handle_data(USBPacket *p)
           }
           if (s.usb_len) {
             BX_INFO(("deferring packet %p", p));
-            // TODO: defer packet
+            usb_defer_packet(p, this);
             s.packet = p;
             ret = USB_RET_ASYNC;
           } else {
@@ -393,62 +450,70 @@ int usb_msd_device_t::handle_data(USBPacket *p)
 
       switch (s.mode) {
         case USB_MSDM_DATAOUT:
+          if ((s.data_len > 0) && (len == 13)) {
+            s.usb_len = len;
+            s.usb_buf = data;
+            send_status();
+            ret = 13;
+            break;
+          }
           if (s.data_len != 0 || len < 13)
             goto fail;
-          // TODO: defer packet
+          usb_defer_packet(p, this);
           s.packet = p;
           ret = USB_RET_ASYNC;
           break;
 
-      case USB_MSDM_CSW:
-        BX_DEBUG(("command status %d tag 0x%x, len %d",
-                s.result, s.tag, len));
-        if (len < 13)
-          return ret;
+        case USB_MSDM_CSW:
+          BX_DEBUG(("command status %d tag 0x%x, len %d",
+                    s.result, s.tag, len));
+          if (len < 13)
+            return ret;
 
-        s.usb_len = len;
-        s.usb_buf = data;
-        send_status();
-        s.mode = USB_MSDM_CBW;
-        ret = 13;
-        break;
+          s.usb_len = len;
+          s.usb_buf = data;
+          send_status();
+          s.mode = USB_MSDM_CBW;
+          ret = 13;
+          break;
 
-      case USB_MSDM_DATAIN:
-        BX_DEBUG(("data in %d/%d", len, s.data_len));
-        if (len > (int)s.data_len)
+        case USB_MSDM_DATAIN:
+          BX_DEBUG(("data in %d/%d", len, s.data_len));
+          if (len > (int)s.data_len)
             len = s.data_len;
-        s.usb_buf = data;
-        s.usb_len = len;
-        if (s.scsi_len) {
-          copy_data();
-        }
-        if (s.residue && s.usb_len) {
-          s.data_len -= s.usb_len;
-          memset(s.usb_buf, 0, s.usb_len);
-          if (s.data_len == 0)
-            s.mode = USB_MSDM_CSW;
-          s.usb_len = 0;
-        }
-        if (s.usb_len) {
-          BX_INFO(("deferring packet %p", p));
-          // TODO: defer packet
-          s.packet = p;
-          ret = USB_RET_ASYNC;
-        } else {
+          s.usb_buf = data;
+          s.usb_len = len;
+          if (s.scsi_len) {
+            copy_data();
+          }
+          if (s.residue && s.usb_len) {
+            s.data_len -= s.usb_len;
+            memset(s.usb_buf, 0, s.usb_len);
+            if (s.data_len == 0)
+              s.mode = USB_MSDM_CSW;
+            s.usb_len = 0;
+          }
+          if (s.usb_len) {
+            BX_INFO(("deferring packet %p", p));
+            usb_defer_packet(p, this);
+            s.packet = p;
+            ret = USB_RET_ASYNC;
+          } else {
             ret = len;
-        }
-        break;
+          }
+          break;
 
-      default:
-        BX_ERROR(("USB MSD handle_data: unexpected mode at USB_TOKEN_IN"));
-        goto fail;
-    }
-    if (ret > 0) usb_dump_packet(data, ret);
-    break;
+        default:
+          BX_ERROR(("USB MSD handle_data: unexpected mode at USB_TOKEN_IN"));
+          goto fail;
+      }
+      if (ret > 0) usb_dump_packet(data, ret);
+      break;
 
     default:
       BX_ERROR(("USB MSD handle_data: bad token"));
 fail:
+      d.stall = 1;
       ret = USB_RET_STALL;
       break;
   }
@@ -456,7 +521,7 @@ fail:
   return ret;
 }
 
-void usb_msd_device_t::copy_data()
+void usb_msd_device_c::copy_data()
 {
   Bit32u len = s.usb_len;
   if (len > s.scsi_len)
@@ -480,7 +545,7 @@ void usb_msd_device_t::copy_data()
   }
 }
 
-void usb_msd_device_t::send_status()
+void usb_msd_device_c::send_status()
 {
   struct usb_msd_csw csw;
 
@@ -491,13 +556,13 @@ void usb_msd_device_t::send_status()
   memcpy(s.usb_buf, &csw, 13);
 }
 
-void usb_msd_device_t::usb_msd_command_complete(void *this_ptr, int reason, Bit32u tag, Bit32u arg)
+void usb_msd_device_c::usb_msd_command_complete(void *this_ptr, int reason, Bit32u tag, Bit32u arg)
 {
-  usb_msd_device_t *class_ptr = (usb_msd_device_t *) this_ptr;
+  usb_msd_device_c *class_ptr = (usb_msd_device_c *) this_ptr;
   class_ptr->command_complete(reason, tag, arg);
 }
 
-void usb_msd_device_t::command_complete(int reason, Bit32u tag, Bit32u arg)
+void usb_msd_device_c::command_complete(int reason, Bit32u tag, Bit32u arg)
 {
   USBPacket *p = s.packet;
 
@@ -537,6 +602,82 @@ void usb_msd_device_t::command_complete(int reason, Bit32u tag, Bit32u arg)
       s.packet = NULL;
     }
   }
+}
+
+void usb_msd_device_c::cancel_packet(USBPacket *p)
+{
+  s.scsi_dev->scsi_cancel_io(s.tag);
+  s.packet = NULL;
+  s.scsi_len = 0;
+}
+
+void usb_msd_device_c::set_inserted(bx_bool value)
+{
+  const char *path;
+
+  if (value) {
+    path = SIM->get_param_string("path", s.config)->getptr();
+    if (!s.cdrom->insert_cdrom(path)) {
+      SIM->get_param_bool("status", s.config)->set(0);
+      return;
+    }
+  } else {
+    s.cdrom->eject_cdrom();
+  }
+  s.scsi_dev->set_inserted(value);
+}
+
+bx_bool usb_msd_device_c::get_inserted()
+{
+  return s.scsi_dev->get_inserted();
+}
+
+#undef LOG_THIS
+#define LOG_THIS cdrom->
+
+// USB hub runtime parameter handlers
+const char *usb_msd_device_c::cd_param_string_handler(bx_param_string_c *param, int set,
+                                                      const char *oldval, const char *val, int maxlen)
+{
+  usb_msd_device_c *cdrom;
+
+  if (set) {
+    cdrom = (usb_msd_device_c*) param->get_parent()->get_device_param();
+    if (cdrom != NULL) {
+      bx_bool empty = ((strlen(val) == 0) || (!strcmp(val, "none")));
+      if (!empty) {
+        if (cdrom->get_inserted()) {
+          BX_ERROR(("direct path change not supported (setting to 'none')"));
+          param->set("none");
+        }
+      } else {
+        SIM->get_param_bool("status", param->get_parent())->set(0);
+      }
+    } else {
+      BX_PANIC(("cd_param_string_handler: cdrom not found"));
+    }
+  }
+  return val;
+}
+
+Bit64s usb_msd_device_c::cd_param_handler(bx_param_c *param, int set, Bit64s val)
+{
+  usb_msd_device_c *cdrom;
+  const char *path;
+
+  if (set) {
+    cdrom = (usb_msd_device_c*) param->get_parent()->get_device_param();
+    if (cdrom != NULL) {
+      path = SIM->get_param_string("path", param->get_parent())->getptr();
+      val &= ((strlen(path) > 0) && (strcmp(path, "none")));
+      if (val != cdrom->get_inserted()) {
+        cdrom->set_inserted((bx_bool)val);
+      }
+    } else {
+      BX_PANIC(("cd_param_string_handler: cdrom not found"));
+    }
+  }
+  return val;
 }
 
 #endif // BX_SUPPORT_PCI && BX_SUPPORT_PCIUSB

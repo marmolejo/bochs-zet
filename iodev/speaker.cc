@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 #define BX_PLUGGABLE
 
@@ -54,8 +54,7 @@ void libspeaker_LTX_plugin_fini(void)
 
 bx_speaker_c::bx_speaker_c()
 {
-  put("SPEAKER");
-  settype(SPEAKERLOG);
+  put("SPEAK");
 
   beep_frequency = 0.0; // Off
 
@@ -113,7 +112,7 @@ void bx_speaker_c::beep_on(float frequency)
 
 #if defined(WIN32)
 
-struct {
+static struct {
   DWORD frequency;
   DWORD msec;
 } beep_info;

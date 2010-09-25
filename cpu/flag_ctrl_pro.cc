@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -41,11 +35,20 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::setEFlags(Bit32u val)
   }
 #endif
 
+  if (val & (EFlagsTFMask|EFlagsRFMask)) {
+    BX_CPU_THIS_PTR async_event = 1; // TF == 1 || RF == 1
+  }
+
+  if (val & EFlagsIFMask) {
+    if (! BX_CPU_THIS_PTR get_IF())
+      BX_CPU_THIS_PTR async_event = 1; // IF bit was set
+  }
+
   BX_CPU_THIS_PTR eflags = val;
   BX_CPU_THIS_PTR lf_flags_status = 0; // OSZAPC flags are known.
 
 #if BX_CPU_LEVEL >= 4 && BX_SUPPORT_ALIGNMENT_CHECK
-  handleAlignmentCheck();
+  handleAlignmentCheck(/* EFLAGS.AC reloaded */);
 #endif
 
   handleCpuModeChange(); // VM flag might be changed
@@ -60,7 +63,7 @@ BX_CPU_C::writeEFlags(Bit32u flags, Bit32u changeMask)
 #if BX_CPU_LEVEL >= 4
   supportMask |= (EFlagsIDMask | EFlagsACMask); // ID/AC
 #endif
-#if BX_SUPPORT_VME
+#if BX_CPU_LEVEL >= 5
   supportMask |= (EFlagsVIPMask | EFlagsVIFMask); // VIP/VIF
 #endif
 
@@ -71,10 +74,6 @@ BX_CPU_C::writeEFlags(Bit32u flags, Bit32u changeMask)
               (flags & changeMask);
   setEFlags(newEFlags);
   // OSZAPC flags are known - done in setEFlags(newEFlags)
-
-  if (newEFlags & EFlagsTFMask) {
-    BX_CPU_THIS_PTR async_event = 1; // TF = 1
-  }
 }
 
   void BX_CPP_AttrRegparmN(3)

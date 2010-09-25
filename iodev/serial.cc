@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2004  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2004-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 /////////////////////////////////////////////////////////////////////////
 
 // Peter Grehan (grehan@iprg.nokia.com) coded the original version of this
@@ -37,6 +31,8 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "serial.h"
+
 #ifndef WIN32
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -59,7 +55,6 @@ bx_serial_c *theSerialDevice = NULL;
 int libserial_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   theSerialDevice = new bx_serial_c();
-  bx_devices.pluginSerialDevice = theSerialDevice;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, theSerialDevice, BX_PLUGIN_SERIAL);
   return(0); // Success
 }
@@ -72,7 +67,6 @@ void libserial_LTX_plugin_fini(void)
 bx_serial_c::bx_serial_c(void)
 {
   put("SER");
-  settype(SERLOG);
   for (int i=0; i<BX_SERIAL_MAXDEV; i++) {
     s[i].io_mode = BX_SER_MODE_NULL;
     s[i].tty_id = -1;
@@ -384,8 +378,8 @@ bx_serial_c::init(void)
             i+1, server ? "server" : "client", socket, host, port));
       } else if (!strncmp(mode, "pipe", 4)) {
         if (strlen(dev) > 0) {
-          bx_bool server = !strcmp(mode, "pipe-server");
 #ifdef WIN32
+          bx_bool server = !strcmp(mode, "pipe-server");
           HANDLE pipe;
 
           BX_SER_THIS s[i].io_mode = BX_SER_MODE_PIPE;
@@ -434,6 +428,11 @@ bx_serial_c::init(void)
       }
       BX_INFO(("com%d at 0x%04x irq %d", i+1, ports[i], BX_SER_THIS s[i].IRQ));
     }
+  }
+  if ((BX_SER_THIS mouse_type == BX_MOUSE_TYPE_SERIAL) ||
+      (BX_SER_THIS mouse_type == BX_MOUSE_TYPE_SERIAL_WHEEL) ||
+      (BX_SER_THIS mouse_type == BX_MOUSE_TYPE_SERIAL_MSYS)) {
+    DEV_register_default_mouse(this, mouse_enq_static, NULL);
   }
 }
 
@@ -1391,7 +1390,7 @@ bx_serial_c::rx_timer(void)
       (BX_SER_THIS s[port].fifo_cntl.enable)) {
     switch (BX_SER_THIS s[port].io_mode) {
       case BX_SER_MODE_SOCKET:
-#if defined(SERIAL_ENABLE)
+#if BX_HAVE_SELECT && defined(SERIAL_ENABLE)
         if (BX_SER_THIS s[port].line_status.rxdata_ready == 0) {
           tval.tv_sec  = 0;
           tval.tv_usec = 0;
@@ -1533,10 +1532,14 @@ bx_serial_c::fifo_timer(void)
 }
 
 
-  void
-bx_serial_c::serial_mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state)
+void bx_serial_c::mouse_enq_static(void *dev, int delta_x, int delta_y, int delta_z, unsigned button_state)
 {
-  Bit8u b1, b2, b3, mouse_data[4];
+  ((bx_serial_c*)dev)->mouse_enq(delta_x, delta_y, delta_z, button_state);
+}
+
+void bx_serial_c::mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state)
+{
+  Bit8u b1, b2, b3, mouse_data[5];
   int bytes, tail;
 
   if (BX_SER_THIS mouse_port == -1) {

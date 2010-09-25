@@ -17,7 +17,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
 /*
@@ -33,6 +33,7 @@
 #include "iodev.h"
 #if BX_SUPPORT_PCI && BX_SUPPORT_PCIDEV
 
+#include "pcidev.h"
 #include "kernel_pcidev.h"
 
 #include <sys/ioctl.h>
@@ -46,7 +47,6 @@ bx_pcidev_c* thePciDevAdapter = NULL;
 int libpcidev_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   thePciDevAdapter = new bx_pcidev_c();
-  bx_devices.pluginPciDevAdapter = thePciDevAdapter;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, thePciDevAdapter, BX_PLUGIN_PCIDEV);
   return 0; // Success
 }
@@ -59,7 +59,6 @@ void libpcidev_LTX_plugin_fini(void)
 bx_pcidev_c::bx_pcidev_c()
 {
   put("PCI2H");
-  settype(PCIDEVLOG);
 }
 
 bx_pcidev_c::~bx_pcidev_c()
@@ -69,7 +68,7 @@ bx_pcidev_c::~bx_pcidev_c()
 
 static void pcidev_sighandler(int param)
 {
-  bx_pcidev_c *pcidev = (bx_pcidev_c *)bx_devices.pluginPciDevAdapter;
+  bx_pcidev_c *pcidev = thePciDevAdapter;
   BX_INFO(("Interrupt received."));
   DEV_pci_set_irq(pcidev->devfunc, pcidev->intpin, 0);
   /*
@@ -253,12 +252,6 @@ Bit32u bx_pcidev_c::pci_read_handler(Bit8u address, unsigned io_len)
 {
   int ret = -1;
 
-  if (io_len > 4 || io_len == 0) {
-    BX_DEBUG(("Experimental PCIDEV read register 0x%02x, len=%u !",
-             (unsigned) address, (unsigned) io_len));
-    return 0xffffffff;
-  }
-
   int fd = BX_PCIDEV_THIS pcidev_fd;
   if (fd == -1)
     return 0xffffffff;
@@ -300,12 +293,6 @@ void bx_pcidev_c::pci_write_handler(Bit8u address, Bit32u value, unsigned io_len
   int ret = -1;
   Bit8u *iomask;
   Bit32u bitmask;
-
-  if (io_len > 4 || io_len == 0) {
-    BX_DEBUG(("Experimental PCIDEV write register 0x%02x, len=%u !",
-              (unsigned) address, (unsigned) io_len));
-    return;
-  }
 
   int fd = BX_PCIDEV_THIS pcidev_fd;
   if (fd == -1)

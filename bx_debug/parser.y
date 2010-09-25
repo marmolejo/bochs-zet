@@ -20,6 +20,7 @@
 %type <uval> BX_TOKEN_NONSEG_REG
 %type <uval> BX_TOKEN_SEGREG
 %type <bval> BX_TOKEN_TOGGLE_ON_OFF
+%type <sval> BX_TOKEN_REGISTERS
 
 %token <uval> BX_TOKEN_8BH_REG
 %token <uval> BX_TOKEN_8BL_REG
@@ -50,7 +51,8 @@
 %token <sval> BX_TOKEN_DISABLE_BREAKPOINT
 %token <sval> BX_TOKEN_INFO
 %token <sval> BX_TOKEN_QUIT
-%token <sval> BX_TOKEN_REGISTERS
+%token <sval> BX_TOKEN_R
+%token <sval> BX_TOKEN_REGS
 %token <sval> BX_TOKEN_CPU
 %token <sval> BX_TOKEN_FPU
 %token <sval> BX_TOKEN_SSE
@@ -61,8 +63,9 @@
 %token <sval> BX_TOKEN_LDT
 %token <sval> BX_TOKEN_TSS
 %token <sval> BX_TOKEN_TAB
-%token <sval> BX_TOKEN_DIRTY
+%token <sval> BX_TOKEN_ALL
 %token <sval> BX_TOKEN_LINUX
+%token <sval> BX_TOKEN_DEBUG_REGS
 %token <sval> BX_TOKEN_CONTROL_REGS
 %token <sval> BX_TOKEN_SEGMENT_REGS
 %token <sval> BX_TOKEN_EXAMINE
@@ -76,7 +79,8 @@
 %token <sval> BX_TOKEN_TAKE
 %token <sval> BX_TOKEN_DMA
 %token <sval> BX_TOKEN_IRQ
-%token <sval> BX_TOKEN_DISASSEMBLE
+%token <sval> BX_TOKEN_HEX
+%token <sval> BX_TOKEN_DISASM
 %token <sval> BX_TOKEN_INSTRUMENT
 %token <sval> BX_TOKEN_STRING
 %token <sval> BX_TOKEN_STOP
@@ -128,7 +132,7 @@
 
 %left '+' '-' '|' '^'
 %left '*' '/' '&' BX_TOKEN_LSHIFT BX_TOKEN_RSHIFT
-%left NOT NEG
+%left NOT NEG INDIRECT
 
 %start commands
 
@@ -150,6 +154,7 @@ command:
     | mmx_regs_command
     | sse_regs_command
     | segment_regs_command
+    | debug_regs_command
     | control_regs_command
     | blist_command
     | slist_command
@@ -194,6 +199,12 @@ command:
 BX_TOKEN_TOGGLE_ON_OFF:
       BX_TOKEN_ON
     | BX_TOKEN_OFF
+    { $$=$1; }
+;
+
+BX_TOKEN_REGISTERS:
+      BX_TOKEN_R
+    | BX_TOKEN_REGS
     { $$=$1; }
 ;
 
@@ -279,7 +290,7 @@ show_command:
     ;
 
 page_command:
-      BX_TOKEN_PAGE BX_TOKEN_NUMERIC '\n'
+      BX_TOKEN_PAGE expression '\n'
       {
           bx_dbg_xlate_address($2);
           free($1);
@@ -334,45 +345,58 @@ print_stack_command:
 watch_point_command:
       BX_TOKEN_WATCH BX_TOKEN_STOP '\n'
       {
-          watchpoint_continue = 0;
-          dbg_printf("Will stop on watch points\n");
+          bx_dbg_watchpoint_continue(0);
           free($1); free($2);
       }
     | BX_TOKEN_WATCH BX_TOKEN_CONTINUE '\n'
       {
-          watchpoint_continue = 1;
-          dbg_printf("Will not stop on watch points (they will still be logged)\n");
+          bx_dbg_watchpoint_continue(1);
           free($1); free($2);
       }
     | BX_TOKEN_WATCH '\n'
       {
-          bx_dbg_watch(-1, 0);
+          bx_dbg_print_watchpoints();
           free($1);
+      }
+    | BX_TOKEN_WATCH BX_TOKEN_R expression '\n'
+      {
+          bx_dbg_watch(0, $3, 1); /* BX_READ */
+          free($1); free($2);
+      }
+    | BX_TOKEN_WATCH BX_TOKEN_READ expression '\n'
+      {
+          bx_dbg_watch(0, $3, 1); /* BX_READ */
+          free($1); free($2);
+      }
+    | BX_TOKEN_WATCH BX_TOKEN_WRITE expression '\n'
+      {
+          bx_dbg_watch(1, $3, 1); /* BX_WRITE */
+          free($1); free($2);
+      }
+    | BX_TOKEN_WATCH BX_TOKEN_R expression expression '\n'
+      {
+          bx_dbg_watch(0, $3, $4); /* BX_READ */
+          free($1); free($2);
+      }
+    | BX_TOKEN_WATCH BX_TOKEN_READ expression expression '\n'
+      {
+          bx_dbg_watch(0, $3, $4); /* BX_READ */
+          free($1); free($2);
+      }
+    | BX_TOKEN_WATCH BX_TOKEN_WRITE expression expression '\n'
+      {
+          bx_dbg_watch(1, $3, $4); /* BX_WRITE */
+          free($1); free($2);
       }
     | BX_TOKEN_UNWATCH '\n'
       {
-          bx_dbg_unwatch(-1, 0);
+          bx_dbg_unwatch_all();
           free($1);
       }
-    | BX_TOKEN_WATCH BX_TOKEN_READ BX_TOKEN_NUMERIC '\n'
+    | BX_TOKEN_UNWATCH expression '\n'
       {
-          bx_dbg_watch(1, $3);
-          free($1); free($2);
-      }
-    | BX_TOKEN_UNWATCH BX_TOKEN_READ BX_TOKEN_NUMERIC '\n'
-      {
-          bx_dbg_unwatch(1, $3);
-          free($1); free($2);
-      }
-    | BX_TOKEN_WATCH BX_TOKEN_WRITE BX_TOKEN_NUMERIC '\n'
-          {
-          bx_dbg_watch(0, $3);
-          free($1); free($2);
-      }
-    | BX_TOKEN_UNWATCH BX_TOKEN_WRITE BX_TOKEN_NUMERIC '\n'
-      {
-          bx_dbg_unwatch(0, $3);
-          free($1); free($2);
+          bx_dbg_unwatch($2);
+          free($1);
       }
     ;
 
@@ -426,12 +450,22 @@ continue_command:
 stepN_command:
       BX_TOKEN_STEPN '\n'
       {
-        bx_dbg_stepN_command(1);
+        bx_dbg_stepN_command(dbg_cpu, 1);
         free($1);
       }
     | BX_TOKEN_STEPN BX_TOKEN_NUMERIC '\n'
       {
-        bx_dbg_stepN_command($2);
+        bx_dbg_stepN_command(dbg_cpu, $2);
+        free($1);
+      }
+    | BX_TOKEN_STEPN BX_TOKEN_ALL BX_TOKEN_NUMERIC '\n'
+      {
+        bx_dbg_stepN_command(-1, $3);
+        free($1); free($2);
+      }
+    | BX_TOKEN_STEPN BX_TOKEN_NUMERIC BX_TOKEN_NUMERIC '\n'
+      {
+        bx_dbg_stepN_command($2, $3);
         free($1);
       }
     ;
@@ -445,7 +479,7 @@ step_over_command:
     ;
 
 set_command:
-      BX_TOKEN_SET BX_TOKEN_DISASSEMBLE BX_TOKEN_TOGGLE_ON_OFF '\n'
+      BX_TOKEN_SET BX_TOKEN_DISASM BX_TOKEN_TOGGLE_ON_OFF '\n'
       {
         bx_dbg_set_auto_disassemble($3);
         free($1); free($2);
@@ -474,6 +508,10 @@ set_command:
     | BX_TOKEN_SET BX_TOKEN_64B_REG '=' expression '\n'
       { 
         bx_dbg_set_reg64_value($2, $4);
+      }
+    | BX_TOKEN_SET BX_TOKEN_SEGREG '=' expression '\n'
+      { 
+        bx_dbg_load_segreg($2, $4);
       }
     ;
 
@@ -550,11 +588,6 @@ info_command:
     | BX_TOKEN_INFO BX_TOKEN_CPU '\n'
       {
         bx_dbg_info_registers_command(BX_INFO_GENERAL_PURPOSE_REGS | BX_INFO_FPU_REGS | BX_INFO_SSE_REGS);
-        free($1); free($2);
-      }
-    | BX_TOKEN_INFO BX_TOKEN_DIRTY '\n'
-      {
-        bx_dbg_info_dirty_command();
         free($1); free($2);
       }
     | BX_TOKEN_INFO BX_TOKEN_IDT optional_numeric optional_numeric '\n'
@@ -691,6 +724,14 @@ control_regs_command:
       }
     ;
 
+debug_regs_command:
+      BX_TOKEN_DEBUG_REGS '\n'
+      {
+        bx_dbg_info_debug_regs_command();
+        free($1);
+      }
+    ;
+
 delete_command:
       BX_TOKEN_DEL_BREAKPOINT BX_TOKEN_NUMERIC '\n'
       {
@@ -788,42 +829,47 @@ take_command:
     ;
 
 disassemble_command:
-      BX_TOKEN_DISASSEMBLE '\n'
+      BX_TOKEN_DISASM '\n'
       {
         bx_dbg_disassemble_current(NULL);
         free($1);
       }
-    | BX_TOKEN_DISASSEMBLE expression '\n'
+    | BX_TOKEN_DISASM expression '\n'
       {
         bx_dbg_disassemble_command(NULL, $2, $2);
         free($1);
       }
-    | BX_TOKEN_DISASSEMBLE expression expression '\n'
+    | BX_TOKEN_DISASM expression expression '\n'
       {
         bx_dbg_disassemble_command(NULL, $2, $3);
         free($1);
       }
-    | BX_TOKEN_DISASSEMBLE BX_TOKEN_DISFORMAT '\n'
+    | BX_TOKEN_DISASM BX_TOKEN_DISFORMAT '\n'
       {
         bx_dbg_disassemble_current($2);
         free($1); free($2);
       }
-    | BX_TOKEN_DISASSEMBLE BX_TOKEN_DISFORMAT expression '\n'
+    | BX_TOKEN_DISASM BX_TOKEN_DISFORMAT expression '\n'
       {
         bx_dbg_disassemble_command($2, $3, $3);
         free($1); free($2);
       }
-    | BX_TOKEN_DISASSEMBLE BX_TOKEN_DISFORMAT expression expression '\n'
+    | BX_TOKEN_DISASM BX_TOKEN_DISFORMAT expression expression '\n'
       {
         bx_dbg_disassemble_command($2, $3, $4);
         free($1); free($2);
       }
-    | BX_TOKEN_DISASSEMBLE BX_TOKEN_SWITCH_MODE '\n'
+    | BX_TOKEN_DISASM BX_TOKEN_SWITCH_MODE '\n'
       {
         bx_dbg_disassemble_switch_mode();
         free($1); free($2);
       }
-    | BX_TOKEN_DISASSEMBLE BX_TOKEN_SIZE '=' BX_TOKEN_NUMERIC '\n'
+    | BX_TOKEN_DISASM BX_TOKEN_HEX BX_TOKEN_TOGGLE_ON_OFF '\n'
+      {
+        bx_dbg_disassemble_hex_mode_switch($3);
+        free($1); free($2);
+      }
+    | BX_TOKEN_DISASM BX_TOKEN_SIZE '=' BX_TOKEN_NUMERIC '\n'
       {
         bx_dbg_set_disassemble_size($4);
         free($1); free($2);
@@ -872,7 +918,9 @@ help_command:
        }
      | BX_TOKEN_HELP BX_TOKEN_STEPN '\n'
        {
-         dbg_printf("s|step|stepi [count] - execute #count instructions (default is one instruction)\n");
+         dbg_printf("s|step [count] - execute #count instructions on current processor (default is one instruction)\n");
+         dbg_printf("s|step [cpu] <count> - execute #count instructions on processor #cpu\n");
+         dbg_printf("s|step all <count> - execute #count instructions on all the processors\n");
          free($1);free($2);
        }
      | BX_TOKEN_HELP BX_TOKEN_STEP_OVER '\n'
@@ -998,7 +1046,7 @@ help_command:
        }
      | BX_TOKEN_HELP BX_TOKEN_FPU '\n'
        {
-         dbg_printf("fp|fpu| - print FPU state\n");
+         dbg_printf("fp|fpu - print FPU state\n");
          free($1);free($2);
        }
      | BX_TOKEN_HELP BX_TOKEN_MMX '\n'
@@ -1021,17 +1069,23 @@ help_command:
          dbg_printf("creg - show control registers\n");
          free($1);free($2);
        }
+     | BX_TOKEN_HELP BX_TOKEN_DEBUG_REGS '\n'
+       {
+         dbg_printf("dreg - show debug registers\n");
+         free($1);free($2);
+       }
      | BX_TOKEN_HELP BX_TOKEN_SETPMEM '\n'
        {
          dbg_printf("setpmem <addr> <datasize> <val> - set physical memory location of size 'datasize' to value 'val'\n");
          free($1);free($2);
        }
-     | BX_TOKEN_HELP BX_TOKEN_DISASSEMBLE '\n'
+     | BX_TOKEN_HELP BX_TOKEN_DISASM '\n'
        {
-         dbg_printf("u|disasm|disassemble [/count] <start> <end> - disassemble instructions for given linear address\n");
+         dbg_printf("u|disasm [/count] <start> <end> - disassemble instructions for given linear address\n");
          dbg_printf("    Optional 'count' is the number of disassembled instructions\n");
-         dbg_printf("u|disasm|disassemble switch-mode - switch between Intel and AT&T disassembler syntax\n");
-         dbg_printf("u|disasm|disassemble size = n - tell debugger what segment size [16|32|64] to use\n");
+         dbg_printf("u|disasm switch-mode - switch between Intel and AT&T disassembler syntax\n");
+         dbg_printf("u|disasm hex on/off - control disasm offsets and displacements format\n");
+         dbg_printf("u|disasm size = n - tell debugger what segment size [16|32|64] to use\n");
          dbg_printf("       when \"disassemble\" command is used.\n");
          free($1);free($2);
        }
@@ -1040,15 +1094,16 @@ help_command:
          dbg_printf("watch - print current watch point status\n");
          dbg_printf("watch stop - stop simulation when a watchpoint is encountred\n");
          dbg_printf("watch continue - do not stop the simulation when watch point is encountred\n");
-         dbg_printf("watch read addr - insert a read watch point at physical address addr\n");
-         dbg_printf("watch write addr - insert a write watch point at physical address addr\n");
+         dbg_printf("watch r|read addr - insert a read watch point at physical address addr\n");
+         dbg_printf("watch w|write addr - insert a write watch point at physical address addr\n");
+         dbg_printf("watch r|read addr <len> - insert a read watch point at physical address addr with range <len>\n");
+         dbg_printf("watch w|write addr <len> - insert a write watch point at physical address addr with range <len>\n");
          free($1);free($2);
        }
      | BX_TOKEN_HELP BX_TOKEN_UNWATCH '\n'
        {
-         dbg_printf("unwatch - remove all watch points\n");
-         dbg_printf("unwatch read addr - remove a read watch point at physical address addr\n");
-         dbg_printf("unwatch write addr - remove a write watch point at physical address addr\n");
+         dbg_printf("unwatch      - remove all watch points\n");
+         dbg_printf("unwatch addr - remove a watch point\n");
          free($1);free($2);
        }
      | BX_TOKEN_HELP BX_TOKEN_EXAMINE '\n'
@@ -1066,10 +1121,7 @@ help_command:
        }
      | BX_TOKEN_HELP BX_TOKEN_INSTRUMENT '\n'
        {
-         dbg_printf("instrument start - calls bx_instr_start() callback\n");
-         dbg_printf("instrument stop  - calls bx_instr_stop () callback\n");
-         dbg_printf("instrument reset - calls bx_instr_reset() callback\n");
-         dbg_printf("instrument print - calls bx_instr_print() callback\n");
+         dbg_printf("instrument <command> - calls BX_INSTR_DEBUG_CMD instrumentation callback with <command>\n");
          free($1);free($2);
        }
      | BX_TOKEN_HELP BX_TOKEN_SET '\n'
@@ -1090,7 +1142,6 @@ help_command:
      | BX_TOKEN_HELP BX_TOKEN_INFO '\n'
        {
          dbg_printf("info break - show information about current breakpoint status\n");
-         dbg_printf("info dirty - show physical pages dirtied (written to) since last display\n");
          dbg_printf("info idt - show interrupt descriptor table\n");
          dbg_printf("info ivt - show interrupt vector table\n");
          dbg_printf("info gdt - show global descriptor table\n");
@@ -1158,6 +1209,7 @@ BX_TOKEN_NONSEG_REG:
 /* Arithmetic expression for vbreak command */
 vexpression:
      BX_TOKEN_NUMERIC                { $$ = $1; }
+   | BX_TOKEN_STRING                 { $$ = bx_dbg_get_symbol_value($1); free($1);}
    | BX_TOKEN_8BL_REG                { $$ = bx_dbg_get_reg8l_value($1); }
    | BX_TOKEN_8BH_REG                { $$ = bx_dbg_get_reg8h_value($1); }
    | BX_TOKEN_16B_REG                { $$ = bx_dbg_get_reg16_value($1); }
@@ -1181,7 +1233,8 @@ vexpression:
    | '(' vexpression ')'             { $$ = $2; }
 ;
 
-/* Same as vexpression but includes the ':' operator - used in most commands */
+/* Same as vexpression but includes the ':' operator and unary '*' and '@'
++   operators - used in most commands */
 expression:
      BX_TOKEN_NUMERIC                { $$ = $1; }
    | BX_TOKEN_STRING                 { $$ = bx_dbg_get_symbol_value($1); free($1);}
@@ -1206,6 +1259,8 @@ expression:
    | expression '&' expression       { $$ = $1 & $3; }
    | '!' expression %prec NOT        { $$ = !$2; }
    | '-' expression %prec NEG        { $$ = -$2; }
+   | '*' expression %prec INDIRECT   { $$ = bx_dbg_lin_indirect($2); }
+   | '@' expression %prec INDIRECT   { $$ = bx_dbg_phy_indirect($2); }
    | '(' expression ')'              { $$ = $2; }
 ;
 

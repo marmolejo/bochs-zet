@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2003  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2003-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 //
 // Standard PC gameport
@@ -34,6 +28,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "gameport.h"
 
 #ifdef __linux__
 
@@ -62,7 +57,6 @@ bx_gameport_c *theGameport = NULL;
 int libgameport_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   theGameport = new bx_gameport_c();
-  bx_devices.pluginGameport = theGameport;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, theGameport, BX_PLUGIN_GAMEPORT);
   return(0); // Success
 }
@@ -75,7 +69,6 @@ void libgameport_LTX_plugin_fini(void)
 bx_gameport_c::bx_gameport_c()
 {
   put("GAME");
-  settype(GAMELOG);
   joyfd = -1;
 }
 

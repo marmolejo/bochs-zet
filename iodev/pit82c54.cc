@@ -1,6 +1,22 @@
 /////////////////////////////////////////////////////////////////////////
 // $Id$
 /////////////////////////////////////////////////////////////////////////
+//
+//  Copyright (C) 2001  The Bochs Project
+//
+//  This library is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU Lesser General Public
+//  License as published by the Free Software Foundation; either
+//  version 2 of the License, or (at your option) any later version.
+//
+//  This library is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//  Lesser General Public License for more details.
+//
+//  You should have received a copy of the GNU Lesser General Public
+//  License along with this library; if not, write to the Free Software
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 /*
  * Emulator of an Intel 8254/82C54 Programmable Interval Timer.
@@ -25,6 +41,11 @@
  * 6.)What happens when we trigger mode 1 in the middle of a 2-part
  *  write?
  */
+
+// Define BX_PLUGGABLE in files that can be compiled into plugins.  For
+// platforms that require a special tag on exported symbols, BX_PLUGGABLE
+// is used to know when we are exporting symbols and when we are importing.
+#define BX_PLUGGABLE
 
 #include "iodev.h"
 #include "pit82c54.h"
@@ -90,7 +111,7 @@ void pit_82C54::latch_counter(counter_type &thisctr)
     }
 }
 
-void pit_82C54::set_OUT (counter_type &thisctr, bx_bool data)
+void pit_82C54::set_OUT(counter_type &thisctr, bx_bool data)
 {
   if (thisctr.OUTpin != data) {
     thisctr.OUTpin = data;
@@ -100,15 +121,13 @@ void pit_82C54::set_OUT (counter_type &thisctr, bx_bool data)
   }
 }
 
-  void BX_CPP_AttrRegparmN(2)
-pit_82C54::set_count (counter_type &thisctr, Bit32u data)
+void BX_CPP_AttrRegparmN(2) pit_82C54::set_count(counter_type &thisctr, Bit32u data)
 {
   thisctr.count=data & 0xFFFF;
   set_binary_to_count(thisctr);
 }
 
-  void BX_CPP_AttrRegparmN(1)
-pit_82C54::set_count_to_binary(counter_type &thisctr)
+void BX_CPP_AttrRegparmN(1) pit_82C54::set_count_to_binary(counter_type &thisctr)
 {
   if (thisctr.bcd_mode) {
     thisctr.count=
@@ -121,8 +140,7 @@ pit_82C54::set_count_to_binary(counter_type &thisctr)
   }
 }
 
-  void BX_CPP_AttrRegparmN(1)
-pit_82C54::set_binary_to_count(counter_type &thisctr)
+void BX_CPP_AttrRegparmN(1) pit_82C54::set_binary_to_count(counter_type &thisctr)
 {
   if (thisctr.bcd_mode) {
     thisctr.count_binary=
@@ -135,8 +153,7 @@ pit_82C54::set_binary_to_count(counter_type &thisctr)
   }
 }
 
-  void BX_CPP_AttrRegparmN(1)
-pit_82C54::decrement (counter_type &thisctr)
+void BX_CPP_AttrRegparmN(1) pit_82C54::decrement (counter_type &thisctr)
 {
   if (!thisctr.count) {
     if (thisctr.bcd_mode) {
@@ -155,7 +172,6 @@ pit_82C54::decrement (counter_type &thisctr)
 void pit_82C54::init(void)
 {
   put("PIT81");
-  settype(PIT81LOG);
 
   for(int i=0;i<3;i++) {
     BX_DEBUG(("Setting read_state to LSB"));
@@ -222,8 +238,7 @@ void pit_82C54::register_state(bx_param_c *parent)
   }
 }
 
-void  BX_CPP_AttrRegparmN(2)
-pit_82C54::decrement_multiple(counter_type &thisctr, Bit32u cycles)
+void BX_CPP_AttrRegparmN(2) pit_82C54::decrement_multiple(counter_type &thisctr, Bit32u cycles)
 {
   while(cycles>0) {
     if (cycles<=thisctr.count_binary) {
@@ -320,8 +335,7 @@ void pit_82C54::clock_multiple(Bit8u cnum, Bit32u cycles)
   }
 }
 
-  void BX_CPP_AttrRegparmN(1)
-pit_82C54::clock(Bit8u cnum)
+void BX_CPP_AttrRegparmN(1) pit_82C54::clock(Bit8u cnum)
 {
     if (cnum>MAX_COUNTER) {
       BX_ERROR(("Counter number too high in clock"));
@@ -748,24 +762,29 @@ void pit_82C54::write(Bit8u address, Bit8u data)
       BX_DEBUG(("Write Initial Count: counter=%d, count=%d",address,data));
       switch(thisctr.write_state) {
       case LSByte_multiple:
-        thisctr.inlatch=(thisctr.inlatch & (0xFF<<8)) | data;
-        thisctr.write_state=MSByte_multiple;
+        thisctr.inlatch = data;
+        thisctr.write_state = MSByte_multiple;
         break;
       case LSByte:
-        thisctr.inlatch=(thisctr.inlatch & (0xFF<<8)) | data;
-        thisctr.null_count=1;
-        thisctr.count_written=1;
+        thisctr.inlatch = data;
+        thisctr.count_written = 1;
         break;
       case MSByte_multiple:
-        thisctr.write_state=LSByte_multiple;
-      case MSByte: //shared between MSB_multiple and MSByte
-        thisctr.inlatch=(thisctr.inlatch & 0xFF) | (data<<8);
-        thisctr.null_count=1;
-        thisctr.count_written=1;
+        thisctr.write_state = LSByte_multiple;
+        thisctr.inlatch |= (data << 8);
+        thisctr.count_written = 1;
+        break;
+      case MSByte:
+        thisctr.inlatch = (data << 8);
+        thisctr.count_written = 1;
         break;
       default:
         BX_ERROR(("write counter in invalid write state."));
         break;
+      }
+      if (thisctr.count_written && thisctr.write_state != MSByte_multiple) { 
+        thisctr.null_count = 1;
+        set_count(thisctr, thisctr.inlatch);
       }
       switch(thisctr.mode) {
       case 0:
@@ -930,12 +949,11 @@ Bit32u pit_82C54::get_clock_event_time(Bit8u cnum)
 
 Bit32u pit_82C54::get_next_event_time(void)
 {
-  Bit32u out;
   Bit32u time0=get_clock_event_time(0);
   Bit32u time1=get_clock_event_time(1);
   Bit32u time2=get_clock_event_time(2);
 
-  out=time0;
+  Bit32u out=time0;
   if (time1 && (time1<out))
     out=time1;
   if (time2 && (time2<out))

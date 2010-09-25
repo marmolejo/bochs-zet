@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
 /////////////////////////////////////////////////////////////////////////
 
 #define NEED_CPU_REG_SHORTCUTS 1
@@ -34,19 +28,18 @@
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::POP_EqM(bxInstruction_c *i)
 {
-  BX_CPU_THIS_PTR speculative_rsp = 1;
-  BX_CPU_THIS_PTR prev_rsp = RSP;
+  RSP_SPECULATIVE;
 
   Bit64u val64 = pop_64();
 
   // Note: there is one little weirdism here.  It is possible to use
   // RSP in the modrm addressing. If used, the value of RSP after the
   // pop is used to calculate the address.
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  write_virtual_qword_64(i->seg(), RMAddr(i), val64);
+  write_virtual_qword_64(i->seg(), eaddr, val64);
 
-  BX_CPU_THIS_PTR speculative_rsp = 0;
+  RSP_COMMIT;
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::PUSH_RRX(bxInstruction_c *i)
@@ -71,16 +64,14 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PUSH64_GS(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::POP64_FS(bxInstruction_c *i)
 {
-  // this way is faster and RSP safe
-  Bit64u fs = read_virtual_qword_64(BX_SEG_REG_SS, RSP);
+  Bit64u fs = read_virtual_word_64(BX_SEG_REG_SS, RSP);
   load_seg_reg(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS], (Bit16u) fs);
   RSP += 8;
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::POP64_GS(bxInstruction_c *i)
 {
-  // this way is faster and RSP safe
-  Bit64u gs = read_virtual_qword_64(BX_SEG_REG_SS, RSP);
+  Bit64u gs = read_virtual_word_64(BX_SEG_REG_SS, RSP);
   load_seg_reg(&BX_CPU_THIS_PTR sregs[BX_SEG_REG_GS], (Bit16u) gs);
   RSP += 8;
 }
@@ -93,9 +84,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PUSH64_Id(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::PUSH_EqM(bxInstruction_c *i)
 {
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  Bit64u op1_64 = read_virtual_qword_64(i->seg(), RMAddr(i));
+  Bit64u op1_64 = read_virtual_qword_64(i->seg(), eaddr);
 
   push_64(op1_64);
 }
@@ -105,37 +96,36 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::ENTER64_IwIb(bxInstruction_c *i)
   Bit8u level = i->Ib2();
   level &= 0x1F;
 
-  BX_CPU_THIS_PTR speculative_rsp = 1;
-  BX_CPU_THIS_PTR prev_rsp = RSP;
+  Bit64u temp_RSP = RSP, temp_RBP = RBP;
 
-  push_64(RBP);
+  temp_RSP -= 8;
+  write_virtual_qword_64(BX_SEG_REG_SS, temp_RSP, temp_RBP);
 
-  Bit64u frame_ptr64 = RSP;
+  Bit64u frame_ptr64 = temp_RSP;
 
   if (level > 0) {
     /* do level-1 times */
     while (--level) {
-      RBP -= 8;
-      Bit64u temp64 = read_virtual_qword_64(BX_SEG_REG_SS, RBP);
-      RSP -= 8;
-      write_virtual_qword_64(BX_SEG_REG_SS, RSP, temp64);
+      temp_RBP -= 8;
+      Bit64u temp64 = read_virtual_qword_64(BX_SEG_REG_SS, temp_RBP);
+      temp_RSP -= 8;
+      write_virtual_qword_64(BX_SEG_REG_SS, temp_RSP, temp64);
     } /* while (--level) */
 
     /* push(frame pointer) */
-    RSP -= 8;
-    write_virtual_qword_64(BX_SEG_REG_SS, RSP, frame_ptr64);
+    temp_RSP -= 8;
+    write_virtual_qword_64(BX_SEG_REG_SS, temp_RSP, frame_ptr64);
   } /* if (level > 0) ... */
 
-  RSP -= i->Iw();
+  temp_RSP -= i->Iw();
 
   // ENTER finishes with memory write check on the final stack pointer
   // the memory is touched but no write actually occurs
   // emulate it by doing RMW read access from SS:RSP
-  read_RMW_virtual_qword_64(BX_SEG_REG_SS, RSP);
+  read_RMW_virtual_qword_64(BX_SEG_REG_SS, temp_RSP);
 
   RBP = frame_ptr64;
-
-  BX_CPU_THIS_PTR speculative_rsp = 0;
+  RSP = temp_RSP;
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::LEAVE64(bxInstruction_c *i)

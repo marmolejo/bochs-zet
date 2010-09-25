@@ -5,6 +5,12 @@
 
 #include <stdlib.h>
 #include <string.h>
+
+#ifdef WIN32
+	#include <io.h>
+	#define YY_NO_UNISTD_H
+#endif
+
 #include "debug.h"
 #if BX_DEBUGGER
 
@@ -53,7 +59,6 @@ cont            |
 continue        { bxlval.sval = strdup(bxtext); return(BX_TOKEN_CONTINUE); }
 dump-video      { bxlval.sval = strdup(bxtext); return(BX_TOKEN_DUMPVIDEO); }
 load-video      { bxlval.sval = strdup(bxtext); return(BX_TOKEN_LOADVIDEO); }
-stepi           |
 step            |
 s               { bxlval.sval = strdup(bxtext); return(BX_TOKEN_STEPN); }
 next            |
@@ -67,13 +72,13 @@ b|pb            |
 pbreak          { bxlval.sval = strdup(bxtext); return(BX_TOKEN_PBREAKPOINT); }
 info            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_INFO); }
 cr		|
-creg		|
-cregs		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_CONTROL_REGS); }
-sreg		|
-sregs		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_SEGMENT_REGS); }
-r|reg		|
-regs		|
-registers       { bxlval.sval = strdup(bxtext); return(BX_TOKEN_REGISTERS); }
+creg		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_CONTROL_REGS); }
+dr		|
+dreg		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_DEBUG_REGS); }
+sreg		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_SEGMENT_REGS); }
+r               { bxlval.sval = strdup(bxtext); return(BX_TOKEN_R); }
+reg|regs        |
+registers       { bxlval.sval = strdup(bxtext); return(BX_TOKEN_REGS); }
 fp|fpu          { bxlval.sval = strdup(bxtext); return(BX_TOKEN_FPU); }
 sse             |
 xmm             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_SSE); }
@@ -85,7 +90,6 @@ gdt		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_GDT); }
 ldt		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_LDT); }
 tss		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_TSS); }
 tab		{ bxlval.sval = strdup(bxtext); return(BX_TOKEN_TAB); }
-dirty           { bxlval.sval = strdup(bxtext); return(BX_TOKEN_DIRTY); }
 linux           { bxlval.sval = strdup(bxtext); return(BX_TOKEN_LINUX); }
 delete          |
 del             |
@@ -106,8 +110,8 @@ dma             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_DMA); }
 irq             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_IRQ); }
 pic             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_PIC); }
 u               |
-disasm          |
-disassemble     { BEGIN(DISASM); bxlval.sval = strdup(bxtext); return(BX_TOKEN_DISASSEMBLE); }
+disasm          { BEGIN(DISASM); bxlval.sval = strdup(bxtext); return(BX_TOKEN_DISASM); }
+hex             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_HEX); }
 instrument      { bxlval.sval = strdup(bxtext); return(BX_TOKEN_INSTRUMENT); }
 stop            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_STOP); }
 doit            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_DOIT); }
@@ -126,7 +130,7 @@ print-stack     { bxlval.sval = strdup(bxtext); return(BX_TOKEN_PRINT_STACK); }
 watch           { bxlval.sval = strdup(bxtext); return(BX_TOKEN_WATCH); }
 unwatch         { bxlval.sval = strdup(bxtext); return(BX_TOKEN_UNWATCH); }
 read            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_READ); }
-write           { bxlval.sval = strdup(bxtext); return(BX_TOKEN_WRITE); }
+w|write         { bxlval.sval = strdup(bxtext); return(BX_TOKEN_WRITE); }
 show            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_SHOW); }
 ldsym           { bxlval.sval = strdup(bxtext); return(BX_TOKEN_LOAD_SYMBOLS); }
 symbols         { bxlval.sval = strdup(bxtext); return(BX_TOKEN_SYMBOLS); }
@@ -138,6 +142,7 @@ ne2k|ne2000     { bxlval.sval = strdup(bxtext); return(BX_TOKEN_NE2000); }
 page            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_PAGE); }
 vga             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_VGA); }
 pci             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_PCI); }
+all             { bxlval.sval = strdup(bxtext); return(BX_TOKEN_ALL); }
 al              { bxlval.uval = BX_DBG_REG8L_AL; return(BX_TOKEN_8BL_REG);}
 bl              { bxlval.uval = BX_DBG_REG8L_BL; return(BX_TOKEN_8BL_REG);}
 cl              { bxlval.uval = BX_DBG_REG8L_CL; return(BX_TOKEN_8BL_REG);}
@@ -232,6 +237,7 @@ calc            { bxlval.sval = strdup(bxtext); return(BX_TOKEN_CALC); }
 "|"             { return ('|'); }
 "^"             { return ('^'); }
 "!"             { return ('!'); }
+"@"             { return ('@'); }
 "("             { return ('('); }
 ")"             { return (')'); }
 \'([^\\\'\n]|(\\.))*\'    |       /* throw away leading and trailing \" */

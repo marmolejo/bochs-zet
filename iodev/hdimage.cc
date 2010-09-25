@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2002  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2002-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 /////////////////////////////////////////////////////////////////////////
 
 // Define BX_PLUGGABLE in files that can be compiled into plugins.  For
@@ -246,8 +240,7 @@ Bit64s concat_image_t::lseek(Bit64s offset, int whence)
 
 ssize_t concat_image_t::read(void* buf, size_t count)
 {
-  if (bx_dbg.disk)
-    BX_DEBUG(("concat_image_t.read %ld bytes", (long)count));
+  BX_DEBUG(("concat_image_t.read %ld bytes", (long)count));
   // notice if anyone does sequential read or write without seek in between.
   // This can be supported pretty easily, but needs additional checks for
   // end of a partial image.
@@ -570,8 +563,7 @@ ssize_t sparse_image_t::read(void* buf, size_t count)
   //showpagetable(pagetable, header.numpages);
   ssize_t total_read = 0;
 
-  if (bx_dbg.disk)
-    BX_DEBUG(("sparse_image_t.read %ld bytes", (long)count));
+  BX_DEBUG(("sparse_image_t.read %ld bytes", (long)count));
 
   while (count != 0)
   {
@@ -613,7 +605,7 @@ void sparse_image_t::panic(const char * message)
   {
     snprintf(buffer, sizeof(buffer), "error with sparse disk image %s - %s", pathname, message);
   }
-  BX_PANIC((buffer));
+  BX_PANIC(("%s", buffer));
 }
 
 ssize_t sparse_image_t::write (const void* buf, size_t count)
@@ -625,8 +617,7 @@ ssize_t sparse_image_t::write (const void* buf, size_t count)
   Bit32u update_pagetable_start = position_virtual_page;
   Bit32u update_pagetable_count = 0;
 
-  if (bx_dbg.disk)
-    BX_DEBUG(("sparse_image_t.write %ld bytes", (long)count));
+  BX_DEBUG(("sparse_image_t.write %ld bytes", (long)count));
 
   while (count != 0)
   {

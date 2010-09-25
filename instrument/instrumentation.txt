@@ -18,11 +18,28 @@ directory to it, then customize it. Use:
 -----------------------------------------------------------------------------
 BOCHS instrumentation callbacks
 
-	void bx_instr_init(unsigned cpu);
+        
+        void bx_instr_init_env();
+
+The  callback is called when Bochs is initialized, before of reading .bochsrc.
+It   can  be  used  for  registration  of  parameters  in  siminterface.  Then
+when  bx_instr_init() is called it can access configuration parameters defined
+
+by bx_instr_init_env(),  so  instrumentalization  module  can  use  additional
+options in .bochsrc.
+
+
+        void bx_instr_exit_env();
+
+The callback is called each time Bochs exits.
+
+
+	void bx_instr_initialize(unsigned cpu);
 
 The  callback  is  called each time, when Bochs initializes the CPU object. It
 can  be  used for initialization of user's data, dynamic memory allocation and
 etc.
+
 
 	void bx_instr_exit(unsigned cpu);
 
@@ -30,7 +47,7 @@ The  callback is called each time, when Bochs destructs the CPU object. It can
 be used for destruction of user's data, allocated by bx_instr_init callback.
 
 
-	void bx_instr_reset(unsigned cpu);
+	void bx_instr_reset(unsigned cpu, unsigned type);
 
 The  callback  is called each time, when Bochs resets the CPU object. It would
 be  executed  once  at the start of simulation and each time that user presses
@@ -90,28 +107,13 @@ Currently the callback is not supported when trace-cache optimization feature
 is enabled.
 
 
-	void bx_instr_fetch_decode_completed(unsigned cpu, bxInstruction_c *i);
-
-The  callback  is  called  each  time,  when  Bochs  finishes  decoding of new
-instruction.  Through  this  callback  function  Bochs  could provide decoding
-information  of the instruction. The bxInstruction_c argument of the callbacks
-it  is  a  Bochs internal structure that holds all necessary information about
-currently executed instruction, such as sib/modrm bytes, execution pointer and
-etc.
-
-	void bx_instr_prefix(unsigned cpu, Bit8u prefix);
-
-These  callback  functions  are called by Bochs decoding stage each time, when
-any prefix byte was decoded.
-
-
 	void bx_instr_interrupt(unsigned cpu, unsigned vector);
 
 The  callback  is called each time, when Bochs simulator executes an interrupt
 (software interrupt, hardware interrupt or an exception).
 
 
-	void bx_instr_exception(unsigned cpu, unsigned vector);
+	void bx_instr_exception(unsigned cpu, unsigned vector, unsigned error_code);
 
 The callback is called each time, when Bochs simulator executes an exception.
 
@@ -218,9 +220,8 @@ These callback functions are the feedback from external memory system.
 
 
 	void bx_instr_inp(Bit16u addr, unsigned len);
-	void bx_instr_outp(Bit16u addr, unsigned len);
 	void bx_instr_inp2(Bit16u addr, unsigned len, unsigned val);
-	void bx_instr_outp2(Bit16u addr, unsigned len, unsigned val);
+	void bx_instr_outp(Bit16u addr, unsigned len, unsigned val);
 
 These callback functions are a feedback from various system devices.
 

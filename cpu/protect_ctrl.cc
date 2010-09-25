@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2010  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
 /////////////////////////////////////////////////////////////////////////
 
 #define NEED_CPU_REG_SHORTCUTS 1
@@ -34,9 +28,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::ARPL_EwGw(bxInstruction_c *i)
 {
   Bit16u op2_16, op1_16;
 
-  if (real_mode() || v8086_mode()) {
+  if (! protected_mode()) {
     BX_DEBUG(("ARPL: not recognized in real or virtual-8086 mode"));
-    UndefinedOpcode(i);
+    exception(BX_UD_EXCEPTION, 0);
   }
 
   /* op1_16 is a register or memory reference */
@@ -44,9 +38,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::ARPL_EwGw(bxInstruction_c *i)
     op1_16 = BX_READ_16BIT_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    op1_16 = read_RMW_virtual_word(i->seg(), RMAddr(i));
+    op1_16 = read_RMW_virtual_word(i->seg(), eaddr);
   }
 
   op2_16 = BX_READ_16BIT_REG(i->nnn());
@@ -74,19 +68,22 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LAR_GvEw(bxInstruction_c *i)
   bx_descriptor_t descriptor;
   bx_selector_t selector;
   Bit32u dword1, dword2;
+#if BX_SUPPORT_X86_64
+  Bit32u dword3 = 0;
+#endif
 
-  if (real_mode() || v8086_mode()) {
+  if (! protected_mode()) {
     BX_ERROR(("LAR: not recognized in real or virtual-8086 mode"));
-    UndefinedOpcode(i);
+    exception(BX_UD_EXCEPTION, 0);
   }
 
   if (i->modC0()) {
     raw_selector = BX_READ_16BIT_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    raw_selector = read_virtual_word(i->seg(), RMAddr(i));
+    raw_selector = read_virtual_word(i->seg(), eaddr);
   }
 
   /* if selector null, clear ZF and done */
@@ -121,18 +118,10 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LAR_GvEw(bxInstruction_c *i)
       /* ignore DPL for conforming segments */
     }
     else {
-      if ((descriptor.dpl<CPL) || (descriptor.dpl<selector.rpl)) {
+      if (descriptor.dpl < CPL || descriptor.dpl < selector.rpl) {
         clear_ZF();
         return;
       }
-    }
-    assert_ZF();
-    if (i->os32L()) {
-      /* masked by 00FxFF00, where x is undefined */
-      BX_WRITE_32BIT_REGZ(i->nnn(), dword2 & 0x00ffff00);
-    }
-    else {
-      BX_WRITE_16BIT_REG(i->nnn(), dword2 & 0xff00);
     }
   }
   else { /* system or gate segment */
@@ -148,10 +137,17 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LAR_GvEw(bxInstruction_c *i)
         }
         /* fall through */
       case BX_SYS_SEGMENT_LDT:
-#if BX_CPU_LEVEL >= 3
       case BX_SYS_SEGMENT_AVAIL_386_TSS:
       case BX_SYS_SEGMENT_BUSY_386_TSS:
       case BX_386_CALL_GATE:
+#if BX_SUPPORT_X86_64
+        if (long64_mode() || (descriptor.type == BX_386_CALL_GATE && long_mode()) ) {
+          if (!fetch_raw_descriptor2_64(&selector, &dword1, &dword2, &dword3)) {
+            BX_ERROR(("LAR: failed to fetch 64-bit descriptor"));
+            clear_ZF();
+            return;
+          }
+        }
 #endif
         break;
       default: /* rest not accepted types to LAR */
@@ -160,18 +156,19 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LAR_GvEw(bxInstruction_c *i)
         return;
     }
 
-    if ((descriptor.dpl<CPL) || (descriptor.dpl<selector.rpl)) {
+    if (descriptor.dpl < CPL || descriptor.dpl < selector.rpl) {
       clear_ZF();
       return;
     }
-    assert_ZF();
-    if (i->os32L()) {
-      /* masked by 00FxFF00, where x is undefined ? */
-      BX_WRITE_32BIT_REGZ(i->nnn(), dword2 & 0x00ffff00);
-    }
-    else {
-      BX_WRITE_16BIT_REG(i->nnn(), dword2 & 0xff00);
-    }
+  }
+
+  assert_ZF();
+  if (i->os32L()) {
+    /* masked by 00FxFF00, where x is undefined */
+    BX_WRITE_32BIT_REGZ(i->nnn(), dword2 & 0x00ffff00);
+  }
+  else {
+    BX_WRITE_16BIT_REG(i->nnn(), dword2 & 0xff00);
   }
 }
 
@@ -182,19 +179,22 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LSL_GvEw(bxInstruction_c *i)
   Bit32u limit32;
   bx_selector_t selector;
   Bit32u dword1, dword2;
+#if BX_SUPPORT_X86_64
+  Bit32u dword3 = 0;
+#endif
 
-  if (real_mode() || v8086_mode()) {
+  if (! protected_mode()) {
     BX_ERROR(("LSL: not recognized in real or virtual-8086 mode"));
-    UndefinedOpcode(i);
+    exception(BX_UD_EXCEPTION, 0);
   }
 
   if (i->modC0()) {
     raw_selector = BX_READ_16BIT_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    raw_selector = read_virtual_word(i->seg(), RMAddr(i));
+    raw_selector = read_virtual_word(i->seg(), eaddr);
   }
 
   /* if selector null, clear ZF and done */
@@ -206,6 +206,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LSL_GvEw(bxInstruction_c *i)
   parse_selector(raw_selector, &selector);
 
   if (!fetch_raw_descriptor2(&selector, &dword1, &dword2)) {
+    BX_DEBUG(("LSL: failed to fetch descriptor"));
     clear_ZF();
     return;
   }
@@ -225,7 +226,16 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LSL_GvEw(bxInstruction_c *i)
       case BX_SYS_SEGMENT_LDT:
       case BX_SYS_SEGMENT_AVAIL_386_TSS:
       case BX_SYS_SEGMENT_BUSY_386_TSS:
-        if ((descriptor_dpl<CPL) || (descriptor_dpl<selector.rpl)) {
+#if BX_SUPPORT_X86_64
+        if (long64_mode()) {
+          if (!fetch_raw_descriptor2_64(&selector, &dword1, &dword2, &dword3)) {
+            BX_ERROR(("LSL: failed to fetch 64-bit descriptor"));
+            clear_ZF();
+            return;
+          }
+        }
+#endif
+        if (descriptor_dpl < CPL || descriptor_dpl < selector.rpl) {
           clear_ZF();
           return;
         }
@@ -233,7 +243,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LSL_GvEw(bxInstruction_c *i)
         if (dword2 & 0x00800000)
           limit32 = (limit32 << 12) | 0x00000fff;
         break;
-      default:
+      default: /* rest not accepted types to LSL */
         clear_ZF();
         return;
     }
@@ -244,7 +254,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LSL_GvEw(bxInstruction_c *i)
       limit32 = (limit32 << 12) | 0x00000fff;
     if ((dword2 & 0x00000c00) != 0x00000c00) {
       // non-conforming code segment
-      if ((descriptor_dpl<CPL) || (descriptor_dpl<selector.rpl)) {
+      if (descriptor_dpl < CPL || descriptor_dpl < selector.rpl) {
         clear_ZF();
         return;
       }
@@ -265,10 +275,16 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LSL_GvEw(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::SLDT_Ew(bxInstruction_c *i)
 {
-  if (real_mode() || v8086_mode()) {
+  if (! protected_mode()) {
     BX_ERROR(("SLDT: not recognized in real or virtual-8086 mode"));
-    UndefinedOpcode(i);
+    exception(BX_UD_EXCEPTION, 0);
   }
+
+#if BX_SUPPORT_VMX >= 2
+  if (BX_CPU_THIS_PTR in_vmx_guest)
+    if (SECONDARY_VMEXEC_CONTROL(VMX_VM_EXEC_CTRL3_DESCRIPTOR_TABLE_VMEXIT))
+      VMexit_Instruction(i, VMX_VMEXIT_LDTR_TR_ACCESS);
+#endif
 
   Bit16u val16 = BX_CPU_THIS_PTR ldtr.selector.value;
   if (i->modC0()) {
@@ -280,18 +296,24 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SLDT_Ew(bxInstruction_c *i)
     }
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    write_virtual_word(i->seg(), RMAddr(i), val16);
+    write_virtual_word(i->seg(), eaddr, val16);
   }
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::STR_Ew(bxInstruction_c *i)
 {
-  if (real_mode() || v8086_mode()) {
+  if (! protected_mode()) {
     BX_ERROR(("STR: not recognized in real or virtual-8086 mode"));
-    UndefinedOpcode(i);
+    exception(BX_UD_EXCEPTION, 0);
   }
+
+#if BX_SUPPORT_VMX >= 2
+  if (BX_CPU_THIS_PTR in_vmx_guest)
+    if (SECONDARY_VMEXEC_CONTROL(VMX_VM_EXEC_CTRL3_DESCRIPTOR_TABLE_VMEXIT))
+      VMexit_Instruction(i, VMX_VMEXIT_LDTR_TR_ACCESS);
+#endif
 
   Bit16u val16 = BX_CPU_THIS_PTR tr.selector.value;
   if (i->modC0()) {
@@ -303,9 +325,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::STR_Ew(bxInstruction_c *i)
     }
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    write_virtual_word(i->seg(), RMAddr(i), val16);
+    write_virtual_word(i->seg(), eaddr, val16);
   }
 }
 
@@ -320,26 +342,30 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LLDT_Ew(bxInstruction_c *i)
   Bit32u dword3 = 0;
 #endif
 
-  if (real_mode() || v8086_mode()) {
+  if (! protected_mode()) {
     BX_ERROR(("LLDT: not recognized in real or virtual-8086 mode"));
-    UndefinedOpcode(i);
+    exception(BX_UD_EXCEPTION, 0);
   }
 
   if (CPL != 0) {
     BX_ERROR(("LLDT: The current priveledge level is not 0"));
-    exception(BX_GP_EXCEPTION, 0, 0);
+    exception(BX_GP_EXCEPTION, 0);
   }
+
+#if BX_SUPPORT_VMX >= 2
+  if (BX_CPU_THIS_PTR in_vmx_guest)
+    if (SECONDARY_VMEXEC_CONTROL(VMX_VM_EXEC_CTRL3_DESCRIPTOR_TABLE_VMEXIT))
+      VMexit_Instruction(i, VMX_VMEXIT_LDTR_TR_ACCESS);
+#endif
 
   if (i->modC0()) {
     raw_selector = BX_READ_16BIT_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    raw_selector = read_virtual_word(i->seg(), RMAddr(i));
+    raw_selector = read_virtual_word(i->seg(), eaddr);
   }
-
-  invalidate_prefetch_q();
 
   /* if selector is NULL, invalidate and done */
   if ((raw_selector & 0xfffc) == 0) {
@@ -354,7 +380,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LLDT_Ew(bxInstruction_c *i)
   // #GP(selector) if the selector operand does not point into GDT
   if (selector.ti != 0) {
     BX_ERROR(("LLDT: selector.ti != 0"));
-    exception(BX_GP_EXCEPTION, raw_selector & 0xfffc, 0);
+    exception(BX_GP_EXCEPTION, raw_selector & 0xfffc);
   }
 
   /* fetch descriptor; call handles out of limits checks */
@@ -375,22 +401,24 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LLDT_Ew(bxInstruction_c *i)
          descriptor.type != BX_SYS_SEGMENT_LDT)
   {
     BX_ERROR(("LLDT: doesn't point to an LDT descriptor!"));
-    exception(BX_GP_EXCEPTION, raw_selector & 0xfffc, 0);
+    exception(BX_GP_EXCEPTION, raw_selector & 0xfffc);
   }
 
   /* #NP(selector) if LDT descriptor is not present */
   if (! IS_PRESENT(descriptor)) {
     BX_ERROR(("LLDT: LDT descriptor not present!"));
-    exception(BX_NP_EXCEPTION, raw_selector & 0xfffc, 0);
+    exception(BX_NP_EXCEPTION, raw_selector & 0xfffc);
   }
 
 #if BX_SUPPORT_X86_64
-  descriptor.u.system.base |= ((Bit64u)(dword3) << 32);
-  BX_DEBUG(("64 bit LDT base = 0x%08x%08x",
-     GET32H(descriptor.u.system.base), GET32L(descriptor.u.system.base)));
-  if (!IsCanonical(descriptor.u.system.base)) {
-    BX_ERROR(("LLDT: non-canonical LDT descriptor base!"));
-    exception(BX_GP_EXCEPTION, raw_selector & 0xfffc, 0);
+  if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64) {
+    descriptor.u.segment.base |= ((Bit64u)(dword3) << 32);
+    BX_DEBUG(("64 bit LDT base = 0x%08x%08x",
+       GET32H(descriptor.u.segment.base), GET32L(descriptor.u.segment.base)));
+    if (!IsCanonical(descriptor.u.segment.base)) {
+      BX_ERROR(("LLDT: non-canonical LDT descriptor base!"));
+      exception(BX_GP_EXCEPTION, raw_selector & 0xfffc);
+    }
   }
 #endif
 
@@ -409,31 +437,35 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LTR_Ew(bxInstruction_c *i)
   Bit32u dword3 = 0;
 #endif
 
-  if (real_mode() || v8086_mode()) {
+  if (! protected_mode()) {
     BX_ERROR(("LTR: not recognized in real or virtual-8086 mode"));
-    UndefinedOpcode(i);
+    exception(BX_UD_EXCEPTION, 0);
   }
 
   if (CPL != 0) {
     BX_ERROR(("LTR: The current priveledge level is not 0"));
-    exception(BX_GP_EXCEPTION, 0, 0);
+    exception(BX_GP_EXCEPTION, 0);
   }
+
+#if BX_SUPPORT_VMX >= 2
+  if (BX_CPU_THIS_PTR in_vmx_guest)
+    if (SECONDARY_VMEXEC_CONTROL(VMX_VM_EXEC_CTRL3_DESCRIPTOR_TABLE_VMEXIT))
+      VMexit_Instruction(i, VMX_VMEXIT_LDTR_TR_ACCESS);
+#endif
 
   if (i->modC0()) {
     raw_selector = BX_READ_16BIT_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    raw_selector = read_virtual_word(i->seg(), RMAddr(i));
+    raw_selector = read_virtual_word(i->seg(), eaddr);
   }
-
-  invalidate_prefetch_q();
 
   /* if selector is NULL, invalidate and done */
   if ((raw_selector & BX_SELECTOR_RPL_MASK) == 0) {
     BX_ERROR(("LTR: loading with NULL selector!"));
-    exception(BX_GP_EXCEPTION, 0, 0);
+    exception(BX_GP_EXCEPTION, 0);
   }
 
   /* parse fields in selector, then check for null selector */
@@ -441,7 +473,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LTR_Ew(bxInstruction_c *i)
 
   if (selector.ti) {
     BX_ERROR(("LTR: selector.ti != 0"));
-    exception(BX_GP_EXCEPTION, raw_selector & 0xfffc, 0);
+    exception(BX_GP_EXCEPTION, raw_selector & 0xfffc);
   }
 
   /* fetch descriptor; call handles out of limits checks */
@@ -463,29 +495,31 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LTR_Ew(bxInstruction_c *i)
           descriptor.type!=BX_SYS_SEGMENT_AVAIL_386_TSS))
   {
     BX_ERROR(("LTR: doesn't point to an available TSS descriptor!"));
-    exception(BX_GP_EXCEPTION, raw_selector & 0xfffc, 0);
+    exception(BX_GP_EXCEPTION, raw_selector & 0xfffc);
   }
 
 #if BX_SUPPORT_X86_64
   if (long_mode() && descriptor.type!=BX_SYS_SEGMENT_AVAIL_386_TSS) {
     BX_ERROR(("LTR: doesn't point to an available TSS386 descriptor in long mode!"));
-    exception(BX_GP_EXCEPTION, raw_selector & 0xfffc, 0);
+    exception(BX_GP_EXCEPTION, raw_selector & 0xfffc);
   }
 #endif
 
   /* #NP(selector) if TSS descriptor is not present */
   if (! IS_PRESENT(descriptor)) {
     BX_ERROR(("LTR: TSS descriptor not present!"));
-    exception(BX_NP_EXCEPTION, raw_selector & 0xfffc, 0);
+    exception(BX_NP_EXCEPTION, raw_selector & 0xfffc);
   }
 
 #if BX_SUPPORT_X86_64
-  descriptor.u.system.base |= ((Bit64u)(dword3) << 32);
-  BX_DEBUG(("64 bit TSS base = 0x%08x%08x",
-     GET32H(descriptor.u.system.base), GET32L(descriptor.u.system.base)));
-  if (!IsCanonical(descriptor.u.system.base)) {
-    BX_ERROR(("LTR: non-canonical TSS descriptor base!"));
-    exception(BX_GP_EXCEPTION, raw_selector & 0xfffc, 0);
+  if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64) {
+    descriptor.u.segment.base |= ((Bit64u)(dword3) << 32);
+    BX_DEBUG(("64 bit TSS base = 0x%08x%08x",
+       GET32H(descriptor.u.segment.base), GET32L(descriptor.u.segment.base)));
+    if (!IsCanonical(descriptor.u.segment.base)) {
+      BX_ERROR(("LTR: non-canonical TSS descriptor base!"));
+      exception(BX_GP_EXCEPTION, raw_selector & 0xfffc);
+    }
   }
 #endif
 
@@ -512,18 +546,18 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::VERR_Ew(bxInstruction_c *i)
   bx_selector_t selector;
   Bit32u dword1, dword2;
 
-  if (real_mode() || v8086_mode()) {
+  if (! protected_mode()) {
     BX_ERROR(("VERR: not recognized in real or virtual-8086 mode"));
-    UndefinedOpcode(i);
+    exception(BX_UD_EXCEPTION, 0);
   }
 
   if (i->modC0()) {
     raw_selector = BX_READ_16BIT_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    raw_selector = read_virtual_word(i->seg(), RMAddr(i));
+    raw_selector = read_virtual_word(i->seg(), eaddr);
   }
 
   /* if selector null, clear ZF and done */
@@ -578,18 +612,19 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::VERR_Ew(bxInstruction_c *i)
     if ((descriptor.dpl<CPL) || (descriptor.dpl<selector.rpl)) {
       BX_DEBUG(("VERR: non-conforming code not withing priv level"));
       clear_ZF();  /* inaccessible */
-      return;
     }
-
-    assert_ZF(); /* accessible */
+    else {
+      assert_ZF(); /* accessible */
+    }
   }
   else { /* data segment */
     if ((descriptor.dpl<CPL) || (descriptor.dpl<selector.rpl)) {
       BX_DEBUG(("VERR: data seg not withing priv level"));
       clear_ZF(); /* not accessible */
-      return;
     }
-    assert_ZF(); /* accessible */
+    else {
+      assert_ZF(); /* accessible */
+    }
   }
 }
 
@@ -601,18 +636,18 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::VERW_Ew(bxInstruction_c *i)
   bx_selector_t selector;
   Bit32u dword1, dword2;
 
-  if (real_mode() || v8086_mode()) {
+  if (! protected_mode()) {
     BX_ERROR(("VERW: not recognized in real or virtual-8086 mode"));
-    UndefinedOpcode(i);
+    exception(BX_UD_EXCEPTION, 0);
   }
 
   if (i->modC0()) {
     raw_selector = BX_READ_16BIT_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    raw_selector = read_virtual_word(i->seg(), RMAddr(i));
+    raw_selector = read_virtual_word(i->seg(), eaddr);
   }
 
   /* if selector null, clear ZF and done */
@@ -654,56 +689,79 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::VERW_Ew(bxInstruction_c *i)
     if ((descriptor.dpl<CPL) || (descriptor.dpl<selector.rpl)) {
       BX_DEBUG(("VERW: writable data seg not within priv level"));
       clear_ZF(); /* not accessible */
-      return;
     }
-    assert_ZF();  /* accessible */
-    return;
+    else {
+      assert_ZF();  /* accessible */
+    }
   }
-
-  BX_DEBUG(("VERW: data seg not writable"));
-  clear_ZF(); /* not accessible */
+  else {
+    BX_DEBUG(("VERW: data seg not writable"));
+    clear_ZF(); /* not accessible */
+  }
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::SGDT_Ms(bxInstruction_c *i)
 {
+  BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
+
+#if BX_SUPPORT_VMX >= 2
+  if (BX_CPU_THIS_PTR in_vmx_guest)
+    if (SECONDARY_VMEXEC_CONTROL(VMX_VM_EXEC_CTRL3_DESCRIPTOR_TABLE_VMEXIT))
+      VMexit_Instruction(i, VMX_VMEXIT_GDTR_IDTR_ACCESS);
+#endif
+
   Bit16u limit_16 = BX_CPU_THIS_PTR gdtr.limit;
   Bit32u base_32  = (Bit32u) BX_CPU_THIS_PTR gdtr.base;
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  Bit32u eaddr = (Bit32u) BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  write_virtual_word(i->seg(), RMAddr(i), limit_16);
-  write_virtual_dword(i->seg(), RMAddr(i)+2, base_32);
+  write_virtual_word_32(i->seg(), eaddr, limit_16);
+  write_virtual_dword_32(i->seg(), eaddr+2, base_32);
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::SIDT_Ms(bxInstruction_c *i)
 {
+  BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
+
+#if BX_SUPPORT_VMX >= 2
+  if (BX_CPU_THIS_PTR in_vmx_guest)
+    if (SECONDARY_VMEXEC_CONTROL(VMX_VM_EXEC_CTRL3_DESCRIPTOR_TABLE_VMEXIT))
+      VMexit_Instruction(i, VMX_VMEXIT_GDTR_IDTR_ACCESS);
+#endif
+
   Bit16u limit_16 = BX_CPU_THIS_PTR idtr.limit;
   Bit32u base_32  = (Bit32u) BX_CPU_THIS_PTR idtr.base;
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  Bit32u eaddr = (Bit32u) BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  write_virtual_word(i->seg(), RMAddr(i), limit_16);
-  write_virtual_dword(i->seg(), RMAddr(i)+2, base_32);
+  write_virtual_word_32(i->seg(), eaddr, limit_16);
+  write_virtual_dword_32(i->seg(), eaddr+2, base_32);
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::LGDT_Ms(bxInstruction_c *i)
 {
+  BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
+
   if (v8086_mode()) {
     BX_ERROR(("LGDT: not recognized in virtual-8086 mode"));
-    exception(BX_GP_EXCEPTION, 0, 0);
+    exception(BX_GP_EXCEPTION, 0);
   }
 
   if (!real_mode() && CPL!=0) {
     BX_ERROR(("LGDT: CPL!=0 in protected mode"));
-    exception(BX_GP_EXCEPTION, 0, 0);
+    exception(BX_GP_EXCEPTION, 0);
   }
 
-  invalidate_prefetch_q();
+#if BX_SUPPORT_VMX >= 2
+  if (BX_CPU_THIS_PTR in_vmx_guest)
+    if (SECONDARY_VMEXEC_CONTROL(VMX_VM_EXEC_CTRL3_DESCRIPTOR_TABLE_VMEXIT))
+      VMexit_Instruction(i, VMX_VMEXIT_GDTR_IDTR_ACCESS);
+#endif
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  Bit32u eaddr = (Bit32u) BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  Bit16u limit_16 = read_virtual_word(i->seg(), RMAddr(i));
-  Bit32u base_32 = read_virtual_dword(i->seg(), RMAddr(i) + 2);
+  Bit16u limit_16 = read_virtual_word_32(i->seg(), eaddr);
+  Bit32u base_32 = read_virtual_dword_32(i->seg(), eaddr + 2);
 
   if (i->os32L() == 0) base_32 &= 0x00ffffff; /* ignore upper 8 bits */
 
@@ -713,22 +771,28 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LGDT_Ms(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::LIDT_Ms(bxInstruction_c *i)
 {
+  BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
+
   if (v8086_mode()) {
     BX_ERROR(("LIDT: not recognized in virtual-8086 mode"));
-    exception(BX_GP_EXCEPTION, 0, 0);
+    exception(BX_GP_EXCEPTION, 0);
   }
 
   if (!real_mode() && CPL!=0) {
     BX_ERROR(("LIDT: CPL!=0 in protected mode"));
-    exception(BX_GP_EXCEPTION, 0, 0);
+    exception(BX_GP_EXCEPTION, 0);
   }
 
-  invalidate_prefetch_q();
+#if BX_SUPPORT_VMX >= 2
+  if (BX_CPU_THIS_PTR in_vmx_guest)
+    if (SECONDARY_VMEXEC_CONTROL(VMX_VM_EXEC_CTRL3_DESCRIPTOR_TABLE_VMEXIT))
+      VMexit_Instruction(i, VMX_VMEXIT_GDTR_IDTR_ACCESS);
+#endif
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  Bit32u eaddr = (Bit32u) BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  Bit32u base_32 = read_virtual_dword(i->seg(), RMAddr(i) + 2);
-  Bit16u limit_16 = read_virtual_word(i->seg(), RMAddr(i));
+  Bit32u base_32 = read_virtual_dword_32(i->seg(), eaddr + 2);
+  Bit16u limit_16 = read_virtual_word_32(i->seg(), eaddr);
 
   if (i->os32L() == 0) base_32 &= 0x00ffffff; /* ignore upper 8 bits */
 
@@ -740,43 +804,65 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LIDT_Ms(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::SGDT64_Ms(bxInstruction_c *i)
 {
+  BX_ASSERT(BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64);
+
+#if BX_SUPPORT_VMX >= 2
+  if (BX_CPU_THIS_PTR in_vmx_guest)
+    if (SECONDARY_VMEXEC_CONTROL(VMX_VM_EXEC_CTRL3_DESCRIPTOR_TABLE_VMEXIT))
+      VMexit_Instruction(i, VMX_VMEXIT_GDTR_IDTR_ACCESS);
+#endif
+
   Bit16u limit_16 = BX_CPU_THIS_PTR gdtr.limit;
   Bit64u base_64  = BX_CPU_THIS_PTR gdtr.base;
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  write_virtual_word_64(i->seg(), RMAddr(i), limit_16);
-  write_virtual_qword_64(i->seg(), RMAddr(i)+2, base_64);
+  write_virtual_word_64(i->seg(), eaddr, limit_16);
+  write_virtual_qword_64(i->seg(), eaddr+2, base_64);
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::SIDT64_Ms(bxInstruction_c *i)
 {
+  BX_ASSERT(BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64);
+
+#if BX_SUPPORT_VMX >= 2
+  if (BX_CPU_THIS_PTR in_vmx_guest)
+    if (SECONDARY_VMEXEC_CONTROL(VMX_VM_EXEC_CTRL3_DESCRIPTOR_TABLE_VMEXIT))
+      VMexit_Instruction(i, VMX_VMEXIT_GDTR_IDTR_ACCESS);
+#endif
+
   Bit16u limit_16 = BX_CPU_THIS_PTR idtr.limit;
   Bit64u base_64  = BX_CPU_THIS_PTR idtr.base;
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  write_virtual_word_64(i->seg(), RMAddr(i), limit_16);
-  write_virtual_qword_64(i->seg(), RMAddr(i)+2, base_64);
+  write_virtual_word_64(i->seg(), eaddr, limit_16);
+  write_virtual_qword_64(i->seg(), eaddr+2, base_64);
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::LGDT64_Ms(bxInstruction_c *i)
 {
+  BX_ASSERT(BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64);
+
   if (CPL!=0) {
     BX_ERROR(("LGDT64_Ms: CPL != 0 in long mode"));
-    exception(BX_GP_EXCEPTION, 0, 0);
+    exception(BX_GP_EXCEPTION, 0);
   }
 
-  invalidate_prefetch_q();
+#if BX_SUPPORT_VMX >= 2
+  if (BX_CPU_THIS_PTR in_vmx_guest)
+    if (SECONDARY_VMEXEC_CONTROL(VMX_VM_EXEC_CTRL3_DESCRIPTOR_TABLE_VMEXIT))
+      VMexit_Instruction(i, VMX_VMEXIT_GDTR_IDTR_ACCESS);
+#endif
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  Bit64u base_64 = read_virtual_qword_64(i->seg(), RMAddr(i) + 2);
+  Bit64u base_64 = read_virtual_qword_64(i->seg(), eaddr + 2);
   if (! IsCanonical(base_64)) {
     BX_ERROR(("LGDT64_Ms: loaded base64 address is not in canonical form!"));
-    exception(BX_GP_EXCEPTION, 0, 0);
+    exception(BX_GP_EXCEPTION, 0);
   }
-  Bit16u limit_16 = read_virtual_word_64(i->seg(), RMAddr(i));
+  Bit16u limit_16 = read_virtual_word_64(i->seg(), eaddr);
 
   BX_CPU_THIS_PTR gdtr.limit = limit_16;
   BX_CPU_THIS_PTR gdtr.base = base_64;
@@ -784,21 +870,27 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LGDT64_Ms(bxInstruction_c *i)
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::LIDT64_Ms(bxInstruction_c *i)
 {
+  BX_ASSERT(BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64);
+
   if (CPL != 0) {
     BX_ERROR(("LIDT64_Ms: CPL != 0 in long mode"));
-    exception(BX_GP_EXCEPTION, 0, 0);
+    exception(BX_GP_EXCEPTION, 0);
   }
 
-  invalidate_prefetch_q();
+#if BX_SUPPORT_VMX >= 2
+  if (BX_CPU_THIS_PTR in_vmx_guest)
+    if (SECONDARY_VMEXEC_CONTROL(VMX_VM_EXEC_CTRL3_DESCRIPTOR_TABLE_VMEXIT))
+      VMexit_Instruction(i, VMX_VMEXIT_GDTR_IDTR_ACCESS);
+#endif
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  Bit64u base_64 = read_virtual_qword_64(i->seg(), RMAddr(i) + 2);
+  Bit64u base_64 = read_virtual_qword_64(i->seg(), eaddr + 2);
   if (! IsCanonical(base_64)) {
     BX_ERROR(("LIDT64_Ms: loaded base64 address is not in canonical form!"));
-    exception(BX_GP_EXCEPTION, 0, 0);
+    exception(BX_GP_EXCEPTION, 0);
   }
-  Bit16u limit_16 = read_virtual_word_64(i->seg(), RMAddr(i));
+  Bit16u limit_16 = read_virtual_word_64(i->seg(), eaddr);
 
   BX_CPU_THIS_PTR idtr.limit = limit_16;
   BX_CPU_THIS_PTR idtr.base = base_64;

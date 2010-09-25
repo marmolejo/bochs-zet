@@ -1,3 +1,26 @@
+/////////////////////////////////////////////////////////////////////////
+// $Id$
+/////////////////////////////////////////////////////////////////////////
+//
+//   Copyright (c) 2005-2009 Stanislav Shwartsman
+//          Written by Stanislav Shwartsman [sshwarts at sourceforge net]
+//
+//  This library is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU Lesser General Public
+//  License as published by the Free Software Foundation; either
+//  version 2 of the License, or (at your option) any later version.
+//
+//  This library is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//  Lesser General Public License for more details.
+//
+//  You should have received a copy of the GNU Lesser General Public
+//  License along with this library; if not, write to the Free Software
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+//
+/////////////////////////////////////////////////////////////////////////
+
 #ifndef _BX_DISASM_H_
 #define _BX_DISASM_H_
 
@@ -15,36 +38,35 @@
   base  =  sib_byte & 0x07;        \
 }
 
-/* Instruction set attributes */
-#define IA_386              0x00000000        /* 386 instruction */
-#define IA_486              0x00000001        /* 486 new instruction */
-#define IA_PENTIUM          0x00000002        /* Pentium new instruction */
-#define IA_P6               0x00000004        /* P6 new instruction */
-#define IA_X87              0x00000008        /* FPU (X87) instruction */
+/* Instruction set attributes (duplicated in cpu.h) */
+#define IA_X87              0x00000001        /* FPU (X87) instruction */
+#define IA_486              0x00000002        /* 486 new instruction */
+#define IA_PENTIUM          0x00000004        /* Pentium new instruction */
+#define IA_P6               0x00000008        /* P6 new instruction */
 #define IA_MMX              0x00000010        /* MMX instruction */
 #define IA_3DNOW            0x00000020        /* 3DNow! instruction */
-#define IA_3DNOW_EXT        0x00000040        /* 3DNow! extensions */
-#define IA_MONITOR_MWAIT    0x00000080        /* MONITOR/MWAIT instruction */
+#define IA_FXSAVE_FXRSTOR   0x00000040        /* FXSAVE/FXRSTOR instruction */
+#define IA_SYSENTER_SYSEXIT 0x00000080        /* SYSENTER/SYSEXIT instruction */
 #define IA_CLFLUSH          0x00000100        /* CLFLUSH instruction */
 #define IA_SSE              0x00000200        /* SSE  instruction */
 #define IA_SSE2             0x00000400        /* SSE2 instruction */
 #define IA_SSE3             0x00000800        /* SSE3 instruction */
-#define IA_SSE3E            0x00001000        /* SSE3E instruction */
+#define IA_SSSE3            0x00001000        /* SSSE3 instruction */
 #define IA_SSE4_1           0x00002000        /* SSE4_1 instruction */
 #define IA_SSE4_2           0x00004000        /* SSE4_2 instruction */
 #define IA_SSE4A            0x00008000        /* SSE4A instruction */
-#define IA_SSE5A            0x00010000        /* SSE5A instruction */
-#define IA_X86_64           0x00020000        /* x86-64 instruction */
-#define IA_SYSCALL_SYSRET   0x00040000        /* SYSCALL/SYSRET instruction */
-#define IA_SYSENTER_SYSEXIT 0x00080000        /* SYSENTER/SYSEXIT instruction */
-#define IA_VMX              0x00100000        /* VMX instruction */
-#define IA_SMX              0x00200000        /* SMX instruction */
-#define IA_SVM              0x00400000        /* SVM instruction */
-#define IA_XSAVE            0x00800000        /* XSAVE/XRSTOR extensions instruction */
-#define IA_AES              0x01000000        /* AES instruction */
+#define IA_MONITOR_MWAIT    0x00010000        /* MONITOR/MWAIT instruction */
+#define IA_VMX              0x00020000        /* VMX instruction */
+#define IA_SMX              0x00040000        /* SMX instruction */
+#define IA_SVM              0x00080000        /* SVM instruction */
+#define IA_XSAVE            0x00100000        /* XSAVE/XRSTOR extensions instruction */
+#define IA_XSAVEOPT         0x00200000        /* XSAVEOPT instruction */
+#define IA_AES_PCLMULQDQ    0x00400000        /* AES+PCLMULQDQ instructions */
+#define IA_MOVBE            0x00800000        /* MOVBE Intel Atom(R) instruction */
+#define IA_FSGSBASE         0x01000000        /* FS/GS BASE access instructions */
 #define IA_AVX              0x02000000        /* AVX instruction */
-#define IA_LEGACY           0x40000000        /* legacy instruction */
-#define IA_UNDOCUMENTED     0x80000000        /* instruction undocumented */
+#define IA_AVX_FMA          0x04000000        /* AVX FMA instruction */
+#define IA_X86_64           0x08000000        /* x86-64 instruction */
 
 /* general purpose bit register */
 enum {
@@ -128,7 +150,7 @@ public:
   Bit8u extend8b;
   Bit8u rex_r, rex_x, rex_b;
   Bit8u seg_override;
-  unsigned b1, prefixes;
+  unsigned b1;
   unsigned ilen;
 
   Bit8u modrm, mod, nnn, rm;
@@ -160,7 +182,6 @@ BX_CPP_INLINE x86_insn::x86_insn(bx_bool is32, bx_bool is64)
   extend8b = 0;
   rex_r = rex_b = rex_x = 0;
   seg_override = NO_SEG_OVERRIDE;
-  prefixes = 0;
   ilen = 0;
   b1 = 0;
 
@@ -171,7 +192,7 @@ BX_CPP_INLINE x86_insn::x86_insn(bx_bool is32, bx_bool is64)
 
 class disassembler {
 public:
-  disassembler() { set_syntax_intel(); }
+  disassembler(): offset_mode_hex(0) { set_syntax_intel(); }
 
   unsigned disasm(bx_bool is_32, bx_bool is_64, bx_address base, bx_address ip, const Bit8u *instr, char *disbuf);
 
@@ -196,12 +217,14 @@ public:
     { return decode(1, 1, base, ip, instr, disbuf); }
 
   void set_syntax_intel();
-  void set_syntax_att  ();
+  void set_syntax_att();
+
+  void set_offset_mode_hex(bx_bool mode) { offset_mode_hex = mode; }
 
   void toggle_syntax_mode();
 
 private:
-  bx_bool intel_mode;
+  bx_bool intel_mode, offset_mode_hex;
 
   const char **general_16bit_regname;
   const char **general_8bit_regname;
@@ -212,7 +235,6 @@ private:
   const char **segment_name;
   const char **index16;
 
-  const char *sreg_mod01or10_rm32[16];
   const char *sreg_mod00_base32[16];
   const char *sreg_mod01or10_base32[16];
   const char *sreg_mod00_rm16[8];
@@ -283,13 +305,14 @@ private:
 
   void initialize_modrm_segregs();
 
-  void print_datasize (unsigned mode);
+  void print_datasize(unsigned mode);
 
   void print_memory_access16(int datasize,
           const char *seg, const char *index, Bit16u disp);
-  void print_memory_access  (int datasize,
-          const char *seg, const char *base, const char *index, int scale,
-          Bit32s disp, bx_bool disp64 = 0);
+  void print_memory_access32(int datasize,
+          const char *seg, const char *base, const char *index, int scale, Bit32s disp);
+  void print_memory_access64(int datasize,
+          const char *seg, const char *base, const char *index, int scale, Bit32s disp);
 
   void print_disassembly_intel(const x86_insn *insn, const BxDisasmOpcodeInfo_t *entry);
   void print_disassembly_att  (const x86_insn *insn, const BxDisasmOpcodeInfo_t *entry);
@@ -310,10 +333,6 @@ public:
  *      selects a general register.
  * F  - Flags Register.
  * G  - The reg field of the ModR/M byte selects a general register.
- * H  - A ModR/M byte follows the opcode and specifies the operand. The
- *      operand is either a general-purpose register or a memory address.
- *      In case of the register operand, the reg field of the ModR/M byte
- *      selects a general register.
  * I  - Immediate data. The operand value is encoded in subsequent bytes of
  *      the instruction.
  * J  - The instruction contains a relative offset to be added to the
@@ -366,6 +385,8 @@ public:
  * sd - Scalar element of a 128-bit packed double-precision floating data.
  * v  - Word, doubleword or quadword, depending on operand-size attribute.
  * w  - Word, regardless of operand-size attr.
+ * y  - Doubleword or quadword (in 64-bit mode) depending on 32/64 bit
+ *      operand size.
  */
 
   // far call/jmp
@@ -373,18 +394,18 @@ public:
   void Apd(const x86_insn *insn);
 
   // 8-bit general purpose registers
-  void AL(const x86_insn *insn);
-  void CL(const x86_insn *insn);
+  void AL_Reg(const x86_insn *insn);
+  void CL_Reg(const x86_insn *insn);
 
   // 16-bit general purpose registers
-  void AX(const x86_insn *insn);
-  void DX(const x86_insn *insn);
+  void AX_Reg(const x86_insn *insn);
+  void DX_Reg(const x86_insn *insn);
 
   // 32-bit general purpose registers
-  void EAX(const x86_insn *insn);
+  void EAX_Reg(const x86_insn *insn);
 
   // 64-bit general purpose registers
-  void RAX(const x86_insn *insn);
+  void RAX_Reg(const x86_insn *insn);
 
   // segment registers
   void CS(const x86_insn *insn);
@@ -409,7 +430,7 @@ public:
   void Dq(const x86_insn *insn);
 
   //  8-bit general purpose register
-  void R8(const x86_insn *insn);
+  void Reg8(const x86_insn *insn);
 
   // 16-bit general purpose register
   void RX(const x86_insn *insn);
@@ -425,17 +446,16 @@ public:
   void Ew(const x86_insn *insn);
   void Ed(const x86_insn *insn);
   void Eq(const x86_insn *insn);
+  void Ey(const x86_insn *insn);
+  void Ebd(const x86_insn *insn);
+  void Ewd(const x86_insn *insn);
 
   // general purpose register
   void Gb(const x86_insn *insn);
   void Gw(const x86_insn *insn);
   void Gd(const x86_insn *insn);
   void Gq(const x86_insn *insn);
-
-  void Hbd(const x86_insn *insn);
-  void Hwd(const x86_insn *insn);
-  void  Hd(const x86_insn *insn);
-  void  Hq(const x86_insn *insn);
+  void Gy(const x86_insn *insn);
 
   // immediate
   void I1(const x86_insn *insn);
@@ -462,6 +482,7 @@ public:
   void Rw(const x86_insn *insn);
   void Rd(const x86_insn *insn);
   void Rq(const x86_insn *insn);
+  void Ry(const x86_insn *insn);
 
   // mmx register
   void Pq(const x86_insn *insn);
@@ -473,7 +494,10 @@ public:
   void Nq(const x86_insn *insn);
 
   // xmm register
+  void Ups(const x86_insn *insn);
+  void Upd(const x86_insn *insn);
   void Udq(const x86_insn *insn);
+
   void Vdq(const x86_insn *insn);
   void Vss(const x86_insn *insn);
   void Vsd(const x86_insn *insn);
@@ -528,6 +552,11 @@ public:
   void Yw(const x86_insn *insn);
   void Yd(const x86_insn *insn);
   void Yq(const x86_insn *insn);
+
+  // maskmovdq/maskmovdqu
+  void OP_sY(const x86_insn *insn, unsigned size);
+  void sYq(const x86_insn *insn);
+  void sYdq(const x86_insn *insn);
 
   // jump offset
   void Jb(const x86_insn *insn);

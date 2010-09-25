@@ -1,37 +1,38 @@
 /////////////////////////////////////////////////////////////////////////
 // $Id$
 /////////////////////////////////////////////////////////////////////////
+//
+//  Copyright (C) 2009  The Bochs Project
+//
+//  This library is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU Lesser General Public
+//  License as published by the Free Software Foundation; either
+//  version 2 of the License, or (at your option) any later version.
+//
+//  This library is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//  Lesser General Public License for more details.
+//
+//  You should have received a copy of the GNU Lesser General Public
+//  License along with this library; if not, write to the Free Software
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
-#include "config.h"
-
-#if BX_USE_TEXTCONFIG && defined(WIN32)
-
-extern "C" {
-#include <assert.h>
-#include <stdio.h>
-#include <windows.h>
-#include <commctrl.h>
-#include <shlobj.h>
-#include <ctype.h>
-}
-#include "win32res.h"
-#include "siminterface.h"
-#include "textconfig.h"
 #include "win32dialog.h"
 
-const char log_choices[5][16] = {"ignore", "log", "ask user", "end simulation", "no change"};
-static int retcode = 0;
-static bxevent_handler old_callback = NULL;
-static void *old_callback_arg = NULL;
-#if BX_DEBUGGER
-static HWND hDebugDialog = NULL;
-static char *debug_cmd = NULL;
-static BOOL debug_cmd_ready = FALSE;
-static BOOL showCPU = FALSE;
-static bx_param_num_c *cpu_param[16];
-#endif
+#if BX_USE_TEXTCONFIG && defined(WIN32) && (BX_WITH_WIN32 || BX_WITH_SDL)
 
-int AskFilename(HWND hwnd, bx_param_filename_c *param, const char *ext);
+#include "bochs.h"
+#include "param_names.h"
+#include "win32res.h"
+#include "win32paramdlg.h"
+
+const char log_choices[5][16] = {"ignore", "log", "ask user", "end simulation", "no change"};
+#if BX_DEBUGGER
+extern char *debug_cmd;
+extern bx_bool debug_cmd_ready;
+extern bx_bool vgaw_refresh;
+#endif
 
 char *backslashes(char *s)
 {
@@ -103,7 +104,7 @@ int BrowseDir(const char *Title, char *result)
   int r = -1;
 
   memset(&browseInfo,0,sizeof(BROWSEINFO));
-  browseInfo.hwndOwner = GetActiveWindow();
+  browseInfo.hwndOwner = GetBochsWindow();
   browseInfo.pszDisplayName = result;
   browseInfo.lpszTitle = (LPCSTR)Title;
   browseInfo.ulFlags = BIF_NEWDIALOGSTYLE | BIF_RETURNONLYFSDIRS;
@@ -201,10 +202,9 @@ static BOOL CALLBACK StringParamProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 static BOOL CALLBACK FloppyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
   static bx_param_filename_c *param;
-  static bx_param_enum_c *status;
+  static bx_param_bool_c *status, *readonly;
   static bx_param_enum_c *devtype;
   static bx_param_enum_c *mediatype;
-  static char origpath[MAX_PATH];
   char mesg[MAX_PATH];
   char path[MAX_PATH];
   char pname[80];
@@ -216,16 +216,18 @@ static BOOL CALLBACK FloppyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
       param = (bx_param_filename_c *)lParam;
       param->get_param_path(pname, 80);
       if (!strcmp(pname, BXPN_FLOPPYA_PATH)) {
-        status = SIM->get_param_enum(BXPN_FLOPPYA_STATUS);
+        status = SIM->get_param_bool(BXPN_FLOPPYA_STATUS);
+        readonly = SIM->get_param_bool(BXPN_FLOPPYA_READONLY);
         devtype = SIM->get_param_enum(BXPN_FLOPPYA_DEVTYPE);
         mediatype = SIM->get_param_enum(BXPN_FLOPPYA_TYPE);
       } else {
-        status = SIM->get_param_enum(BXPN_FLOPPYB_STATUS);
+        status = SIM->get_param_bool(BXPN_FLOPPYB_STATUS);
+        readonly = SIM->get_param_bool(BXPN_FLOPPYB_READONLY);
         devtype = SIM->get_param_enum(BXPN_FLOPPYB_DEVTYPE);
         mediatype = SIM->get_param_enum(BXPN_FLOPPYB_TYPE);
       }
       cap = devtype->get() - (int)devtype->get_min();
-      SetWindowText(GetDlgItem(hDlg, IDDEVTYPE), floppy_type_names[cap]);
+      SetWindowText(GetDlgItem(hDlg, IDDEVTYPE), floppy_devtype_names[cap]);
       i = 0;
       while (floppy_type_names[i] != NULL) {
         SendMessage(GetDlgItem(hDlg, IDMEDIATYPE), CB_ADDSTRING, 0, (LPARAM)floppy_type_names[i]);
@@ -234,23 +236,22 @@ static BOOL CALLBACK FloppyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
       }
       cap = mediatype->get() - (int)mediatype->get_min();
       SendMessage(GetDlgItem(hDlg, IDMEDIATYPE), CB_SETCURSEL, cap, 0);
-      if (status->get() == BX_INSERTED) {
+      if (status->get()) {
         SendMessage(GetDlgItem(hDlg, IDSTATUS), BM_SETCHECK, BST_CHECKED, 0);
       }
-      lstrcpy(origpath, param->getptr());
+      if (readonly->get()) {
+        SendMessage(GetDlgItem(hDlg, IDREADONLY), BM_SETCHECK, BST_CHECKED, 0);
+      }
+      lstrcpy(path, param->getptr());
       title = param->get_label();
       if (!title) title = param->get_name();
       SetWindowText(hDlg, title);
-      if (lstrlen(origpath) && lstrcmp(origpath, "none")) {
-        SetWindowText(GetDlgItem(hDlg, IDPATH), origpath);
+      if (lstrlen(path) && lstrcmp(path, "none")) {
+        SetWindowText(GetDlgItem(hDlg, IDPATH), path);
       }
       return TRUE;
       break;
     case WM_CLOSE:
-      GetDlgItemText(hDlg, IDPATH, path, MAX_PATH);
-      if (lstrcmp(path, origpath)) {
-        param->set(origpath);
-      }
       EndDialog(hDlg, -1);
       return TRUE;
       break;
@@ -258,9 +259,8 @@ static BOOL CALLBACK FloppyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
       switch (LOWORD(wParam)) {
         case IDBROWSE:
           GetDlgItemText(hDlg, IDPATH, path, MAX_PATH);
-          param->set(backslashes(path));
-          if (AskFilename(hDlg, param, "img") > 0) {
-            SetWindowText(GetDlgItem(hDlg, IDPATH), param->getptr());
+          if (AskFilename(hDlg, param, path) > 0) {
+            SetWindowText(GetDlgItem(hDlg, IDPATH), path);
             SendMessage(GetDlgItem(hDlg, IDSTATUS), BM_SETCHECK, BST_CHECKED, 0);
             SendMessage(GetDlgItem(hDlg, IDMEDIATYPE), CB_SELECTSTRING, (WPARAM)-1, (LPARAM)"auto");
             EnableWindow(GetDlgItem(hDlg, IDCREATE), FALSE);
@@ -268,7 +268,7 @@ static BOOL CALLBACK FloppyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
           return TRUE;
           break;
         case IDOK:
-          status->set(BX_EJECTED);
+          status->set(0);
           if (SendMessage(GetDlgItem(hDlg, IDSTATUS), BM_GETCHECK, 0, 0) == BST_CHECKED) {
             GetDlgItemText(hDlg, IDPATH, path, MAX_PATH);
             if (lstrlen(path) == 0) {
@@ -277,21 +277,18 @@ static BOOL CALLBACK FloppyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
           } else {
             lstrcpy(path, "none");
           }
+          readonly->set(SendMessage(GetDlgItem(hDlg, IDREADONLY), BM_GETCHECK, 0, 0) == BST_CHECKED);
           param->set(path);
           i = SendMessage(GetDlgItem(hDlg, IDMEDIATYPE), CB_GETCURSEL, 0, 0);
           cap = SendMessage(GetDlgItem(hDlg, IDMEDIATYPE), CB_GETITEMDATA, i, 0);
           mediatype->set(cap);
           if (lstrcmp(path, "none")) {
-            status->set(BX_INSERTED);
+            status->set(1);
           }
           EndDialog(hDlg, 1);
           return TRUE;
           break;
         case IDCANCEL:
-          GetDlgItemText(hDlg, IDPATH, path, MAX_PATH);
-          if (lstrcmp(path, origpath)) {
-            param->set(origpath);
-          }
           EndDialog(hDlg, -1);
           return TRUE;
           break;
@@ -316,69 +313,7 @@ static BOOL CALLBACK FloppyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
   return FALSE;
 }
 
-static BOOL CALLBACK Cdrom1DlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-  static bx_list_c *cdromop;
-  int device;
-  static char origpath[MAX_PATH];
-  char path[MAX_PATH];
-
-  switch (msg) {
-    case WM_INITDIALOG:
-      SIM->get_cdrom_options(0, &cdromop, &device);
-      lstrcpy(origpath, SIM->get_param_string("path", cdromop)->getptr());
-      if (lstrlen(origpath) && lstrcmp(origpath, "none")) {
-        SetWindowText(GetDlgItem(hDlg, IDCDROM1), origpath);
-      }
-      if (SIM->get_param_enum("status", cdromop)->get() == BX_INSERTED) {
-        SendMessage(GetDlgItem(hDlg, IDSTATUS1), BM_SETCHECK, BST_CHECKED, 0);
-      }
-      return TRUE;
-      break;
-    case WM_CLOSE:
-      if (lstrcmp(SIM->get_param_string("path", cdromop)->getptr(), origpath)) {
-        SIM->get_param_string("path", cdromop)->set(origpath);
-      }
-      EndDialog(hDlg, -1);
-      break;
-    case WM_COMMAND:
-      switch (LOWORD(wParam)) {
-        case IDBROWSE1:
-          GetDlgItemText(hDlg, IDCDROM1, path, MAX_PATH);
-          SIM->get_param_string("path", cdromop)->set(backslashes(path));
-          if (AskFilename(hDlg, (bx_param_filename_c *)SIM->get_param_string("path", cdromop), "iso") > 0) {
-            SetWindowText(GetDlgItem(hDlg, IDCDROM1), SIM->get_param_string("path", cdromop)->getptr());
-            SendMessage(GetDlgItem(hDlg, IDSTATUS1), BM_SETCHECK, BST_CHECKED, 0);
-          }
-          break;
-        case IDOK:
-          if (SendMessage(GetDlgItem(hDlg, IDSTATUS1), BM_GETCHECK, 0, 0) == BST_CHECKED) {
-            GetDlgItemText(hDlg, IDCDROM1, path, MAX_PATH);
-            if (lstrlen(path)) {
-              SIM->get_param_enum("status", cdromop)->set(BX_INSERTED);
-              if (lstrcmp(path, SIM->get_param_string("path", cdromop)->getptr())) {
-                SIM->get_param_string("path", cdromop)->set(path);
-              }
-            } else {
-              SIM->get_param_enum("status", cdromop)->set(BX_EJECTED);
-            }
-          } else {
-            SIM->get_param_enum("status", cdromop)->set(BX_EJECTED);
-          }
-          EndDialog(hDlg, 1);
-          break;
-        case IDCANCEL:
-          if (lstrcmp(SIM->get_param_string("path", cdromop)->getptr(), origpath)) {
-            SIM->get_param_string("path", cdromop)->set(origpath);
-          }
-          EndDialog(hDlg, -1);
-          break;
-      }
-  }
-  return FALSE;
-}
-
-void RuntimeDlgSetStdLogOpt(HWND hDlg)
+void SetStandardLogOptions(HWND hDlg)
 {
   int level, idx;
   int defchoice[5];
@@ -417,7 +352,7 @@ void RuntimeDlgSetStdLogOpt(HWND hDlg)
   EnableWindow(GetDlgItem(hDlg, IDDEVLIST), FALSE);
 }
 
-void RuntimeDlgSetAdvLogOpt(HWND hDlg)
+void SetAdvancedLogOptions(HWND hDlg)
 {
   int idx, level, mod;
 
@@ -439,235 +374,66 @@ void RuntimeDlgSetAdvLogOpt(HWND hDlg)
   }
 }
 
-static BOOL CALLBACK RTCdromDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+void InitLogOptionsDialog(HWND hDlg)
 {
-  static int devcount;
-  static bx_list_c *cdromop[4];
-  static char origpath[4][MAX_PATH];
-  static BOOL changed;
-  int device;
-  long noticode;
-  Bit8u cdrom;
-  char path[MAX_PATH];
-  PSHNOTIFY *psn;
+  int idx, mod;
+  char prefix[8];
 
-  switch (msg) {
-    case WM_INITDIALOG:
-      SetForegroundWindow(GetParent(hDlg));
-      SetDlgItemText(GetParent(hDlg), IDOK, "Continue");
-      SetDlgItemText(GetParent(hDlg), IDCANCEL, "Quit");
-      // 4 cdroms supported at run time
-      devcount = 1;
-      for (cdrom=1; cdrom<4; cdrom++) {
-        if (!SIM->get_cdrom_options(cdrom, &cdromop[cdrom], &device) ||
-	    !SIM->get_param_bool("present", cdromop[cdrom])->get()) {
-          EnableWindow(GetDlgItem(hDlg, IDLABEL1+cdrom), FALSE);
-          EnableWindow(GetDlgItem(hDlg, IDCDROM1+cdrom), FALSE);
-          EnableWindow(GetDlgItem(hDlg, IDBROWSE1+cdrom), FALSE);
-          EnableWindow(GetDlgItem(hDlg, IDSTATUS1+cdrom), FALSE);
-        } else {
-          lstrcpy(origpath[cdrom], SIM->get_param_string("path", cdromop[cdrom])->getptr());
-          if (lstrlen(origpath[cdrom]) && lstrcmp(origpath[cdrom], "none")) {
-            SetWindowText(GetDlgItem(hDlg, IDCDROM1+cdrom), origpath[cdrom]);
-          }
-          if (SIM->get_param_enum("status", cdromop[cdrom])->get() == BX_INSERTED) {
-            SendMessage(GetDlgItem(hDlg, IDSTATUS1+cdrom), BM_SETCHECK, BST_CHECKED, 0);
-          }
-          devcount++;
-        }
-      }
-      changed = FALSE;
-      return TRUE;
-    case WM_NOTIFY:
-      psn = (PSHNOTIFY *)lParam;
-      switch(psn->hdr.code) {
-        case PSN_APPLY:
-          if ((psn->lParam == FALSE) && changed) { // Apply pressed & change in this dialog
-            for (device=1; device<devcount; device++) {
-              if (SendMessage(GetDlgItem(hDlg, IDSTATUS1+device), BM_GETCHECK, 0, 0) == BST_CHECKED) {
-                GetDlgItemText(hDlg, IDCDROM1+device, path, MAX_PATH);
-                if (lstrlen(path)) {
-                  SIM->get_param_enum("status", cdromop[device])->set(BX_INSERTED);
-                  if (lstrcmp(path, SIM->get_param_string("path", cdromop[device])->getptr())) {
-                    SIM->get_param_string("path", cdromop[device])->set(path);
-                  }
-                } else {
-                  SIM->get_param_enum("status", cdromop[device])->set(BX_EJECTED);
-                }
-              } else {
-                SIM->get_param_enum("status", cdromop[device])->set(BX_EJECTED);
-              }
-            }
-            changed = FALSE;
-          } else {
-            if (changed) {
-              for (device=1; device<devcount; device++) {
-                if (lstrcmp(SIM->get_param_string("path", cdromop[device])->getptr(), origpath[device])) {
-                  SIM->get_param_string("path", cdromop[device])->set(origpath[device]);
-                }
-              }
-            }
-            retcode = BX_CI_RT_CONT;
-          }
-          return PSNRET_NOERROR;
-        case PSN_QUERYCANCEL:
-          retcode = BX_CI_RT_QUIT;
-          return TRUE;
-      }
-      break;
-    case WM_COMMAND:
-      noticode = HIWORD(wParam);
-      switch(noticode) {
-        case EN_CHANGE:
-          switch (LOWORD(wParam)) {
-            case IDCDROM2:
-            case IDCDROM3:
-            case IDCDROM4:
-              changed = TRUE;
-              SendMessage(GetParent(hDlg), PSM_CHANGED, (WPARAM)hDlg, 0);
-              break;
-          }
-          break;
-        default:
-          switch (LOWORD(wParam)) {
-            case IDBROWSE2:
-            case IDBROWSE3:
-            case IDBROWSE4:
-              device = LOWORD(wParam) - IDBROWSE1;
-              GetDlgItemText(hDlg, IDCDROM1+device, path, MAX_PATH);
-              SIM->get_param_string("path", cdromop[device])->set(backslashes(path));
-              if (AskFilename(hDlg, (bx_param_filename_c *)SIM->get_param_string("path", cdromop[device]), "iso") > 0) {
-                SetWindowText(GetDlgItem(hDlg, IDCDROM1+device), SIM->get_param_string("path", cdromop[device])->getptr());
-                SendMessage(GetDlgItem(hDlg, IDSTATUS1+device), BM_SETCHECK, BST_CHECKED, 0);
-              }
-              break;
-            case IDSTATUS2:
-            case IDSTATUS3:
-            case IDSTATUS4:
-              changed = TRUE;
-              SendMessage(GetParent(hDlg), PSM_CHANGED, (WPARAM)hDlg, 0);
-              break;
-          }
-      }
-      break;
+  for (mod=0; mod<SIM->get_n_log_modules(); mod++) {
+    if (strcmp(SIM->get_prefix(mod), "[     ]")) {
+      lstrcpyn(prefix, SIM->get_prefix(mod), sizeof(prefix));
+      lstrcpy(prefix, prefix+1);
+      prefix[5] = 0;
+      idx = SendMessage(GetDlgItem(hDlg, IDDEVLIST), LB_ADDSTRING, 0, (LPARAM)prefix);
+      SendMessage(GetDlgItem(hDlg, IDDEVLIST), LB_SETITEMDATA, idx, mod);
+    }
   }
-  return FALSE;
+  SetStandardLogOptions(hDlg);
 }
 
-static BOOL CALLBACK RTUSBdevDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+void ApplyLogOptions(HWND hDlg, BOOL advanced)
 {
-  static BOOL changed;
-  long noticode;
-  char buffer[MAX_PATH];
-  PSHNOTIFY *psn;
+  int idx, level, mod, value;
 
-  switch (msg) {
-    case WM_INITDIALOG:
-      if (SIM->get_param_string(BXPN_USB1_PORT1)->get_enabled()) {
-        SetDlgItemText(hDlg, IDUSBDEV1, SIM->get_param_string(BXPN_USB1_PORT1)->getptr());
-        SetDlgItemText(hDlg, IDUSBDEV2, SIM->get_param_string(BXPN_USB1_PORT2)->getptr());
-      } else {
-        EnableWindow(GetDlgItem(hDlg, IDUSBLBL1), FALSE);
-        EnableWindow(GetDlgItem(hDlg, IDUSBLBL2), FALSE);
-        EnableWindow(GetDlgItem(hDlg, IDUSBDEV1), FALSE);
-        EnableWindow(GetDlgItem(hDlg, IDUSBDEV2), FALSE);
+  if (advanced) {
+    idx = SendMessage(GetDlgItem(hDlg, IDDEVLIST), LB_GETCURSEL, 0, 0);
+    mod = SendMessage(GetDlgItem(hDlg, IDDEVLIST), LB_GETITEMDATA, idx, 0);
+    for (level=0; level<5; level++) {
+      idx = SendMessage(GetDlgItem(hDlg, IDLOGEVT1+level), CB_GETCURSEL, 0, 0);
+      value = SendMessage(GetDlgItem(hDlg, IDLOGEVT1+level), CB_GETITEMDATA, idx, 0);
+      SIM->set_log_action (mod, level, value);
+    }
+    EnableWindow(GetDlgItem(hDlg, IDDEVLIST), TRUE);
+  } else {
+    for (level=0; level<5; level++) {
+      idx = SendMessage(GetDlgItem(hDlg, IDLOGEVT1+level), CB_GETCURSEL, 0, 0);
+      value = SendMessage(GetDlgItem(hDlg, IDLOGEVT1+level), CB_GETITEMDATA, idx, 0);
+      if (value < 4) {
+        // set new default
+        SIM->set_default_log_action (level, value);
+        // apply that action to all modules (devices)
+        SIM->set_log_action (-1, level, value);
       }
-      changed = FALSE;
-      return TRUE;
-    case WM_NOTIFY:
-      psn = (PSHNOTIFY *)lParam;
-      switch(psn->hdr.code) {
-        case PSN_APPLY:
-          if ((psn->lParam == FALSE) && changed) { // Apply pressed & change in this dialog
-            GetDlgItemText(hDlg, IDUSBDEV1, buffer, sizeof(buffer));
-            SIM->get_param_string(BXPN_USB1_PORT1)->set(buffer);
-            GetDlgItemText(hDlg, IDUSBDEV2, buffer, sizeof(buffer));
-            SIM->get_param_string(BXPN_USB1_PORT2)->set(buffer);
-          }
-          return PSNRET_NOERROR;
-        case PSN_QUERYCANCEL:
-          retcode = BX_CI_RT_QUIT;
-          return TRUE;
-      }
-      break;
-    case WM_COMMAND:
-      noticode = HIWORD(wParam);
-      switch(noticode) {
-        case EN_CHANGE:
-          switch (LOWORD(wParam)) {
-            case IDUSBDEV1:
-            case IDUSBDEV2:
-              changed = TRUE;
-              SendMessage(GetParent(hDlg), PSM_CHANGED, (WPARAM)hDlg, 0);
-              break;
-          }
-          break;
-      }
-      break;
+    }
   }
-  return FALSE;
+  EnableWindow(GetDlgItem(hDlg, IDADVLOGOPT), TRUE);
 }
 
-static BOOL CALLBACK RTLogOptDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static BOOL CALLBACK LogOptDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
   static BOOL advanced;
   static BOOL changed;
-  int idx, level, mod, value;
   long noticode;
-  char prefix[8];
-  PSHNOTIFY *psn;
 
   switch (msg) {
     case WM_INITDIALOG:
-      idx = 0;
-      for (mod=0; mod<SIM->get_n_log_modules(); mod++) {
-        if (strcmp(SIM->get_prefix(mod), "[     ]")) {
-          lstrcpyn(prefix, SIM->get_prefix(mod), sizeof(prefix));
-          lstrcpy(prefix, prefix+1);
-          prefix[5] = 0;
-          SendMessage(GetDlgItem(hDlg, IDDEVLIST), LB_ADDSTRING, 0, (LPARAM)prefix);
-          SendMessage(GetDlgItem(hDlg, IDDEVLIST), LB_SETITEMDATA, idx, mod);
-          idx++;
-        }
-      }
-      RuntimeDlgSetStdLogOpt(hDlg);
+      InitLogOptionsDialog(hDlg);
       advanced = FALSE;
       changed = FALSE;
+      EnableWindow(GetDlgItem(hDlg, IDAPPLY), FALSE);
       return TRUE;
-    case WM_NOTIFY:
-      psn = (PSHNOTIFY *)lParam;
-      switch(psn->hdr.code) {
-        case PSN_APPLY:
-          if ((psn->lParam == FALSE) && changed) { // Apply pressed & change in this dialog
-            if (advanced) {
-              idx = SendMessage(GetDlgItem(hDlg, IDDEVLIST), LB_GETCURSEL, 0, 0);
-              mod = SendMessage(GetDlgItem(hDlg, IDDEVLIST), LB_GETITEMDATA, idx, 0);
-              for (level=0; level<5; level++) {
-                idx = SendMessage(GetDlgItem(hDlg, IDLOGEVT1+level), CB_GETCURSEL, 0, 0);
-                value = SendMessage(GetDlgItem(hDlg, IDLOGEVT1+level), CB_GETITEMDATA, idx, 0);
-                SIM->set_log_action (mod, level, value);
-              }
-              EnableWindow(GetDlgItem(hDlg, IDDEVLIST), TRUE);
-            } else {
-              for (level=0; level<5; level++) {
-                idx = SendMessage(GetDlgItem(hDlg, IDLOGEVT1+level), CB_GETCURSEL, 0, 0);
-                value = SendMessage(GetDlgItem(hDlg, IDLOGEVT1+level), CB_GETITEMDATA, idx, 0);
-                if (value < 4) {
-                  // set new default
-                  SIM->set_default_log_action (level, value);
-                  // apply that action to all modules (devices)
-                  SIM->set_log_action (-1, level, value);
-                }
-              }
-            }
-            EnableWindow(GetDlgItem(hDlg, IDADVLOGOPT), TRUE);
-            changed = FALSE;
-          }
-          return PSNRET_NOERROR;
-        case PSN_QUERYCANCEL:
-          retcode = BX_CI_RT_QUIT;
-          return TRUE;
-      }
+    case WM_CLOSE:
+      EndDialog(hDlg, 0);
       break;
     case WM_COMMAND:
       noticode = HIWORD(wParam);
@@ -675,7 +441,7 @@ static BOOL CALLBACK RTLogOptDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
         case CBN_SELCHANGE: /* LBN_SELCHANGE is the same value */
           switch (LOWORD(wParam)) {
             case IDDEVLIST:
-              RuntimeDlgSetAdvLogOpt(hDlg);
+              SetAdvancedLogOptions(hDlg);
               break;
             case IDLOGEVT1:
             case IDLOGEVT2:
@@ -688,7 +454,7 @@ static BOOL CALLBACK RTLogOptDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
                   EnableWindow(GetDlgItem(hDlg, IDDEVLIST), FALSE);
                 }
                 changed = TRUE;
-                SendMessage(GetParent(hDlg), PSM_CHANGED, (WPARAM)hDlg, 0);
+                EnableWindow(GetDlgItem(hDlg, IDAPPLY), TRUE);
               }
               break;
           }
@@ -699,13 +465,27 @@ static BOOL CALLBACK RTLogOptDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
               if (SendMessage(GetDlgItem(hDlg, IDADVLOGOPT), BM_GETCHECK, 0, 0) == BST_CHECKED) {
                 EnableWindow(GetDlgItem(hDlg, IDDEVLIST), TRUE);
                 SendMessage(GetDlgItem(hDlg, IDDEVLIST), LB_SETCURSEL, 0, 0);
-                RuntimeDlgSetAdvLogOpt(hDlg);
+                SetAdvancedLogOptions(hDlg);
                 advanced = TRUE;
               } else {
                 SendMessage(GetDlgItem(hDlg, IDDEVLIST), LB_SETCURSEL, (WPARAM)-1, 0);
-                RuntimeDlgSetStdLogOpt(hDlg);
+                SetStandardLogOptions(hDlg);
                 advanced = FALSE;
               }
+              break;
+            case IDAPPLY:
+              ApplyLogOptions(hDlg, advanced);
+              EnableWindow(GetDlgItem(hDlg, IDAPPLY), FALSE);
+              changed = FALSE;
+              break;
+            case IDOK:
+              if (changed) {
+                ApplyLogOptions(hDlg, advanced);
+              }
+              EndDialog(hDlg, 1);
+              break;
+            case IDCANCEL:
+              EndDialog(hDlg, 0);
               break;
           }
       }
@@ -714,75 +494,155 @@ static BOOL CALLBACK RTLogOptDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
   return FALSE;
 }
 
-static BOOL CALLBACK RTMiscDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+void LogOptionsDialog(HWND hwnd)
 {
-  static BOOL changed;
-  int value;
-  long noticode;
-  char buffer[32];
-  PSHNOTIFY *psn;
+  DialogBox(NULL, MAKEINTRESOURCE(LOGOPT_DLG), hwnd, (DLGPROC)LogOptDlgProc);
+}
+
+typedef struct {
+  const char *label;
+  const char *param;
+} edit_opts_t;
+
+edit_opts_t start_options[] = {
+  {"Logfile", "log"},
+  {"Log Options", "*"},
+  {"CPU", "cpu"},
+  {"CPUID", "cpuid"},
+  {"Memory", "memory"},
+  {"Clock & CMOS", "clock_cmos"},
+  {"PCI", "pci"},
+  {"Display & Interface", "display"},
+  {"Keyboard & Mouse", "keyboard_mouse"},
+  {"Disk & Boot", BXPN_MENU_DISK_WIN32},
+  {"Serial / Parallel / USB", "ports"},
+  {"Network card", "network"},
+  {"Sound Blaster 16", BXPN_SB16},
+  {"Other", "misc"},
+#if BX_PLUGINS
+  {"User-defined Options", "user"},
+#endif
+  {NULL, NULL}
+};
+
+edit_opts_t runtime_options[] = {
+  {"CD-ROM", BXPN_MENU_RUNTIME_CDROM},
+  {"USB", BXPN_MENU_RUNTIME_USB},
+  {"Misc", BXPN_MENU_RUNTIME_MISC},
+  {"Log Options", "*"},
+  {NULL, NULL}
+};
+static BOOL CALLBACK MainMenuDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+  static bx_bool runtime;
+  int choice, code, i;
+  bx_param_filename_c *rcfile;
+  char path[BX_PATHNAME_LEN];
+  const char *pname;
 
   switch (msg) {
     case WM_INITDIALOG:
-      SetDlgItemInt(hDlg, IDVGAUPDATE, SIM->get_param_num(BXPN_VGA_UPDATE_INTERVAL)->get(), FALSE);
-      SetDlgItemInt(hDlg, IDKBDPASTE, SIM->get_param_num(BXPN_KBD_PASTE_DELAY)->get(), FALSE);
-      if (SIM->get_param_num(BXPN_MOUSE_ENABLED)->get()) {
-        SendMessage(GetDlgItem(hDlg, IDMOUSE), BM_SETCHECK, BST_CHECKED, 0);
+      runtime = (bx_bool)lParam;
+      EnableWindow(GetDlgItem(hDlg, IDEDITCFG), FALSE);
+      if (runtime) {
+        SetWindowText(hDlg, "Bochs Runtime Menu");
+        EnableWindow(GetDlgItem(hDlg, IDREADRC), FALSE);
+        EnableWindow(GetDlgItem(hDlg, IDRESETCFG), FALSE);
+        EnableWindow(GetDlgItem(hDlg, IDRESTORE), FALSE);
+        SetWindowText(GetDlgItem(hDlg, IDOK), "&Continue");
+        i = 0;
+        while (runtime_options[i].label != NULL) {
+          SendMessage(GetDlgItem(hDlg, IDEDITBOX), LB_ADDSTRING, 0, (LPARAM)runtime_options[i].label);
+          i++;
+        }
+        choice = IDOK;
+      } else {
+        i = 0;
+        while (start_options[i].label != NULL) {
+          SendMessage(GetDlgItem(hDlg, IDEDITBOX), LB_ADDSTRING, 0, (LPARAM)start_options[i].label);
+          i++;
+        }
+        if (SIM->get_param_enum(BXPN_BOCHS_START)->get() == BX_LOAD_START) {
+          choice = IDREADRC;
+        } else {
+          choice = IDOK;
+        }
       }
-      SetDlgItemText(hDlg, IDUSERBTN, SIM->get_param_string(BXPN_USER_SHORTCUT)->getptr());
-      SetDlgItemInt(hDlg, IDSB16TIMER, SIM->get_param_num(BXPN_SB16_DMATIMER)->get(), FALSE);
-      SetDlgItemInt(hDlg, IDSBLOGLEV, SIM->get_param_num(BXPN_SB16_LOGLEVEL)->get(), FALSE);
-      changed = FALSE;
-      return TRUE;
-    case WM_NOTIFY:
-      psn = (PSHNOTIFY *)lParam;
-      switch(psn->hdr.code) {
-        case PSN_APPLY:
-          if ((psn->lParam == FALSE) && changed) { // Apply pressed & change in this dialog
-            value = GetDlgItemInt(hDlg, IDVGAUPDATE, NULL, FALSE);
-            SIM->get_param_num(BXPN_VGA_UPDATE_INTERVAL)->set(value);
-            value = GetDlgItemInt(hDlg, IDKBDPASTE, NULL, FALSE);
-            SIM->get_param_num(BXPN_KBD_PASTE_DELAY)->set(value);
-            value = SendMessage(GetDlgItem(hDlg, IDMOUSE), BM_GETCHECK, 0, 0);
-            SIM->get_param_num(BXPN_MOUSE_ENABLED)->set(value==BST_CHECKED);
-            GetDlgItemText(hDlg, IDUSERBTN, buffer, sizeof(buffer));
-            SIM->get_param_string(BXPN_USER_SHORTCUT)->set(buffer);
-            value = GetDlgItemInt(hDlg, IDSB16TIMER, NULL, FALSE);
-            SIM->get_param_num(BXPN_SB16_DMATIMER)->set(value);
-            value = GetDlgItemInt(hDlg, IDSBLOGLEV, NULL, FALSE);
-            SIM->get_param_num(BXPN_SB16_LOGLEVEL)->set(value);
-            changed = FALSE;
-          }
-          return PSNRET_NOERROR;
-        case PSN_QUERYCANCEL:
-          retcode = BX_CI_RT_QUIT;
-          return TRUE;
-      }
+      SetFocus(GetDlgItem(hDlg, choice));
+      return FALSE;
+    case WM_CLOSE:
+      EndDialog(hDlg, -1);
       break;
     case WM_COMMAND:
-      noticode = HIWORD(wParam);
-      switch(noticode) {
-        case EN_CHANGE:
-          switch (LOWORD(wParam)) {
-            case IDVGAUPDATE:
-            case IDKBDPASTE:
-            case IDUSERBTN:
-            case IDSB16TIMER:
-            case IDSBLOGLEV:
-              changed = TRUE;
-              SendMessage(GetParent(hDlg), PSM_CHANGED, (WPARAM)hDlg, 0);
-              break;
+      code = HIWORD(wParam);
+      switch (LOWORD(wParam)) {
+        case IDREADRC:
+          rcfile = new bx_param_filename_c(NULL, "rcfile", "Load Bochs Config File",
+                                           "", "bochsrc.bxrc", BX_PATHNAME_LEN);
+          rcfile->set_extension("bxrc");
+          if (AskFilename(hDlg, rcfile, NULL) > 0) {
+            SIM->reset_all_param();
+            SIM->read_rc(rcfile->getptr());
+          }
+          delete rcfile;
+          break;
+        case IDWRITERC:
+          rcfile = new bx_param_filename_c(NULL, "rcfile", "Save Bochs Config File",
+                                           "", "bochsrc.bxrc", BX_PATHNAME_LEN);
+          rcfile->set_extension("bxrc");
+          rcfile->set_options(rcfile->SAVE_FILE_DIALOG);
+          if (AskFilename(hDlg, rcfile, NULL) > 0) {
+            SIM->write_rc(rcfile->getptr(), 1);
+          }
+          delete rcfile;
+          break;
+        case IDEDITBOX:
+          if ((code == LBN_SELCHANGE) ||
+              (code == LBN_DBLCLK)) {
+            EnableWindow(GetDlgItem(hDlg, IDEDITCFG), TRUE);
+          }
+          if (code != LBN_DBLCLK) {
+            break;
+          }
+        case IDEDITCFG:
+          i = SendMessage(GetDlgItem(hDlg, IDEDITBOX), LB_GETCURSEL, 0, 0);
+          if (runtime) {
+            pname = runtime_options[i].param;
+          } else {
+            pname = start_options[i].param;
+          }
+          if (lstrcmp(pname, "*")) {
+            if (((bx_list_c*)SIM->get_param(pname))->get_size() > 0) {
+              win32ParamDialog(hDlg, pname);
+            } else {
+              MessageBox(hDlg, "Nothing to configure in this section", "Warning", MB_ICONEXCLAMATION);
+            }
+          } else {
+            LogOptionsDialog(hDlg);
           }
           break;
-        default:
-          switch (LOWORD(wParam)) {
-            case IDMOUSE:
-              changed = TRUE;
-              SendMessage(GetParent(hDlg), PSM_CHANGED, (WPARAM)hDlg, 0);
-              break;
+        case IDRESETCFG:
+          if (MessageBox(hDlg, "Reset all options back to their factory defaults ?",
+                         "Reset Configuration", MB_ICONEXCLAMATION | MB_YESNO) == IDYES) {
+            SIM->reset_all_param();
           }
+          break;
+        case IDRESTORE:
+          path[0] = 0;
+          if (BrowseDir("Restore Bochs state from...", path) >= 0) {
+            SIM->get_param_bool(BXPN_RESTORE_FLAG)->set(1);
+            SIM->get_param_string(BXPN_RESTORE_PATH)->set(path);
+            EndDialog(hDlg, 1);
+          }
+          break;
+        case IDOK:
+          EndDialog(hDlg, 1);
+          break;
+        case IDCANCEL:
+          bx_user_quit = 1;
+          EndDialog(hDlg, -1);
+          break;
       }
-      break;
   }
   return FALSE;
 }
@@ -791,64 +651,6 @@ void LogAskDialog(BxEvent *event)
 {
   event->retcode = DialogBoxParam(NULL, MAKEINTRESOURCE(ASK_DLG), GetBochsWindow(),
                                   (DLGPROC)LogAskProc, (LPARAM)event);
-}
-
-int AskFilename(HWND hwnd, bx_param_filename_c *param, const char *ext)
-{
-  OPENFILENAME ofn;
-  int ret;
-  DWORD errcode;
-  char filename[MAX_PATH];
-  const char *title;
-  char errtext[80];
-
-  param->get(filename, MAX_PATH);
-  // common file dialogs don't accept raw device names
-  if ((isalpha(filename[0])) && (filename[1] == ':') && (strlen(filename) == 2)) {
-    filename[0] = 0;
-  }
-  title = param->get_label();
-  if (!title) title = param->get_name();
-  memset(&ofn, 0, sizeof(OPENFILENAME));
-  ofn.lStructSize = sizeof(OPENFILENAME);
-  ofn.hwndOwner = hwnd;
-  ofn.lpstrFile   = filename;
-  ofn.nMaxFile    = MAX_PATH;
-  ofn.lpstrInitialDir = bx_startup_flags.initial_dir;
-  ofn.lpstrTitle = title;
-  ofn.Flags = OFN_EXPLORER | OFN_HIDEREADONLY;
-  ofn.lpstrDefExt = ext;
-  if (!lstrcmp(ext, "img")) {
-    ofn.lpstrFilter = "Floppy image files (*.img)\0*.img\0All files (*.*)\0*.*\0";
-  } else if (!lstrcmp(ext, "iso")) {
-    ofn.lpstrFilter = "CD-ROM image files (*.iso)\0*.iso\0All files (*.*)\0*.*\0";
-  } else if (!lstrcmp(ext, "txt")) {
-    ofn.lpstrFilter = "Text files (*.txt)\0*.txt\0All files (*.*)\0*.*\0";
-  } else {
-    ofn.lpstrFilter = "All files (*.*)\0*.*\0";
-  }
-  if (param->get_options()->get() & bx_param_filename_c::SAVE_FILE_DIALOG) {
-    ofn.Flags |= OFN_OVERWRITEPROMPT;
-    ret = GetSaveFileName(&ofn);
-  } else {
-    ofn.Flags |= OFN_FILEMUSTEXIST;
-    ret = GetOpenFileName(&ofn);
-  }
-  param->set(filename);
-  if (ret == 0) {
-    errcode = CommDlgExtendedError();
-    if (errcode == 0) {
-      ret = -1;
-    } else {
-      if (errcode == 0x3002) {
-        wsprintf(errtext, "CommDlgExtendedError: invalid filename");
-      } else {
-        wsprintf(errtext, "CommDlgExtendedError returns 0x%04x", errcode);
-      }
-      MessageBox(hwnd, errtext, "Error", MB_ICONERROR);
-    }
-  }
-  return ret;
 }
 
 int AskString(bx_param_string_c *param)
@@ -863,174 +665,18 @@ int FloppyDialog(bx_param_filename_c *param)
                         (DLGPROC)FloppyDlgProc, (LPARAM)param);
 }
 
-int Cdrom1Dialog()
+int MainMenuDialog(HWND hwnd, bx_bool runtime)
 {
-  return DialogBox(NULL, MAKEINTRESOURCE(CDROM1_DLG), GetBochsWindow(),
-                   (DLGPROC)Cdrom1DlgProc);
+  return DialogBoxParam(NULL, MAKEINTRESOURCE(MAINMENU_DLG), hwnd,
+                        (DLGPROC)MainMenuDlgProc, (LPARAM)runtime);
 }
-
-int RuntimeOptionsDialog()
-{
-  PROPSHEETPAGE psp[4];
-  PROPSHEETHEADER psh;
-  int i;
-
-  memset(psp,0,sizeof(psp));
-  for (i = 0; i < 4; i++) {
-    psp[i].dwSize = sizeof(PROPSHEETPAGE);
-    psp[i].dwFlags = PSP_DEFAULT;
-    psp[i].hInstance = NULL;
-  }
-  psp[0].pszTemplate = MAKEINTRESOURCE(RT_CDROM_DLG);
-  psp[0].pfnDlgProc = RTCdromDlgProc;
-  psp[1].pszTemplate = MAKEINTRESOURCE(RT_USBDEV_DLG);
-  psp[1].pfnDlgProc = RTUSBdevDlgProc;
-  psp[2].pszTemplate = MAKEINTRESOURCE(RT_LOGOPT_DLG);
-  psp[2].pfnDlgProc = RTLogOptDlgProc;
-  psp[3].pszTemplate = MAKEINTRESOURCE(RT_MISC_DLG);
-  psp[3].pfnDlgProc = RTMiscDlgProc;
-
-  memset(&psh,0,sizeof(PROPSHEETHEADER));
-  psh.dwSize = sizeof(PROPSHEETHEADER);
-  psh.dwFlags = PSH_PROPSHEETPAGE;
-  psh.hwndParent = GetBochsWindow();
-  psh.hInstance = NULL;
-  psh.pszCaption = "Runtime Options";
-  psh.nPages = 4;
-  psh.ppsp = (LPCPROPSHEETPAGE)&psp;
-
-  PropertySheet(&psh);
-  PostMessage(GetBochsWindow(), WM_SETFOCUS, 0, 0);
-  return retcode;
-}
-
-#if BX_DEBUGGER
-void RefreshDebugDialog()
-{
-  unsigned i;
-  char buffer[20];
-
-  if (showCPU) {
-    for (i = 0; i < 15; i++) {
-      sprintf(buffer, "%08X", cpu_param[i]->get());
-      SetDlgItemText(hDebugDialog, IDCPUVAL1+i, buffer);
-    }
-  }
-}
-
-static BOOL CALLBACK DebuggerDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-  unsigned i;
-  int idx, lines;
-  static RECT R;
-
-  switch (msg) {
-    case WM_INITDIALOG:
-      GetWindowRect(hDlg, &R);
-#if BX_SUPPORT_X86_64
-      cpu_param[0] = SIM->get_param_num("cpu0.RAX", SIM->get_bochs_root());
-      cpu_param[1] = SIM->get_param_num("cpu0.RBX", SIM->get_bochs_root());
-      cpu_param[2] = SIM->get_param_num("cpu0.RCX", SIM->get_bochs_root());
-      cpu_param[3] = SIM->get_param_num("cpu0.RDX", SIM->get_bochs_root());
-      cpu_param[4] = SIM->get_param_num("cpu0.RSP", SIM->get_bochs_root());
-      cpu_param[5] = SIM->get_param_num("cpu0.RBP", SIM->get_bochs_root());
-      cpu_param[6] = SIM->get_param_num("cpu0.RSI", SIM->get_bochs_root());
-      cpu_param[7] = SIM->get_param_num("cpu0.RDI", SIM->get_bochs_root());
-      cpu_param[8] = SIM->get_param_num("cpu0.RIP", SIM->get_bochs_root());
-#else
-      cpu_param[0] = SIM->get_param_num("cpu0.EAX", SIM->get_bochs_root());
-      cpu_param[1] = SIM->get_param_num("cpu0.EBX", SIM->get_bochs_root());
-      cpu_param[2] = SIM->get_param_num("cpu0.ECX", SIM->get_bochs_root());
-      cpu_param[3] = SIM->get_param_num("cpu0.EDX", SIM->get_bochs_root());
-      cpu_param[4] = SIM->get_param_num("cpu0.ESP", SIM->get_bochs_root());
-      cpu_param[5] = SIM->get_param_num("cpu0.EBP", SIM->get_bochs_root());
-      cpu_param[6] = SIM->get_param_num("cpu0.ESI", SIM->get_bochs_root());
-      cpu_param[7] = SIM->get_param_num("cpu0.EDI", SIM->get_bochs_root());
-      cpu_param[8] = SIM->get_param_num("cpu0.EIP", SIM->get_bochs_root());
-#endif
-      cpu_param[9] = SIM->get_param_num("cpu0.CS.selector", SIM->get_bochs_root());
-      cpu_param[10] = SIM->get_param_num("cpu0.DS.selector", SIM->get_bochs_root());
-      cpu_param[11] = SIM->get_param_num("cpu0.ES.selector", SIM->get_bochs_root());
-      cpu_param[12] = SIM->get_param_num("cpu0.FS.selector", SIM->get_bochs_root());
-      cpu_param[13] = SIM->get_param_num("cpu0.GS.selector", SIM->get_bochs_root());
-      cpu_param[14] = SIM->get_param_num("cpu0.EFLAGS", SIM->get_bochs_root());
-      return TRUE;
-    case WM_CLOSE:
-      bx_user_quit = 1;
-      SIM->debug_break();
-      DestroyWindow(hDebugDialog);
-      hDebugDialog = NULL;
-      break;
-    case WM_COMMAND:
-      switch (LOWORD(wParam)) {
-        case IDEXEC:
-          GetDlgItemText(hDlg, DEBUG_CMD, debug_cmd, 512);
-          if (lstrlen(debug_cmd) > 0) {
-            debug_cmd_ready = TRUE;
-          } else {
-            SetFocus(GetDlgItem(hDlg, DEBUG_CMD));
-          }
-          break;
-        case IDSTOP:
-          SIM->debug_break();
-          break;
-        case IDSHOWCPU:
-          showCPU = !showCPU;
-          if (showCPU) {
-            SetDlgItemText(hDlg, IDSHOWCPU, "Hide CPU <<");
-            MoveWindow(hDlg, R.left, R.top, R.right - R.left + 300, R.bottom - R.top, TRUE);
-            RefreshDebugDialog();
-          } else {
-            SetDlgItemText(hDlg, IDSHOWCPU, "Show CPU >>");
-            MoveWindow(hDlg, R.left, R.top, R.right - R.left, R.bottom - R.top, TRUE);
-          }
-          for (i = 0; i < 15; i++) {
-            ShowWindow(GetDlgItem(hDlg, IDCPULBL1+i), showCPU ? SW_SHOW : SW_HIDE);
-            ShowWindow(GetDlgItem(hDlg, IDCPUVAL1+i), showCPU ? SW_SHOW : SW_HIDE);
-          }
-          break;
-      }
-    case WM_USER:
-      if (wParam == 0x1234) {
-        EnableWindow(GetDlgItem(hDlg, DEBUG_CMD), lParam > 0);
-        EnableWindow(GetDlgItem(hDlg, IDEXEC), lParam > 0);
-        EnableWindow(GetDlgItem(hDlg, IDSTOP), lParam == 0);
-        SetFocus(GetDlgItem(hDlg, (lParam > 0)?DEBUG_CMD:IDSTOP));
-      } else if (wParam == 0x5678) {
-        lines = SendMessage(GetDlgItem(hDlg, DEBUG_MSG), EM_GETLINECOUNT, 0, 0);
-        if (lines > 100) {
-          idx = SendMessage(GetDlgItem(hDlg, DEBUG_MSG), EM_LINEINDEX, 1, 0);
-          SendMessage(GetDlgItem(hDlg, DEBUG_MSG), EM_SETSEL, 0, idx);
-          SendMessage(GetDlgItem(hDlg, DEBUG_MSG), EM_REPLACESEL, 0, (LPARAM)"");
-          lines--;
-        }
-        idx = SendMessage(GetDlgItem(hDlg, DEBUG_MSG), EM_LINEINDEX, lines - 1, 0);
-        idx += SendMessage(GetDlgItem(hDlg, DEBUG_MSG), EM_LINELENGTH, idx, 0);
-        SendMessage(GetDlgItem(hDlg, DEBUG_MSG), EM_SETSEL, idx, idx);
-        SendMessage(GetDlgItem(hDlg, DEBUG_MSG), EM_REPLACESEL, 0, lParam);
-      }
-      break;
-  }
-  return FALSE;
-}
-
-void InitDebugDialog(HWND mainwnd)
-{
-  hDebugDialog = CreateDialog(GetModuleHandle(NULL), MAKEINTRESOURCE(DEBUGGER_DLG), mainwnd,
-                              (DLGPROC)DebuggerDlgProc);
-  ShowWindow(hDebugDialog, SW_SHOW);
-}
-#endif
 
 BxEvent* win32_notify_callback(void *unused, BxEvent *event)
 {
   int opts;
   bx_param_c *param;
   bx_param_string_c *sparam;
-#if BX_DEBUGGER
-  char debug_msg[1024];
-  int i, j;
-#endif
+  char pname[BX_PATHNAME_LEN];
 
   event->retcode = -1;
   switch (event->type)
@@ -1038,48 +684,40 @@ BxEvent* win32_notify_callback(void *unused, BxEvent *event)
     case BX_SYNC_EVT_LOG_ASK:
       LogAskDialog(event);
       return event;
-#if BX_DEBUGGER
+#if BX_DEBUGGER && BX_DEBUGGER_GUI
     case BX_SYNC_EVT_GET_DBG_COMMAND:
       {
+        // sim is at a "break" -- internal debugger is ready for a command
         debug_cmd = new char[512];
-        SendMessage(hDebugDialog, WM_USER, 0x1234, 1);
         debug_cmd_ready = FALSE;
-        while (!debug_cmd_ready && (hDebugDialog != NULL)) {
+        HitBreak();
+        while (debug_cmd_ready == FALSE && bx_user_quit == 0)
+        {
+          if (vgaw_refresh != FALSE)  // is the GUI frontend requesting a VGAW refresh?
+            SIM->refresh_vga();
+          vgaw_refresh = FALSE;
           Sleep(10);
         }
-        if (hDebugDialog == NULL) {
-          lstrcpy(debug_cmd, "q");
-        } else {
-          SendMessage(hDebugDialog, WM_USER, 0x1234, 0);
-        }
+        if (bx_user_quit != 0)
+          BX_EXIT(0);
         event->u.debugcmd.command = debug_cmd;
         event->retcode = 1;
         return event;
       }
     case BX_ASYNC_EVT_DBG_MSG:
-      lstrcpy(debug_msg, (char*)event->u.logmsg.msg);
-      for (i = 0; i < lstrlen(debug_msg); i++) {
-        if (debug_msg[i] == 10) {
-          for (j = lstrlen(debug_msg); j >= i; j--) debug_msg[j+1] = debug_msg[j];
-          debug_msg[i] = 13;
-          i++;
-        }
-      }
-      SendMessage(hDebugDialog, WM_USER, 0x5678, (LPARAM)debug_msg);
-      // free the char* which was allocated in dbg_printf
-      delete [] ((char*)event->u.logmsg.msg);
+      ParseIDText (event->u.logmsg.msg);
       return event;
 #endif
     case BX_SYNC_EVT_ASK_PARAM:
       param = event->u.param.param;
       if (param->get_type() == BXT_PARAM_STRING) {
         sparam = (bx_param_string_c *)param;
-        opts = sparam->get_options()->get();
+        opts = sparam->get_options();
         if (opts & sparam->IS_FILENAME) {
           if (opts & sparam->SELECT_FOLDER_DLG) {
             event->retcode = BrowseDir(sparam->get_label(), sparam->getptr());
           } else if (param->get_parent() == NULL) {
-            event->retcode = AskFilename(GetBochsWindow(), (bx_param_filename_c *)sparam, "txt");
+            event->retcode = AskFilename(GetBochsWindow(), (bx_param_filename_c *)sparam, NULL);
           } else {
             event->retcode = FloppyDialog((bx_param_filename_c *)sparam);
           }
@@ -1089,7 +727,8 @@ BxEvent* win32_notify_callback(void *unused, BxEvent *event)
           return event;
         }
       } else if (param->get_type() == BXT_LIST) {
-        event->retcode = Cdrom1Dialog();
+        SIM->get_first_cdrom()->get_param_path(pname, BX_PATHNAME_LEN);
+        event->retcode = win32ParamDialog(GetBochsWindow(), pname);
         return event;
       } else if (param->get_type() == BXT_PARAM_BOOL) {
         UINT flag = MB_YESNO | MB_SETFOREGROUND;
@@ -1100,23 +739,53 @@ BxEvent* win32_notify_callback(void *unused, BxEvent *event)
         event->retcode = 0;
         return event;
       }
-    case BX_ASYNC_EVT_REFRESH:
-#if BX_DEBUGGER
-      RefreshDebugDialog();
-      return event;
-#endif
     case BX_SYNC_EVT_TICK: // called periodically by siminterface.
+      event->retcode = 0;
       // fall into default case
     default:
-      return (*old_callback)(old_callback_arg, event);
+      return event;
   }
 }
 
-void win32_init_notify_callback()
+static int win32_ci_callback(void *userdata, ci_command_t command)
 {
-  SIM->get_notify_callback(&old_callback, &old_callback_arg);
-  assert (old_callback != NULL);
-  SIM->set_notify_callback(win32_notify_callback, NULL);
+  switch (command)
+  {
+    case CI_START:
+      SIM->set_notify_callback(win32_notify_callback, NULL);
+      if (SIM->get_param_enum(BXPN_BOCHS_START)->get() == BX_QUICK_START) {
+        SIM->begin_simulation(bx_startup_flags.argc, bx_startup_flags.argv);
+        // we don't expect it to return, but if it does, quit
+        SIM->quit_sim(1);
+      } else {
+        if (MainMenuDialog(GetActiveWindow(), 0) == 1) {
+          SIM->begin_simulation(bx_startup_flags.argc, bx_startup_flags.argv);
+        }
+        SIM->quit_sim(1);
+      }
+      break;
+    case CI_RUNTIME_CONFIG:
+      if (MainMenuDialog(GetBochsWindow(), 1) < 0) {
+        bx_user_quit = 1;
+#if !BX_DEBUGGER
+        bx_atexit();
+        SIM->quit_sim(1);
+#else
+        bx_dbg_exit(1);
+#endif
+        return -1;
+      }
+      break;
+    case CI_SHUTDOWN:
+      break;
+  }
+  return 0;
+}
+
+int init_win32_config_interface()
+{
+  SIM->register_configuration_interface("win32config", win32_ci_callback, NULL);
+  return 0;  // success
 }
 
 #endif // BX_USE_TEXTCONFIG && defined(WIN32)

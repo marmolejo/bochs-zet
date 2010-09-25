@@ -1,15 +1,52 @@
 /////////////////////////////////////////////////////////////////////////
 // $Id$
 /////////////////////////////////////////////////////////////////////////
+//
+//  Copyright (C) 2001-2009  The Bochs Project
+//
+//  This library is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU Lesser General Public
+//  License as published by the Free Software Foundation; either
+//  version 2 of the License, or (at your option) any later version.
+//
+//  This library is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//  Lesser General Public License for more details.
+//
+//  You should have received a copy of the GNU Lesser General Public
+//  License along with this library; if not, write to the Free Software
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+/////////////////////////////////////////////////////////////////////////
 
-#include "bochs.h"
-#include "cpu/cpu.h"
+// Define BX_PLUGGABLE in files that can be compiled into plugins.  For
+// platforms that require a special tag on exported symbols, BX_PLUGGABLE
+// is used to know when we are exporting symbols and when we are importing.
+#define BX_PLUGGABLE
+
 #include "iodev.h"
+
 #if BX_SUPPORT_IODEBUG
+
+#include "cpu/cpu.h"
+#include "iodebug.h"
 
 #define BX_IODEBUG_THIS this->
 
-bx_iodebug_c bx_iodebug;
+bx_iodebug_c *theIODebugDevice = NULL;
+
+int libiodebug_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
+{
+  theIODebugDevice = new bx_iodebug_c();
+  bx_devices.pluginIODebug = theIODebugDevice;
+  BX_REGISTER_DEVICE_DEVMODEL(plugin, type, theIODebugDevice, BX_PLUGIN_IODEBUG);
+  return(0); // Success
+}
+
+void libiodebug_LTX_plugin_fini(void)
+{
+  delete theIODebugDevice;
+}
 
 struct bx_iodebug_s_type {
   bx_bool enabled;
@@ -23,7 +60,6 @@ struct bx_iodebug_s_type {
 bx_iodebug_c::bx_iodebug_c()
 {
   put("IODBG");
-  settype(IODEBUGLOG);
 }
 
 void bx_iodebug_c::init(void)
@@ -154,8 +190,8 @@ void bx_iodebug_c::mem_write(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, v
 
 #if BX_DEBUGGER
     if (cpu != NULL) {
-      fprintf(stdout, "IODEBUG %s @ eip: " FMT_ADDRX " write at monitored memory location %8X\n", 
-         cpu->name, cpu->get_instruction_pointer(), addr);
+      fprintf(stdout, "IODEBUG CPU %d @ eip: " FMT_ADDRX " write at monitored memory location %8X\n", 
+         cpu->bx_cpuid, cpu->get_instruction_pointer(), addr);
     }
     else {
       fprintf(stdout, "IODEBUG write at monitored memory location %8X\n", addr);
@@ -167,12 +203,12 @@ void bx_iodebug_c::mem_write(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, v
     if (cpu != NULL)
       fprintf(stderr, "by EIP:\t\t" FMT_ADDRX "\n\t", cpu->get_instruction_pointer());
     else
-      fprintf(stderr, "(device origin)\t", cpu->get_instruction_pointer());
+      fprintf(stderr, "(device origin)\t");
 
     fprintf(stderr, "range start: \t\t%08X\trange end:\t%08X\n\taddress accessed:\t%08X\tdata written:\t",
-	     bx_iodebug_s.monitored_mem_areas_start[area],
-	     bx_iodebug_s.monitored_mem_areas_end[area],
-	     (unsigned) addr);
+            bx_iodebug_s.monitored_mem_areas_start[area],
+            bx_iodebug_s.monitored_mem_areas_end[area],
+            (unsigned) addr);
 
     switch(len)
     {
@@ -217,8 +253,8 @@ void bx_iodebug_c::mem_read(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, vo
 
 #if BX_DEBUGGER
     if (cpu != NULL) {
-      fprintf(stdout, "IODEBUG %s @ eip: " FMT_ADDRX " read at monitored memory location %8X\n", 
-        cpu->name, cpu->get_instruction_pointer(), addr);
+      fprintf(stdout, "IODEBUG CPU %d @ eip: " FMT_ADDRX " read at monitored memory location %8X\n", 
+        cpu->bx_cpuid, cpu->get_instruction_pointer(), addr);
     }
     else {
       fprintf(stdout, "IODEBUG read at monitored memory location %8X\n", addr);
@@ -230,7 +266,7 @@ void bx_iodebug_c::mem_read(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, vo
     if (cpu != NULL)
       fprintf(stderr, "by EIP:\t\t" FMT_ADDRX "\n\t", cpu->get_instruction_pointer());
     else
-      fprintf(stderr, "(device origin)\t", cpu->get_instruction_pointer());
+      fprintf(stderr, "(device origin)\t");
 
     fprintf(stderr, "range start: \t\t%08X\trange end:\t%08X\n\taddress accessed:\t%08X\tdata written:\t",
 	     bx_iodebug_s.monitored_mem_areas_start[area],

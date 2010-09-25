@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2002  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2002-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////
@@ -64,6 +58,7 @@
 /////////////////////////////////////////////////////////////////////////
 
 #include "bochs.h"
+#include "param_names.h"
 #include "virt_timer.h"
 
 #define BX_USE_VIRTUAL_TIMERS 1
@@ -91,7 +86,7 @@
 //Minimum number of emulated useconds per second.
 //  Now calculated using BX_MIN_IPS, the minimum number of
 //   instructions per second.
-#define MIN_USEC_PER_SECOND (((((Bit64u)USEC_PER_SECOND)*((Bit64u)BX_MIN_IPS))/((Bit64u)(SIM->get_param_num(BXPN_IPS)->get())))+(Bit64u)1)
+#define MIN_USEC_PER_SECOND (((((Bit64u)USEC_PER_SECOND)*((Bit64u)BX_MIN_IPS))/((Bit64u)ips))+(Bit64u)1)
 
 
 //DEBUG configuration:
@@ -133,8 +128,7 @@ bx_virt_timer_c bx_virt_timer;
 
 bx_virt_timer_c::bx_virt_timer_c()
 {
-  put("VTIMER");
-  settype(VTIMERLOG);
+  put("VTIME");
 
   setup();
 }
@@ -400,6 +394,9 @@ void bx_virt_timer_c::init(void)
   if (virtual_timers_realtime) {
     BX_INFO(("using 'realtime pit' synchronization method"));
   }
+
+  // Local copy of IPS value to avoid reading it frequently in timer handler
+  ips = SIM->get_param_num(BXPN_IPS)->get();
 
   register_timer(this, nullTimer, (Bit32u)NullTimerInterval, 1, 1, "Null Timer");
 

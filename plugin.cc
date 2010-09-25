@@ -2,6 +2,24 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
+//  Copyright (C) 2009  The Bochs Project
+//
+//  This library is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU Lesser General Public
+//  License as published by the Free Software Foundation; either
+//  version 2 of the License, or (at your option) any later version.
+//
+//  This library is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//  Lesser General Public License for more details.
+//
+//  You should have received a copy of the GNU Lesser General Public
+//  License along with this library; if not, write to the Free Software
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+//
+/////////////////////////////////////////////////////////////////////////
+//
 // This file defines the plugin and plugin-device registration functions and
 // the device registration functions.  It handles dynamic loading of modules,
 // using the LTDL library for cross-platform support.
@@ -124,7 +142,7 @@ builtinRegisterIOReadHandler(void *thisPtr, ioReadHandler_t callback,
   int ret;
   BX_ASSERT(mask<8);
   ret = bx_devices.register_io_read_handler (thisPtr, callback, base, name, mask);
-  pluginlog->ldebug("plugin %s registered I/O read address at %04x", name, base);
+  pluginlog->ldebug("plugin %s registered I/O read  address at %04x", name, base);
   return ret;
 }
 
@@ -343,7 +361,19 @@ void plugin_fini_all (void)
 
 void plugin_load(char *name, char *args, plugintype_t type)
 {
-  plugin_t *plugin;
+  plugin_t *plugin, *temp;
+
+  if (plugins != NULL) {
+    temp = plugins;
+
+    while (temp != NULL) {
+      if (!strcmp(name, temp->name)) {
+        BX_PANIC(("plugin '%s' already loaded", name));
+        return;
+      }
+      temp = temp->next;
+    }
+  }
 
   plugin = (plugin_t *)malloc (sizeof(plugin_t));
   if (!plugin)
@@ -375,7 +405,11 @@ void plugin_load(char *name, char *args, plugintype_t type)
     return;
   }
 
-  sprintf(buf, PLUGIN_INIT_FMT_STRING, name);
+  if (type != PLUGTYPE_USER) {
+    sprintf(buf, PLUGIN_INIT_FMT_STRING, name);
+  } else {
+    sprintf(buf, PLUGIN_INIT_FMT_STRING, "user");
+  }
   plugin->plugin_init =
       (int (*)(struct _plugin_t *, enum plugintype_t, int, char *[])) /* monster typecast */
       lt_dlsym (plugin->handle, buf);
@@ -384,9 +418,13 @@ void plugin_load(char *name, char *args, plugintype_t type)
     plugin_abort ();
   }
 
-  sprintf(buf, PLUGIN_FINI_FMT_STRING, name);
+  if (type != PLUGTYPE_USER) {
+    sprintf(buf, PLUGIN_FINI_FMT_STRING, name);
+  } else {
+    sprintf(buf, PLUGIN_FINI_FMT_STRING, "user");
+  }
   plugin->plugin_fini = (void (*)(void)) lt_dlsym (plugin->handle, buf);
-  if (plugin->plugin_init == NULL) {
+  if (plugin->plugin_fini == NULL) {
     pluginlog->panic("could not find plugin_fini: %s", lt_dlerror ());
     plugin_abort();
   }
@@ -403,7 +441,7 @@ void plugin_load(char *name, char *args, plugintype_t type)
   else
   {
    /* Non-empty list.  Add to end. */
-   plugin_t *temp = plugins;
+   temp = plugins;
 
    while (temp->next)
       temp = temp->next;
@@ -460,7 +498,6 @@ plugin_startup(void)
 #if BX_PLUGINS
   pluginlog = new logfunctions();
   pluginlog->put("PLGIN");
-  pluginlog->settype(PLUGINLOG);
   int status = lt_dlinit ();
   if (status != 0) {
     BX_ERROR (("initialization error in ltdl library (for loading plugins)"));
@@ -521,6 +558,29 @@ void pluginRegisterDeviceDevmodel(plugin_t *plugin, plugintype_t type, bx_devmod
 }
 
 /************************************************************************/
+/* Plugin system: Remove registered plugin device                       */
+/************************************************************************/
+
+void pluginUnregisterDeviceDevmodel(plugin_t *plugin)
+{
+  device_t *device, *prev = NULL;
+
+  for (device = devices; device; device = device->next) {
+    if (device->plugin == plugin) {
+      if (prev == NULL) {
+        devices = device->next;
+      } else {
+        prev->next = device->next;
+      }
+      free(device);
+      break;
+    } else {
+      prev = device;
+    }
+  }
+}
+
+/************************************************************************/
 /* Plugin system: Check if a plugin is loaded                           */
 /************************************************************************/
 
@@ -545,16 +605,19 @@ int bx_load_plugin(const char *name, plugintype_t type)
 {
   char *namecopy = new char[1+strlen(name)];
   strcpy(namecopy, name);
-  plugin_load(namecopy, "", type);
+  plugin_load(namecopy, (char*)"", type);
   return 0;
 }
 
-void bx_unload_plugin(const char *name)
+void bx_unload_plugin(const char *name, bx_bool devflag)
 {
   plugin_t *plugin, *prev = NULL;
 
   for (plugin = plugins; plugin; plugin = plugin->next) {
     if (!strcmp(plugin->name, name)) {
+      if (devflag) {
+        pluginUnregisterDeviceDevmodel(plugin);
+      }
       plugin = plugin_unload(plugin);
       if (prev == NULL) {
         plugins = plugin;
@@ -578,18 +641,25 @@ void bx_init_plugins()
 {
   device_t *device;
 
-  // two loops
-  for (device = devices; device; device = device->next)
-  {
-    pluginlog->info("init_mem of '%s' plugin device by virtual method",device->name);
-    device->devmodel->init_mem(BX_MEM(0));
+#if BX_PLUGINS
+  for (device = devices; device; device = device->next) {
+    if (device->plugin->type == PLUGTYPE_OPTIONAL) {
+      pluginlog->info("init_dev of '%s' plugin device by virtual method",device->name);
+      device->devmodel->init();
+    }
   }
-
-  for (device = devices; device; device = device->next)
-  {
+  for (device = devices; device; device = device->next) {
+    if (device->plugin->type == PLUGTYPE_USER) {
+      pluginlog->info("init_dev of '%s' plugin device by virtual method",device->name);
+      device->devmodel->init();
+    }
+  }
+#else
+  for (device = devices; device; device = device->next) {
     pluginlog->info("init_dev of '%s' plugin device by virtual method",device->name);
     device->devmodel->init();
   }
+#endif
 }
 
 /**************************************************************************/
@@ -599,11 +669,26 @@ void bx_init_plugins()
 void bx_reset_plugins(unsigned signal)
 {
   device_t *device;
-  for (device = devices; device; device = device->next)
-  {
+
+#if BX_PLUGINS
+  for (device = devices; device; device = device->next) {
+    if (device->plugin->type == PLUGTYPE_OPTIONAL) {
+      pluginlog->info("reset of '%s' plugin device by virtual method",device->name);
+      device->devmodel->reset(signal);
+    }
+  }
+  for (device = devices; device; device = device->next) {
+    if (device->plugin->type == PLUGTYPE_USER) {
+      pluginlog->info("reset of '%s' plugin device by virtual method",device->name);
+      device->devmodel->reset(signal);
+    }
+  }
+#else
+  for (device = devices; device; device = device->next) {
     pluginlog->info("reset of '%s' plugin device by virtual method",device->name);
     device->devmodel->reset(signal);
   }
+#endif
 }
 
 /*******************************************************/
@@ -618,7 +703,7 @@ void bx_unload_plugins()
   while (device != NULL) {
     if (device->plugin != NULL) {
 #if BX_PLUGINS
-      bx_unload_plugin(device->name);
+      bx_unload_plugin(device->name, 0);
 #endif
     } else {
       delete device->devmodel;
@@ -637,11 +722,26 @@ void bx_unload_plugins()
 void bx_plugins_register_state()
 {
   device_t *device;
-  for (device = devices; device; device = device->next)
-  {
+
+#if BX_PLUGINS
+  for (device = devices; device; device = device->next) {
+    if (device->plugin->type == PLUGTYPE_OPTIONAL) {
+      pluginlog->info("register state of '%s' plugin device by virtual method",device->name);
+      device->devmodel->register_state();
+    }
+  }
+  for (device = devices; device; device = device->next) {
+    if (device->plugin->type == PLUGTYPE_USER) {
+      pluginlog->info("register state of '%s' plugin device by virtual method",device->name);
+      device->devmodel->register_state();
+    }
+  }
+#else
+  for (device = devices; device; device = device->next) {
     pluginlog->info("register state of '%s' plugin device by virtual method",device->name);
     device->devmodel->register_state();
   }
+#endif
 }
 
 /***************************************************************************/
@@ -651,10 +751,23 @@ void bx_plugins_register_state()
 void bx_plugins_after_restore_state()
 {
   device_t *device;
-  for (device = devices; device; device = device->next)
-  {
+
+#if BX_PLUGINS
+  for (device = devices; device; device = device->next) {
+    if (device->plugin->type == PLUGTYPE_OPTIONAL) {
+      device->devmodel->after_restore_state();
+    }
+  }
+  for (device = devices; device; device = device->next) {
+    if (device->plugin->type == PLUGTYPE_USER) {
+      device->devmodel->after_restore_state();
+    }
+  }
+#else
+  for (device = devices; device; device = device->next) {
     device->devmodel->after_restore_state();
   }
+#endif
 }
 
 }

@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//   Copyright (c) 2004 Stanislav Shwartsman
+//   Copyright (c) 2004-2009 Stanislav Shwartsman
 //          Written by Stanislav Shwartsman [sshwarts at sourceforge net]
 //
 //  This library is free software; you can redistribute it and/or
@@ -17,7 +17,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -178,8 +178,6 @@ BX_CPP_INLINE void i387_t::reset()
   memset(st_space, 0, sizeof(floatx80)*8);
 }
 
-#if BX_SUPPORT_MMX
-
 typedef union bx_packed_mmx_reg_t {
    Bit8s   _sbyte[8];
    Bit16s  _s16[4];
@@ -259,8 +257,6 @@ typedef union bx_packed_mmx_reg_t {
    (BX_FPU_REG(index)).fraction = MMXUQ(value);				\
    (BX_FPU_REG(index)).exp = 0xffff;       				\
 }
-
-#endif 		/* BX_SUPPORT_MMX */
 
 #endif		/* BX_SUPPORT_FPU */
 

@@ -2,6 +2,25 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
+//  Copyright (C) 2009  The Bochs Project
+//
+//  This library is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU Lesser General Public
+//  License as published by the Free Software Foundation; either
+//  version 2 of the License, or (at your option) any later version.
+//
+//  This library is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//  Lesser General Public License for more details.
+//
+//  You should have received a copy of the GNU Lesser General Public
+//  License along with this library; if not, write to the Free Software
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+//
+/////////////////////////////////////////////////////////////////////////
+
+//
 // This is code for a text-mode configuration interface.  Note that this file
 // does NOT include bochs.h.  Instead, it does all of its contact with
 // the simulator through an object called SIM, defined in siminterface.cc
@@ -30,16 +49,12 @@ extern "C" {
 #endif
 
 #include "osdep.h"
+#include "param_names.h"
 #include "textconfig.h"
 #include "siminterface.h"
 #include "extplugin.h"
-#ifdef WIN32
-#include "win32dialog.h"
-#endif
 
 #define CI_PATH_LENGTH 512
-
-#define BX_INSERTED 11
 
 /* functions for changing particular options */
 void bx_config_interface_init();
@@ -273,20 +288,23 @@ static const char *startup_options_prompt =
 "2. Log options for all devices\n"
 "3. Log options for individual devices\n"
 "4. CPU options\n"
-"5. Memory options\n"
-"6. Clock & CMOS options\n"
-"7. PCI options\n"
-"8. Bochs Display & Interface options\n"
-"9. Keyboard & Mouse options\n"
-"10. Disk options\n"
-"11. Serial & Parallel port options\n"
-"12. Network card options\n"
-"13. Sound Blaster 16 options\n"
-"14. Other options\n"
+"5. CPUID options\n"
+"6. Memory options\n"
+"7. Clock & CMOS options\n"
+"8. PCI options\n"
+"9. Bochs Display & Interface options\n"
+"10. Keyboard & Mouse options\n"
+"11. Disk options\n"
+"12. Serial / Parallel / USB options\n"
+"13. Network card options\n"
+"14. Sound Blaster 16 options\n"
+"15. Other options\n"
+#if BX_PLUGINS
+"16. User-defined options\n"
+#endif
 "\n"
 "Please choose one: [0] ";
 
-#ifndef WIN32
 static const char *runtime_menu_prompt =
 "---------------------\n"
 "Bochs Runtime Options\n"
@@ -301,12 +319,12 @@ static const char *runtime_menu_prompt =
 "8. Log options for all devices\n"
 "9. Log options for individual devices\n"
 "10. Instruction tracing: off (doesn't exist yet)\n"
-"11. Misc runtime options\n"
-"12. Continue simulation\n"
-"13. Quit now\n"
+"11. USB runtime options\n"
+"12. Misc runtime options\n"
+"13. Continue simulation\n"
+"14. Quit now\n"
 "\n"
-"Please choose one:  [12] ";
-#endif
+"Please choose one:  [13] ";
 
 #define NOT_IMPLEMENTED(choice) \
   fprintf(stderr, "ERROR: choice %d not implemented\n", choice);
@@ -315,7 +333,6 @@ static const char *runtime_menu_prompt =
   do {fprintf(stderr, "ERROR: menu %d has no choice %d\n", menu, choice); \
       assert(0); } while (0)
 
-#ifndef WIN32
 void build_runtime_options_prompt(const char *format, char *buf, int size)
 {
   bx_list_c *floppyop;
@@ -326,12 +343,12 @@ void build_runtime_options_prompt(const char *format, char *buf, int size)
   for (int i=0; i<2; i++) {
     sprintf(pname, "floppy.%d", i);
     floppyop = (bx_list_c*) SIM->get_param(pname);
-    if (SIM->get_param_enum("devtype", floppyop)->get() == BX_FLOPPY_NONE)
+    if (SIM->get_param_enum("devtype", floppyop)->get() == BX_FDD_NONE)
       strcpy(buffer[i], "(not present)");
     else {
       sprintf(buffer[i], "%s, size=%s, %s", SIM->get_param_string("path", floppyop)->getptr(),
         SIM->get_param_enum("type", floppyop)->get_selected(),
-        SIM->get_param_enum("status", floppyop)->get_selected());
+        SIM->get_param_bool("status", floppyop)->get() ? "inserted":"ejected");
       if (!SIM->get_param_string("path", floppyop)->getptr()[0]) strcpy(buffer[i], "none");
     }
   }
@@ -344,13 +361,12 @@ void build_runtime_options_prompt(const char *format, char *buf, int size)
     else
       sprintf(buffer[2+cdrom], "(%s on ata%d) %s, %s",
         device&1?"slave":"master", device/2, SIM->get_param_string("path", cdromop)->getptr(),
-        (SIM->get_param_enum("status", cdromop)->get() == BX_INSERTED)? "inserted" : "ejected");
+        (SIM->get_param_bool("status", cdromop)->get()) ? "inserted" : "ejected");
     }
 
   snprintf(buf, size, format, buffer[0], buffer[1], buffer[2],
            buffer[3], buffer[4], buffer[5]);
 }
-#endif
 
 int do_menu(const char *pname)
 {
@@ -367,7 +383,9 @@ int do_menu(const char *pname)
       bx_param_c *chosen = menu->get(index);
       assert(chosen != NULL);
       if (chosen->get_enabled()) {
-        if (chosen->get_type() == BXT_LIST) {
+        if (SIM->get_init_done() && !chosen->get_runtime_param()) {
+          fprintf(stderr, "\nWARNING: parameter not available at runtime!\n");
+        } else if (chosen->get_type() == BXT_LIST) {
           char chosen_pname[80];
           chosen->get_param_path(chosen_pname, 80);
           do_menu(chosen_pname);
@@ -401,6 +419,7 @@ int bx_config_interface(int menu)
         break;
       case BX_CI_START_MENU:
         {
+          Bit32u n_choices = 7;
           Bit32u default_choice;
           switch (SIM->get_param_enum(BXPN_BOCHS_START)->get()) {
             case BX_LOAD_START:
@@ -410,7 +429,7 @@ int bx_config_interface(int menu)
             default:
               default_choice = 6; break;
           }
-          if (ask_uint(startup_menu_prompt, "", 1, 7, default_choice, &choice, 10) < 0) return -1;
+          if (ask_uint(startup_menu_prompt, "", 1, n_choices, default_choice, &choice, 10) < 0) return -1;
           switch (choice) {
             case 1:
               fprintf(stderr, "I reset all options back to their factory defaults.\n\n");
@@ -445,23 +464,27 @@ int bx_config_interface(int menu)
         }
         break;
       case BX_CI_START_OPTS:
-        if (ask_uint(startup_options_prompt, "", 0, 14, 0, &choice, 10) < 0) return -1;
+        if (ask_uint(startup_options_prompt, "", 0, 15+BX_PLUGINS, 0, &choice, 10) < 0) return -1;
         switch (choice) {
           case 0: return 0;
-          case 1: do_menu("log"); break;
           case 2: bx_log_options(0); break;
           case 3: bx_log_options(1); break;
+          case 1: do_menu("log"); break;
           case 4: do_menu("cpu"); break;
-          case 5: do_menu(BXPN_MENU_MEMORY); break;
-          case 6: do_menu("clock_cmos"); break;
-          case 7: do_menu("pci"); break;
-          case 8: do_menu("display"); break;
-          case 9: do_menu("keyboard_mouse"); break;
-          case 10: do_menu(BXPN_MENU_DISK); break;
-          case 11: do_menu("ports"); break;
-          case 12: do_menu("network"); break;
-          case 13: do_menu(BXPN_SB16); break;
-          case 14: do_menu("misc"); break;
+          case 5: do_menu("cpuid"); break;
+          case 6: do_menu(BXPN_MENU_MEMORY); break;
+          case 7: do_menu("clock_cmos"); break;
+          case 8: do_menu("pci"); break;
+          case 9: do_menu("display"); break;
+          case 10: do_menu("keyboard_mouse"); break;
+          case 11: do_menu(BXPN_MENU_DISK); break;
+          case 12: do_menu("ports"); break;
+          case 13: do_menu("network"); break;
+          case 14: do_menu(BXPN_SB16); break;
+          case 15: do_menu("misc"); break;
+#if BX_PLUGINS
+          case 16: do_menu("user"); break;
+#endif
           default: BAD_OPTION(menu, choice);
         }
         break;
@@ -469,19 +492,15 @@ int bx_config_interface(int menu)
         {
           bx_list_c *cdromop = NULL;
           char pname[80];
-#ifdef WIN32
-          choice = RuntimeOptionsDialog();
-#else
           char prompt[1024];
           build_runtime_options_prompt(runtime_menu_prompt, prompt, 1024);
           if (ask_uint(prompt, "", 1, BX_CI_RT_QUIT, BX_CI_RT_CONT, &choice, 10) < 0) return -1;
-#endif
           switch (choice) {
             case BX_CI_RT_FLOPPYA:
-              if (SIM->get_param_enum(BXPN_FLOPPYA_DEVTYPE)->get() != BX_FLOPPY_NONE) do_menu(BXPN_FLOPPYA);
+              if (SIM->get_param_enum(BXPN_FLOPPYA_DEVTYPE)->get() != BX_FDD_NONE) do_menu(BXPN_FLOPPYA);
               break;
             case BX_CI_RT_FLOPPYB:
-              if (SIM->get_param_enum(BXPN_FLOPPYB_DEVTYPE)->get() != BX_FLOPPY_NONE) do_menu(BXPN_FLOPPYB);
+              if (SIM->get_param_enum(BXPN_FLOPPYB_DEVTYPE)->get() != BX_FDD_NONE) do_menu(BXPN_FLOPPYB);
               break;
             case BX_CI_RT_CDROM1:
             case BX_CI_RT_CDROM2:
@@ -489,10 +508,6 @@ int bx_config_interface(int menu)
             case BX_CI_RT_CDROM4:
               int device;
               if (SIM->get_cdrom_options(choice - BX_CI_RT_CDROM1, &cdromop, &device) && SIM->get_param_bool("present", cdromop)->get()) {
-                // disable type selection
-                SIM->get_param("type", cdromop)->set_enabled(0);
-                SIM->get_param("model", cdromop)->set_enabled(0);
-                SIM->get_param("biosdetect", cdromop)->set_enabled(0);
                 cdromop->get_param_path(pname, 80);
                 do_menu(pname);
               }
@@ -505,7 +520,8 @@ int bx_config_interface(int menu)
             case BX_CI_RT_LOGOPTS1: bx_log_options(0); break;
             case BX_CI_RT_LOGOPTS2: bx_log_options(1); break;
             case BX_CI_RT_INST_TR: NOT_IMPLEMENTED(choice); break;
-            case BX_CI_RT_MISC: do_menu(BXPN_MENU_RUNTIME); break;
+            case BX_CI_RT_USB: do_menu(BXPN_MENU_RUNTIME_USB); break;
+            case BX_CI_RT_MISC: do_menu(BXPN_MENU_RUNTIME_MISC); break;
             case BX_CI_RT_CONT: fprintf(stderr, "Continuing simulation\n"); return 0;
             case BX_CI_RT_QUIT:
               fprintf(stderr, "You chose quit on the configuration interface.\n");
@@ -760,7 +776,7 @@ void bx_param_enum_c::text_print(FILE *fp)
 void bx_param_string_c::text_print(FILE *fp)
 {
   char *value = getptr();
-  int opts = options->get();
+  int opts = options;
   if (opts & RAW_BYTES) {
     char buffer[1024];
     buffer[0] = 0;
@@ -794,10 +810,10 @@ void bx_list_c::text_print(FILE *fp)
   for (int i=0; i<size; i++) {
     assert(list[i] != NULL);
     if (list[i]->get_enabled()) {
-      if ((i>0) && (options->get() & SERIES_ASK))
+      if ((i>0) && (options & SERIES_ASK))
         fprintf(fp, ", ");
       list[i]->text_print(fp);
-      if (!(options->get() & SERIES_ASK))
+      if (!(options & SERIES_ASK))
         fprintf(fp, "\n");
     }
   }
@@ -895,7 +911,7 @@ int bx_param_string_c::text_ask(FILE *fpin, FILE *fpout)
   int status;
   const char *prompt = get_ask_format();
   if (prompt == NULL) {
-    if (options->get() & SELECT_FOLDER_DLG) {
+    if (options & SELECT_FOLDER_DLG) {
       fprintf(fpout, "%s\n\n", get_label());
       prompt = "Enter a path to an existing folder or press enter to cancel\n";
     } else {
@@ -913,7 +929,7 @@ int bx_param_string_c::text_ask(FILE *fpin, FILE *fpout)
       continue;
     }
     if (status < 0) return status;
-    int opts = options->get();
+    int opts = options;
     char buffer2[1024];
     strcpy(buffer2, buffer);
     if (status == 1 && opts & RAW_BYTES) {
@@ -941,7 +957,7 @@ int bx_list_c::text_ask(FILE *fpin, FILE *fpout)
   fprintf(fpout, "\n%s\n", my_title);
   for (i=0; i<imax; i++) fprintf(fpout, "-");
   fprintf(fpout, "\n");
-  if (options->get() & SERIES_ASK) {
+  if (options & SERIES_ASK) {
     for (int i=0; i<size; i++) {
       if (list[i]->get_enabled()) {
         if (!SIM->get_init_done() || list[i]->get_runtime_param()) {
@@ -950,17 +966,18 @@ int bx_list_c::text_ask(FILE *fpin, FILE *fpout)
       }
     }
   } else {
-    if (options->get() & SHOW_PARENT)
+    if (options & SHOW_PARENT)
       fprintf(fpout, "0. Return to previous menu\n");
     for (int i=0; i<size; i++) {
       assert(list[i] != NULL);
       fprintf(fpout, "%d. ", i+1);
-      if (list[i]->get_enabled()) {
+      if ((list[i]->get_enabled()) &&
+          (!SIM->get_init_done() || list[i]->get_runtime_param())) {
         if (list[i]->get_type() == BXT_LIST) {
           child = (bx_list_c*)list[i];
           fprintf(fpout, "%s\n", child->get_title()->getptr());
         } else {
-          if ((options->get() & SHOW_GROUP_NAME) && (list[i]->get_group() != NULL))
+          if ((options & SHOW_GROUP_NAME) && (list[i]->get_group() != NULL))
             fprintf(fpout, "%s ", list[i]->get_group());
           list[i]->text_print(fpout);
           fprintf(fpout, "\n");
@@ -976,7 +993,7 @@ int bx_list_c::text_ask(FILE *fpin, FILE *fpout)
     }
     fprintf(fpout, "\n");
     Bit32u n = choice->get();
-    int min = (options->get() & SHOW_PARENT) ? 0 : 1;
+    int min = (options & SHOW_PARENT) ? 0 : 1;
     int max = size;
     int status = ask_uint("Please choose one: [%d] ", "", min, max, n, &n, 10);
     if (status < 0) return status;

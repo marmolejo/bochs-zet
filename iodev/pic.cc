@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2002  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2002-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 /////////////////////////////////////////////////////////////////////////
 
 // Define BX_PLUGGABLE in files that can be compiled into plugins.  For
@@ -31,6 +25,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "pic.h"
 
 #define LOG_THIS thePic->
 
@@ -52,7 +47,6 @@ void libpic_LTX_plugin_fini(void)
 bx_pic_c::bx_pic_c(void)
 {
   put("PIC");
-  settype(PICLOG);
 }
 
 bx_pic_c::~bx_pic_c(void)
@@ -387,6 +381,10 @@ void bx_pic_c::write(Bit32u address, Bit32u value, unsigned io_len)
           service_master_pic();
           break;
 
+        case 0x02: // single mode bit: 1 = single, 0 = cascade
+          // ignore. 386BSD writes this value but works with it ignored.
+          break;
+
         default:
           BX_PANIC(("write to port 20h = %02x", value));
       } /* switch (value) */
@@ -562,6 +560,10 @@ void bx_pic_c::write(Bit32u address, Bit32u value, unsigned io_len)
           service_slave_pic();
           break;
 
+        case 0x02: // single mode bit: 1 = single, 0 = cascade
+          // ignore. 386BSD writes this value but works with it ignored.
+          break;
+
         default:
           BX_PANIC(("write to port A0h = %02x", value));
       } /* switch (value) */
@@ -622,7 +624,7 @@ void bx_pic_c::lower_irq(unsigned irq_no)
 #if BX_SUPPORT_APIC
   // forward this function call to the ioapic too
   if (DEV_ioapic_present() && (irq_no != 2)) {
-    bx_devices.ioapic->set_irq_level(irq_no, 0);
+    DEV_ioapic_set_irq_level(irq_no, 0);
   }
 #endif
 
@@ -644,7 +646,7 @@ void bx_pic_c::raise_irq(unsigned irq_no)
 #if BX_SUPPORT_APIC
   // forward this function call to the ioapic too
   if (DEV_ioapic_present() && (irq_no != 2)) {
-    bx_devices.ioapic->set_irq_level(irq_no, 1);
+    DEV_ioapic_set_irq_level(irq_no, 1);
   }
 #endif
 
@@ -872,16 +874,16 @@ Bit8u bx_pic_c::IAC(void)
   return(vector);
 }
 
-void bx_pic_c::show_pic_state(void)
+#if BX_DEBUGGER
+void bx_pic_c::debug_dump(void)
 {
-#if defined(BX_DEBUGGER) && (BX_DEBUGGER == 1)
-dbg_printf("s.master_pic.imr = %02x\n", BX_PIC_THIS s.master_pic.imr);
-dbg_printf("s.master_pic.isr = %02x\n", BX_PIC_THIS s.master_pic.isr);
-dbg_printf("s.master_pic.irr = %02x\n", BX_PIC_THIS s.master_pic.irr);
-dbg_printf("s.master_pic.irq = %02x\n", BX_PIC_THIS s.master_pic.irq);
-dbg_printf("s.slave_pic.imr = %02x\n", BX_PIC_THIS s.slave_pic.imr);
-dbg_printf("s.slave_pic.isr = %02x\n", BX_PIC_THIS s.slave_pic.isr);
-dbg_printf("s.slave_pic.irr = %02x\n", BX_PIC_THIS s.slave_pic.irr);
-dbg_printf("s.slave_pic.irq = %02x\n", BX_PIC_THIS s.slave_pic.irq);
-#endif
+  dbg_printf("s.master_pic.imr = %02x\n", BX_PIC_THIS s.master_pic.imr);
+  dbg_printf("s.master_pic.isr = %02x\n", BX_PIC_THIS s.master_pic.isr);
+  dbg_printf("s.master_pic.irr = %02x\n", BX_PIC_THIS s.master_pic.irr);
+  dbg_printf("s.master_pic.irq = %02x\n", BX_PIC_THIS s.master_pic.irq);
+  dbg_printf("s.slave_pic.imr = %02x\n", BX_PIC_THIS s.slave_pic.imr);
+  dbg_printf("s.slave_pic.isr = %02x\n", BX_PIC_THIS s.slave_pic.isr);
+  dbg_printf("s.slave_pic.irr = %02x\n", BX_PIC_THIS s.slave_pic.irr);
+  dbg_printf("s.slave_pic.irq = %02x\n", BX_PIC_THIS s.slave_pic.irq);
 }
+#endif

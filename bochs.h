@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2002  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2010  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
 
 //
 // bochs.h is the master header file for all C++ code.  It includes all
@@ -198,9 +192,9 @@ void print_tree(bx_param_c *node, int level = 0);
 #define BX_GET_ENABLE_A20()         bx_pc_system.get_enable_a20()
 
 #if BX_SUPPORT_A20
-#  define A20ADDR(x)                (bx_phy_address(x) & bx_pc_system.a20_mask)
+#  define A20ADDR(x)                ((bx_phy_address)(x) & bx_pc_system.a20_mask)
 #else
-#  define A20ADDR(x)                (bx_phy_address(x))
+#  define A20ADDR(x)                ((bx_phy_address)(x))
 #endif
 
 #if BX_SUPPORT_SMP
@@ -238,8 +232,6 @@ void print_tree(bx_param_c *node, int level = 0);
         if (bx_guard.report.a20) bx_dbg_a20_report(val)
 #  define BX_DBG_IO_REPORT(port, size, op, val) \
         if (bx_guard.report.io) bx_dbg_io_report(port, size, op, val)
-#  define BX_DBG_UCMEM_REPORT(addr, size, op, val) \
-        if (bx_guard.report.ucmem) bx_dbg_ucmem_report(addr, size, op, val)
 #  define BX_DBG_LIN_MEMORY_ACCESS(cpu, lin, phy, len, pl, rw, data) \
         bx_dbg_lin_memory_access(cpu, lin, phy, len, pl, rw, data)
 #  define BX_DBG_PHY_MEMORY_ACCESS(cpu, phy, len, rw, data) \
@@ -251,8 +243,7 @@ void print_tree(bx_param_c *node, int level = 0);
 #  define BX_DBG_DMA_REPORT(addr, len, what, val)                    /* empty */
 #  define BX_DBG_IAC_REPORT(vector, irq)                             /* empty */
 #  define BX_DBG_A20_REPORT(val)                                     /* empty */
-#  define BX_DBG_IO_REPORT(addr, size, op, val)                      /* empty */
-#  define BX_DBG_UCMEM_REPORT(addr, size, op, val)                   /* empty */
+#  define BX_DBG_IO_REPORT(port, size, op, val)                      /* empty */
 #  define BX_DBG_LIN_MEMORY_ACCESS(cpu, lin, phy, len, pl, rw, data) /* empty */
 #  define BX_DBG_PHY_MEMORY_ACCESS(cpu, phy, len, rw, data)          /* empty */
 #endif  // #if BX_DEBUGGER
@@ -262,7 +253,6 @@ void print_tree(bx_param_c *node, int level = 0);
 typedef class BOCHSAPI logfunctions
 {
   char *prefix;
-  int type;
 // values of onoff: 0=ignore, 1=report, 2=ask, 3=fatal
 #define ACT_IGNORE 0
 #define ACT_REPORT 1
@@ -285,13 +275,8 @@ public:
   void pass(const char *fmt, ...)   BX_CPP_AttrPrintf(2, 3);
   void ldebug(const char *fmt, ...) BX_CPP_AttrPrintf(2, 3);
   void fatal (const char *prefix, const char *fmt, va_list ap, int exit_status);
-#if BX_EXTERNAL_DEBUGGER
-  virtual void ask (int level, const char *prefix, const char *fmt, va_list ap);
-#else
   void ask (int level, const char *prefix, const char *fmt, va_list ap);
-#endif
   void put(const char *);
-  void settype(int);
   void setio(class iofunctions *);
   void setonoff(int loglev, int value) {
     assert (loglev >= 0 && loglev < N_LOGLEV);
@@ -315,17 +300,6 @@ public:
 
 #define BX_LOGPREFIX_SIZE 51
 
-enum {
-  IOLOG=0, FDLOG, GENLOG, CMOSLOG, CDLOG, DMALOG, ETHLOG, G2HLOG, HDLOG, KBDLOG,
-  NE2KLOG, PARLOG, PCILOG, PICLOG, PITLOG, SB16LOG, SERLOG, VGALOG,
-  DEVLOG, MEMLOG, DISLOG, GUILOG, IOAPICLOG, APICLOG, CPU0LOG, CPU1LOG,
-  CPU2LOG, CPU3LOG, CPU4LOG, CPU5LOG, CPU6LOG, CPU7LOG, CPU8LOG, CPU9LOG,
-  CPU10LOG, CPU11LOG, CPU12LOG, CPU13LOG, CPU14LOG, CPU15LOG, CTRLLOG,
-  UNMAPLOG, SERRLOG, BIOSLOG, PIT81LOG, PIT82LOG, IODEBUGLOG, PCI2ISALOG,
-  PLUGINLOG, EXTFPUIRQLOG , PCIVGALOG, PCIUSBLOG, VTIMERLOG, STIMERLOG,
-  PCIIDELOG, PCIDEVLOG, PCIPNICLOG, SPEAKERLOG, BUSMLOG, GAMELOG, ACPILOG
-};
-
 class BOCHSAPI iofunctions {
   int magic;
   char logprefix[BX_LOGPREFIX_SIZE];
@@ -342,7 +316,7 @@ public:
   iofunctions(const char *);
  ~iofunctions(void);
 
-  void out(int facility, int level, const char *pre, const char *fmt, va_list ap);
+  void out(int level, const char *pre, const char *fmt, va_list ap);
 
   void init_log(const char *fn);
   void init_log(int fd);
@@ -354,26 +328,12 @@ public:
   void add_logfn(logfunc_t *fn);
   void remove_logfn(logfunc_t *fn);
   void set_log_action(int loglevel, int action);
-  const char *getlevel(int i) {
-    static const char *loglevel[N_LOGLEV] = {
-      "DEBUG",
-      "INFO",
-      "ERROR",
-      "PANIC",
-      "PASS"
-    };
-    if (i>=0 && i<N_LOGLEV) return loglevel[i];
-    else return "?";
-  }
-  char *getaction(int i) {
-    static const char *name[] = { "ignore", "report", "ask", "fatal" };
-    assert (i>=ACT_IGNORE && i<N_ACT);
-    return (char *) name[i];
-  }
-
+  const char *getlevel(int i);
+  char *getaction(int i);
+  
 protected:
   int n_logfn;
-#define MAX_LOGFNS 128
+#define MAX_LOGFNS 512
   logfunc_t *logfn_list[MAX_LOGFNS];
   const char *logfn;
 };
@@ -403,7 +363,11 @@ typedef class BOCHSAPI iofunctions iofunc_t;
 #define BX_PANIC(x) (LOG_THIS panic) x
 #define BX_PASS(x) (LOG_THIS pass) x
 
-#define BX_ASSERT(x) do {if (!(x)) BX_PANIC(("failed assertion \"%s\" at %s:%d\n", #x, __FILE__, __LINE__));} while (0)
+#if BX_ASSERT_ENABLE
+  #define BX_ASSERT(x) do {if (!(x)) BX_PANIC(("failed assertion \"%s\" at %s:%d\n", #x, __FILE__, __LINE__));} while (0)
+#else
+  #define BX_ASSERT(x)
+#endif
 
 #endif
 
@@ -444,24 +408,9 @@ int bx_gdbstub_check(unsigned int eip);
 #endif
 
 typedef struct {
-  bx_bool floppy;
-  bx_bool keyboard;
-  bx_bool video;
-  bx_bool disk;
-  bx_bool pit;
-  bx_bool pic;
-  bx_bool bios;
-  bx_bool cmos;
-  bx_bool a20;
   bx_bool interrupts;
   bx_bool exceptions;
   bx_bool debugger;
-  bx_bool mouse;
-  bx_bool io;
-  bx_bool dma;
-  bx_bool unsupported_io;
-  bx_bool serial;
-  bx_bool cdrom;
   bx_bool print_timestamps;
 #if BX_DEBUGGER
   bx_bool magic_break_enabled;
@@ -471,7 +420,6 @@ typedef struct {
 #endif
 #if BX_SUPPORT_APIC
   bx_bool apic;
-  bx_bool ioapic;
 #endif
 #if BX_DEBUG_LINUX
   bx_bool linux_syscall;
@@ -483,20 +431,44 @@ void CDECL bx_signal_handler(int signum);
 int bx_atexit(void);
 BOCHSAPI extern bx_debug_t bx_dbg;
 
-// memory access type (read/write/rw)
+// determinted by XAPIC option
+BOCHSAPI extern Bit32u apic_id_mask;
+
+// memory access type (read/write/execute/rw)
 #define BX_READ         0
 #define BX_WRITE        1
-#define BX_RW           2
+#define BX_EXECUTE      2
+#define BX_RW           3
 
-#define DATA_ACCESS     0
-#define CODE_ACCESS     1
+// to be used in concatenation with BX_READ/BX_WRITE/BX_EXECUTE/BX_RW
+#define BX_PDPTR0_ACCESS          0x010
+#define BX_PDPTR1_ACCESS          0x020
+#define BX_PDPTR2_ACCESS          0x030
+#define BX_PDPTR3_ACCESS          0x040
+#define BX_PTE_ACCESS             0x050
+#define BX_PDE_ACCESS             0x060
+#define BX_PDPTE_ACCESS           0x070
+#define BX_PML4E_ACCESS           0x080
+#define BX_EPT_PTE_ACCESS         0x090
+#define BX_EPT_PDE_ACCESS         0x0a0
+#define BX_EPT_PDPTE_ACCESS       0x0b0
+#define BX_EPT_PML4E_ACCESS       0x0c0
+#define BX_VMCS_ACCESS            0x0d0
+#define BX_VMX_MSR_BITMAP_ACCESS  0x0e0
+#define BX_VMX_IO_BITMAP_ACCESS   0x0f0
+#define BX_VMX_LOAD_MSR_ACCESS    0x100
+#define BX_VMX_STORE_MSR_ACCESS   0x110
+#define BX_VMX_VTPR_ACCESS        0x120
+#define BX_SMRAM_ACCESS           0x130
+
+// types of reset
+#define BX_RESET_SOFTWARE 10
+#define BX_RESET_HARDWARE 11
 
 #include "memory/memory.h"
 #include "pc_system.h"
 #include "plugin.h"
 #include "gui/gui.h"
-#include "gui/textconfig.h"
-#include "gui/keymap.h"
 
 /* --- EXTERNS --- */
 
@@ -519,14 +491,11 @@ extern bx_bool bx_gui_sighandler;
 #define BX_N_OPTRAM_IMAGES 4
 #define BX_N_SERIAL_PORTS 4
 #define BX_N_PARALLEL_PORTS 2
-#define BX_N_USB_HUBS 1
+#define BX_N_USB_UHCI_PORTS 2
+#define BX_N_USB_OHCI_PORTS 2
+#define BX_N_USB_HUB_PORTS 8
 #define BX_N_PCI_SLOTS 5
-
-#if BX_SUPPORT_SMP
-  #define BX_SMP_PROCESSORS (bx_cpu_count)
-#else
-  #define BX_SMP_PROCESSORS 1
-#endif
+#define BX_N_USER_PLUGINS 8
 
 void bx_center_print(FILE *file, const char *line, unsigned maxwidth);
 
@@ -629,5 +598,27 @@ void bx_center_print(FILE *file, const char *line, unsigned maxwidth);
 }
 
 #endif
+
+BX_CPP_INLINE Bit32u bx_bswap32(Bit32u val32)
+{
+  Bit32u b0 = val32 & 0xff; val32 >>= 8;
+  Bit32u b1 = val32 & 0xff; val32 >>= 8;
+  Bit32u b2 = val32 & 0xff; val32 >>= 8;
+  Bit32u b3 = val32;
+  return (b0<<24) | (b1<<16) | (b2<<8) | b3;
+}
+
+BX_CPP_INLINE Bit64u bx_bswap64(Bit64u val64)
+{
+  Bit64u b0 = val64 & 0xff; val64 >>= 8;
+  Bit64u b1 = val64 & 0xff; val64 >>= 8;
+  Bit64u b2 = val64 & 0xff; val64 >>= 8;
+  Bit64u b3 = val64 & 0xff; val64 >>= 8;
+  Bit64u b4 = val64 & 0xff; val64 >>= 8;
+  Bit64u b5 = val64 & 0xff; val64 >>= 8;
+  Bit64u b6 = val64 & 0xff; val64 >>= 8;
+  Bit64u b7 = val64;
+  return (b0<<56) | (b1<<48) | (b2<<40) | (b3<<32) | (b4<<24) | (b5<<16) | (b6<<8) | b7;
+}
 
 #endif  /* BX_BOCHS_H */

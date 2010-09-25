@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2002  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2002-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 
 // Here are the virtual ports use to display messages from the bioses :
@@ -44,6 +38,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "biosdev.h"
 
 bx_biosdev_c *theBiosDevice = NULL;
 
@@ -53,7 +48,6 @@ logfunctions  *vgabioslog;
 int libbiosdev_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   theBiosDevice = new bx_biosdev_c();
-  bx_devices.pluginBiosDevice = theBiosDevice;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, theBiosDevice, BX_PLUGIN_BIOSDEV);
   return(0); // Success
 }
@@ -67,11 +61,9 @@ bx_biosdev_c::bx_biosdev_c(void)
 {
   bioslog = new logfunctions();
   bioslog->put("BIOS");
-  bioslog->settype(BIOSLOG);
 
   vgabioslog = new logfunctions();
   vgabioslog->put("VBIOS");
-  vgabioslog->settype(BIOSLOG);
 }
 
 bx_biosdev_c::~bx_biosdev_c(void)

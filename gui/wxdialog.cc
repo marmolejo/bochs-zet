@@ -8,6 +8,8 @@
 #define BX_PLUGGABLE
 
 #include "config.h"              // definitions based on configure script
+#include "param_names.h"
+
 #if BX_WITH_WX
 
 // For compilers that support precompilation, includes <wx/wx.h>.
@@ -147,241 +149,6 @@ void LogMsgAskDialog::OnEvent(wxCommandEvent& event)
 }
 
 void LogMsgAskDialog::ShowHelp()
-{
-  wxMessageBox(MSG_NO_HELP, MSG_NO_HELP_CAPTION, wxOK | wxICON_ERROR, this);
-}
-
-//////////////////////////////////////////////////////////////////////
-// FloppyConfigDialog implementation
-//////////////////////////////////////////////////////////////////////
-// Structure:
-//   vertSizer:
-//     instructions
-//     radioSizer (vert):
-//       phys0
-//       phys1
-//       diskImageSizer (horiz):
-//         disk image file
-//         filename
-//         browse button
-//         create button
-//     capacitySizer (horizontal):
-//       capacity text
-//       capacity choice box
-//     hint text
-//     buttonSizer:
-//       cancel button
-//       ok button
-//       help button
-//
-
-// all events go to OnEvent method
-BEGIN_EVENT_TABLE(FloppyConfigDialog, wxDialog)
-  EVT_BUTTON(-1, FloppyConfigDialog::OnEvent)
-  EVT_TEXT(-1, FloppyConfigDialog::OnEvent)
-  EVT_CHOICE(-1, FloppyConfigDialog::OnEvent)
-END_EVENT_TABLE()
-
-
-FloppyConfigDialog::FloppyConfigDialog(
-    wxWindow* parent,
-    wxWindowID id)
-  : wxDialog (parent, id, wxT(""), wxDefaultPosition, wxDefaultSize,
-    wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
-{
-  validate = NULL;
-  n_rbtns = 0;
-  wxButton *btn;
-  vertSizer = new wxBoxSizer (wxVERTICAL);
-  instr = new wxStaticText (this, -1, FLOPPY_CONFIG_INSTRS);
-  radioSizer = new wxBoxSizer (wxVERTICAL);
-  diskImageSizer = new wxBoxSizer (wxHORIZONTAL);
-  capacitySizer = new wxBoxSizer (wxHORIZONTAL);
-  wxStaticText *hint = new wxStaticText (this, -1, FLOPPY_CONFIG_HINT);
-  buttonSizer = new wxBoxSizer (wxHORIZONTAL);
-  // add top level components to vertSizer
-  vertSizer->Add (instr, 0, wxTOP|wxLEFT, 30);
-  vertSizer->Add (radioSizer, 0, wxLEFT, 50);
-  vertSizer->Add (capacitySizer, 0, wxTOP|wxLEFT, 30);
-  vertSizer->Add (hint, 0, wxTOP|wxLEFT, 30);
-  vertSizer->Add (buttonSizer, 0, wxALIGN_RIGHT|wxTOP, 30);
-  // contents of capacitySizer
-  wxStaticText *captext = new wxStaticText(this, -1, FLOPPY_CONFIG_CAP);
-  capacity = new wxChoice(this, ID_Capacity);
-  capacitySizer->Add(captext, 0, wxALL, 5);
-  capacitySizer->Add(capacity, 0, wxALL|wxADJUST_MINSIZE, 5);
-  // contents of buttonSizer
-  btn = new wxButton(this, wxID_HELP, wxT("Help"));
-  buttonSizer->Add(btn, 0, wxALL, 5);
-  // use wxID_CANCEL because pressing ESC produces this same code
-  btn = new wxButton(this, wxID_CANCEL, wxT("Cancel"));
-  buttonSizer->Add(btn, 0, wxALL, 5);
-  CreateBtn = new wxButton(this, ID_Create, wxT("Create Image"));
-  buttonSizer->Add(CreateBtn, 0, wxALL, 5);
-  btn = new wxButton(this, wxID_OK, wxT("Ok"));
-  buttonSizer->Add(btn, 0, wxALL, 5);
-  // create filename and diskImageRadioBtn so that we can tweak them before
-  // Init comes.  However don't add it to any sizer yet because it needs to go
-  // in after the last radio button.
-  filename = new wxTextCtrl (this, ID_FilenameText, wxT(""), wxDefaultPosition, longTextSize);
-  diskImageRadioBtn = new wxRadioButton (this, ID_Filename, FLOPPY_CONFIG_DISKIMG);
-
-  // the radioSizer contents will be added by successive calls to
-  // AddRadio().  The diskImageSizer will be added last, in Init().
-}
-
-void FloppyConfigDialog::AddRadio (
-    const wxString& description,
-    const wxString& filename)
-{
-  if (n_rbtns >= FLOPPY_MAX_RBTNS) {
-    wxLogError(wxT("AddRadio failed: increase FLOPPY_MAX_RBTNS in wxdialog.h"));
-    return;
-  }
-  rbtn[n_rbtns] = new wxRadioButton(this, -1, description);
-  equivalentFilename[n_rbtns] = filename;
-  radioSizer->Add(rbtn[n_rbtns]);
-  n_rbtns++;
-}
-
-void FloppyConfigDialog::SetDriveName(wxString name)
-{
-  SetTitle(wxString(FLOPPY_CONFIG_TITLE) + name);
-  ChangeStaticText(vertSizer, instr, wxString(FLOPPY_CONFIG_INSTRS) + name +
-    wxT("."));
-}
-
-void FloppyConfigDialog::SetCapacityChoices(const char *choices[])
-{
-  int i = 0;
-  while (choices[i] != NULL) {
-    capacity->Append(wxString(choices[i], wxConvUTF8));
-    i++;
-  }
-}
-
-void FloppyConfigDialog::SetCapacity(int cap)
-{
-  capacity->SetSelection(cap);
-  CreateBtn->Enable(floppy_type_n_sectors[cap] > 0);
-}
-
-void FloppyConfigDialog::Init()
-{
-  // add contents of diskImageSizer
-  diskImageSizer->Add(diskImageRadioBtn);
-  diskImageSizer->Add(filename, 1, wxGROW);
-  wxButton *btn = new wxButton (this, ID_Browse, BTNLABEL_BROWSE);
-  diskImageSizer->Add(btn, 0, wxALL, 5);
-  radioSizer->Add(diskImageSizer);
-
-  SetAutoLayout(TRUE);
-  SetSizer(vertSizer);
-  vertSizer->Fit(this);
-  wxSize size = vertSizer->GetMinSize();
-  int margin = 5;
-  SetSizeHints (size.GetWidth() + margin, size.GetHeight() + margin);
-  Center();
-}
-
-int
-FloppyConfigDialog::GetRadio () {
-  int i;
-  for (i=0; i<n_rbtns; i++) {
-    if (rbtn[i]->GetValue())
-      return i;
-  }
-  if (diskImageRadioBtn->GetValue()) {
-    return i;
-  }
-  wxLogError(wxT("GetRadio() found nothing selected"));
-  return 0;
-}
-
-void
-FloppyConfigDialog::SetRadio (int n) {
-  if (n < n_rbtns) {
-    rbtn[n]->SetValue (TRUE);
-  } else {
-    diskImageRadioBtn->SetValue (TRUE);
-  }
-}
-
-void FloppyConfigDialog::SetFilename (wxString f) {
-  // search equivalentFilename[] for matches. if it matches, select the
-  // radio button instead.
-  for (int i=0; i<n_rbtns; i++) {
-    if (!f.Cmp(equivalentFilename[i])) {
-      rbtn[i]->SetValue(TRUE);
-      return;  // leaving filename text field unchanged
-    }
-  }
-  filename->SetValue(f);
-  diskImageRadioBtn->SetValue(TRUE);
-}
-
-wxString
-FloppyConfigDialog::GetFilename()
-{
-  int n = GetRadio();
-  if (n < n_rbtns) {
-    return equivalentFilename[n];
-  } else {
-    return filename->GetValue();
-  }
-}
-
-void FloppyConfigDialog::OnEvent(wxCommandEvent& event)
-{
-  int id = event.GetId ();
-  switch (id) {
-    case ID_FilenameText:
-      // when you type into the filename field, ensure that the radio
-      // button associated with that field is chosen.
-      diskImageRadioBtn->SetValue (TRUE);
-      break;
-    case wxID_OK:
-      // probably should validate before allowing ok
-      if (validate!=NULL && !(*validate)(this))
-	return;  // validation failed, don't leave yet
-      EndModal (wxID_OK);
-      break;
-    case ID_Browse:
-      if (BrowseTextCtrl(filename)) {
-        capacity->SetSelection(capacity->FindString(wxT("auto")));
-      }
-      break;
-    case ID_Capacity:
-      {
-        int cap = capacity->GetSelection();
-        CreateBtn->Enable(floppy_type_n_sectors[cap] > 0);
-      }
-      break;
-    case ID_Create:
-      {
-        int cap = capacity->GetSelection();
-        char name[1024];
-        strncpy(name, filename->GetValue().mb_str(wxConvUTF8), sizeof(name));
-        if (CreateImage (0, floppy_type_n_sectors[cap], name)) {
-          wxString msg(wxT("Created a "));
-          msg += capacity->GetString(cap);
-          msg += wxT(" disk image called '");
-          msg += filename->GetValue();
-          msg += wxT("'.");
-          wxMessageBox(msg, wxT("Image Created"), wxOK | wxICON_INFORMATION, this);
-        }
-      }
-      break;
-    case wxID_CANCEL:
-      EndModal(wxID_CANCEL);
-      break;
-    case wxID_HELP:
-      ShowHelp();
-      break;
-  }
-}
-
-void FloppyConfigDialog::ShowHelp()
 {
   wxMessageBox(MSG_NO_HELP, MSG_NO_HELP_CAPTION, wxOK | wxICON_ERROR, this);
 }
@@ -571,7 +338,7 @@ void AdvancedLogOptionsDialog::SetAction(int dev, int evtype, int act) {
   int *ptr;
   // wxLogDebug(wxT("SetAction dev=%d type=%d act=%d"), dev, evtype, act);
   wxChoice *control = action[dev][evtype];
-  for (int i=0; i < control->GetCount(); i++) {
+  for (int i=0; i < (int)control->GetCount(); i++) {
     // wxLogDebug(wxT("reading action[%d][%d]->GetClientData(%d)"), dev, evtype, i);
     ptr = (int*) control->GetClientData(i);
     if (ptr == NULL) continue;
@@ -817,7 +584,7 @@ ParamDialog::~ParamDialog()
 {
   paramHash->BeginFind();
   wxNode *node;
-  while ((node = paramHash->Next()) != NULL) {
+  while ((node = (wxNode*)paramHash->Next()) != NULL) {
     // assume that no ParamStruct appears in the hash table under multiple
     // keys.  If so, we will delete it twice and corrupt memory.
     ParamStruct *pstr = (ParamStruct*) node->GetData();
@@ -871,7 +638,7 @@ bool ParamDialog::isGeneratedId (int id) {
   return (id >= ID_LAST_USER_DEFINED && id < _next_id);
 }
 
-void ParamDialog::AddParamList(char *nameList[], bx_param_c *base, wxFlexGridSizer *sizer, bool plain)
+void ParamDialog::AddParamList(const char *nameList[], bx_param_c *base, wxFlexGridSizer *sizer, bool plain)
 {
   int i = 0;
   while (nameList[i] != NULL) {
@@ -999,10 +766,10 @@ void ParamDialog::AddParam (
     case BXT_PARAM_STRING: {
 	bx_param_string_c *param = (bx_param_string_c*) param_generic;
 	if (!plain) ADD_LABEL (prompt);
-	bool isFilename = param->get_options ()->get () & param->IS_FILENAME;
+        bool isFilename = param->get_options() & param->IS_FILENAME;
 	wxTextCtrl *txtctrl = new wxTextCtrl (context->parent, pstr->id, wxT(""), wxDefaultPosition, isFilename? longTextSize : normalTextSize);
         if (description) txtctrl->SetToolTip(wxString(description, wxConvUTF8));
-        if (param->get_options()->get() & param->RAW_BYTES) {
+        if (param->get_options() & param->RAW_BYTES) {
           char *value = param->getptr();
           wxString buffer;
           char sep_string[2];
@@ -1040,7 +807,7 @@ void ParamDialog::AddParam (
       }
     case BXT_LIST: {
 	bx_list_c *list = (bx_list_c*) param_generic;
-	if (list->get_options()->get() & bx_list_c::USE_TAB_WINDOW) {
+        if (list->get_options() & bx_list_c::USE_TAB_WINDOW) {
 	  // put each item in a separate tab of a tabbed window
 	  wxNotebook *notebook = new wxNotebook(context->parent, -1);
 #if wxMAJOR_VERSION == 2 && wxMINOR_VERSION < 6
@@ -1085,7 +852,7 @@ void ParamDialog::AddParam (
 	  paramHash->Put(pstr->param->get_id(), pstr);
 	} else {
           wxString boxTitle;
-          if (list->get_options()->get() & bx_list_c::USE_BOX_TITLE) {
+          if (list->get_options() & bx_list_c::USE_BOX_TITLE) {
             boxTitle = wxString(prompt, wxConvUTF8);
           } else {
             boxTitle = wxT("");
@@ -1127,78 +894,98 @@ bool ParamDialog::CopyGuiToParam()
   // loop through all the parameters
   idHash->BeginFind();
   wxNode *node;
-  while ((node = idHash->Next()) != NULL) {
+  while ((node = (wxNode*)idHash->Next()) != NULL) {
     ParamStruct *pstr = (ParamStruct*) node->GetData();
     wxLogDebug(wxT("commit changes for param %s"), pstr->param->get_name());
-    int type = pstr->param->get_type();
-    switch (type) {
-      case BXT_PARAM_BOOL: {
-        bx_param_bool_c *boolp = (bx_param_bool_c*) pstr->param;
-	bool val = pstr->u.checkbox->GetValue ();
-	if (val != boolp->get ()) boolp->set (val);
-	break;
-        }
-      case BXT_PARAM_NUM: {
-        bx_param_num_c *nump = (bx_param_num_c*) pstr->param;
-	bool valid;
-        int n;
-	wxString complaint(wxT("Invalid integer for '"));
-	complaint += wxString(pstr->param->get_name(), wxConvUTF8);
-	complaint += wxT("'.");
-        if (nump->get_options() & nump->USE_SPIN_CONTROL) {
-          n = pstr->u.spin->GetValue();
-        } else {
-          n = GetTextCtrlInt(pstr->u.text, &valid, true, complaint);
-        }
-        if ((n < nump->get_min()) || (n > nump->get_max())) {
-          wxMessageBox(wxT("Numerical parameter out of range"), wxT("Error"), wxOK | wxICON_ERROR, this);
-          return false;
-        }
-	if (n != nump->get()) nump->set(n);
-	break;
-      }
-      case BXT_PARAM_ENUM: {
-        bx_param_enum_c *enump = (bx_param_enum_c*) pstr->param;
-	int value = pstr->u.choice->GetSelection () + enump->get_min();
-	if (value != enump->get ()) enump->set (value);
-	break;
-      }
-      case BXT_PARAM_STRING: {
-        bx_param_string_c *stringp = (bx_param_string_c*) pstr->param;
-	char buf[1024];
-	wxString tmp(pstr->u.text->GetValue ());
-        if (stringp->get_options()->get () & stringp->RAW_BYTES) {
-          char src[1024];
-          int i, p = 0;
-          unsigned int n;
-          strcpy(src, tmp.mb_str(wxConvUTF8));
-          for (i=0; i<stringp->get_maxsize(); i++)
-            buf[i] = 0;
-          for (i=0; i<stringp->get_maxsize (); i++) {
-            while (src[p] == stringp->get_separator ())
-              p++;
-            if (src[p] == 0) break;
-            // try to read a byte of hex
-            if (sscanf (src+p, "%02x", &n) == 1) {
-              buf[i] = n;
-              p+=2;
-            } else {
-              wxMessageBox(wxT("Illegal raw byte format"), wxT("Error"), wxOK | wxICON_ERROR, this);
-              return false;
-            }
-          }
-        } else {
-          strncpy(buf, tmp.mb_str(wxConvUTF8), sizeof(buf));
-        }
-	buf[sizeof(buf)-1] = 0;
-	if (!stringp->equals (buf)) stringp->set (buf);
-	break;
-      }
-      case BXT_LIST:
-        break;
-      default:
-        wxLogError(wxT("ParamDialog::CopyGuiToParam: unsupported param type id=%d"), (int)type);
+    CopyGuiToParam(pstr->param);
+    if (pstr->param->get_type() == BXT_LIST) break;
+  }
+  return true;
+}
+
+bool ParamDialog::CopyGuiToParam(bx_param_c *param)
+{
+  int i;
+
+  if (param == NULL) return false;
+  fprintf(stderr, "param: %s\n", param->get_name());
+  ParamStruct *pstr = (ParamStruct*) paramHash->Get(param->get_id());
+  wxLogDebug(wxT("commit changes for param %s"), param->get_name());
+  int type = param->get_type();
+  switch (type) {
+    case BXT_PARAM_BOOL: {
+      bx_param_bool_c *boolp = (bx_param_bool_c*) pstr->param;
+      bool val = pstr->u.checkbox->GetValue();
+      if (val != boolp->get()) boolp->set(val);
+      break;
     }
+    case BXT_PARAM_NUM: {
+      bx_param_num_c *nump = (bx_param_num_c*) pstr->param;
+      bool valid;
+      int n;
+      wxString complaint(wxT("Invalid integer for '"));
+      complaint += wxString(pstr->param->get_name(), wxConvUTF8);
+      complaint += wxT("'.");
+      if (nump->get_options() & nump->USE_SPIN_CONTROL) {
+        n = pstr->u.spin->GetValue();
+      } else {
+        n = GetTextCtrlInt(pstr->u.text, &valid, true, complaint);
+      }
+      if ((n < nump->get_min()) || (n > nump->get_max())) {
+        wxMessageBox(wxT("Numerical parameter out of range"), wxT("Error"), wxOK | wxICON_ERROR, this);
+        return false;
+      }
+      if (n != nump->get()) nump->set(n);
+      break;
+    }
+    case BXT_PARAM_ENUM: {
+      bx_param_enum_c *enump = (bx_param_enum_c*) pstr->param;
+      int value = pstr->u.choice->GetSelection() + enump->get_min();
+      if (value != enump->get()) enump->set(value);
+      break;
+    }
+    case BXT_PARAM_STRING: {
+      bx_param_string_c *stringp = (bx_param_string_c*) pstr->param;
+      char buf[1024];
+      wxString tmp(pstr->u.text->GetValue());
+      if (stringp->get_options() & stringp->RAW_BYTES) {
+        char src[1024];
+        int p = 0;
+        unsigned int n;
+        strcpy(src, tmp.mb_str(wxConvUTF8));
+        for (i=0; i<stringp->get_maxsize(); i++)
+          buf[i] = 0;
+        for (i=0; i<stringp->get_maxsize(); i++) {
+          while (src[p] == stringp->get_separator())
+            p++;
+          if (src[p] == 0) break;
+          // try to read a byte of hex
+          if (sscanf (src+p, "%02x", &n) == 1) {
+            buf[i] = n;
+            p+=2;
+          } else {
+            wxMessageBox(wxT("Illegal raw byte format"), wxT("Error"), wxOK | wxICON_ERROR, this);
+            return false;
+          }
+        }
+      } else {
+        strncpy(buf, tmp.mb_str(wxConvUTF8), sizeof(buf));
+      }
+      buf[sizeof(buf)-1] = 0;
+      if (!stringp->equals(buf)) stringp->set(buf);
+      break;
+    }
+    case BXT_LIST: {
+      bx_list_c *list = (bx_list_c*) param;
+      for (i = 0; i < list->get_size(); i++) {
+        bx_param_c *item = list->get(i);
+        fprintf(stderr, "list param: %s\n", item->get_name());
+        if (!CopyGuiToParam(item)) break;
+      }
+      break;
+    }
+    default:
+      wxLogError(wxT("ParamDialog::CopyGuiToParam: unsupported param type id=%d"), (int)type);
   }
   return true;
 }
@@ -1207,12 +994,8 @@ void ParamDialog::EnableChanged()
 {
   idHash->BeginFind();
   wxNode *node;
-  while ((node = idHash->Next ()) != NULL) {
+  while ((node = (wxNode*)idHash->Next ()) != NULL) {
     ParamStruct *pstr = (ParamStruct*) node->GetData();
-    if (pstr->param->get_type() == BXT_PARAM_BOOL)
-      EnableChanged(pstr);
-    if (pstr->param->get_type() == BXT_PARAM_ENUM)
-      EnumChanged(pstr);
     if (runtime) {
       if ((pstr->param->get_type() != BXT_LIST) && !pstr->param->get_runtime_param())
         EnableParam(pstr->param->get_id(),  false);
@@ -1221,53 +1004,10 @@ void ParamDialog::EnableChanged()
   }
 }
 
-void ParamDialog::EnableChanged(ParamStruct *pstrOfCheckbox)
+void ParamDialog::EnableChanged(ParamStruct *pstr)
 {
-  wxLogDebug(wxT("EnableChanged on checkbox %s"), pstrOfCheckbox->param->get_name());
-  bx_param_bool_c *enableParam = (bx_param_bool_c*) pstrOfCheckbox->param;
-  wxASSERT(enableParam->get_type() == BXT_PARAM_BOOL); // or we wouldn't be here
-  bool en = pstrOfCheckbox->u.checkbox->GetValue();
-  EnableChangedRecursive(enableParam->get_dependent_list(), en, pstrOfCheckbox);
-}
-
-void ParamDialog::EnableChangedRecursive(
-    bx_list_c *list,
-    bool en,
-    ParamStruct *pstrOfCheckbox)
-{
-  if (list==NULL) return;
-  int i;
-  for (i=0; i<list->get_size(); i++) {
-    bx_param_c *param = list->get(i);
-    ParamStruct *pstr = (ParamStruct*) paramHash->Get(param->get_id());
-    if (pstr) {
-      if (param == pstrOfCheckbox->param) {
-	wxLogDebug(wxT("not setting enable on checkbox '%s' that triggered the enable change"), pstrOfCheckbox->param->get_name());
-	continue;
-      }
-      wxLogDebug(wxT("setting enable for param '%s' to %d"), pstr->param->get_name(), en?1:0);
-      if (en != pstr->u.window->IsEnabled()) {
-        EnableParam(pstr->param->get_id(), en);
-        bx_list_c *deps = pstr->param->get_dependent_list();
-        if (deps) {
-          wxLogDebug(wxT("recursing on dependent list of %s"), list->get_name());
-          if (pstr->param->get_type() == BXT_PARAM_BOOL) {
-            bool dep_en = pstr->u.window->IsEnabled() && pstr->u.checkbox->GetValue();
-            EnableChangedRecursive(deps, dep_en, pstr);
-          }
-	}
-      }
-    }
-  }
-  // if any enums changed, give them a chance to update
-  for (i=0; i<list->get_size (); i++) {
-    bx_param_c *param = list->get(i);
-    ParamStruct *pstr = (ParamStruct*) paramHash->Get(param->get_id());
-    if (pstr) {
-      if (pstr->param->get_type () == BXT_PARAM_ENUM)
-	EnumChanged (pstr);
-    }
-  }
+  wxLogDebug(wxT("EnableChanged on param %s"), pstr->param->get_name());
+  ProcessDependentList(pstr, true);
 }
 
 void ParamDialog::EnableParam(int param_id, bool enabled)
@@ -1279,162 +1019,103 @@ void ParamDialog::EnableParam(int param_id, bool enabled)
   if (pstr->u.window) pstr->u.window->Enable(enabled);
 }
 
-void ParamDialog::EnableParam(const char *pname, bool enabled)
+void ParamDialog::ProcessDependentList(ParamStruct *pstrChanged, bool enabled)
 {
-  int param_id = SIM->get_param(pname)->get_id();
-  ParamStruct *pstr = (ParamStruct*) paramHash->Get(param_id);
-  if (!pstr) return;
-  if (pstr->label) pstr->label->Enable(enabled);
-  if (pstr->browseButton) pstr->browseButton->Enable(enabled);
-  if (pstr->u.window) pstr->u.window->Enable(enabled);
-}
+  bx_param_c *dparam;
+  ParamStruct *pstr;
+  Bit64s value;
+  bool en;
+  int i;
 
-void ParamDialog::EnableParam(const char *pname, bx_list_c *base, bool enabled)
-{
-  int param_id = SIM->get_param(pname, base)->get_id();
-  ParamStruct *pstr = (ParamStruct*) paramHash->Get(param_id);
-  if (!pstr) return;
-  if (pstr->label) pstr->label->Enable(enabled);
-  if (pstr->browseButton) pstr->browseButton->Enable(enabled);
-  if (pstr->u.window) pstr->u.window->Enable(enabled);
-}
-
-void ParamDialog::EnumChanged(ParamStruct *pstr)
-{
-  wxLogDebug(wxT("EnumChanged"));
-  char pname[512];
-  Bit8u channel, device;
-
-  bx_list_c *base = (bx_list_c*) pstr->param->get_parent();
-  if (base != NULL) {
-    base->get_param_path(pname, 512);
-  } else {
-    pname[0] = 0;
-  }
-  if (!strncmp(pname, "ata.", 4)) {
-    channel = pname[4] - '0';
-    if (!strcmp(base->get_name(), "master")) {
-      device = 0;
-    } else {
-      device = 1;
-    }
-    if (!strcmp(pstr->param->get_name(), "type")) {
-      // find out if "present" checkbox is checked
-      int present_id = SIM->get_param_bool("present", base)->get_id();
-      ParamStruct *present = (ParamStruct*) paramHash->Get(present_id);
-      wxASSERT(present && present->param->get_type() == BXT_PARAM_BOOL);
-      if (!present->u.checkbox->GetValue())
-        return;  // device not enabled, leave it alone
-      if (!present->u.checkbox->IsEnabled())
-        return;  // enable button for the device is not enabled
-      wxASSERT(pstr->param->get_type() == BXT_PARAM_ENUM);
-      int type = pstr->u.choice->GetSelection();
-      if (type == BX_ATA_DEVICE_DISK) {
-        // enable cylinders, heads, spt
-        wxLogDebug(wxT("enabling disk parameters"));
-        EnableParam("mode", base, 1);
-        EnableParam("cylinders", base, 1);
-        EnableParam("heads", base, 1);
-        EnableParam("spt", base, 1);
-        EnableParam("status", base, 0);
-        EnableParam("translation", base, 1);
-
-        int mode_id = SIM->get_param_enum("mode", base)->get_id();
-        ParamStruct *mode_param = (ParamStruct*) paramHash->Get(mode_id);
-        int mode = BX_ATA_MODE_FLAT;
-        if(mode_param) mode=mode_param->u.choice->GetSelection();
-        switch(mode) {
-          case BX_ATA_MODE_UNDOABLE:
-          case BX_ATA_MODE_VOLATILE:
-            EnableParam("journal", base, 1);
-            break;
-          default:
-            EnableParam("journal", base, 0);
-            break;
+  bx_list_c *list = pstrChanged->param->get_dependent_list();
+  if (list) {
+    if (pstrChanged->param->get_type() == BXT_PARAM_ENUM) {
+      bx_param_enum_c *enump = (bx_param_enum_c*)pstrChanged->param;
+      value = pstrChanged->u.choice->GetSelection() + enump->get_min();
+      Bit64u enable_bitmap = enump->get_dependent_bitmap(value);
+      Bit64u mask = 0x1;
+      for (i = 0; i < list->get_size(); i++) {
+        dparam = list->get(i);
+        if (dparam != enump) {
+          en = (enable_bitmap & mask) && enabled;
+          pstr = (ParamStruct*) paramHash->Get(dparam->get_id());
+          if (pstr) {
+            if (en != pstr->u.window->IsEnabled()) {
+              EnableParam(dparam->get_id(), en);
+              ProcessDependentList(pstr, en);
+            }
+          }
         }
-
-      } else {
-        // enable inserted
-        wxLogDebug(wxT("enabling cdrom parameters"));
-        EnableParam("mode", base, 0);
-        EnableParam("cylinders", base, 0);
-        EnableParam("heads", base, 0);
-        EnableParam("spt", base, 0);
-        EnableParam("status", base, 1);
-        EnableParam("translation", base, 0);
-        EnableParam("journal", base, 0);
+        mask <<= 1;
       }
-    } else if (!strcmp(pstr->param->get_name(), "mode")) {
-      // find out if "present" checkbox is checked
-      int present_id = SIM->get_param_bool("present", base)->get_id();
-      ParamStruct *present = (ParamStruct*) paramHash->Get(present_id);
-      wxASSERT (present && present->param->get_type() == BXT_PARAM_BOOL);
-      if (!present->u.checkbox->GetValue ())
-        return;  // device not enabled, leave it alone
-      if (!present->u.checkbox->IsEnabled ())
-        return;  // enable button for the device is not enabled
-      wxASSERT(pstr->param->get_type() == BXT_PARAM_ENUM);
-      int mode = pstr->u.choice->GetSelection();
-      switch(mode) {
-        case BX_ATA_MODE_UNDOABLE:
-        case BX_ATA_MODE_VOLATILE:
-          EnableParam("journal", base, 1);
-          break;
-        default:
-          EnableParam("journal", base, 0);
-          break;
-      }
-    }
-  } else {
-    pstr->param->get_param_path(pname, 512);
-    if (!strcmp(pname, BXPN_LOAD32BITOS_WHICH)) {
-      int os = pstr->u.choice->GetSelection();
-      if (os != Load32bitOSNone) {
-        EnableParam(BXPN_LOAD32BITOS_PATH, 1);
-        EnableParam(BXPN_LOAD32BITOS_IOLOG, 1);
-        EnableParam(BXPN_LOAD32BITOS_INITRD, 1);
+    } else if ((pstrChanged->param->get_type() == BXT_PARAM_BOOL) ||
+               (pstrChanged->param->get_type() == BXT_PARAM_NUM) ||
+               (pstrChanged->param->get_type() == BXT_PARAM_STRING)) {
+      bx_param_c *param = pstrChanged->param;
+      if (param->get_type() == BXT_PARAM_BOOL) {
+        value = pstrChanged->u.checkbox->GetValue();
+      } else if (param->get_type() == BXT_PARAM_NUM) {
+        bx_param_num_c *nump = (bx_param_num_c*)param;
+        if (nump->get_options() & nump->USE_SPIN_CONTROL) {
+          value = (pstrChanged->u.spin->GetValue() > 0);
+        } else {
+          bool valid;
+          value = (GetTextCtrlInt(pstrChanged->u.text, &valid, true, wxT("")) > 0);
+        }
       } else {
-        EnableParam(BXPN_LOAD32BITOS_PATH, 0);
-        EnableParam(BXPN_LOAD32BITOS_IOLOG, 0);
-        EnableParam(BXPN_LOAD32BITOS_INITRD, 0);
+        wxString tmp(pstrChanged->u.text->GetValue());
+        value = !tmp.IsEmpty() && tmp.compare(wxT("none"));
+      }
+      for (i = 0; i < list->get_size(); i++) {
+        dparam = list->get(i);
+        if (dparam != param) {
+          en = (value && enabled);
+          pstr = (ParamStruct*) paramHash->Get(dparam->get_id());
+          if (pstr) {
+            if (en != pstr->u.window->IsEnabled()) {
+              EnableParam(dparam->get_id(), en);
+              ProcessDependentList(pstr, en);
+            }
+          }
+        }
       }
     }
   }
 }
 
 // if any parameters changed, update the associated control
-void ParamDialog::CopyParamToGui ()
+void ParamDialog::CopyParamToGui()
 {
   // loop through all the parameters
   idHash->BeginFind ();
   wxNode *node;
-  while ((node = idHash->Next ()) != NULL) {
+  while ((node = (wxNode*)idHash->Next ()) != NULL) {
     ParamStruct *pstr = (ParamStruct*) node->GetData ();
     IFDBG_DLG(wxLogDebug(wxT("refresh param %s"), pstr->param->get_name()));
     int type = pstr->param->get_type ();
     switch (type) {
       case BXT_PARAM_BOOL: {
         bx_param_bool_c *boolp = (bx_param_bool_c*) pstr->param;
-	pstr->u.checkbox->SetValue (boolp->get ());
-	break;
+        pstr->u.checkbox->SetValue(boolp->get());
+        break;
         }
       case BXT_PARAM_NUM: {
         bx_param_num_c *nump = (bx_param_num_c*) pstr->param;
-	const char *format = nump->get_format ();
-	if (!format)
-	  format = strdup(nump->get_base () == 16 ? "0x%X" : "%d");
-	SetTextCtrl (pstr->u.text, format, nump->get ());
-	break;
+        const char *format = nump->get_format();
+        if (!format)
+          format = strdup(nump->get_base() == 16 ? "0x%X" : "%d");
+        SetTextCtrl(pstr->u.text, format, nump->get());
+        break;
         }
       case BXT_PARAM_ENUM: {
         bx_param_enum_c *enump = (bx_param_enum_c*) pstr->param;
-	pstr->u.choice->SetSelection (enump->get () - enump->get_min ());
-	break;
+        pstr->u.choice->SetSelection(enump->get() - enump->get_min());
+        break;
         }
       case BXT_PARAM_STRING: {
         bx_param_string_c *stringp = (bx_param_string_c*) pstr->param;
-	pstr->u.text->SetValue (wxString(stringp->getptr (), wxConvUTF8));
-	break;
+        pstr->u.text->SetValue(wxString(stringp->getptr(), wxConvUTF8));
+        break;
         }
       case BXT_LIST:
         break;
@@ -1456,12 +1137,12 @@ void ParamDialog::OnEvent(wxCommandEvent& event)
     if (id == pstr->id) {
       IFDBG_DLG(wxLogDebug(wxT("event came from window %p (id=%d) controlled by parameter '%s'"), pstr->u.window, id, pstr->param->get_name()));
       switch (pstr->param->get_type ()) {
-	case BXT_PARAM_BOOL:
-	  EnableChanged(pstr);
-	  break;
-	case BXT_PARAM_ENUM:
-	  EnumChanged (pstr);
-	  break;
+        case BXT_PARAM_BOOL:
+        case BXT_PARAM_NUM:
+        case BXT_PARAM_ENUM:
+        case BXT_PARAM_STRING:
+          EnableChanged(pstr);
+          break;
       }
       return;
     }
@@ -1474,11 +1155,11 @@ void ParamDialog::OnEvent(wxCommandEvent& event)
   }
   switch (id) {
     case wxID_OK:
-      if (IsModal ()) {
-        if (CopyGuiToParam ())
+      if (IsModal()) {
+        if (CopyGuiToParam())
           EndModal (wxID_OK);
       } else {
-	CopyParamToGui ();
+        CopyParamToGui();
       }
       break;
     case wxID_CANCEL:
@@ -1535,13 +1216,13 @@ CpuRegistersDialog::CpuRegistersDialog(
 {
   wxFlexGridSizer *column;
   nflags = 0;
-  char *mainRegList1[] = CPU_REGS_MAIN_REGS1;
-  char *mainRegList2[] = CPU_REGS_MAIN_REGS2;
-  char *mainRegList3[] = CPU_REGS_MAIN_REGS3;
-  char *flagList[]     = CPU_REGS_FLAGS;
-  char *controlList[]  = CPU_REGS_CONTROL_REGS;
-  char *debugList[]    = CPU_REGS_DEBUG_REGS;
-  char *testList[]     = CPU_REGS_TEST_REGS;
+  const char *mainRegList1[] = CPU_REGS_MAIN_REGS1;
+  const char *mainRegList2[] = CPU_REGS_MAIN_REGS2;
+  const char *mainRegList3[] = CPU_REGS_MAIN_REGS3;
+  const char *flagList[]     = CPU_REGS_FLAGS;
+  const char *controlList[]  = CPU_REGS_CONTROL_REGS;
+  const char *debugList[]    = CPU_REGS_DEBUG_REGS;
+  const char *testList[]     = CPU_REGS_TEST_REGS;
   bx_list_c *base      = (bx_list_c*)SIM->get_param(BXPN_WX_CPU0_STATE);
 
   // top level objects
@@ -1725,6 +1406,89 @@ void CpuRegistersDialog::OnEvent(wxCommandEvent& event)
 }
 
 //////////////////////////////////////////////////////////////////////
+// FloppyConfigDialog implementation
+//////////////////////////////////////////////////////////////////////
+
+// all events go to OnEvent method
+BEGIN_EVENT_TABLE(FloppyConfigDialog, wxDialog)
+  EVT_BUTTON(-1, FloppyConfigDialog::OnEvent)
+  EVT_CHECKBOX(-1, FloppyConfigDialog::OnEvent)
+  EVT_CHOICE(-1, FloppyConfigDialog::OnEvent)
+  EVT_TEXT(-1, FloppyConfigDialog::OnEvent)
+END_EVENT_TABLE()
+
+FloppyConfigDialog::FloppyConfigDialog(
+    wxWindow* parent,
+    wxWindowID id)
+  : ParamDialog(parent, id)
+{
+  createButton = AddButton(ID_Create, wxT("Create Image"));
+  AddDefaultButtons();
+}
+
+void FloppyConfigDialog::Setup(bx_list_c *list)
+{
+  int devtype_id, path_id, media_id, status_id, readonly_id;
+
+  devtype_id = list->get_by_name("devtype")->get_id();
+  path_id = list->get_by_name("path")->get_id();
+  media_id = list->get_by_name("type")->get_id();
+  status_id = list->get_by_name("status")->get_id();
+  readonly_id = list->get_by_name("readonly")->get_id();
+  AddParam(list);
+  pstrDevice = (ParamStruct*) paramHash->Get(devtype_id);
+  pstrPath = (ParamStruct*) paramHash->Get(path_id);
+  pstrMedia = (ParamStruct*) paramHash->Get(media_id);
+  pstrStatus = (ParamStruct*) paramHash->Get(status_id);
+  pstrReadonly = (ParamStruct*) paramHash->Get(readonly_id);
+}
+
+void FloppyConfigDialog::OnEvent(wxCommandEvent& event)
+{
+  int id = event.GetId();
+  if (isGeneratedId(id)) {
+    ParamStruct *pstr = (ParamStruct*) idHash->Get(id);
+    if (pstr == NULL) {
+      wxLogDebug(wxT("ParamStruct not found for id=%d"), id);
+      return;
+    }
+    if (id == pstr->id) {
+      if ((pstr == pstrDevice) || (pstr == pstrMedia)) {
+        int val1 = pstrDevice->u.choice->GetSelection() + ((bx_param_num_c*)pstrDevice->param)->get_min();
+        int val2 = pstrMedia->u.choice->GetSelection() + ((bx_param_num_c*)pstrMedia->param)->get_min();
+        createButton->Enable((val1 != BX_FDD_NONE) && (val2 != BX_FLOPPY_NONE));
+      } else if ((pstr == pstrPath) && (!pstrPath->u.text->IsModified())) {
+        pstrMedia->u.choice->SetSelection(pstrMedia->u.choice->FindString(wxT("auto")));
+        pstrStatus->u.checkbox->SetValue(1);
+      }
+    }
+    ParamDialog::OnEvent(event);
+  } else {
+    switch (id) {
+      case ID_Create:
+        {
+          int cap = pstrMedia->u.choice->GetSelection();
+          char name[1024];
+          strncpy(name, pstrPath->u.text->GetValue().mb_str(wxConvUTF8), sizeof(name));
+          if ((floppy_type_n_sectors[cap] > 0) && (strlen(name) > 0) && (strcmp(name, "none"))) {
+            if (CreateImage (0, floppy_type_n_sectors[cap], name)) {
+              wxString msg(wxT("Created a "));
+              msg += pstrMedia->u.choice->GetString(cap);
+              msg += wxT(" disk image called '");
+              msg += pstrPath->u.text->GetValue();
+              msg += wxT("'.");
+              wxMessageBox(msg, wxT("Image Created"), wxOK | wxICON_INFORMATION, this);
+            }
+          }
+        }
+        break;
+      default:
+        ParamDialog::OnEvent(event);
+    }
+  }
+}
+
+//////////////////////////////////////////////////////////////////////
 // LogOptionsDialog implementation
 //////////////////////////////////////////////////////////////////////
 
@@ -1764,7 +1528,7 @@ void LogOptionsDialog::SetAction(int evtype, int a)
   // find the choice whose client data matches "a".
   int *ptr;
   //wxLogDebug ("SetAction type=%d a=%d", evtype, a);
-  for (int i=0; i < action[evtype]->GetCount(); i++) {
+  for (int i=0; i < (int)action[evtype]->GetCount(); i++) {
     //wxLogDebug ("reading action[%d]->GetClientData(%d)", evtype, i);
     ptr = (int*) action[evtype]->GetClientData(i);
     if (ptr == NULL) continue;

@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2009  The Bochs Project
 //
 //  I/O memory handlers API Copyright (C) 2003 by Frank Cornelis
 //
@@ -24,7 +18,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -42,21 +36,23 @@
 
 class BX_CPU_C;
 
-// alignment of memory vector, must be a power of 2
-#define BIOSROMSZ (1 << 19)  // 512KB BIOS ROM @0xfff80000, must be a power of 2
-#define EXROMSIZE 0x20000    // ROMs 0xc0000-0xdffff (area 0xe0000-0xfffff=bios mapped)
+                                       // 512K BIOS ROM @0xfff80000
+#define BIOSROMSZ ((Bit32u)(1 << 21))  //   2M BIOS ROM @0xffe00000, must be a power of 2
+#define EXROMSIZE  (0x20000)           // ROMs 0xc0000-0xdffff (area 0xe0000-0xfffff=bios mapped)
 #define BIOS_MASK (BIOSROMSZ-1)
 #define EXROM_MASK (EXROMSIZE-1)
+
+#define BIOS_MAP_LAST128K(addr) (((addr) | 0xfff00000) & BIOS_MASK)
 
 typedef bx_bool (*memory_handler_t)(bx_phy_address addr, unsigned len, void *data, void *param);
 
 struct memory_handler_struct {
-	struct memory_handler_struct *next;
-	void *param;
-	bx_phy_address begin;
-	bx_phy_address end;
-	memory_handler_t read_handler;
-	memory_handler_t write_handler;
+  struct memory_handler_struct *next;
+  void *param;
+  bx_phy_address begin;
+  bx_phy_address end;
+  memory_handler_t read_handler;
+  memory_handler_t write_handler;
 };
 
 #define SMRAM_CODE  1
@@ -65,34 +61,25 @@ struct memory_handler_struct {
 class BOCHSAPI BX_MEM_C : public logfunctions {
 private:
   struct memory_handler_struct **memory_handlers;
-  bx_bool rom_present[65];
   bx_bool pci_enabled;
   bx_bool smram_available;
   bx_bool smram_enable;
   bx_bool smram_restricted;
 
-#if BX_SUPPORT_MONITOR_MWAIT
-  bx_bool *monitor_active;
-  Bit32u   n_monitors;
-#endif
-
-  Bit32u  len;
+  Bit64u  len, allocated;  // could be > 4G
   Bit8u   *actual_vector;
   Bit8u   *vector;   // aligned correctly
+  Bit8u  **blocks;
   Bit8u   *rom;      // 512k BIOS rom space + 128k expansion rom space
   Bit8u   *bogus;    // 4k for unexisting memory
+  unsigned used_blocks;
 
 public:
-#if BX_DEBUGGER
-  Bit8u   *dbg_dirty_pages;
-#endif
-
   BX_MEM_C();
  ~BX_MEM_C();
 
-  BX_MEM_SMF Bit8u*  get_vector(void);
   BX_MEM_SMF Bit8u*  get_vector(bx_phy_address addr);
-  BX_MEM_SMF void    init_memory(Bit32u memsize);
+  BX_MEM_SMF void    init_memory(Bit64u guest, Bit64u host);
   BX_MEM_SMF void    cleanup_memory(void);
   BX_MEM_SMF void    enable_smram(bx_bool enable, bx_bool restricted);
   BX_MEM_SMF void    disable_smram(void);
@@ -103,7 +90,6 @@ public:
                                        unsigned len, void *data);
   BX_MEM_SMF void    load_ROM(const char *path, bx_phy_address romaddress, Bit8u type);
   BX_MEM_SMF void    load_RAM(const char *path, bx_phy_address romaddress, Bit8u type);
-  BX_MEM_SMF Bit32u  get_memory_in_k(void);
 #if (BX_DEBUGGER || BX_DISASM || BX_GDBSTUB)
   BX_MEM_SMF bx_bool dbg_fetch_mem(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, Bit8u *buf);
 #endif
@@ -111,57 +97,48 @@ public:
   BX_MEM_SMF bx_bool dbg_set_mem(bx_phy_address addr, unsigned len, Bit8u *buf);
   BX_MEM_SMF bx_bool dbg_crc32(bx_phy_address addr1, bx_phy_address addr2, Bit32u *crc);
 #endif
-  BX_MEM_SMF Bit8u* getHostMemAddr(BX_CPU_C *cpu, bx_phy_address a20Addr, unsigned op, unsigned access_type);
+  BX_MEM_SMF Bit8u* getHostMemAddr(BX_CPU_C *cpu, bx_phy_address addr, unsigned rw);
   BX_MEM_SMF bx_bool registerMemoryHandlers(void *param, memory_handler_t read_handler,
 		  memory_handler_t write_handler, bx_phy_address begin_addr, bx_phy_address end_addr);
   BX_MEM_SMF bx_bool unregisterMemoryHandlers(memory_handler_t read_handler, memory_handler_t write_handler,
 		  bx_phy_address begin_addr, bx_phy_address end_addr);
-  BX_MEM_SMF Bit32u  get_num_allocated_pages(void);
-  BX_MEM_SMF Bit32u  get_memory_len(void);
+  BX_MEM_SMF Bit64u  get_memory_len(void);
+  BX_MEM_SMF void allocate_block(Bit32u index);
+  BX_MEM_SMF Bit8u* alloc_vector_aligned(Bit32u bytes, Bit32u alignment);
 
 #if BX_SUPPORT_MONITOR_MWAIT
-  BX_MEM_SMF void    set_monitor(unsigned cpu);
-  BX_MEM_SMF void    clear_monitor(unsigned cpu);
   BX_MEM_SMF bx_bool is_monitor(bx_phy_address begin_addr, unsigned len);
   BX_MEM_SMF void    check_monitor(bx_phy_address addr, unsigned len);
 #endif
 
-  BX_MEM_SMF void register_state(void);
+  void register_state(void);
+
+  friend Bit64s memory_param_save_handler(void *devptr, bx_param_c *param);
+  friend void memory_param_restore_handler(void *devptr, bx_param_c *param, Bit64s val);
 };
 
-#if BX_PROVIDE_CPU_MEMORY
 BOCHSAPI extern BX_MEM_C bx_mem;
-#endif
 
-BX_CPP_INLINE Bit8u* BX_MEM_C::get_vector(void)
-{
-  return (BX_MEM_THIS vector);
-}
+// must be power of two
+#define BX_MEM_BLOCK_LEN (1024*1024) /* 1M blocks */
 
+/*
 BX_CPP_INLINE Bit8u* BX_MEM_C::get_vector(bx_phy_address addr)
 {
   return (BX_MEM_THIS vector + addr);
 }
+*/
 
-BX_CPP_INLINE Bit32u BX_MEM_C::get_memory_len(void)
+BX_CPP_INLINE Bit8u* BX_MEM_C::get_vector(bx_phy_address addr)
 {
-  return(BX_MEM_THIS len);
+  Bit32u block = (Bit32u)(addr / BX_MEM_BLOCK_LEN);
+  if (! BX_MEM_THIS blocks[block]) allocate_block(block);
+  return BX_MEM_THIS blocks[block] + (Bit32u)(addr & (BX_MEM_BLOCK_LEN-1));
 }
 
-BX_CPP_INLINE Bit32u BX_MEM_C::get_memory_in_k(void)
+BX_CPP_INLINE Bit64u BX_MEM_C::get_memory_len(void)
 {
-  return(BX_MEM_THIS len / 1024);
+  return (BX_MEM_THIS len);
 }
-
-BX_CPP_INLINE Bit32u BX_MEM_C::get_num_allocated_pages(void)
-{
-  return(BX_MEM_THIS len >> 12);
-}
-
-#if BX_DEBUGGER
-#  define BX_DBG_DIRTY_PAGE(page) BX_MEM(0)->dbg_dirty_pages[page] = 1;
-#else
-#  define BX_DBG_DIRTY_PAGE(page)
-#endif
 
 #endif

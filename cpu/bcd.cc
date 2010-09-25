@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2002  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
 /////////////////////////////////////////////////////////////////////////
 
 #define NEED_CPU_REG_SHORTCUTS 1
@@ -30,7 +24,7 @@
 #include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::AAA(bxInstruction_c *)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::AAA(bxInstruction_c *i)
 {
   /*
    *  Note: This instruction incorrectly documented in Intel's materials.
@@ -78,7 +72,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AAA(bxInstruction_c *)
   set_PF_base(AL);
 }
 
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::AAS(bxInstruction_c *)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::AAS(bxInstruction_c *i)
 {
   /* AAS affects the following flags: A,C */
 
@@ -111,7 +105,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AAM(bxInstruction_c *i)
   Bit8u al, imm8 = i->Ib();
 
   if (imm8 == 0)
-    exception(BX_DE_EXCEPTION, 0, 0);
+    exception(BX_DE_EXCEPTION, 0);
 
   al = AL;
   AH = al / imm8;
@@ -137,7 +131,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AAD(bxInstruction_c *i)
   SET_FLAGS_OSZAPC_LOGIC_8(AL);
 }
 
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::DAA(bxInstruction_c *)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::DAA(bxInstruction_c *i)
 {
   Bit8u tmpAL = AL;
   int   tmpCF = 0;
@@ -170,7 +164,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::DAA(bxInstruction_c *)
   set_CF(tmpCF);
 }
 
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::DAS(bxInstruction_c *)
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::DAS(bxInstruction_c *i)
 {
   /* The algorithm for DAS is fashioned after the pseudo code in the
    * Pentium Processor Family Developer's Manual, volume 3.  It seems

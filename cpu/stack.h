@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//   Copyright (c) 2007 Stanislav Shwartsman
+//   Copyright (c) 2007-2009 Stanislav Shwartsman
 //          Written by Stanislav Shwartsman [sshwarts at sourceforge net]
 //
 //  This library is free software; you can redistribute it and/or
@@ -17,7 +17,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -36,12 +36,12 @@ BX_CPU_C::push_16(Bit16u value16)
   else
 #endif
   if (BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.d_b) { /* StackAddrSize = 32 */
-    write_virtual_word(BX_SEG_REG_SS, (Bit32u) (ESP-2), value16);
+    write_virtual_word_32(BX_SEG_REG_SS, (Bit32u) (ESP-2), value16);
     ESP -= 2;
   }
   else
   {
-    write_virtual_word(BX_SEG_REG_SS, (Bit16u) (SP-2), value16);
+    write_virtual_word_32(BX_SEG_REG_SS, (Bit16u) (SP-2), value16);
     SP -= 2;
   }
 }
@@ -58,12 +58,12 @@ BX_CPU_C::push_32(Bit32u value32)
   else
 #endif
   if (BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.d_b) { /* StackAddrSize = 32 */
-    write_virtual_dword(BX_SEG_REG_SS, (Bit32u) (ESP-4), value32);
+    write_virtual_dword_32(BX_SEG_REG_SS, (Bit32u) (ESP-4), value32);
     ESP -= 4;
   }
   else
   {
-    write_virtual_dword(BX_SEG_REG_SS, (Bit16u) (SP-4), value32);
+    write_virtual_dword_32(BX_SEG_REG_SS, (Bit16u) (SP-4), value32);
     SP -= 4;
   }
 }
@@ -91,11 +91,11 @@ BX_CPP_INLINE Bit16u BX_CPU_C::pop_16(void)
   else
 #endif
   if (BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.d_b) {
-    value16 = read_virtual_word(BX_SEG_REG_SS, ESP);
+    value16 = read_virtual_word_32(BX_SEG_REG_SS, ESP);
     ESP += 2;
   }
   else {
-    value16 = read_virtual_word(BX_SEG_REG_SS, SP);
+    value16 = read_virtual_word_32(BX_SEG_REG_SS, SP);
     SP += 2;
   }
 
@@ -115,11 +115,11 @@ BX_CPP_INLINE Bit32u BX_CPU_C::pop_32(void)
   else
 #endif
   if (BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].cache.u.segment.d_b) {
-    value32 = read_virtual_dword(BX_SEG_REG_SS, ESP);
+    value32 = read_virtual_dword_32(BX_SEG_REG_SS, ESP);
     ESP += 4;
   }
   else {
-    value32 = read_virtual_dword(BX_SEG_REG_SS, SP);
+    value32 = read_virtual_dword_32(BX_SEG_REG_SS, SP);
     SP += 4;
   }
 

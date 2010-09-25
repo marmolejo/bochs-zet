@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2007  Volker Ruppert
+//  Copyright (C) 2009  Volker Ruppert
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -16,7 +16,8 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+/////////////////////////////////////////////////////////////////////////
 
 // USB HID emulation support ported from the Qemu project
 
@@ -24,20 +25,15 @@
 #define BX_IODEV_USB_HID_H
 
 
-class usb_hid_device_t : public usb_device_t {
+class usb_hid_device_c : public usb_device_c {
 public:
-  usb_hid_device_t(usbdev_type type);
-  virtual ~usb_hid_device_t(void);
+  usb_hid_device_c(usbdev_type type);
+  virtual ~usb_hid_device_c(void);
 
   virtual void handle_reset();
   virtual int handle_control(int request, int value, int index, int length, Bit8u *data);
   virtual int handle_data(USBPacket *p);
   virtual void register_state_specific(bx_list_c *parent);
-  void mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state);
-  bx_bool key_enq(Bit8u *scan_code);
-protected:
-  int mouse_poll(Bit8u *buf, int len);
-  int keypad_poll(Bit8u *buf, int len);
 
 private:
   struct {
@@ -51,6 +47,14 @@ private:
     Bit8u saved_key[8];
     Bit8u key_pad_packet[8];
   } s;
+
+  static bx_bool key_enq_static(void *dev, Bit8u *scan_code);
+  bx_bool key_enq(Bit8u *scan_code);
+  static void mouse_enabled_changed(void *dev, bx_bool enabled);
+  static void mouse_enq_static(void *dev, int delta_x, int delta_y, int delta_z, unsigned button_state);
+  void mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state);
+  int mouse_poll(Bit8u *buf, int len);
+  int keypad_poll(Bit8u *buf, int len);
 };
 
 #endif

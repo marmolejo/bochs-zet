@@ -32,37 +32,12 @@ typedef unsigned short uint16_t;
 typedef unsigned int   uint32_t;
 typedef unsigned long long uint64_t;
 
-/* if true, put the MP float table and ACPI RSDT in EBDA and the MP
-   table in RAM. Unfortunately, Linux has bugs with that, so we prefer
-   to modify the BIOS in shadow RAM */
-//#define BX_USE_EBDA_TABLES
-
-/* define it if the (emulated) hardware supports SMM mode */
-#define BX_USE_SMM
-
 #define cpuid(index, eax, ebx, ecx, edx) \
   asm volatile ("cpuid" \
                 : "=a" (eax), "=b" (ebx), "=c" (ecx), "=d" (edx) \
                 : "0" (index))
 
 #define wbinvd() asm volatile("wbinvd")
-
-#define CPUID_APIC (1 << 9)
-
-#define APIC_BASE    ((uint8_t *)0xfee00000)
-#define APIC_ICR_LOW 0x300
-#define APIC_SVR     0x0F0
-#define APIC_ID      0x020
-#define APIC_LVT3    0x370
-
-#define APIC_ENABLED 0x0100
-
-#define AP_BOOT_ADDR 0x10000
-
-#define MPTABLE_MAX_SIZE  0x00002000
-#define SMI_CMD_IO_ADDR   0xb2
-
-#define BIOS_TMP_STORAGE  0x00030000 /* 64 KB used to copy the BIOS to shadow RAM */
 
 static inline void outl(int addr, int val)
 {
@@ -130,9 +105,22 @@ static inline uint8_t readb(const void *addr)
     return *(volatile const uint8_t *)addr;
 }
 
-static inline void putc(int c)
+static inline void putch(int c)
 {
     outb(INFO_PORT, c);
+}
+
+static uint64_t rdmsr(unsigned index)
+{
+    unsigned long long ret;
+
+    asm ("rdmsr" : "=A"(ret) : "c"(index));
+    return ret;
+}
+
+static void wrmsr(unsigned index, uint64_t val)
+{
+    asm volatile ("wrmsr" : : "c"(index), "A"(val));
 }
 
 static inline int isdigit(int c)
@@ -178,6 +166,20 @@ void *memmove(void *d1, const void *s1, size_t len)
         }
     }
     return d1;
+}
+
+int memcmp(const void *s1, const void *s2, size_t len)
+{
+    const int8_t *p1 = s1;
+    const int8_t *p2 = s2;
+
+    while (len--) {
+        int r = *p1++ - *p2++;
+        if(r)
+            return r;
+    }
+
+    return 0;
 }
 
 size_t strlen(const char *s)
@@ -337,6 +339,17 @@ int vsnprintf(char *buf, int buflen, const char *fmt, va_list args)
     return buf - buf0;
 }
 
+int snprintf(char * buf, size_t size, const char *fmt, ...)
+{
+    va_list args;
+    int i;
+
+    va_start(args, fmt);
+    i = vsnprintf(buf, size, fmt, args);
+    va_end(args);
+    return i;
+}
+
 void bios_printf(int flags, const char *fmt, ...)
 {
     va_list ap;
@@ -350,7 +363,7 @@ void bios_printf(int flags, const char *fmt, ...)
     vsnprintf(buf, sizeof(buf), fmt, ap);
     s = buf;
     while (*s)
-        putc(*s++);
+        putch(*s++);
     va_end(ap);
 }
 
@@ -359,8 +372,11 @@ void delay_ms(int n)
     int i, j;
     for(i = 0; i < n; i++) {
 #ifdef BX_QEMU
+        volatile int k;
         /* approximative ! */
-        for(j = 0; j < 1000000; j++);
+        for(j = 0; j < 1000000; j++) {
+          k++;
+        }
 #else
         {
           int r1, r2;
@@ -378,11 +394,12 @@ void delay_ms(int n)
     }
 }
 
-int smp_cpus;
+uint16_t smp_cpus;
 uint32_t cpuid_signature;
 uint32_t cpuid_features;
 uint32_t cpuid_ext_features;
 unsigned long ram_size;
+uint64_t ram_end;
 uint8_t bios_uuid[16];
 #ifdef BX_USE_EBDA_TABLES
 unsigned long ebda_cur_addr;
@@ -393,31 +410,57 @@ int pm_sci_int;
 unsigned long bios_table_cur_addr;
 unsigned long bios_table_end_addr;
 
+void wrmsr_smp(uint32_t index, uint64_t val)
+{
+    static struct { uint32_t ecx, eax, edx; } *p = (void *)SMP_MSR_ADDR;
+
+    wrmsr(index, val);
+    p->ecx = index;
+    p->eax = val;
+    p->edx = val >> 32;
+    ++p;
+    p->ecx = 0;
+}
+
+#ifdef BX_QEMU
+int qemu_cfg_port;
+
+void qemu_cfg_select(int f)
+{
+    outw(QEMU_CFG_CTL_PORT, f);
+}
+
+int qemu_cfg_port_probe()
+{
+    char *sig = "QEMU";
+    int i;
+
+    qemu_cfg_select(QEMU_CFG_SIGNATURE);
+
+    for (i = 0; i < 4; i++)
+        if (inb(QEMU_CFG_DATA_PORT) != sig[i])
+            return 0;
+
+    return 1;
+}
+
+void qemu_cfg_read(uint8_t *buf, int len)
+{
+    while (len--)
+        *(buf++) = inb(QEMU_CFG_DATA_PORT);
+}
+#endif
+
 void uuid_probe(void)
 {
 #ifdef BX_QEMU
-    uint32_t eax, ebx, ecx, edx;
-
-    // check if backdoor port exists
-    asm volatile ("outl %%eax, %%dx"
-        : "=a" (eax), "=b" (ebx), "=c" (ecx), "=d" (edx)
-        : "a" (0x564d5868), "c" (0xa), "d" (0x5658));
-    if (ebx == 0x564d5868) {
-        uint32_t *uuid_ptr = (uint32_t *)bios_uuid;
-        // get uuid
-        asm volatile ("outl %%eax, %%dx"
-            : "=a" (eax), "=b" (ebx), "=c" (ecx), "=d" (edx)
-            : "a" (0x564d5868), "c" (0x13), "d" (0x5658));
-        uuid_ptr[0] = eax;
-        uuid_ptr[1] = ebx;
-        uuid_ptr[2] = ecx;
-        uuid_ptr[3] = edx;
-    } else
-#endif
-    {
-        // UUID not set
-        memset(bios_uuid, 0, 16);
+    if(qemu_cfg_port) {
+        qemu_cfg_select(QEMU_CFG_UUID);
+        qemu_cfg_read(bios_uuid, 16);
+        return;
     }
+#endif
+    memset(bios_uuid, 0, 16);
 }
 
 void cpu_probe(void)
@@ -435,6 +478,56 @@ static int cmos_readb(int addr)
     return inb(0x71);
 }
 
+void setup_mtrr(void)
+{
+    int i, vcnt, fix, wc;
+    uint32_t mtrr_cap;
+    union {
+        uint8_t valb[8];
+        uint64_t val;
+    } u;
+
+    *(uint32_t *)SMP_MSR_ADDR = 0;
+
+    if (!(cpuid_features & CPUID_MTRR))
+        return;
+
+    if (!(cpuid_features & CPUID_MSR))
+        return;
+
+    mtrr_cap = rdmsr(MSR_MTRRcap);
+    vcnt = mtrr_cap & 0xff;
+    fix = mtrr_cap & 0x100;
+    wc = mtrr_cap & 0x400;
+    if (!vcnt || !fix)
+        return;
+
+    u.val = 0;
+    for (i = 0; i < 8; ++i)
+        if (ram_size >= 65536 * (i + 1))
+            u.valb[i] = 6;
+    wrmsr_smp(MSR_MTRRfix64K_00000, u.val);
+    u.val = 0;
+    for (i = 0; i < 8; ++i)
+        if (ram_size >= 65536 * 8 + 16384 * (i + 1))
+            u.valb[i] = 6;
+    wrmsr_smp(MSR_MTRRfix16K_80000, u.val);
+    wrmsr_smp(MSR_MTRRfix16K_A0000, 0);
+    wrmsr_smp(MSR_MTRRfix4K_C0000, 0);
+    wrmsr_smp(MSR_MTRRfix4K_C8000, 0);
+    wrmsr_smp(MSR_MTRRfix4K_D0000, 0);
+    wrmsr_smp(MSR_MTRRfix4K_D8000, 0);
+    wrmsr_smp(MSR_MTRRfix4K_E0000, 0);
+    wrmsr_smp(MSR_MTRRfix4K_E8000, 0);
+    wrmsr_smp(MSR_MTRRfix4K_F0000, 0);
+    wrmsr_smp(MSR_MTRRfix4K_F8000, 0);
+    /* Mark 3-4GB as UC, anything not specified defaults to WB */
+    wrmsr_smp(MTRRphysBase_MSR(0), 0xc0000000 | MTRR_MEMTYPE_UC);
+    /* Make sure no reserved bit set to '1 in MTRRphysMask_MSR */
+    wrmsr_smp(MTRRphysMask_MSR(0), (uint32_t)(~(0x40000000 - 1)) | 0x800);
+    wrmsr_smp(MSR_MTRRdefType, 0xc00 | MTRR_MEMTYPE_WB);
+}
+
 void ram_probe(void)
 {
   if (cmos_readb(0x34) | cmos_readb(0x35))
@@ -444,8 +537,16 @@ void ram_probe(void)
     ram_size = (cmos_readb(0x30) | (cmos_readb(0x31) << 8)) * 1024 +
         1 * 1024 * 1024;
   BX_INFO("ram_size=0x%08lx\n", ram_size);
+
+  if (cmos_readb(0x5b) | cmos_readb(0x5c) | cmos_readb(0x5d))
+    ram_end = (((uint64_t)cmos_readb(0x5b) << 16) |
+               ((uint64_t)cmos_readb(0x5c) << 24) |
+               ((uint64_t)cmos_readb(0x5d) << 32)) + (1ull << 32);
+  else
+    ram_end = ram_size;
+  BX_INFO("ram_end=%ldMB\n", ram_end >> 20);
 #ifdef BX_USE_EBDA_TABLES
-  ebda_cur_addr = ((*(uint16_t *)(0x40e)) << 4) + 0x380;
+  ebda_cur_addr = ((*(uint16_t *)(0x40e)) << 4) + 0x386;
   BX_INFO("ebda_cur_addr: 0x%08lx\n", ebda_cur_addr);
 #endif
 }
@@ -461,7 +562,7 @@ void smp_probe(void)
 {
     uint32_t val, sipi_vector;
 
-    smp_cpus = 1;
+    writew(&smp_cpus, 1);
     if (cpuid_features & CPUID_APIC) {
 
         /* enable local APIC */
@@ -469,7 +570,6 @@ void smp_probe(void)
         val |= APIC_ENABLED;
         writel(APIC_BASE + APIC_SVR, val);
 
-        writew((void *)CPU_COUNT_ADDR, 1);
         /* copy AP boot code */
         memcpy((void *)AP_BOOT_ADDR, &smp_ap_boot_code_start,
                &smp_ap_boot_code_end - &smp_ap_boot_code_start);
@@ -479,44 +579,18 @@ void smp_probe(void)
         sipi_vector = AP_BOOT_ADDR >> 12;
         writel(APIC_BASE + APIC_ICR_LOW, 0x000C4600 | sipi_vector);
 
+#ifndef BX_QEMU
         delay_ms(10);
-
-        smp_cpus = readw((void *)CPU_COUNT_ADDR);
+#else
+        while (cmos_readb(0x5f) + 1 != readw(&smp_cpus))
+            ;
+#endif
     }
-    BX_INFO("Found %d cpu(s)\n", smp_cpus);
+    BX_INFO("Found %d cpu(s)\n", readw(&smp_cpus));
 }
 
 /****************************************************/
 /* PCI init */
-
-#define PCI_ADDRESS_SPACE_MEM		0x00
-#define PCI_ADDRESS_SPACE_IO		0x01
-#define PCI_ADDRESS_SPACE_MEM_PREFETCH	0x08
-
-#define PCI_ROM_SLOT 6
-#define PCI_NUM_REGIONS 7
-
-#define PCI_DEVICES_MAX 64
-
-#define PCI_VENDOR_ID		0x00	/* 16 bits */
-#define PCI_DEVICE_ID		0x02	/* 16 bits */
-#define PCI_COMMAND		0x04	/* 16 bits */
-#define  PCI_COMMAND_IO		0x1	/* Enable response in I/O space */
-#define  PCI_COMMAND_MEMORY	0x2	/* Enable response in Memory space */
-#define PCI_CLASS_DEVICE        0x0a    /* Device class */
-#define PCI_INTERRUPT_LINE	0x3c	/* 8 bits */
-#define PCI_INTERRUPT_PIN	0x3d	/* 8 bits */
-#define PCI_MIN_GNT		0x3e	/* 8 bits */
-#define PCI_MAX_LAT		0x3f	/* 8 bits */
-
-#define PCI_VENDOR_ID_INTEL             0x8086
-#define PCI_DEVICE_ID_INTEL_82441       0x1237
-#define PCI_DEVICE_ID_INTEL_82371SB_0   0x7000
-#define PCI_DEVICE_ID_INTEL_82371SB_1   0x7010
-#define PCI_DEVICE_ID_INTEL_82371AB_3   0x7113
-
-#define PCI_VENDOR_ID_IBM               0x1014
-#define PCI_VENDOR_ID_APPLE             0x106b
 
 typedef struct PCIDevice {
     int bus;
@@ -525,10 +599,9 @@ typedef struct PCIDevice {
 
 static uint32_t pci_bios_io_addr;
 static uint32_t pci_bios_mem_addr;
-static uint32_t pci_bios_bigmem_addr;
 /* host irqs corresponding to PCI irqs A-D */
 static uint8_t pci_irqs[4] = { 11, 9, 11, 9 };
-static PCIDevice i440_pcidev;
+static PCIDevice i440_pcidev = {-1, -1};
 
 static void pci_config_writel(PCIDevice *d, uint32_t addr, uint32_t val)
 {
@@ -603,7 +676,7 @@ static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
     return (irq_num + slot_addend) & 3;
 }
 
-static int find_bios_table_area(void)
+static void find_bios_table_area(void)
 {
     unsigned long addr;
     for(addr = 0xf0000; addr < 0x100000; addr += 16) {
@@ -612,17 +685,17 @@ static int find_bios_table_area(void)
             bios_table_end_addr = bios_table_cur_addr + *(uint32_t *)(addr + 4);
             BX_INFO("bios_table_addr: 0x%08lx end=0x%08lx\n",
                     bios_table_cur_addr, bios_table_end_addr);
-            return 0;
+            return;
         }
     }
-    return -1;
+    return;
 }
 
 static void bios_shadow_init(PCIDevice *d)
 {
     int v;
 
-    if (find_bios_table_area() < 0)
+    if (bios_table_cur_addr == 0)
         return;
 
     /* remap the BIOS to shadow RAM an keep it read/write while we
@@ -656,11 +729,13 @@ static void pci_bios_init_bridges(PCIDevice *d)
     vendor_id = pci_config_readw(d, PCI_VENDOR_ID);
     device_id = pci_config_readw(d, PCI_DEVICE_ID);
 
-    if (vendor_id == PCI_VENDOR_ID_INTEL && device_id == PCI_DEVICE_ID_INTEL_82371SB_0) {
+    if (vendor_id == PCI_VENDOR_ID_INTEL &&
+       (device_id == PCI_DEVICE_ID_INTEL_82371SB_0 ||
+        device_id == PCI_DEVICE_ID_INTEL_82371AB_0)) {
         int i, irq;
         uint8_t elcr[2];
 
-        /* PIIX3 bridge */
+        /* PIIX3/PIIX4 PCI to ISA bridge */
 
         elcr[0] = 0x00;
         elcr[1] = 0x00;
@@ -673,7 +748,7 @@ static void pci_bios_init_bridges(PCIDevice *d)
         }
         outb(0x4d0, elcr[0]);
         outb(0x4d1, elcr[1]);
-        BX_INFO("PIIX3 init: elcr=%02x %02x\n",
+        BX_INFO("PIIX3/PIIX4 init: elcr=%02x %02x\n",
                 elcr[0], elcr[1]);
     } else if (vendor_id == PCI_VENDOR_ID_INTEL && device_id == PCI_DEVICE_ID_INTEL_82441) {
         /* i440 PCI bridge */
@@ -693,6 +768,12 @@ static void smm_init(PCIDevice *d)
     value = pci_config_readl(d, 0x58);
     if ((value & (1 << 25)) == 0) {
 
+        /* enable the SMM memory window */
+        pci_config_writeb(&i440_pcidev, 0x72, 0x02 | 0x48);
+
+        /* save original memory content */
+        memcpy((void *)0xa8000, (void *)0x38000, 0x8000);
+
         /* copy the SMM relocation code */
         memcpy((void *)0x38000, &smm_relocation_start,
                &smm_relocation_end - &smm_relocation_start);
@@ -709,8 +790,8 @@ static void smm_init(PCIDevice *d)
         /* wait until SMM code executed */
         while (inb(0xb3) != 0x00);
 
-        /* enable the SMM memory window */
-        pci_config_writeb(&i440_pcidev, 0x72, 0x02 | 0x48);
+        /* restore original memory content */
+        memcpy((void *)0x38000, (void *)0xa8000, 0x8000);
 
         /* copy the SMM code */
         memcpy((void *)0xa8000, &smm_code_start,
@@ -723,6 +804,18 @@ static void smm_init(PCIDevice *d)
 }
 #endif
 
+static void piix4_pm_enable(PCIDevice *d)
+{
+        /* PIIX4 Power Management device (for ACPI) */
+        pci_config_writel(d, 0x40, PM_IO_BASE | 1);
+        pci_config_writeb(d, 0x80, 0x01); /* enable PM io space */
+        pci_config_writel(d, 0x90, SMB_IO_BASE | 1);
+        pci_config_writeb(d, 0xd2, 0x09); /* enable SMBus io space */
+#ifdef BX_USE_SMM
+        smm_init(d);
+#endif
+}
+
 static void pci_bios_init_device(PCIDevice *d)
 {
     int class;
@@ -732,12 +825,14 @@ static void pci_bios_init_device(PCIDevice *d)
     class = pci_config_readw(d, PCI_CLASS_DEVICE);
     vendor_id = pci_config_readw(d, PCI_VENDOR_ID);
     device_id = pci_config_readw(d, PCI_DEVICE_ID);
-    BX_INFO("PCI: bus=%d devfn=0x%02x: vendor_id=0x%04x device_id=0x%04x\n",
-            d->bus, d->devfn, vendor_id, device_id);
+    BX_INFO("PCI: bus=%d devfn=0x%02x: vendor_id=0x%04x device_id=0x%04x class=0x%04x\n",
+            d->bus, d->devfn, vendor_id, device_id, class);
     switch(class) {
-    case 0x0101:
-        if (vendor_id == PCI_VENDOR_ID_INTEL && device_id == PCI_DEVICE_ID_INTEL_82371SB_1) {
-            /* PIIX3 IDE */
+    case 0x0101: /* Mass storage controller - IDE interface */
+        if (vendor_id == PCI_VENDOR_ID_INTEL &&
+           (device_id == PCI_DEVICE_ID_INTEL_82371SB_1 ||
+            device_id == PCI_DEVICE_ID_INTEL_82371AB)) {
+            /* PIIX3/PIIX4 IDE */
             pci_config_writew(d, 0x40, 0x8000); // enable IDE0
             pci_config_writew(d, 0x42, 0x8000); // enable IDE1
             goto default_map;
@@ -749,14 +844,7 @@ static void pci_bios_init_device(PCIDevice *d)
             pci_set_io_region_addr(d, 3, 0x374);
         }
         break;
-    case 0x0300:
-        if (vendor_id != 0x1234)
-            goto default_map;
-        /* VGA: map frame buffer to default Bochs VBE address */
-        pci_set_io_region_addr(d, 0, 0xE0000000);
-        break;
-    case 0x0800:
-        /* PIC */
+    case 0x0800: /* Generic system peripheral - PIC */
         if (vendor_id == PCI_VENDOR_ID_IBM) {
             /* IBM */
             if (device_id == 0x0046 || device_id == 0xFFFF) {
@@ -779,18 +867,18 @@ static void pci_bios_init_device(PCIDevice *d)
             int ofs;
             uint32_t val, size ;
 
-            if (i == PCI_ROM_SLOT)
+            if (i == PCI_ROM_SLOT) {
                 ofs = 0x30;
-            else
+                pci_config_writel(d, ofs, 0xfffffffe);
+            } else {
                 ofs = 0x10 + i * 4;
-            pci_config_writel(d, ofs, 0xffffffff);
+                pci_config_writel(d, ofs, 0xffffffff);
+            }
             val = pci_config_readl(d, ofs);
             if (val != 0) {
                 size = (~(val & ~0xf)) + 1;
                 if (val & PCI_ADDRESS_SPACE_IO)
                     paddr = &pci_bios_io_addr;
-                else if (size >= 0x04000000)
-                    paddr = &pci_bios_bigmem_addr;
                 else
                     paddr = &pci_bios_mem_addr;
                 *paddr = (*paddr + size - 1) & ~(size - 1);
@@ -812,15 +900,11 @@ static void pci_bios_init_device(PCIDevice *d)
     if (vendor_id == PCI_VENDOR_ID_INTEL && device_id == PCI_DEVICE_ID_INTEL_82371AB_3) {
         /* PIIX4 Power Management device (for ACPI) */
         pm_io_base = PM_IO_BASE;
-        pci_config_writel(d, 0x40, pm_io_base | 1);
-        pci_config_writeb(d, 0x80, 0x01); /* enable PM io space */
         smb_io_base = SMB_IO_BASE;
-        pci_config_writel(d, 0x90, smb_io_base | 1);
-        pci_config_writeb(d, 0xd2, 0x09); /* enable SMBus io space */
+        // acpi sci is hardwired to 9
+        pci_config_writeb(d, PCI_INTERRUPT_LINE, 9);
         pm_sci_int = pci_config_readb(d, PCI_INTERRUPT_LINE);
-#ifdef BX_USE_SMM
-        smm_init(d);
-#endif
+        piix4_pm_enable(d);
         acpi_enabled = 1;
     }
 }
@@ -847,10 +931,7 @@ void pci_for_each_device(void (*init_func)(PCIDevice *d))
 void pci_bios_init(void)
 {
     pci_bios_io_addr = 0xc000;
-    pci_bios_mem_addr = 0xf0000000;
-    pci_bios_bigmem_addr = ram_size;
-    if (pci_bios_bigmem_addr < 0x90000000)
-        pci_bios_bigmem_addr = 0x90000000;
+    pci_bios_mem_addr = 0xc0000000;
 
     pci_for_each_device(pci_bios_init_bridges);
 
@@ -917,12 +998,11 @@ static void mptable_init(void)
     int ioapic_id, i, len;
     int mp_config_table_size;
 
-#ifdef BX_QEMU
-    if (smp_cpus <= 1)
-        return;
-#endif
-
 #ifdef BX_USE_EBDA_TABLES
+    if (ram_size - ACPI_DATA_SIZE - MPTABLE_MAX_SIZE < 0x100000) {
+        BX_INFO("Not enough memory for MPC table\n");
+        return;
+    }
     mp_config_table = (uint8_t *)(ram_size - ACPI_DATA_SIZE - MPTABLE_MAX_SIZE);
 #else
     bios_table_cur_addr = align(bios_table_cur_addr, 16);
@@ -955,13 +1035,17 @@ static void mptable_init(void)
             putb(&q, 3); /* cpu flags: enabled, bootstrap cpu */
         else
             putb(&q, 1); /* cpu flags: enabled */
-        putb(&q, 0); /* cpu signature */
-        putb(&q, 6);
-        putb(&q, 0);
-        putb(&q, 0);
-        putle16(&q, 0x201); /* feature flags */
-        putle16(&q, 0);
-
+        if (cpuid_signature) {
+            putle32(&q, cpuid_signature);
+            putle32(&q, cpuid_features);
+        } else {
+            putb(&q, 0); /* cpu signature */
+            putb(&q, 6);
+            putb(&q, 0);
+            putb(&q, 0);
+            putle16(&q, 0x201); /* feature flags */
+            putle16(&q, 0);
+        }
         putle16(&q, 0); /* reserved */
         putle16(&q, 0);
         putle16(&q, 0);
@@ -983,6 +1067,12 @@ static void mptable_init(void)
 
     /* irqs */
     for(i = 0; i < 16; i++) {
+#ifdef BX_QEMU
+        /* One entry per ioapic input. Input 2 is covered by 
+           irq0->inti2 override (i == 0). irq 2 is unused */
+        if (i == 2)
+            continue;
+#endif        
         putb(&q, 3); /* entry type = I/O interrupt */
         putb(&q, 0); /* interrupt type = vectored interrupt */
         putb(&q, 0); /* flags: po=0, el=0 */
@@ -990,7 +1080,11 @@ static void mptable_init(void)
         putb(&q, 0); /* source bus ID = ISA */
         putb(&q, i); /* source bus IRQ */
         putb(&q, ioapic_id); /* dest I/O APIC ID */
+#ifdef BX_QEMU
+        putb(&q, i == 0 ? 2 : i); /* dest I/O APIC interrupt in */
+#else
         putb(&q, i); /* dest I/O APIC interrupt in */
+#endif        
     }
     /* patch length */
     len = q - mp_config_table;
@@ -1046,6 +1140,11 @@ static void mptable_init(void)
 /* Table structure from Linux kernel (the ACPI tables are under the
    BSD license) */
 
+/*
+ * All tables must be byte-packed to match the ACPI specification, since
+ * the tables are provided by the system BIOS.
+ */
+
 #define ACPI_TABLE_HEADER_DEF   /* ACPI common table header */ \
 	uint8_t                            signature [4];          /* ACPI signature (4 ASCII characters) */\
 	uint32_t                             length;                 /* Length of table, in bytes, including header */\
@@ -1061,7 +1160,7 @@ static void mptable_init(void)
 struct acpi_table_header         /* ACPI common table header */
 {
 	ACPI_TABLE_HEADER_DEF
-};
+} __attribute__((__packed__));
 
 struct rsdp_descriptor         /* Root System Descriptor Pointer */
 {
@@ -1074,7 +1173,7 @@ struct rsdp_descriptor         /* Root System Descriptor Pointer */
 	uint64_t                             xsdt_physical_address;  /* 64-bit physical address of XSDT */
 	uint8_t                              extended_checksum;      /* Checksum of entire table */
 	uint8_t                            reserved [3];           /* Reserved field must be 0 */
-};
+} __attribute__((__packed__));
 
 /*
  * ACPI 1.0 Root System Description Table (RSDT)
@@ -1082,9 +1181,13 @@ struct rsdp_descriptor         /* Root System Descriptor Pointer */
 struct rsdt_descriptor_rev1
 {
 	ACPI_TABLE_HEADER_DEF                           /* ACPI common table header */
+#ifdef BX_QEMU
+	uint32_t                             table_offset_entry [4]; /* Array of pointers to other */
+#else
 	uint32_t                             table_offset_entry [3]; /* Array of pointers to other */
+#endif
 			 /* ACPI tables */
-};
+} __attribute__((__packed__));
 
 /*
  * ACPI 1.0 Firmware ACPI Control Structure (FACS)
@@ -1099,7 +1202,7 @@ struct facs_descriptor_rev1
 	uint32_t                             S4bios_f        : 1;    /* Indicates if S4BIOS support is present */
 	uint32_t                             reserved1       : 31;   /* Must be 0 */
 	uint8_t                              resverved3 [40];        /* Reserved - must be zero */
-};
+} __attribute__((__packed__));
 
 
 /*
@@ -1160,7 +1263,7 @@ struct fadt_descriptor_rev1
 #else
         uint32_t flags;
 #endif
-};
+} __attribute__((__packed__));
 
 /*
  * MADT values and structures
@@ -1184,7 +1287,7 @@ struct multiple_apic_table
 #else
         uint32_t                             flags;
 #endif
-};
+} __attribute__((__packed__));
 
 
 /* Values for Type in APIC_HEADER_DEF */
@@ -1220,7 +1323,33 @@ struct madt_processor_apic
 #else
         uint32_t flags;
 #endif
-};
+} __attribute__((__packed__));
+
+#ifdef BX_QEMU
+/*
+ *  * ACPI 2.0 Generic Address Space definition.
+ *   */
+struct acpi_20_generic_address {
+    uint8_t  address_space_id;
+    uint8_t  register_bit_width;
+    uint8_t  register_bit_offset;
+    uint8_t  reserved;
+    uint64_t address;
+} __attribute__((__packed__));
+
+/*
+ *  * HPET Description Table
+ *   */
+struct acpi_20_hpet {
+    ACPI_TABLE_HEADER_DEF                           /* ACPI common table header */
+    uint32_t           timer_block_id;
+    struct acpi_20_generic_address addr;
+    uint8_t            hpet_number;
+    uint16_t           min_tick;
+    uint8_t            page_protect;
+} __attribute__((__packed__));
+#define ACPI_HPET_ADDRESS 0xFED00000UL
+#endif
 
 struct madt_io_apic
 {
@@ -1230,7 +1359,18 @@ struct madt_io_apic
 	uint32_t                             address;                /* APIC physical address */
 	uint32_t                             interrupt;              /* Global system interrupt where INTI
 			  * lines start */
-};
+} __attribute__((__packed__));
+
+#ifdef BX_QEMU
+struct madt_int_override
+{
+	APIC_HEADER_DEF
+	uint8_t                bus;     /* Identifies ISA Bus */
+	uint8_t                source;  /* Bus-relative interrupt source */
+	uint32_t               gsi;     /* GSI that source will signal */
+	uint16_t               flags;   /* MPS INTI flags */
+} __attribute__((__packed__));
+#endif
 
 #include "acpi-dsdt.hex"
 
@@ -1292,10 +1432,12 @@ int acpi_build_processor_ssdt(uint8_t *ssdt)
     // build processor scope header
     *(ssdt_ptr++) = 0x10; // ScopeOp
     if (length <= 0x3e) {
+        /* Handle 1-4 CPUs with one byte encoding */
         *(ssdt_ptr++) = length + 1;
     } else {
-        *(ssdt_ptr++) = 0x7F;
-        *(ssdt_ptr++) = (length + 2) >> 6;
+        /* Handle 5-314 CPUs with two byte encoding */
+        *(ssdt_ptr++) = 0x40 | ((length + 2) & 0xf);
+        *(ssdt_ptr++) = (length + 2) >> 4;
     }
     *(ssdt_ptr++) = '_'; // Name
     *(ssdt_ptr++) = 'P';
@@ -1337,9 +1479,18 @@ void acpi_bios_init(void)
     struct facs_descriptor_rev1 *facs;
     struct multiple_apic_table *madt;
     uint8_t *dsdt, *ssdt;
+#ifdef BX_QEMU
+    struct acpi_20_hpet *hpet;
+    uint32_t hpet_addr;
+#endif
     uint32_t base_addr, rsdt_addr, fadt_addr, addr, facs_addr, dsdt_addr, ssdt_addr;
     uint32_t acpi_tables_size, madt_addr, madt_size;
     int i;
+
+    if (ram_size - ACPI_DATA_SIZE < 0x100000) {
+        BX_INFO("Not enough memory for ACPI tables\n");
+        return;
+    }
 
     /* reserve memory space for tables */
 #ifdef BX_USE_EBDA_TABLES
@@ -1379,9 +1530,20 @@ void acpi_bios_init(void)
     madt_addr = addr;
     madt_size = sizeof(*madt) +
         sizeof(struct madt_processor_apic) * smp_cpus +
+#ifdef BX_QEMU
+        sizeof(struct madt_io_apic) + sizeof(struct madt_int_override);
+#else
         sizeof(struct madt_io_apic);
+#endif
     madt = (void *)(addr);
     addr += madt_size;
+
+#ifdef BX_QEMU
+    addr = (addr + 7) & ~7;
+    hpet_addr = addr;
+    hpet = (void *)(addr);
+    addr += sizeof(*hpet);
+#endif
 
     acpi_tables_size = addr - base_addr;
 
@@ -1405,6 +1567,9 @@ void acpi_bios_init(void)
     rsdt->table_offset_entry[0] = cpu_to_le32(fadt_addr);
     rsdt->table_offset_entry[1] = cpu_to_le32(madt_addr);
     rsdt->table_offset_entry[2] = cpu_to_le32(ssdt_addr);
+#ifdef BX_QEMU
+    rsdt->table_offset_entry[3] = cpu_to_le32(hpet_addr);
+#endif
     acpi_build_table_header((struct acpi_table_header *)rsdt,
                             "RSDT", sizeof(*rsdt), 1);
 
@@ -1435,6 +1600,7 @@ void acpi_bios_init(void)
     memset(facs, 0, sizeof(*facs));
     memcpy(facs->signature, "FACS", 4);
     facs->length = cpu_to_le32(sizeof(*facs));
+    BX_INFO("Firmware waking vector %p\n", &facs->firmware_waking_vector);
 
     /* DSDT */
     memcpy(dsdt, AmlCode, sizeof(AmlCode));
@@ -1443,6 +1609,9 @@ void acpi_bios_init(void)
     {
         struct madt_processor_apic *apic;
         struct madt_io_apic *io_apic;
+#ifdef BX_QEMU
+        struct madt_int_override *int_override;
+#endif
 
         memset(madt, 0, madt_size);
         madt->local_apic_address = cpu_to_le32(0xfee00000);
@@ -1462,10 +1631,34 @@ void acpi_bios_init(void)
         io_apic->io_apic_id = smp_cpus;
         io_apic->address = cpu_to_le32(0xfec00000);
         io_apic->interrupt = cpu_to_le32(0);
+#ifdef BX_QEMU
+        io_apic++;
+
+        int_override = (void *)io_apic;
+        int_override->type = APIC_XRUPT_OVERRIDE;
+        int_override->length = sizeof(*int_override);
+        int_override->bus = cpu_to_le32(0);
+        int_override->source = cpu_to_le32(0);
+        int_override->gsi = cpu_to_le32(2);
+        int_override->flags = cpu_to_le32(0);
+#endif
 
         acpi_build_table_header((struct acpi_table_header *)madt,
                                 "APIC", madt_size, 1);
     }
+
+#ifdef BX_QEMU
+    /* HPET */
+    memset(hpet, 0, sizeof(*hpet));
+    /* Note timer_block_id value must be kept in sync with value advertised by
+     * emulated hpet
+     */
+    hpet->timer_block_id = cpu_to_le32(0x8086a201);
+    hpet->addr.address = cpu_to_le32(ACPI_HPET_ADDRESS);
+    acpi_build_table_header((struct  acpi_table_header *)hpet,
+                             "HPET", sizeof(*hpet), 1);
+#endif
+
 }
 
 /* SMBIOS entry point -- must be written to a 16-bit aligned address
@@ -1558,6 +1751,9 @@ struct smbios_type_4 {
 	uint16_t current_speed;
 	uint8_t status;
 	uint8_t processor_upgrade;
+        uint16_t l1_cache_handle;
+        uint16_t l2_cache_handle;
+        uint16_t l3_cache_handle;
 } __attribute__((__packed__));
 
 /* SMBIOS type 16 - Physical Memory Array
@@ -1675,14 +1871,38 @@ smbios_type_0_init(void *start)
     p->header.handle = 0;
 
     p->vendor_str = 1;
-    p->bios_version_str = 1;
-    p->bios_starting_address_segment = 0xe800;
-    p->bios_release_date_str = 2;
-    p->bios_rom_size = 0; /* FIXME */
+    p->bios_version_str = 2;
+    p->bios_starting_address_segment = 0xe000;
+    p->bios_release_date_str = 3;
+    p->bios_rom_size = 1; /* 128 kB */
 
     memset(p->bios_characteristics, 0, 8);
-    p->bios_characteristics[0] = 0x08; /* BIOS characteristics not supported */
-    p->bios_characteristics_extension_bytes[0] = 0;
+    p->bios_characteristics[0] |= 1 << 4; /* Bit 4 - ISA is supported */
+#if BX_PCIBIOS
+    p->bios_characteristics[0] |= 1 << 7; /* Bit 7 - PCI is supported */
+#endif
+#if BX_APM
+    p->bios_characteristics[1] |= 1 << 2; /* Bit 10 - APM is supported */
+#endif
+    p->bios_characteristics[1] |= 1 << 3; /* Bit 11 - BIOS is Upgradeable (Flash) */
+    p->bios_characteristics[1] |= 1 << 4; /* Bit 12 - BIOS shadowing is allowed */
+#if BX_ELTORITO_BOOT && BX_USE_ATADRV
+    p->bios_characteristics[1] |= 1 << 7; /* Bit 15 - Boot from CD is supported */
+    p->bios_characteristics[2] |= 1 << 0; /* Bit 16 - Selectable Boot is supported */
+#endif
+#if BX_USE_ATADRV
+    p->bios_characteristics[2] |= 1 << 3; /* Bit 19 - EDD (Enhanced Disk Drive) Specification is supported */
+#endif
+#if BX_SUPPORT_FLOPPY
+    p->bios_characteristics[2] |= 1 << 6; /* Bit 22 - Int 13h - 5.25" / 360 KB Floppy Services are supported */
+    p->bios_characteristics[2] |= 1 << 7; /* Bit 23 - Int 13h - 5.25" / 1.2 MB Floppy Services are supported */
+    p->bios_characteristics[3] |= 1 << 0; /* Bit 24 - Int 13h - 3.5" / 720 KB Floppy Services are supported */
+    p->bios_characteristics[3] |= 1 << 1; /* Bit 25 - Int 13h - 3.5" / 2.88 MB Floppy Services are supported */
+#endif
+    p->bios_characteristics[3] |= 1 << 3; /* Bit 27 - Int 9h, 8042 Keyboard services are supported */
+    p->bios_characteristics[3] |= 1 << 4; /* Bit 28 - Int 14h, Serial Services are supported */
+    p->bios_characteristics[3] |= 1 << 5; /* Bit 29 - Int 17h, Printer Services are supported */
+    p->bios_characteristics_extension_bytes[0] = 1; /* Bit 0 - ACPI supported */
     p->bios_characteristics_extension_bytes[1] = 0;
 
     p->system_bios_major_release = 1;
@@ -1691,6 +1911,8 @@ smbios_type_0_init(void *start)
     p->embedded_controller_minor_release = 0xff;
 
     start += sizeof(struct smbios_type_0);
+    memcpy((char *)start, BX_APPVENDOR, sizeof(BX_APPVENDOR));
+    start += sizeof(BX_APPVENDOR);
     memcpy((char *)start, BX_APPNAME, sizeof(BX_APPNAME));
     start += sizeof(BX_APPNAME);
     memcpy((char *)start, RELEASE_DATE_STR, sizeof(RELEASE_DATE_STR));
@@ -1784,6 +2006,10 @@ smbios_type_4_init(void *start, unsigned int cpu_number)
     p->status = 0x41; /* socket populated, CPU enabled */
     p->processor_upgrade = 0x01; /* other */
 
+    p->l1_cache_handle = 0xffff; /* cache information structure not provided */
+    p->l2_cache_handle = 0xffff;
+    p->l3_cache_handle = 0xffff;
+
     start += sizeof(struct smbios_type_4);
 
     memcpy((char *)start, "CPU  " "\0" "" "\0" "", 7);
@@ -1794,7 +2020,7 @@ smbios_type_4_init(void *start, unsigned int cpu_number)
 
 /* Type 16 -- Physical Memory Array */
 static void *
-smbios_type_16_init(void *start, uint32_t memsize)
+smbios_type_16_init(void *start, uint32_t memsize, int nr_mem_devs)
 {
     struct smbios_type_16 *p = (struct smbios_type_16*)start;
 
@@ -1802,12 +2028,12 @@ smbios_type_16_init(void *start, uint32_t memsize)
     p->header.length = sizeof(struct smbios_type_16);
     p->header.handle = 0x1000;
 
-    p->location = 0x01; /* other */
+    p->location = 0x03; /* system board or motherboard */
     p->use = 0x03; /* system memory */
     p->error_correction = 0x01; /* other */
     p->maximum_capacity = memsize * 1024;
     p->memory_error_information_handle = 0xfffe; /* none provided */
-    p->number_of_memory_devices = 1;
+    p->number_of_memory_devices = nr_mem_devs;
 
     start += sizeof(struct smbios_type_16);
     *((uint16_t *)start) = 0;
@@ -1817,20 +2043,20 @@ smbios_type_16_init(void *start, uint32_t memsize)
 
 /* Type 17 -- Memory Device */
 static void *
-smbios_type_17_init(void *start, uint32_t memory_size_mb)
+smbios_type_17_init(void *start, uint32_t memory_size_mb, int instance)
 {
     struct smbios_type_17 *p = (struct smbios_type_17 *)start;
 
     p->header.type = 17;
     p->header.length = sizeof(struct smbios_type_17);
-    p->header.handle = 0x1100;
+    p->header.handle = 0x1100 + instance;
 
     p->physical_memory_array_handle = 0x1000;
+    p->memory_error_information_handle = 0xfffe; /* none provided */
     p->total_width = 64;
     p->data_width = 64;
-    /* truncate memory_size_mb to 16 bits and clear most significant
-       bit [indicates size in MB] */
-    p->size = (uint16_t) memory_size_mb & 0x7fff;
+/* TODO: should assert in case something is wrong   ASSERT((memory_size_mb & ~0x7fff) == 0); */
+    p->size = memory_size_mb;
     p->form_factor = 0x09; /* DIMM */
     p->device_set = 0;
     p->device_locator_str = 1;
@@ -1839,8 +2065,8 @@ smbios_type_17_init(void *start, uint32_t memory_size_mb)
     p->type_detail = 0;
 
     start += sizeof(struct smbios_type_17);
-    memcpy((char *)start, "DIMM 1", 7);
-    start += 7;
+    snprintf(start, 8, "DIMM %d", instance);
+    start += strlen(start) + 1;
     *((uint8_t *)start) = 0;
 
     return start+1;
@@ -1848,16 +2074,16 @@ smbios_type_17_init(void *start, uint32_t memory_size_mb)
 
 /* Type 19 -- Memory Array Mapped Address */
 static void *
-smbios_type_19_init(void *start, uint32_t memory_size_mb)
+smbios_type_19_init(void *start, uint32_t memory_size_mb, int instance)
 {
     struct smbios_type_19 *p = (struct smbios_type_19 *)start;
 
     p->header.type = 19;
     p->header.length = sizeof(struct smbios_type_19);
-    p->header.handle = 0x1300;
+    p->header.handle = 0x1300 + instance;
 
-    p->starting_address = 0;
-    p->ending_address = (memory_size_mb-1) * 1024;
+    p->starting_address = instance << 24;
+    p->ending_address = p->starting_address + (memory_size_mb << 10) - 1;
     p->memory_array_handle = 0x1000;
     p->partition_width = 1;
 
@@ -1869,18 +2095,18 @@ smbios_type_19_init(void *start, uint32_t memory_size_mb)
 
 /* Type 20 -- Memory Device Mapped Address */
 static void *
-smbios_type_20_init(void *start, uint32_t memory_size_mb)
+smbios_type_20_init(void *start, uint32_t memory_size_mb, int instance)
 {
     struct smbios_type_20 *p = (struct smbios_type_20 *)start;
 
     p->header.type = 20;
     p->header.length = sizeof(struct smbios_type_20);
-    p->header.handle = 0x1400;
+    p->header.handle = 0x1400 + instance;
 
-    p->starting_address = 0;
-    p->ending_address = (memory_size_mb-1)*1024;
-    p->memory_device_handle = 0x1100;
-    p->memory_array_mapped_address_handle = 0x1300;
+    p->starting_address = instance << 24;
+    p->ending_address = p->starting_address + (memory_size_mb << 10) - 1;
+    p->memory_device_handle = 0x1100 + instance;
+    p->memory_array_mapped_address_handle = 0x1300 + instance;
     p->partition_row_position = 1;
     p->interleave_position = 0;
     p->interleaved_data_depth = 0;
@@ -1929,35 +2155,41 @@ void smbios_init(void)
 {
     unsigned cpu_num, nr_structs = 0, max_struct_size = 0;
     char *start, *p, *q;
-    int memsize = ram_size / (1024 * 1024);
+    int memsize = (ram_end == ram_size) ? ram_size / (1024 * 1024) :
+                  (ram_end - (1ull << 32) + ram_size) / (1024 * 1024);
+    int i, nr_mem_devs;
 
-#ifdef BX_USE_EBDA_TABLES
-    ebda_cur_addr = align(ebda_cur_addr, 16);
-    start = (void *)(ebda_cur_addr);
-#else
     bios_table_cur_addr = align(bios_table_cur_addr, 16);
     start = (void *)(bios_table_cur_addr);
-#endif
 
 	p = (char *)start + sizeof(struct smbios_entry_point);
 
-#define add_struct(fn) { \
+#define add_struct(fn) do { \
     q = (fn); \
     nr_structs++; \
     if ((q - p) > max_struct_size) \
         max_struct_size = q - p; \
     p = q; \
-}
+} while (0)
 
     add_struct(smbios_type_0_init(p));
     add_struct(smbios_type_1_init(p));
     add_struct(smbios_type_3_init(p));
     for (cpu_num = 1; cpu_num <= smp_cpus; cpu_num++)
         add_struct(smbios_type_4_init(p, cpu_num));
-    add_struct(smbios_type_16_init(p, memsize));
-    add_struct(smbios_type_17_init(p, memsize));
-    add_struct(smbios_type_19_init(p, memsize));
-    add_struct(smbios_type_20_init(p, memsize));
+
+    /* Each 'memory device' covers up to 16GB of address space. */
+    nr_mem_devs = (memsize + 0x3fff) >> 14;
+    add_struct(smbios_type_16_init(p, memsize, nr_mem_devs));
+    for ( i = 0; i < nr_mem_devs; i++ )
+    {
+        uint32_t dev_memsize = ((i == (nr_mem_devs - 1))
+                                ? (((memsize - 1) & 0x3fff) + 1) : 0x4000);
+        add_struct(smbios_type_17_init(p, dev_memsize, i));
+        add_struct(smbios_type_19_init(p, dev_memsize, i));
+        add_struct(smbios_type_20_init(p, dev_memsize, i));
+    }
+
     add_struct(smbios_type_32_init(p));
     add_struct(smbios_type_127_init(p));
 
@@ -1969,28 +2201,97 @@ void smbios_init(void)
         (uint32_t)(start + sizeof(struct smbios_entry_point)),
         nr_structs);
 
-#ifdef BX_USE_EBDA_TABLES
-    ebda_cur_addr += (p - (char *)start);
-#else
     bios_table_cur_addr += (p - (char *)start);
-#endif
 
     BX_INFO("SMBIOS table addr=0x%08lx\n", (unsigned long)start);
 }
 
-void rombios32_init(void)
+static uint32_t find_resume_vector(void)
+{
+    unsigned long addr, start, end;
+
+#ifdef BX_USE_EBDA_TABLES
+    start = align(ebda_cur_addr, 16);
+    end = 0xa000 << 4;
+#else
+    if (bios_table_cur_addr == 0)
+        return 0;
+    start = align(bios_table_cur_addr, 16);
+    end = bios_table_end_addr;
+#endif
+
+    for (addr = start; addr < end; addr += 16) {
+        if (!memcmp((void*)addr, "RSD PTR ", 8)) {
+            struct rsdp_descriptor *rsdp = (void*)addr;
+            struct rsdt_descriptor_rev1 *rsdt = (void*)rsdp->rsdt_physical_address;
+            struct fadt_descriptor_rev1 *fadt = (void*)rsdt->table_offset_entry[0];
+            struct facs_descriptor_rev1 *facs = (void*)fadt->firmware_ctrl;
+            return facs->firmware_waking_vector;
+        }
+    }
+
+    return 0;
+}
+
+static void find_440fx(PCIDevice *d)
+{
+    uint16_t vendor_id, device_id;
+
+    vendor_id = pci_config_readw(d, PCI_VENDOR_ID);
+    device_id = pci_config_readw(d, PCI_DEVICE_ID);
+
+    if (vendor_id == PCI_VENDOR_ID_INTEL && device_id == PCI_DEVICE_ID_INTEL_82441)
+        i440_pcidev = *d;
+}
+
+static void reinit_piix4_pm(PCIDevice *d)
+{
+    uint16_t vendor_id, device_id;
+
+    vendor_id = pci_config_readw(d, PCI_VENDOR_ID);
+    device_id = pci_config_readw(d, PCI_DEVICE_ID);
+
+    if (vendor_id == PCI_VENDOR_ID_INTEL && device_id == PCI_DEVICE_ID_INTEL_82371AB_3)
+        piix4_pm_enable(d);
+}
+
+void rombios32_init(uint32_t *s3_resume_vector, uint8_t *shutdown_flag)
 {
     BX_INFO("Starting rombios32\n");
+    BX_INFO("Shutdown flag %x\n", *shutdown_flag);
+
+#ifdef BX_QEMU
+    qemu_cfg_port = qemu_cfg_port_probe();
+#endif
 
     ram_probe();
 
     cpu_probe();
 
+    setup_mtrr();
+
     smp_probe();
+
+    find_bios_table_area();
+
+    if (*shutdown_flag == 0xfe) {
+        /* redirect bios read access to RAM */
+        pci_for_each_device(find_440fx);
+        bios_lock_shadow_ram(); /* bios is already copied */
+        *s3_resume_vector = find_resume_vector();
+        if (!*s3_resume_vector) {
+            BX_INFO("This is S3 resume but wakeup vector is NULL\n");
+        } else {
+            BX_INFO("S3 resume vector %p\n", *s3_resume_vector);
+            pci_for_each_device(reinit_piix4_pm);
+        }
+        return;
+    }
 
     pci_bios_init();
 
-    if (bios_table_cur_addr != 0) {
+#ifndef BX_USE_EBDA_TABLES
+    if (bios_table_cur_addr != 0 && i440_pcidev.bus != -1) {
 
         mptable_init();
 
@@ -2003,8 +2304,25 @@ void rombios32_init(void)
 
         bios_lock_shadow_ram();
 
-        BX_INFO("bios_table_cur_addr: 0x%08lx\n", bios_table_cur_addr);
-        if (bios_table_cur_addr > bios_table_end_addr)
-            BX_PANIC("bios_table_end_addr overflow!\n");
     }
+#else
+    mptable_init();
+
+    if (bios_table_cur_addr != 0 && i440_pcidev.bus != -1) {
+
+        uuid_probe();
+
+        smbios_init();
+    }
+
+    if (acpi_enabled)
+        acpi_bios_init();
+
+    BX_INFO("ebda_cur_addr: 0x%08lx\n", ebda_cur_addr);
+    if (ebda_cur_addr > 0xA0000)
+        BX_PANIC("ebda_cur_addr overflow!\n");
+#endif
+    BX_INFO("bios_table_cur_addr: 0x%08lx\n", bios_table_cur_addr);
+    if (bios_table_cur_addr > bios_table_end_addr)
+        BX_PANIC("bios_table_end_addr overflow!\n");
 }

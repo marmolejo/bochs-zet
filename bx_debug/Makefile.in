@@ -1,10 +1,4 @@
-# Copyright (C) 2001  MandrakeSoft S.A.
-#
-#   MandrakeSoft S.A.
-#   43, rue d'Aboukir
-#   75002 Paris - France
-#   http://www.linux-mandrake.com/
-#   http://www.mandrakesoft.com/
+# Copyright (C) 2001  The Bochs Project
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,7 +12,7 @@
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 
 
@@ -119,31 +113,25 @@ lexer.c: lexer.l
 lexer.o: lexer.c debug.h ../config.h ../osdep.h
 parser.o: parser.c debug.h ../config.h ../osdep.h
 dbg_main.o: dbg_main.@CPP_SUFFIX@ ../bochs.h ../config.h ../osdep.h \
-  ../bx_debug/debug.h ../bxversion.h ../gui/siminterface.h ../cpu/cpu.h \
-  ../cpu/instr.h ../cpu/crregs.h ../cpu/lazy_flags.h  ../cpu/icache.h \
-  ../cpu/apic.h ../cpu/i387.h ../fpu/softfloat.h ../fpu/tag_w.h \
-  ../fpu/status_w.h ../fpu/control_w.h ../cpu/xmm.h ../memory/memory.h \
-  ../pc_system.h ../plugin.h ../extplugin.h ../ltdl.h ../gui/gui.h  \
-  ../gui/textconfig.h ../gui/keymap.h ../instrument/stubs/instrument.h \
-  ../iodev/iodev.h ../iodev/pci.h ../iodev/pci2isa.h ../iodev/pci_ide.h \
-  ../iodev/pcivga.h ../iodev/pcidev.h ../iodev/pciusb.h ../iodev/vga.h \
-  ../iodev/ioapic.h ../iodev/biosdev.h ../iodev/cmos.h ../iodev/dma.h \
-  ../iodev/floppy.h ../iodev/harddrv.h ../iodev/keyboard.h \
-  ../iodev/parallel.h ../iodev/pic.h ../iodev/pit_wrap.h ../iodev/pit82c54.h \
-  ../iodev/virt_timer.h ../iodev/serial.h ../iodev/sb16.h \
-  ../iodev/unmapped.h ../iodev/ne2k.h ../iodev/guest2host.h \
-  ../iodev/slowdown_timer.h ../iodev/extfpuirq.h ../iodev/gameport.h
+  ../bx_debug/debug.h ../config.h ../osdep.h ../bxversion.h \
+  ../gui/siminterface.h ../memory/memory.h ../pc_system.h ../plugin.h \
+  ../extplugin.h ../ltdl.h ../gui/gui.h ../instrument/stubs/instrument.h \
+  ../cpu/cpu.h ../cpu/crregs.h ../cpu/descriptor.h ../cpu/instr.h \
+  ../cpu/lazy_flags.h ../cpu/icache.h ../cpu/apic.h ../cpu/i387.h \
+  ../fpu/softfloat.h ../fpu/tag_w.h ../fpu/status_w.h ../fpu/control_w.h \
+  ../cpu/xmm.h ../iodev/iodev.h ../iodev/vga.h
 linux.o: linux.@CPP_SUFFIX@ ../bochs.h ../config.h ../osdep.h ../bx_debug/debug.h \
-  ../bxversion.h ../gui/siminterface.h ../cpu/cpu.h ../cpu/instr.h \
-  ../cpu/lazy_flags.h ../cpu/icache.h ../cpu/apic.h ../cpu/i387.h ../cpu/crregs.h \
+  ../config.h ../osdep.h ../bxversion.h ../gui/siminterface.h \
+  ../memory/memory.h ../pc_system.h ../plugin.h ../extplugin.h ../ltdl.h \
+  ../gui/gui.h ../instrument/stubs/instrument.h ../cpu/cpu.h \
+  ../cpu/crregs.h ../cpu/descriptor.h ../cpu/instr.h ../cpu/lazy_flags.h \
+  ../cpu/icache.h ../cpu/apic.h ../cpu/i387.h ../fpu/softfloat.h \
+  ../fpu/tag_w.h ../fpu/status_w.h ../fpu/control_w.h ../cpu/xmm.h
+symbols.o: symbols.@CPP_SUFFIX@ ../bochs.h ../config.h ../osdep.h \
+  ../bx_debug/debug.h ../config.h ../osdep.h ../bxversion.h \
+  ../gui/siminterface.h ../memory/memory.h ../pc_system.h ../plugin.h \
+  ../extplugin.h ../ltdl.h ../gui/gui.h ../instrument/stubs/instrument.h \
+  ../cpu/cpu.h ../cpu/crregs.h ../cpu/descriptor.h ../cpu/instr.h \
+  ../cpu/lazy_flags.h ../cpu/icache.h ../cpu/apic.h ../cpu/i387.h \
   ../fpu/softfloat.h ../fpu/tag_w.h ../fpu/status_w.h ../fpu/control_w.h \
-  ../cpu/xmm.h ../memory/memory.h ../pc_system.h ../plugin.h \
-  ../extplugin.h ../ltdl.h ../gui/gui.h ../gui/textconfig.h \
-  ../gui/keymap.h ../instrument/stubs/instrument.h
-symbols.o: symbols.@CPP_SUFFIX@ ../bochs.h ../config.h ../osdep.h ../bx_debug/debug.h \
-  ../bxversion.h ../gui/siminterface.h ../cpu/cpu.h ../cpu/instr.h \
-  ../cpu/lazy_flags.h ../cpu/icache.h ../cpu/apic.h ../cpu/i387.h ../cpu/crregs.h \
-  ../fpu/softfloat.h ../fpu/tag_w.h ../fpu/status_w.h ../fpu/control_w.h \
-  ../cpu/xmm.h ../memory/memory.h ../pc_system.h ../plugin.h \
-  ../extplugin.h ../ltdl.h ../gui/gui.h ../gui/textconfig.h \
-  ../gui/keymap.h ../instrument/stubs/instrument.h
+  ../cpu/xmm.h

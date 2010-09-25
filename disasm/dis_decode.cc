@@ -1,6 +1,23 @@
 /////////////////////////////////////////////////////////////////////////
 // $Id$
 /////////////////////////////////////////////////////////////////////////
+//
+//   Copyright (c) 2005-2009 Stanislav Shwartsman
+//          Written by Stanislav Shwartsman [sshwarts at sourceforge net]
+//
+//  This library is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU Lesser General Public
+//  License as published by the Free Software Foundation; either
+//  version 2 of the License, or (at your option) any later version.
+//
+//  This library is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//  Lesser General Public License for more details.
+//
+//  You should have received a copy of the GNU Lesser General Public
+//  License along with this library; if not, write to the Free Software
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -65,7 +82,6 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
   x86_insn insn(is_32, is_64);
   const Bit8u *instruction_begin = instruction = instr;
   resolve_modrm = NULL;
-  unsigned b3 = 0;
 
   db_eip = ip;
   db_base = base; // cs linear base (base for PM & cs<<4 for RM & VM)
@@ -74,15 +90,15 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
 
 #define SSE_PREFIX_NONE 0
 #define SSE_PREFIX_66   1
-#define SSE_PREFIX_F2   2
-#define SSE_PREFIX_F3   3      /* only one SSE prefix could be used */
-  unsigned sse_prefix = SSE_PREFIX_NONE;
-  unsigned rex_prefix = 0;
+#define SSE_PREFIX_F3   2
+#define SSE_PREFIX_F2   3      /* only one SSE prefix could be used */
+  unsigned sse_prefix = SSE_PREFIX_NONE, sse_opcode = 0;
+  unsigned rex_prefix = 0, prefixes = 0;
 
   for(;;)
   {
     insn.b1 = fetch_byte();
-    insn.prefixes++;
+    prefixes++;
 
     switch(insn.b1) {
       case 0x40:     // rex
@@ -106,32 +122,16 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
         continue;
 
       case 0x26:     // ES:
-        if (! is_64) insn.seg_override = ES_REG;
-        rex_prefix = 0;
-        continue;
-
       case 0x2e:     // CS:
-        if (! is_64) insn.seg_override = CS_REG;
-        rex_prefix = 0;
-        continue;
-
       case 0x36:     // SS:
-        if (! is_64) insn.seg_override = SS_REG;
-        rex_prefix = 0;
-        continue;
-
       case 0x3e:     // DS:
-        if (! is_64) insn.seg_override = DS_REG;
+        if (! is_64) insn.seg_override = (insn.b1 >> 3) & 3;
         rex_prefix = 0;
         continue;
 
       case 0x64:     // FS:
-        insn.seg_override = FS_REG;
-        rex_prefix = 0;
-        continue;
-
       case 0x65:     // GS:
-        insn.seg_override = GS_REG;
+        insn.seg_override = insn.b1 & 0xf;
         rex_prefix = 0;
         continue;
 
@@ -152,12 +152,8 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
         continue;
 
       case 0xf2:     // repne
-        sse_prefix = SSE_PREFIX_F2;
-        rex_prefix = 0;
-        continue;
-
       case 0xf3:     // rep
-        sse_prefix = SSE_PREFIX_F3;
+        sse_prefix = (insn.b1 & 0xf) ^ 1;
         rex_prefix = 0;
         continue;
 
@@ -166,7 +162,6 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
         break;
     }
 
-    insn.prefixes--;
     break;
   }
 
@@ -206,9 +201,10 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
 
   if (instruction_has_modrm[insn.b1])
   {
-    // will require 3rd byte for 3-byte opcode
-    if (entry->Attr == _GRP3BOP)
-      b3 = fetch_byte();
+    // take 3rd byte for 3-byte opcode
+    if (entry->Attr == _GRP3BOP) {
+      entry = &(OPCODE_TABLE(entry)[fetch_byte()]);
+    }
 
     decode_modrm(&insn);
   }
@@ -218,11 +214,35 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
   {
     switch(attr) {
        case _GROUPN:
-         entry = &(OPCODE_TABLE(entry)[insn.nnn]);
+         entry = &(OPCODE_TABLE(entry)[insn.nnn & 7]);
          break;
 
+       case _GRPSSE66:
+         /* SSE opcode group with only prefix 0x66 allowed */
+         sse_opcode = 1;
+         if (sse_prefix != SSE_PREFIX_66)
+             entry = &(BxDisasmGroupSSE_ERR[sse_prefix]);
+         attr = 0;
+         continue;
+
+       case _GRPSSEF2:
+         /* SSE opcode group with only prefix 0xF2 allowed */
+         sse_opcode = 1;
+         if (sse_prefix != SSE_PREFIX_F2)
+             entry = &(BxDisasmGroupSSE_ERR[sse_prefix]);
+         attr = 0;
+         continue;
+
+       case _GRPSSEF3:
+         /* SSE opcode group with only prefix 0xF3 allowed */
+         sse_opcode = 1;
+         if (sse_prefix != SSE_PREFIX_F3)
+             entry = &(BxDisasmGroupSSE_ERR[sse_prefix]);
+         attr = 0;
+         continue;
+
        case _GRPSSE:
-         if(sse_prefix) insn.prefixes--;
+         sse_opcode = 1;
          /* For SSE opcodes, look into another 4 entries table
             with the opcode prefixes (NONE, 0x66, 0xF2, 0xF3) */
          entry = &(OPCODE_TABLE(entry)[sse_prefix]);
@@ -233,13 +253,13 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
          break;
 
        case _GRPRM:
-         entry = &(OPCODE_TABLE(entry)[insn.rm]);
+         entry = &(OPCODE_TABLE(entry)[insn.rm & 7]);
          break;
 
        case _GRPFP:
          if(insn.mod != 3)
          {
-             entry = &(OPCODE_TABLE(entry)[insn.nnn]);
+             entry = &(OPCODE_TABLE(entry)[insn.nnn & 7]);
          } else {
              int index = (insn.b1-0xD8)*64 + (insn.modrm & 0x3f);
              entry = &(BxDisasmOpcodeInfoFP[index]);
@@ -247,11 +267,7 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
          break;
 
        case _GRP3DNOW:
-         entry = &(BxDisasm3DNowGroup[peek_byte()]);
-         break;
-
-       case _GRP3BOP:
-         entry = &(OPCODE_TABLE(entry)[b3]);
+         entry = &(BxDisasm3DNowGroup[fetch_byte()]);
          break;
 
        case _GRP64B:
@@ -273,7 +289,7 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
   unsigned branch_hint = 0;
 
   // print prefixes
-  for(unsigned i=0;i<insn.prefixes;i++)
+  for(unsigned i=0;i<prefixes;i++)
   {
     Bit8u prefix_byte = *(instr+i);
 
@@ -282,8 +298,11 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
       dis_sprintf("%s ", OPCODE(prefix)->IntelOpcode);
     }
 
+    if (insn.b1 == 0x90 && !insn.rex_b && prefix_byte == 0xF3)
+      continue;
+
     if (prefix_byte == 0xF3 || prefix_byte == 0xF2) {
-      if (attr != _GRPSSE) {
+      if (! sse_opcode) {
         const BxDisasmOpcodeTable_t *prefix = &(opcode_table[prefix_byte]);
         dis_sprintf("%s ", OPCODE(prefix)->IntelOpcode);
       }
@@ -305,8 +324,11 @@ x86_insn disassembler::decode(bx_bool is_32, bx_bool is_64, bx_address base, bx_
     opcode = &Ia_jecxz_Jb;
 
   // fix nop opcode
-  if (insn.b1 == 0x90 && !insn.rex_b) {
-    opcode = &Ia_nop;
+  if (insn.b1 == 0x90) {
+    if (sse_prefix == SSE_PREFIX_F3)
+      opcode = &Ia_pause;
+    else if (!insn.rex_b)
+      opcode = &Ia_nop;
   }
 
   // print instruction disassembly

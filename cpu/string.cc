@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
 /////////////////////////////////////////////////////////////////////////
 
 #define NEED_CPU_REG_SHORTCUTS 1
@@ -49,55 +43,30 @@ Bit32u BX_CPU_C::FastRepMOVSB(bxInstruction_c *i, unsigned srcSeg, bx_address sr
   bx_address laddrDst, laddrSrc;
   Bit8u *hostAddrSrc, *hostAddrDst;
 
+  BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
+
   bx_segment_reg_t *srcSegPtr = &BX_CPU_THIS_PTR sregs[srcSeg];
-  if (!(srcSegPtr->cache.valid & SegAccessROK4G))
+  if (!(srcSegPtr->cache.valid & SegAccessROK))
+    return 0;
+  if ((srcOff | 0xfff) > srcSegPtr->cache.u.segment.limit_scaled)
     return 0;
 
   bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
-  if (!(dstSegPtr->cache.valid & SegAccessWOK4G))
+  if (!(dstSegPtr->cache.valid & SegAccessWOK))
+    return 0;
+  if ((dstOff | 0xfff) > dstSegPtr->cache.u.segment.limit_scaled)
     return 0;
 
   laddrSrc = BX_CPU_THIS_PTR get_laddr(srcSeg, srcOff);
 
-#if BX_SupportGuest2HostTLB
-  hostAddrSrc = v2h_read_byte(laddrSrc, CPL);
-#else
-  bx_phy_address paddrSrc;
-
-  if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrSrc = dtranslate_linear(laddrSrc, CPL, BX_READ);
-  }
-  else {
-    paddrSrc = laddrSrc;
-  }
-
-  // If we want to write directly into the physical memory array,
-  // we need the A20 address.
-  hostAddrSrc = BX_MEM(0)->getHostMemAddr(BX_CPU_THIS,
-            A20ADDR(paddrSrc), BX_READ, DATA_ACCESS);
-#endif
+  hostAddrSrc = v2h_read_byte(laddrSrc, BX_CPU_THIS_PTR user_pl);
   if (! hostAddrSrc) return 0;
 
   laddrDst = BX_CPU_THIS_PTR get_laddr(dstSeg, dstOff);
 
-#if BX_SupportGuest2HostTLB
-  hostAddrDst = v2h_write_byte(laddrDst, CPL);
-#else
-  bx_phy_address paddrDst;
-
-  if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrDst = dtranslate_linear(laddrDst, CPL, BX_WRITE);
-  }
-  else {
-    paddrDst = laddrDst;
-  }
-
-  // If we want to write directly into the physical memory array,
-  // we need the A20 address.
-  hostAddrDst = BX_MEM(0)->getHostMemAddr(BX_CPU_THIS,
-            A20ADDR(paddrDst), BX_WRITE, DATA_ACCESS);
-#endif
-  if (! hostAddrDst) return 0;
+  hostAddrDst = v2h_write_byte(laddrDst, BX_CPU_THIS_PTR user_pl);
+  // Check that native host access was not vetoed for that page
+  if (!hostAddrDst) return 0;
 
   // See how many bytes can fit in the rest of this page.
   if (BX_CPU_THIS_PTR get_DF()) {
@@ -144,55 +113,30 @@ Bit32u BX_CPU_C::FastRepMOVSW(bxInstruction_c *i, unsigned srcSeg, bx_address sr
   bx_address laddrDst, laddrSrc;
   Bit8u *hostAddrSrc, *hostAddrDst;
 
+  BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
+
   bx_segment_reg_t *srcSegPtr = &BX_CPU_THIS_PTR sregs[srcSeg];
-  if (!(srcSegPtr->cache.valid & SegAccessROK4G))
+  if (!(srcSegPtr->cache.valid & SegAccessROK))
+    return 0;
+  if ((srcOff | 0xfff) > srcSegPtr->cache.u.segment.limit_scaled)
     return 0;
 
   bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
-  if (!(dstSegPtr->cache.valid & SegAccessWOK4G))
+  if (!(dstSegPtr->cache.valid & SegAccessWOK))
+    return 0;
+  if ((dstOff | 0xfff) > dstSegPtr->cache.u.segment.limit_scaled)
     return 0;
 
   laddrSrc = BX_CPU_THIS_PTR get_laddr(srcSeg, srcOff);
 
-#if BX_SupportGuest2HostTLB
-  hostAddrSrc = v2h_read_byte(laddrSrc, CPL);
-#else
-  bx_phy_address paddrSrc;
-
-  if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrSrc = dtranslate_linear(laddrSrc, CPL, BX_READ);
-  }
-  else {
-    paddrSrc = laddrSrc;
-  }
-
-  // If we want to write directly into the physical memory array,
-  // we need the A20 address.
-  hostAddrSrc = BX_MEM(0)->getHostMemAddr(BX_CPU_THIS,
-            A20ADDR(paddrSrc), BX_READ, DATA_ACCESS);
-#endif
+  hostAddrSrc = v2h_read_byte(laddrSrc, BX_CPU_THIS_PTR user_pl);
   if (! hostAddrSrc) return 0;
 
   laddrDst = BX_CPU_THIS_PTR get_laddr(dstSeg, dstOff);
 
-#if BX_SupportGuest2HostTLB
-  hostAddrDst = v2h_write_byte(laddrDst, CPL);
-#else
-  bx_phy_address paddrDst;
-
-  if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrDst = dtranslate_linear(laddrDst, CPL, BX_WRITE);
-  }
-  else {
-    paddrDst = laddrDst;
-  }
-
-  // If we want to write directly into the physical memory array,
-  // we need the A20 address.
-  hostAddrDst = BX_MEM(0)->getHostMemAddr(BX_CPU_THIS,
-            A20ADDR(paddrDst), BX_WRITE, DATA_ACCESS);
-#endif
-  if (! hostAddrDst) return 0;
+  hostAddrDst = v2h_write_byte(laddrDst, BX_CPU_THIS_PTR user_pl);
+  // Check that native host access was not vetoed for that page
+  if (!hostAddrDst) return 0;
 
   // See how many words can fit in the rest of this page.
   if (BX_CPU_THIS_PTR get_DF()) {
@@ -242,55 +186,30 @@ Bit32u BX_CPU_C::FastRepMOVSD(bxInstruction_c *i, unsigned srcSeg, bx_address sr
   bx_address laddrDst, laddrSrc;
   Bit8u *hostAddrSrc, *hostAddrDst;
 
+  BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
+
   bx_segment_reg_t *srcSegPtr = &BX_CPU_THIS_PTR sregs[srcSeg];
-  if (!(srcSegPtr->cache.valid & SegAccessROK4G))
+  if (!(srcSegPtr->cache.valid & SegAccessROK))
+    return 0;
+  if ((srcOff | 0xfff) > srcSegPtr->cache.u.segment.limit_scaled)
     return 0;
 
   bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
-  if (!(dstSegPtr->cache.valid & SegAccessWOK4G))
+  if (!(dstSegPtr->cache.valid & SegAccessWOK))
+    return 0;
+  if ((dstOff | 0xfff) > dstSegPtr->cache.u.segment.limit_scaled)
     return 0;
 
   laddrSrc = BX_CPU_THIS_PTR get_laddr(srcSeg, srcOff);
 
-#if BX_SupportGuest2HostTLB
-  hostAddrSrc = v2h_read_byte(laddrSrc, CPL);
-#else
-  bx_phy_address paddrSrc;
-
-  if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrSrc = dtranslate_linear(laddrSrc, CPL, BX_READ);
-  }
-  else {
-    paddrSrc = laddrSrc;
-  }
-
-  // If we want to write directly into the physical memory array,
-  // we need the A20 address.
-  hostAddrSrc = BX_MEM(0)->getHostMemAddr(BX_CPU_THIS,
-            A20ADDR(paddrSrc), BX_READ, DATA_ACCESS);
-#endif
+  hostAddrSrc = v2h_read_byte(laddrSrc, BX_CPU_THIS_PTR user_pl);
   if (! hostAddrSrc) return 0;
 
   laddrDst = BX_CPU_THIS_PTR get_laddr(dstSeg, dstOff);
 
-#if BX_SupportGuest2HostTLB
-  hostAddrDst = v2h_write_byte(laddrDst, CPL);
-#else
-  bx_phy_address paddrDst;
-
-  if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrDst = dtranslate_linear(laddrDst, CPL, BX_WRITE);
-  }
-  else {
-    paddrDst = laddrDst;
-  }
-
-  // If we want to write directly into the physical memory array,
-  // we need the A20 address.
-  hostAddrDst = BX_MEM(0)->getHostMemAddr(BX_CPU_THIS,
-            A20ADDR(paddrDst), BX_WRITE, DATA_ACCESS);
-#endif
-  if (! hostAddrDst) return 0;
+  hostAddrDst = v2h_write_byte(laddrDst, BX_CPU_THIS_PTR user_pl);
+  // Check that native host access was not vetoed for that page
+  if (!hostAddrDst) return 0;
 
   // See how many dwords can fit in the rest of this page.
   if (BX_CPU_THIS_PTR get_DF()) {
@@ -340,30 +259,19 @@ Bit32u BX_CPU_C::FastRepSTOSB(bxInstruction_c *i, unsigned dstSeg, bx_address ds
   bx_address laddrDst;
   Bit8u *hostAddrDst;
 
+  BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
+
   bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
-  if ((dstSegPtr->cache.valid & SegAccessWOK4G) != SegAccessWOK4G)
+  if (!(dstSegPtr->cache.valid & SegAccessWOK))
+    return 0;
+  if ((dstOff | 0xfff) > dstSegPtr->cache.u.segment.limit_scaled)
     return 0;
 
   laddrDst = BX_CPU_THIS_PTR get_laddr(dstSeg, dstOff);
 
-#if BX_SupportGuest2HostTLB
-  hostAddrDst = v2h_write_byte(laddrDst, CPL);
-#else
-  bx_phy_address paddrDst;
-
-  if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrDst = dtranslate_linear(laddrDst, CPL, BX_WRITE);
-  }
-  else {
-    paddrDst = laddrDst;
-  }
-
-  // If we want to write directly into the physical memory array,
-  // we need the A20 address.
-  hostAddrDst = BX_MEM(0)->getHostMemAddr(BX_CPU_THIS,
-            A20ADDR(paddrDst), BX_WRITE, DATA_ACCESS);
-#endif
-  if (! hostAddrDst) return 0;
+  hostAddrDst = v2h_write_byte(laddrDst, BX_CPU_THIS_PTR user_pl);
+  // Check that native host access was not vetoed for that page
+  if (!hostAddrDst) return 0;
 
   // See how many bytes can fit in the rest of this page.
   if (BX_CPU_THIS_PTR get_DF()) {
@@ -405,30 +313,19 @@ Bit32u BX_CPU_C::FastRepSTOSW(bxInstruction_c *i, unsigned dstSeg, bx_address ds
   bx_address laddrDst;
   Bit8u *hostAddrDst;
 
+  BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
+
   bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
-  if ((dstSegPtr->cache.valid & SegAccessWOK4G) != SegAccessWOK4G)
+  if (!(dstSegPtr->cache.valid & SegAccessWOK))
+    return 0;
+  if ((dstOff | 0xfff) > dstSegPtr->cache.u.segment.limit_scaled)
     return 0;
 
   laddrDst = BX_CPU_THIS_PTR get_laddr(dstSeg, dstOff);
 
-#if BX_SupportGuest2HostTLB
-  hostAddrDst = v2h_write_byte(laddrDst, CPL);
-#else
-  bx_phy_address paddrDst;
-
-  if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrDst = dtranslate_linear(laddrDst, CPL, BX_WRITE);
-  }
-  else {
-    paddrDst = laddrDst;
-  }
-
-  // If we want to write directly into the physical memory array,
-  // we need the A20 address.
-  hostAddrDst = BX_MEM(0)->getHostMemAddr(BX_CPU_THIS,
-            A20ADDR(paddrDst), BX_WRITE, DATA_ACCESS);
-#endif
-  if (! hostAddrDst) return 0;
+  hostAddrDst = v2h_write_byte(laddrDst, BX_CPU_THIS_PTR user_pl);
+  // Check that native host access was not vetoed for that page
+  if (!hostAddrDst) return 0;
 
   // See how many words can fit in the rest of this page.
   if (BX_CPU_THIS_PTR get_DF()) {
@@ -472,30 +369,19 @@ Bit32u BX_CPU_C::FastRepSTOSD(bxInstruction_c *i, unsigned dstSeg, bx_address ds
   bx_address laddrDst;
   Bit8u *hostAddrDst;
 
+  BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
+
   bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
-  if (!(dstSegPtr->cache.valid & SegAccessWOK4G))
+  if (!(dstSegPtr->cache.valid & SegAccessWOK))
+    return 0;
+  if ((dstOff | 0xfff) > dstSegPtr->cache.u.segment.limit_scaled)
     return 0;
 
   laddrDst = BX_CPU_THIS_PTR get_laddr(dstSeg, dstOff);
 
-#if BX_SupportGuest2HostTLB
-  hostAddrDst = v2h_write_byte(laddrDst, CPL);
-#else
-  bx_phy_address paddrDst;
-
-  if (BX_CPU_THIS_PTR cr0.get_PG()) {
-    paddrDst = dtranslate_linear(laddrDst, CPL, BX_WRITE);
-  }
-  else {
-    paddrDst = laddrDst;
-  }
-
-  // If we want to write directly into the physical memory array,
-  // we need the A20 address.
-  hostAddrDst = BX_MEM(0)->getHostMemAddr(BX_CPU_THIS,
-            A20ADDR(paddrDst), BX_WRITE, DATA_ACCESS);
-#endif
-  if (! hostAddrDst) return 0;
+  hostAddrDst = v2h_write_byte(laddrDst, BX_CPU_THIS_PTR user_pl);
+  // Check that native host access was not vetoed for that page
+  if (!hostAddrDst) return 0;
 
   // See how many dwords can fit in the rest of this page.
   if (BX_CPU_THIS_PTR get_DF()) {
@@ -609,50 +495,18 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::REP_MOVSQ_XqYq(bxInstruction_c *i)
 // 16 bit address size
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOVSB16_XbYb(bxInstruction_c *i)
 {
-  Bit8u temp8;
-
-  Bit32u incr = 1;
-
-#if (BX_SupportRepeatSpeedups) && (BX_DEBUGGER == 0)
-  /* If conditions are right, we can transfer IO to physical memory
-   * in a batch, rather than one instruction at a time */
-  if (i->repUsedL() && !BX_CPU_THIS_PTR async_event)
-  {
-    Bit32u byteCount = FastRepMOVSB(i, i->seg(), SI, BX_SEG_REG_ES, DI, CX);
-    if (byteCount) {
-      // Decrement the ticks count by the number of iterations, minus
-      // one, since the main cpu loop will decrement one.  Also,
-      // the count is predecremented before examined, so defintely
-      // don't roll it under zero.
-      BX_TICKN(byteCount-1);
-
-      // Decrement eCX. Note, the main loop will decrement 1 also, so
-      // decrement by one less than expected, like the case above.
-      CX -= (byteCount-1);
-
-      incr = byteCount;
-    }
-    else {
-      temp8 = read_virtual_byte(i->seg(), SI);
-      write_virtual_byte(BX_SEG_REG_ES, DI, temp8);
-    }
-  }
-  else
-#endif
-  {
-    temp8 = read_virtual_byte(i->seg(), SI);
-    write_virtual_byte(BX_SEG_REG_ES, DI, temp8);
-  }
+  Bit8u temp8 = read_virtual_byte_32(i->seg(), SI);
+  write_virtual_byte_32(BX_SEG_REG_ES, DI, temp8);
 
   if (BX_CPU_THIS_PTR get_DF()) {
     /* decrement SI, DI */
-    SI -= incr;
-    DI -= incr;
+    SI--;
+    DI--;
   }
   else {
     /* increment SI, DI */
-    SI += incr;
-    DI += incr;
+    SI++;
+    DI++;
   }
 }
 
@@ -735,54 +589,21 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOVSB64_XbYb(bxInstruction_c *i)
 /* 16 bit opsize mode, 16 bit address size */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOVSW16_XwYw(bxInstruction_c *i)
 {
-  Bit16u temp16;
-
-  Bit32u incr = 2;
-
   Bit16u si = SI;
   Bit16u di = DI;
 
-#if (BX_SupportRepeatSpeedups) && (BX_DEBUGGER == 0)
-  /* If conditions are right, we can transfer IO to physical memory
-   * in a batch, rather than one instruction at a time.
-   */
-  if (i->repUsedL() && !BX_CPU_THIS_PTR async_event)
-  {
-    Bit32u wordCount = FastRepMOVSW(i, i->seg(), si, BX_SEG_REG_ES, di, CX);
-    if (wordCount) {
-      // Decrement the ticks count by the number of iterations, minus
-      // one, since the main cpu loop will decrement one.  Also,
-      // the count is predecremented before examined, so defintely
-      // don't roll it under zero.
-      BX_TICKN(wordCount-1);
-
-      // Decrement eCX. Note, the main loop will decrement 1 also, so
-      // decrement by one less than expected, like the case above.
-      CX -= (wordCount-1);
-
-      incr = wordCount << 1; // count * 2
-    }
-    else {
-      temp16 = read_virtual_word(i->seg(), si);
-      write_virtual_word(BX_SEG_REG_ES, di, temp16);
-    }
-  }
-  else
-#endif
-  {
-    temp16 = read_virtual_word(i->seg(), si);
-    write_virtual_word(BX_SEG_REG_ES, di, temp16);
-  }
+  Bit16u temp16 = read_virtual_word_32(i->seg(), si);
+  write_virtual_word_32(BX_SEG_REG_ES, di, temp16);
 
   if (BX_CPU_THIS_PTR get_DF()) {
     /* decrement SI, DI */
-    si -= incr;
-    di -= incr;
+    si -= 2;
+    di -= 2;
   }
   else {
     /* increment SI, DI */
-    si += incr;
-    di += incr;
+    si += 2;
+    di += 2;
   }
 
   SI = si;
@@ -848,8 +669,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOVSD16_XdYd(bxInstruction_c *i)
   Bit16u si = SI;
   Bit16u di = DI;
 
-  temp32 = read_virtual_dword(i->seg(), si);
-  write_virtual_dword(BX_SEG_REG_ES, di, temp32);
+  temp32 = read_virtual_dword_32(i->seg(), si);
+  write_virtual_dword_32(BX_SEG_REG_ES, di, temp32);
 
   if (BX_CPU_THIS_PTR get_DF()) {
     si -= 4;
@@ -1004,51 +825,54 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::MOVSQ64_XqYq(bxInstruction_c *i)
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::REP_CMPSB_XbYb(bxInstruction_c *i)
 {
 #if BX_SUPPORT_X86_64
-  if (i->as64L())
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::CMPSB64_XbYb);
+  if (i->as64L()) {
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::CMPSB64_XbYb);
+  }
   else
 #endif
   if (i->as32L()) {
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::CMPSB32_XbYb);
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::CMPSB32_XbYb);
     BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RSI); // always clear upper part of RSI/RDI
     BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RDI);
   }
   else {
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::CMPSB16_XbYb);
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::CMPSB16_XbYb);
   }
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::REP_CMPSW_XwYw(bxInstruction_c *i)
 {
 #if BX_SUPPORT_X86_64
-  if (i->as64L())
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::CMPSW64_XwYw);
+  if (i->as64L()) {
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::CMPSW64_XwYw);
+  }
   else
 #endif
   if (i->as32L()) {
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::CMPSW32_XwYw);
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::CMPSW32_XwYw);
     BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RSI); // always clear upper part of RSI/RDI
     BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RDI);
   }
   else {
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::CMPSW16_XwYw);
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::CMPSW16_XwYw);
   }
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::REP_CMPSD_XdYd(bxInstruction_c *i)
 {
 #if BX_SUPPORT_X86_64
-  if (i->as64L())
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::CMPSD64_XdYd);
+  if (i->as64L()) {
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::CMPSD64_XdYd);
+  }
   else
 #endif
   if (i->as32L()) {
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::CMPSD32_XdYd);
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::CMPSD32_XdYd);
     BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RSI); // always clear upper part of RSI/RDI
     BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RDI);
   }
   else {
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::CMPSD16_XdYd);
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::CMPSD16_XdYd);
   }
 }
 
@@ -1056,10 +880,10 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::REP_CMPSD_XdYd(bxInstruction_c *i)
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::REP_CMPSQ_XqYq(bxInstruction_c *i)
 {
   if (i->as64L()) {
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::CMPSQ64_XqYq);
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::CMPSQ64_XqYq);
   }
   else {
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::CMPSQ32_XqYq);
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::CMPSQ32_XqYq);
     BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RSI); // always clear upper part of RSI/RDI
     BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RDI);
   }
@@ -1078,8 +902,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CMPSB16_XbYb(bxInstruction_c *i)
   Bit16u si = SI;
   Bit16u di = DI;
 
-  op1_8 = read_virtual_byte(i->seg(), si);
-  op2_8 = read_virtual_byte(BX_SEG_REG_ES, di);
+  op1_8 = read_virtual_byte_32(i->seg(), si);
+  op2_8 = read_virtual_byte_32(BX_SEG_REG_ES, di);
 
   diff_8 = op1_8 - op2_8;
 
@@ -1165,8 +989,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CMPSW16_XwYw(bxInstruction_c *i)
   Bit16u si = SI;
   Bit16u di = DI;
 
-  op1_16 = read_virtual_word(i->seg(), si);
-  op2_16 = read_virtual_word(BX_SEG_REG_ES, di);
+  op1_16 = read_virtual_word_32(i->seg(), si);
+  op2_16 = read_virtual_word_32(BX_SEG_REG_ES, di);
 
   diff_16 = op1_16 - op2_16;
 
@@ -1252,8 +1076,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CMPSD16_XdYd(bxInstruction_c *i)
   Bit16u si = SI;
   Bit16u di = DI;
 
-  op1_32 = read_virtual_dword(i->seg(), si);
-  op2_32 = read_virtual_dword(BX_SEG_REG_ES, di);
+  op1_32 = read_virtual_dword_32(i->seg(), si);
+  op2_32 = read_virtual_dword_32(BX_SEG_REG_ES, di);
 
   diff_32 = op1_32 - op2_32;
 
@@ -1397,48 +1221,51 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::CMPSQ64_XqYq(bxInstruction_c *i)
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::REP_SCASB_ALXb(bxInstruction_c *i)
 {
 #if BX_SUPPORT_X86_64
-  if (i->as64L())
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::SCASB64_ALXb);
+  if (i->as64L()) {
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::SCASB64_ALXb);
+  }
   else
 #endif
   if (i->as32L()) {
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::SCASB32_ALXb);
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::SCASB32_ALXb);
     BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RDI); // always clear upper part of RDI
   }
   else {
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::SCASB16_ALXb);
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::SCASB16_ALXb);
   }
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::REP_SCASW_AXXw(bxInstruction_c *i)
 {
 #if BX_SUPPORT_X86_64
-  if (i->as64L())
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::SCASW64_AXXw);
+  if (i->as64L()) {
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::SCASW64_AXXw);
+  }
   else
 #endif
   if (i->as32L()) {
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::SCASW32_AXXw);
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::SCASW32_AXXw);
     BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RDI); // always clear upper part of RDI
   }
   else {
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::SCASW16_AXXw);
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::SCASW16_AXXw);
   }
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::REP_SCASD_EAXXd(bxInstruction_c *i)
 {
 #if BX_SUPPORT_X86_64
-  if (i->as64L())
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::SCASD64_EAXXd);
+  if (i->as64L()) {
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::SCASD64_EAXXd);
+  }
   else
 #endif
   if (i->as32L()) {
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::SCASD32_EAXXd);
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::SCASD32_EAXXd);
     BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RDI); // always clear upper part of RDI
   }
   else {
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::SCASD16_EAXXd);
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::SCASD16_EAXXd);
   }
 }
 
@@ -1446,10 +1273,10 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::REP_SCASD_EAXXd(bxInstruction_c *i)
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::REP_SCASQ_RAXXq(bxInstruction_c *i)
 {
   if (i->as64L()) {
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::SCASQ64_RAXXq);
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::SCASQ64_RAXXq);
   }
   else {
-    BX_CPU_THIS_PTR repeat_ZFL(i, &BX_CPU_C::SCASQ32_RAXXq);
+    BX_CPU_THIS_PTR repeat_ZF(i, &BX_CPU_C::SCASQ32_RAXXq);
     BX_CLEAR_64BIT_HIGH(BX_64BIT_REG_RDI); // always clear upper part of RDI
   }
 }
@@ -1466,7 +1293,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SCASB16_ALXb(bxInstruction_c *i)
 
   Bit16u di = DI;
 
-  op2_8 = read_virtual_byte(BX_SEG_REG_ES, di);
+  op2_8 = read_virtual_byte_32(BX_SEG_REG_ES, di);
 
   diff_8 = op1_8 - op2_8;
 
@@ -1537,7 +1364,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SCASW16_AXXw(bxInstruction_c *i)
 
   Bit16u di = DI;
 
-  op2_16 = read_virtual_word(BX_SEG_REG_ES, di);
+  op2_16 = read_virtual_word_32(BX_SEG_REG_ES, di);
   diff_16 = op1_16 - op2_16;
 
   SET_FLAGS_OSZAPC_SUB_16(op1_16, op2_16, diff_16);
@@ -1607,7 +1434,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::SCASD16_EAXXd(bxInstruction_c *i)
 
   Bit16u di = DI;
 
-  op2_32 = read_virtual_dword(BX_SEG_REG_ES, di);
+  op2_32 = read_virtual_dword_32(BX_SEG_REG_ES, di);
   diff_32 = op1_32 - op2_32;
 
   SET_FLAGS_OSZAPC_SUB_32(op1_32, op2_32, diff_32);
@@ -1793,7 +1620,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::STOSB16_YbAL(bxInstruction_c *i)
 {
   Bit16u di = DI;
 
-  write_virtual_byte(BX_SEG_REG_ES, di, AL);
+  write_virtual_byte_32(BX_SEG_REG_ES, di, AL);
 
   if (BX_CPU_THIS_PTR get_DF()) {
     di--;
@@ -1876,7 +1703,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::STOSW16_YwAX(bxInstruction_c *i)
 {
   Bit16u di = DI;
 
-  write_virtual_word(BX_SEG_REG_ES, di, AX);
+  write_virtual_word_32(BX_SEG_REG_ES, di, AX);
 
   if (BX_CPU_THIS_PTR get_DF()) {
     di -= 2;
@@ -1930,7 +1757,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::STOSD16_YdEAX(bxInstruction_c *i)
 {
   Bit16u di = DI;
 
-  write_virtual_dword(BX_SEG_REG_ES, di, EAX);
+  write_virtual_dword_32(BX_SEG_REG_ES, di, EAX);
 
   if (BX_CPU_THIS_PTR get_DF()) {
     di -= 4;
@@ -2090,7 +1917,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LODSB16_ALXb(bxInstruction_c *i)
 {
   Bit16u si = SI;
 
-  AL = read_virtual_byte(i->seg(), si);
+  AL = read_virtual_byte_32(i->seg(), si);
 
   if (BX_CPU_THIS_PTR get_DF()) {
     si--;
@@ -2144,7 +1971,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LODSW16_AXXw(bxInstruction_c *i)
 {
   Bit16u si = SI;
 
-  AX = read_virtual_word(i->seg(), si);
+  AX = read_virtual_word_32(i->seg(), si);
 
   if (BX_CPU_THIS_PTR get_DF()) {
     si -= 2;
@@ -2198,7 +2025,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::LODSD16_EAXXd(bxInstruction_c *i)
 {
   Bit16u si = SI;
 
-  RAX = read_virtual_dword(i->seg(), si);
+  RAX = read_virtual_dword_32(i->seg(), si);
 
   if (BX_CPU_THIS_PTR get_DF()) {
     si -= 4;

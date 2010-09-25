@@ -8,12 +8,13 @@ AC_CONFIG_HEADER(ltdlconf.h)
 
 dnl // Put Bochs version information right here so that it gets substituted
 dnl // into all the right places.
-VERSION="2.3.7"
-VER_STRING="2.3.7"
+VERSION="2.4.5.cvs"
+VER_STRING="2.4.5.cvs"
 dnl // WIN_VER_STRING format is "a, b, c, d"
+dnl // c should be > 90 for pre-release of next version otherwise patch level
 dnl // d should be 0 for release and 1 for cvs version
-WIN_VER_STRING="2, 3, 7, 0"
-REL_STRING="Build from CVS snapshot, on June 3, 2008"
+WIN_VER_STRING="2, 4, 5, 1"
+REL_STRING="Build from CVS snapshot, after release 2.4.5"
 
 changequote(<<, >>)
 changequote([, ])
@@ -142,6 +143,8 @@ AC_CHECK_FUNCS(strtoull, AC_DEFINE(BX_HAVE_STRTOULL))
 AC_CHECK_FUNCS(strtouq, AC_DEFINE(BX_HAVE_STRTOUQ))
 AC_CHECK_FUNCS(strdup, AC_DEFINE(BX_HAVE_STRDUP))
 AC_CHECK_FUNCS(strrev, AC_DEFINE(BX_HAVE_STRREV))
+AC_CHECK_FUNCS(stricmp, AC_DEFINE(BX_HAVE_STRICMP))
+AC_CHECK_FUNCS(strcasecmp, AC_DEFINE(BX_HAVE_STRCASECMP))
 AC_CHECK_FUNCS(sleep, AC_DEFINE(BX_HAVE_SLEEP))
 AC_CHECK_FUNCS(usleep, AC_DEFINE(BX_HAVE_USLEEP))
 AC_CHECK_FUNCS(nanosleep, AC_DEFINE(BX_HAVE_NANOSLEEP))
@@ -235,14 +238,6 @@ AC_TRY_COMPILE([#include <sys/time.h>],
     ],
     AC_MSG_RESULT(no))
 
-AC_MSG_CHECKING(if compiler allows empty structs)
-AC_TRY_COMPILE([], [typedef struct { } junk;],
-    AC_MSG_RESULT(yes),
-    [
-      AC_DEFINE(BX_NO_EMPTY_STRUCTS)
-      AC_MSG_RESULT(no)
-    ])
-
 AC_MSG_CHECKING(if compiler allows __attribute__)
 AC_TRY_COMPILE([], [typedef struct { } __attribute__ ((packed)) junk;],
     AC_MSG_RESULT(yes),
@@ -253,18 +248,6 @@ AC_TRY_COMPILE([], [typedef struct { } __attribute__ ((packed)) junk;],
 
 AC_LANG_SAVE
 AC_LANG_CPLUSPLUS
-AC_MSG_CHECKING(for hash_map)
-AC_TRY_COMPILE([#include <hash_map>], [],
-   [
-     AC_MSG_RESULT(yes)
-     AC_DEFINE(BX_HAVE_HASH_MAP)
-   ], AC_MSG_RESULT(no))
-AC_MSG_CHECKING(for hash_map.h)
-AC_TRY_COMPILE([#include <hash_map.h>], [],
-   [
-     AC_MSG_RESULT(yes)
-     AC_DEFINE(BX_HAVE_HASH_MAP_H)
-   ], AC_MSG_RESULT(no))
 AC_MSG_CHECKING(for set)
 AC_TRY_COMPILE([#include <set>], [],
    [
@@ -276,6 +259,18 @@ AC_TRY_COMPILE([#include <set.h>], [],
    [
      AC_MSG_RESULT(yes)
      AC_DEFINE(BX_HAVE_SET_H)
+   ], AC_MSG_RESULT(no))
+AC_MSG_CHECKING(for map)
+AC_TRY_COMPILE([#include <map>], [],
+   [
+     AC_MSG_RESULT(yes)
+     AC_DEFINE(BX_HAVE_MAP)
+   ], AC_MSG_RESULT(no))
+AC_MSG_CHECKING(for map.h)
+AC_TRY_COMPILE([#include <map.h>], [],
+   [
+     AC_MSG_RESULT(yes)
+     AC_DEFINE(BX_HAVE_MAP_H)
    ], AC_MSG_RESULT(no))
 AC_LANG_RESTORE
 
@@ -467,14 +462,6 @@ if test "$bx_plugins" = 1 -a "$need_dlcompat_for_plugins" = 1; then
   fi
 fi
 
-AC_MSG_CHECKING(if compiler allows blank labels)
-AC_TRY_COMPILE([], [ { label1: } ],
-    AC_MSG_RESULT(yes),
-    [
-      AC_MSG_RESULT(no)
-      AC_DEFINE(BX_NO_BLANK_LABELS)
-    ])
-
 AC_MSG_CHECKING(if compiler allows LL for 64-bit constants)
 AC_TRY_COMPILE([], [ { 42LL; } ],
     AC_MSG_RESULT(yes),
@@ -482,6 +469,23 @@ AC_TRY_COMPILE([], [ { 42LL; } ],
       AC_MSG_RESULT(no)
       AC_DEFINE(BX_64BIT_CONSTANTS_USE_LL, 0)
     ])
+
+AC_MSG_CHECKING(for A20 support)
+AC_ARG_ENABLE(a20-pin,
+  [  --enable-a20-pin                  compile in support for A20 pin],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_SUPPORT_A20, 1)
+   else
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SUPPORT_A20, 0)
+   fi
+   ],
+  [
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_SUPPORT_A20, 1)
+    ]
+  )
 
 use_x86_64=0
 AC_MSG_CHECKING(for x86-64 support)
@@ -533,22 +537,18 @@ AC_ARG_ENABLE(cpu-level,
      3)
        AC_MSG_RESULT(3)
        AC_DEFINE(BX_CPU_LEVEL, 3)
-       AC_DEFINE(BX_CPU_LEVEL_HACKED, 3)
        ;;
      4)
        AC_MSG_RESULT(4)
        AC_DEFINE(BX_CPU_LEVEL, 4)
-       AC_DEFINE(BX_CPU_LEVEL_HACKED, 4)
        ;;
      5)
        AC_MSG_RESULT(5)
        AC_DEFINE(BX_CPU_LEVEL, 5)
-       AC_DEFINE(BX_CPU_LEVEL_HACKED, 5)
        ;;
      6)
        AC_MSG_RESULT(6)
        AC_DEFINE(BX_CPU_LEVEL, 6)
-       AC_DEFINE(BX_CPU_LEVEL_HACKED, 6)
        ;;
      *)
        echo " "
@@ -561,55 +561,40 @@ AC_ARG_ENABLE(cpu-level,
      echo "ERROR: with >1 processor, use --enable-cpu-level=6"
      exit 1
    fi
+   if test "$use_x86_64" = 1 -a "$enableval" -lt 6; then
+     echo "ERROR: --enable-cpu-level=6 required for x86-64 emulation"
+     exit 1
+   fi
   ],
   [
-    # for multiprocessors or x86-64, cpu level must be 6
-    if test "$use_smp" = 1 -o "$use_x86_64" = 1; then
-      AC_MSG_RESULT(6)
-      AC_DEFINE(BX_CPU_LEVEL, 6)
-      AC_DEFINE(BX_CPU_LEVEL_HACKED, 6)
-      bx_cpu_level=6
-    else
-      AC_MSG_RESULT(5)
-      AC_DEFINE(BX_CPU_LEVEL, 5)
-      AC_DEFINE(BX_CPU_LEVEL_HACKED, 5)
-      bx_cpu_level=5
-    fi
+    AC_MSG_RESULT(6)
+    AC_DEFINE(BX_CPU_LEVEL, 6)
+    bx_cpu_level=6
   ]
   )
 
-
-AC_MSG_CHECKING(for APIC support)
-AC_ARG_ENABLE(apic,
-  [  --enable-apic                     enable APIC support],
+AC_MSG_CHECKING(for larger than 32 bit physical address emulation)
+AC_ARG_ENABLE(long-phy-address,
+  [  --enable-long-phy-address         compile in support for physical address larger than 32 bit],
   [if test "$enableval" = yes; then
     AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_SUPPORT_APIC, 1)
-    IOAPIC_OBJS='ioapic.o'
+    AC_DEFINE(BX_PHY_ADDRESS_LONG, 1)
    else
     AC_MSG_RESULT(no)
-    if test "$use_smp" = 1; then
-      echo "ERROR: With SMP configuration you must use --enable-apic"
-      exit 1
-    fi
-    AC_DEFINE(BX_SUPPORT_APIC, 0)
-    IOAPIC_OBJS=''
+    AC_DEFINE(BX_PHY_ADDRESS_LONG, 0)
    fi
    ],
   [
-    if test "$use_smp" = 1 -o "$bx_cpu_level" -gt 5; then
-      # enable APIC by default, if SMP configuration or if cpulevel>5
+    if test "$bx_cpu_level" -ge 5; then
       AC_MSG_RESULT(yes)
-      AC_DEFINE(BX_SUPPORT_APIC, 1)
-      IOAPIC_OBJS='ioapic.o'
+      AC_DEFINE(BX_PHY_ADDRESS_LONG, 1)
     else
       AC_MSG_RESULT(no)
-      AC_DEFINE(BX_SUPPORT_APIC, 0)
-      IOAPIC_OBJS=''
-     fi
-   ]
+      AC_DEFINE(BX_PHY_ADDRESS_LONG, 0)
+    fi
+    ]
   )
-AC_SUBST(IOAPIC_OBJS)
+
 
 AC_CHECK_HEADER(zlib.h, [AC_CHECK_LIB(z, gzopen, AC_DEFINE(BX_HAVE_ZLIB,1))] )
 
@@ -753,29 +738,49 @@ AC_ARG_ENABLE(pcidev,
   ]
 )
 
-USBDEV_OBJS=''
-SCSI_OBJS=''
-AC_MSG_CHECKING(for limited USB support)
+use_usb=0
+AC_MSG_CHECKING(for limited USB UHCI support)
 AC_ARG_ENABLE(usb,
-  [  --enable-usb                      enable limited USB support],
+  [  --enable-usb                      enable limited USB UHCI support],
   [if test "$enableval" = yes; then
     AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_SUPPORT_PCIUSB, 1)
-    PCI_OBJ="$PCI_OBJ pciusb.o"
-    USBDEV_OBJS="usb_hid.o usb_msd.o"
-    SCSI_OBJS="scsi_device.o"
+    AC_DEFINE(BX_SUPPORT_USB_UHCI, 1)
+    PCI_OBJ="$PCI_OBJ usb_uhci.o"
+    use_usb=1
    else
     AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_PCIUSB, 0)
+    AC_DEFINE(BX_SUPPORT_USB_UHCI, 0)
    fi],
   [
     AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_PCIUSB, 0)
+    AC_DEFINE(BX_SUPPORT_USB_UHCI, 0)
     ]
   )
 
-AC_SUBST(USBDEV_OBJS)
-AC_SUBST(SCSI_OBJS)
+AC_MSG_CHECKING(for limited USB OHCI support)
+AC_ARG_ENABLE(usb-ohci,
+  [  --enable-usb-ohci                 enable limited USB OHCI support],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_SUPPORT_USB_OHCI, 1)
+    PCI_OBJ="$PCI_OBJ usb_ohci.o"
+    use_usb=1
+   else
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SUPPORT_USB_OHCI, 0)
+   fi],
+  [
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SUPPORT_USB_OHCI, 0)
+    ]
+  )
+
+if test "$use_usb" = 1; then
+  USBDEV_OBJS="usb_common.o usb_hid.o usb_hub.o usb_msd.o usb_printer.o"
+  SCSI_OBJS="scsi_device.o"
+  AC_SUBST(USBDEV_OBJS)
+  AC_SUBST(SCSI_OBJS)
+fi
 
 AC_MSG_CHECKING(for PCI pseudo NIC support)
 AC_ARG_ENABLE(pnic,
@@ -860,131 +865,19 @@ fi
 
 AC_SUBST(NETLOW_OBJS)
 
-
-AC_MSG_CHECKING(for large pages support)
-AC_ARG_ENABLE(large-pages,
-  [  --enable-large-pages               support for large pages (2M/4M pages)],
+AC_MSG_CHECKING(for X2APIC support)
+AC_ARG_ENABLE(x2apic,
+  [  --enable-x2apic                   support for X2APIC],
   [if test "$enableval" = yes; then
     AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_SUPPORT_LARGE_PAGES, 1)
-    support_large_pages=1
+    AC_DEFINE(BX_SUPPORT_X2APIC, 1)
    else
     AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_LARGE_PAGES, 0)
-    support_large_pages=0
-   fi],
-  [
-    if test "$bx_cpu_level" -gt 4; then
-      AC_MSG_RESULT(yes)
-      AC_DEFINE(BX_SUPPORT_LARGE_PAGES, 1)
-      support_large_pages=1
-    else
-      AC_MSG_RESULT(no)
-      AC_DEFINE(BX_SUPPORT_LARGE_PAGES, 0)
-      support_large_pages=0
-    fi
-    ]
-  )
-
-
-AC_MSG_CHECKING(for PAE support)
-AC_ARG_ENABLE(pae,
-  [  --enable-pae                      support Physical Address Extensions],
-  [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_SUPPORT_PAE, 1)
-    support_pae=1
-   else
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_PAE, 0)
-    support_pae=0
-   fi],
-  [
-    if test "$bx_cpu_level" -gt 5; then
-      AC_MSG_RESULT(yes)
-      AC_DEFINE(BX_SUPPORT_PAE, 1)
-      support_pae=1
-    else
-      AC_MSG_RESULT(no)
-      AC_DEFINE(BX_SUPPORT_PAE, 0)
-      support_pae=0
-    fi
-    ]
-  )
-
-AC_MSG_CHECKING(for global pages support)
-AC_ARG_ENABLE(global-pages,
-  [  --enable-global-pages             support for global pages in PDE/PTE],
-  [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_SUPPORT_GLOBAL_PAGES, 1)
-    support_global_pages=1
-   else
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_GLOBAL_PAGES, 0)
-    support_global_pages=0
-   fi],
-  [
-    if test "$bx_cpu_level" -gt 5; then
-      # enable by default
-      AC_MSG_RESULT(yes)
-      AC_DEFINE(BX_SUPPORT_GLOBAL_PAGES, 1)
-      support_global_pages=1
-    else
-      AC_MSG_RESULT(no)
-      AC_DEFINE(BX_SUPPORT_GLOBAL_PAGES, 0)
-      support_global_pages=0
-    fi
-    ]
-  )
-
-if test "$bx_cpu_level" -lt 4 -a "$support_large_pages" = 1; then
-  AC_MSG_ERROR([for large paging support the CPU level must be >= 4])
-fi
-
-if test "$bx_cpu_level" -lt 5 -a "$support_pae" = 1; then
-  AC_MSG_ERROR([for PAE support the CPU level must be >= 5])
-fi
-
-if test "$bx_cpu_level" -lt 5 -a "$support_global_pages" = 1; then
-  AC_MSG_ERROR([for Global Pages support the CPU level must be >= 5])
-fi
-
-AC_MSG_CHECKING(for MTRRs support)
-AC_ARG_ENABLE(mtrr,
-  [  --enable-mtrr                     support for MTRRs],
-  [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_SUPPORT_MTRR, 1)
-   else
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_MTRR, 0)
-   fi],
-  [
-    if test "$bx_cpu_level" -gt 5; then
-      # enable by default
-      AC_MSG_RESULT(yes)
-      AC_DEFINE(BX_SUPPORT_MTRR, 1)
-    else
-      AC_MSG_RESULT(no)
-      AC_DEFINE(BX_SUPPORT_MTRR, 0)
-    fi
-    ]
-  )
-
-AC_MSG_CHECKING(for guest to host TLB support)
-AC_ARG_ENABLE(guest2host-tlb,
-  [  --enable-guest2host-tlb           support guest to host addr TLB for speed],
-  [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
-    speedup_guest2host_tlb=1
-   else
-    AC_MSG_RESULT(no)
-    speedup_guest2host_tlb=0
+    AC_DEFINE(BX_SUPPORT_X2APIC, 0)
    fi],
   [
     AC_MSG_RESULT(no)
-    speedup_guest2host_tlb=0
+    AC_DEFINE(BX_SUPPORT_X2APIC, 0)
     ]
   )
 
@@ -1025,22 +918,6 @@ AC_ARG_ENABLE(trace-cache,
     ]
   )
 
-AC_MSG_CHECKING(for instruction cache support)
-AC_ARG_ENABLE(icache,
-  [  --enable-icache                   support instruction cache],
-  [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
-    speedup_iCache=1
-   else
-    AC_MSG_RESULT(no)
-    speedup_iCache=0
-   fi],
-  [
-    AC_MSG_RESULT(no)
-    speedup_iCache=0
-    ]
-  )
-
 AC_MSG_CHECKING(for gcc fast function calls optimization)
 AC_ARG_ENABLE(fast-function-calls,
   [  --enable-fast-function-calls      support for fast function calls (gcc on x86 only)],
@@ -1073,35 +950,24 @@ AC_ARG_ENABLE(host-specific-asms,
     ]
   )
 
-AC_MSG_CHECKING(whether to ignore bad MSR references)
-AC_ARG_ENABLE(ignore-bad-msr,
-  [  --enable-ignore-bad-msr           ignore bad MSR references],
+AC_MSG_CHECKING(support for configurable MSR registers)
+AC_ARG_ENABLE(configurable-msrs,
+  [  --enable-configurable-msrs        support for configurable MSR registers],
   [if test "$enableval" = yes; then
     AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_IGNORE_BAD_MSR, 1)
+    AC_DEFINE(BX_CONFIGURE_MSRS, 1)
    else
     AC_MSG_RESULT(no)
-    AC_DEFINE(BX_IGNORE_BAD_MSR, 0)
+    AC_DEFINE(BX_CONFIGURE_MSRS, 0)
    fi],
   [
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_IGNORE_BAD_MSR, 1)
-    ]
-  )
-
-AC_MSG_CHECKING(for port e9 hack)
-AC_ARG_ENABLE(port-e9-hack,
-  [  --enable-port-e9-hack             writes to port e9 go to console],
-  [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_PORT_E9_HACK, 1)
-   else
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_PORT_E9_HACK, 0)
-   fi],
-  [
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_PORT_E9_HACK, 1)
+    if test "$bx_cpu_level" -ge 5; then
+      AC_MSG_RESULT(yes)
+      AC_DEFINE(BX_CONFIGURE_MSRS, 1)
+    else
+      AC_MSG_RESULT(no)
+      AC_DEFINE(BX_CONFIGURE_MSRS, 0)
+    fi
     ]
   )
 
@@ -1183,30 +1049,6 @@ AC_ARG_ENABLE(debugger,
   )
 AC_SUBST(DEBUGGER_VAR)
 
-AC_MSG_CHECKING(for external debugger)
-EXT_DEBUG_OBJS=''
-AC_ARG_ENABLE(external-debugger,
-  [  --enable-external-debugger        enable external debugger support (win32 only)],
-  [if test "$enableval" = yes; then
-    case $target in
-      *-pc-windows* | *-cygwin* | *-mingw32*)
-        AC_MSG_RESULT(yes)
-        AC_DEFINE(BX_EXTERNAL_DEBUGGER, 1)
-        EXT_DEBUG_OBJS=extdb.o
-        ;;
-      *)
-        echo "ERROR: external debugger is currently supported on win32 only"
-        exit 1
-        ;;
-    esac
-   else
-    AC_MSG_RESULT(no)
-   fi],
-  [
-    AC_MSG_RESULT(no)
-  ])
-AC_SUBST(BX_EXTERNAL_DEBUGGER)
-
 AC_MSG_CHECKING(for disassembler support)
 AC_ARG_ENABLE(disasm,
   [  --enable-disasm                   compile in support for disassembler],
@@ -1229,6 +1071,32 @@ AC_ARG_ENABLE(disasm,
     DISASM_VAR='$(DISASM_LIB)'
   ])
 AC_SUBST(DISASM_VAR)
+
+AC_MSG_CHECKING(enable Bochs internal debugger GUI)
+AC_ARG_ENABLE(debugger-gui,
+  [  --enable-debugger-gui             compile in support for Bochs internal debugger GUI],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_DEBUGGER_GUI, 1)
+    gui_debugger=1
+   else
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_DEBUGGER_GUI, 0)
+    gui_debugger=0
+   fi],
+  [
+    if test "$bx_debugger" = 1; then
+      AC_MSG_RESULT(yes)
+      AC_DEFINE(BX_DEBUGGER_GUI, 1)
+      gui_debugger=1
+    else
+      AC_MSG_RESULT(no)
+      AC_DEFINE(BX_DEBUGGER_GUI, 0)
+      gui_debugger=0
+    fi
+    ]
+  )
+
 
 AC_MSG_CHECKING(for ALL optimizations enabled)
 AC_ARG_ENABLE(all-optimizations,
@@ -1254,33 +1122,15 @@ AC_ARG_ENABLE(all-optimizations,
 
 if test "$speedups_all" = 1; then
   # Configure requested to force all options enabled.
-  speedup_guest2host_tlb=1
   speedup_repeat=1
-  speedup_iCache=1
   speedup_TraceCache=1
   speedup_fastcall=1
-fi
-
-if test "$speedup_iCache" = 0 -a "$speedup_TraceCache" = 1; then
-  AC_MSG_ERROR([iCache is required to compile with trace cache optimization])
-fi
-
-if test "$speedup_guest2host_tlb" = 1; then
-  AC_DEFINE(BX_SupportGuest2HostTLB, 1)
-else
-  AC_DEFINE(BX_SupportGuest2HostTLB, 0)
 fi
 
 if test "$speedup_repeat" = 1; then
   AC_DEFINE(BX_SupportRepeatSpeedups, 1)
 else
   AC_DEFINE(BX_SupportRepeatSpeedups, 0)
-fi
-
-if test "$speedup_iCache" = 1; then
-  AC_DEFINE(BX_SUPPORT_ICACHE, 1)
-else
-  AC_DEFINE(BX_SUPPORT_ICACHE, 0)
 fi
 
 if test "$speedup_host_specific_asms" = 1; then
@@ -1434,6 +1284,27 @@ AC_ARG_ENABLE(logging,
     ]
   )
 
+AC_MSG_CHECKING(enable assert checks)
+AC_ARG_ENABLE(assert-checks,
+  [  --enable-assert-checks            enable BX_ASSERT checks],
+  [if test "$enableval" = yes; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(BX_ASSERT_ENABLE, 1)
+   else
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_ASSERT_ENABLE, 0)
+   fi],
+  [
+    if test "$bx_debugger" = 1; then
+      AC_MSG_RESULT(yes)
+      AC_DEFINE(BX_ASSERT_ENABLE, 1)
+    else
+      AC_MSG_RESULT(no)
+      AC_DEFINE(BX_ASSERT_ENABLE, 0)
+    fi
+    ]
+  )
+
 AC_MSG_CHECKING(for raw serial support)
 AC_ARG_ENABLE(raw-serial,
   [  --enable-raw-serial               use raw serial port access],
@@ -1515,49 +1386,49 @@ AC_ARG_ENABLE(fpu,
   )
 AC_SUBST(FPU_VAR)
 
-AC_MSG_CHECKING(for VME support)
-AC_ARG_ENABLE(vme,
-  [  --enable-vme                      virtual 8086 mode extensions],
-  [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_SUPPORT_VME, 1)
-   elif test "$enableval" = no; then
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_VME, 0)
-   fi
+support_vmx=0
+AC_MSG_CHECKING(for VMX support)
+AC_ARG_ENABLE(vmx,
+  [  --enable-vmx                      VMX (virtualization extensions) emulation (--enable-vmx=[no|1|2])],
+  [case "$enableval" in
+    no | 0)
+      support_vmx=0
+      AC_MSG_RESULT(no)
+      AC_DEFINE(BX_SUPPORT_VMX, 0)
+      ;;
+    yes | 1)
+      support_vmx=1
+      AC_MSG_RESULT(1)
+      AC_DEFINE(BX_SUPPORT_VMX, 1)
+      ;;
+    2)
+      support_vmx=2
+      AC_MSG_RESULT(2)
+      AC_DEFINE(BX_SUPPORT_VMX, 2)
+      ;;
+    *)
+      echo "ERROR: --enable-vmx=$enableval not understood. Use --enable-vmx=[no|1|2]"
+      exit 1
+      ;;
+   esac
    ],
   [
-    if test "$bx_cpu_level" -ge 5; then
-      AC_MSG_RESULT(yes)
-      AC_DEFINE(BX_SUPPORT_VME, 1)
-    fi
-    ]
+    AC_MSG_RESULT(no)
+    AC_DEFINE(BX_SUPPORT_VMX, 0)
+  ]
   )
 
-support_mmx=1
-AC_MSG_CHECKING(for MMX support)
-AC_ARG_ENABLE(mmx,
-  [  --enable-mmx                      MMX support],
-  [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_SUPPORT_MMX, 1)
-   elif test "$enableval" = no; then
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_MMX, 0)
-    support_mmx=0
-   fi
-   ],
-  [
-    if test "$bx_cpu_level" -ge 5; then
-      AC_MSG_RESULT(yes)
-      AC_DEFINE(BX_SUPPORT_MMX, 1)
-    fi
-    ]
-  )
+if test "$support_vmx" -gt 0 -a "$bx_cpu_level" -lt 6; then
+  AC_MSG_ERROR([for VMX support the CPU level must be set to 6])
+fi
+
+if test "$support_vmx" -gt 1 -a "$use_x86_64" = 0; then
+  AC_MSG_ERROR([VMXx2 support require x86-64 enabled])
+fi
 
 AC_MSG_CHECKING(for 3DNow! support)
 AC_ARG_ENABLE(3dnow,
-  [  --enable-3dnow                    3DNow! support],
+  [  --enable-3dnow                    3DNow! support (incomplete)],
   [if test "$enableval" = yes; then
     AC_MSG_RESULT(yes)
     AC_DEFINE(BX_SUPPORT_3DNOW, 1)
@@ -1571,154 +1442,6 @@ AC_ARG_ENABLE(3dnow,
     AC_DEFINE(BX_SUPPORT_3DNOW, 0)
   ]
   )
-
-support_sse=0
-AC_MSG_CHECKING(for SSE support)
-AC_ARG_ENABLE(sse,
-  [  --enable-sse                      SSE support (--enable-sse=[no|1|2|3|4])],
-  [case "$enableval" in
-    no | 0)
-      support_sse=0
-      AC_MSG_RESULT(no)
-      ;;
-    yes | 1)
-      support_sse=1
-      AC_MSG_RESULT(SSE1)
-      ;;
-    2)
-      support_sse=2
-      AC_MSG_RESULT(SSE2)
-      ;;
-    3)
-      support_sse=3
-      AC_MSG_RESULT(SSE3)
-      ;;
-    4)
-      support_sse=4
-      AC_MSG_RESULT(SSE4)
-      ;;
-    *)
-      echo "ERROR: --enable-sse=$enableval not understood. Use --enable-sse=[no|1|2|3|4]"
-      exit 1
-      ;;
-   esac
-   ],
-  [
-    if test "$use_x86_64" = 1; then
-      support_sse=2
-      AC_MSG_RESULT(SSE2)
-    else
-      AC_MSG_RESULT(no)
-    fi
-  ]
-  )
-
-if test "$support_sse" -gt 0 -a "$bx_cpu_level" -lt 6; then
-  AC_MSG_ERROR([for SSE support the CPU level must be set to 6])
-fi
-
-if test "$support_sse" -lt 2 -a "$use_x86_64" = 1; then
-  AC_MSG_ERROR([x86-64 needs SSE2 support])
-fi
-
-if test "$support_sse" = 4; then
-  AC_DEFINE(BX_SUPPORT_SSE,  4)
-elif test "$support_sse" = 3; then
-  AC_DEFINE(BX_SUPPORT_SSE,  3)
-elif test "$support_sse" = 2; then
-  AC_DEFINE(BX_SUPPORT_SSE,  2)
-elif test "$support_sse" = 1; then
-  AC_DEFINE(BX_SUPPORT_SSE,  1)
-else
-  AC_DEFINE(BX_SUPPORT_SSE,  0)
-fi
-
-support_sse_extensions=0
-AC_MSG_CHECKING(for SSE extensions support)
-AC_ARG_ENABLE(sse-extension,
-  [  --enable-sse-extension            support for SSE extensions],
-  [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_SUPPORT_SSE_EXTENSION, 1)
-    support_sse_extensions=1
-   elif test "$enableval" = no; then
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_SSE_EXTENSION, 0)
-   fi
-   ],
-  [
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_SSE_EXTENSION, 0)
-  ]
-  )
-
-AC_MSG_CHECKING(for DAZ support)
-AC_ARG_ENABLE(daz,
-  [  --enable-daz                      denormals-are-zeroes support],
-  [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_SUPPORT_DAZ, 1)
-   elif test "$enableval" = no; then
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_DAZ, 0)
-   fi
-   ],
-  [
-    if test "$support_sse" -ge 2; then
-      AC_MSG_RESULT(yes)
-      AC_DEFINE(BX_SUPPORT_DAZ, 1)
-    else
-      AC_MSG_RESULT(no)
-      AC_DEFINE(BX_SUPPORT_DAZ, 0)
-    fi
-    ]
-  )
-
-use_xsave=0
-AC_MSG_CHECKING(for XSAVE/XRSTOR support)
-AC_ARG_ENABLE(xsave,
-  [  --enable-xsave                    support for XSAVE/XRSTOR extensions],
-  [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_SUPPORT_XSAVE, 1)
-    use_xsave=1
-   elif test "$enableval" = no; then
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_XSAVE, 0)
-   fi
-   ],
-  [
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_XSAVE, 0)
-  ]
-  )
-
-if test "$support_sse" -lt 1 -a "$use_xsave" = 1; then
-  AC_MSG_ERROR([XSAVE requires SSE support!])
-fi
-
-use_aes=0
-AC_MSG_CHECKING(for AES instructions support)
-AC_ARG_ENABLE(aes,
-  [  --enable-aes                      support for AES instructions],
-  [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_SUPPORT_AES, 1)
-    use_aes=1
-   elif test "$enableval" = no; then
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_AES, 0)
-   fi
-   ],
-  [
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_AES, 0)
-  ]
-  )
-
-if test "$support_sse" -lt 1 -a "$use_aes" = 1; then
-  AC_MSG_ERROR([AES requires SSE support!])
-fi
 
 AC_MSG_CHECKING(for alignment check support)
 AC_ARG_ENABLE(alignment-check,
@@ -1759,50 +1482,6 @@ AC_ARG_ENABLE(misaligned-sse,
     ]
   )
 
-AC_MSG_CHECKING(for SEP support)
-AC_ARG_ENABLE(sep,
-  [  --enable-sep                      SYSENTER/SYSEXIT support],
-  [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_SUPPORT_SEP, 1)
-   elif test "$enableval" = no; then
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_SEP, 0)
-   fi
-   ],
-  [
-    if test "$bx_cpu_level" -ge 6 -a "$support_mmx" = 1; then
-      AC_MSG_RESULT(yes)
-      AC_DEFINE(BX_SUPPORT_SEP, 1)
-    else
-      AC_MSG_RESULT(no)
-      AC_DEFINE(BX_SUPPORT_SEP, 0)
-    fi
-    ]
-  )
-
-AC_MSG_CHECKING(for POPCNT instruction support)
-AC_ARG_ENABLE(popcnt,
-  [  --enable-popcnt                   support for POPCNT instruction],
-  [if test "$enableval" = yes; then
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_SUPPORT_POPCNT, 1)
-   elif test "$enableval" = no; then
-    AC_MSG_RESULT(no)
-    AC_DEFINE(BX_SUPPORT_POPCNT, 0)
-   fi
-   ],
-  [
-    if test "$support_sse" -ge 4 -a "$support_sse_extensions" = 1; then
-      AC_MSG_RESULT(yes)
-      AC_DEFINE(BX_SUPPORT_POPCNT, 1)
-    else
-      AC_MSG_RESULT(no)
-      AC_DEFINE(BX_SUPPORT_POPCNT, 0)
-    fi
-    ]
-  )
-
 AC_MSG_CHECKING(for MONITOR/MWAIT instructions support (experimental))
 AC_ARG_ENABLE(monitor_mwait,
   [  --enable-monitor-mwait            support for MONITOR/MWAIT instructions (experimental)],
@@ -1829,10 +1508,8 @@ AC_ARG_ENABLE(x86-debugger,
    elif test "$enableval" = no; then
     AC_MSG_RESULT(no)
     AC_DEFINE(BX_X86_DEBUGGER, 0)
-   else
-    AC_MSG_RESULT(yes)
-    AC_DEFINE(BX_X86_DEBUGGER, 1)
-   fi],
+   fi
+   ],
   [
     AC_MSG_RESULT(no)
     AC_DEFINE(BX_X86_DEBUGGER, 0)
@@ -1881,6 +1558,9 @@ fi
 AC_SUBST(CDROM_OBJS)
 
 
+bx_have_alsa=0
+AC_CHECK_HEADER([alsa/asoundlib.h], [bx_have_alsa=1])
+
 AC_MSG_CHECKING(for Sound Blaster 16 support)
 SB16_OBJS=''
 SOUNDLOW_OBJS=''
@@ -1901,6 +1581,14 @@ AC_ARG_ENABLE(sb16,
        freebsd|linux)
          SOUNDLOW_OBJS='soundlnx.o'
          AC_DEFINE(BX_SOUND_OUTPUT_C, bx_sound_linux_c)
+         if test "$bx_have_alsa" = 1; then
+           AC_DEFINE(BX_HAVE_ALSASOUND, 1)
+           if test "$bx_plugins" = 1; then
+             SOUND_LINK_OPTS="$SOUND_LINK_OPTS -lasound"
+           else
+             DEVICE_LINK_OPTS="$DEVICE_LINK_OPTS -lasound"
+           fi
+         fi
          AC_MSG_RESULT(linux)
          ;;
        win)
@@ -1909,24 +1597,32 @@ AC_ARG_ENABLE(sb16,
          AC_MSG_RESULT(win)
          case $target in
            *-pc-windows*)
-                 DEVICE_LINK_OPTS="$DEVICE_LINK_OPTS winmm.lib"
-                 ;;
+             DEVICE_LINK_OPTS="$DEVICE_LINK_OPTS winmm.lib"
+             ;;
            *)
-		 DEVICE_LINK_OPTS="$DEVICE_LINK_OPTS -lwinmm"
-                 ;;
+             DEVICE_LINK_OPTS="$DEVICE_LINK_OPTS -lwinmm"
+             ;;
          esac
          ;;
        osx)
          SOUNDLOW_OBJS='soundosx.o'
          AC_DEFINE(BX_SOUND_OUTPUT_C, bx_sound_osx_c)
          AC_MSG_RESULT(osx)
-		 DEVICE_LINK_OPTS="$DEVICE_LINK_OPTS -framework AudioUnit -framework AudioToolbox"
+         DEVICE_LINK_OPTS="$DEVICE_LINK_OPTS -framework AudioUnit -framework AudioToolbox"
          ;;
        yes)
          case "$target" in
            *-linux* | *-freebsd*)
              SOUNDLOW_OBJS='soundlnx.o'
              AC_DEFINE(BX_SOUND_OUTPUT_C, bx_sound_linux_c)
+             if test "$bx_have_alsa" = 1; then
+               AC_DEFINE(BX_HAVE_ALSASOUND, 1)
+               if test "$bx_plugins" = 1; then
+                 SOUND_LINK_OPTS="$SOUND_LINK_OPTS -lasound"
+               else
+                 DEVICE_LINK_OPTS="$DEVICE_LINK_OPTS -lasound"
+               fi
+             fi
              AC_MSG_RESULT(linux)
              ;;
            *-pc-windows*)
@@ -1973,6 +1669,7 @@ AC_ARG_ENABLE(sb16,
   )
 AC_SUBST(SB16_OBJS)
 AC_SUBST(SOUNDLOW_OBJS)
+AC_SUBST(SOUND_LINK_OPTS)
 
 
 AC_MSG_CHECKING(for standard PC gameport support)
@@ -2044,7 +1741,7 @@ AC_ARG_ENABLE(iodebug,
    fi
    ],
   [
-    if test "" = 1; then
+    if test "$bx_debugger" = 1; then
       # enable by default if debugger is on
       AC_MSG_RESULT(yes)
       AC_DEFINE(BX_SUPPORT_IODEBUG, 1)
@@ -2089,9 +1786,7 @@ AC_SUBST(DOCBOOK2HTML)
 PRIMARY_TARGET='bochs'
 PLUGIN_LIBNAME_TRANSFORMATION='%.o=libbx_%.la'
 
-AC_DEFINE(BX_PROVIDE_DEVICE_MODELS, 1)
 IODEV_LIB_VAR='iodev/libiodev.a'
-AC_DEFINE(BX_PROVIDE_CPU_MEMORY, 1)
 NONINLINE_VAR='$(NONINLINE_OBJS)'
 
 AC_SUBST(IODEV_LIB_VAR)
@@ -2099,7 +1794,6 @@ AC_SUBST(EXTRA_BX_OBJS)
 AC_SUBST(NONINLINE_VAR)
 AC_SUBST(INLINE_VAR)
 AC_SUBST(EXTERNAL_DEPENDENCY)
-AC_SUBST(EXT_DEBUG_OBJS)
 AC_SUBST(RC_CMD)
 
 
@@ -2197,6 +1891,7 @@ AC_MSG_RESULT($WX_CONFIG)
 
 ok_wx_version=0
 wx_multi_lib=0
+needs_gtk2=0
 wx_needs_gtk2=0
 AC_MSG_CHECKING(for wxWidgets library version)
 if test x$WX_CONFIG != xnot_found; then
@@ -2213,8 +1908,8 @@ if test x$WX_CONFIG != xnot_found; then
       ok_wx_version=1
       wx_multi_lib=1
       case x$WX_BASENAME in
-	xwx_gtk2|xwx_gtk2u) wx_needs_gtk2=1 ;;
-	*) ;;
+        xwx_gtk2|xwx_gtk2u) wx_needs_gtk2=1 ;;
+        *) ;;
       esac
       ;;
     x[3-9]*) ok_wx_version=1 ;;  # version 3 or greater
@@ -2228,6 +1923,9 @@ if test "$cross_configure" = 0; then
     # detected a usable version
     if test "$with_all_libs" = yes; then
       with_wx=yes
+    fi
+    if test "$with_wx" = yes; then
+      needs_gtk2=$wx_needs_gtk2
     fi
   else
     if test "$with_wx" = yes; then
@@ -2258,6 +1956,10 @@ if test "$with_x11" = yes; then
   GUI_CFLAGS="$GUI_CFLAGS \$(X_CFLAGS)"
   GUI_CXXFLAGS="$GUI_CXXFLAGS \$(X_CFLAGS)"
   GUI_LINK_OPTS="$GUI_LINK_OPTS \$(GUI_LINK_OPTS_X)"
+  # The enhanced X debugger depends on GTK2
+  if test "$gui_debugger" = 1; then
+    needs_gtk2=1
+  fi
   check_xpm=0
   AC_MSG_CHECKING(whether user wants XPM support)
   AC_ARG_ENABLE(xpm,
@@ -2301,6 +2003,10 @@ if test "$with_sdl" = yes; then
   GUI_CFLAGS="$GUI_CFLAGS $SDL_CFLAGS"
   GUI_CXXFLAGS="$GUI_CXXFLAGS $SDL_CFLAGS"
   GUI_LINK_OPTS="$GUI_LINK_OPTS \$(GUI_LINK_OPTS_SDL)"
+  # The enhanced X debugger depends on GTK2
+  if test "$gui_debugger" = 1 -a "$DEFAULT_GUI" != win32; then
+    needs_gtk2=1
+  fi
   if test "$with_win32" != yes -a "$with_wx" != yes; then
     case $target in
       *-pc-windows*)
@@ -2413,20 +2119,6 @@ if test "$with_wx" = yes; then
   else
     GUI_LINK_OPTS_WX="`$WX_CONFIG --libs`"
   fi
-  if test "$wx_needs_gtk2" = 1; then
-    PKG_CHECK_MODULES([GTK], [gtk+-2.0], [
-      WX_CFLAGS="$WX_CFLAGS $GTK_CFLAGS"
-      WX_CXXFLAGS="$WX_CXXFLAGS $GTK_CFLAGS"
-    ])
-  else
-    # if gtk-config exists, then add it to the cflags.
-    gtkconf=`gtk-config --cflags`
-    if test $? = 0; then
-      # gtk-config was found and returned 0, so it must return valid output
-      WX_CFLAGS="$WX_CFLAGS $gtkconf"
-      WX_CXXFLAGS="$WX_CXXFLAGS $gtkconf"
-    fi
-  fi
   # GUI_C*FLAGS are added to the compilation of every bochs file, not just
   # the files in gui/*.cc.  They are not used when building other things
   # such as bximage.
@@ -2457,6 +2149,22 @@ if test "$display_libs" = ""; then
   echo "individual display libraries, or --with-all-libs to detect the ones"
   echo "that Bochs supports."
   exit 1
+fi
+
+# some display libraries and the enhanced debugger may depend on the GTK+ software package
+if test "$needs_gtk2" = 1; then
+  # if pkg-config exists, then add it to the /gui cflags.
+  gtkconf=`pkg-config --cflags gtk+-2.0`
+  if test $? = 0; then
+    # pkg-config was found and returned 0, so it must return valid output
+    TOOLKIT_CXXFLAGS="$gtkconf"
+    LIBS="$LIBS `pkg-config --libs gtk+-2.0`"
+  else
+    echo "ERROR: pkg-config was not found, or unable to access the gtk+-2.0 package."
+    echo "Install pkg-config and the gtk+ development package,"
+    echo "or disable the gui debugger, or the wxWidgets display library (whichever is being used)."
+    exit 1
+  fi
 fi
 
 dnl To use wxWidgets you must select it as both the configuration interface
@@ -2491,6 +2199,7 @@ AC_SUBST(GUI_CXXFLAGS)
 AC_SUBST(WX_CONFIG)
 AC_SUBST(WX_CFLAGS)
 AC_SUBST(WX_CXXFLAGS)
+AC_SUBST(TOOLKIT_CXXFLAGS)
 
 AC_CHECK_PROGS(WGET, wget curl fetch, not_found)
 if test "$WGET" = not_found; then
@@ -2514,7 +2223,6 @@ case "$target" in
     AC_DEFINE(BX_NO_ATTRIBUTES, 1)
     AC_DEFINE(HAVE_TUNTAP, 0)
     AC_DEFINE(HAVE_ETHERTAP, 0)
-    AC_DEFINE(BX_HAVE_HASH_MAP, 0)
     ;;
   *-pc-windows*)
     INSTALL_TARGET='install_win32'
@@ -2522,7 +2230,7 @@ case "$target" in
     CXX="$CC"
     #C_OPT="/Zi"   # for debugging
     C_OPT="/Ox"   # optimize for speed
-    CFLAGS="/nologo /G6 /MT /W3 /GX- /DNDEBUG /DWIN32 /D_WINDOWS $C_OPT"
+    CFLAGS="/nologo /MT /W3 /EHs-c- /DNDEBUG /DWIN32 /D_WINDOWS /D_CRT_SECURE_NO_WARNINGS $C_OPT"
     CXXFLAGS="$CFLAGS"
     DASH="/"
     SLASH="\\"
@@ -2550,13 +2258,14 @@ case "$target" in
     CD_UP_THREE="cd ..\..\.."
     have_gettimeofday=0  # even though it may exist in build environment
     AC_DEFINE(BX_64BIT_CONSTANTS_USE_LL, 0)
-    AC_DEFINE(inline, __inline)
-    AC_DEFINE(BX_NO_EMPTY_STRUCTS, 1)
+    AC_DEFINE(inline, __forceinline)
     AC_DEFINE(BX_NO_ATTRIBUTES, 1)
-    AC_DEFINE(BX_HAVE_HASH_MAP, 0)
-    AC_DEFINE(BX_HAVE_HASH_MAP_H, 0)
+    AC_DEFINE(BX_HAVE_STRICMP, 1)
+    AC_DEFINE(BX_HAVE_STRCASECMP, 0)
     AC_DEFINE(BX_HAVE_STRTOULL, 0)
     AC_DEFINE(BX_HAVE_STRTOUQ, 0)
+    AC_DEFINE(BX_HAVE_STRREV, 1)
+    AC_DEFINE(BX_HAVE_STRDUP, 1)
     AC_DEFINE(HAVE_LIBREADLINE, 0)
     AC_DEFINE(BX_HAVE_GETTIMEOFDAY, 0)
     AC_DEFINE(BX_HAVE_DLFCN_H, 0)
@@ -2588,6 +2297,16 @@ case "$target" in
     ;;
 esac
 
+ENH_DBG_OBJS=""
+if test "$gui_debugger" = 1; then
+  if test "$needs_gtk2" = 1; then
+     ENH_DBG_OBJS="gtk_enh_dbg_osdep.o"
+  elif test "$with_win32" = yes; then
+     ENH_DBG_OBJS="win32_enh_dbg_osdep.o"
+  fi
+fi
+AC_SUBST(ENH_DBG_OBJS)
+
 DIALOG_OBJS=""
 EXPORT_DYNAMIC="-export-dynamic"
 case $target in
@@ -2603,7 +2322,7 @@ case $target in
         LIBS="$LIBS -lcomctl32"
       fi
     fi
-    DIALOG_OBJS="win32dialog.o"
+    DIALOG_OBJS="win32dialog.o win32paramdlg.o"
     EXPORT_DYNAMIC=""
     ;;
 esac
@@ -2882,25 +2601,177 @@ fi
 
 dnl // DEPRECATED configure options - force users to remove them
 
-AC_MSG_CHECKING(for magic breakpoints (deprecated))
-AC_ARG_ENABLE(magic-breakpoints,
-  [  --enable-magic-breakpoints        enables magic breakpoints (deprecated)],
+AC_MSG_CHECKING(for MMX support (deprecated))
+AC_ARG_ENABLE(mmx,
+  [  --enable-mmx                      support for MMX intructions (deprecated)],
   [AC_MSG_RESULT($enableval)
-   AC_MSG_ERROR([DEPRECATED - magic breakpoints are always enabled with Bochs internal debugger])
+   AC_MSG_ERROR([DEPRECATED - moved to .bochsrc options])
   ],
   [
    AC_MSG_RESULT(no)
   ])
 
-AC_MSG_CHECKING(for save/restore (deprecated))
-AC_ARG_ENABLE(save-restore,
-  [  --enable-save-restore             enables save/restore (deprecated)],
+AC_MSG_CHECKING(for SSE support (deprecated))
+AC_ARG_ENABLE(sse,
+  [  --enable-sse                      support for SSE intruction set (deprecated)],
   [AC_MSG_RESULT($enableval)
-   AC_MSG_ERROR([DEPRECATED - save/restore feature is always enabled])
+   AC_MSG_ERROR([DEPRECATED - moved to .bochsrc options])
   ],
   [
    AC_MSG_RESULT(no)
   ])
+
+AC_MSG_CHECKING(for SSE extensions support (deprecated))
+AC_ARG_ENABLE(sse-extension,
+  [  --enable-sse-extension            support for SSE extensions (deprecated)],
+  [AC_MSG_RESULT($enableval)
+   AC_MSG_ERROR([DEPRECATED - moved to .bochsrc options])
+  ],
+  [
+   AC_MSG_RESULT(no)
+  ])
+
+AC_MSG_CHECKING(for POPCNT support (deprecated))
+AC_ARG_ENABLE(popcnt,
+  [  --enable-popcnt                   support for POPCNT intruction (deprecated)],
+  [AC_MSG_RESULT($enableval)
+   AC_MSG_ERROR([DEPRECATED - enabled automatically if SSE4_2 is enabled])
+  ],
+  [
+   AC_MSG_RESULT(no)
+  ])
+
+AC_MSG_CHECKING(for MOVBE support (deprecated))
+AC_ARG_ENABLE(movbe,
+  [  --enable-movbe                    support for MOVBE intruction (deprecated)],
+  [AC_MSG_RESULT($enableval)
+   AC_MSG_ERROR([DEPRECATED - moved to .bochsrc options])
+  ],
+  [
+   AC_MSG_RESULT(no)
+  ])
+
+AC_MSG_CHECKING(for AES support (deprecated))
+AC_ARG_ENABLE(aes,
+  [  --enable-aes                      support for AES intruction set (deprecated)],
+  [AC_MSG_RESULT($enableval)
+   AC_MSG_ERROR([DEPRECATED - moved to .bochsrc options])
+  ],
+  [
+   AC_MSG_RESULT(no)
+  ])
+
+AC_MSG_CHECKING(for XSAVE support (deprecated))
+AC_ARG_ENABLE(xsave,
+  [  --enable-xsave                    support for XSAVE extensions (deprecated)],
+  [AC_MSG_RESULT($enableval)
+   AC_MSG_ERROR([DEPRECATED - moved to .bochsrc options])
+  ],
+  [
+   AC_MSG_RESULT(no)
+  ])
+
+AC_MSG_CHECKING(for SEP support (deprecated))
+AC_ARG_ENABLE(sep,
+  [  --enable-sep                      support for SYSENTER/SYSEXIT intructions (deprecated)],
+  [AC_MSG_RESULT($enableval)
+   AC_MSG_ERROR([DEPRECATED - moved to .bochsrc options])
+  ],
+  [
+   AC_MSG_RESULT(no)
+  ])
+
+AC_MSG_CHECKING(for APIC support (deprecated))
+AC_ARG_ENABLE(apic,
+  [  --enable-apic                     enable APIC support (deprecated)],
+  [AC_MSG_RESULT($enableval)
+   AC_MSG_ERROR([DEPRECATED - enabled automatically with SMP or when CPU_LEVEL >= 5])
+  ],
+  [
+   AC_MSG_RESULT(no)
+  ])
+
+AC_MSG_CHECKING(whether to ignore bad MSR references (deprecated))
+AC_ARG_ENABLE(ignore-bad-msr,
+  [  --enable-ignore-bad-msr           ignore bad MSR references (deprecated)],
+  [AC_MSG_RESULT($enableval)
+   AC_MSG_ERROR([DEPRECATED - moved to runtime option in .bochsrc])
+  ],
+  [
+   AC_MSG_RESULT(no)
+  ])
+
+AC_MSG_CHECKING(for long mode 1G pages support)
+AC_ARG_ENABLE(1g-pages,
+  [  --enable-1g-pages                 support for 1G pages in long mode (deprecated)],
+  [AC_MSG_RESULT($enableval)
+   AC_MSG_ERROR([DEPRECATED - moved to runtime option in .bochsrc])
+  ],
+  [
+   AC_MSG_RESULT(no)
+  ])
+
+AC_MSG_CHECKING(for PAE support (deprecated))
+AC_ARG_ENABLE(pae,
+  [  --enable-pae                      enables PAE support (deprecated)],
+  [AC_MSG_RESULT($enableval)
+   AC_MSG_ERROR([DEPRECATED - enabled automatically for CPU_LEVEL >= 6])
+  ],
+  [
+   AC_MSG_RESULT(no)
+  ])
+
+AC_MSG_CHECKING(for MTRR/PAT support (deprecated))
+AC_ARG_ENABLE(mtrr,
+  [  --enable-mtrr                     enables MTRR/PAT support (deprecated)],
+  [AC_MSG_RESULT($enableval)
+   AC_MSG_ERROR([DEPRECATED - enabled automatically for CPU_LEVEL >= 6])
+  ],
+  [
+   AC_MSG_RESULT(no)
+  ])
+
+
+AC_MSG_CHECKING(for LARGE PAGES (PSE) support (deprecated))
+AC_ARG_ENABLE(large-pages,
+  [  --enable-large-pages              enables PSE support (deprecated)],
+  [AC_MSG_RESULT($enableval)
+   AC_MSG_ERROR([DEPRECATED - enabled automatically for CPU_LEVEL >= 5])
+  ],
+  [
+   AC_MSG_RESULT(no)
+  ])
+
+AC_MSG_CHECKING(for GLOBAL PAGES (PGE) support (deprecated))
+AC_ARG_ENABLE(global-pages,
+  [  --enable-global-pages             enables Global Pages support (deprecated)],
+  [AC_MSG_RESULT($enableval)
+   AC_MSG_ERROR([DEPRECATED - enabled automatically for CPU_LEVEL >= 6])
+  ],
+  [
+   AC_MSG_RESULT(no)
+  ])
+
+AC_MSG_CHECKING(for DAZ support (deprecated))
+AC_ARG_ENABLE(daz,
+  [  --enable-daz                      enables denormals-are-zeroes support (deprecated)],
+  [AC_MSG_RESULT($enableval)
+   AC_MSG_ERROR([DEPRECATED - enabled automatically for SSE level >= 2])
+  ],
+  [
+   AC_MSG_RESULT(no)
+  ])
+
+AC_MSG_CHECKING(for VME support (deprecated))
+AC_ARG_ENABLE(vme,
+  [  --enable-vme                      virtual 8086 mode extensions (deprecated)],
+  [AC_MSG_RESULT($enableval)
+   AC_MSG_ERROR([DEPRECATED - enabled automatically for CPU_LEVEL >= 5])
+  ],
+  [
+   AC_MSG_RESULT(no)
+  ])
+
 
 # Create some subdirectories for when you run configure from some other
 # directory.

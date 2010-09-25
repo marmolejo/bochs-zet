@@ -2,13 +2,8 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//   Copyright (c) 2006-2009 Stanislav Shwartsman
+//          Written by Stanislav Shwartsman [sshwarts at sourceforge net]
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,18 +17,23 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 #include <assert.h>
 
 #include "bochs.h"
 #include "cpu/cpu.h"
+#include "disasm/disasm.h"
 
 bxInstrumentation *icpu = NULL;
 
 static disassembler bx_disassembler;
 
-void bx_instr_init(unsigned cpu)
+
+void bx_instr_init_env(void) {}
+void bx_instr_exit_env(void) {}
+
+void bx_instr_initialize(unsigned cpu)
 {
   assert(cpu < BX_SMP_PROCESSORS);
 
@@ -45,10 +45,10 @@ void bx_instr_init(unsigned cpu)
   fprintf(stderr, "Initialize cpu %d\n", cpu);
 }
 
-void bxInstrumentation::bx_instr_reset()
+void bxInstrumentation::bx_instr_reset(unsigned type)
 {
   valid = is_branch = 0;
-  nprefixes = num_data_accesses = 0;
+  num_data_accesses = 0;
   active = 1;
 }
 
@@ -65,7 +65,7 @@ void bxInstrumentation::bx_instr_new_instruction()
     {
       fprintf(stderr, "----------------------------------------------------------\n");
       fprintf(stderr, "CPU: %d: %s\n", cpu_id, disasm_tbuf);
-      fprintf(stderr, "LEN: %d\tPREFIXES: %d\tBYTES: ", length, nprefixes);
+      fprintf(stderr, "LEN: %d\tBYTES: ", length);
       for(n=0;n<length;n++) fprintf(stderr, "%02x", opcode[n]);
       if(is_branch)
       {
@@ -90,7 +90,7 @@ void bxInstrumentation::bx_instr_new_instruction()
   }
 
   valid = is_branch = 0;
-  nprefixes = num_data_accesses = 0;
+  num_data_accesses = 0;
 }
 
 void bxInstrumentation::branch_taken(bx_address new_eip)
@@ -140,16 +140,7 @@ void bxInstrumentation::bx_instr_opcode(const Bit8u *opcode_bytes, unsigned len,
   is32 = is32;
   is64 = is64;
   opcode_size = len;
-}
-
-void bxInstrumentation::bx_instr_fetch_decode_completed(bxInstruction_c *i)
-{
-  if(active) valid = 1;
-}
-
-void bxInstrumentation::bx_instr_prefix(Bit8u prefix)
-{
-  if(active) nprefixes++;
+  valid = 1;
 }
 
 void bxInstrumentation::bx_instr_interrupt(unsigned vector)
@@ -160,11 +151,11 @@ void bxInstrumentation::bx_instr_interrupt(unsigned vector)
   }
 }
 
-void bxInstrumentation::bx_instr_exception(unsigned vector)
+void bxInstrumentation::bx_instr_exception(unsigned vector, unsigned error_code)
 {
   if(active)
   {
-    fprintf(stderr, "CPU %u: exception %02xh\n", cpu_id, vector);
+    fprintf(stderr, "CPU %u: exception %02xh error_code=%x\n", cpu_id, vector, error_code);
   }
 }
 

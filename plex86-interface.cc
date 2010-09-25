@@ -1,23 +1,22 @@
-/////////////////////////////////////////////////////////////////////////
-//// $Id$
-///////////////////////////////////////////////////////////////////////////
-////
-////  Copyright (C) 2002  Kevin P. Lawton
-////
-////  This library is free software; you can redistribute it and/or
-////  modify it under the terms of the GNU Lesser General Public
-////  License as published by the Free Software Foundation; either
-////  version 2 of the License, or (at your option) any later version.
-////
-////  This library is distributed in the hope that it will be useful,
-////  but WITHOUT ANY WARRANTY; without even the implied warranty of
-////  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-////  Lesser General Public License for more details.
-////
-////  You should have received a copy of the GNU Lesser General Public
-////  License along with this library; if not, write to the Free Software
-////  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
-
+///////////////////////////////////////////////////////////////////////
+// $Id$
+///////////////////////////////////////////////////////////////////////
+//
+//  Copyright (C) 2002  Kevin P. Lawton
+//
+//  This library is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU Lesser General Public
+//  License as published by the Free Software Foundation; either
+//  version 2 of the License, or (at your option) any later version.
+//
+//  This library is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//  Lesser General Public License for more details.
+//
+//  You should have received a copy of the GNU Lesser General Public
+//  License along with this library; if not, write to the Free Software
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 #include "bochs.h"
 #include <sys/ioctl.h>
@@ -215,7 +214,7 @@ unsigned plex86ExecuteInVM(BX_CPU_C *cpu)
   plex86GuestCPU->tr7 = 0; // Unimplemented in bochs.
 
   plex86GuestCPU->cr0.raw = cpu->cr0.val32;
-  plex86GuestCPU->cr1     = cpu->cr1;
+  plex86GuestCPU->cr1     = 0;
   plex86GuestCPU->cr2     = cpu->cr2;
   plex86GuestCPU->cr3     = cpu->cr3;
   plex86GuestCPU->cr4.raw = cpu->cr4.registerValue;
@@ -349,9 +348,13 @@ void copyBochsDescriptorToPlex86(descriptor_t *plex86Desc, bx_descriptor_t *boch
   plex86Desc->p = bochsDesc->p;
   plex86Desc->dpl = bochsDesc->dpl;
   plex86Desc->type = (bochsDesc->segment<<4) | bochsDesc->type;
-  if (bochsDesc->segment) {
-    // Code/Data segment type.
-    Bit32u limit = bochsDesc->u.segment.limit;
+  if (bochsDesc->segment ||
+      bochsDesc->type == BX_SYS_SEGMENT_AVAIL_286_TSS ||
+      bochsDesc->type == BX_SYS_SEGMENT_AVAIL_386_TSS ||
+      bochsDesc->type == BX_SYS_SEGMENT_LDT)
+  {
+    // Code/Data segment, LDT or TSS
+    Bit32u limit = bochsDesc->u.segment.limit_scaled;
     plex86Desc->limit_low  = limit; // Only lower 16-bits.
     plex86Desc->limit_high = limit >> 16;
     Bit32u base = bochsDesc->u.segment.base;
@@ -362,23 +365,6 @@ void copyBochsDescriptorToPlex86(descriptor_t *plex86Desc, bx_descriptor_t *boch
     plex86Desc->reserved = 0;
     plex86Desc->d_b = bochsDesc->u.segment.d_b;
     plex86Desc->g   = bochsDesc->u.segment.g;
-    }
-  else if (bochsDesc->type == BX_SYS_SEGMENT_AVAIL_286_TSS ||
-           bochsDesc->type == BX_SYS_SEGMENT_AVAIL_386_TSS ||
-           bochsDesc->type == BX_SYS_SEGMENT_LDT)
-  {
-    // LDT or TSS
-    Bit32u limit = bochsDesc->u.system.limit;
-    plex86Desc->limit_low  = limit; // Only lower 16-bits.
-    plex86Desc->limit_high = limit >> 16;
-    Bit32u base = bochsDesc->u.system.base;
-    plex86Desc->base_low  = base;
-    plex86Desc->base_med  = base >> 16;
-    plex86Desc->base_high = base >> 24;
-    plex86Desc->avl = bochsDesc->u.system.avl;
-    plex86Desc->reserved = 0;
-    plex86Desc->d_b = 0;
-    plex86Desc->g   = bochsDesc->u.system.g;
   }
   else {
     BX_PANIC(("copyBochsDescriptorToPlex86: desc type = %u.",
@@ -395,7 +381,8 @@ void copyPlex86DescriptorToBochs(BX_CPU_C *cpu,
   /* We can assume little endian, since we're running an x86 VM. */
   dword1 = dwordPtr[0];
   dword2 = dwordPtr[1];
-  cpu->parse_descriptor(dword1, dword2, bochsDesc);
+
+  parse_descriptor(dword1, dword2, bochsDesc);
 }
 
 unsigned plex86RegisterGuestMemory(Bit8u *vector, unsigned bytes)

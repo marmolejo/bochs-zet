@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2002  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2002-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 /////////////////////////////////////////////////////////////////////////
 
 // Now features proper implementation of keyboard opcodes 0xF4 to 0xF6
@@ -53,7 +47,9 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "gui/keymap.h"
 #include <math.h>
+#include "keyboard.h"
 #include "scancodes.h"
 
 #define LOG_THIS  theKeyboard->
@@ -82,14 +78,12 @@ void libkeyboard_LTX_plugin_fini(void)
 bx_keyb_c::bx_keyb_c()
 {
   put("KBD");
-  settype(KBDLOG);
   pastebuf = NULL;
 }
 
 bx_keyb_c::~bx_keyb_c()
 {
   // remove runtime parameter handler
-  SIM->get_param_bool(BXPN_MOUSE_ENABLED)->set_handler(NULL);
   SIM->get_param_num(BXPN_KBD_PASTE_DELAY)->set_handler(NULL);
   if (pastebuf != NULL) {
     delete [] pastebuf;
@@ -180,7 +174,6 @@ void bx_keyb_c::init(void)
   BX_KEY_THIS s.kbd_controller.timer_pending = 0;
 
   // Mouse initialization stuff
-  BX_KEY_THIS s.mouse.captured        = SIM->get_param_bool(BXPN_MOUSE_ENABLED)->get();
   BX_KEY_THIS s.mouse.type            = SIM->get_param_enum(BXPN_MOUSE_TYPE)->get();
   BX_KEY_THIS s.mouse.sample_rate     = 100; // reports per second
   BX_KEY_THIS s.mouse.resolution_cpmm = 4;   // 4 counts per millimeter
@@ -260,9 +253,12 @@ void bx_keyb_c::init(void)
   }
 #endif
 
-  // init runtime parameters
-  SIM->get_param_bool(BXPN_MOUSE_ENABLED)->set_handler(kbd_param_handler);
-  SIM->get_param_bool(BXPN_MOUSE_ENABLED)->set_runtime_param(1);
+  if ((BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_PS2) ||
+      (BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_IMPS2)) {
+    DEV_register_default_mouse(this, mouse_enq_static, mouse_enabled_changed_static);
+  }
+
+  // init runtime parameter
   SIM->get_param_num(BXPN_KBD_PASTE_DELAY)->set_handler(kbd_param_handler);
   SIM->get_param_num(BXPN_KBD_PASTE_DELAY)->set_runtime_param(1);
 }
@@ -364,10 +360,7 @@ Bit64s bx_keyb_c::kbd_param_handler(bx_param_c *param, int set, Bit64s val)
   if (set) {
     char pname[BX_PATHNAME_LEN];
     param->get_param_path(pname, BX_PATHNAME_LEN);
-    if (!strcmp(pname, BXPN_MOUSE_ENABLED)) {
-      bx_gui->mouse_enabled_changed(val!=0);
-      BX_KEY_THIS mouse_enabled_changed(val!=0);
-    } else if (!strcmp(pname, BXPN_KBD_PASTE_DELAY)) {
+    if (!strcmp(pname, BXPN_KBD_PASTE_DELAY)) {
       BX_KEY_THIS paste_delay_changed((Bit32u)val);
     } else {
       BX_PANIC(("kbd_param_handler called with unexpected parameter '%s'", pname));
@@ -553,6 +546,9 @@ void bx_keyb_c::write(Bit32u address, Bit32u value, unsigned io_len)
 	    BX_KEY_THIS s.kbd_controller.scancodes_translate = scan_convert;
             }
             break;
+          case 0xcb: // write keyboard controller mode
+            BX_DEBUG(("write keyboard controller mode with value %02xh", (unsigned) value));
+            break;
           case 0xd1: // write output port
             BX_DEBUG(("write output port with value %02xh", (unsigned) value));
 	    BX_DEBUG(("write output port : %sable A20",(value & 0x02)?"en":"dis"));
@@ -694,6 +690,14 @@ void bx_keyb_c::write(Bit32u address, Bit32u value, unsigned io_len)
           }
           // keyboard not inhibited
           controller_enQ(0x80, 0);
+          break;
+        case 0xca: // read keyboard controller mode
+          controller_enQ(0x01, 0); // PS/2 (MCA)interface
+          break;
+        case 0xcb: //  write keyboard controller mode
+          BX_DEBUG(("write keyboard controller mode"));
+          // write keyboard controller mode to bit 0 of port 0x60
+          BX_KEY_THIS s.kbd_controller.expecting_port60h = 1;
           break;
         case 0xd0: // read output port: next byte read from port 60h
           BX_DEBUG(("io write to port 64h, command d0h (partial)"));
@@ -856,12 +860,10 @@ void bx_keyb_c::gen_scancode(Bit32u key)
   else
     scancode=(unsigned char *)scancodes[(key&0xFF)][BX_KEY_THIS s.kbd_controller.current_scancodes_set].make;
 
-#if BX_SUPPORT_PCIUSB
-  if (DEV_usb_keyboard_connected()) {
-    // if we have a keyboard/keypad installed, we need to call its handler first
-    if (DEV_usb_key_enq(scancode)) return;
+  // if we have a removable keyboard installed, we need to call its handler first
+  if (DEV_optional_key_enq(scancode)) {
+    return;
   }
-#endif
 
   if (BX_KEY_THIS s.kbd_controller.scancodes_translate) {
     // Translate before send
@@ -1319,7 +1321,7 @@ void bx_keyb_c::kbd_ctrl_to_mouse(Bit8u value)
     switch (BX_KEY_THIS s.kbd_controller.last_mouse_command) {
       case 0xf3: // Set Mouse Sample Rate
         BX_KEY_THIS s.mouse.sample_rate = value;
-        BX_DEBUG(("[mouse] Sampling rate set: %d Hz", value));
+        BX_DEBUG(("mouse: sampling rate set: %d Hz", value));
         if ((value == 200) && (!BX_KEY_THIS s.mouse.im_request)) {
           BX_KEY_THIS s.mouse.im_request = 1;
         } else if ((value == 100) && (BX_KEY_THIS s.mouse.im_request == 1)) {
@@ -1353,10 +1355,10 @@ void bx_keyb_c::kbd_ctrl_to_mouse(Bit8u value)
             BX_KEY_THIS s.mouse.resolution_cpmm = 8;
             break;
           default:
-            BX_PANIC(("[mouse] Unknown resolution %d", value));
+            BX_PANIC(("mouse: unknown resolution %d", value));
             break;
         }
-        BX_DEBUG(("[mouse] Resolution set to %d counts per mm",
+        BX_DEBUG(("mouse: resolution set to %d counts per mm",
           BX_KEY_THIS s.mouse.resolution_cpmm));
 
         controller_enQ(0xFA, 1); // ack
@@ -1374,9 +1376,8 @@ void bx_keyb_c::kbd_ctrl_to_mouse(Bit8u value)
       // if not a reset command or reset wrap mode
       // then just echo the byte.
       if ((value != 0xff) && (value != 0xec)) {
-        if (bx_dbg.mouse)
-          BX_INFO(("[mouse] wrap mode: Ignoring command %0X02.",value));
-        controller_enQ(value,1);
+        BX_DEBUG(("mouse: wrap mode: ignoring command 0x%02x",value));
+        controller_enQ(value, 1);
         // bail out
         return;
       }
@@ -1385,13 +1386,13 @@ void bx_keyb_c::kbd_ctrl_to_mouse(Bit8u value)
       case 0xe6: // Set Mouse Scaling to 1:1
         controller_enQ(0xFA, 1); // ACK
         BX_KEY_THIS s.mouse.scaling = 2;
-        BX_DEBUG(("[mouse] Scaling set to 1:1"));
+        BX_DEBUG(("mouse: scaling set to 1:1"));
         break;
 
       case 0xe7: // Set Mouse Scaling to 2:1
         controller_enQ(0xFA, 1); // ACK
         BX_KEY_THIS s.mouse.scaling         = 2;
-        BX_DEBUG(("[mouse] Scaling set to 2:1"));
+        BX_DEBUG(("mouse: scaling set to 2:1"));
         break;
 
       case 0xe8: // Set Mouse Resolution
@@ -1400,8 +1401,7 @@ void bx_keyb_c::kbd_ctrl_to_mouse(Bit8u value)
         break;
 
       case 0xea: // Set Stream Mode
-        if (bx_dbg.mouse)
-          BX_INFO(("[mouse] Mouse stream mode on."));
+        BX_DEBUG(("mouse: stream mode on"));
         BX_KEY_THIS s.mouse.mode = MOUSE_MODE_STREAM;
         controller_enQ(0xFA, 1); // ACK
         break;
@@ -1409,8 +1409,7 @@ void bx_keyb_c::kbd_ctrl_to_mouse(Bit8u value)
       case 0xec: // Reset Wrap Mode
         // unless we are in wrap mode ignore the command
         if (BX_KEY_THIS s.mouse.mode == MOUSE_MODE_WRAP) {
-          if (bx_dbg.mouse)
-            BX_INFO(("[mouse] Mouse wrap mode off."));
+          BX_DEBUG(("mouse: wrap mode off"));
           // restore previous mode except disable stream mode reporting.
           // ### TODO disabling reporting in stream mode
           BX_KEY_THIS s.mouse.mode = BX_KEY_THIS s.mouse.saved_mode;
@@ -1420,16 +1419,14 @@ void bx_keyb_c::kbd_ctrl_to_mouse(Bit8u value)
       case 0xee: // Set Wrap Mode
         // ### TODO flush output queue.
         // ### TODO disable interrupts if in stream mode.
-        if (bx_dbg.mouse)
-          BX_INFO(("[mouse] Mouse wrap mode on."));
+        BX_DEBUG(("mouse: wrap mode on"));
         BX_KEY_THIS s.mouse.saved_mode = BX_KEY_THIS s.mouse.mode;
         BX_KEY_THIS s.mouse.mode = MOUSE_MODE_WRAP;
         controller_enQ(0xFA, 1); // ACK
         break;
 
       case 0xf0: // Set Remote Mode (polling mode, i.e. not stream mode.)
-        if (bx_dbg.mouse)
-          BX_INFO(("[mouse] Mouse remote mode on."));
+        BX_DEBUG(("mouse: remote mode on"));
         // ### TODO should we flush/discard/ignore any already queued packets?
         BX_KEY_THIS s.mouse.mode = MOUSE_MODE_REMOTE;
         controller_enQ(0xFA, 1); // ACK
@@ -1441,7 +1438,7 @@ void bx_keyb_c::kbd_ctrl_to_mouse(Bit8u value)
           controller_enQ(0x03, 1); // Device ID (wheel z-mouse)
         else
           controller_enQ(0x00, 1); // Device ID (standard)
-        BX_DEBUG(("[mouse] Read mouse ID"));
+        BX_DEBUG(("mouse: read mouse ID"));
         break;
 
       case 0xf3: // Set Mouse Sample Rate (sample rate written to port 60h)
@@ -1454,7 +1451,7 @@ void bx_keyb_c::kbd_ctrl_to_mouse(Bit8u value)
         if (is_ps2) {
           BX_KEY_THIS s.mouse.enable = 1;
           controller_enQ(0xFA, 1); // ACK
-          BX_DEBUG(("[mouse] Mouse enabled (stream mode)"));
+          BX_DEBUG(("mouse enabled (stream mode)"));
         } else {
           // a mouse isn't present.  We need to return a 0xFE (resend) instead of a 0xFA (ACK)
           controller_enQ(0xFE, 1); // RESEND
@@ -1465,7 +1462,7 @@ void bx_keyb_c::kbd_ctrl_to_mouse(Bit8u value)
       case 0xf5: // Disable (in stream mode)
         BX_KEY_THIS s.mouse.enable = 0;
         controller_enQ(0xFA, 1); // ACK
-        BX_DEBUG(("[mouse] Mouse disabled (stream mode)"));
+        BX_DEBUG(("mouse disabled (stream mode)"));
         break;
 
       case 0xf6: // Set Defaults
@@ -1475,7 +1472,7 @@ void bx_keyb_c::kbd_ctrl_to_mouse(Bit8u value)
         BX_KEY_THIS s.mouse.enable          = 0;
         BX_KEY_THIS s.mouse.mode            = MOUSE_MODE_STREAM;
         controller_enQ(0xFA, 1); // ACK
-        BX_DEBUG(("[mouse] Set Defaults"));
+        BX_DEBUG(("mouse: set defaults"));
         break;
 
       case 0xff: // Reset
@@ -1493,7 +1490,7 @@ void bx_keyb_c::kbd_ctrl_to_mouse(Bit8u value)
           controller_enQ(0xFA, 1); // ACK
           controller_enQ(0xAA, 1); // completion code
           controller_enQ(0x00, 1); // ID code (standard after reset)
-          BX_DEBUG(("[mouse] Mouse reset"));
+          BX_DEBUG(("mouse reset"));
         } else {
           // a mouse isn't present.  We need to return a 0xFE (resend) instead of a 0xFA (ACK)
           controller_enQ(0xFE, 1); // RESEND
@@ -1507,7 +1504,7 @@ void bx_keyb_c::kbd_ctrl_to_mouse(Bit8u value)
         controller_enQ(BX_KEY_THIS s.mouse.get_status_byte(), 1); // status
         controller_enQ(BX_KEY_THIS s.mouse.get_resolution_byte(), 1); // resolution
         controller_enQ(BX_KEY_THIS s.mouse.sample_rate, 1); // sample rate
-        BX_DEBUG(("[mouse] Get mouse information"));
+        BX_DEBUG(("mouse: get mouse information"));
         break;
 
       case 0xeb: // Read Data (send a packet when in Remote Mode)
@@ -1516,24 +1513,24 @@ void bx_keyb_c::kbd_ctrl_to_mouse(Bit8u value)
         mouse_enQ_packet(((BX_KEY_THIS s.mouse.button_status & 0x0f) | 0x08),
           0x00, 0x00, 0x00); // bit3 of first byte always set
         //assumed we really aren't in polling mode, a rather odd assumption.
-        BX_ERROR(("[mouse] Warning: Read Data command partially supported."));
+        BX_ERROR(("mouse: Warning: Read Data command partially supported."));
         break;
 
       case 0xbb: // OS/2 Warp 3 uses this command
-       BX_ERROR(("[mouse] ignoring 0xbb command"));
+       BX_ERROR(("mouse: ignoring 0xbb command"));
        break;
 
       default:
         // If PS/2 mouse present, send NACK for unknown commands, otherwise ignore
         if (is_ps2) {
-          BX_ERROR(("[mouse] kbd_ctrl_to_mouse(): got value of 0x%02x", value));
+          BX_ERROR(("kbd_ctrl_to_mouse(): got value of 0x%02x", value));
           controller_enQ(0xFE, 1); /* send NACK */
         }
     }
   }
 }
 
-void bx_keyb_c::create_mouse_packet(bool force_enq)
+void bx_keyb_c::create_mouse_packet(bx_bool force_enq)
 {
   Bit8u b1, b2, b3, b4;
 
@@ -1599,17 +1596,13 @@ void bx_keyb_c::create_mouse_packet(bool force_enq)
 }
 
 
+void bx_keyb_c::mouse_enabled_changed_static(void *dev, bx_bool enabled)
+{
+  ((bx_keyb_c*)dev)->mouse_enabled_changed(enabled);
+}
+
 void bx_keyb_c::mouse_enabled_changed(bx_bool enabled)
 {
-  BX_KEY_THIS s.mouse.captured = enabled;
-#if BX_SUPPORT_PCIUSB
-  // if an usb mouse is connected, notify the device about the status change
-  if (DEV_usb_mouse_connected()) {
-    DEV_usb_mouse_enabled_changed(enabled);
-    return;
-  }
-#endif
-
   if (BX_KEY_THIS s.mouse.delayed_dx || BX_KEY_THIS s.mouse.delayed_dy ||
       BX_KEY_THIS s.mouse.delayed_dz) {
     create_mouse_packet(1);
@@ -1620,38 +1613,14 @@ void bx_keyb_c::mouse_enabled_changed(bx_bool enabled)
   BX_DEBUG(("PS/2 mouse %s", enabled?"enabled":"disabled"));
 }
 
+void bx_keyb_c::mouse_enq_static(void *dev, int delta_x, int delta_y, int delta_z, unsigned button_state)
+{
+  ((bx_keyb_c*)dev)->mouse_motion(delta_x, delta_y, delta_z, button_state);
+}
+
 void bx_keyb_c::mouse_motion(int delta_x, int delta_y, int delta_z, unsigned button_state)
 {
-  bool force_enq=0;
-
-  // If mouse events are disabled on the GUI headerbar, don't
-  // generate any mouse data
-  if (!BX_KEY_THIS s.mouse.captured)
-    return;
-
-#if BX_SUPPORT_PCIUSB
-  // if an usb mouse is connected, redirect mouse data to the usb device
-  if (DEV_usb_mouse_connected()) {
-    DEV_usb_mouse_enq(delta_x, delta_y, delta_z, button_state);
-    return;
-  }
-#endif
-
-  // if type == serial, redirect mouse data to the serial device
-  if ((BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_SERIAL) ||
-      (BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_SERIAL_WHEEL) ||
-      (BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_SERIAL_MSYS)) {
-    DEV_serial_mouse_enq(delta_x, delta_y, delta_z, button_state);
-    return;
-  }
-
-#if BX_SUPPORT_BUSMOUSE
-  // if type == bus, redirect mouse data to the bus device
-  if (BX_KEY_THIS s.mouse.type == BX_MOUSE_TYPE_BUS) {
-    DEV_bus_mouse_enq(delta_x, delta_y, 0, button_state);
-    return;
-  }
-#endif
+  bx_bool force_enq=0;
 
   // don't generate interrupts if we are in remote mode.
   if (BX_KEY_THIS s.mouse.mode == MOUSE_MODE_REMOTE)

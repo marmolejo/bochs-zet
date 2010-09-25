@@ -17,7 +17,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 /////////////////////////////////////////////////////////////////////////
 
 // Define BX_PLUGGABLE in files that can be compiled into plugins.  For
@@ -29,7 +29,9 @@
 #include "iodev.h"
 #if BX_SUPPORT_PCI && BX_SUPPORT_PCIPNIC
 
+#include "pci.h"
 #include "eth.h"
+#include "pcipnic.h"
 
 #define LOG_THIS thePNICDevice->
 
@@ -40,7 +42,6 @@ const Bit8u pnic_iomask[16] = {2, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 int libpcipnic_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   thePNICDevice = new bx_pcipnic_c();
-  bx_devices.pluginPciPNicAdapter = thePNICDevice;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, thePNICDevice, BX_PLUGIN_PCIPNIC);
   return 0; // Success
 }
@@ -53,7 +54,6 @@ void libpcipnic_LTX_plugin_fini(void)
 bx_pcipnic_c::bx_pcipnic_c()
 {
   put("PNIC");
-  settype(PCIPNICLOG);
 }
 
 bx_pcipnic_c::~bx_pcipnic_c()
@@ -305,55 +305,17 @@ Bit32u bx_pcipnic_c::pci_read_handler(Bit8u address, unsigned io_len)
 {
   Bit32u value = 0;
 
-  if (io_len > 4 || io_len == 0) {
-    BX_ERROR(("Experimental PNIC PCI read register 0x%02x, len=%u !",
-             (unsigned) address, (unsigned) io_len));
-    return 0xffffffff;
-  }
-
-  const char* pszName = "                  ";
-  switch (address) {
-    case 0x00: if (io_len == 2) {
-                 pszName = "(vendor id)       ";
-               } else if (io_len == 4) {
-                 pszName = "(vendor + device) ";
-               }
-      break;
-    case 0x04: if (io_len == 2) {
-                 pszName = "(command)         ";
-               } else if (io_len == 4) {
-                 pszName = "(command+status)  ";
-               }
-      break;
-    case 0x08: if (io_len == 1) {
-                 pszName = "(revision id)     ";
-               } else if (io_len == 4) {
-                 pszName = "(rev.+class code) ";
-               }
-      break;
-    case 0x0c: pszName = "(cache line size) "; break;
-    case 0x20: pszName = "(base address)    "; break;
-    case 0x28: pszName = "(cardbus cis)     "; break;
-    case 0x2c: pszName = "(subsys. vendor+) "; break;
-    case 0x30: pszName = "(rom base)        "; break;
-    case 0x3c: pszName = "(interrupt line+) "; break;
-    case 0x3d: pszName = "(interrupt pin)   "; break;
-  }
-
-  // This odd code is to display only what bytes actually were read.
-  char szTmp[9];
-  char szTmp2[3];
-  szTmp[0] = '\0';
-  szTmp2[0] = '\0';
   for (unsigned i=0; i<io_len; i++) {
     value |= (BX_PNIC_THIS s.pci_conf[address+i] << (i*8));
-    sprintf(szTmp2, "%02x", (BX_PNIC_THIS s.pci_conf[address+i]));
-    strrev(szTmp2);
-    strcat(szTmp, szTmp2);
   }
-  strrev(szTmp);
-  BX_DEBUG(("Experimental PNIC PCI read register 0x%02x %svalue 0x%s",
-            address, pszName, szTmp));
+
+  if (io_len == 1)
+    BX_DEBUG(("read  PCI register 0x%02x value 0x%02x", address, value));
+  else if (io_len == 2)
+    BX_DEBUG(("read  PCI register 0x%02x value 0x%04x", address, value));
+  else if (io_len == 4)
+    BX_DEBUG(("read  PCI register 0x%02x value 0x%08x", address, value));
+
   return value;
 }
 
@@ -368,51 +330,45 @@ void bx_pcipnic_c::pci_write_handler(Bit8u address, Bit32u value, unsigned io_le
       ((address > 0x23) && (address < 0x34)))
     return;
 
-  // This odd code is to display only what bytes actually were written.
-  char szTmp[9];
-  char szTmp2[3];
-  szTmp[0] = '\0';
-  szTmp2[0] = '\0';
-  if (io_len <= 4) {
-    for (unsigned i=0; i<io_len; i++) {
-      value8 = (value >> (i*8)) & 0xFF;
-      oldval = BX_PNIC_THIS s.pci_conf[address+i];
-      switch (address+i) {
-        case 0x3d: //
-        case 0x05: // disallowing write to command hi-byte
-        case 0x06: // disallowing write to status lo-byte (is that expected?)
-          strcpy(szTmp2, "..");
-          break;
-        case 0x3c:
-          if (value8 != oldval) {
-            BX_INFO(("new irq line = %d", value8));
-            BX_PNIC_THIS s.pci_conf[address+i] = value8;
-          }
-          break;
-        case 0x20:
-          value8 = (value8 & 0xfc) | 0x01;
-        case 0x21:
-        case 0x22:
-        case 0x23:
-          baseaddr_change = (value8 != oldval);
-        default:
+  for (unsigned i=0; i<io_len; i++) {
+    value8 = (value >> (i*8)) & 0xFF;
+    oldval = BX_PNIC_THIS s.pci_conf[address+i];
+    switch (address+i) {
+      case 0x3d: //
+      case 0x05: // disallowing write to command hi-byte
+      case 0x06: // disallowing write to status lo-byte (is that expected?)
+        break;
+      case 0x3c:
+        if (value8 != oldval) {
+          BX_INFO(("new irq line = %d", value8));
           BX_PNIC_THIS s.pci_conf[address+i] = value8;
-          sprintf(szTmp2, "%02x", value8);
-      }
-      strrev(szTmp2);
-      strcat(szTmp, szTmp2);
-    }
-    if (baseaddr_change) {
-      if (DEV_pci_set_base_io(BX_PNIC_THIS_PTR, read_handler, write_handler,
-                              &BX_PNIC_THIS s.base_ioaddr,
-                              &BX_PNIC_THIS s.pci_conf[0x20],
-                              16, &pnic_iomask[0], "PNIC")) {
-        BX_INFO(("new base address: 0x%04x", BX_PNIC_THIS s.base_ioaddr));
-      }
+        }
+        break;
+      case 0x20:
+        value8 = (value8 & 0xfc) | 0x01;
+      case 0x21:
+      case 0x22:
+      case 0x23:
+        baseaddr_change = (value8 != oldval);
+      default:
+        BX_PNIC_THIS s.pci_conf[address+i] = value8;
     }
   }
-  strrev(szTmp);
-  BX_DEBUG(("Experimental PNIC PCI write register 0x%02x value 0x%s", address, szTmp));
+  if (baseaddr_change) {
+    if (DEV_pci_set_base_io(BX_PNIC_THIS_PTR, read_handler, write_handler,
+                            &BX_PNIC_THIS s.base_ioaddr,
+                            &BX_PNIC_THIS s.pci_conf[0x20],
+                            16, &pnic_iomask[0], "PNIC")) {
+      BX_INFO(("new base address: 0x%04x", BX_PNIC_THIS s.base_ioaddr));
+    }
+  }
+
+  if (io_len == 1)
+    BX_DEBUG(("write PCI register 0x%02x value 0x%02x", address, value));
+  else if (io_len == 2)
+    BX_DEBUG(("write PCI register 0x%02x value 0x%04x", address, value));
+  else if (io_len == 4)
+    BX_DEBUG(("write PCI register 0x%02x value 0x%08x", address, value));
 }
 
 

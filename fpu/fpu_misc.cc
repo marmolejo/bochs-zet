@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//   Copyright (c) 2003 Stanislav Shwartsman
+//   Copyright (c) 2003-2009 Stanislav Shwartsman
 //          Written by Stanislav Shwartsman [sshwarts at sourceforge net]
 //
 //  This library is free software; you can redistribute it and/or
@@ -17,7 +17,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -33,8 +33,8 @@
 /* D9 C8 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FXCH_STi(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
+  BX_CPU_THIS_PTR FPU_update_last_instruction(i);
 
   int st0_tag = BX_CPU_THIS_PTR the_i387.FPU_gettagi(0);
   int sti_tag = BX_CPU_THIS_PTR the_i387.FPU_gettagi(i->rm());
@@ -46,104 +46,89 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FXCH_STi(bxInstruction_c *i)
 
   if (st0_tag == FPU_Tag_Empty || sti_tag == FPU_Tag_Empty)
   {
-      BX_CPU_THIS_PTR FPU_exception(FPU_EX_Stack_Underflow);
+     FPU_exception(FPU_EX_Stack_Underflow);
 
-      if(BX_CPU_THIS_PTR the_i387.is_IA_masked())
-      {
-	  /* Masked response */
-          if (st0_tag == FPU_Tag_Empty)
-              st0_reg = floatx80_default_nan;
+     if(BX_CPU_THIS_PTR the_i387.is_IA_masked())
+     {
+         /* Masked response */
+         if (st0_tag == FPU_Tag_Empty)
+             st0_reg = floatx80_default_nan;
 
-          if (sti_tag == FPU_Tag_Empty)
-              sti_reg = floatx80_default_nan;
-      }
-      else return;
+         if (sti_tag == FPU_Tag_Empty)
+             sti_reg = floatx80_default_nan;
+     }
+     else {
+         return;
+     }
   }
 
   BX_WRITE_FPU_REG(st0_reg, i->rm());
   BX_WRITE_FPU_REG(sti_reg, 0);
-#else
-  BX_INFO(("FXCH_STi: required FPU, configure --enable-fpu"));
-#endif
 }
 
 /* D9 E0 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FCHS(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
+  BX_CPU_THIS_PTR FPU_update_last_instruction(i);
 
   if (IS_TAG_EMPTY(0)) {
-      BX_CPU_THIS_PTR FPU_stack_underflow(0);
-      return;
+     FPU_stack_underflow(0);
   }
-
-  clear_C1();
-
-  floatx80 st0_reg = BX_READ_FPU_REG(0);
-  BX_WRITE_FPU_REG(floatx80_chs(st0_reg), 0);
-#else
-  BX_INFO(("FCHS: required FPU, configure --enable-fpu"));
-#endif
+  else {
+     clear_C1();
+     floatx80 st0_reg = BX_READ_FPU_REG(0);
+     BX_WRITE_FPU_REG(floatx80_chs(st0_reg), 0);
+  }
 }
 
 /* D9 E1 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FABS(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
+  BX_CPU_THIS_PTR FPU_update_last_instruction(i);
 
   if (IS_TAG_EMPTY(0)) {
-      BX_CPU_THIS_PTR FPU_stack_underflow(0);
-      return;
+     FPU_stack_underflow(0);
   }
-
-  clear_C1();
-
-  floatx80 st0_reg = BX_READ_FPU_REG(0);
-  BX_WRITE_FPU_REG(floatx80_abs(st0_reg), 0);
-#else
-  BX_INFO(("FABS: required FPU, configure --enable-fpu"));
-#endif
+  else {
+     clear_C1();
+     floatx80 st0_reg = BX_READ_FPU_REG(0);
+     BX_WRITE_FPU_REG(floatx80_abs(st0_reg), 0);
+  }
 }
 
 /* D9 F6 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FDECSTP(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
+  BX_CPU_THIS_PTR FPU_update_last_instruction(i);
 
   clear_C1();
 
   BX_CPU_THIS_PTR the_i387.tos = (BX_CPU_THIS_PTR the_i387.tos-1) & 7;
-#else
-  BX_INFO(("FDECSTP: required FPU, configure --enable-fpu"));
-#endif
 }
 
 /* D9 F7 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FINCSTP(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
+  BX_CPU_THIS_PTR FPU_update_last_instruction(i);
 
   clear_C1();
 
   BX_CPU_THIS_PTR the_i387.tos = (BX_CPU_THIS_PTR the_i387.tos+1) & 7;
-#else
-  BX_INFO(("FINCSTP: required FPU, configure --enable-fpu"));
-#endif
 }
 
 /* DD C0 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FFREE_STi(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
+  BX_CPU_THIS_PTR FPU_update_last_instruction(i);
+
+  clear_C1();
+
   BX_CPU_THIS_PTR the_i387.FPU_settagi(FPU_Tag_Empty, i->rm());
-#else
-  BX_INFO(("FFREE_STi: required FPU, configure --enable-fpu"));
-#endif
 }
 
 /*
@@ -154,13 +139,13 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FFREE_STi(bxInstruction_c *i)
 /* DF C0 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FFREEP_STi(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
+  BX_CPU_THIS_PTR FPU_update_last_instruction(i);
+
+  clear_C1();
+
   BX_CPU_THIS_PTR the_i387.FPU_settagi(FPU_Tag_Empty, i->rm());
   BX_CPU_THIS_PTR the_i387.FPU_pop();
-#else
-  BX_INFO(("FFREEP_STi: required FPU, configure --enable-fpu"));
-#endif
 }
 
 #endif

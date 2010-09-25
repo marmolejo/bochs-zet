@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//   Copyright (c) 2007 Stanislav Shwartsman
+//   Copyright (c) 2007-2009 Stanislav Shwartsman
 //          Written by Stanislav Shwartsman [sshwarts at sourceforge net]
 //
 //  This library is free software; you can redistribute it and/or
@@ -17,7 +17,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
 /////////////////////////////////////////////////////////////////////////
 
 #ifndef BX_DESCRIPTOR_H
@@ -40,13 +40,11 @@
 
 typedef struct { /* bx_selector_t */
   Bit16u value;   /* the 16bit value of the selector */
-#if BX_CPU_LEVEL >= 2
-    /* the following fields are extracted from the value field in protected
-       mode only.  They're used for sake of efficiency */
+  /* the following fields are extracted from the value field in protected
+     mode only.  They're used for sake of efficiency */
   Bit16u index;   /* 13bit index extracted from value in protected mode */
   Bit8u  ti;      /* table indicator bit extracted from value */
   Bit8u  rpl;     /* RPL extracted from value */
-#endif
 } bx_selector_t;
 
 #define BX_SELECTOR_RPL(selector) ((selector) & 0x03)
@@ -55,11 +53,10 @@ typedef struct { /* bx_selector_t */
 typedef struct
 {
 
+// do not go above 4 bits !
 #define SegValidCache  (0x01)
 #define SegAccessROK   (0x02)
 #define SegAccessWOK   (0x04)
-#define SegAccessROK4G (0x08)
-#define SegAccessWOK4G (0x10)
 
   unsigned valid;        // Holds above values, Or'd together.  Used to
                          // hold only 0 or 1.
@@ -126,19 +123,16 @@ typedef struct
 union {
   struct {
     bx_address base;       /* base address: 286=24bits, 386=32bits, long=64 */
-    Bit32u  limit;         /* limit: 286=16bits, 386=20bits */
     Bit32u  limit_scaled;  /* for efficiency, this contrived field is set to
                             * limit for byte granular, and
                             * (limit << 12) | 0xfff for page granular seg's
                             */
-#if BX_CPU_LEVEL >= 3
     bx_bool g;             /* granularity: 0=byte, 1=4K (page) */
     bx_bool d_b;           /* default size: 0=16bit, 1=32bit */
 #if BX_SUPPORT_X86_64
     bx_bool l;             /* long mode: 0=compat, 1=64 bit */
 #endif
     bx_bool avl;           /* available for use by system */
-#endif
   } segment;
   struct {
     Bit8u   param_count;   /* 5bits (0..31) #words/dword to copy from caller's
@@ -149,15 +143,6 @@ union {
   struct {                 /* type 5: Task Gate Descriptor */
     Bit16u  tss_selector;  /* TSS segment selector */
   } taskgate;
-  struct {
-    bx_address base;       /* 286=24 386+ = 32/64 bit base */
-    Bit32u  limit;         /* 286+ = 16/32 bit limit */
-#if BX_CPU_LEVEL >= 3
-    Bit32u  limit_scaled;  // Same notes as for 'segment' field
-    bx_bool g;             /* granularity: 0=byte, 1=4K (page) */
-    bx_bool avl;           /* available for use by system */
-#endif
-  } system;                /* TSS and LDT */
 } u;
 
 } bx_descriptor_t;
@@ -174,9 +159,7 @@ union {
 #define IS_CODE_SEGMENT_CONFORMING(type)  (((type) >> 2) & 0x1)
 #define IS_DATA_SEGMENT_EXPAND_DOWN(type) (((type) >> 2) & 0x1)
 #define IS_CODE_SEGMENT_READABLE(type)    (((type) >> 1) & 0x1)
-
-// data segment writeable bit is ignored when in 64-bit mode
-#define IS_DATA_SEGMENT_WRITEABLE(type)   (Is64BitMode() || (((type) >> 1) & 0x1))
+#define IS_DATA_SEGMENT_WRITEABLE(type)   (((type) >> 1) & 0x1)
 
 #define IS_SEGMENT_ACCESSED(type)         ((type) & 0x1)
 
@@ -196,13 +179,14 @@ typedef struct {
   bx_descriptor_t  cache;
 } bx_segment_reg_t;
 
-#if BX_CPU_LEVEL < 2
-  /* no GDTR or IDTR register in an 8086 */
-#else
 typedef struct {
   bx_address       base;   /* base address: 24bits=286,32bits=386,64bits=x86-64 */
   Bit16u           limit;  /* limit, 16bits */
 } bx_global_segment_reg_t;
-#endif
+
+void  parse_selector(Bit16u raw_selector, bx_selector_t *selector);
+Bit8u get_ar_byte(const bx_descriptor_t *d);
+void  set_ar_byte(bx_descriptor_t *d, Bit8u ar_byte);
+void  parse_descriptor(Bit32u dword1, Bit32u dword2, bx_descriptor_t *temp);
 
 #endif

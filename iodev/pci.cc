@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2002  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2002-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 //
 // i440FX Support - PMC/DBX
@@ -34,7 +28,10 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+
 #if BX_SUPPORT_PCI
+
+#include "pci.h"
 
 #define LOG_THIS thePciBridge->
 
@@ -56,12 +53,11 @@ void libpci_LTX_plugin_fini(void)
 bx_pci_bridge_c::bx_pci_bridge_c()
 {
   put("PCI");
-  settype(PCILOG);
 }
 
 bx_pci_bridge_c::~bx_pci_bridge_c()
 {
-  print_i440fx_state();
+  debug_dump();
   BX_DEBUG(("Exit"));
 }
 
@@ -269,17 +265,13 @@ void bx_pci_bridge_c::write(Bit32u address, Bit32u value, unsigned io_len)
 // pci configuration space read callback handler
 Bit32u bx_pci_bridge_c::pci_read_handler(Bit8u address, unsigned io_len)
 {
-  Bit32u val440fx = 0;
+  Bit32u value = 0;
 
-  if (io_len <= 4) {
-    for (unsigned i=0; i<io_len; i++) {
-      val440fx |= (BX_PCI_THIS s.i440fx.pci_conf[address+i] << (i*8));
-    }
-    BX_DEBUG(("440FX PMC read register 0x%02x value 0x%08x", address, val440fx));
-    return val440fx;
+  for (unsigned i=0; i<io_len; i++) {
+    value |= (BX_PCI_THIS s.i440fx.pci_conf[address+i] << (i*8));
   }
-  else
-    return(0xffffffff);
+  BX_DEBUG(("440FX PMC read  register 0x%02x value 0x%08x", address, value));
+  return value;
 }
 
 // pci configuration space write callback handler
@@ -289,34 +281,32 @@ void bx_pci_bridge_c::pci_write_handler(Bit8u address, Bit32u value, unsigned io
 
   if ((address >= 0x10) && (address < 0x34))
     return;
-  if (io_len <= 4) {
-    for (unsigned i=0; i<io_len; i++) {
-      value8 = (value >> (i*8)) & 0xFF;
-      switch (address+i) {
-        case 0x04:
-          BX_PCI_THIS s.i440fx.pci_conf[address+i] = (value8 & 0x40) | 0x06;
-          break;
-        case 0x06:
-        case 0x0c:
-          break;
-        case 0x59:
-        case 0x5A:
-        case 0x5B:
-        case 0x5C:
-        case 0x5D:
-        case 0x5E:
-        case 0x5F:
-          BX_INFO(("440FX PMC write to PAM register %x (TLB Flush)", address+i));
-          BX_PCI_THIS s.i440fx.pci_conf[address+i] = value8;
-          bx_pc_system.MemoryMappingChanged();
-          break;
-        case 0x72:
-          smram_control(value);  // SMRAM conrol register
-          break;
-        default:
-          BX_PCI_THIS s.i440fx.pci_conf[address+i] = value8;
-          BX_DEBUG(("440FX PMC write register 0x%02x value 0x%02x", address+i, value8));
-      }
+  for (unsigned i=0; i<io_len; i++) {
+    value8 = (value >> (i*8)) & 0xFF;
+    switch (address+i) {
+      case 0x04:
+        BX_PCI_THIS s.i440fx.pci_conf[address+i] = (value8 & 0x40) | 0x06;
+        break;
+      case 0x06:
+      case 0x0c:
+        break;
+      case 0x59:
+      case 0x5A:
+      case 0x5B:
+      case 0x5C:
+      case 0x5D:
+      case 0x5E:
+      case 0x5F:
+        BX_INFO(("440FX PMC write to PAM register %x (TLB Flush)", address+i));
+        BX_PCI_THIS s.i440fx.pci_conf[address+i] = value8;
+        bx_pc_system.MemoryMappingChanged();
+        break;
+      case 0x72:
+        smram_control(value);  // SMRAM conrol register
+        break;
+      default:
+        BX_PCI_THIS s.i440fx.pci_conf[address+i] = value8;
+        BX_DEBUG(("440FX PMC write register 0x%02x value 0x%02x", address+i, value8));
     }
   }
 }
@@ -465,7 +455,7 @@ Bit8u bx_pci_bridge_c::wr_memType(Bit32u addr)
    return(0); // keep compiler happy
 }
 
-void bx_pci_bridge_c::print_i440fx_state()
+void bx_pci_bridge_c::debug_dump()
 {
   int i;
 
@@ -550,6 +540,10 @@ bx_bool bx_pci_bridge_c::pci_set_base_mem(void *this_ptr, memory_handler_t f1, m
   Bit32u oldbase = *addr;
   Bit32u mask = ~(size - 1);
   Bit8u pci_flags = pci_conf[0x00] & 0x0f;
+  if ((pci_flags & 0x06) > 0) {
+    BX_PANIC(("PCI base memory flag 0x%02x not supported", pci_flags));
+    return 0;
+  }
   pci_conf[0x00] &= (mask & 0xf0);
   pci_conf[0x01] &= (mask >> 8) & 0xff;
   pci_conf[0x02] &= (mask >> 16) & 0xff;

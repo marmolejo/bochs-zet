@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//   Copyright (c) 2003 Stanislav Shwartsman
+//   Copyright (c) 2003-2009 Stanislav Shwartsman
 //          Written by Stanislav Shwartsman [sshwarts at sourceforge net]
 //
 //  This library is free software; you can redistribute it and/or
@@ -17,7 +17,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -26,7 +26,7 @@
 #include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
-#if BX_SUPPORT_SSE
+#if BX_CPU_LEVEL >= 6
 
 #include "fpu/softfloat-specialize.h"
 
@@ -346,7 +346,7 @@ static float32 approximate_rcp(float32 op)
  */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::RCPPS_VpsWps(bxInstruction_c *i)
 {
-#if BX_SUPPORT_SSE >= 1
+#if BX_CPU_LEVEL >= 6
   BX_CPU_THIS_PTR prepareSSE();
   BxPackedXmmRegister op;
 
@@ -355,9 +355,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RCPPS_VpsWps(bxInstruction_c *i)
     op = BX_READ_XMM_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    readVirtualDQwordAligned(i->seg(), RMAddr(i), (Bit8u *) &op);
+    readVirtualDQwordAligned(i->seg(), eaddr, (Bit8u *) &op);
   }
 
   op.xmm32u(0) = approximate_rcp(op.xmm32u(0));
@@ -366,10 +366,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RCPPS_VpsWps(bxInstruction_c *i)
   op.xmm32u(3) = approximate_rcp(op.xmm32u(3));
 
   BX_WRITE_XMM_REG(i->nnn(), op);
-
-#else
-  BX_INFO(("RCPPS_VpsWps: required SSE, use --enable-sse option"));
-  UndefinedOpcode(i);
 #endif
 }
 
@@ -380,7 +376,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RCPPS_VpsWps(bxInstruction_c *i)
  */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::RCPSS_VssWss(bxInstruction_c *i)
 {
-#if BX_SUPPORT_SSE >= 1
+#if BX_CPU_LEVEL >= 6
   BX_CPU_THIS_PTR prepareSSE();
   float32 op;
 
@@ -389,21 +385,17 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RCPSS_VssWss(bxInstruction_c *i)
     op = BX_READ_XMM_REG_LO_DWORD(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    op = read_virtual_dword(i->seg(), RMAddr(i));
+    op = read_virtual_dword(i->seg(), eaddr);
   }
 
   op = approximate_rcp(op);
   BX_WRITE_XMM_REG_LO_DWORD(i->nnn(), op);
-
-#else
-  BX_INFO(("RCPSS_VssWss: required SSE, use --enable-sse option"));
-  UndefinedOpcode(i);
 #endif
 }
 
-#if BX_SUPPORT_SSE
+#if BX_CPU_LEVEL >= 6
 
 Bit16u rsqrt_table0[1024] =
 {
@@ -730,7 +722,7 @@ static float32 approximate_rsqrt(float32 op)
  */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::RSQRTSS_VssWss(bxInstruction_c *i)
 {
-#if BX_SUPPORT_SSE >= 1
+#if BX_CPU_LEVEL >= 6
   BX_CPU_THIS_PTR prepareSSE();
   float32 op;
 
@@ -739,17 +731,13 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RSQRTSS_VssWss(bxInstruction_c *i)
     op = BX_READ_XMM_REG_LO_DWORD(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    op = read_virtual_dword(i->seg(), RMAddr(i));
+    op = read_virtual_dword(i->seg(), eaddr);
   }
 
   op = approximate_rsqrt(op);
   BX_WRITE_XMM_REG_LO_DWORD(i->nnn(), op);
-
-#else
-  BX_INFO(("RSQRTSS_VssWss: required SSE, use --enable-sse option"));
-  UndefinedOpcode(i);
 #endif
 }
 
@@ -761,7 +749,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RSQRTSS_VssWss(bxInstruction_c *i)
  */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::RSQRTPS_VpsWps(bxInstruction_c *i)
 {
-#if BX_SUPPORT_SSE >= 1
+#if BX_CPU_LEVEL >= 6
   BX_CPU_THIS_PTR prepareSSE();
   BxPackedXmmRegister op;
 
@@ -770,9 +758,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RSQRTPS_VpsWps(bxInstruction_c *i)
     op = BX_READ_XMM_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    readVirtualDQwordAligned(i->seg(), RMAddr(i), (Bit8u *) &op);
+    readVirtualDQwordAligned(i->seg(), eaddr, (Bit8u *) &op);
   }
 
   op.xmm32u(0) = approximate_rsqrt(op.xmm32u(0));
@@ -781,8 +769,5 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::RSQRTPS_VpsWps(bxInstruction_c *i)
   op.xmm32u(3) = approximate_rsqrt(op.xmm32u(3));
 
   BX_WRITE_XMM_REG(i->nnn(), op);
-#else
-  BX_INFO(("RSQRTPS_VpsWps: required SSE, use --enable-sse option"));
-  UndefinedOpcode(i);
 #endif
 }

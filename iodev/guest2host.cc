@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,10 +16,12 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 /////////////////////////////////////////////////////////////////////////
 
 #include "iodev.h"
+#include "guest2host.h"
+
 #define LOG_THIS  bx_g2h.
 
 bx_g2h_c bx_g2h;
@@ -33,7 +29,6 @@ bx_g2h_c bx_g2h;
 bx_g2h_c::bx_g2h_c()
 {
   put("G2H");
-  settype(G2HLOG);
   unsigned i;
 
   for (i=0; i<BX_MAX_G2H_CHANNELS; i++) {

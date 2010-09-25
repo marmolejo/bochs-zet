@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2002  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2002-2009  The Bochs Project
 //
 //  I/O port handlers API Copyright (C) 2003 by Frank Cornelis
 //
@@ -24,7 +18,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -32,34 +26,26 @@
 #define IODEV_H
 
 #include "bochs.h"
-
-/* maximum number of emulated devices allowed.  floppy, vga, etc...
-   you can increase this to anything below 256 since an 8-bit handle
-   is used for each device */
-#define BX_MAX_IO_DEVICES 30
-
-/* the last device in the array is the "default" I/O device */
-#define BX_DEFAULT_IO_DEVICE   (BX_MAX_IO_DEVICES-1)
+#include "param_names.h"
 
 /* number of IRQ lines supported.  In an ISA PC there are two
    PIC chips cascaded together.  each has 8 IRQ lines, so there
    should be 16 IRQ's total */
 #define BX_MAX_IRQS 16
-#define BX_NO_IRQ  -1
 
-class bx_pit_c;
-#if BX_SUPPORT_APIC
-class bx_ioapic_c;
-#endif
-#if BX_SUPPORT_IODEBUG
-class bx_iodebug_c;
-#endif
+/* size of internal buffer for mouse devices */
+#define BX_MOUSE_BUFF_SIZE 48
+
 #if 0
 class bx_g2h_c;
 #endif
 
 typedef Bit32u (*bx_read_handler_t)(void *, Bit32u, unsigned);
 typedef void   (*bx_write_handler_t)(void *, Bit32u, Bit32u, unsigned);
+
+typedef bx_bool (*bx_keyb_enq_t)(void *, Bit8u *);
+typedef void (*bx_mouse_enq_t)(void *, int, int, int, unsigned);
+typedef void (*bx_mouse_enabled_changed_t)(void *, bx_bool);
 
 #if BX_USE_DEV_SMF
 #  define BX_DEV_SMF  static
@@ -80,11 +66,13 @@ typedef void   (*bx_write_handler_t)(void *, Bit32u, Bit32u, unsigned);
 class BOCHSAPI bx_devmodel_c : public logfunctions {
   public:
   virtual ~bx_devmodel_c() {}
-  virtual void init_mem(BX_MEM_C *) {}
   virtual void init(void) {}
   virtual void reset(unsigned type) {}
   virtual void register_state(void) {}
   virtual void after_restore_state(void) {}
+#if BX_DEBUGGER
+  virtual void debug_dump(void) {}
+#endif
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -121,9 +109,6 @@ class BOCHSAPI bx_keyb_stub_c : public bx_devmodel_c {
 public:
   virtual ~bx_keyb_stub_c() {}
   // stubs for bx_keyb_c methods
-  virtual void mouse_motion(int delta_x, int delta_y, int delta_z, unsigned button_state) {
-    STUBFUNC(keyboard, mouse_motion);
-  }
   virtual void gen_scancode(Bit32u key) {
     STUBFUNC(keyboard, gen_scancode);
   }
@@ -174,11 +159,11 @@ public:
 
 class BOCHSAPI bx_floppy_stub_c : public bx_devmodel_c {
 public:
-  virtual unsigned get_media_status(unsigned drive) {
-    STUBFUNC(floppy,  get_media_status); return 0;
-  }
   virtual unsigned set_media_status(unsigned drive, unsigned status) {
     STUBFUNC(floppy, set_media_status); return 0;
+  }
+  virtual void set_media_readonly(unsigned drive, unsigned status) {
+    STUBFUNC(floppy, set_media_readonly);
   }
 };
 
@@ -244,9 +229,6 @@ public:
   virtual Bit8u IAC(void) {
     STUBFUNC(pic, IAC); return 0;
   }
-  virtual void show_pic_state(void) {
-    STUBFUNC(pic, show_pic_state);
-  }
 };
 
 class BOCHSAPI bx_vga_stub_c : public bx_devmodel_c {
@@ -255,10 +237,10 @@ public:
                            unsigned width, unsigned height) {
     STUBFUNC(vga, redraw_area);
   }
-  virtual Bit8u mem_read(Bit32u addr) {
+  virtual Bit8u mem_read(bx_phy_address addr) {
     STUBFUNC(vga, mem_read);  return 0;
   }
-  virtual void mem_write(Bit32u addr, Bit8u value) {
+  virtual void mem_write(bx_phy_address addr, Bit8u value) {
     STUBFUNC(vga, mem_write);
   }
   virtual void get_text_snapshot(Bit8u **text_snapshot,
@@ -271,6 +253,10 @@ public:
   virtual Bit8u get_actl_palette_idx(Bit8u index) {
     return 0;
   }
+  virtual bx_bool vbe_set_base_addr(Bit32u *addr, Bit8u *pci_conf) {
+    return 0;
+  }
+
   virtual void dump_status(void) {}
   virtual void dump_video(char *file) {}
   virtual void load_video(char *file) {}
@@ -302,7 +288,6 @@ public:
 
   virtual Bit8u rd_memType(Bit32u addr) { return 0; }
   virtual Bit8u wr_memType(Bit32u addr) { return 0; }
-  virtual void print_i440fx_state(void) {}
 };
 
 class BOCHSAPI bx_pci2isa_stub_c : public bx_devmodel_c, public bx_pci_device_stub_c {
@@ -327,34 +312,13 @@ public:
 
 class BOCHSAPI bx_speaker_stub_c : public bx_devmodel_c {
 public:
-  virtual void beep_on(float frequency) {}
-  virtual void beep_off() {}
-};
-
-class BOCHSAPI bx_serial_stub_c : public bx_devmodel_c {
-public:
-  virtual void serial_mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state) {
-    STUBFUNC(serial, serial_mouse_enq);
+  virtual void beep_on(float frequency) {
+    bx_gui->beep_on(frequency);
+  }
+  virtual void beep_off() {
+    bx_gui->beep_off();
   }
 };
-
-#if BX_SUPPORT_PCIUSB
-class BOCHSAPI bx_pci_usb_stub_c : public bx_devmodel_c, public bx_pci_device_stub_c {
-public:
-  virtual void usb_mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state) {
-    STUBFUNC(pciusb, usb_mouse_enq);
-  }
-  virtual void usb_mouse_enabled_changed(bx_bool enable) {
-    STUBFUNC(pciusb, usb_mouse_enabled_changed);
-  }
-  virtual bx_bool usb_key_enq(Bit8u *scan_code) {
-    STUBFUNC(pciusb, usb_key_enq);
-    return 0;
-  }
-  virtual bx_bool usb_keyboard_connected() { return 0; }
-  virtual bx_bool usb_mouse_connected() { return 0; }
-};
-#endif
 
 #if BX_SUPPORT_ACPI
 class BOCHSAPI bx_acpi_ctrl_stub_c : public bx_devmodel_c, public bx_pci_device_stub_c {
@@ -363,19 +327,31 @@ public:
 };
 #endif
 
-#if BX_SUPPORT_BUSMOUSE
-class BOCHSAPI bx_busm_stub_c : public bx_devmodel_c {
+#if BX_SUPPORT_IODEBUG
+class BOCHSAPI bx_iodebug_stub_c : public bx_devmodel_c {
 public:
-  virtual void bus_mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state) {
-    STUBFUNC(busmouse, bus_mouse_enq);
+  virtual void mem_write(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, void *data) {
+    STUBFUNC(iodebug, mem_write);
   }
+  virtual void mem_read(BX_CPU_C *cpu, bx_phy_address addr, unsigned len, void *data) {
+    STUBFUNC(iodebug, mem_read);
+  }
+};
+#endif
+
+#if BX_SUPPORT_APIC
+class BOCHSAPI bx_ioapic_stub_c : public bx_devmodel_c {
+public:
+  virtual void receive_eoi(Bit8u vector) {}
+  virtual void set_irq_level(Bit8u int_in, bx_bool level) {}
 };
 #endif
 
 class BOCHSAPI bx_devices_c : public logfunctions {
 public:
-  bx_devices_c(void);
- ~bx_devices_c(void);
+  bx_devices_c();
+ ~bx_devices_c();
+
   // Initialize the device stubs (in constructur and exit())
   void init_stubs(void);
   // Register I/O addresses and IRQ lines. Initialize any internal
@@ -416,46 +392,39 @@ public:
   Bit32u inp(Bit16u addr, unsigned io_len) BX_CPP_AttrRegparmN(2);
   void   outp(Bit16u addr, Bit32u value, unsigned io_len) BX_CPP_AttrRegparmN(3);
 
+  void register_removable_keyboard(void *dev, bx_keyb_enq_t keyb_enq);
+  void unregister_removable_keyboard(void *dev);
+  void register_default_mouse(void *dev, bx_mouse_enq_t mouse_enq, bx_mouse_enabled_changed_t mouse_enabled_changed);
+  void register_removable_mouse(void *dev, bx_mouse_enq_t mouse_enq, bx_mouse_enabled_changed_t mouse_enabled_changed);
+  void unregister_removable_mouse(void *dev);
+  bx_bool optional_key_enq(Bit8u *scan_code);
+  void mouse_enabled_changed(bx_bool enabled);
+  void mouse_motion(int delta_x, int delta_y, int delta_z, unsigned button_state);
+
   static void timer_handler(void *);
   void timer(void);
 
-  bx_devmodel_c     *pluginBiosDevice;
-#if BX_SUPPORT_APIC
-  bx_ioapic_c       *ioapic;
-#endif
   bx_pci_bridge_stub_c *pluginPciBridge;
   bx_pci2isa_stub_c *pluginPci2IsaBridge;
   bx_pci_ide_stub_c *pluginPciIdeController;
 #if BX_SUPPORT_ACPI
   bx_acpi_ctrl_stub_c *pluginACPIController;
 #endif
-  bx_devmodel_c     *pluginPciVgaAdapter;
-  bx_devmodel_c     *pluginPciDevAdapter;
-  bx_devmodel_c     *pluginPciPNicAdapter;
-  bx_pit_c          *pit;
+  bx_devmodel_c     *pluginPitDevice;
   bx_keyb_stub_c    *pluginKeyboard;
   bx_dma_stub_c     *pluginDmaDevice;
   bx_floppy_stub_c  *pluginFloppyDevice;
   bx_cmos_stub_c    *pluginCmosDevice;
-  bx_serial_stub_c  *pluginSerialDevice;
-#if BX_SUPPORT_PCIUSB
-  bx_pci_usb_stub_c *pluginPciUSBAdapter;
-#endif
-  bx_devmodel_c     *pluginParallelDevice;
-  bx_devmodel_c     *pluginUnmapped;
   bx_vga_stub_c     *pluginVgaDevice;
   bx_pic_stub_c     *pluginPicDevice;
   bx_hard_drive_stub_c *pluginHardDrive;
-  bx_devmodel_c     *pluginSB16Device;
   bx_ne2k_stub_c    *pluginNE2kDevice;
-  bx_devmodel_c     *pluginExtFpuIrq;
-  bx_devmodel_c     *pluginGameport;
   bx_speaker_stub_c *pluginSpeaker;
-#if BX_SUPPORT_BUSMOUSE
-  bx_busm_stub_c    *pluginBusMouse;
-#endif
 #if BX_SUPPORT_IODEBUG
-  bx_iodebug_c	    *iodebug;
+  bx_iodebug_stub_c *pluginIODebug;
+#endif
+#if BX_SUPPORT_APIC
+  bx_ioapic_stub_c  *pluginIOAPIC;
 #endif
 #if 0
   bx_g2h_c          *g2h;
@@ -465,9 +434,6 @@ public:
   // loaded
   bx_cmos_stub_c stubCmos;
   bx_keyb_stub_c stubKeyboard;
-#if BX_SUPPORT_BUSMOUSE
-  bx_busm_stub_c stubBusMouse;
-#endif
   bx_hard_drive_stub_c stubHardDrive;
   bx_dma_stub_c  stubDma;
   bx_pic_stub_c  stubPic;
@@ -478,12 +444,14 @@ public:
   bx_pci_ide_stub_c stubPciIde;
   bx_ne2k_stub_c    stubNE2k;
   bx_speaker_stub_c stubSpeaker;
-  bx_serial_stub_c  stubSerial;
-#if BX_SUPPORT_PCIUSB
-  bx_pci_usb_stub_c stubUsbAdapter;
-#endif
 #if BX_SUPPORT_ACPI
   bx_acpi_ctrl_stub_c stubACPIController;
+#endif
+#if BX_SUPPORT_IODEBUG
+  bx_iodebug_stub_c stubIODebug;
+#endif
+#if BX_SUPPORT_APIC
+  bx_ioapic_stub_c stubIOAPIC;
 #endif
 
   // Some info to pass to devices which can handled bulk IO.  This allows
@@ -525,19 +493,54 @@ private:
   static Bit32u default_read_handler(void *this_ptr, Bit32u address, unsigned io_len);
   static void   default_write_handler(void *this_ptr, Bit32u address, Bit32u value, unsigned io_len);
 
+  bx_bool mouse_captured; // host mouse capture enabled
+  Bit8u mouse_type;
+  struct {
+    void *dev;
+    bx_mouse_enq_t enq_event;
+    bx_mouse_enabled_changed_t enabled_changed;
+  } bx_mouse[2];
+  struct {
+    void *dev;
+    bx_keyb_enq_t enq_event;
+  } bx_keyboard;
+
   int timer_handle;
+
+  bx_bool is_harddrv_enabled();
   bx_bool is_serial_enabled();
-  bx_bool is_usb_enabled();
   bx_bool is_parallel_enabled();
+  bx_bool is_usb_ohci_enabled();
+  bx_bool is_usb_uhci_enabled();
 };
 
 // memory stub has an assumption that there are no memory accesses splitting 4K page
 BX_CPP_INLINE void DEV_MEM_READ_PHYSICAL(bx_phy_address phy_addr, unsigned len, Bit8u *ptr)
 {
+  unsigned remainingInPage = 0x1000 - (phy_addr & 0xfff);
+  if (len <= remainingInPage) {
+    BX_MEM(0)->readPhysicalPage(NULL, phy_addr, len, ptr);
+  }
+  else {
+    BX_MEM(0)->readPhysicalPage(NULL, phy_addr, remainingInPage, ptr);
+    ptr += remainingInPage;
+    phy_addr += remainingInPage;
+    len -= remainingInPage;
+    BX_MEM(0)->readPhysicalPage(NULL, phy_addr, len, ptr);
+  }
+}
+
+BX_CPP_INLINE void DEV_MEM_READ_PHYSICAL_BLOCK(bx_phy_address phy_addr, unsigned len, Bit8u *ptr)
+{
+  Bit8u *memptr;
+
   while(len > 0) { 
     unsigned remainingInPage = 0x1000 - (phy_addr & 0xfff);
     if (len < remainingInPage) remainingInPage = len;
-    BX_MEM(0)->readPhysicalPage(NULL, phy_addr, remainingInPage, ptr);
+    memptr = BX_MEM(0)->getHostMemAddr(NULL, phy_addr, BX_READ);
+    if (memptr != NULL) {
+      memcpy(ptr, memptr, remainingInPage);
+    }
     ptr += remainingInPage;
     phy_addr += remainingInPage;
     len -= remainingInPage;
@@ -547,10 +550,30 @@ BX_CPP_INLINE void DEV_MEM_READ_PHYSICAL(bx_phy_address phy_addr, unsigned len, 
 // memory stub has an assumption that there are no memory accesses splitting 4K page
 BX_CPP_INLINE void DEV_MEM_WRITE_PHYSICAL(bx_phy_address phy_addr, unsigned len, Bit8u *ptr)
 {
+  unsigned remainingInPage = 0x1000 - (phy_addr & 0xfff);
+  if (len <= remainingInPage) {
+    BX_MEM(0)->writePhysicalPage(NULL, phy_addr, len, ptr);
+  }
+  else {
+    BX_MEM(0)->writePhysicalPage(NULL, phy_addr, remainingInPage, ptr);
+    ptr += remainingInPage;
+    phy_addr += remainingInPage;
+    len -= remainingInPage;
+    BX_MEM(0)->writePhysicalPage(NULL, phy_addr, len, ptr);
+  }
+}
+
+BX_CPP_INLINE void DEV_MEM_WRITE_PHYSICAL_BLOCK(bx_phy_address phy_addr, unsigned len, Bit8u *ptr)
+{
+  Bit8u *memptr;
+
   while(len > 0) { 
     unsigned remainingInPage = 0x1000 - (phy_addr & 0xfff);
     if (len < remainingInPage) remainingInPage = len;
-    BX_MEM(0)->writePhysicalPage(NULL, phy_addr, remainingInPage, ptr);
+    memptr = BX_MEM(0)->getHostMemAddr(NULL, phy_addr, BX_WRITE);
+    if (memptr != NULL) {
+      memcpy(memptr, ptr, remainingInPage);
+    }
     ptr += remainingInPage;
     phy_addr += remainingInPage;
     len -= remainingInPage;
@@ -559,61 +582,10 @@ BX_CPP_INLINE void DEV_MEM_WRITE_PHYSICAL(bx_phy_address phy_addr, unsigned len,
 
 #ifndef NO_DEVICE_INCLUDES
 
-#if BX_SUPPORT_PCI
-#include "iodev/pci.h"
-#include "iodev/pci2isa.h"
-#include "iodev/pci_ide.h"
-#if BX_SUPPORT_ACPI
-#include "iodev/acpi.h"
-#endif
-#if BX_SUPPORT_PCIVGA
-#include "iodev/pcivga.h"
-#endif
-#if BX_SUPPORT_PCIDEV
-#include "iodev/pcidev.h"
-#endif
-#if BX_SUPPORT_PCIUSB
-#include "iodev/pciusb.h"
-#endif
-#endif
 #include "iodev/vga.h"
-#if BX_SUPPORT_APIC
-#  include "iodev/ioapic.h"
-#endif
-#include "iodev/biosdev.h"
-#include "iodev/cmos.h"
-#include "iodev/dma.h"
-#include "iodev/floppy.h"
-#include "iodev/harddrv.h"
-#if BX_SUPPORT_IODEBUG
-#   include "iodev/iodebug.h"
-#endif
-#include "iodev/keyboard.h"
-#if BX_SUPPORT_BUSMOUSE
-#   include "iodev/busmouse.h"
-#endif
-#include "iodev/parallel.h"
-#include "iodev/pic.h"
-#include "iodev/pit_wrap.h"
-#include "iodev/virt_timer.h"
-#include "iodev/serial.h"
-#if BX_SUPPORT_SB16
-#  include "iodev/sb16.h"
-#endif
-#include "iodev/unmapped.h"
-#include "iodev/ne2k.h"
-#if BX_SUPPORT_PCIPNIC
-#include "iodev/pcipnic.h"
-#endif
-#include "iodev/guest2host.h"
-#include "iodev/slowdown_timer.h"
-#include "iodev/extfpuirq.h"
-#include "iodev/gameport.h"
 
 #endif /* NO_DEVICE_INCLUDES */
 
-#if BX_PROVIDE_DEVICE_MODELS
 BOCHSAPI extern bx_devices_c bx_devices;
-#endif
 
 #endif /* IODEV_H */

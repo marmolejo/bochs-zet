@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2002  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2002-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,8 +16,8 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
-
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+/////////////////////////////////////////////////////////////////////////
 
 // Define BX_PLUGGABLE in files that can be compiled into plugins.  For
 // platforms that require a special tag on exported symbols, BX_PLUGGABLE
@@ -31,6 +25,7 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "cmos.h"
 
 #define LOG_THIS theCmosDevice->
 
@@ -81,6 +76,11 @@ bx_cmos_c *theCmosDevice = NULL;
 // 0x39   2   ata translation policy (ata0...ata3)
 // 0x3d   1   eltorito boot sequence (#1 + #2)
 //
+// Qemu CMOS map
+//
+// Idx  Len   Description
+// 0x5b   3   extra memory above 4GB
+// 0x5f   1   number of processors
 
 
 Bit8u bcd_to_bin(Bit8u value, bx_bool is_binary)
@@ -117,7 +117,6 @@ void libcmos_LTX_plugin_fini(void)
 bx_cmos_c::bx_cmos_c(void)
 {
   put("CMOS");
-  settype(CMOSLOG);
 
   for (unsigned i=0; i<128; i++) s.reg[i] = 0;
 
@@ -361,9 +360,7 @@ Bit32u bx_cmos_c::read(Bit32u address, unsigned io_len)
 #endif
   Bit8u ret8;
 
-  if (bx_dbg.cmos)
-    BX_INFO(("CMOS read of CMOS register 0x%02x",
-      (unsigned) BX_CMOS_THIS s.cmos_mem_address));
+  BX_DEBUG(("CMOS read of CMOS register 0x%02x", (unsigned) BX_CMOS_THIS s.cmos_mem_address));
 
   switch (address) {
     case 0x0070:

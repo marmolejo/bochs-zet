@@ -2,6 +2,24 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
+//  Copyright (C) 2009  The Bochs Project
+//
+//  This library is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU Lesser General Public
+//  License as published by the Free Software Foundation; either
+//  version 2 of the License, or (at your option) any later version.
+//
+//  This library is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//  Lesser General Public License for more details.
+//
+//  You should have received a copy of the GNU Lesser General Public
+//  License along with this library; if not, write to the Free Software
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+//
+/////////////////////////////////////////////////////////////////////////
+//
 // This file provides macros and types needed for plugins.  It is based on
 // the plugin.h file from plex86, but with significant changes to make
 // it work in Bochs.
@@ -22,7 +40,7 @@ extern "C" {
 #endif
 
 #define BX_PLUGIN_UNMAPPED  "unmapped"
-#define BX_PLUGIN_BIOSDEV   " biosdev"
+#define BX_PLUGIN_BIOSDEV   "biosdev"
 #define BX_PLUGIN_CMOS      "cmos"
 #define BX_PLUGIN_VGA       "vga"
 #define BX_PLUGIN_FLOPPY    "floppy"
@@ -33,6 +51,7 @@ extern "C" {
 #define BX_PLUGIN_HARDDRV   "harddrv"
 #define BX_PLUGIN_DMA       "dma"
 #define BX_PLUGIN_PIC       "pic"
+#define BX_PLUGIN_PIT       "pit"
 #define BX_PLUGIN_PCI       "pci"
 #define BX_PLUGIN_PCI2ISA   "pci2isa"
 #define BX_PLUGIN_PCI_IDE   "pci_ide"
@@ -41,23 +60,25 @@ extern "C" {
 #define BX_PLUGIN_EXTFPUIRQ "extfpuirq"
 #define BX_PLUGIN_PCIVGA    "pcivga"
 #define BX_PLUGIN_PCIDEV    "pcidev"
-#define BX_PLUGIN_PCIUSB    "pciusb"
+#define BX_PLUGIN_USB_UHCI  "usb_uhci"
+#define BX_PLUGIN_USB_OHCI  "usb_ohci"
 #define BX_PLUGIN_PCIPNIC   "pcipnic"
 #define BX_PLUGIN_GAMEPORT  "gameport"
 #define BX_PLUGIN_SPEAKER   "speaker"
 #define BX_PLUGIN_ACPI      "acpi"
+#define BX_PLUGIN_IODEBUG   "iodebug"
+#define BX_PLUGIN_IOAPIC    "ioapic"
 
 
 #define BX_REGISTER_DEVICE_DEVMODEL(a,b,c,d) pluginRegisterDeviceDevmodel(a,b,c,d)
 
 #if BX_PLUGINS
 
-#define DEV_init_devices() {bx_devices.init(BX_MEM(0)); }
-#define DEV_reset_devices(type) {bx_devices.reset(type); }
-#define DEV_register_state() {bx_devices.register_state(); }
-#define DEV_after_restore_state() {bx_devices.after_restore_state(); }
 #define PLUG_load_plugin(name,type) {bx_load_plugin(#name,type);}
-#define PLUG_unload_plugin(name) {bx_unload_plugin(#name);}
+#define PLUG_load_opt_plugin(name) {bx_load_plugin(name,PLUGTYPE_OPTIONAL);}
+#define PLUG_load_user_plugin(name) {bx_load_plugin(name,PLUGTYPE_USER);}
+#define PLUG_unload_plugin(name) {bx_unload_plugin(#name,1);}
+#define PLUG_unload_user_plugin(name) {bx_unload_plugin(name,1);}
 
 #define DEV_register_ioread_handler(b,c,d,e,f)  pluginRegisterIOReadHandler(b,c,d,e,f)
 #define DEV_register_iowrite_handler(b,c,d,e,f) pluginRegisterIOWriteHandler(b,c,d,e,f)
@@ -75,10 +96,6 @@ extern "C" {
 
 #else
 
-#define DEV_init_devices() {bx_devices.init(BX_MEM(0)); }
-#define DEV_reset_devices(type) {bx_devices.reset(type); }
-#define DEV_register_state() {bx_devices.register_state(); }
-#define DEV_after_restore_state() {bx_devices.after_restore_state(); }
 // When plugins are off, PLUG_load_plugin will call the plugin_init function
 // directly.
 #define PLUG_load_plugin(name,type) {lib##name##_LTX_plugin_init(NULL,type,0,NULL);}
@@ -98,10 +115,29 @@ extern "C" {
 
 #endif // #if BX_PLUGINS
 
-#define DEV_ioapic_present() (bx_devices.ioapic != NULL)
+///////// Common device macros
+#define DEV_init_devices() {bx_devices.init(BX_MEM(0)); }
+#define DEV_reset_devices(type) {bx_devices.reset(type); }
+#define DEV_register_state() {bx_devices.register_state(); }
+#define DEV_after_restore_state() {bx_devices.after_restore_state(); }
 
-// FIXME Do we really need pluginRegisterTimer ?
 #define DEV_register_timer(a,b,c,d,e,f) bx_pc_system.register_timer(a,b,c,d,e,f)
+#define DEV_mouse_enabled_changed(en) (bx_devices.mouse_enabled_changed(en))
+#define DEV_mouse_motion(dx, dy, state) (bx_devices.mouse_motion(dx, dy, 0, state))
+#define DEV_mouse_motion_ext(dx, dy, dz, state) (bx_devices.mouse_motion(dx, dy, dz, state))
+
+///////// Removable devices macros
+#define DEV_optional_key_enq(a) (bx_devices.optional_key_enq(a))
+#define DEV_register_removable_keyboard(a,b) (bx_devices.register_removable_keyboard(a,b))
+#define DEV_unregister_removable_keyboard(a) (bx_devices.unregister_removable_keyboard(a))
+#define DEV_register_default_mouse(a,b,c) (bx_devices.register_default_mouse(a,b,c))
+#define DEV_register_removable_mouse(a,b,c) (bx_devices.register_removable_mouse(a,b,c))
+#define DEV_unregister_removable_mouse(a) (bx_devices.unregister_removable_mouse(a))
+
+///////// I/O APIC macros
+#define DEV_ioapic_present() (bx_devices.pluginIOAPIC != &bx_devices.stubIOAPIC)
+#define DEV_ioapic_receive_eoi(a) (bx_devices.pluginIOAPIC->receive_eoi(a))
+#define DEV_ioapic_set_irq_level(a,b) (bx_devices.pluginIOAPIC->set_irq_level(a,b))
 
 ///////// CMOS macros
 #define DEV_cmos_get_reg(a) (bx_devices.pluginCmosDevice->get_reg(a))
@@ -111,10 +147,6 @@ extern "C" {
 #define DEV_cmos_present() (bx_devices.pluginCmosDevice != &bx_devices.stubCmos)
 
 ///////// keyboard macros
-#define DEV_mouse_motion(dx, dy, state) \
-    (bx_devices.pluginKeyboard->mouse_motion(dx, dy, 0, state))
-#define DEV_mouse_motion_ext(dx, dy, dz, state) \
-    (bx_devices.pluginKeyboard->mouse_motion(dx, dy, dz, state))
 #define DEV_kbd_gen_scancode(key) \
     (bx_devices.pluginKeyboard->gen_scancode(key))
 #define DEV_kbd_paste_bytes(bytes, count) \
@@ -143,8 +175,8 @@ extern "C" {
 #define DEV_bulk_io_host_addr() (bx_devices.bulkIOHostAddr)
 
 ///////// FLOPPY macros
-#define DEV_floppy_get_media_status(drive) bx_devices.pluginFloppyDevice->get_media_status(drive)
 #define DEV_floppy_set_media_status(drive, status)  bx_devices.pluginFloppyDevice->set_media_status(drive, status)
+#define DEV_floppy_set_media_readonly(drive, status)  bx_devices.pluginFloppyDevice->set_media_readonly(drive, status)
 #define DEV_floppy_present() (bx_devices.pluginFloppyDevice != &bx_devices.stubFloppy)
 
 ///////// DMA macros
@@ -166,7 +198,7 @@ extern "C" {
 #define DEV_pic_raise_irq(b)  (bx_devices.pluginPicDevice->raise_irq(b))
 #define DEV_pic_set_mode(a,b) (bx_devices.pluginPicDevice->set_mode(a,b))
 #define DEV_pic_iac()         (bx_devices.pluginPicDevice->IAC())
-#define DEV_pic_show_pic_state() (bx_devices.pluginPicDevice->show_pic_state())
+#define DEV_pic_debug_dump()  (bx_devices.pluginPicDevice->debug_dump())
 
 ///////// VGA macros
 #define DEV_vga_mem_read(addr) (bx_devices.pluginVgaDevice->mem_read(addr))
@@ -178,6 +210,8 @@ extern "C" {
 #define DEV_vga_refresh() \
   (bx_devices.pluginVgaDevice->trigger_timer(bx_devices.pluginVgaDevice))
 #define DEV_vga_get_actl_pal_idx(index) (bx_devices.pluginVgaDevice->get_actl_palette_idx(index))
+#define DEV_vga_debug_dump() (bx_devices.pluginVgaDevice->debug_dump())
+#define DEV_vbe_set_base_addr(a,b) (bx_devices.pluginVgaDevice->vbe_set_base_addr(a,b))
 #define DEV_vga_dump_status() (bx_devices.pluginVgaDevice->dump_status())
 #define DEV_vga_dump_video(path) (bx_devices.pluginVgaDevice->dump_video(path))
 #define DEV_vga_load_video(path) (bx_devices.pluginVgaDevice->load_video(path))
@@ -193,7 +227,7 @@ extern "C" {
   (bx_devices.pluginPciBridge->pci_set_base_io(a,b,c,d,e,f,g,h))
 #define DEV_pci_rd_memtype(addr) bx_devices.pluginPciBridge->rd_memType(addr)
 #define DEV_pci_wr_memtype(addr) bx_devices.pluginPciBridge->wr_memType(addr)
-#define DEV_pci_print_i440fx_state() bx_devices.pluginPciBridge->print_i440fx_state()
+#define DEV_pci_debug_dump() bx_devices.pluginPciBridge->debug_dump()
 #define DEV_ide_bmdma_present() bx_devices.pluginPciIdeController->bmdma_present()
 #define DEV_ide_bmdma_set_irq(a) bx_devices.pluginPciIdeController->bmdma_set_irq(a)
 #define DEV_acpi_generate_smi(a) bx_devices.pluginACPIController->generate_smi(a)
@@ -205,28 +239,6 @@ extern "C" {
 ///////// Speaker macros
 #define DEV_speaker_beep_on(frequency) bx_devices.pluginSpeaker->beep_on(frequency)
 #define DEV_speaker_beep_off() bx_devices.pluginSpeaker->beep_off()
-
-///////// Serial macro
-#define DEV_serial_mouse_enq(dx, dy, dz, state) \
-    (bx_devices.pluginSerialDevice->serial_mouse_enq(dx, dy, dz, state))
-
-///////// BUS mouse macro
-#define DEV_bus_mouse_enq(dx, dy, dz, state) \
-    (bx_devices.pluginBusMouse->bus_mouse_enq(dx, dy, 0, state))
-
-///////// USB device macros
-#if BX_SUPPORT_PCIUSB
-#define DEV_usb_mouse_enq(dx, dy, dz, state) \
-    (bx_devices.pluginPciUSBAdapter->usb_mouse_enq(dx, dy, dz, state))
-#define DEV_usb_mouse_enabled_changed(enable) \
-    (bx_devices.pluginPciUSBAdapter->usb_mouse_enabled_changed(enable))
-#define DEV_usb_key_enq(scan_code) \
-    (bx_devices.pluginPciUSBAdapter->usb_key_enq(scan_code))
-#define DEV_usb_keyboard_connected() \
-    (bx_devices.pluginPciUSBAdapter->usb_keyboard_connected())
-#define DEV_usb_mouse_connected() \
-    (bx_devices.pluginPciUSBAdapter->usb_mouse_connected())
-#endif
 
 //////// Memory macros
 #define DEV_register_memory_handlers(param,rh,wh,b,e) \
@@ -339,7 +351,7 @@ BOCHSAPI extern Bit8u   (*pluginWr_memType)(Bit32u addr);
 void plugin_abort(void);
 
 int bx_load_plugin(const char *name, plugintype_t type);
-extern void bx_unload_plugin(const char *name);
+extern void bx_unload_plugin(const char *name, bx_bool devflag);
 extern void bx_init_plugins(void);
 extern void bx_reset_plugins(unsigned);
 extern void bx_unload_plugins(void);
@@ -365,6 +377,7 @@ DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(biosdev)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(cmos)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(dma)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(pic)
+DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(pit)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(vga)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(floppy)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(parallel)
@@ -373,7 +386,8 @@ DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(pci2isa)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(pci_ide)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(pcivga)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(pcidev)
-DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(pciusb)
+DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(usb_uhci)
+DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(usb_ohci)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(pcipnic)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(sb16)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(ne2k)
@@ -381,6 +395,8 @@ DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(extfpuirq)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(gameport)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(speaker)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(acpi)
+DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(iodebug)
+DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(ioapic)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(amigaos)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(beos)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(carbon)
@@ -393,6 +409,7 @@ DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(term)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(win32)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(wx)
 DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(x)
+DECLARE_PLUGIN_INIT_FINI_FOR_MODULE(user)
 
 
 #ifdef __cplusplus

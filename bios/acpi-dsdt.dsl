@@ -14,7 +14,7 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 DefinitionBlock (
     "acpi-dsdt.aml",    // Output Filename
@@ -27,20 +27,6 @@ DefinitionBlock (
 {
     Scope (\)
     {
-        /* CMOS memory access */
-        OperationRegion (CMS, SystemIO, 0x70, 0x02)
-        Field (CMS, ByteAcc, NoLock, Preserve)
-        {
-            CMSI,   8,
-            CMSD,   8
-        }
-        Method (CMRD, 1, NotSerialized)
-        {
-            Store (Arg0, CMSI)
-            Store (CMSD, Local0)
-            Return (Local0)
-        }
-
         /* Debug Output */
         OperationRegion (DBG, SystemIO, 0xb044, 0x04)
         Field (DBG, DWordAcc, NoLock, Preserve)
@@ -99,9 +85,7 @@ DefinitionBlock (
                 Package() {0x0005ffff, 3, LNKD, 0},
             })
 
-            Method (_CRS, 0, NotSerialized)
-            {
-            Name (MEMP, ResourceTemplate ()
+            Name (_CRS, ResourceTemplate ()
             {
                 WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
                     0x0000,             // Address Space Granularity
@@ -137,31 +121,53 @@ DefinitionBlock (
                     0x00000000,         // Address Translation Offset
                     0x00020000,         // Address Length
                     ,, , AddressRangeMemory, TypeStatic)
-                DWordMemory (ResourceProducer, PosDecode, MinNotFixed, MaxFixed, NonCacheable, ReadWrite,
+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, NonCacheable, ReadWrite,
                     0x00000000,         // Address Space Granularity
-                    0x00000000,         // Address Range Minimum
+                    0xC0000000,         // Address Range Minimum
                     0xFEBFFFFF,         // Address Range Maximum
                     0x00000000,         // Address Translation Offset
-                    0x00000000,         // Address Length
-                    ,, MEMF, AddressRangeMemory, TypeStatic)
+                    0x3EC00000,         // Address Length
+                    ,, , AddressRangeMemory, TypeStatic)
             })
-                CreateDWordField (MEMP, \_SB.PCI0._CRS.MEMF._MIN, PMIN)
-                CreateDWordField (MEMP, \_SB.PCI0._CRS.MEMF._MAX, PMAX)
-                CreateDWordField (MEMP, \_SB.PCI0._CRS.MEMF._LEN, PLEN)
-                /* compute available RAM */
-                Add(CMRD(0x34), ShiftLeft(CMRD(0x35), 8), Local0)
-                ShiftLeft(Local0, 16, Local0)
-                Add(Local0, 0x1000000, Local0)
-                /* update field of last region */
-                Store(Local0, PMIN)
-                Subtract (PMAX, PMIN, PLEN)
-                Increment (PLEN)
-                Return (MEMP)
-            }
         }
+#ifdef BX_QEMU
+        Device(HPET) {
+            Name(_HID,  EISAID("PNP0103"))
+            Name(_UID, 0)
+            Method (_STA, 0, NotSerialized) {
+                    Return(0x0F)
+            }
+            Name(_CRS, ResourceTemplate() {
+                DWordMemory(
+                    ResourceConsumer, PosDecode, MinFixed, MaxFixed,
+                    NonCacheable, ReadWrite,
+                    0x00000000,
+                    0xFED00000,
+                    0xFED003FF,
+                    0x00000000,
+                    0x00000400 /* 1K memory: FED00000 - FED003FF */
+                )
+            })
+        }
+#endif
     }
 
     Scope(\_SB.PCI0) {
+        Device (VGA) {
+                 Name (_ADR, 0x00020000)
+                 Method (_S1D, 0, NotSerialized)
+                 {
+                         Return (0x00)
+                 }
+                 Method (_S2D, 0, NotSerialized)
+                 {
+                         Return (0x00)
+                 }
+                 Method (_S3D, 0, NotSerialized)
+                 {
+                         Return (0x00)
+                 }
+        }
 
 	/* PIIX3 ISA bridge */
         Device (ISA) {
@@ -560,11 +566,29 @@ DefinitionBlock (
         }
     }
 
-    /* S5 = power off state */
-    Name (_S5, Package (4) {
-        0x00, // PM1a_CNT.SLP_TYP
-        0x00, // PM2a_CNT.SLP_TYP
-        0x00, // reserved
-        0x00, // reserved
+    /*
+     * S3 (suspend-to-ram), S4 (suspend-to-disk) and S5 (power-off) type codes:
+     * must match piix4 emulation.
+     */
+    Name (\_S3, Package (0x04)
+    {
+        0x01,  /* PM1a_CNT.SLP_TYP */
+        0x01,  /* PM1b_CNT.SLP_TYP */
+        Zero,  /* reserved */
+        Zero   /* reserved */
+    })
+    Name (\_S4, Package (0x04)
+    {
+        Zero,  /* PM1a_CNT.SLP_TYP */
+        Zero,  /* PM1b_CNT.SLP_TYP */
+        Zero,  /* reserved */
+        Zero   /* reserved */
+    })
+    Name (\_S5, Package (0x04)
+    {
+        Zero,  /* PM1a_CNT.SLP_TYP */
+        Zero,  /* PM1b_CNT.SLP_TYP */
+        Zero,  /* reserved */
+        Zero   /* reserved */
     })
 }

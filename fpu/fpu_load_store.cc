@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//   Copyright (c) 2003 Stanislav Shwartsman
+//   Copyright (c) 2003-2009 Stanislav Shwartsman
 //          Written by Stanislav Shwartsman [sshwarts at sourceforge net]
 //
 //  This library is free software; you can redistribute it and/or
@@ -17,7 +17,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -28,205 +28,205 @@
 
 #if BX_SUPPORT_FPU
 
+#define swap_values16u(a, b) { Bit16u tmp = a; a = b; b = tmp; }
+
 extern float_status_t FPU_pre_exception_handling(Bit16u control_word);
 
 #include "softfloatx80.h"
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FLD_STi(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
+  FPU_update_last_instruction(i);
 
   clear_C1();
 
   if (! IS_TAG_EMPTY(-1))
   {
-    BX_CPU_THIS_PTR FPU_stack_overflow();
+    FPU_stack_overflow();
     return;
   }
+
+  floatx80 sti_reg = floatx80_default_nan;
 
   if (IS_TAG_EMPTY(i->rm()))
   {
-    BX_CPU_THIS_PTR FPU_stack_underflow(0);
-    return;
-  }
+    FPU_exception(FPU_EX_Stack_Underflow);
 
-  floatx80 sti_reg = BX_READ_FPU_REG(i->rm());
+    if (! BX_CPU_THIS_PTR the_i387.is_IA_masked()) 
+      return;
+  }
+  else {
+    sti_reg = BX_READ_FPU_REG(i->rm());
+  }
 
   BX_CPU_THIS_PTR the_i387.FPU_push();
   BX_WRITE_FPU_REG(sti_reg, 0);
-#else
-  BX_INFO(("FLD_STi: required FPU, configure --enable-fpu"));
-#endif
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FLD_SINGLE_REAL(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
 
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
   float32 load_reg = read_virtual_dword(i->seg(), RMAddr(i));
+
+  FPU_update_last_instruction(i);
 
   clear_C1();
 
   if (! IS_TAG_EMPTY(-1)) {
-    BX_CPU_THIS_PTR FPU_stack_overflow();
+    FPU_stack_overflow();
     return;
   }
 
   float_status_t status =
-     FPU_pre_exception_handling(BX_CPU_THIS_PTR the_i387.get_control_word());
+    FPU_pre_exception_handling(BX_CPU_THIS_PTR the_i387.get_control_word());
 
   // convert to floatx80 format
   floatx80 result = float32_to_floatx80(load_reg, status);
 
-  if (BX_CPU_THIS_PTR FPU_exception(status.float_exception_flags))
-    return;
-
-  BX_CPU_THIS_PTR the_i387.FPU_push();
-  BX_WRITE_FPU_REG(result, 0);
-#else
-  BX_INFO(("FLD_SINGLE_REAL: required FPU, configure --enable-fpu"));
-#endif
+  unsigned unmasked = FPU_exception(status.float_exception_flags);
+  if (! (unmasked & FPU_CW_Invalid)) {
+    BX_CPU_THIS_PTR the_i387.FPU_push();
+    BX_WRITE_FPU_REG(result, 0);
+  }
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FLD_DOUBLE_REAL(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
 
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
   float64 load_reg = read_virtual_qword(i->seg(), RMAddr(i));
+
+  FPU_update_last_instruction(i);
 
   clear_C1();
 
   if (! IS_TAG_EMPTY(-1)) {
-    BX_CPU_THIS_PTR FPU_stack_overflow();
+    FPU_stack_overflow();
     return;
   }
 
   float_status_t status =
-     FPU_pre_exception_handling(BX_CPU_THIS_PTR the_i387.get_control_word());
+    FPU_pre_exception_handling(BX_CPU_THIS_PTR the_i387.get_control_word());
 
   // convert to floatx80 format
   floatx80 result = float64_to_floatx80(load_reg, status);
 
-  if (BX_CPU_THIS_PTR FPU_exception(status.float_exception_flags))
-    return;
-
-  BX_CPU_THIS_PTR the_i387.FPU_push();
-  BX_WRITE_FPU_REG(result, 0);
-#else
-  BX_INFO(("FLD_DOUBLE_REAL: required FPU, configure --enable-fpu"));
-#endif
+  unsigned unmasked = FPU_exception(status.float_exception_flags);
+  if (! (unmasked & FPU_CW_Invalid)) {
+    BX_CPU_THIS_PTR the_i387.FPU_push();
+    BX_WRITE_FPU_REG(result, 0);
+  }
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FLD_EXTENDED_REAL(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
 
   floatx80 result;
-  read_virtual_tword(i->seg(), RMAddr(i), &result);
+
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  result.fraction = read_virtual_qword(i->seg(), RMAddr(i));
+  result.exp      = read_virtual_word (i->seg(), RMAddr(i)+8);
+
+  FPU_update_last_instruction(i);
 
   clear_C1();
 
   if (! IS_TAG_EMPTY(-1)) {
-    BX_CPU_THIS_PTR FPU_stack_overflow();
-    return;
+    FPU_stack_overflow();
   }
-
-  BX_CPU_THIS_PTR the_i387.FPU_push();
-
-  BX_WRITE_FPU_REG(result, 0);
-#else
-  BX_INFO(("FLD_EXTENDED_REAL: required FPU, configure --enable-fpu"));
-#endif
+  else {
+    BX_CPU_THIS_PTR the_i387.FPU_push();
+    BX_WRITE_FPU_REG(result, 0);
+  }
 }
 
 /* DF /0 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FILD_WORD_INTEGER(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
 
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
   Bit16s load_reg = (Bit16s) read_virtual_word(i->seg(), RMAddr(i));
+
+  FPU_update_last_instruction(i);
 
   clear_C1();
 
   if (! IS_TAG_EMPTY(-1)) {
-    BX_CPU_THIS_PTR FPU_stack_overflow();
-    return;
+    FPU_stack_overflow();
   }
-
-  floatx80 result = int32_to_floatx80((Bit32s) load_reg);
-  BX_CPU_THIS_PTR the_i387.FPU_push();
-  BX_WRITE_FPU_REG(result, 0);
-#else
-  BX_INFO(("FILD_WORD_INTEGER: required FPU, configure --enable-fpu"));
-#endif
+  else {
+    floatx80 result = int32_to_floatx80((Bit32s) load_reg);
+    BX_CPU_THIS_PTR the_i387.FPU_push();
+    BX_WRITE_FPU_REG(result, 0);
+  }
 }
 
 /* DB /0 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FILD_DWORD_INTEGER(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
 
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
   Bit32s load_reg = (Bit32s) read_virtual_dword(i->seg(), RMAddr(i));
+
+  FPU_update_last_instruction(i);
 
   clear_C1();
 
   if (! IS_TAG_EMPTY(-1)) {
-    BX_CPU_THIS_PTR FPU_stack_overflow();
-    return;
+    FPU_stack_overflow();
   }
-
-  floatx80 result = int32_to_floatx80(load_reg);
-  BX_CPU_THIS_PTR the_i387.FPU_push();
-  BX_WRITE_FPU_REG(result, 0);
-#else
-  BX_INFO(("FILD_DWORD_INTEGER: required FPU, configure --enable-fpu"));
-#endif
+  else {
+    floatx80 result = int32_to_floatx80(load_reg);
+    BX_CPU_THIS_PTR the_i387.FPU_push();
+    BX_WRITE_FPU_REG(result, 0);
+  }
 }
 
 /* DF /5 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FILD_QWORD_INTEGER(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
 
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
   Bit64s load_reg = (Bit64s) read_virtual_qword(i->seg(), RMAddr(i));
+
+  FPU_update_last_instruction(i);
 
   clear_C1();
 
   if (! IS_TAG_EMPTY(-1)) {
-    BX_CPU_THIS_PTR FPU_stack_overflow();
-    return;
+    FPU_stack_overflow();
   }
-
-  floatx80 result = int64_to_floatx80(load_reg);
-  BX_CPU_THIS_PTR the_i387.FPU_push();
-  BX_WRITE_FPU_REG(result, 0);
-#else
-  BX_INFO(("FILD_QWORD_INTEGER: required FPU, configure --enable-fpu"));
-#endif
+  else {
+    floatx80 result = int64_to_floatx80(load_reg);
+    BX_CPU_THIS_PTR the_i387.FPU_push();
+    BX_WRITE_FPU_REG(result, 0);
+  }
 }
 
 /* DF /4 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FBLD_PACKED_BCD(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
 
-  // read packed bcd from memory
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
   Bit16u hi2 = read_virtual_word (i->seg(), RMAddr(i) + 8);
   Bit64u lo8 = read_virtual_qword(i->seg(), RMAddr(i));
+
+  FPU_update_last_instruction(i);
 
   clear_C1();
 
   if (! IS_TAG_EMPTY(-1))
   {
-    BX_CPU_THIS_PTR FPU_stack_overflow();
+    FPU_stack_overflow();
     return;
   }
 
@@ -245,20 +245,17 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FBLD_PACKED_BCD(bxInstruction_c *i)
   val64 += ((hi2>>4) & 0x0f) * scale * 10;
 
   floatx80 result = int64_to_floatx80(val64);
-  if (hi2 & 0x8000)	// set negative
+  if (hi2 & 0x8000)        // set negative
       floatx80_chs(result);
 
   BX_CPU_THIS_PTR the_i387.FPU_push();
   BX_WRITE_FPU_REG(result, 0);
-#else
-  BX_INFO(("FBLD_PACKED_BCD: required FPU, configure --enable-fpu"));
-#endif
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FST_STi(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
+  FPU_update_last_instruction(i);
 
   int pop_stack = i->nnn() & 1;
   // handle special case of FSTP opcode @ 0xDF 0xD0..D7
@@ -268,24 +265,26 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FST_STi(bxInstruction_c *i)
   clear_C1();
 
   if (IS_TAG_EMPTY(0)) {
-    BX_CPU_THIS_PTR FPU_stack_underflow(i->rm(), pop_stack);
-    return;
+    FPU_stack_underflow(i->rm(), pop_stack);
   }
+  else {
+    floatx80 st0_reg = BX_READ_FPU_REG(0);
 
-  floatx80 st0_reg = BX_READ_FPU_REG(0);
-
-  BX_WRITE_FPU_REG(st0_reg, i->rm());
-  if (pop_stack)
-     BX_CPU_THIS_PTR the_i387.FPU_pop();
-#else
-  BX_INFO(("FST(P)_STi: required FPU, configure --enable-fpu"));
-#endif
+    BX_WRITE_FPU_REG(st0_reg, i->rm());
+    if (pop_stack)
+      BX_CPU_THIS_PTR the_i387.FPU_pop();
+  }
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FST_SINGLE_REAL(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
+
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+
+  FPU_update_last_instruction(i);
+
+  Bit16u x87_sw = FPU_PARTIAL_STATUS;
 
   clear_C1();
 
@@ -295,9 +294,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FST_SINGLE_REAL(bxInstruction_c *i)
 
   if (IS_TAG_EMPTY(0))
   {
-     BX_CPU_THIS_PTR FPU_exception(FPU_EX_Stack_Underflow);
+     FPU_exception(FPU_EX_Stack_Underflow);
 
-     if (! (BX_CPU_THIS_PTR the_i387.is_IA_masked()))
+     if (! BX_CPU_THIS_PTR the_i387.is_IA_masked())
         return;
   }
   else
@@ -307,23 +306,29 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FST_SINGLE_REAL(bxInstruction_c *i)
 
      save_reg = floatx80_to_float32(BX_READ_FPU_REG(0), status);
 
-     if (BX_CPU_THIS_PTR FPU_exception(status.float_exception_flags))
+     if (FPU_exception(status.float_exception_flags, 1))
         return;
   }
 
+  // store to the memory might generate an exception, in this case origial FPU_SW must be kept
+  swap_values16u(x87_sw, FPU_PARTIAL_STATUS);
+
   write_virtual_dword(i->seg(), RMAddr(i), save_reg);
 
+  FPU_PARTIAL_STATUS = x87_sw;
   if (pop_stack)
      BX_CPU_THIS_PTR the_i387.FPU_pop();
-#else
-  BX_INFO(("FST(P)_SINGLE_REAL: required FPU, configure --enable-fpu"));
-#endif
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FST_DOUBLE_REAL(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
+
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+
+  FPU_update_last_instruction(i);
+
+  Bit16u x87_sw = FPU_PARTIAL_STATUS;
 
   clear_C1();
 
@@ -333,9 +338,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FST_DOUBLE_REAL(bxInstruction_c *i)
 
   if (IS_TAG_EMPTY(0))
   {
-     BX_CPU_THIS_PTR FPU_exception(FPU_EX_Stack_Underflow);
+     FPU_exception(FPU_EX_Stack_Underflow);
 
-     if (! (BX_CPU_THIS_PTR the_i387.is_IA_masked()))
+     if (! BX_CPU_THIS_PTR the_i387.is_IA_masked())
         return;
   }
   else
@@ -345,24 +350,28 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FST_DOUBLE_REAL(bxInstruction_c *i)
 
      save_reg = floatx80_to_float64(BX_READ_FPU_REG(0), status);
 
-     if (BX_CPU_THIS_PTR FPU_exception(status.float_exception_flags))
+     if (FPU_exception(status.float_exception_flags, 1))
         return;
   }
 
+  // store to the memory might generate an exception, in this case origial FPU_SW must be kept
+  swap_values16u(x87_sw, FPU_PARTIAL_STATUS);
+
   write_virtual_qword(i->seg(), RMAddr(i), save_reg);
 
+  FPU_PARTIAL_STATUS = x87_sw;
   if (pop_stack)
      BX_CPU_THIS_PTR the_i387.FPU_pop();
-#else
-  BX_INFO(("FST(P)_DOUBLE_REAL: required FPU, configure --enable-fpu"));
-#endif
 }
 
 /* DB /7 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FSTP_EXTENDED_REAL(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
+
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+
+  FPU_update_last_instruction(i);
 
   clear_C1();
 
@@ -370,9 +379,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FSTP_EXTENDED_REAL(bxInstruction_c *i)
 
   if (IS_TAG_EMPTY(0))
   {
-     BX_CPU_THIS_PTR FPU_exception(FPU_EX_Stack_Underflow);
+     FPU_exception(FPU_EX_Stack_Underflow);
 
-     if (! (BX_CPU_THIS_PTR the_i387.is_IA_masked()))
+     if (! BX_CPU_THIS_PTR the_i387.is_IA_masked())
         return;
   }
   else
@@ -380,18 +389,21 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FSTP_EXTENDED_REAL(bxInstruction_c *i)
      save_reg = BX_READ_FPU_REG(0);
   }
 
-  write_virtual_tword(i->seg(), RMAddr(i), &save_reg);
+  write_virtual_qword(i->seg(), RMAddr(i),     save_reg.fraction);
+  write_virtual_word (i->seg(), RMAddr(i) + 8, save_reg.exp);
 
   BX_CPU_THIS_PTR the_i387.FPU_pop();
-#else
-  BX_INFO(("FSTP_EXTENDED_REAL: required FPU, configure --enable-fpu"));
-#endif
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FIST_WORD_INTEGER(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
+
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+
+  FPU_update_last_instruction(i);
+
+  Bit16u x87_sw = FPU_PARTIAL_STATUS;
 
   Bit16s save_reg = int16_indefinite;
 
@@ -401,9 +413,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FIST_WORD_INTEGER(bxInstruction_c *i)
 
   if (IS_TAG_EMPTY(0))
   {
-     BX_CPU_THIS_PTR FPU_exception(FPU_EX_Stack_Underflow);
+     FPU_exception(FPU_EX_Stack_Underflow);
 
-     if (! (BX_CPU_THIS_PTR the_i387.is_IA_masked()))
+     if (! BX_CPU_THIS_PTR the_i387.is_IA_masked())
         return;
   }
   else
@@ -413,23 +425,29 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FIST_WORD_INTEGER(bxInstruction_c *i)
 
      save_reg = floatx80_to_int16(BX_READ_FPU_REG(0), status);
 
-     if (BX_CPU_THIS_PTR FPU_exception(status.float_exception_flags))
+     if (FPU_exception(status.float_exception_flags, 1))
         return;
   }
 
+  // store to the memory might generate an exception, in this case origial FPU_SW must be kept
+  swap_values16u(x87_sw, FPU_PARTIAL_STATUS);
+
   write_virtual_word(i->seg(), RMAddr(i), (Bit16u)(save_reg));
 
+  FPU_PARTIAL_STATUS = x87_sw;
   if (pop_stack)
      BX_CPU_THIS_PTR the_i387.FPU_pop();
-#else
-  BX_INFO(("FIST(P)_WORD_INTEGER: required FPU, configure --enable-fpu"));
-#endif
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FIST_DWORD_INTEGER(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
+
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+
+  FPU_update_last_instruction(i);
+
+  Bit16u x87_sw = FPU_PARTIAL_STATUS;
 
   Bit32s save_reg = int32_indefinite; /* The masked response */
 
@@ -439,9 +457,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FIST_DWORD_INTEGER(bxInstruction_c *i)
 
   if (IS_TAG_EMPTY(0))
   {
-     BX_CPU_THIS_PTR FPU_exception(FPU_EX_Stack_Underflow);
+     FPU_exception(FPU_EX_Stack_Underflow);
 
-     if (! (BX_CPU_THIS_PTR the_i387.is_IA_masked()))
+     if (! BX_CPU_THIS_PTR the_i387.is_IA_masked())
         return;
   }
   else
@@ -451,23 +469,29 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FIST_DWORD_INTEGER(bxInstruction_c *i)
 
      save_reg = floatx80_to_int32(BX_READ_FPU_REG(0), status);
 
-     if (BX_CPU_THIS_PTR FPU_exception(status.float_exception_flags))
+     if (FPU_exception(status.float_exception_flags, 1))
          return;
   }
 
+  // store to the memory might generate an exception, in this case origial FPU_SW must be kept
+  swap_values16u(x87_sw, FPU_PARTIAL_STATUS);
+
   write_virtual_dword(i->seg(), RMAddr(i), (Bit32u)(save_reg));
 
+  FPU_PARTIAL_STATUS = x87_sw;
   if (pop_stack)
      BX_CPU_THIS_PTR the_i387.FPU_pop();
-#else
-  BX_INFO(("FIST(P)_DWORD_INTEGER: required FPU, configure --enable-fpu"));
-#endif
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FISTP_QWORD_INTEGER(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
+
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+
+  FPU_update_last_instruction(i);
+
+  Bit16u x87_sw = FPU_PARTIAL_STATUS;
 
   Bit64s save_reg = int64_indefinite; /* The masked response */
 
@@ -475,9 +499,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FISTP_QWORD_INTEGER(bxInstruction_c *i)
 
   if (IS_TAG_EMPTY(0))
   {
-     BX_CPU_THIS_PTR FPU_exception(FPU_EX_Stack_Underflow);
+     FPU_exception(FPU_EX_Stack_Underflow);
 
-     if (! (BX_CPU_THIS_PTR the_i387.is_IA_masked()))
+     if (! BX_CPU_THIS_PTR the_i387.is_IA_masked())
         return;
   }
   else
@@ -487,21 +511,29 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FISTP_QWORD_INTEGER(bxInstruction_c *i)
 
      save_reg = floatx80_to_int64(BX_READ_FPU_REG(0), status);
 
-     if (BX_CPU_THIS_PTR FPU_exception(status.float_exception_flags))
+     if (FPU_exception(status.float_exception_flags, 1))
          return;
   }
 
+  // store to the memory might generate an exception, in this case origial FPU_SW must be kept
+  swap_values16u(x87_sw, FPU_PARTIAL_STATUS);
+
   write_virtual_qword(i->seg(), RMAddr(i), (Bit64u)(save_reg));
+
+  FPU_PARTIAL_STATUS = x87_sw;
+
   BX_CPU_THIS_PTR the_i387.FPU_pop();
-#else
-  BX_INFO(("FISTP_QWORD_INTEGER: required FPU, configure --enable-fpu"));
-#endif
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FBSTP_PACKED_BCD(bxInstruction_c *i)
 {
-#if BX_SUPPORT_FPU
   BX_CPU_THIS_PTR prepareFPU(i);
+
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+
+  FPU_update_last_instruction(i);
+
+  Bit16u x87_sw = FPU_PARTIAL_STATUS;
 
   /*
    * The packed BCD integer indefinite encoding (FFFFC000000000000000H)
@@ -515,9 +547,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FBSTP_PACKED_BCD(bxInstruction_c *i)
 
   if (IS_TAG_EMPTY(0))
   {
-     BX_CPU_THIS_PTR FPU_exception(FPU_EX_Stack_Underflow);
+     FPU_exception(FPU_EX_Stack_Underflow);
 
-     if (! (BX_CPU_THIS_PTR the_i387.is_IA_masked()))
+     if (! BX_CPU_THIS_PTR the_i387.is_IA_masked())
         return;
   }
   else
@@ -533,9 +565,8 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FBSTP_PACKED_BCD(bxInstruction_c *i)
      if (sign)
         save_val = -save_val;
 
-     if (save_val > BX_CONST64(999999999999999999))
-     {
-        float_raise(status, float_flag_invalid);
+     if (save_val > BX_CONST64(999999999999999999)) {
+        status.float_exception_flags = float_flag_invalid; // throw away other flags
      }
 
      if (! (status.float_exception_flags & float_flag_invalid))
@@ -543,8 +574,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FBSTP_PACKED_BCD(bxInstruction_c *i)
         save_reg_hi = (sign) ? 0x8000 : 0;
         save_reg_lo = 0;
 
-        for (int i=0; i<16; i++)
-        {
+        for (int i=0; i<16; i++) {
            save_reg_lo += ((Bit64u)(save_val % 10)) << (4*i);
            save_val /= 10;
         }
@@ -555,25 +585,32 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FBSTP_PACKED_BCD(bxInstruction_c *i)
     }
 
     /* check for fpu arithmetic exceptions */
-    if (BX_CPU_THIS_PTR FPU_exception(status.float_exception_flags))
+    if (FPU_exception(status.float_exception_flags, 1))
         return;
   }
+
+  // store to the memory might generate an exception, in this case origial FPU_SW must be kept
+  swap_values16u(x87_sw, FPU_PARTIAL_STATUS);
 
   // write packed bcd to memory
   write_virtual_qword(i->seg(), RMAddr(i),     save_reg_lo);
   write_virtual_word (i->seg(), RMAddr(i) + 8, save_reg_hi);
 
+  FPU_PARTIAL_STATUS = x87_sw;
+
   BX_CPU_THIS_PTR the_i387.FPU_pop();
-#else
-  BX_INFO(("FBSTP_PACKED_BCD: required FPU, configure --enable-fpu"));
-#endif
 }
 
 /* DF /1 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FISTTP16(bxInstruction_c *i)
 {
-#if BX_SUPPORT_SSE >= 3
   BX_CPU_THIS_PTR prepareFPU(i);
+
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+
+  FPU_update_last_instruction(i);
+
+  Bit16u x87_sw = FPU_PARTIAL_STATUS;
 
   Bit16s save_reg = int16_indefinite; /* The masked response */
 
@@ -581,9 +618,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FISTTP16(bxInstruction_c *i)
 
   if (IS_TAG_EMPTY(0))
   {
-     BX_CPU_THIS_PTR FPU_exception(FPU_EX_Stack_Underflow);
+     FPU_exception(FPU_EX_Stack_Underflow);
 
-     if (! (BX_CPU_THIS_PTR the_i387.is_IA_masked()))
+     if (! BX_CPU_THIS_PTR the_i387.is_IA_masked())
         return;
   }
   else
@@ -593,23 +630,30 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FISTTP16(bxInstruction_c *i)
 
      save_reg = floatx80_to_int16_round_to_zero(BX_READ_FPU_REG(0), status);
 
-     if (BX_CPU_THIS_PTR FPU_exception(status.float_exception_flags))
+     if (FPU_exception(status.float_exception_flags, 1))
         return;
   }
 
+  // store to the memory might generate an exception, in this case origial FPU_SW must be kept
+  swap_values16u(x87_sw, FPU_PARTIAL_STATUS);
+
   write_virtual_word(i->seg(), RMAddr(i), (Bit16u)(save_reg));
+
+  FPU_PARTIAL_STATUS = x87_sw;
+
   BX_CPU_THIS_PTR the_i387.FPU_pop();
-#else
-  BX_INFO(("FISTTP16: required SSE3, use --enable-sse option"));
-  UndefinedOpcode(i);
-#endif
 }
 
 /* DB /1 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FISTTP32(bxInstruction_c *i)
 {
-#if BX_SUPPORT_SSE >= 3
   BX_CPU_THIS_PTR prepareFPU(i);
+
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+
+  FPU_update_last_instruction(i);
+
+  Bit16u x87_sw = FPU_PARTIAL_STATUS;
 
   Bit32s save_reg = int32_indefinite; /* The masked response */
 
@@ -617,9 +661,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FISTTP32(bxInstruction_c *i)
 
   if (IS_TAG_EMPTY(0))
   {
-     BX_CPU_THIS_PTR FPU_exception(FPU_EX_Stack_Underflow);
+     FPU_exception(FPU_EX_Stack_Underflow);
 
-     if (! (BX_CPU_THIS_PTR the_i387.is_IA_masked()))
+     if (! BX_CPU_THIS_PTR the_i387.is_IA_masked())
         return;
   }
   else
@@ -629,23 +673,30 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FISTTP32(bxInstruction_c *i)
 
      save_reg = floatx80_to_int32_round_to_zero(BX_READ_FPU_REG(0), status);
 
-     if (BX_CPU_THIS_PTR FPU_exception(status.float_exception_flags))
-         return;
+     if (FPU_exception(status.float_exception_flags, 1))
+        return;
   }
 
+  // store to the memory might generate an exception, in this case origial FPU_SW must be kept
+  swap_values16u(x87_sw, FPU_PARTIAL_STATUS);
+
   write_virtual_dword(i->seg(), RMAddr(i), (Bit32u)(save_reg));
+
+  FPU_PARTIAL_STATUS = x87_sw;
+
   BX_CPU_THIS_PTR the_i387.FPU_pop();
-#else
-  BX_INFO(("FISTTP32: required SSE3, use --enable-sse option"));
-  UndefinedOpcode(i);
-#endif
 }
 
 /* DD /1 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::FISTTP64(bxInstruction_c *i)
 {
-#if BX_SUPPORT_SSE >= 3
   BX_CPU_THIS_PTR prepareFPU(i);
+
+  RMAddr(i) = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+
+  FPU_update_last_instruction(i);
+
+  Bit16u x87_sw = FPU_PARTIAL_STATUS;
 
   Bit64s save_reg = int64_indefinite; /* The masked response */
 
@@ -653,9 +704,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FISTTP64(bxInstruction_c *i)
 
   if (IS_TAG_EMPTY(0))
   {
-     BX_CPU_THIS_PTR FPU_exception(FPU_EX_Stack_Underflow);
+     FPU_exception(FPU_EX_Stack_Underflow);
 
-     if (! (BX_CPU_THIS_PTR the_i387.is_IA_masked()))
+     if (! BX_CPU_THIS_PTR the_i387.is_IA_masked())
         return;
   }
   else
@@ -665,16 +716,18 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::FISTTP64(bxInstruction_c *i)
 
      save_reg = floatx80_to_int64_round_to_zero(BX_READ_FPU_REG(0), status);
 
-     if (BX_CPU_THIS_PTR FPU_exception(status.float_exception_flags))
-         return;
+     if (FPU_exception(status.float_exception_flags, 1))
+        return;
   }
 
+  // store to the memory might generate an exception, in this case origial FPU_SW must be kept
+  swap_values16u(x87_sw, FPU_PARTIAL_STATUS);
+
   write_virtual_qword(i->seg(), RMAddr(i), (Bit64u)(save_reg));
+
+  FPU_PARTIAL_STATUS = x87_sw;
+
   BX_CPU_THIS_PTR the_i387.FPU_pop();
-#else
-  BX_INFO(("FISTTP64: required SSE3, use --enable-sse option"));
-  UndefinedOpcode(i);
-#endif
 }
 
 #endif

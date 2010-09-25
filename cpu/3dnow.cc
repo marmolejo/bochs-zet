@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//   Copyright (c) 2002 Stanislav Shwartsman
+//   Copyright (c) 2002-2009 Stanislav Shwartsman
 //          Written by Stanislav Shwartsman [sshwarts at sourceforge net]
 //
 //  This library is free software; you can redistribute it and/or
@@ -17,7 +17,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -44,6 +44,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PFPNACC_PqQq(bxInstruction_c *i)
 /* 0F 0F /r 0C */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::PI2FW_PqQq(bxInstruction_c *i)
 {
+#if BX_CPU_LEVEL >= 5
   BxPackedMmxRegister result, op;
 
   BX_CPU_THIS_PTR prepareMMX();
@@ -53,10 +54,12 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PI2FW_PqQq(bxInstruction_c *i)
     op = BX_READ_MMX_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    MMXUQ(op) = read_virtual_qword(i->seg(), RMAddr(i));
+    MMXUQ(op) = read_virtual_qword(i->seg(), eaddr);
   }
+
+  BX_CPU_THIS_PTR prepareFPU2MMX(); /* FPU2MMX transition */
 
   float_status_t status_word;
   prepare_softfloat_status_word(status_word, float_round_to_zero);
@@ -68,11 +71,13 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PI2FW_PqQq(bxInstruction_c *i)
 
   /* now write result back to destination */
   BX_WRITE_MMX_REG(i->nnn(), result);
+#endif
 }
 
 /* 0F 0F /r 0D */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::PI2FD_PqQq(bxInstruction_c *i)
 {
+#if BX_CPU_LEVEL >= 5
   BxPackedMmxRegister result, op;
 
   BX_CPU_THIS_PTR prepareMMX();
@@ -82,10 +87,12 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PI2FD_PqQq(bxInstruction_c *i)
     op = BX_READ_MMX_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    MMXUQ(op) = read_virtual_qword(i->seg(), RMAddr(i));
+    MMXUQ(op) = read_virtual_qword(i->seg(), eaddr);
   }
+
+  BX_CPU_THIS_PTR prepareFPU2MMX(); /* FPU2MMX transition */
 
   float_status_t status_word;
   prepare_softfloat_status_word(status_word, float_round_to_zero);
@@ -97,6 +104,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PI2FD_PqQq(bxInstruction_c *i)
 
   /* now write result back to destination */
   BX_WRITE_MMX_REG(i->nnn(), result);
+#endif
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::PF2IW_PqQq(bxInstruction_c *i)
@@ -107,6 +115,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PF2IW_PqQq(bxInstruction_c *i)
 /* 0F 0F /r 1D */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::PF2ID_PqQq(bxInstruction_c *i)
 {
+#if BX_CPU_LEVEL >= 5
   BxPackedMmxRegister result, op;
 
   BX_CPU_THIS_PTR prepareMMX();
@@ -116,10 +125,12 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PF2ID_PqQq(bxInstruction_c *i)
     op = BX_READ_MMX_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    MMXUQ(op) = read_virtual_qword(i->seg(), RMAddr(i));
+    MMXUQ(op) = read_virtual_qword(i->seg(), eaddr);
   }
+
+  BX_CPU_THIS_PTR prepareFPU2MMX(); /* FPU2MMX transition */
 
   float_status_t status_word;
   prepare_softfloat_status_word(status_word, float_round_to_zero);
@@ -131,6 +142,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PF2ID_PqQq(bxInstruction_c *i)
 
   /* now write result back to destination */
   BX_WRITE_MMX_REG(i->nnn(), result);
+#endif
 }
 
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::PFNACC_PqQq(bxInstruction_c *i)
@@ -216,6 +228,7 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PFRCPIT2_PqQq(bxInstruction_c *i)
 /* 0F 0F /r B7 */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::PMULHRW_PqQq(bxInstruction_c *i)
 {
+#if BX_CPU_LEVEL >= 5
   BX_CPU_THIS_PTR prepareMMX();
 
   BxPackedMmxRegister op1 = BX_READ_MMX_REG(i->nnn()), op2, result;
@@ -225,10 +238,12 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PMULHRW_PqQq(bxInstruction_c *i)
     op2 = BX_READ_MMX_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    MMXUQ(op2) = read_virtual_qword(i->seg(), RMAddr(i));
+    MMXUQ(op2) = read_virtual_qword(i->seg(), eaddr);
   }
+
+  BX_CPU_THIS_PTR prepareFPU2MMX(); /* FPU2MMX transition */
 
   Bit32s product1 = Bit32s(MMXSW0(op1)) * Bit32s(MMXSW0(op2)) + 0x8000;
   Bit32s product2 = Bit32s(MMXSW1(op1)) * Bit32s(MMXSW1(op2)) + 0x8000;
@@ -242,11 +257,13 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PMULHRW_PqQq(bxInstruction_c *i)
 
   /* now write result back to destination */
   BX_WRITE_MMX_REG(i->nnn(), result);
+#endif
 }
 
 /* 0F 0F /r BB */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::PSWAPD_PqQq(bxInstruction_c *i)
 {
+#if BX_CPU_LEVEL >= 5
   BX_CPU_THIS_PTR prepareMMX();
 
   BxPackedMmxRegister result, op;
@@ -256,16 +273,19 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::PSWAPD_PqQq(bxInstruction_c *i)
     op = BX_READ_MMX_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    MMXUQ(op) = read_virtual_qword(i->seg(), RMAddr(i));
+    MMXUQ(op) = read_virtual_qword(i->seg(), eaddr);
   }
+
+  BX_CPU_THIS_PTR prepareFPU2MMX(); /* FPU2MMX transition */
 
   MMXUD0(result) = MMXUD1(op);
   MMXUD1(result) = MMXUD0(op);
 
   /* now write result back to destination */
   BX_WRITE_MMX_REG(i->nnn(), result);
+#endif
 }
 
 #endif

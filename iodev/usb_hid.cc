@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2007  Volker Ruppert
+//  Copyright (C) 2009  Volker Ruppert
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -16,11 +16,12 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+//
+/////////////////////////////////////////////////////////////////////////
 
 // USB HID emulation support (mouse and tablet) ported from the Qemu project
 // USB keypad emulation based on code by Benjamin D Lunt (fys at frontiernet net)
-
 
 // Define BX_PLUGGABLE in files that can be compiled into plugins.  For
 // platforms that require a special tag on exported symbols, BX_PLUGGABLE
@@ -29,8 +30,9 @@
 
 #define NO_DEVICE_INCLUDES
 #include "iodev.h"
+
 #if BX_SUPPORT_PCI && BX_SUPPORT_PCIUSB
-#include "pciusb.h"
+#include "usb_common.h"
 #include "usb_hid.h"
 
 #define LOG_THIS
@@ -109,19 +111,30 @@ static const Bit8u bx_mouse_config_descriptor[] = {
   /* HID descriptor */
   0x09,        /*  u8  bLength; */
   0x21,        /*  u8 bDescriptorType; */
-  0x01, 0x00,  /*  u16 HID_class */
+  0x00, 0x01,  /*  u16 HID_class */
   0x00,        /*  u8 country_code */
   0x01,        /*  u8 num_descriptors */
   0x22,        /*  u8 type; Report */
   50, 0,       /*  u16 len */
 
-  /* one endpoint (status change endpoint) */
+  /* one endpoint */
   0x07,       /*  u8  ep_bLength; */
   0x05,       /*  u8  ep_bDescriptorType; Endpoint */
   0x81,       /*  u8  ep_bEndpointAddress; IN Endpoint 1 */
   0x03,       /*  u8  ep_bmAttributes; Interrupt */
   0x03, 0x00, /*  u16 ep_wMaxPacketSize; */
-  0x0a,       /*  u8  ep_bInterval; (255ms -- usb 2.0 spec) */
+  0x0a,       /*  u8  ep_bInterval; (0 - 255ms -- usb 2.0 spec) */
+};
+
+static const Bit8u bx_mouse_hid_descriptor[] = {
+  /* HID descriptor */
+  0x09,        /*  u8  bLength; */
+  0x21,        /*  u8 bDescriptorType; */
+  0x00, 0x01,  /*  u16 HID_class */
+  0x00,        /*  u8 country_code */
+  0x01,        /*  u8 num_descriptors */
+  0x22,        /*  u8 type; Report */
+  50, 0        /*  u16 len */
 };
 
 static const Bit8u bx_mouse_hid_report_descriptor[] = {
@@ -163,19 +176,30 @@ static const Bit8u bx_tablet_config_descriptor[] = {
   /* HID descriptor */
   0x09,        /*  u8  bLength; */
   0x21,        /*  u8 bDescriptorType; */
-  0x01, 0x00,  /*  u16 HID_class */
+  0x00, 0x01,  /*  u16 HID_class */
   0x00,        /*  u8 country_code */
   0x01,        /*  u8 num_descriptors */
   0x22,        /*  u8 type; Report */
   74, 0,       /*  u16 len */
 
-  /* one endpoint (status change endpoint) */
+  /* one endpoint */
   0x07,       /*  u8  ep_bLength; */
   0x05,       /*  u8  ep_bDescriptorType; Endpoint */
   0x81,       /*  u8  ep_bEndpointAddress; IN Endpoint 1 */
   0x03,       /*  u8  ep_bmAttributes; Interrupt */
   0x08, 0x00, /*  u16 ep_wMaxPacketSize; */
-  0x0a,       /*  u8  ep_bInterval; (255ms -- usb 2.0 spec) */
+  0x0a,       /*  u8  ep_bInterval; (0 - 255ms -- usb 2.0 spec) */
+};
+
+static const Bit8u bx_tablet_hid_descriptor[] = {
+  /* HID descriptor */
+  0x09,        /*  u8  bLength; */
+  0x21,        /*  u8 bDescriptorType; */
+  0x00, 0x01,  /*  u16 HID_class */
+  0x00,        /*  u8 country_code */
+  0x01,        /*  u8 num_descriptors */
+  0x22,        /*  u8 type; Report */
+  74, 0,       /*  u16 len */
 };
 
 static const Bit8u bx_tablet_hid_report_descriptor[] = {
@@ -301,13 +325,24 @@ static const Bit8u bx_keypad_config_descriptor[] = {
   0x22,        /*  u8 type; Report */
   50, 0,       /*  u16 len */
 
-  /* one endpoint (status change endpoint) */
+  /* one endpoint */
   0x07,       /*  u8  ep_bLength; */
   0x05,       /*  u8  ep_bDescriptorType; Endpoint */
   0x82,       /*  u8  ep_bEndpointAddress; IN Endpoint 2 */
   0x03,       /*  u8  ep_bmAttributes; Interrupt */
   0x08, 0x00, /*  u16 ep_wMaxPacketSize; */
-  0x0a,       /*  u8  ep_bInterval; (255ms -- usb 2.0 spec) */
+  0x0a,       /*  u8  ep_bInterval; (0 - 255ms -- usb 2.0 spec) */
+};
+
+static const Bit8u bx_keypad_hid_descriptor[] = {
+  /* HID descriptor */
+  0x09,        /*  u8  bLength; */
+  0x21,        /*  u8 bDescriptorType; */
+  0x00, 0x01,  /*  u16 HID_class */
+  0x00,        /*  u8 country_code */
+  0x01,        /*  u8 num_descriptors */
+  0x22,        /*  u8 type; Report */
+  50, 0,       /*  u16 len */
 };
 
 static const Bit8u bx_keypad_hid_report_descriptor1[] = {
@@ -352,29 +387,37 @@ struct KEYPAD keypad_lookup[KEYPAD_LEN] = {
   { { 0xE0, 0x5A  }, { 0x00, 0x00, 0x58, 0x00, 0x00, 0x00, 0x00, 0x00 } },  // Enter
 };
 
-usb_hid_device_t::usb_hid_device_t(usbdev_type type)
+usb_hid_device_c::usb_hid_device_c(usbdev_type type)
 {
   d.type = type;
   d.speed = USB_SPEED_LOW;
   if (d.type == USB_DEV_TYPE_MOUSE) {
     strcpy(d.devname, "USB Mouse");
+    DEV_register_removable_mouse((void*)this, mouse_enq_static, mouse_enabled_changed);
   } else if (d.type == USB_DEV_TYPE_TABLET) {
     strcpy(d.devname, "USB Tablet");
+    DEV_register_removable_mouse((void*)this, mouse_enq_static, mouse_enabled_changed);
   } else if (d.type == USB_DEV_TYPE_KEYPAD) {
     strcpy(d.devname, "USB/PS2 Keypad");
+    DEV_register_removable_keyboard((void*)this, key_enq_static);
   }
   d.connected = 1;
   memset((void*)&s, 0, sizeof(s));
 
   put("USBHI");
-  settype(PCIUSBLOG);
 }
 
-usb_hid_device_t::~usb_hid_device_t(void)
+usb_hid_device_c::~usb_hid_device_c(void)
 {
+  if ((d.type == USB_DEV_TYPE_MOUSE) ||
+      (d.type == USB_DEV_TYPE_TABLET)) {
+    DEV_unregister_removable_mouse((void*)this);
+  } else if (d.type == USB_DEV_TYPE_KEYPAD) {
+    DEV_unregister_removable_keyboard((void*)this);
+  }
 }
 
-void usb_hid_device_t::register_state_specific(bx_list_c *parent)
+void usb_hid_device_c::register_state_specific(bx_list_c *parent)
 {
   bx_list_c *key;
   Bit8u i;
@@ -400,22 +443,26 @@ void usb_hid_device_t::register_state_specific(bx_list_c *parent)
   }
 }
 
-void usb_hid_device_t::handle_reset()
+void usb_hid_device_c::handle_reset()
 {
   memset((void*)&s, 0, sizeof(s));
   BX_DEBUG(("Reset"));
 }
 
-int usb_hid_device_t::handle_control(int request, int value, int index, int length, Bit8u *data)
+int usb_hid_device_c::handle_control(int request, int value, int index, int length, Bit8u *data)
 {
   int ret = 0;
 
   switch(request) {
     case DeviceRequest | USB_REQ_GET_STATUS:
-      data[0] = (1 << USB_DEVICE_SELF_POWERED) |
-        (d.remote_wakeup << USB_DEVICE_REMOTE_WAKEUP);
-      data[1] = 0x00;
-      ret = 2;
+      if (d.state == USB_STATE_DEFAULT)
+        goto fail;
+      else {
+        data[0] = (1 << USB_DEVICE_SELF_POWERED) |
+          (d.remote_wakeup << USB_DEVICE_REMOTE_WAKEUP);
+        data[1] = 0x00;
+        ret = 2;
+      }
       break;
     case DeviceOutRequest | USB_REQ_CLEAR_FEATURE:
       if (value == USB_DEVICE_REMOTE_WAKEUP) {
@@ -434,6 +481,7 @@ int usb_hid_device_t::handle_control(int request, int value, int index, int leng
       ret = 0;
       break;
     case DeviceOutRequest | USB_REQ_SET_ADDRESS:
+      d.state = USB_STATE_ADDRESS;
       d.addr = value;
       ret = 0;
       break;
@@ -449,7 +497,7 @@ int usb_hid_device_t::handle_control(int request, int value, int index, int leng
             memcpy(data, bx_keypad_dev_descriptor,
                    sizeof(bx_keypad_dev_descriptor));
             ret = sizeof(bx_keypad_dev_descriptor);
-	  } else {
+          } else {
             goto fail;
           }
           break;
@@ -468,7 +516,7 @@ int usb_hid_device_t::handle_control(int request, int value, int index, int leng
             ret = sizeof(bx_keypad_config_descriptor);
           } else {
             goto fail;
-          }		
+          }
           break;
         case USB_DT_STRING:
           switch(value & 0xff) {
@@ -503,12 +551,12 @@ int usb_hid_device_t::handle_control(int request, int value, int index, int leng
               ret = set_usb_string(data, "Endpoint1 Interrupt Pipe");
               break;
             default:
-              BX_ERROR(("USB HID handle_control: unknown descriptor 0x%02x", value & 0xff));
+              BX_ERROR(("USB HID handle_control: unknown string descriptor 0x%02x", value & 0xff));
               goto fail;
           }
           break;
         default:
-          BX_ERROR(("USB HID handle_control: unknown descriptor 0x%02x", value & 0xff));
+          BX_ERROR(("USB HID handle_control: unknown descriptor type 0x%02x", value >> 8));
           goto fail;
       }
       break;
@@ -517,6 +565,7 @@ int usb_hid_device_t::handle_control(int request, int value, int index, int leng
       ret = 1;
       break;
     case DeviceOutRequest | USB_REQ_SET_CONFIGURATION:
+      d.state = USB_STATE_CONFIGURED;
       ret = 0;
       break;
     case DeviceRequest | USB_REQ_GET_INTERFACE:
@@ -529,6 +578,23 @@ int usb_hid_device_t::handle_control(int request, int value, int index, int leng
       /* hid specific requests */
     case InterfaceRequest | USB_REQ_GET_DESCRIPTOR:
       switch(value >> 8) {
+        case 0x21:
+          if (d.type == USB_DEV_TYPE_MOUSE) {
+            memcpy(data, bx_mouse_hid_descriptor,
+                   sizeof(bx_mouse_hid_descriptor));
+            ret = sizeof(bx_mouse_hid_descriptor);
+          } else if (d.type == USB_DEV_TYPE_TABLET) {
+            memcpy(data, bx_tablet_hid_descriptor,
+                   sizeof(bx_tablet_hid_descriptor));
+            ret = sizeof(bx_tablet_hid_descriptor);
+          } else if (d.type == USB_DEV_TYPE_KEYPAD) {
+            memcpy(data, bx_keypad_hid_descriptor,
+                   sizeof(bx_keypad_hid_descriptor));
+            ret = sizeof(bx_keypad_hid_descriptor);
+          } else {
+            goto fail;
+          }
+          break;
         case 0x22:
           if (d.type == USB_DEV_TYPE_MOUSE) {
             memcpy(data, bx_mouse_hid_report_descriptor,
@@ -552,8 +618,11 @@ int usb_hid_device_t::handle_control(int request, int value, int index, int leng
             goto fail;
           }
           break;
+        case 0x23:
+          BX_ERROR(("USB HID handle_control: Host requested the HID Physical Descriptor"));
+          goto fail;
         default:
-          BX_ERROR(("USB HID handle_control: unknown HID descriptor 0x%02x", value & 0xff));
+          BX_ERROR(("USB HID handle_control: unknown HID descriptor 0x%02x", value >> 8));
           goto fail;
         }
         break;
@@ -582,13 +651,14 @@ int usb_hid_device_t::handle_control(int request, int value, int index, int leng
     default:
       BX_ERROR(("USB HID handle_control: unknown request 0x%04x", request));
     fail:
+      d.stall = 1;
       ret = USB_RET_STALL;
       break;
   }
   return ret;
 }
 
-int usb_hid_device_t::handle_data(USBPacket *p)
+int usb_hid_device_c::handle_data(USBPacket *p)
 {
   int ret = 0;
 
@@ -617,13 +687,14 @@ int usb_hid_device_t::handle_data(USBPacket *p)
       BX_ERROR(("USB HID handle_data: unexpected pid TOKEN_OUT"));
     default:
     fail:
+      d.stall = 1;
       ret = USB_RET_STALL;
       break;
   }
   return ret;
 }
 
-int usb_hid_device_t::mouse_poll(Bit8u *buf, int len)
+int usb_hid_device_c::mouse_poll(Bit8u *buf, int len)
 {
   int l = 0;
 
@@ -636,7 +707,6 @@ int usb_hid_device_t::mouse_poll(Bit8u *buf, int len)
     buf[0] = (Bit8u) s.b_state;
     buf[1] = (Bit8s) s.mouse_x;
     buf[2] = (Bit8s) s.mouse_y;
-    s.b_state = 0;
     s.mouse_x = 0;
     s.mouse_y = 0;
     l = 3;
@@ -658,7 +728,17 @@ int usb_hid_device_t::mouse_poll(Bit8u *buf, int len)
   return l;
 }
 
-void usb_hid_device_t::mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state)
+void usb_hid_device_c::mouse_enabled_changed(void *dev, bx_bool enabled)
+{
+  if (enabled) ((usb_hid_device_c*)dev)->handle_reset();
+}
+
+void usb_hid_device_c::mouse_enq_static(void *dev, int delta_x, int delta_y, int delta_z, unsigned button_state)
+{
+  ((usb_hid_device_c*)dev)->mouse_enq(delta_x, delta_y, delta_z, button_state);
+}
+
+void usb_hid_device_c::mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state)
 {
   if (d.type == USB_DEV_TYPE_MOUSE) {
     // scale down the motion
@@ -711,7 +791,7 @@ void usb_hid_device_t::mouse_enq(int delta_x, int delta_y, int delta_z, unsigned
   s.b_state = (Bit8u) button_state;
 }
 
-int usb_hid_device_t::keypad_poll(Bit8u *buf, int len)
+int usb_hid_device_c::keypad_poll(Bit8u *buf, int len)
 {
   int l = 0;
 
@@ -722,7 +802,12 @@ int usb_hid_device_t::keypad_poll(Bit8u *buf, int len)
   return l;
 }
 
-bx_bool usb_hid_device_t::key_enq(Bit8u *scan_code)
+bx_bool usb_hid_device_c::key_enq_static(void *dev, Bit8u *scan_code)
+{
+  return ((usb_hid_device_c*)dev)->key_enq(scan_code);
+}
+
+bx_bool usb_hid_device_c::key_enq(Bit8u *scan_code)
 {
   bx_bool is_break_code = 0;
   Bit8u our_scan_code[8];

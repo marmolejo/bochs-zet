@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2002  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2002-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 #define BX_MAX_STATUSITEMS 10
 
@@ -34,9 +28,25 @@
 #define BX_GUI_DLG_SAVE_RESTORE 0x20
 #define BX_GUI_DLG_ALL          0x3F
 
+// text mode blink feature
 #define BX_TEXT_BLINK_MODE      0x01
 #define BX_TEXT_BLINK_TOGGLE    0x02
 #define BX_TEXT_BLINK_STATE     0x04
+
+// mouse capture toggle feature
+#define BX_MT_KEY_CTRL          0x01
+#define BX_MT_KEY_ALT           0x02
+#define BX_MT_KEY_F10           0x04
+#define BX_MT_KEY_F12           0x08
+#define BX_MT_MBUTTON           0x10
+#define BX_MT_LBUTTON           0x20
+#define BX_MT_RBUTTON           0x40
+
+#define BX_GUI_MT_CTRL_MB       0x11
+#define BX_GUI_MT_CTRL_LRB      0x61
+#define BX_GUI_MT_CTRL_F10      0x05
+#define BX_GUI_MT_F12           0x08
+#define BX_GUI_MT_CTRL_ALT      0x03
 
 typedef struct {
   Bit16u  start_address;
@@ -96,7 +106,7 @@ public:
   virtual int get_clipboard_text(Bit8u **bytes, Bit32s *nbytes)  = 0;
   virtual int set_clipboard_text(char *snapshot, Bit32u len) = 0;
   virtual void mouse_enabled_changed_specific (bx_bool val) = 0;
-  virtual void statusbar_setitem(int element, bx_bool active) {}
+  virtual void statusbar_setitem(int element, bx_bool active, bx_bool w=0) {}
   virtual void set_tooltip(unsigned hbar_id, const char *tip) {}
   virtual void exit(void) = 0;
   // set_display_mode() changes the mode between the configuration interface
@@ -136,7 +146,9 @@ public:
   static void     mouse_enabled_changed(bx_bool val);
   int register_statusitem(const char *text);
   static void init_signal_handlers();
-
+  static void toggle_mouse_enable(void);
+  bx_bool mouse_toggle_check(Bit32u key, bx_bool pressed);
+  const char* get_toggle_info(void);
 
 protected:
   // And these are defined and used privately in gui.cc
@@ -151,7 +163,6 @@ protected:
   static void snapshot_handler(void);
   static void snapshot_checker(void *);
   static void config_handler(void);
-  static void toggle_mouse_enable(void);
   static void userbutton_handler(void);
   static void save_restore_handler(void);
 
@@ -184,6 +195,9 @@ protected:
   Bit8u host_bpp;
   Bit8u *framebuffer;
   Bit32u dialog_caps;
+  Bit8u toggle_method;
+  Bit32u toggle_keystate;
+  char mouse_toggle_text[20];
 };
 
 

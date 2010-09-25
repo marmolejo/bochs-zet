@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2002  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2002-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 /////////////////////////////////////////////////////////////////////////
 
 //  Much of this file was written by:
@@ -35,6 +29,8 @@
 #define BX_PLUGGABLE
 
 #include "bochs.h"
+#include "param_names.h"
+#include "keymap.h"
 #include "iodev/iodev.h"
 #if BX_WITH_WIN32
 
@@ -50,7 +46,7 @@ class bx_win32_gui_c : public bx_gui_c {
 public:
   bx_win32_gui_c (void) {}
   DECLARE_GUI_VIRTUAL_METHODS();
-  virtual void statusbar_setitem(int element, bx_bool active);
+  virtual void statusbar_setitem(int element, bx_bool active, bx_bool w=0);
   virtual void get_capabilities(Bit16u *xres, Bit16u *yres, Bit16u *bpp);
   virtual void set_tooltip(unsigned hbar_id, const char *tip);
 #if BX_SHOW_IPS
@@ -138,8 +134,8 @@ static int FontId = 2;
 
 // Headerbar stuff
 HWND hwndTB, hwndSB;
-unsigned bx_bitmap_entries;
-struct {
+static unsigned bx_bitmap_entries;
+static struct {
   HBITMAP bmap;
   unsigned xdim;
   unsigned ydim;
@@ -168,26 +164,26 @@ static char ipsText[20];
 long SB_Edges[BX_MAX_STATUSITEMS+BX_SB_TEXT_ELEMENTS+1];
 char SB_Text[BX_MAX_STATUSITEMS][10];
 bx_bool SB_Active[BX_MAX_STATUSITEMS];
+bx_bool SB_ActiveW[BX_MAX_STATUSITEMS];
 
 // Misc stuff
 static unsigned dimension_x, dimension_y, current_bpp;
 static unsigned stretched_x, stretched_y;
 static unsigned stretch_factor=1;
 static BOOL BxTextMode = TRUE;
-static BOOL legacyF12 = FALSE;
 static BOOL fix_size = FALSE;
-#if BX_DEBUGGER
-static BOOL windebug = FALSE;
+#if BX_DEBUGGER && BX_DEBUGGER_GUI
+static BOOL gui_debug = FALSE;
 #endif
 static HWND hotKeyReceiver = NULL;
 static HWND saveParent = NULL;
 
-static char *szMouseEnable = "CTRL + 3rd button enables mouse ";
-static char *szMouseDisable = "CTRL + 3rd button disables mouse";
-static char *szMouseTooltip = "Enable mouse capture\nUse CTRL + 3rd button to release";
+static char szMouseEnable[40];
+static char szMouseDisable[40];
+static char szMouseTooltip[64];
 
-static char szAppName[] = "Bochs for Windows";
-static char szWindowName[] = "Bochs for Windows - Display";
+static const char szAppName[] = "Bochs for Windows";
+static const char szWindowName[] = "Bochs for Windows - Display";
 
 typedef struct {
   HINSTANCE hInstance;
@@ -207,7 +203,7 @@ sharedThreadInfo stInfo;
 LRESULT CALLBACK mainWndProc (HWND, UINT, WPARAM, LPARAM);
 LRESULT CALLBACK simWndProc (HWND, UINT, WPARAM, LPARAM);
 VOID CDECL UIThread(PVOID);
-void SetStatusText(int Num, const char *Text, bx_bool active);
+void SetStatusText(int Num, const char *Text, bx_bool active, bx_bool w=0);
 void terminateEmul(int);
 void create_vga_font(void);
 static unsigned char reverse_bitorder(unsigned char);
@@ -486,9 +482,8 @@ Bit32u win32_to_bx_key[2][0x100] =
 
 /* Macro to convert WM_ button state to BX button state */
 
-#if  defined(__MINGW32__) || defined(_MSC_VER)
-  VOID CALLBACK MyTimer(HWND,UINT,UINT,DWORD);
-  void alarm(int);
+#if BX_SHOW_IPS
+VOID CALLBACK MyTimer(HWND,UINT,UINT,DWORD);
 #endif
 
 static void processMouseXY(int x, int y, int z, int windows_state, int implied_state_change)
@@ -611,7 +606,9 @@ void bx_win32_gui_c::specific_init(int argc, char **argv, unsigned
                                    unsigned headerbar_y)
 {
   int i;
+  bx_bool gui_ci;
 
+  gui_ci = !strcmp(SIM->get_param_enum(BXPN_SEL_CONFIG_INTERFACE)->get_selected(), "win32config");
   put("WGUI");
 
   // prepare for possible fullscreen mode
@@ -639,24 +636,20 @@ void bx_win32_gui_c::specific_init(int argc, char **argv, unsigned
   mouseCaptureNew = FALSE;
   mouseToggleReq = FALSE;
 
-  mouse_buttons = GetSystemMetrics(SM_CMOUSEBUTTONS);
-  BX_INFO(("Number of Mouse Buttons = %d", mouse_buttons));
-  if (mouse_buttons == 2) {
-    szMouseEnable = "CTRL + Lbutton + Rbutton enables mouse ";
-    szMouseDisable = "CTRL + Lbutton + Rbutton disables mouse";
-    szMouseTooltip = "Enable mouse capture\nUse CTRL + Lbutton + Rbutton to release";
-  }
-
   // parse win32 specific options
   if (argc > 1) {
     for (i = 1; i < argc; i++) {
       BX_INFO(("option %d: %s", i, argv[i]));
       if (!strcmp(argv[i], "legacyF12")) {
-        legacyF12 = TRUE;
-#if BX_DEBUGGER
-      } else if (!strcmp(argv[i], "windebug")) {
-        windebug = TRUE;
-        SIM->set_debug_gui(1);
+        BX_PANIC(("The option 'legacyF12' is now deprecated - use 'mouse: toggle=f12' instead"));
+#if BX_DEBUGGER && BX_DEBUGGER_GUI
+      } else if (!strcmp(argv[i], "gui_debug")) {
+        if (gui_ci) {
+          gui_debug = TRUE;
+          SIM->set_debug_gui(1);
+        } else {
+          BX_PANIC(("Config interface 'win32config' is required for gui debugger"));
+        }
 #endif
       } else {
         BX_PANIC(("Unknown win32 option '%s'", argv[i]));
@@ -664,10 +657,17 @@ void bx_win32_gui_c::specific_init(int argc, char **argv, unsigned
     }
   }
 
-  if (legacyF12) {
-    szMouseEnable = "Press F12 to enable mouse ";
-    szMouseDisable = "Press F12 to disable mouse";
-    szMouseTooltip = "Enable mouse capture\nUse F12 to release";
+  mouse_buttons = GetSystemMetrics(SM_CMOUSEBUTTONS);
+  BX_INFO(("Number of Mouse Buttons = %d", mouse_buttons));
+  if ((SIM->get_param_enum(BXPN_MOUSE_TOGGLE)->get() == BX_MOUSE_TOGGLE_CTRL_MB) &&
+      (mouse_buttons == 2)) {
+    lstrcpy(szMouseEnable, "CTRL + Lbutton + Rbutton enables mouse ");
+    lstrcpy(szMouseDisable, "CTRL + Lbutton + Rbutton disables mouse");
+    lstrcpy(szMouseTooltip, "Enable mouse capture\nUse CTRL + Lbutton + Rbutton to release");
+  } else {
+    wsprintf(szMouseEnable, "%s enables mouse ", get_toggle_info());
+    wsprintf(szMouseDisable, "%s disables mouse", get_toggle_info());
+    wsprintf(szMouseTooltip, "Enable mouse capture\nUse %s to release", get_toggle_info());
   }
 
   stInfo.hInstance = GetModuleHandle(NULL);
@@ -726,8 +726,9 @@ void bx_win32_gui_c::specific_init(int argc, char **argv, unsigned
     bx_keymap.loadKeymap(NULL);  // I have no function to convert X windows symbols
   }
 
-  win32_init_notify_callback();
-  dialog_caps = BX_GUI_DLG_ALL;
+  if (gui_ci) {
+    dialog_caps = BX_GUI_DLG_ALL;
+  }
 }
 
 void resize_main_window()
@@ -918,10 +919,14 @@ VOID CDECL UIThread(PVOID pvoid)
     if (MemoryBitmap && MemoryDC) {
       resize_main_window();
       ShowWindow(stInfo.mainWnd, SW_SHOW);
-#if BX_DEBUGGER
-      if (windebug) {
-        InitDebugDialog(stInfo.mainWnd);
+#if BX_DEBUGGER && BX_DEBUGGER_GUI
+      if (gui_debug) {
+        InitDebugDialog();
       }
+#endif
+#if BX_SHOW_IPS
+      UINT idTimer = 2;
+      SetTimer(stInfo.simWnd, idTimer, 1000, (TIMERPROC)MyTimer);
 #endif
       stInfo.UIinited = TRUE;
 
@@ -939,7 +944,7 @@ VOID CDECL UIThread(PVOID pvoid)
   _endthread();
 }
 
-void SetStatusText(int Num, const char *Text, bx_bool active)
+void SetStatusText(int Num, const char *Text, bx_bool active, bx_bool w)
 {
   char StatText[MAX_PATH];
 
@@ -952,20 +957,20 @@ void SetStatusText(int Num, const char *Text, bx_bool active)
     lstrcpy(StatText+1, Text);
     lstrcpy(SB_Text[Num-BX_SB_TEXT_ELEMENTS], StatText);
     SB_Active[Num-BX_SB_TEXT_ELEMENTS] = active;
+    SB_ActiveW[Num-BX_SB_TEXT_ELEMENTS] = w;
     SendMessage(hwndSB, SB_SETTEXT, Num | SBT_OWNERDRAW, (long)SB_Text[Num-BX_SB_TEXT_ELEMENTS]);
   }
   UpdateWindow(hwndSB);
 }
 
-void
-bx_win32_gui_c::statusbar_setitem(int element, bx_bool active)
+void bx_win32_gui_c::statusbar_setitem(int element, bx_bool active, bx_bool w)
 {
   if (element < 0) {
     for (int i = 0; i < (int)statusitem_count; i++) {
-      SetStatusText(i+BX_SB_TEXT_ELEMENTS, statusitem_text[i], active);
+      SetStatusText(i+BX_SB_TEXT_ELEMENTS, statusitem_text[i], active, w);
     }
   } else if (element < (int)statusitem_count) {
-    SetStatusText(element+BX_SB_TEXT_ELEMENTS, statusitem_text[element], active);
+    SetStatusText(element+BX_SB_TEXT_ELEMENTS, statusitem_text[element], active, w);
   }
 }
 
@@ -1009,7 +1014,7 @@ LRESULT CALLBACK mainWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
       SendMessage(hwndSB, WM_SIZE, 0, 0);
       // now fit simWindow to mainWindow
       int rect_data[] = { 1, 0, IsWindowVisible(hwndTB),
-       100, IsWindowVisible(hwndSB), 0x7712, 0, 0 };
+         100, IsWindowVisible(hwndSB), 0x7712, 0, 0 };
       RECT R;
       GetEffectiveClientRect(hwnd, &R, rect_data);
       x = R.right - R.left;
@@ -1031,7 +1036,10 @@ LRESULT CALLBACK mainWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
     if (lpdis->hwndItem == hwndSB) {
       sbtext = (char *)lpdis->itemData;
       if (SB_Active[lpdis->itemID-BX_SB_TEXT_ELEMENTS]) {
-        SetBkColor(lpdis->hDC, 0x0000FF00);
+        if (SB_ActiveW[lpdis->itemID-BX_SB_TEXT_ELEMENTS])
+          SetBkColor(lpdis->hDC, 0x000040FF);
+        else
+          SetBkColor(lpdis->hDC, 0x0000FF00);
       } else {
         SetBkMode(lpdis->hDC, TRANSPARENT);
         SetTextColor(lpdis->hDC, 0x00808080);
@@ -1047,16 +1055,15 @@ LRESULT CALLBACK mainWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
       lpttt = (LPTOOLTIPTEXT)lParam;
       idTT = (int)wParam;
       hbar_id = idTT - 101;
-      if ((SendMessage(hwndTB, TB_GETSTATE, idTT, 0)) &&
-          (bx_headerbar_entry[hbar_id].tooltip != NULL)) {
-          lstrcpy(lpttt->szText, bx_headerbar_entry[hbar_id].tooltip);
+      if (SendMessage(hwndTB, TB_GETSTATE, idTT, 0) && bx_headerbar_entry[hbar_id].tooltip != NULL) {
+        lstrcpy(lpttt->szText, bx_headerbar_entry[hbar_id].tooltip);
       }
     }
     return FALSE;
     break;
 
   }
-  return DefWindowProc (hwnd, iMsg, wParam, lParam);
+  return DefWindowProc(hwnd, iMsg, wParam, lParam);
 }
 
 void SetMouseCapture()
@@ -1085,6 +1092,7 @@ LRESULT CALLBACK simWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
   HDC hdc, hdcMem;
   PAINTSTRUCT ps;
   POINT pt;
+  bx_bool mouse_toggle = 0;
   static BOOL mouseModeChange = FALSE;
 
   switch (iMsg) {
@@ -1161,11 +1169,14 @@ LRESULT CALLBACK simWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
   case WM_LBUTTONDBLCLK:
   case WM_LBUTTONUP:
     if (mouse_buttons == 2) {
-      if (wParam == (MK_CONTROL | MK_LBUTTON | MK_RBUTTON)) {
-        mouseCaptureMode = !mouseCaptureMode;
-        SetMouseCapture();
-        mouseModeChange = TRUE;
+      if ((wParam & MK_LBUTTON) == MK_LBUTTON) {
+        if (bx_gui->mouse_toggle_check(BX_MT_LBUTTON, 1)) {
+          mouseCaptureMode = !mouseCaptureMode;
+          SetMouseCapture();
+          mouseModeChange = TRUE;
+        }
       } else if (mouseModeChange && (iMsg == WM_LBUTTONUP)) {
+        bx_gui->mouse_toggle_check(BX_MT_LBUTTON, 0);
         mouseModeChange = FALSE;
       } else {
         processMouseXY(LOWORD(lParam), HIWORD(lParam), 0, wParam, 1);
@@ -1178,11 +1189,14 @@ LRESULT CALLBACK simWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
   case WM_MBUTTONDOWN:
   case WM_MBUTTONDBLCLK:
   case WM_MBUTTONUP:
-    if (wParam == (MK_CONTROL | MK_MBUTTON)) {
-      mouseCaptureMode = !mouseCaptureMode;
-      SetMouseCapture();
-      mouseModeChange = TRUE;
+    if ((wParam & MK_MBUTTON) == MK_MBUTTON) {
+      if (bx_gui->mouse_toggle_check(BX_MT_MBUTTON, 1)) {
+        mouseCaptureMode = !mouseCaptureMode;
+        SetMouseCapture();
+        mouseModeChange = TRUE;
+      }
     } else if (mouseModeChange && (iMsg == WM_MBUTTONUP)) {
+      bx_gui->mouse_toggle_check(BX_MT_MBUTTON, 0);
       mouseModeChange = FALSE;
     } else {
       processMouseXY(LOWORD(lParam), HIWORD(lParam), 0, wParam, 4);
@@ -1193,11 +1207,14 @@ LRESULT CALLBACK simWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
   case WM_RBUTTONDBLCLK:
   case WM_RBUTTONUP:
     if (mouse_buttons == 2) {
-      if (wParam == (MK_CONTROL | MK_LBUTTON | MK_RBUTTON)) {
-        mouseCaptureMode = !mouseCaptureMode;
-        SetMouseCapture();
-        mouseModeChange = TRUE;
+      if ((wParam & MK_RBUTTON) == MK_RBUTTON) {
+        if (bx_gui->mouse_toggle_check(BX_MT_RBUTTON, 1)) {
+          mouseCaptureMode = !mouseCaptureMode;
+          SetMouseCapture();
+          mouseModeChange = TRUE;
+        }
       } else if (mouseModeChange && (iMsg == WM_RBUTTONUP)) {
+        bx_gui->mouse_toggle_check(BX_MT_RBUTTON, 0);
         mouseModeChange = FALSE;
       } else {
         processMouseXY(LOWORD(lParam), HIWORD(lParam), 0, wParam, 2);
@@ -1220,7 +1237,16 @@ LRESULT CALLBACK simWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
   case WM_KEYDOWN:
   case WM_SYSKEYDOWN:
-    if (legacyF12 && (wParam == VK_F12)) {
+    if (wParam == VK_CONTROL) {
+      mouse_toggle = bx_gui->mouse_toggle_check(BX_MT_KEY_CTRL, 1);
+    } else if (wParam == VK_MENU) {
+      mouse_toggle = bx_gui->mouse_toggle_check(BX_MT_KEY_ALT, 1);
+    } else if (wParam == VK_F10) {
+      mouse_toggle = bx_gui->mouse_toggle_check(BX_MT_KEY_F10, 1);
+    } else if (wParam == VK_F12) {
+      mouse_toggle = bx_gui->mouse_toggle_check(BX_MT_KEY_F12, 1);
+    }
+    if (mouse_toggle) {
       mouseCaptureMode = !mouseCaptureMode;
       SetMouseCapture();
       return 0;
@@ -1246,6 +1272,15 @@ LRESULT CALLBACK simWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
                                0, 0, current_bpp);
       }
     } else {
+      if (wParam == VK_CONTROL) {
+        bx_gui->mouse_toggle_check(BX_MT_KEY_CTRL, 0);
+      } else if (wParam == VK_MENU) {
+        bx_gui->mouse_toggle_check(BX_MT_KEY_ALT, 0);
+      } else if (wParam == VK_F10) {
+        bx_gui->mouse_toggle_check(BX_MT_KEY_F10, 0);
+      } else if (wParam == VK_F12) {
+        bx_gui->mouse_toggle_check(BX_MT_KEY_F12, 0);
+      }
       EnterCriticalSection(&stInfo.keyCS);
       enq_key_event(HIWORD (lParam) & 0x01FF, BX_KEY_RELEASED);
       LeaveCriticalSection(&stInfo.keyCS);
@@ -1362,6 +1397,7 @@ void enq_mouse_event(void)
   if (ms_xdelta || ms_ydelta || ms_zdelta)
   {
     if (((tail+1) % SCANCODE_BUFSIZE) == head) {
+      LeaveCriticalSection(&stInfo.mouseCS);
       BX_ERROR(("enq_scancode: buffer full"));
       return;
     }
@@ -1433,13 +1469,13 @@ void bx_win32_gui_c::handle_events(void)
       DEV_kbd_gen_scancode(key_event);
     }
   }
+  LeaveCriticalSection(&stInfo.keyCS);
 #if BX_SHOW_IPS
   if (ipsUpdate) {
     SetStatusText(1, ipsText, 1);
     ipsUpdate = FALSE;
   }
 #endif
-  LeaveCriticalSection(&stInfo.keyCS);
 }
 
 
@@ -1586,8 +1622,13 @@ void bx_win32_gui_c::text_update(Bit8u *old_text, Bit8u *new_text,
   y = 0;
   cs_y = 0;
   text_base = new_text - tm_info.start_address;
-  split_textrow = (line_compare + v_panning) / yChar;
-  split_fontrows = ((line_compare + v_panning) % yChar) + 1;
+  if (line_compare < dimension_y) {
+    split_textrow = (line_compare + v_panning) / yChar;
+    split_fontrows = ((line_compare + v_panning) % yChar) + 1;
+  } else {
+    split_textrow = rows + 1;
+    split_fontrows = 0;
+  }
   split_screen = 0;
   do {
     hchars = text_cols;
@@ -2207,21 +2248,6 @@ void headerbar_click(int x)
   }
 }
 
-#if defined(__MINGW32__) || defined(_MSC_VER)
-#if BX_SHOW_IPS
-VOID CALLBACK MyTimer(HWND hwnd,UINT uMsg, UINT idEvent, DWORD dwTime)
-{
-  bx_signal_handler(SIGALRM);
-}
-
-void alarm(int time)
-{
-  UINT idTimer = 2;
-  SetTimer(stInfo.simWnd,idTimer,time*1000,MyTimer);
-}
-#endif
-#endif
-
 void bx_win32_gui_c::mouse_enabled_changed_specific(bx_bool val)
 {
   if ((val != (bx_bool)mouseCaptureMode) && !mouseToggleReq) {
@@ -2249,6 +2275,11 @@ void bx_win32_gui_c::set_tooltip(unsigned hbar_id, const char *tip)
 }
 
 #if BX_SHOW_IPS
+VOID CALLBACK MyTimer(HWND hwnd,UINT uMsg, UINT idEvent, DWORD dwTime)
+{
+  bx_signal_handler(SIGALRM);
+}
+
 void bx_win32_gui_c::show_ips(Bit32u ips_count)
 {
   if (!ipsUpdate) {

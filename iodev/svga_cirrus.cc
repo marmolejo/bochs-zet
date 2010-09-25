@@ -18,7 +18,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -37,6 +37,8 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "vga.h"
+#include "svga_cirrus.h"
 
 #if BX_SUPPORT_CLGD54XX
 
@@ -223,7 +225,7 @@ static bx_svga_cirrus_c *theSvga = NULL;
 int libvga_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   theSvga = new bx_svga_cirrus_c();
-  libvga_set_smf_pointer(theSvga);
+  bx_vga_set_smf_pointer(theSvga);
   bx_devices.pluginVgaDevice = theSvga;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, theSvga, BX_PLUGIN_VGA);
   return(0); // Success
@@ -452,8 +454,8 @@ void bx_svga_cirrus_c::after_restore_state(void)
 #endif
     for (unsigned i=0; i<256; i++) {
       bx_gui->palette_change(i, BX_CIRRUS_THIS s.pel.data[i].red<<2,
-                             BX_CIRRUS_THIS s.pel.data[i].green<<2,
-                             BX_CIRRUS_THIS s.pel.data[i].blue<<2);
+                                BX_CIRRUS_THIS s.pel.data[i].green<<2,
+                                BX_CIRRUS_THIS s.pel.data[i].blue<<2);
     }
     BX_CIRRUS_THIS svga_needs_update_mode = 1;
     BX_CIRRUS_THIS svga_update();
@@ -2355,21 +2357,12 @@ void bx_svga_cirrus_c::svga_init_pcihandlers(void)
 
 Bit32u bx_svga_cirrus_c::pci_read_handler(Bit8u address, unsigned io_len)
 {
-  if (io_len > 4) {
-    BX_PANIC(("pci_read: io_len > 4!"));
-    return 0xffffffff;
-  }
-  if (((unsigned)address + io_len) > 256) {
-    BX_PANIC(("pci_read: (address + io_len) > 256!"));
-    return 0xffffffff;
-  }
-
   Bit32u ret = 0;
   for (unsigned i = 0; i < io_len; i++) {
     ret |= (Bit32u)(BX_CIRRUS_THIS pci_conf[address + i]) << (i*8);
   }
 
-  BX_DEBUG(("pci_read: address 0x%02x, io_len 0x%02x, value 0x%x",
+  BX_DEBUG(("pci_read:  address 0x%02x, io_len 0x%02x, value 0x%x",
     (unsigned)address, (unsigned)io_len, (unsigned)ret));
 
   return ret;
@@ -2388,69 +2381,66 @@ void bx_svga_cirrus_c::pci_write_handler(Bit8u address, Bit32u value, unsigned i
 
   if ((address > 0x17) && (address < 0x34))
     return;
-  if (io_len <= 4) {
-    for (i = 0; i < io_len; i++) {
-      write_addr = address + i;
-      old_value = BX_CIRRUS_THIS pci_conf[write_addr];
-      new_value = (Bit8u)(value & 0xff);
-      switch (write_addr) {
-        case 0x04: // command bit0-7
-          new_value &= PCI_COMMAND_IOACCESS | PCI_COMMAND_MEMACCESS;
-          new_value |= old_value & ~(PCI_COMMAND_IOACCESS | PCI_COMMAND_MEMACCESS);
-          break;
-        case 0x05: // command bit8-15
-          new_value = old_value;
-          break;
-        case 0x06: // status bit0-7
-          new_value = old_value & (~new_value);
-          break;
-        case 0x07: // status bit8-15
-          new_value = old_value & (~new_value);
-          break;
+  for (i = 0; i < io_len; i++) {
+    write_addr = address + i;
+    old_value = BX_CIRRUS_THIS pci_conf[write_addr];
+    new_value = (Bit8u)(value & 0xff);
+    switch (write_addr) {
+      case 0x04: // command bit0-7
+        new_value &= PCI_COMMAND_IOACCESS | PCI_COMMAND_MEMACCESS;
+        new_value |= old_value & ~(PCI_COMMAND_IOACCESS | PCI_COMMAND_MEMACCESS);
+        break;
+      case 0x05: // command bit8-15
+        new_value = old_value;
+        break;
+      case 0x06: // status bit0-7
+        new_value = old_value & (~new_value);
+        break;
+      case 0x07: // status bit8-15
+        new_value = old_value & (~new_value);
+        break;
+      case 0x10: // base address #0
+        new_value = (new_value & 0xf0) | (old_value & 0x0f);
+      case 0x11: case 0x12: case 0x13:
+        baseaddr0_change |= (old_value != new_value);
+        break;
+      case 0x14: // base address #1
+        new_value = (new_value & 0xf0) | (old_value & 0x0f);
+      case 0x15: case 0x16: case 0x17:
+        baseaddr1_change |= (old_value != new_value);
+        break;
 
-        case 0x10: // base address #0
-          new_value = (new_value & 0xf0) | (old_value & 0x0f);
-        case 0x11: case 0x12: case 0x13:
-          baseaddr0_change |= (old_value != new_value);
-          break;
-        case 0x14: // base address #1
-          new_value = (new_value & 0xf0) | (old_value & 0x0f);
-        case 0x15: case 0x16: case 0x17:
-          baseaddr1_change |= (old_value != new_value);
-          break;
-
-        // read-only.
-        case 0x00: case 0x01: // vendor
-        case 0x02: case 0x03: // device
-        case 0x08: // revision
-        case 0x09: case 0x0a: case 0x0b: // class
-        case 0x0e: // header type
-        case 0x0f: // built-in self test(unimplemented)
-          new_value = old_value;
-          break;
-        default:
-          break;
-      }
-      BX_CIRRUS_THIS pci_conf[write_addr] = new_value;
-      value >>= 8;
+      // read-only.
+      case 0x00: case 0x01: // vendor
+      case 0x02: case 0x03: // device
+      case 0x08: // revision
+      case 0x09: case 0x0a: case 0x0b: // class
+      case 0x0e: // header type
+      case 0x0f: // built-in self test(unimplemented)
+        new_value = old_value;
+        break;
+      default:
+        break;
     }
-    if (baseaddr0_change) {
-      if (DEV_pci_set_base_mem(BX_CIRRUS_THIS_PTR, cirrus_mem_read_handler,
-                               cirrus_mem_write_handler,
-                               &BX_CIRRUS_THIS pci_memaddr,
-                               &BX_CIRRUS_THIS pci_conf[0x10],
-                               0x2000000)) {
-        BX_INFO(("new pci_memaddr: 0x%04x", BX_CIRRUS_THIS pci_memaddr));
-      }
+    BX_CIRRUS_THIS pci_conf[write_addr] = new_value;
+    value >>= 8;
+  }
+  if (baseaddr0_change) {
+    if (DEV_pci_set_base_mem(BX_CIRRUS_THIS_PTR, cirrus_mem_read_handler,
+                             cirrus_mem_write_handler,
+                             &BX_CIRRUS_THIS pci_memaddr,
+                             &BX_CIRRUS_THIS pci_conf[0x10],
+                             0x2000000)) {
+      BX_INFO(("new pci_memaddr: 0x%04x", BX_CIRRUS_THIS pci_memaddr));
     }
-    if (baseaddr1_change) {
-      if (DEV_pci_set_base_mem(BX_CIRRUS_THIS_PTR, cirrus_mem_read_handler,
-                               cirrus_mem_write_handler,
-                               &BX_CIRRUS_THIS pci_mmioaddr,
-                               &BX_CIRRUS_THIS pci_conf[0x14],
-                               CIRRUS_PNPMMIO_SIZE)) {
-        BX_INFO(("new pci_mmioaddr = 0x%08x", BX_CIRRUS_THIS pci_mmioaddr));
-      }
+  }
+  if (baseaddr1_change) {
+    if (DEV_pci_set_base_mem(BX_CIRRUS_THIS_PTR, cirrus_mem_read_handler,
+                             cirrus_mem_write_handler,
+                             &BX_CIRRUS_THIS pci_mmioaddr,
+                             &BX_CIRRUS_THIS pci_conf[0x14],
+                             CIRRUS_PNPMMIO_SIZE)) {
+      BX_INFO(("new pci_mmioaddr = 0x%08x", BX_CIRRUS_THIS pci_mmioaddr));
     }
   }
 }

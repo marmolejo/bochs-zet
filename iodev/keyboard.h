@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2002-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,13 +16,12 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 #ifndef _PCKEY_H
 #define _PCKEY_H
 
 #define BX_KBD_ELEMENTS 16
-#define BX_MOUSE_BUFF_SIZE 48
 
 // these keywords should only be used in keyboard.cc
 #if BX_USE_KEY_SMF
@@ -54,19 +47,17 @@ public:
   // override stubs from bx_keyb_stub_c
   virtual void gen_scancode(Bit32u key);
   virtual void paste_bytes(Bit8u *data, Bit32s length);
-  virtual void mouse_motion(int delta_x, int delta_y, int delta_z, unsigned button_state);
   virtual void register_state(void);
   virtual void after_restore_state(void);
 
   // runtime options
   static     Bit64s   kbd_param_handler(bx_param_c *param, int set, Bit64s val);
   BX_KEY_SMF void     paste_delay_changed(Bit32u value);
-  BX_KEY_SMF void     mouse_enabled_changed(bx_bool enabled);
 
 private:
   BX_KEY_SMF Bit8u    get_kbd_enable(void);
   BX_KEY_SMF void     service_paste_buf ();
-  BX_KEY_SMF void     create_mouse_packet(bool force_enq);
+  BX_KEY_SMF void     create_mouse_packet(bx_bool force_enq);
   BX_KEY_SMF unsigned periodic(Bit32u usec_delta);
 
 
@@ -112,7 +103,6 @@ private:
     } kbd_controller;
 
     struct mouseStruct {
-      bx_bool captured; // host mouse capture enabled
       Bit8u   type;
       Bit8u   sample_rate;
       Bit8u   resolution_cpmm; // resolution in counts per mm
@@ -229,6 +219,11 @@ private:
   BX_KEY_SMF void     controller_enQ(Bit8u data, unsigned source);
   BX_KEY_SMF bx_bool  mouse_enQ_packet(Bit8u b1, Bit8u b2, Bit8u b3, Bit8u b4);
   BX_KEY_SMF void     mouse_enQ(Bit8u mouse_data);
+
+  static void mouse_enabled_changed_static(void *dev, bx_bool enabled);
+  void mouse_enabled_changed(bx_bool enabled);
+  static void mouse_enq_static(void *dev, int delta_x, int delta_y, int delta_z, unsigned button_state);
+  void mouse_motion(int delta_x, int delta_y, int delta_z, unsigned button_state);
 
   static void   timer_handler(void *);
   void   timer(void);

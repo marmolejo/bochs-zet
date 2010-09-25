@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//   Copyright (c) 2007 Stanislav Shwartsman
+//   Copyright (c) 2007-2010 Stanislav Shwartsman
 //          Written by Stanislav Shwartsman [sshwarts at sourceforge net]
 //
 //  This library is free software; you can redistribute it and/or
@@ -17,7 +17,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -26,73 +26,56 @@
 #include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
-bx_bool BX_CPU_C::fetchInstruction(bxInstruction_c *iStorage, const Bit8u *fetchPtr, unsigned remainingInPage)
-{
-  unsigned ret;
-
-#if BX_SUPPORT_X86_64
-  if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)
-    ret = fetchDecode64(fetchPtr, iStorage, remainingInPage);
-  else
+// Make code more tidy with a few macros.
+#if BX_SUPPORT_X86_64==0
+#define RIP EIP
 #endif
-    ret = fetchDecode32(fetchPtr, iStorage, remainingInPage);
-
-  if (ret==0) {
-    // handle instrumentation callback inside boundaryFetch
-    boundaryFetch(fetchPtr, remainingInPage, iStorage);
-    return 0;
-  }
-
-#if BX_INSTRUMENTATION
-  BX_INSTR_OPCODE(BX_CPU_ID, fetchPtr, iStorage->ilen(),
-       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b, Is64BitMode());
-#endif
-
-  return 1;
-}
-
-#if BX_SUPPORT_ICACHE
 
 bxPageWriteStampTable pageWriteStampTable;
 
-void purgeICaches(void)
-{
-  for (unsigned i=0; i<BX_SMP_PROCESSORS; i++)
-    BX_CPU(i)->iCache.purgeICacheEntries();
-
-  pageWriteStampTable.purgeWriteStamps();
-}
-
 void flushICaches(void)
 {
-  for (unsigned i=0; i<BX_SMP_PROCESSORS; i++)
+  for (unsigned i=0; i<BX_SMP_PROCESSORS; i++) {
     BX_CPU(i)->iCache.flushICacheEntries();
+    BX_CPU(i)->invalidate_prefetch_q();
+#if BX_SUPPORT_TRACE_CACHE
+    BX_CPU(i)->async_event |= BX_ASYNC_EVENT_STOP_TRACE;
+#endif
+  }
 
   pageWriteStampTable.resetWriteStamps();
 }
 
-#if BX_SUPPORT_TRACE_CACHE
-
-void stopTraceExecution(void)
+void purgeICaches(void)
 {
-  for (unsigned i=0; i<BX_SMP_PROCESSORS; i++)
-    BX_CPU(i)->async_event |= BX_ASYNC_EVENT_STOP_TRACE;
+  flushICaches();
 }
 
-void BX_CPU_C::serveICacheMiss(bxICacheEntry_c *cache_entry, Bit32u eipBiased, bx_phy_address pAddr)
+#if BX_SUPPORT_TRACE_CACHE
+
+void handleSMC(bx_phy_address pAddr)
 {
-  BX_CPU_THIS_PTR iCache.alloc_trace(cache_entry);
+  for (unsigned i=0; i<BX_SMP_PROCESSORS; i++) {
+    BX_CPU(i)->async_event |= BX_ASYNC_EVENT_STOP_TRACE;
+    BX_CPU(i)->iCache.handleSMC(pAddr);
+  }
+}
+
+void BX_CPU_C::serveICacheMiss(bxICacheEntry_c *entry, Bit32u eipBiased, bx_phy_address pAddr)
+{
+  BX_CPU_THIS_PTR iCache.alloc_trace(entry);
 
   // Cache miss. We weren't so lucky, but let's be optimistic - try to build 
   // trace from incoming instruction bytes stream !
-  cache_entry->pAddr = pAddr;
-  cache_entry->writeStamp = *(BX_CPU_THIS_PTR currPageWriteStampPtr);
+  entry->pAddr = pAddr;
+  pageWriteStampTable.markICache(pAddr);
+  entry->writeStamp = *(BX_CPU_THIS_PTR currPageWriteStampPtr);
 
   unsigned remainingInPage = BX_CPU_THIS_PTR eipPageWindowSize - eipBiased;
   const Bit8u *fetchPtr = BX_CPU_THIS_PTR eipFetchPtr + eipBiased;
-  unsigned ret;
+  int ret;
 
-  bxInstruction_c *i = cache_entry->i;
+  bxInstruction_c *i = entry->i;
 
   for (unsigned n=0;n<BX_MAX_TRACE_LENGTH;n++)
   {
@@ -103,7 +86,7 @@ void BX_CPU_C::serveICacheMiss(bxICacheEntry_c *cache_entry, Bit32u eipBiased, b
 #endif
       ret = fetchDecode32(fetchPtr, i, remainingInPage);
 
-    if (ret==0) {
+    if (ret < 0) {
       // Fetching instruction on segment/page boundary
       if (n > 0) {
          // The trace is already valid, it has several instructions inside,
@@ -112,46 +95,51 @@ void BX_CPU_C::serveICacheMiss(bxICacheEntry_c *cache_entry, Bit32u eipBiased, b
          break;
       }
       // First instruction is boundary fetch, leave the trace cache entry 
-      // invalid and do not cache the instruction.
-      cache_entry->writeStamp = ICacheWriteStampInvalid;
-      cache_entry->ilen = 1;
+      // invalid for now because boundaryFetch() can fault
+      entry->writeStamp = ICacheWriteStampInvalid;
+      entry->tlen = 1;
       boundaryFetch(fetchPtr, remainingInPage, i);
+
+      // Add the instruction to trace cache
+      entry->writeStamp = *(BX_CPU_THIS_PTR currPageWriteStampPtr);
+      BX_CPU_THIS_PTR iCache.commit_page_split_trace(BX_CPU_THIS_PTR pAddrPage, entry);
       return;
     }
 
     // add instruction to the trace
     unsigned iLen = i->ilen();
-    cache_entry->ilen++;
+    entry->tlen++;
 
     // continue to the next instruction
     remainingInPage -= iLen;
-    if (i->getStopTraceAttr() || remainingInPage == 0) break;
+    if (ret != 0 /* stop trace indication */ || remainingInPage == 0) break;
     pAddr += iLen;
     fetchPtr += iLen;
     i++;
 
     // try to find a trace starting from current pAddr and merge
-    if (mergeTraces(cache_entry, i, pAddr)) break;
+    if (remainingInPage >= 15) // avoid merging with page split trace
+      if (mergeTraces(entry, i, pAddr)) break;
   }
 
-  BX_CPU_THIS_PTR iCache.commit_trace(cache_entry->ilen);
+  BX_CPU_THIS_PTR iCache.commit_trace(entry->tlen);
 }
 
 bx_bool BX_CPU_C::mergeTraces(bxICacheEntry_c *entry, bxInstruction_c *i, bx_phy_address pAddr)
 {
-  bxICacheEntry_c *e = BX_CPU_THIS_PTR iCache.get_entry(pAddr);
+  bxICacheEntry_c *e = BX_CPU_THIS_PTR iCache.get_entry(pAddr, BX_CPU_THIS_PTR fetchModeMask);
 
   if ((e->pAddr == pAddr) && (e->writeStamp == entry->writeStamp))
   {
     // determine max amount of instruction to take from another entry
-    unsigned max_length = e->ilen;
-    if (max_length + entry->ilen > BX_MAX_TRACE_LENGTH)
-        max_length = BX_MAX_TRACE_LENGTH - entry->ilen;
+    unsigned max_length = e->tlen;
+    if (max_length + entry->tlen > BX_MAX_TRACE_LENGTH)
+        max_length = BX_MAX_TRACE_LENGTH - entry->tlen;
     if(max_length == 0) return 0;
 
     memcpy(i, e->i, sizeof(bxInstruction_c)*max_length);
-    entry->ilen += max_length;
-    BX_ASSERT(entry->ilen <= BX_MAX_TRACE_LENGTH);
+    entry->tlen += max_length;
+    BX_ASSERT(entry->tlen <= BX_MAX_TRACE_LENGTH);
 
     return 1;
   }
@@ -161,20 +149,105 @@ bx_bool BX_CPU_C::mergeTraces(bxICacheEntry_c *entry, bxInstruction_c *i, bx_phy
 
 #else // BX_SUPPORT_TRACE_CACHE == 0
 
-void BX_CPU_C::serveICacheMiss(bxICacheEntry_c *cache_entry, Bit32u eipBiased, bx_phy_address pAddr)
+bx_bool BX_CPU_C::fetchInstruction(bxInstruction_c *iStorage, Bit32u eipBiased)
 {
   unsigned remainingInPage = BX_CPU_THIS_PTR eipPageWindowSize - eipBiased;
   const Bit8u *fetchPtr = BX_CPU_THIS_PTR eipFetchPtr + eipBiased;
-      
-  // The entry will be marked valid if fetchdecode will succeed
-  cache_entry->writeStamp = ICacheWriteStampInvalid;
+  int ret;
 
-  if (fetchInstruction(cache_entry->i, fetchPtr, remainingInPage)) {
-    cache_entry->pAddr = pAddr;
-    cache_entry->writeStamp = *(BX_CPU_THIS_PTR currPageWriteStampPtr);
+#if BX_SUPPORT_X86_64
+  if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)
+    ret = fetchDecode64(fetchPtr, iStorage, remainingInPage);
+  else
+#endif
+    ret = fetchDecode32(fetchPtr, iStorage, remainingInPage);
+
+  if (ret < 0) {
+    // handle instrumentation callback inside boundaryFetch
+    boundaryFetch(fetchPtr, remainingInPage, iStorage);
+    return 0;
+  }
+
+#if BX_INSTRUMENTATION
+  BX_INSTR_OPCODE(BX_CPU_ID, fetchPtr, iStorage->ilen(),
+       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b, long64_mode());
+#endif
+
+  return 1;
+}
+
+void BX_CPU_C::serveICacheMiss(bxICacheEntry_c *entry, Bit32u eipBiased, bx_phy_address pAddr)
+{
+  // The entry will be marked valid if fetchdecode will succeed
+  entry->writeStamp = ICacheWriteStampInvalid;
+
+  if (fetchInstruction(entry->i, eipBiased)) {
+    entry->pAddr = pAddr;
+    entry->writeStamp = *(BX_CPU_THIS_PTR currPageWriteStampPtr);
+    pageWriteStampTable.markICache(pAddr);
   }
 }
 
 #endif
 
-#endif // BX_SUPPORT_ICACHE
+void BX_CPU_C::boundaryFetch(const Bit8u *fetchPtr, unsigned remainingInPage, bxInstruction_c *i)
+{
+  unsigned j, k;
+  Bit8u fetchBuffer[32];
+  int ret;
+
+  if (remainingInPage >= 15) {
+    BX_ERROR(("boundaryFetch #GP(0): too many instruction prefixes"));
+    exception(BX_GP_EXCEPTION, 0);
+  }
+
+  // Read all leftover bytes in current page up to boundary.
+  for (j=0; j<remainingInPage; j++) {
+    fetchBuffer[j] = *fetchPtr++;
+  }
+
+  // The 2nd chunk of the instruction is on the next page.
+  // Set RIP to the 0th byte of the 2nd page, and force a
+  // prefetch so direct access of that physical page is possible, and
+  // all the associated info is updated.
+  RIP += remainingInPage;
+  prefetch();
+
+  unsigned fetchBufferLimit = 15;
+  if (BX_CPU_THIS_PTR eipPageWindowSize < 15) {
+    BX_DEBUG(("boundaryFetch: small window size after prefetch=%d bytes, remainingInPage=%d bytes", BX_CPU_THIS_PTR eipPageWindowSize, remainingInPage));
+    fetchBufferLimit = BX_CPU_THIS_PTR eipPageWindowSize;
+  }
+
+  // We can fetch straight from the 0th byte, which is eipFetchPtr;
+  fetchPtr = BX_CPU_THIS_PTR eipFetchPtr;
+
+  // read leftover bytes in next page
+  for (k=0; k<fetchBufferLimit; k++, j++) {
+    fetchBuffer[j] = *fetchPtr++;
+  }
+
+#if BX_SUPPORT_X86_64
+  if (BX_CPU_THIS_PTR cpu_mode == BX_MODE_LONG_64)
+    ret = fetchDecode64(fetchBuffer, i, remainingInPage+fetchBufferLimit);
+  else
+#endif
+    ret = fetchDecode32(fetchBuffer, i, remainingInPage+fetchBufferLimit);
+
+  if (ret < 0) {
+    BX_INFO(("boundaryFetch #GP(0): failed to complete instruction decoding"));
+    exception(BX_GP_EXCEPTION, 0);
+  }
+
+  // Restore EIP since we fudged it to start at the 2nd page boundary.
+  RIP = BX_CPU_THIS_PTR prev_rip;
+
+  // Since we cross an instruction boundary, note that we need a prefetch()
+  // again on the next instruction.  Perhaps we can optimize this to
+  // eliminate the extra prefetch() since we do it above, but have to
+  // think about repeated instructions, etc.
+  // invalidate_prefetch_q();
+
+  BX_INSTR_OPCODE(BX_CPU_ID, fetchBuffer, i->ilen(),
+      BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b, long64_mode());
+}

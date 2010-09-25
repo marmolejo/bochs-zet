@@ -1,6 +1,25 @@
 /////////////////////////////////////////////////////////////////////////
 // $Id$
 /////////////////////////////////////////////////////////////////////////
+//
+//   Copyright (c) 2005-2009 Stanislav Shwartsman
+//          Written by Stanislav Shwartsman [sshwarts at sourceforge net]
+//
+//  This library is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU Lesser General Public
+//  License as published by the Free Software Foundation; either
+//  version 2 of the License, or (at your option) any later version.
+//
+//  This library is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//  Lesser General Public License for more details.
+//
+//  You should have received a copy of the GNU Lesser General Public
+//  License along with this library; if not, write to the Free Software
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+//
+/////////////////////////////////////////////////////////////////////////
 
 #include <stdio.h>
 #include "disasm.h"
@@ -143,23 +162,6 @@ void disassembler::initialize_modrm_segregs()
   sreg_mod01or10_rm16[5] = segment_name[DS_REG];
   sreg_mod01or10_rm16[6] = segment_name[SS_REG];
   sreg_mod01or10_rm16[7] = segment_name[DS_REG];
-
-  sreg_mod01or10_rm32[0]  = segment_name[DS_REG];
-  sreg_mod01or10_rm32[1]  = segment_name[DS_REG];
-  sreg_mod01or10_rm32[2]  = segment_name[DS_REG];
-  sreg_mod01or10_rm32[3]  = segment_name[DS_REG];
-  sreg_mod01or10_rm32[4]  = segment_name[NULL_SEGMENT_REGISTER];
-  sreg_mod01or10_rm32[5]  = segment_name[SS_REG];
-  sreg_mod01or10_rm32[6]  = segment_name[DS_REG];
-  sreg_mod01or10_rm32[7]  = segment_name[DS_REG];
-  sreg_mod01or10_rm32[8]  = segment_name[DS_REG];
-  sreg_mod01or10_rm32[9]  = segment_name[DS_REG];
-  sreg_mod01or10_rm32[10] = segment_name[DS_REG];
-  sreg_mod01or10_rm32[11] = segment_name[DS_REG];
-  sreg_mod01or10_rm32[12] = segment_name[NULL_SEGMENT_REGISTER];
-  sreg_mod01or10_rm32[13] = segment_name[DS_REG];
-  sreg_mod01or10_rm32[14] = segment_name[DS_REG];
-  sreg_mod01or10_rm32[15] = segment_name[DS_REG];
 
   sreg_mod00_base32[0]  = segment_name[DS_REG];
   sreg_mod00_base32[1]  = segment_name[DS_REG];

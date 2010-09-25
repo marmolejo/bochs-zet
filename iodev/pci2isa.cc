@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2002  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2002-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 //
 // i440FX Support - PCI-to-ISA bridge (PIIX3)
@@ -34,7 +28,11 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+
 #if BX_SUPPORT_PCI
+
+#include "pci.h"
+#include "pci2isa.h"
 
 #define LOG_THIS thePci2IsaBridge->
 
@@ -56,7 +54,6 @@ void libpci2isa_LTX_plugin_fini(void)
 bx_piix3_c::bx_piix3_c()
 {
   put("P2I");
-  settype(PCI2ISALOG);
 }
 
 bx_piix3_c::~bx_piix3_c()
@@ -217,7 +214,7 @@ void bx_piix3_c::pci_set_irq(Bit8u devfunc, unsigned line, bx_bool level)
 #if BX_SUPPORT_APIC
   // forward this function call to the ioapic too
   if (DEV_ioapic_present()) {
-    bx_devices.ioapic->set_irq_level(pirq + 16, level);
+    DEV_ioapic_set_irq_level(pirq + 16, level);
   }
 #endif
   Bit8u irq = BX_P2I_THIS s.pci_conf[0x60 + pirq];
@@ -337,15 +334,11 @@ Bit32u bx_piix3_c::pci_read_handler(Bit8u address, unsigned io_len)
 {
   Bit32u value = 0;
 
-  if (io_len <= 4) {
-    for (unsigned i=0; i<io_len; i++) {
-      value |= (BX_P2I_THIS s.pci_conf[address+i] << (i*8));
-    }
-    BX_DEBUG(("PIIX3 PCI-to-ISA read register 0x%02x value 0x%08x", address, value));
-    return value;
+  for (unsigned i=0; i<io_len; i++) {
+    value |= (BX_P2I_THIS s.pci_conf[address+i] << (i*8));
   }
-  else
-    return 0xffffffff;
+  BX_DEBUG(("PIIX3 PCI-to-ISA read  register 0x%02x value 0x%08x", address, value));
+  return value;
 }
 
 // pci configuration space write callback handler
@@ -353,32 +346,30 @@ void bx_piix3_c::pci_write_handler(Bit8u address, Bit32u value, unsigned io_len)
 {
   if ((address >= 0x10) && (address < 0x34))
     return;
-  if (io_len <= 4) {
-    for (unsigned i=0; i<io_len; i++) {
-      Bit8u value8 = (value >> (i*8)) & 0xFF;
-      switch (address+i) {
-        case 0x04:
-        case 0x06:
-          break;
-        case 0x60:
-        case 0x61:
-        case 0x62:
-        case 0x63:
-          if (value8 != BX_P2I_THIS s.pci_conf[address+i]) {
-            if (value8 >= 0x80) {
-              pci_unregister_irq((address+i) & 0x03);
-            } else {
-              pci_register_irq((address+i) & 0x03, value8);
-            }
-            BX_INFO(("PCI IRQ routing: PIRQ%c# set to 0x%02x", address+i-31,
-                     value8));
+  for (unsigned i=0; i<io_len; i++) {
+    Bit8u value8 = (value >> (i*8)) & 0xFF;
+    switch (address+i) {
+      case 0x04:
+      case 0x06:
+        break;
+      case 0x60:
+      case 0x61:
+      case 0x62:
+      case 0x63:
+        if (value8 != BX_P2I_THIS s.pci_conf[address+i]) {
+          if (value8 >= 0x80) {
+            pci_unregister_irq((address+i) & 0x03);
+          } else {
+            pci_register_irq((address+i) & 0x03, value8);
           }
-          break;
-        default:
-          BX_P2I_THIS s.pci_conf[address+i] = value8;
-          BX_DEBUG(("PIIX3 PCI-to-ISA write register 0x%02x value 0x%02x", address+i,
-                    value8));
-      }
+          BX_INFO(("PCI IRQ routing: PIRQ%c# set to 0x%02x", address+i-31,
+                   value8));
+        }
+        break;
+      default:
+        BX_P2I_THIS s.pci_conf[address+i] = value8;
+        BX_DEBUG(("PIIX3 PCI-to-ISA write register 0x%02x value 0x%02x", address+i,
+                  value8));
     }
   }
 }

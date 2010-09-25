@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2002  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -34,8 +28,11 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+#include "param_names.h"
+
 #if BX_SUPPORT_SB16
 
+#include "sb16.h"
 #include "soundlnx.h"
 #include "soundwin.h"
 #include "soundosx.h"
@@ -47,7 +44,6 @@ bx_sb16_c *theSB16Device = NULL;
 int libsb16_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   theSB16Device = new bx_sb16_c();
-  bx_devices.pluginSB16Device = theSB16Device;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, theSB16Device, BX_PLUGIN_SB16);
   return(0); // Success
 }
@@ -75,12 +71,13 @@ void libsb16_LTX_plugin_fini(void)
 bx_sb16_c::bx_sb16_c(void)
 {
   put("SB16");
-  settype(SB16LOG);
   mpu401.timer_handle = BX_NULL_TIMER_HANDLE;
   dsp.timer_handle = BX_NULL_TIMER_HANDLE;
   opl.timer_handle = BX_NULL_TIMER_HANDLE;
   midimode = 0;
+  midifile = NULL;
   wavemode = 0;
+  wavefile = NULL;
   loglevel = 0;
 }
 
@@ -162,34 +159,6 @@ void bx_sb16_c::init(void)
     writelog(MIDILOG(2), "Couldn't initialize output devices. Output disabled.");
     BX_SB16_THIS midimode = 0;
     BX_SB16_THIS wavemode = 0;
-  }
-
-  if ((BX_SB16_THIS midimode == 2) ||
-      (BX_SB16_THIS midimode == 3))
-  {
-    MIDIDATA = fopen(SIM->get_param_string("midifile", base)->getptr(),"wb");
-    if (MIDIDATA == NULL)
-    {
-      writelog (MIDILOG(2), "Error opening file %s. Midimode disabled.",
-        SIM->get_param_string("midifile", base)->getptr());
-      BX_SB16_THIS midimode = 0;
-    }
-    else if (BX_SB16_THIS midimode == 2)
-      initmidifile();
-  }
-
-  if ((BX_SB16_THIS wavemode == 2) ||
-      (BX_SB16_THIS wavemode == 3))
-  {
-    WAVEDATA = fopen(SIM->get_param_string("wavefile", base)->getptr(),"wb");
-    if (WAVEDATA == NULL)
-    {
-      writelog (WAVELOG(2), "Error opening file %s. Wavemode disabled.",
-        SIM->get_param_string("wavefile", base)->getptr());
-      BX_SB16_THIS wavemode = 0;
-    }
-    else if (BX_SB16_THIS wavemode == 2)
-      initvocfile();
   }
 
   DSP.dma.chunk = new Bit8u[BX_SOUND_OUTPUT_WAVEPACKETSIZE];
@@ -413,7 +382,6 @@ void bx_sb16_c::register_state(void)
     new bx_shadow_num_c(item, "opnum4", &OPL.chan[i].opnum[3]);
     new bx_shadow_num_c(item, "freq", &OPL.chan[i].freq);
     new bx_shadow_num_c(item, "afreq", &OPL.chan[i].afreq);
-    new bx_shadow_bool_c(item, "freqch", &OPL.chan[i].freqch);
     new bx_shadow_num_c(item, "midichan", &OPL.chan[i].midichan);
     new bx_shadow_bool_c(item, "needprogch", &OPL.chan[i].needprogch);
     new bx_shadow_num_c(item, "midinote", &OPL.chan[i].midinote);
@@ -1091,6 +1059,9 @@ void bx_sb16_c::dsp_datawrite(Bit32u value)
 // dsp_dma() initiates all kinds of dma transfers
 void bx_sb16_c::dsp_dma(Bit8u command, Bit8u mode, Bit16u length, Bit8u comp)
 {
+  int ret;
+  bx_list_c *base;
+
   // command: 8bit, 16bit, in/out, single/auto, fifo
   // mode: mono/stereo, signed/unsigned
   //   (for info on command and mode see sound blaster programmer's manual,
@@ -1153,25 +1124,35 @@ void bx_sb16_c::dsp_dma(Bit8u command, Bit8u mode, Bit16u length, Bit8u comp)
 
   DSP.dma.format = DSP.dma.issigned | ((comp & 7) << 1) | ((comp & 8) << 4);
 
-       // write the output to the device/file
-  if (DSP.dma.output == 1)
-  {
-     if (BX_SB16_THIS wavemode == 1)
-     {
-        if (DSP.outputinit == 0)
-        {
-           if (BX_SB16_OUTPUT->openwaveoutput(SIM->get_param_string(BXPN_SB16_WAVEFILE)->getptr()) != BX_SOUND_OUTPUT_OK)
-           {
-              BX_SB16_THIS wavemode = 0;
-              writelog(WAVELOG(2), "Error: Could not open wave output device.");
-           }
-           else
-              DSP.outputinit = 1;
-         }
-
-         if (DSP.outputinit == 1)
-           BX_SB16_OUTPUT->startwaveplayback(DSP.dma.samplerate, DSP.dma.bits, DSP.dma.stereo, DSP.dma.format);
-     }
+  // write the output to the device/file
+  if (DSP.dma.output == 1) {
+    if (BX_SB16_THIS wavemode == 1) {
+      if (DSP.outputinit == 0) {
+        ret = BX_SB16_OUTPUT->openwaveoutput(SIM->get_param_string(BXPN_SB16_WAVEFILE)->getptr());
+        if (ret != BX_SOUND_OUTPUT_OK) {
+          BX_SB16_THIS wavemode = 0;
+          writelog(WAVELOG(2), "Error: Could not open wave output device.");
+        } else {
+          DSP.outputinit = 1;
+          ret = BX_SB16_OUTPUT->startwaveplayback(DSP.dma.samplerate, DSP.dma.bits, DSP.dma.stereo, DSP.dma.format);
+          if (ret != BX_SOUND_OUTPUT_OK) {
+            BX_SB16_THIS wavemode = 0;
+            writelog(WAVELOG(2), "Error: Could not start wave playback.");
+          }
+        }
+      }
+    } else if ((BX_SB16_THIS wavemode == 2) ||
+               (BX_SB16_THIS wavemode == 3)) {
+      base = (bx_list_c*) SIM->get_param(BXPN_SB16);
+      WAVEDATA = fopen(SIM->get_param_string("wavefile", base)->getptr(),"wb");
+      if (WAVEDATA == NULL) {
+        writelog (WAVELOG(2), "Error opening file %s. Wavemode disabled.",
+          SIM->get_param_string("wavefile", base)->getptr());
+        BX_SB16_THIS wavemode = 0;
+      } else if (BX_SB16_THIS wavemode == 2) {
+        initvocfile();
+      }
+    }
   }
 
   dsp_enabledma();
@@ -1340,17 +1321,14 @@ void bx_sb16_c::dsp_dmadone()
 {
   writelog(WAVELOG(4), "DMA transfer done, triggering IRQ");
 
-  if ((DSP.dma.output == 1) && (DSP.dma.mode != 2))
-  {
-      dsp_sendwavepacket();  // flush the output
+  if ((DSP.dma.output == 1) && (DSP.dma.mode != 2)) {
+    dsp_sendwavepacket();  // flush the output
 
-      if (BX_SB16_THIS wavemode == 1)
-      {
-         if (DSP.dma.mode != 2)
-           BX_SB16_OUTPUT->stopwaveplayback();  // don't stop if Auto-DMA
-      }
-      else if (BX_SB16_THIS wavemode == 2)
-       fflush(WAVEDATA);
+    if (BX_SB16_THIS wavemode == 1) {
+      BX_SB16_OUTPUT->stopwaveplayback();
+    } else if (BX_SB16_THIS wavemode != 0) {
+      fflush(WAVEDATA);
+    }
   }
 
   // generate the appropriate IRQ
@@ -2243,19 +2221,23 @@ void bx_sb16_c::opl_entermode(bx_sb16_fm_mode newmode)
 // this is called whenever one of the timer elapses
 void bx_sb16_c::opl_timerevent()
 {
+  Bit16u mask;
+
   for (int i=0; i<4; i++) {
-    if ((OPL.tmask[i/2] & (1 << (i % 2))) != 0)
-    { // only running timers
-       if ((OPL.timer[i]--) == 0)
-       { // overflow occured, set flags accordingly
-           OPL.timer[i] = OPL.timerinit[i];      // reset the counter
-           if ((OPL.tmask[i/2] >> (6 - (i % 2))) == 0)  // set flags only if unmasked
-           {
-              writelog(WAVELOG(5), "OPL Timer Interrupt: Chip %d, Timer %d", i/2, 1 << (i % 2));
-              OPL.tflag[i/2] |= 1 << (6 - (i % 2));   // set the overflow flag
-              OPL.tflag[i/2] |= 1 << 7;             // set the IRQ flag
-           }
-       }
+    if ((OPL.tmask[i/2] & (1 << (i % 2))) != 0) { // only running timers
+      if ((i % 2) == 0) {
+        mask = 0xff;
+      } else {
+        mask = 0x3ff;
+      }
+      if (((OPL.timer[i]++) & mask) == 0) { // overflow occured, set flags accordingly
+        OPL.timer[i] = OPL.timerinit[i];      // reset the counter
+        if ((OPL.tmask[i/2] >> (6 - (i % 2))) == 0) { // set flags only if unmasked
+          writelog(MIDILOG(5), "OPL Timer Interrupt: Chip %d, Timer %d", i/2, 1 << (i % 2));
+          OPL.tflag[i/2] |= 1 << (6 - (i % 2));   // set the overflow flag
+          OPL.tflag[i/2] |= 1 << 7;             // set the IRQ flag
+        }
+      }
     }
   }
 }
@@ -2304,7 +2286,7 @@ void bx_sb16_c::opl_data(Bit32u value, int chipid)
          goto break_here;
       }
 
-      opernum += (index & 0x18) * 6;
+      opernum += ((index & 0x18) >> 3) * 6;
       if (opernum > 17)     // Operators 18+ have to be accessed on other address set
       {
          opernum = -1;
@@ -2354,9 +2336,10 @@ break_here:
 
     // the two timer counts
     case 0x02:
+      OPL.timerinit[chipid * 2] = OPL.timer[chipid * 2] = value;
+      break;
     case 0x03:
-      OPL.timerinit[(index - 2) + chipid * 2] =
-        OPL.timer[(index - 2) + chipid * 2] = value;
+      OPL.timerinit[chipid * 2 + 1] = OPL.timer[chipid * 2 + 1] = (value << 2);
       break;
 
     // if OPL2: timer masks
@@ -2543,10 +2526,11 @@ break_here:
     case 0xa8:
       if (channum != -1)
       {
-         OPL.chan[channum].freq &= 0xff00;
-         OPL.chan[channum].freq |= value;
-         if ((OPL.chan[channum].freqch |= 1) == 3)
+         if (value != (Bit32u)(OPL.chan[channum].freq & 0xff)) {
+           OPL.chan[channum].freq &= 0xff00;
+           OPL.chan[channum].freq |= value;
            opl_setfreq(channum);
+         }
          break;
       }
       // else let default: catch it
@@ -2563,10 +2547,11 @@ break_here:
     case 0xb8:
       if (channum != -1)
       {
-         OPL.chan[channum].freq &= 0x00ff;
-         OPL.chan[channum].freq |= (value & 0x1f) << 8;
-         if ((OPL.chan[channum].freqch |= 2) == 3)
+         if ((value & 0x1f) != ((Bit32u)(OPL.chan[channum].freq >> 8) & 0x1f)) {
+           OPL.chan[channum].freq &= 0x00ff;
+           OPL.chan[channum].freq |= (value & 0x1f) << 8;
            opl_setfreq(channum);
+         }
          opl_keyonoff(channum, (value >> 5) & 1);
          break;
       }
@@ -2672,7 +2657,7 @@ void bx_sb16_c::opl_settimermask(int value, int chipid)
     if ((value & 0x03) != 0)    // yes, it's different. Start or stop?
     {
        writelog(MIDILOG(5), "Starting timers");
-       bx_pc_system.activate_timer(OPL.timer_handle, 0, 1);
+       bx_pc_system.activate_timer(OPL.timer_handle, 80, 1);
        OPL.timer_running = 1;
     }
     else
@@ -2733,8 +2718,6 @@ void bx_sb16_c::opl_setfreq(int channel)
 {
   int block,fnum;
 
-  OPL.chan[channel].freqch = 0;
-
   // definition:
   // low-byte of freq:  8 bit F-Number, LSB's
   // high-byte of freq: [2 reserved][KEY-ON][3 block][2 F-Number MSB's]
@@ -2759,10 +2742,7 @@ void bx_sb16_c::opl_setfreq(int channel)
 
   // this is a bit messy to preserve accuracy as much as possible,
   // otherwise we might either lose precision, or the higher bits.
-  if (block < 16)
-    realfreq = ((freqbase >> 4) * fnum) >> (16 - block);
-  else
-    realfreq = (freqbase * fnum) >> (20 - block);
+  realfreq = ((freqbase >> 4) * fnum) >> (16 - block);
 
   OPL.chan[channel].afreq = realfreq;
 
@@ -2771,31 +2751,26 @@ void bx_sb16_c::opl_setfreq(int channel)
   int octave=0;          // 0: Octave from 523.2511 Hz; pos=higher, neg=lower
   int keynum=0;          // 0=C; 1=C#; 2=D; ...; 11=B
 
-  if (realfreq > 8175)      // 8.175 is smallest possible frequency
-  {
-      const Bit32u freqC = 523251;    // Midi note 72; "C": 523.251 Hz
-      Bit32u keyfreq;           // Frequency scaled to the octave from freqC to 2*freqC
+  if (realfreq > 8175) {    // 8.175 is smallest possible frequency
+    const Bit32u freqC = 523251;    // Midi note 72; "C": 523.251 Hz
+    Bit32u keyfreq;           // Frequency scaled to the octave from freqC to 2*freqC
 
-      if (realfreq > freqC)
-      {
-         while ((realfreq >> (++octave)) > freqC);
-         keyfreq = realfreq >> (--octave);
-      }
-      else
-      {
-         while ((realfreq << (++octave)) < freqC);
-         keyfreq = realfreq << (--octave);
-         octave = -octave;
-      }
+    if (realfreq > freqC) {
+      while ((realfreq >> (++octave)) > freqC);
+      keyfreq = realfreq >> (--octave);
+    } else {
+      while ((realfreq << (++octave)) < freqC);
+      keyfreq = realfreq << octave;
+      octave = -octave;
+    }
 
-      // this is a reasonable approximation for keyfreq /= 1.059463
-      // (that value is 2**(1/12), which is the difference between two keys)
-      while ((keyfreq -= ((keyfreq * 1000) / 17817)) > freqC)
-         keynum++;
-  }
-  else {
-      octave = -6;
-      keynum = 0;
+    // this is a reasonable approximation for keyfreq /= 1.059463
+    // (that value is 2**(1/12), which is the difference between two keys)
+    while ((keyfreq -= ((keyfreq * 1000) / 17817)) > freqC)
+      keynum++;
+  } else {
+    octave = -6;
+    keynum = 0;
   }
 
   OPL.chan[channel].midinote = (octave + 6) * 12 + keynum;
@@ -2808,6 +2783,7 @@ void bx_sb16_c::opl_setfreq(int channel)
 void bx_sb16_c::opl_keyonoff(int channel, bx_bool onoff)
 {
   int i;
+  Bit8u commandbytes[3];
 
   if (OPL.mode == fminit)
     return;
@@ -2816,20 +2792,18 @@ void bx_sb16_c::opl_keyonoff(int channel, bx_bool onoff)
   if (onoff == OPL.chan[channel].midion)
     return;
 
-  Bit8u commandbytes[3];
+  OPL.chan[channel].midion = onoff;
 
   // check if we have a midi channel, otherwise allocate one if possible
-  if (OPL.chan[channel].midichan == 0xff)
-  {
+  if (OPL.chan[channel].midichan == 0xff) {
     for (i=0; i<16; i++)
-       if (((OPL.midichannels >> i) & 1) != 0)
-       {
-           OPL.chan[channel].midichan = i;
-           OPL.midichannels &= ~(1 << i);     // mark channel as used
-           OPL.chan[channel].needprogch = 1;
-       }
-       if (OPL.chan[channel].midichan == 0xff)
-           return;
+      if (((OPL.midichannels >> i) & 1) != 0) {
+        OPL.chan[channel].midichan = i;
+        OPL.midichannels &= ~(1 << i); // mark channel as used
+        OPL.chan[channel].needprogch = 1;
+      }
+    if (OPL.chan[channel].midichan == 0xff)
+      return;
   }
 
   if (OPL.chan[channel].needprogch != 0)
@@ -2839,15 +2813,14 @@ void bx_sb16_c::opl_keyonoff(int channel, bx_bool onoff)
   commandbytes[1] = OPL.chan[channel].midinote;
   commandbytes[2] = 0;
 
-  if (onoff == 0)
+  if (onoff == 0) {
     commandbytes[0] |= 0x80;  // turn it off
-  else
-  {
-      commandbytes[0] |= 0x90;  // turn it on
-      commandbytes[1] = OPL.chan[channel].midivol;
+  } else {
+    commandbytes[0] |= 0x90;  // turn it on
+    commandbytes[2] = OPL.chan[channel].midivol;
   }
 
-  writemidicommand(commandbytes[1], 2, & (commandbytes[1]));
+  writemidicommand(commandbytes[0], 2, & (commandbytes[1]));
 }
 
 // setup a midi channel
@@ -2899,29 +2872,40 @@ void bx_sb16_c::initmidifile()
 
 void bx_sb16_c::writemidicommand(int command, int length, Bit8u data[])
 {
+  bx_list_c *base;
   /* We need to determine the time elapsed since the last MIDI command */
   int deltatime = currentdeltatime();
 
   /* Initialize output device if necessary and not done yet */
-  if (BX_SB16_THIS midimode == 1)
-  {
-      if (MPU.outputinit != 1)
-      {
-         writelog(MIDILOG(4), "Initializing Midi output.");
-         if (BX_SB16_OUTPUT->openmidioutput(SIM->get_param_string(BXPN_SB16_MIDIFILE)->getptr()) == BX_SOUND_OUTPUT_OK)
-           MPU.outputinit = 1;
-         else
-           MPU.outputinit = 0;
-         if (MPU.outputinit != 1)
-         {
-             writelog(MIDILOG(2), "Error: Couldn't open midi output. Midi disabled.");
-             BX_SB16_THIS midimode = 0;
-         }
+  if (BX_SB16_THIS midimode == 1) {
+    if (MPU.outputinit != 1) {
+      writelog(MIDILOG(4), "Initializing Midi output.");
+      if (BX_SB16_OUTPUT->openmidioutput(SIM->get_param_string(BXPN_SB16_MIDIFILE)->getptr()) == BX_SOUND_OUTPUT_OK)
+        MPU.outputinit = 1;
+      else
+        MPU.outputinit = 0;
+      if (MPU.outputinit != 1) {
+        writelog(MIDILOG(2), "Error: Couldn't open midi output. Midi disabled.");
+        BX_SB16_THIS midimode = 0;
+        return;
       }
-      BX_SB16_OUTPUT->sendmidicommand(deltatime, command, length, data);
-      return;
+    }
+    BX_SB16_OUTPUT->sendmidicommand(deltatime, command, length, data);
+    return;
+  } else if ((BX_SB16_THIS midimode == 2) ||
+             (BX_SB16_THIS midimode == 3)) {
+    base = (bx_list_c*) SIM->get_param(BXPN_SB16);
+    MIDIDATA = fopen(SIM->get_param_string("midifile", base)->getptr(),"wb");
+    if (MIDIDATA == NULL) {
+      writelog (MIDILOG(2), "Error opening file %s. Midimode disabled.",
+        SIM->get_param_string("midifile", base)->getptr());
+      BX_SB16_THIS midimode = 0;
+    } else if (BX_SB16_THIS midimode == 2) {
+      initmidifile();
+    }
   }
-  else if (BX_SB16_THIS midimode < 2)
+
+  if (BX_SB16_THIS midimode < 2)
     return;
 
   if (BX_SB16_THIS midimode == 2)
@@ -3511,7 +3495,7 @@ bx_bool bx_sb16_buffer::put(Bit8u data)
 }
 
 // This writes a formatted string to the buffer
-bx_bool bx_sb16_buffer::puts(char *data, ...)
+bx_bool bx_sb16_buffer::puts(const char *data, ...)
 {
   if (data == NULL)
     return 0;  // invalid string

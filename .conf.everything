@@ -4,40 +4,33 @@
 
 ./configure \
   --enable-smp \
-  --enable-apic \
+  --enable-x2apic \
   --enable-x86-64 \
   --enable-all-optimizations \
+  --enable-long-phy-address \
+  --enable-configurable-msrs \
+  --enable-debugger \
+  --enable-disasm \
+  --enable-debugger-gui \
+  --enable-fpu \
+  --enable-misaligned-sse \
+  --enable-alignment-check \
+  --enable-3dnow \
+  --enable-monitor-mwait \
+  --enable-vmx \
+  --enable-x86-debugger \
+  --enable-a20-pin \
+  --enable-instrumentation=instrument/example1 \
+  --enable-vbe \
   --enable-ne2000 \
   --enable-pci \
   --enable-acpi \
-  --enable-large-pages \
-  --enable-pae \
-  --enable-global-pages \
-  --enable-mtrr \
-  --enable-ignore-bad-msr \
-  --enable-port-e9-hack \
-  --enable-debugger \
-  --enable-disasm \
-  --enable-vbe \
-  --enable-mmx \
-  --enable-fpu \
-  --enable-sse=4 \
-  --enable-sse-extension \
-  --enable-misaligned-sse \
-  --enable-alignment-check \
-  --enable-popcnt \
-  --enable-vme \
-  --enable-sep \
-  --enable-3dnow \
-  --enable-monitor-mwait \
-  --enable-xsave \
-  --enable-aes \
-  --enable-x86-debugger \
-  --enable-cdrom \
-  --enable-sb16 \
-  --enable-instrumentation=instrument/example1 \
-  --enable-iodebug \
-  --enable-show-ips \
   --enable-clgd54xx \
   --enable-usb \
+  --enable-usb-ohci \
+  --enable-cdrom \
+  --enable-sb16 \
+  --enable-iodebug \
+  --enable-gdb-stub \
+  --enable-show-ips \
   --with-all-libs

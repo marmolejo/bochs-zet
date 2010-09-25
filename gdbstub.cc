@@ -17,6 +17,8 @@
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
+//
+/////////////////////////////////////////////////////////////////////////
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,6 +38,7 @@
 #define NEED_CPU_REG_SHORTCUTS 1
 
 #include "bochs.h"
+#include "param_names.h"
 #include "cpu/cpu.h"
 #include "iodev/iodev.h"
 
@@ -95,12 +98,12 @@ static char get_debug_char(void)
 
 static const char hexchars[]="0123456789abcdef";
 
-static void put_reply(char* buffer)
+static void put_reply(const char* buffer)
 {
   unsigned char csum;
   int i;
 
-  BX_DEBUG (("put_buffer %s", buffer));
+  BX_DEBUG(("put_buffer '%s'", buffer));
 
   do {
     put_debug_char('$');
@@ -182,31 +185,23 @@ static void get_command(char* buffer)
 
 void hex2mem(char* buf, unsigned char* mem, int count)
 {
-  int i;
   unsigned char ch;
 
-  for (i = 0; i<count; i++)
+  for (int i = 0; i<count; i++)
   {
     ch = hex(*buf++) << 4;
     ch = ch + hex(*buf++);
-    *mem = ch;
-    mem++;
+    *mem++ = ch;
   }
 }
 
-char* mem2hex(char* mem, char* buf, int count)
+char* mem2hex(const Bit8u* mem, char* buf, int count)
 {
-  int i;
-  unsigned char ch;
-
-  for (i = 0; i<count; i++)
+  for (int i = 0; i<count; i++)
   {
-    ch = *mem;
-    mem++;
-    *buf = hexchars[ch >> 4];
-    buf++;
-    *buf = hexchars[ch % 16];
-    buf++;
+    Bit8u ch = *mem++;
+    *buf++ = hexchars[ch >> 4];
+    *buf++ = hexchars[ch % 16];
   }
   *buf = 0;
   return(buf);
@@ -231,7 +226,7 @@ Bit64u read_little_endian_hex(char *&buf)
     byte = hexdigit(*buf++);
     if (isxdigit(*buf))
       byte = (byte << 4) | hexdigit(*buf++);
-    ret |= (unsigned long long)byte << (n*8);
+    ret |= (Bit64u)byte << (n*8);
     ++n;
   }
   return ret;
@@ -243,12 +238,12 @@ static int other_thread = 0;
 #if !BX_SUPPORT_X86_64
 #define NUMREGS (16)
 #define NUMREGSBYTES (NUMREGS * 4)
-static int registers[NUMREGS];
+static Bit32u registers[NUMREGS];
 #endif
 
 #define MAX_BREAKPOINTS (255)
-static unsigned int breakpoints[MAX_BREAKPOINTS] = {0,};
-static unsigned int nr_breakpoints = 0;
+static unsigned breakpoints[MAX_BREAKPOINTS] = {0,};
+static unsigned nr_breakpoints = 0;
 
 static int stub_trace_flag = 0;
 static int instr_count = 0;
@@ -323,16 +318,14 @@ int bx_gdbstub_check(unsigned int eip)
   return GDBSTUB_STOP_NO_REASON;
 }
 
-static int remove_breakpoint(unsigned int addr, int len)
+static int remove_breakpoint(unsigned addr, int len)
 {
-  unsigned int i;
-
   if (len != 1)
   {
     return(0);
   }
 
-  for (i = 0; i < MAX_BREAKPOINTS; i++)
+  for (unsigned i = 0; i < MAX_BREAKPOINTS; i++)
   {
     if (breakpoints[i] == addr)
     {
@@ -344,7 +337,7 @@ static int remove_breakpoint(unsigned int addr, int len)
   return(0);
 }
 
-static void insert_breakpoint(unsigned int addr)
+static void insert_breakpoint(unsigned addr)
 {
   unsigned int i;
 
@@ -365,7 +358,7 @@ static void insert_breakpoint(unsigned int addr)
   BX_INFO(("No slot for breakpoint"));
 }
 
-static void do_pc_breakpoint(int insert, unsigned long long addr, int len)
+static void do_pc_breakpoint(int insert, Bit64u addr, int len)
 {
   for (int i = 0; i < len; ++i)
     if (insert)
@@ -378,7 +371,7 @@ static void do_breakpoint(int insert, char* buffer)
 {
   char* ebuf;
   unsigned long type = strtoul(buffer, &ebuf, 16);
-  unsigned long long addr = strtoull(ebuf+1, &ebuf, 16);
+  Bit64u addr = strtoull(ebuf+1, &ebuf, 16);
   unsigned long len = strtoul(ebuf+1, &ebuf, 16);
   switch (type) {
   case 0:
@@ -418,18 +411,17 @@ static int access_linear(Bit64u laddress,
     valid = access_linear(laddress,
                           len + (laddress & 0xfff) - 4096,
                           rw,
-                          (Bit8u *)((unsigned long)data +
-                                    4096 - (laddress & 0xfff)));
+                          (Bit8u *)(data + (4096 - (laddress & 0xfff))));
     return(valid);
   }
 
   valid = BX_CPU(0)->dbg_xlate_linear2phy(laddress, (bx_phy_address*)&phys);
   if (!valid) return(0);
 
-  if (rw == BX_READ) {
-    valid = BX_MEM(0)->dbg_fetch_mem(BX_CPU(0), phys, len, data);
-  } else {
+  if (rw & 1) {
     valid = BX_MEM(0)->dbg_set_mem(phys, len, data);
+  } else {
+    valid = BX_MEM(0)->dbg_fetch_mem(BX_CPU(0), phys, len, data);
   }
 
   return(valid);
@@ -438,16 +430,14 @@ static int access_linear(Bit64u laddress,
 static void debug_loop(void)
 {
   char buffer[255];
-  char obuf[255];
-  int ne;
-  unsigned char mem[255];
-
-  ne = 0;
+  char obuf[1024];
+  int ne = 0;
+  Bit8u mem[255];
 
   while (ne == 0)
   {
     get_command(buffer);
-    BX_DEBUG(("get_buffer %s", buffer));
+    BX_DEBUG(("get_buffer '%s'", buffer));
 
     switch (buffer[0])
     {
@@ -522,13 +512,11 @@ static void debug_loop(void)
 
       case 'M':
       {
-        Bit64u addr;
-        int len;
         unsigned char mem[255];
         char* ebuf;
 
-        addr = strtoull(&buffer[1], &ebuf, 16);
-        len = strtoul(ebuf + 1, &ebuf, 16);
+        Bit64u addr = strtoull(&buffer[1], &ebuf, 16);
+        int len = strtoul(ebuf + 1, &ebuf, 16);
         hex2mem(ebuf + 1, mem, len);
 
         if (len == 1 && mem[0] == 0xcc)
@@ -565,7 +553,7 @@ static void debug_loop(void)
         BX_INFO(("addr %Lx len %x", addr, len));
 
         access_linear(addr, len, BX_READ, mem);
-        mem2hex((char *)mem, obuf, len);
+        mem2hex(mem, obuf, len);
         put_reply(obuf);
         break;
       }
@@ -573,27 +561,31 @@ static void debug_loop(void)
       case 'P':
       {
         int reg;
-        unsigned long long value;
+        Bit64u value;
         char* ebuf;
 
         reg = strtoul(&buffer[1], &ebuf, 16);
-	++ebuf;
+        ++ebuf;
         value = read_little_endian_hex(ebuf);
 
         BX_INFO(("reg %d set to %Lx", reg, value));
-#if !BX_SUPPORT_X86_64
+#if BX_SUPPORT_X86_64 == 0
         switch (reg)
         {
-          case 1:
-          EAX = value;
-          break;
+          case 0:
+            EAX = value;
+            break;
 
-          case 2:
+          case 1:
             ECX = value;
             break;
 
-          case 3:
+          case 2:
             EBX = value;
+            break;
+
+          case 3:
+            EDX = value;
             break;
 
           case 4:
@@ -640,19 +632,19 @@ static void debug_loop(void)
             break;
 
           case 4:
-            RSI = value;
+            RSP = value;
             break;
 
           case 5:
-            RDI = value;
+            RBP = value;
             break;
 
           case 6:
-            ESP = value;
+            RSI = value;
             break;
 
           case 7:
-            RBP = value;
+            RDI = value;
             break;
 
           case 8:
@@ -702,44 +694,45 @@ static void debug_loop(void)
       }
 
       case 'g':
-#if !BX_SUPPORT_X86_64
-        registers[0] = EAX;
-        registers[1] = ECX;
-        registers[2] = EDX;
-        registers[3] = EBX;
-        registers[4] = ESP;
-        registers[5] = EBP;
-        registers[6] = ESI;
-        registers[7] = EDI;
+      {
+#if BX_SUPPORT_X86_64 == 0
+        WriteHostDWordToLittleEndian(registers + 0, EAX);
+        WriteHostDWordToLittleEndian(registers + 1, ECX);
+        WriteHostDWordToLittleEndian(registers + 2, EDX);
+        WriteHostDWordToLittleEndian(registers + 3, EBX);
+        WriteHostDWordToLittleEndian(registers + 4, ESP);
+        WriteHostDWordToLittleEndian(registers + 5, EBP);
+        WriteHostDWordToLittleEndian(registers + 6, ESI);
+        WriteHostDWordToLittleEndian(registers + 7, EDI);
         if (last_stop_reason == GDBSTUB_EXECUTION_BREAKPOINT)
         {
-          registers[8] = EIP + 1;
+          WriteHostDWordToLittleEndian(registers + 8, EIP + 1);
         }
         else
         {
-          registers[8] = EIP;
+          WriteHostDWordToLittleEndian(registers + 8, EIP);
         }
-        registers[9] = BX_CPU_THIS_PTR read_eflags();
-        registers[10] =
-          BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value;
-        registers[11] =
-          BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].selector.value;
-        registers[12] =
-          BX_CPU_THIS_PTR sregs[BX_SEG_REG_DS].selector.value;
-        registers[13] =
-          BX_CPU_THIS_PTR sregs[BX_SEG_REG_ES].selector.value;
-        registers[14] =
-          BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS].selector.value;
-        registers[15] =
-          BX_CPU_THIS_PTR sregs[BX_SEG_REG_GS].selector.value;
-        mem2hex((char *)registers, obuf, NUMREGSBYTES);
+        WriteHostDWordToLittleEndian(registers + 9,
+                                     BX_CPU_THIS_PTR read_eflags());
+        WriteHostDWordToLittleEndian(registers + 10,
+          BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.value);
+        WriteHostDWordToLittleEndian(registers + 11,
+          BX_CPU_THIS_PTR sregs[BX_SEG_REG_SS].selector.value);
+        WriteHostDWordToLittleEndian(registers + 12,
+          BX_CPU_THIS_PTR sregs[BX_SEG_REG_DS].selector.value);
+        WriteHostDWordToLittleEndian(registers + 13,
+          BX_CPU_THIS_PTR sregs[BX_SEG_REG_ES].selector.value);
+        WriteHostDWordToLittleEndian(registers + 14,
+          BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS].selector.value);
+        WriteHostDWordToLittleEndian(registers + 15,
+          BX_CPU_THIS_PTR sregs[BX_SEG_REG_GS].selector.value);
+        mem2hex((const Bit8u*) registers, obuf, NUMREGSBYTES);
 #else
 #define PUTREG(buf, val, len) do { \
          Bit64u u = (val); \
-         (buf) = mem2hex((char*)&u, (buf), (len)); \
+         (buf) = mem2hex((const Bit8u*)&u, (buf), (len)); \
       } while (0)
-        char* buf;
-        buf = obuf;
+        char* buf = obuf;
         PUTREG(buf, RAX, 8);
         PUTREG(buf, RBX, 8);
         PUTREG(buf, RCX, 8);
@@ -773,6 +766,7 @@ static void debug_loop(void)
 #endif
         put_reply(obuf);
         break;
+      }
 
       case '?':
         sprintf(obuf, "S%02x", SIGTRAP);
@@ -810,9 +804,13 @@ static void debug_loop(void)
                   SIM->get_param_num("bss_base", gdbstub_list)->get());
           put_reply(obuf);
         }
+        else if (strncmp(&buffer[1], "Supported", strlen("Supported")) == 0)
+        {
+          put_reply("");
+        }
         else
         {
-          put_reply("Eff");
+          put_reply(""); /* not supported */
         }
         break;
 
@@ -824,6 +822,11 @@ static void debug_loop(void)
         break;
       case 'k':
         BX_PANIC(("Debugger asked us to quit"));
+        break;
+      case 'D':
+        BX_INFO(("Debugger detached"));
+        put_reply("OK");
+        return;
         break;
 
       default:

@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2002  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2002-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 
 // Header file for low-level OS specific CDROM emulation
@@ -30,12 +24,12 @@
 
 class cdrom_interface : public logfunctions {
 public:
-  cdrom_interface(char *dev);
+  cdrom_interface(const char *dev);
   virtual ~cdrom_interface(void);
   void init(void);
 
   // Load CD-ROM. Returns 0 if CD is not ready.
-  bx_bool insert_cdrom(char *dev = NULL);
+  bx_bool insert_cdrom(const char *dev = NULL);
 
   // Logically eject the CD.
   void eject_cdrom();
@@ -47,13 +41,13 @@ public:
   Bit32u capacity();
 
   // Read a single block from the CD. Returns 0 on failure.
-  bx_bool read_block(Bit8u* buf, int lba, int blocksize) BX_CPP_AttrRegparmN(3);
+  bx_bool read_block(Bit8u* buf, Bit32u lba, int blocksize) BX_CPP_AttrRegparmN(3);
 
   // Start (spin up) the CD.
   bx_bool start_cdrom();
 
   // Seek for new block address.
-  void seek(int lba);
+  void seek(Bit32u lba);
 
 private:
   int fd;

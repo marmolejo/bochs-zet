@@ -2,13 +2,8 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//   Copyright (c) 2006-2009 Stanislav Shwartsman
+//          Written by Stanislav Shwartsman [sshwarts at sourceforge net]
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,13 +17,14 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 
 #include <assert.h>
 
 #include "bochs.h"
 #include "cpu/cpu.h"
+#include "disasm/disasm.h"
 
 // maximum size of an instruction
 #define MAX_OPCODE_SIZE 16
@@ -46,7 +42,6 @@ static disassembler bx_disassembler;
 static struct instruction_t {
   bx_bool  valid;        // is current instruction valid
   unsigned opcode_size;
-  unsigned nprefixes;
   Bit8u    opcode[MAX_OPCODE_SIZE];
   bx_bool  is32, is64;
   unsigned num_data_accesses;
@@ -64,7 +59,10 @@ static struct instruction_t {
 static logfunctions *instrument_log = new logfunctions ();
 #define LOG_THIS instrument_log->
 
-void bx_instr_init(unsigned cpu)
+void bx_instr_init_env(void) {}
+void bx_instr_exit_env(void) {}
+
+void bx_instr_initialize(unsigned cpu)
 {
   assert(cpu < BX_SMP_PROCESSORS);
 
@@ -74,10 +72,9 @@ void bx_instr_init(unsigned cpu)
   fprintf(stderr, "Initialize cpu %d\n", cpu);
 }
 
-void bx_instr_reset(unsigned cpu)
+void bx_instr_reset(unsigned cpu, unsigned type)
 {
   instruction[cpu].valid = 0;
-  instruction[cpu].nprefixes = 0;
   instruction[cpu].num_data_accesses = 0;
   instruction[cpu].is_branch = 0;
 }
@@ -99,7 +96,7 @@ void bx_instr_new_instruction(unsigned cpu)
     {
       fprintf(stderr, "----------------------------------------------------------\n");
       fprintf(stderr, "CPU: %d: %s\n", cpu, disasm_tbuf);
-      fprintf(stderr, "LEN: %d\tPREFIXES: %d\tBYTES: ", length, i->nprefixes);
+      fprintf(stderr, "LEN: %d\tBYTES: ", length);
       for(n=0;n<length;n++) fprintf(stderr, "%02x", i->opcode[n]);
       if(i->is_branch)
       {
@@ -124,7 +121,6 @@ void bx_instr_new_instruction(unsigned cpu)
   }
 
   instruction[cpu].valid = 0;
-  instruction[cpu].nprefixes = 0;
   instruction[cpu].num_data_accesses = 0;
   instruction[cpu].is_branch = 0;
 }
@@ -176,16 +172,7 @@ void bx_instr_opcode(unsigned cpu, const Bit8u *opcode, unsigned len, bx_bool is
   instruction[cpu].is32 = is32;
   instruction[cpu].is64 = is64;
   instruction[cpu].opcode_size = len;
-}
-
-void bx_instr_fetch_decode_completed(unsigned cpu, bxInstruction_c *i)
-{
-  if(active) instruction[cpu].valid = 1;
-}
-
-void bx_instr_prefix(unsigned cpu, Bit8u prefix)
-{
-  if(active) instruction[cpu].nprefixes++;
+  instruction[cpu].valid = 1;
 }
 
 void bx_instr_interrupt(unsigned cpu, unsigned vector)
@@ -196,11 +183,11 @@ void bx_instr_interrupt(unsigned cpu, unsigned vector)
   }
 }
 
-void bx_instr_exception(unsigned cpu, unsigned vector)
+void bx_instr_exception(unsigned cpu, unsigned vector, unsigned error_code)
 {
   if(active)
   {
-    fprintf(stderr, "CPU %u: exception %02xh\n", cpu, vector);
+    fprintf(stderr, "CPU %u: exception %02xh, error_code = %x\n", cpu, vector, error_code);
   }
 }
 

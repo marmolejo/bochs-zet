@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,8 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+/////////////////////////////////////////////////////////////////////////
 
 //
 // osdep.h
@@ -83,6 +78,15 @@ extern "C" {
 #define lseek _lseeki64
 #define fstat _fstati64
 #define stat  _stati64
+#define read _read
+#define write _write
+#define open _open
+#define close _close
+#define unlink _unlink
+#define strdup _strdup
+#define strrev _strrev
+#define stricmp _stricmp
+#define getch _getch
 #endif
 
 #else   /* __MINGW32__ defined */
@@ -160,6 +164,15 @@ extern "C" {
   extern char *bx_strrev(char *str);
 #endif
 
+#if BX_HAVE_STRICMP
+  // great, just use the usual function
+#elif BX_HAVE_STRCASECMP
+  #define stricmp strcasecmp
+#else
+  // FIXME: for now using case sensitive function
+  #define stricmp strcmp
+#endif
+
 #if !BX_HAVE_SOCKLEN_T
 // needed on MacOS X 10.1
 typedef int socklen_t;
@@ -200,7 +213,7 @@ extern Bit64u bx_get_realtime64_usec (void);
 #ifdef WIN32
 #undef BX_HAVE_MSLEEP
 #define BX_HAVE_MSLEEP 1
-#ifndef __MINGW32__
+#if !defined(__MINGW32__) && !defined(_MSC_VER)
 #define msleep(msec)	_sleep(msec)
 #else
 #define msleep(msec)	Sleep(msec)

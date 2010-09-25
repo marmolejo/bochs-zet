@@ -22,14 +22,13 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
-
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "bochs.h"
+#include "param_names.h"
 #include "cpu/cpu.h"
 #include "iodev/iodev.h"
 #define LOG_THIS genlog->
-
 
 static void bx_load_linux_hack(void);
 static void bx_load_null_kernel_hack(void);
@@ -213,7 +212,10 @@ void bx_load_linux_hack(void)
   // BX_CPU(0)->cr0.pe = 1;
   // BX_CPU(0)->cr0.val32 |= 0x01;
 
-  BX_CPU(0)->SetCR0(BX_CPU(0)->cr0.val32 | 0x01);
+  if (! BX_CPU(0)->SetCR0(BX_CPU(0)->cr0.val32 | 0x01)) {
+    BX_INFO(("bx_load_linux_hack: can't enable protected mode in CR0"));
+    BX_EXIT(1);
+  }
 
   // load esi with real_mode
   BX_CPU(0)->gen_reg[BX_32BIT_REG_ESI].dword.erx = 0x90000;
@@ -238,28 +240,23 @@ void bx_load_null_kernel_hack(void)
 
   // CS deltas
   BX_CPU(0)->sregs[BX_SEG_REG_CS].cache.u.segment.base = 0x00000000;
-  BX_CPU(0)->sregs[BX_SEG_REG_CS].cache.u.segment.limit = 0xFFFFF;
   BX_CPU(0)->sregs[BX_SEG_REG_CS].cache.u.segment.limit_scaled = 0xFFFFFFFF;
-  BX_CPU(0)->sregs[BX_SEG_REG_CS].cache.u.segment.g   = 1; // page gran
+  BX_CPU(0)->sregs[BX_SEG_REG_CS].cache.u.segment.g   = 1; // page granularity
   BX_CPU(0)->sregs[BX_SEG_REG_CS].cache.u.segment.d_b = 1; // 32bit
-
-#if BX_SUPPORT_ICACHE
-  BX_CPU(0)->updateFetchModeMask();
-#endif
 
   // DS deltas
   BX_CPU(0)->sregs[BX_SEG_REG_DS].cache.u.segment.base = 0x00000000;
-  BX_CPU(0)->sregs[BX_SEG_REG_DS].cache.u.segment.limit = 0xFFFFF;
   BX_CPU(0)->sregs[BX_SEG_REG_DS].cache.u.segment.limit_scaled = 0xFFFFFFFF;
-  BX_CPU(0)->sregs[BX_SEG_REG_DS].cache.u.segment.g   = 1; // page gran
+  BX_CPU(0)->sregs[BX_SEG_REG_DS].cache.u.segment.g   = 1; // page granularity
   BX_CPU(0)->sregs[BX_SEG_REG_DS].cache.u.segment.d_b = 1; // 32bit
 
   // CR0 deltas
   BX_CPU(0)->cr0.set_PE(1); // protected mode
+
+  BX_CPU(0)->handleCpuModeChange();
 }
 
-  Bit32u
-bx_load_kernel_image(char *path, Bit32u paddr)
+Bit32u bx_load_kernel_image(char *path, Bit32u paddr)
 {
   struct stat stat_buf;
   int fd, ret;

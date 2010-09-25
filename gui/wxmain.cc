@@ -2,6 +2,8 @@
 // $Id$
 /////////////////////////////////////////////////////////////////
 //
+//  Copyright (C) 2009  The Bochs Project
+//
 // wxmain.cc implements the wxWidgets frame, toolbar, menus, and dialogs.
 // When the application starts, the user is given a chance to choose/edit/save
 // a configuration.  When they decide to start the simulation, functions in
@@ -39,6 +41,8 @@
 #define BX_PLUGGABLE
 
 #include "config.h"              // definitions based on configure script
+#include "param_names.h"
+
 #if BX_WITH_WX
 
 // For compilers that support precompilation, includes "wx/wx.h".
@@ -208,7 +212,7 @@ extern "C" int libwx_LTX_plugin_init(plugin_t *plugin, plugintype_t type,
       "cpu",
       "CPU State",
       BX_MAX_SMP_THREADS_SUPPORTED);
-  cpu->get_options()->set(bx_list_c::USE_TAB_WINDOW);
+  cpu->set_options(bx_list_c::USE_TAB_WINDOW);
   return 0; // success
 }
 
@@ -450,7 +454,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size, 
   menuEdit->Append(ID_Edit_Display, wxT("&Display + Interface..."));
   menuEdit->Append(ID_Edit_Keyboard, wxT("&Keyboard + Mouse..."));
   menuEdit->Append(ID_Edit_Boot, wxT("&Boot..."));
-  menuEdit->Append(ID_Edit_Serial_Parallel, wxT("&Serial/Parallel..."));
+  menuEdit->Append(ID_Edit_Serial_Parallel, wxT("&Serial/Parallel/USB..."));
   menuEdit->Append(ID_Edit_Network, wxT("&Network..."));
   menuEdit->Append(ID_Edit_Sound, wxT("S&ound..."));
   menuEdit->Append(ID_Edit_Other, wxT("&Other..."));
@@ -662,7 +666,7 @@ void MyFrame::OnEditBoot(wxCommandEvent& WXUNUSED(event))
 {
   int bootDevices = 0;
   bx_param_enum_c *floppy = SIM->get_param_enum(BXPN_FLOPPYA_DEVTYPE);
-  if (floppy->get() != BX_FLOPPY_NONE) {
+  if (floppy->get() != BX_FDD_NONE) {
     bootDevices++;
   }
   bx_param_c *firsthd = SIM->get_first_hd();
@@ -993,11 +997,11 @@ void MyFrame::simStatusChanged(StatusChange change, bx_bool popupNotify) {
   // only be edited if it was enabled at boot time.
   Bit64u value;
   value = SIM->get_param_enum(BXPN_FLOPPYA_DEVTYPE)->get();
-  menuEdit->Enable(ID_Edit_FD_0, canConfigure || (value != BX_FLOPPY_NONE));
-  bxToolBar->EnableTool(ID_Edit_FD_0, canConfigure || (value != BX_FLOPPY_NONE));
+  menuEdit->Enable(ID_Edit_FD_0, canConfigure || (value != BX_FDD_NONE));
+  bxToolBar->EnableTool(ID_Edit_FD_0, canConfigure || (value != BX_FDD_NONE));
   value = SIM->get_param_enum(BXPN_FLOPPYB_DEVTYPE)->get();
-  menuEdit->Enable(ID_Edit_FD_1, canConfigure || (value != BX_FLOPPY_NONE));
-  bxToolBar->EnableTool(ID_Edit_FD_1, canConfigure || (value != BX_FLOPPY_NONE));
+  menuEdit->Enable(ID_Edit_FD_1, canConfigure || (value != BX_FDD_NONE));
+  bxToolBar->EnableTool(ID_Edit_FD_1, canConfigure || (value != BX_FDD_NONE));
   bxToolBar->EnableTool(ID_Edit_Cdrom, canConfigure || (SIM->get_first_cdrom() != NULL));
 }
 
@@ -1091,9 +1095,7 @@ void MyFrame::OnSimThreadExit()
 int MyFrame::HandleAskParamString(bx_param_string_c *param)
 {
   wxLogDebug(wxT("HandleAskParamString start"));
-  bx_param_num_c *opt = param->get_options();
-  wxASSERT(opt != NULL);
-  int n_opt = opt->get();
+  int n_opt = param->get_options();
   const char *msg = param->get_label();
   if ((msg == NULL) || (strlen(msg) == 0)) {
     msg = param->get_name();
@@ -1205,8 +1207,6 @@ void MyFrame::OnSim2CIEvent(wxCommandEvent& event)
 #if BX_DEBUGGER
   case BX_ASYNC_EVT_DBG_MSG:
     showDebugLog->AppendText(wxString(be->u.logmsg.msg, wxConvUTF8));
-    // free the char* which was allocated in dbg_printf
-    delete [] ((char*) be->u.logmsg.msg);
     break;
 #endif
   case BX_SYNC_EVT_LOG_ASK:
@@ -1284,68 +1284,14 @@ void MyFrame::OnLogMsg(BxEvent *be)
     sim_thread->SendSyncResponse(be);  // only for case #2
 }
 
-bool MyFrame::editFloppyValidate(FloppyConfigDialog *dialog)
-{
-  // haven't done anything with this 'feature'
-  return true;
-}
-
 void MyFrame::editFloppyConfig(int drive)
 {
   FloppyConfigDialog dlg(this, -1);
-  dlg.SetDriveName(wxString(drive==0? BX_FLOPPY0_NAME : BX_FLOPPY1_NAME, wxConvUTF8));
-  dlg.SetCapacityChoices(floppy_type_names);
+  dlg.SetTitle(wxString(drive==0? BX_FLOPPY0_NAME : BX_FLOPPY1_NAME, wxConvUTF8));
   bx_list_c *list = (bx_list_c*) SIM->get_param((drive==0)? BXPN_FLOPPYA : BXPN_FLOPPYB);
-  if (!list) { wxLogError(wxT("floppy object param is null")); return; }
-  bx_param_filename_c *fname = (bx_param_filename_c*) list->get_by_name("path");
-  bx_param_enum_c *disktype = (bx_param_enum_c *) list->get_by_name("type");
-  bx_param_enum_c *status = (bx_param_enum_c *) list->get_by_name("status");
-  if (fname->get_type() != BXT_PARAM_STRING
-      || disktype->get_type() != BXT_PARAM_ENUM
-      || status->get_type() != BXT_PARAM_ENUM) {
-    wxLogError(wxT("floppy params have wrong type"));
-    return;
-  }
-  if (sim_thread == NULL) {
-    dlg.AddRadio(wxT("Not Present"), wxT(""));
-  }
-  dlg.AddRadio(wxT("Ejected"), wxT("none"));
-#if defined(__linux__)
-  dlg.AddRadio(wxT("Physical floppy drive /dev/fd0"), wxT("/dev/fd0"));
-  dlg.AddRadio(wxT("Physical floppy drive /dev/fd1"), wxT("/dev/fd1"));
-#elif defined(WIN32)
-  dlg.AddRadio(wxT("Physical floppy drive A:"), wxT("A:"));
-  dlg.AddRadio(wxT("Physical floppy drive B:"), wxT("B:"));
-#else
-  // add your favorite operating system here
-#endif
-  dlg.SetCapacity(disktype->get() - disktype->get_min());
-  dlg.SetFilename(wxString(fname->getptr(), wxConvUTF8));
-  dlg.SetValidateFunc(editFloppyValidate);
-  if (disktype->get() == BX_FLOPPY_NONE) {
-    dlg.SetRadio(0);
-  } else if ((status->get() == BX_EJECTED) || (!strcmp("none", fname->getptr()))) {
-    dlg.SetRadio((sim_thread == NULL)?1:0);
-  } else {
-    // otherwise the SetFilename() should have done the right thing.
-  }
-  int n = dlg.ShowModal();
-  if (n==wxID_OK) {
-    char filename[1024];
-    wxString fn(dlg.GetFilename());
-    strncpy(filename, fn.mb_str(wxConvUTF8), sizeof(filename));
-    fname->set(filename);
-    disktype->set(disktype->get_min() + dlg.GetCapacity());
-    if (sim_thread == NULL) {
-      if (dlg.GetRadio() == 0) {
-        disktype->set(BX_FLOPPY_NONE);
-      }
-    } else {
-      if (dlg.GetRadio() > 0) {
-        status->set(BX_INSERTED);
-      }
-    }
-  }
+  dlg.Setup(list);
+  dlg.SetRuntimeFlag(sim_thread != NULL);
+  dlg.ShowModal();
 }
 
 void MyFrame::editFirstCdrom()

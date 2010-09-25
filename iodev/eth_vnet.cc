@@ -2,6 +2,22 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
+//  Copyright (C) 2009  The Bochs Project
+//
+//  This library is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU Lesser General Public
+//  License as published by the Free Software Foundation; either
+//  version 2 of the License, or (at your option) any later version.
+//
+//  This library is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//  Lesser General Public License for more details.
+//
+//  You should have received a copy of the GNU Lesser General Public
+//  License along with this library; if not, write to the Free Software
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+
 // virtual Ethernet locator
 //
 // An implementation of ARP, ping(ICMP-echo), DHCP and read/write TFTP.
@@ -24,7 +40,7 @@
 
 #include "eth.h"
 
-#define LOG_THIS bx_devices.pluginNE2kDevice->
+#define LOG_THIS netdev->
 
 #define BX_ETH_VNET_LOGGING 1
 #define BX_ETH_VNET_PCAP_LOGGING 0
@@ -132,7 +148,7 @@ public:
   bx_vnet_pktmover_c();
   void pktmover_init(
     const char *netif, const char *macaddr,
-    eth_rx_handler_t rxh, void *rxarg, char *script);
+    eth_rx_handler_t rxh, bx_devmodel_c *dev, const char *script);
   void sendpkt(void *buf, unsigned io_len);
 private:
   void guest_to_host(const Bit8u *buf, unsigned io_len);
@@ -240,10 +256,10 @@ protected:
   eth_pktmover_c *allocate(
       const char *netif, const char *macaddr,
       eth_rx_handler_t rxh,
-      void *rxarg, char *script) {
+      bx_devmodel_c *dev, const char *script) {
     bx_vnet_pktmover_c *pktmover;
     pktmover = new bx_vnet_pktmover_c();
-    pktmover->pktmover_init(netif, macaddr, rxh, rxarg, script);
+    pktmover->pktmover_init(netif, macaddr, rxh, dev, script);
     return pktmover;
   }
 } bx_vnet_match;
@@ -298,7 +314,7 @@ static Bit16u ip_checksum(const Bit8u *buf, unsigned buf_len)
 
 // duplicate the part of tftp_send_data() that constructs the filename
 // but ignore errors since tftp_send_data() will respond for us
-static size_t get_file_size(const char *tpath, const char *tname)
+static size_t get_file_size(bx_devmodel_c *netdev, const char *tpath, const char *tname)
 {
   struct stat stbuf;
   char path[BX_PATHNAME_LEN];
@@ -314,7 +330,7 @@ static size_t get_file_size(const char *tpath, const char *tname)
     return 0;
 
   BX_INFO(("tftp filesize: %lu", (unsigned long)stbuf.st_size));
-  return stbuf.st_size;
+  return (size_t)stbuf.st_size;
 }
 
 
@@ -324,11 +340,11 @@ bx_vnet_pktmover_c::bx_vnet_pktmover_c()
 
 void bx_vnet_pktmover_c::pktmover_init(
   const char *netif, const char *macaddr,
-  eth_rx_handler_t rxh, void *rxarg, char *script)
+  eth_rx_handler_t rxh, bx_devmodel_c *dev, const char *script)
 {
-  BX_INFO(("ne2k vnet driver"));
+  this->netdev = dev;
+  BX_INFO(("vnet network driver"));
   this->rxh   = rxh;
-  this->rxarg = rxarg;
   strcpy(this->tftp_rootdir, netif);
   this->tftp_tid = 0;
   this->tftp_write = 0;
@@ -338,7 +354,7 @@ void bx_vnet_pktmover_c::pktmover_init(
   host_macaddr[5] = (host_macaddr[5] & (~0x01)) ^ 0x02;
 
   memcpy(&host_ipv4addr[0], &default_host_ipv4addr[0], 4);
-  memcpy(&guest_ipv4addr[0], &broadcast_ipv4addr[0][0], 4);
+  memcpy(&guest_ipv4addr[0], &broadcast_ipv4addr[1][0], 4);
 
   l4data_used = 0;
 
@@ -350,24 +366,24 @@ void bx_vnet_pktmover_c::pktmover_init(
                               	 0, 0, "eth_vnet");
 
 #if BX_ETH_VNET_LOGGING
-  pktlog_txt = fopen ("ne2k-pktlog.txt", "wb");
-  if (!pktlog_txt) BX_PANIC (("ne2k-pktlog.txt failed"));
-  fprintf (pktlog_txt, "vnet packetmover readable log file\n");
-  fprintf (pktlog_txt, "TFTP root = %s\n", netif);
-  fprintf (pktlog_txt, "host MAC address = ");
+  pktlog_txt = fopen("ne2k-pktlog.txt", "wb");
+  if (!pktlog_txt) BX_PANIC(("ne2k-pktlog.txt failed"));
+  fprintf(pktlog_txt, "vnet packetmover readable log file\n");
+  fprintf(pktlog_txt, "TFTP root = %s\n", netif);
+  fprintf(pktlog_txt, "host MAC address = ");
   int i;
   for (i=0; i<6; i++)
-    fprintf (pktlog_txt, "%02x%s", 0xff & host_macaddr[i], i<5?":" : "\n");
-  fprintf (pktlog_txt, "guest MAC address = ");
+    fprintf(pktlog_txt, "%02x%s", 0xff & host_macaddr[i], i<5?":" : "\n");
+  fprintf(pktlog_txt, "guest MAC address = ");
   for (i=0; i<6; i++)
-    fprintf (pktlog_txt, "%02x%s", 0xff & guest_macaddr[i], i<5?":" : "\n");
-  fprintf (pktlog_txt, "--\n");
-  fflush (pktlog_txt);
+    fprintf(pktlog_txt, "%02x%s", 0xff & guest_macaddr[i], i<5?":" : "\n");
+  fprintf(pktlog_txt, "--\n");
+  fflush(pktlog_txt);
 #endif
 #if BX_ETH_VNET_PCAP_LOGGING
-  pcapp = pcap_open_dead (DLT_EN10MB, BX_PACKET_BUFSIZE);
-  pktlog_pcap = pcap_dump_open (pcapp, "ne2k-pktlog.pcap");
-  if (pktlog_pcap == NULL) BX_PANIC (("ne2k-pktlog.pcap failed"));
+  pcapp = pcap_open_dead(DLT_EN10MB, BX_PACKET_BUFSIZE);
+  pktlog_pcap = pcap_dump_open(pcapp, "ne2k-pktlog.pcap");
+  if (pktlog_pcap == NULL) BX_PANIC(("ne2k-pktlog.pcap failed"));
 #endif
 }
 
@@ -379,16 +395,7 @@ void bx_vnet_pktmover_c::sendpkt(void *buf, unsigned io_len)
 void bx_vnet_pktmover_c::guest_to_host(const Bit8u *buf, unsigned io_len)
 {
 #if BX_ETH_VNET_LOGGING
-  fprintf (pktlog_txt, "a packet from guest to host, length %u\n", io_len);
-  Bit8u *charbuf = (Bit8u *)buf;
-  unsigned n;
-  for (n=0; n<io_len; n++) {
-    if (((n % 16) == 0) && n>0)
-      fprintf (pktlog_txt, "\n");
-    fprintf (pktlog_txt, "%02x ", (unsigned)charbuf[n]);
-  }
-  fprintf (pktlog_txt, "\n--\n");
-  fflush (pktlog_txt);
+  write_pktlog_txt(pktlog_txt, buf, io_len, 0);
 #endif
 #if BX_ETH_VNET_PCAP_LOGGING
   if (pktlog_pcap && !ferror((FILE *)pktlog_pcap)) {
@@ -430,18 +437,9 @@ void bx_vnet_pktmover_c::rx_timer_handler(void *this_ptr)
 
 void bx_vnet_pktmover_c::rx_timer(void)
 {
-  this->rxh(this->rxarg, (void *)packet_buffer, packet_len);
+  this->rxh(this->netdev, (void *)packet_buffer, packet_len);
 #if BX_ETH_VNET_LOGGING
-  fprintf (pktlog_txt, "a packet from host to guest, length %u\n", packet_len);
-  Bit8u *charbuf = (Bit8u *)packet_buffer;
-  unsigned n;
-  for (n=0; n<packet_len; n++) {
-    if (((n % 16) == 0) && n>0)
-      fprintf (pktlog_txt, "\n");
-    fprintf (pktlog_txt, "%02x ", (unsigned)charbuf[n]);
-  }
-  fprintf (pktlog_txt, "\n--\n");
-  fflush (pktlog_txt);
+  write_pktlog_txt(pktlog_txt, packet_buffer, packet_len, 1);
 #endif
 #if BX_ETH_VNET_PCAP_LOGGING
   if (pktlog_pcap && !ferror((FILE *)pktlog_pcap)) {
@@ -862,6 +860,7 @@ void bx_vnet_pktmover_c::udpipv4_dhcp_handler_ns(
   bx_bool found_serverid = false;
   bx_bool found_leasetime = false;
   bx_bool found_guest_ipaddr = false;
+  bx_bool found_host_name = false;
   Bit32u leasetime = BX_MAX_BIT32U;
   const Bit8u *dhcpreqparams = NULL;
   unsigned dhcpreqparams_len = 0;
@@ -870,8 +869,10 @@ void bx_vnet_pktmover_c::udpipv4_dhcp_handler_ns(
   unsigned dhcpreqparams_default_len = 0;
   Bit8u *replyopts;
   Bit8u replybuf[576];
+  char *hostname = NULL;
+  unsigned hostname_len = 0;
 
-  if (data_len < (236U+64U)) return;
+  if (data_len < (236U+4U)) return;
   if (data[0] != BOOTREQUEST) return;
   if (data[1] != 1 || data[2] != 6) return;
   if (memcmp(&data[28U],guest_macaddr,6)) return;
@@ -941,6 +942,14 @@ void bx_vnet_pktmover_c::udpipv4_dhcp_handler_ns(
         memcpy(guest_ipv4addr,default_guest_ipv4addr,4);
       }
       break;
+    case BOOTPOPT_HOST_NAME:
+      if (extlen < 1)
+        break;
+      hostname = (char*)malloc(extlen);
+      memcpy(hostname, extdata, extlen);
+      hostname_len = extlen;
+      found_host_name = true;
+      break;
     default:
       BX_ERROR(("extcode %d not supported yet", extcode));
       break;
@@ -967,12 +976,17 @@ void bx_vnet_pktmover_c::udpipv4_dhcp_handler_ns(
   switch (dhcpmsgtype) {
   case DHCPDISCOVER:
     BX_INFO(("dhcp server: DHCPDISCOVER"));
+    // reset guest address; answer must be broadcasted to unconfigured IP
+    memcpy(guest_ipv4addr,broadcast_ipv4addr[1],4);
     *replyopts ++ = BOOTPOPT_DHCP_MESSAGETYPE;
     *replyopts ++ = 1;
     *replyopts ++ = DHCPOFFER;
     opts_len -= 3;
     dhcpreqparam_default[0] = BOOTPOPT_IP_ADDRESS_LEASE_TIME;
     dhcpreqparam_default[1] = BOOTPOPT_SERVER_IDENTIFIER;
+    if (found_host_name) {
+      dhcpreqparam_default[2] = BOOTPOPT_HOST_NAME;
+    }
     dhcpreqparam_default_validflag = true;
     break;
   case DHCPREQUEST:
@@ -1113,6 +1127,23 @@ void bx_vnet_pktmover_c::udpipv4_dhcp_handler_ns(
         put_net4(replyopts, 1800);
         replyopts += 4;
         break;
+      case BOOTPOPT_HOST_NAME:
+        if (hostname != NULL) {
+          BX_INFO(("provide BOOTPOPT_HOST_NAME"));
+          if (opts_len < (hostname_len + 2)) {
+            free(hostname);
+            BX_ERROR(("option buffer is insufficient"));
+            return;
+          }
+          opts_len -= (hostname_len + 2);
+          *replyopts ++ = BOOTPOPT_HOST_NAME;
+          *replyopts ++ = hostname_len;
+          memcpy(replyopts, hostname, hostname_len);
+          *replyopts += hostname_len;
+          free(hostname);
+          hostname = NULL;
+          break;
+        }
       default:
         if (*(dhcpreqparams-1) != 0) {
           BX_ERROR(("dhcp server: requested parameter %u not supported yet",*(dhcpreqparams-1)));
@@ -1205,7 +1236,7 @@ void bx_vnet_pktmover_c::udpipv4_tftp_handler_ns(
         strcpy(tftp_filename, (char*)buffer);
         BX_INFO(("tftp req: %s", tftp_filename));
         if (tsize_option) {
-          tsize_option = get_file_size(tftp_rootdir, tftp_filename);
+          tsize_option = get_file_size(netdev, tftp_rootdir, tftp_filename);
           if (tsize_option > 0) {
             // if tsize requested and file exists, send optack and return
             // optack ack will pick up where we leave off here.

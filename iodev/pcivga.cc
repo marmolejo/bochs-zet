@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 //
 // Experimental PCI VGA adapter
@@ -34,7 +34,11 @@
 #define BX_PLUGGABLE
 
 #include "iodev.h"
+
 #if BX_SUPPORT_PCI && BX_SUPPORT_PCIVGA
+
+#include "pci.h"
+#include "pcivga.h"
 
 #define LOG_THIS thePciVgaAdapter->
 
@@ -43,7 +47,6 @@ bx_pcivga_c* thePciVgaAdapter = 0;
 int libpcivga_LTX_plugin_init(plugin_t *plugin, plugintype_t type, int argc, char *argv[])
 {
   thePciVgaAdapter = new bx_pcivga_c();
-  bx_devices.pluginPciVgaAdapter = thePciVgaAdapter;
   BX_REGISTER_DEVICE_DEVMODEL(plugin, type, thePciVgaAdapter, BX_PLUGIN_PCIVGA);
   return 0; // Success
 }
@@ -56,7 +59,6 @@ void libpcivga_LTX_plugin_fini(void)
 bx_pcivga_c::bx_pcivga_c()
 {
   put("PCIVGA");
-  settype(PCIVGALOG);
 }
 
 bx_pcivga_c::~bx_pcivga_c()
@@ -95,6 +97,8 @@ void bx_pcivga_c::init(void)
   for (i = 0; i < sizeof(init_vals) / sizeof(*init_vals); ++i) {
     BX_PCIVGA_THIS s.pci_conf[init_vals[i].addr] = init_vals[i].val;
   }
+  WriteHostDWordToLittleEndian(&BX_PCIVGA_THIS s.pci_conf[0x10], 0x08);
+  BX_PCIVGA_THIS s.base_address = 0;
 }
 
 void bx_pcivga_c::reset(unsigned type)
@@ -103,8 +107,8 @@ void bx_pcivga_c::reset(unsigned type)
     unsigned      addr;
     unsigned char val;
   } reset_vals[] = {
-      { 0x04, 0x03 }, { 0x05, 0x00 },	// command_io + command_mem
-      { 0x06, 0x00 }, { 0x07, 0x02 }	// status_devsel_medium
+      { 0x04, 0x03 }, { 0x05, 0x00 }, // command_io + command_mem
+      { 0x06, 0x00 }, { 0x07, 0x02 }  // status_devsel_medium
   };
   for (unsigned i = 0; i < sizeof(reset_vals) / sizeof(*reset_vals); ++i) {
     BX_PCIVGA_THIS s.pci_conf[reset_vals[i].addr] = reset_vals[i].val;
@@ -117,60 +121,30 @@ void bx_pcivga_c::register_state(void)
   register_pci_state(list, BX_PCIVGA_THIS s.pci_conf);
 }
 
+void bx_pcivga_c::after_restore_state(void)
+{
+  if (DEV_vbe_set_base_addr(&BX_PCIVGA_THIS s.base_address,
+                            &BX_PCIVGA_THIS s.pci_conf[0x10])) {
+    BX_INFO(("new base address: 0x%08x", BX_PCIVGA_THIS s.base_address));
+  }
+}
+
 // pci configuration space read callback handler
 Bit32u bx_pcivga_c::pci_read_handler(Bit8u address, unsigned io_len)
 {
   Bit32u value = 0;
 
-  if (io_len > 4 || io_len == 0) {
-    BX_DEBUG(("Experimental PCIVGA read register 0x%02x, len=%u !",
-             (unsigned) address, (unsigned) io_len));
-    return 0xffffffff;
-  }
-
-  const char* pszName = "                  ";
-  switch (address) {
-    case 0x00: if (io_len == 2) {
-                 pszName = "(vendor id)       ";
-               } else if (io_len == 4) {
-                 pszName = "(vendor + device) ";
-               }
-      break;
-    case 0x04: if (io_len == 2) {
-                 pszName = "(command)         ";
-               } else if (io_len == 4) {
-                 pszName = "(command+status)  ";
-               }
-      break;
-    case 0x08: if (io_len == 1) {
-                 pszName = "(revision id)     ";
-               } else if (io_len == 4) {
-                 pszName = "(rev.+class code) ";
-               }
-      break;
-    case 0x0c: pszName = "(cache line size) "; break;
-    case 0x28: pszName = "(cardbus cis)     "; break;
-    case 0x2c: pszName = "(subsys. vendor+) "; break;
-    case 0x30: pszName = "(rom base)        "; break;
-    case 0x3c: pszName = "(interrupt line+) "; break;
-    case 0x3d: pszName = "(interrupt pin)   "; break;
-  }
-
-  // This odd code is to display only what bytes actually were read.
-  char szTmp[9];
-  char szTmp2[3];
-  szTmp[0] = '\0';
-  szTmp2[0] = '\0';
   for (unsigned i=0; i<io_len; i++) {
     value |= (BX_PCIVGA_THIS s.pci_conf[address+i] << (i*8));
-
-    sprintf(szTmp2, "%02x", (BX_PCIVGA_THIS s.pci_conf[address+i]));
-    strrev(szTmp2);
-    strcat(szTmp, szTmp2);
   }
-  strrev(szTmp);
-  BX_DEBUG(("Experimental PCIVGA  read register 0x%02x %svalue 0x%s",
-            address, pszName, szTmp));
+
+  if (io_len == 1)
+    BX_DEBUG(("read  PCI register 0x%02x value 0x%02x", address, value));
+  else if (io_len == 2)
+    BX_DEBUG(("read  PCI register 0x%02x value 0x%04x", address, value));
+  else if (io_len == 4)
+    BX_DEBUG(("read  PCI register 0x%02x value 0x%08x", address, value));
+
   return value;
 }
 
@@ -178,29 +152,44 @@ Bit32u bx_pcivga_c::pci_read_handler(Bit8u address, unsigned io_len)
 // static pci configuration space write callback handler
 void bx_pcivga_c::pci_write_handler(Bit8u address, Bit32u value, unsigned io_len)
 {
-  if ((address >= 0x10) && (address < 0x34))
+  unsigned i;
+  unsigned write_addr;
+  Bit8u new_value, old_value;
+  bx_bool baseaddr_change = 0;
+
+  if ((address >= 0x14) && (address < 0x34))
     return;
-  // This odd code is to display only what bytes actually were written.
-  char szTmp[9];
-  char szTmp2[3];
-  szTmp[0] = '\0';
-  szTmp2[0] = '\0';
-  for (unsigned i=0; i<io_len; i++) {
-    const Bit8u value8 = (value >> (i*8)) & 0xFF;
-    switch (address+i) {
+
+  for (i = 0; i < io_len; i++) {
+    write_addr = address + i;
+    old_value = BX_PCIVGA_THIS s.pci_conf[write_addr];
+    new_value = (Bit8u)(value & 0xff);
+    switch (write_addr) {
       case 0x04: // disallowing write to command
       case 0x06: // disallowing write to status lo-byte (is that expected?)
-        strcpy(szTmp2, "..");
         break;
+      case 0x10: // base address #0
+        new_value = (new_value & 0xf0) | (old_value & 0x0f);
+      case 0x11: case 0x12: case 0x13:
+        baseaddr_change |= (old_value != new_value);
       default:
-        BX_PCIVGA_THIS s.pci_conf[address+i] = value8;
-        sprintf(szTmp2, "%02x", value8);
+        BX_PCIVGA_THIS s.pci_conf[write_addr] = new_value;
     }
-    strrev(szTmp2);
-    strcat(szTmp, szTmp2);
+    value >>= 8;
   }
-  strrev(szTmp);
-  BX_DEBUG(("Experimental PCIVGA write register 0x%02x value 0x%s", address, szTmp));
+  if (baseaddr_change) {
+    if (DEV_vbe_set_base_addr(&BX_PCIVGA_THIS s.base_address,
+                              &BX_PCIVGA_THIS s.pci_conf[0x10])) {
+      BX_INFO(("new base address: 0x%08x", BX_PCIVGA_THIS s.base_address));
+    }
+  }
+
+  if (io_len == 1)
+    BX_DEBUG(("write PCI register 0x%02x value 0x%02x", address, value));
+  else if (io_len == 2)
+    BX_DEBUG(("write PCI register 0x%02x value 0x%04x", address, value));
+  else if (io_len == 4)
+    BX_DEBUG(("write PCI register 0x%02x value 0x%08x", address, value));
 }
 
 #endif // BX_SUPPORT_PCI && BX_SUPPORT_PCIVGA

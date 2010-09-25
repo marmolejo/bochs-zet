@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,14 +16,22 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+//
+/////////////////////////////////////////////////////////////////////////
 
-// This file (SOUNDLNX.H) written and donated by Josef Drexler
-
+// Josef Drexler coded the original version of the lowlevel sound support
+// for Linux using OSS. The current version also supports OSS on FreeBSD and
+// ALSA PCM output on Linux.
 
 #if (defined(linux) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__))
 
-#define BX_SOUND_LINUX_BUFSIZE   BX_SOUND_OUTPUT_WAVEPACKETSIZE
+#define BX_SOUND_LINUX_BUFSIZE   BX_SOUND_OUTPUT_WAVEPACKETSIZE * 2
+
+#if BX_HAVE_ALSASOUND
+#define ALSA_PCM_NEW_HW_PARAMS_API
+#include <alsa/asoundlib.h>
+#endif
 
 class bx_sound_linux_c : public bx_sound_output_c {
 public:
@@ -55,13 +57,32 @@ public:
 #endif
 
 private:
+#if BX_HAVE_ALSASOUND
+  int alsa_seq_open(char *device);
+  int alsa_seq_output(int delta, int command, int length, Bit8u data[]);
+  int alsa_pcm_open(int frequency, int bits, int stereo, int format);
+  int alsa_pcm_write();
+#endif
   bx_sb16_c *sb16;
+#if BX_HAVE_ALSASOUND
+  bx_bool use_alsa_seq;
+  bx_bool use_alsa_pcm;
+  struct {
+    snd_seq_t *handle;
+    int source_port;
+  } alsa_seq;
+  struct {
+    snd_pcm_t *handle;
+    snd_pcm_uframes_t frames;
+  } alsa_pcm;
+  int dir, alsa_bufsize, audio_bufsize;
+  char *alsa_buffer;
+#endif
   FILE *midi;
   char *wavedevice;
   int wave;
-  int bufferpos;
   Bit8u audio_buffer[BX_SOUND_LINUX_BUFSIZE];
   int oldfreq,oldbits,oldstereo,oldformat;
 };
 
-#endif  // defined(linux)
+#endif

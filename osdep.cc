@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,8 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+/////////////////////////////////////////////////////////////////////////
 
 //
 // osdep.cc
@@ -74,8 +69,7 @@ int bx_vsnprintf (char *s, size_t maxlen, const char *format, va_list arg)
     do { if (endptr != NULL) *endptr = (char *) (end);		      \
 	 return val; } while (0)
 
-Bit64u
-bx_strtoull (const char *nptr, char **endptr, int baseignore)
+Bit64u bx_strtoull (const char *nptr, char **endptr, int baseignore)
 {
   int negative;			/* The sign of the number.  */
   int exponent;			/* Exponent of the number.  */
@@ -113,29 +107,29 @@ bx_strtoull (const char *nptr, char **endptr, int baseignore)
 
   /* Get sign of the result.  */
   if (c == '-')
-    {
-      negative = 1;
-      c = *++cp;
-    }
+  {
+     negative = 1;
+     c = *++cp;
+  }
   else if (c == '+')
     c = *++cp;
 
   if (c < '0' || c > '9')
-    {
-      /* It is really a text we do not recognize.  */
-      RETURN (0, nptr);
-    }
+  {
+     /* It is really a text we do not recognize.  */
+     RETURN (0, nptr);
+  }
 
   /* First look whether we are faced with a hexadecimal number.  */
   if (c == '0' && tolower (cp[1]) == 'x')
-    {
-      /* Okay, it is a hexa-decimal number.  Remember this and skip
-	 the characters.  BTW: hexadecimal numbers must not be
-	 grouped.  */
-      base = 16;
-      cp += 2;
-      c = *cp;
-    }
+  {
+     /* Okay, it is a hexa-decimal number.  Remember this and skip
+        the characters.  BTW: hexadecimal numbers must not be
+        grouped.  */
+     base = 16;
+     cp += 2;
+     c = *cp;
+  }
 
   /* Record the start of the digits, in case we will check their grouping.  */
   start_of_digits = startp = cp;
@@ -162,14 +156,14 @@ bx_strtoull (const char *nptr, char **endptr, int baseignore)
   startp = cp;
   dig_no = 0;
   while (1)
-    {
+  {
       if ((c >= '0' && c <= '9')
 	  || (base == 16 && tolower (c) >= 'a' && tolower (c) <= 'f'))
 	++dig_no;
       else
 	break;
       c = *++cp;
-    }
+  }
 
   /* The whole string is parsed.  Store the address of the next character.  */
   if (endptr)
@@ -202,7 +196,7 @@ int main (int argc, char **argv)
     l = strtoul (buf, &endbuf, 10);
     printf ("As a long, %ld\n", l);
     printf ("Endbuf is at buf[%d]\n", endbuf-buf);
-    ll = bx_strtoull (buf, &endbuf, 10);
+    ll = bx_strtoull(buf, &endbuf, 10);
     printf ("As a long long, %lld\n", ll);
     printf ("Endbuf is at buf[%d]\n", endbuf-buf);
   }
@@ -214,14 +208,12 @@ int main (int argc, char **argv)
 /* XXX use real strdup */
 char *bx_strdup(const char *str)
 {
-	char *temp;
+  char *temp = (char*)malloc(strlen(str)+1);
+  sprintf(temp, "%s", str);
+  return temp;
 
-	temp = (char*)malloc(strlen(str)+1);
-	sprintf(temp, "%s", str);
-	return temp;
-
-	// Well, I'm sure this isn't how strdup is REALLY implemented,
-	// but it works...
+  // Well, I'm sure this isn't how strdup is REALLY implemented,
+  // but it works...
 }
 #endif  /* !BX_HAVE_STRDUP */
 
@@ -270,50 +262,47 @@ int bx_mkstemp(char *tpl)
 
 int fd_read(char *buffer, Bit32u offset, Bit32u bytes)
 {
-	OSErr err;
-	IOParam param;
+  OSErr err;
+  IOParam param;
 
-	param.ioRefNum=-5; // Refnum of the floppy disk driver
-	param.ioVRefNum=1;
-	param.ioPosMode=fsFromStart;
-	param.ioPosOffset=offset;
-	param.ioBuffer=buffer;
-	param.ioReqCount=bytes;
-	err = PBReadSync((union ParamBlockRec *)(&param));
-	return param.ioActCount;
+  param.ioRefNum=-5; // Refnum of the floppy disk driver
+  param.ioVRefNum=1;
+  param.ioPosMode=fsFromStart;
+  param.ioPosOffset=offset;
+  param.ioBuffer=buffer;
+  param.ioReqCount=bytes;
+  err = PBReadSync((union ParamBlockRec *)(&param));
+  return param.ioActCount;
 }
 
 int fd_write(char *buffer, Bit32u offset, Bit32u bytes)
 {
-	OSErr		err;
-	IOParam	param;
+  OSErr   err;
+  IOParam param;
 
-	param.ioRefNum=-5; // Refnum of the floppy disk driver
-	param.ioVRefNum=1;
-	param.ioPosMode=fsFromStart;
-	param.ioPosOffset=offset;
-	param.ioBuffer=buffer;
-	param.ioReqCount=bytes;
-	err = PBWriteSync((union ParamBlockRec *)(&param));
-	return param.ioActCount;
+  param.ioRefNum=-5; // Refnum of the floppy disk driver
+  param.ioVRefNum=1;
+  param.ioPosMode=fsFromStart;
+  param.ioPosOffset=offset;
+  param.ioBuffer=buffer;
+  param.ioReqCount=bytes;
+  err = PBWriteSync((union ParamBlockRec *)(&param));
+  return param.ioActCount;
 }
 
 int fd_stat(struct stat *buf)
 {
-	OSErr		err;
-	DrvSts	status;
-	int			result;
+  OSErr   err;
+  DrvSts  status;
+  int     result = 0;
 
-	result = 0;
-	err = DriveStatus(1, &status);
-	if (status.diskInPlace <1 || status.diskInPlace > 2)
-		result = -1;
-	buf->st_mode = S_IFCHR;
-	return result;
+  err = DriveStatus(1, &status);
+  if (status.diskInPlace <1 || status.diskInPlace > 2)
+    result = -1;
+  buf->st_mode = S_IFCHR;
+  return result;
 }
 #endif /* BX_WITH_MACOS */
-
-
 
 //////////////////////////////////////////////////////////////////////
 // New functions to replace library functions

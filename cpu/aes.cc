@@ -2,7 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//   Copyright (c) 2008 Stanislav Shwartsman
+//   Copyright (c) 2008-2010 Stanislav Shwartsman
 //          Written by Stanislav Shwartsman [sshwarts at sourceforge net]
 //
 //  This library is free software; you can redistribute it and/or
@@ -17,7 +17,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
 //
 /////////////////////////////////////////////////////////////////////////
 
@@ -26,7 +26,7 @@
 #include "cpu.h"
 #define LOG_THIS BX_CPU_THIS_PTR
 
-#if BX_SUPPORT_AES
+#if BX_CPU_LEVEL >= 6
 
 //
 // XMM - Byte Representation of a 128-bit AES State
@@ -233,7 +233,7 @@ static void AES_MixColumns(BxPackedXmmRegister &state)
                              AES_STATE(tmp, 3, j);
 
     AES_STATE(state, 2, j) = AES_STATE(tmp, 0, j) ^
-                             AES_STATE(tmp, 1, j);
+                             AES_STATE(tmp, 1, j) ^
                              gf_mul(0x2, AES_STATE(tmp, 2, j)) ^
                              gf_mul(0x3, AES_STATE(tmp, 3, j));
 
@@ -292,7 +292,7 @@ BX_CPP_INLINE Bit32u AES_RotWord(Bit32u x)
 /* 66 0F 38 DB */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESIMC_VdqWdq(bxInstruction_c *i)
 {
-#if BX_SUPPORT_AES
+#if BX_CPU_LEVEL >= 6
   BX_CPU_THIS_PTR prepareSSE();
 
   BxPackedXmmRegister op;
@@ -302,24 +302,21 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESIMC_VdqWdq(bxInstruction_c *i)
     op = BX_READ_XMM_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    readVirtualDQwordAligned(i->seg(), RMAddr(i), (Bit8u *) &op);
+    readVirtualDQwordAligned(i->seg(), eaddr, (Bit8u *) &op);
   }
 
   AES_InverseMixColumns(op);
 
   BX_WRITE_XMM_REG(i->nnn(), op);
-#else
-  BX_INFO(("AESIMC_VdqWdq: required AES support, use --enable-aes option"));
-  UndefinedOpcode(i);
 #endif
 }
 
 /* 66 0F 38 DC */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESENC_VdqWdq(bxInstruction_c *i)
 {
-#if BX_SUPPORT_AES
+#if BX_CPU_LEVEL >= 6
   BX_CPU_THIS_PTR prepareSSE();
 
   BxPackedXmmRegister op1 = BX_READ_XMM_REG(i->nnn()), op2;
@@ -329,9 +326,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESENC_VdqWdq(bxInstruction_c *i)
     op2 = BX_READ_XMM_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    readVirtualDQwordAligned(i->seg(), RMAddr(i), (Bit8u *) &op2);
+    readVirtualDQwordAligned(i->seg(), eaddr, (Bit8u *) &op2);
   }
 
   AES_ShiftRows(op1);
@@ -342,16 +339,13 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESENC_VdqWdq(bxInstruction_c *i)
   op1.xmm64u(1) ^= op2.xmm64u(1);
 
   BX_WRITE_XMM_REG(i->nnn(), op1);
-#else
-  BX_INFO(("AESENC_VdqWdq: required AES support, use --enable-aes option"));
-  UndefinedOpcode(i);
 #endif
 }
 
 /* 66 0F 38 DD */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESENCLAST_VdqWdq(bxInstruction_c *i)
 {
-#if BX_SUPPORT_AES
+#if BX_CPU_LEVEL >= 6
   BX_CPU_THIS_PTR prepareSSE();
 
   BxPackedXmmRegister op1 = BX_READ_XMM_REG(i->nnn()), op2;
@@ -361,9 +355,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESENCLAST_VdqWdq(bxInstruction_c *i)
     op2 = BX_READ_XMM_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    readVirtualDQwordAligned(i->seg(), RMAddr(i), (Bit8u *) &op2);
+    readVirtualDQwordAligned(i->seg(), eaddr, (Bit8u *) &op2);
   }
 
   AES_ShiftRows(op1);
@@ -373,16 +367,13 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESENCLAST_VdqWdq(bxInstruction_c *i)
   op1.xmm64u(1) ^= op2.xmm64u(1);
 
   BX_WRITE_XMM_REG(i->nnn(), op1);
-#else
-  BX_INFO(("AESENCLAST_VdqWdq: required AES support, use --enable-aes option"));
-  UndefinedOpcode(i);
 #endif
 }
 
 /* 66 0F 38 DE */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESDEC_VdqWdq(bxInstruction_c *i)
 {
-#if BX_SUPPORT_AES
+#if BX_CPU_LEVEL >= 6
   BX_CPU_THIS_PTR prepareSSE();
 
   BxPackedXmmRegister op1 = BX_READ_XMM_REG(i->nnn()), op2;
@@ -392,9 +383,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESDEC_VdqWdq(bxInstruction_c *i)
     op2 = BX_READ_XMM_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    readVirtualDQwordAligned(i->seg(), RMAddr(i), (Bit8u *) &op2);
+    readVirtualDQwordAligned(i->seg(), eaddr, (Bit8u *) &op2);
   }
 
   AES_InverseShiftRows(op1);
@@ -405,16 +396,13 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESDEC_VdqWdq(bxInstruction_c *i)
   op1.xmm64u(1) ^= op2.xmm64u(1);
 
   BX_WRITE_XMM_REG(i->nnn(), op1);
-#else
-  BX_INFO(("AESDEC_VdqWdq: required AES support, use --enable-aes option"));
-  UndefinedOpcode(i);
 #endif
 }
 
 /* 66 0F 38 DF */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESDECLAST_VdqWdq(bxInstruction_c *i)
 {
-#if BX_SUPPORT_AES
+#if BX_CPU_LEVEL >= 6
   BX_CPU_THIS_PTR prepareSSE();
 
   BxPackedXmmRegister op1 = BX_READ_XMM_REG(i->nnn()), op2;
@@ -424,9 +412,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESDECLAST_VdqWdq(bxInstruction_c *i)
     op2 = BX_READ_XMM_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    readVirtualDQwordAligned(i->seg(), RMAddr(i), (Bit8u *) &op2);
+    readVirtualDQwordAligned(i->seg(), eaddr, (Bit8u *) &op2);
   }
 
   AES_InverseShiftRows(op1);
@@ -436,16 +424,13 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESDECLAST_VdqWdq(bxInstruction_c *i)
   op1.xmm64u(1) ^= op2.xmm64u(1);
 
   BX_WRITE_XMM_REG(i->nnn(), op1);
-#else
-  BX_INFO(("AESDECLAST_VdqWdq: required AES support, use --enable-aes option"));
-  UndefinedOpcode(i);
 #endif
 }
 
 /* 66 0F 3A DF */
 void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESKEYGENASSIST_VdqWdqIb(bxInstruction_c *i)
 {
-#if BX_SUPPORT_AES
+#if BX_CPU_LEVEL >= 6
   BX_CPU_THIS_PTR prepareSSE();
 
   BxPackedXmmRegister op, result;
@@ -455,9 +440,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESKEYGENASSIST_VdqWdqIb(bxInstruction_c *
     op = BX_READ_XMM_REG(i->rm());
   }
   else {
-    BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
     /* pointer, segment address pair */
-    readVirtualDQwordAligned(i->seg(), RMAddr(i), (Bit8u *) &op);
+    readVirtualDQwordAligned(i->seg(), eaddr, (Bit8u *) &op);
   }
 
   Bit32u rcon32 = i->Ib();
@@ -468,8 +453,53 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AESKEYGENASSIST_VdqWdqIb(bxInstruction_c *
   result.xmm32u(3) = AES_RotWord(result.xmm32u(2)) ^ rcon32;
 
   BX_WRITE_XMM_REG(i->nnn(), result);
-#else
-  BX_INFO(("AESKEYGENASSIST_VdqWdqIb: required AES support, use --enable-aes option"));
-  UndefinedOpcode(i);
+#endif
+}
+
+/* 66 0F 3A 44 */
+void BX_CPP_AttrRegparmN(1) BX_CPU_C::PCLMULQDQ_VdqWdqIb(bxInstruction_c *i)
+{
+#if BX_CPU_LEVEL >= 6
+  BX_CPU_THIS_PTR prepareSSE();
+
+  BxPackedXmmRegister op1 = BX_READ_XMM_REG(i->nnn()), op2, r, a;
+
+  /* op is a register or memory reference */
+  if (i->modC0()) {
+    op2 = BX_READ_XMM_REG(i->rm());
+  }
+  else {
+    bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+    /* pointer, segment address pair */
+    readVirtualDQwordAligned(i->seg(), eaddr, (Bit8u *) &op2);
+  }
+
+  Bit8u imm8 = i->Ib();
+
+  //
+  // Initialize sources for Carry Less Multiplication [R = A CLMUL B]
+  //
+
+  // A determined by imm8[0]
+  a.xmm64u(0) = op1.xmm64u(imm8 & 1);
+  a.xmm64u(1) = 0;
+
+  // B determined by imm8[4]
+  Bit64u b = op2.xmm64u((imm8 >> 4) & 1);
+
+  r.xmm64u(0) = 0;
+  r.xmm64u(1) = 0;
+
+  for (int n = 0; b && n < 64; n++) {
+      if (b & 1) {
+          r.xmm64u(0) ^= a.xmm64u(0);
+          r.xmm64u(1) ^= a.xmm64u(1);
+      }
+      a.xmm64u(1) = (a.xmm64u(1) << 1) | (a.xmm64u(0) >> 63);
+      a.xmm64u(0) <<= 1;
+      b >>= 1;
+  }
+
+  BX_WRITE_XMM_REG(i->nnn(), r);
 #endif
 }

@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2002  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2002-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,8 +16,9 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
-
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+//
+/////////////////////////////////////////////////////////////////////////
 
 #include "bochs.h"
 #include "cpu/cpu.h"
@@ -47,12 +42,7 @@ double     m_ips; // Millions of Instructions Per Second
 #define SpewPeriodicTimerInfo 0
 #define MinAllowableTimerPeriod 1
 
-#if BX_SUPPORT_ICACHE
 const Bit64u bx_pc_system_c::NullTimerInterval = ICacheWriteStampStart;
-#else
-// This must be the maximum 32-bit unsigned int value, NOT (Bit64u) -1.
-const Bit64u bx_pc_system_c::NullTimerInterval = 0xffffffff;
-#endif
 
   // constructor
 bx_pc_system_c::bx_pc_system_c()
@@ -170,8 +160,7 @@ void bx_pc_system_c::set_enable_a20(bx_bool value)
 bx_bool bx_pc_system_c::get_enable_a20(void)
 {
 #if BX_SUPPORT_A20
-  if (bx_dbg.a20)
-    BX_INFO(("A20: get() = %u", (unsigned) enable_a20));
+  BX_DEBUG(("A20: get() = %u", (unsigned) enable_a20));
 
   return enable_a20;
 #else
@@ -183,7 +172,7 @@ bx_bool bx_pc_system_c::get_enable_a20(void)
 void bx_pc_system_c::MemoryMappingChanged(void)
 {
   for (unsigned i=0; i<BX_SMP_PROCESSORS; i++)
-    BX_CPU(i)->TLB_flush(1);
+    BX_CPU(i)->TLB_flush();
 }
 
 void bx_pc_system_c::invlpg(bx_address addr)
@@ -230,9 +219,9 @@ void bx_pc_system_c::exit(void)
 
 void bx_pc_system_c::register_state(void)
 {
-
-  bx_list_c *list = new bx_list_c(SIM->get_bochs_root(), "pc_system", "PC System State", 8);
+  bx_list_c *list = new bx_list_c(SIM->get_bochs_root(), "pc_system", "PC System State", 10);
   BXRS_PARAM_BOOL(list, enable_a20, enable_a20);
+  BXRS_HEX_PARAM_SIMPLE(list, a20_mask);
   BXRS_DEC_PARAM_SIMPLE(list, currCountdown);
   BXRS_DEC_PARAM_SIMPLE(list, currCountdownPeriod);
   BXRS_DEC_PARAM_SIMPLE(list, ticksTotal);
@@ -417,9 +406,7 @@ void bx_pc_system_c::nullTimer(void* this_ptr)
   }
 #endif
 
-#if BX_SUPPORT_ICACHE
   purgeICaches();
-#endif
 }
 
 void bx_pc_system_c::benchmarkTimer(void* this_ptr)

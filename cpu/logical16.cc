@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
 /////////////////////////////////////////////////////////////////////////
 
 #define NEED_CPU_REG_SHORTCUTS 1
@@ -34,36 +28,12 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::XOR_EwGwM(bxInstruction_c *i)
 {
   Bit16u op1_16, op2_16;
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  op1_16 = read_RMW_virtual_word(i->seg(), RMAddr(i));
+  op1_16 = read_RMW_virtual_word(i->seg(), eaddr);
   op2_16 = BX_READ_16BIT_REG(i->nnn());
   op1_16 ^= op2_16;
   write_RMW_virtual_word(op1_16);
-
-  SET_FLAGS_OSZAPC_LOGIC_16(op1_16);
-}
-
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::XOR_EwGwR(bxInstruction_c *i)
-{
-  Bit16u op1_16 = BX_READ_16BIT_REG(i->rm());
-  Bit16u op2_16 = BX_READ_16BIT_REG(i->nnn());
-  op1_16 ^= op2_16;
-  BX_WRITE_16BIT_REG(i->rm(), op1_16);
-
-  SET_FLAGS_OSZAPC_LOGIC_16(op1_16);
-}
-
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::XOR_GwEwM(bxInstruction_c *i)
-{
-  Bit16u op1_16, op2_16;
-
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
-
-  op1_16 = BX_READ_16BIT_REG(i->nnn());
-  op2_16 = read_virtual_word(i->seg(), RMAddr(i));
-  op1_16 ^= op2_16;
-  BX_WRITE_16BIT_REG(i->nnn(), op1_16);
 
   SET_FLAGS_OSZAPC_LOGIC_16(op1_16);
 }
@@ -95,9 +65,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::XOR_EwIwM(bxInstruction_c *i)
 {
   Bit16u op1_16;
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  op1_16 = read_RMW_virtual_word(i->seg(), RMAddr(i));
+  op1_16 = read_RMW_virtual_word(i->seg(), eaddr);
   op1_16 ^= i->Iw();
   write_RMW_virtual_word(op1_16);
 
@@ -117,9 +87,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::OR_EwIwM(bxInstruction_c *i)
 {
   Bit16u op1_16;
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  op1_16 = read_RMW_virtual_word(i->seg(), RMAddr(i));
+  op1_16 = read_RMW_virtual_word(i->seg(), eaddr);
   op1_16 |= i->Iw();
   write_RMW_virtual_word(op1_16);
 
@@ -139,9 +109,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::NOT_EwM(bxInstruction_c *i)
 {
   Bit16u op1_16;
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  op1_16 = read_RMW_virtual_word(i->seg(), RMAddr(i));
+  op1_16 = read_RMW_virtual_word(i->seg(), eaddr);
   op1_16 = ~op1_16;
   write_RMW_virtual_word(op1_16);
 }
@@ -157,38 +127,12 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::OR_EwGwM(bxInstruction_c *i)
 {
   Bit16u op1_16, op2_16;
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  op1_16 = read_RMW_virtual_word(i->seg(), RMAddr(i));
+  op1_16 = read_RMW_virtual_word(i->seg(), eaddr);
   op2_16 = BX_READ_16BIT_REG(i->nnn());
   op1_16 |= op2_16;
   write_RMW_virtual_word(op1_16);
-
-  SET_FLAGS_OSZAPC_LOGIC_16(op1_16);
-}
-
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::OR_EwGwR(bxInstruction_c *i)
-{
-  Bit16u op1_16, op2_16;
-
-  op1_16 = BX_READ_16BIT_REG(i->rm());
-  op2_16 = BX_READ_16BIT_REG(i->nnn());
-  op1_16 |= op2_16;
-  BX_WRITE_16BIT_REG(i->rm(), op1_16);
-
-  SET_FLAGS_OSZAPC_LOGIC_16(op1_16);
-}
-
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::OR_GwEwM(bxInstruction_c *i)
-{
-  Bit16u op1_16, op2_16;
-
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
-
-  op1_16 = BX_READ_16BIT_REG(i->nnn());
-  op2_16 = read_virtual_word(i->seg(), RMAddr(i));
-  op1_16 |= op2_16;
-  BX_WRITE_16BIT_REG(i->nnn(), op1_16);
 
   SET_FLAGS_OSZAPC_LOGIC_16(op1_16);
 }
@@ -221,38 +165,12 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AND_EwGwM(bxInstruction_c *i)
 {
   Bit16u op1_16, op2_16;
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  op1_16 = read_RMW_virtual_word(i->seg(), RMAddr(i));
+  op1_16 = read_RMW_virtual_word(i->seg(), eaddr);
   op2_16 = BX_READ_16BIT_REG(i->nnn());
   op1_16 &= op2_16;
   write_RMW_virtual_word(op1_16);
-
-  SET_FLAGS_OSZAPC_LOGIC_16(op1_16);
-}
-
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::AND_EwGwR(bxInstruction_c *i)
-{
-  Bit16u op1_16, op2_16;
-
-  op1_16 = BX_READ_16BIT_REG(i->rm());
-  op2_16 = BX_READ_16BIT_REG(i->nnn());
-  op1_16 &= op2_16;
-  BX_WRITE_16BIT_REG(i->rm(), op1_16);
-
-  SET_FLAGS_OSZAPC_LOGIC_16(op1_16);
-}
-
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::AND_GwEwM(bxInstruction_c *i)
-{
-  Bit16u op1_16, op2_16;
-
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
-
-  op1_16 = BX_READ_16BIT_REG(i->nnn());
-  op2_16 = read_virtual_word(i->seg(), RMAddr(i));
-  op1_16 &= op2_16;
-  BX_WRITE_16BIT_REG(i->nnn(), op1_16);
 
   SET_FLAGS_OSZAPC_LOGIC_16(op1_16);
 }
@@ -285,9 +203,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AND_EwIwM(bxInstruction_c *i)
 {
   Bit16u op1_16;
 
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
+  bx_address eaddr = BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
 
-  op1_16 = read_RMW_virtual_word(i->seg(), RMAddr(i));
+  op1_16 = read_RMW_virtual_word(i->seg(), eaddr);
   op1_16 &= i->Iw();
   write_RMW_virtual_word(op1_16);
 
@@ -300,18 +218,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::AND_EwIwR(bxInstruction_c *i)
   op1_16 &= i->Iw();
   BX_WRITE_16BIT_REG(i->rm(), op1_16);
 
-  SET_FLAGS_OSZAPC_LOGIC_16(op1_16);
-}
-
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::TEST_EwGwM(bxInstruction_c *i)
-{
-  Bit16u op1_16, op2_16;
-
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
-
-  op1_16 = read_virtual_word(i->seg(), RMAddr(i));
-  op2_16 = BX_READ_16BIT_REG(i->nnn());
-  op1_16 &= op2_16;
   SET_FLAGS_OSZAPC_LOGIC_16(op1_16);
 }
 
@@ -333,15 +239,6 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::TEST_AXIw(bxInstruction_c *i)
   op2_16 = i->Iw();
   op1_16 &= op2_16;
 
-  SET_FLAGS_OSZAPC_LOGIC_16(op1_16);
-}
-
-void BX_CPP_AttrRegparmN(1) BX_CPU_C::TEST_EwIwM(bxInstruction_c *i)
-{
-  BX_CPU_CALL_METHODR(i->ResolveModrm, (i));
-
-  Bit16u op1_16 = read_virtual_word(i->seg(), RMAddr(i));
-  op1_16 &= i->Iw();
   SET_FLAGS_OSZAPC_LOGIC_16(op1_16);
 }
 

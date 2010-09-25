@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,8 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+//
 
 // eth.cc  - helper code to find and create pktmover classes
 
@@ -88,13 +83,14 @@ extern class bx_vnet_locator_c bx_vnet_match;
 //
 eth_pktmover_c *
 eth_locator_c::create(const char *type, const char *netif,
-		      const char *macaddr,
-		      eth_rx_handler_t rxh, void *rxarg, char *script)
+                      const char *macaddr,
+                      eth_rx_handler_t rxh, bx_devmodel_c *dev,
+                      const char *script)
 {
 #ifdef eth_static_constructors
   for (eth_locator_c *p = all; p != NULL; p = p->next) {
     if (strcmp(type, p->type) == 0)
-      return (p->allocate(netif, macaddr, rxh, rxarg, script));
+      return (p->allocate(netif, macaddr, rxh, dev, script));
   }
 #else
   eth_locator_c *ptr = 0;
@@ -152,7 +148,7 @@ eth_locator_c::create(const char *type, const char *netif,
       ptr = (eth_locator_c *) &bx_vnet_match;
   }
   if (ptr)
-    return (ptr->allocate(netif, macaddr, rxh, rxarg, script));
+    return (ptr->allocate(netif, macaddr, rxh, dev, script));
 #endif
 
   return (NULL);
@@ -164,11 +160,8 @@ extern "C" {
 #include <sys/wait.h>
 };
 
-#undef LOG_THIS
-#define LOG_THIS bx_devices.pluginNE2kDevice->
-
 // This is a utility script used for tuntap or ethertap
-int execute_script(char* scriptname, char* arg1)
+int execute_script(bx_devmodel_c *netdev, const char* scriptname, char* arg1)
 {
   int pid,status;
 
@@ -184,7 +177,7 @@ int execute_script(char* scriptname, char* arg1)
     }
 
     // execute the script
-    BX_INFO(("Executing script '%s %s'",filename,arg1));
+    netdev->info("Executing script '%s %s'",filename,arg1);
     execle(filename, scriptname, arg1, NULL, NULL);
 
     // if we get here there has been a problem
@@ -199,5 +192,24 @@ int execute_script(char* scriptname, char* arg1)
 }
 
 #endif // (HAVE_ETHERTAP==1) || (HAVE_TUNTAP==1)
+
+void write_pktlog_txt(FILE *pktlog_txt, const Bit8u *buf, unsigned len, bx_bool host_to_guest)
+{
+  Bit8u *charbuf = (Bit8u *)buf;
+  unsigned n;
+
+  if (!host_to_guest) {
+    fprintf(pktlog_txt, "a packet from guest to host, length %u\n", len);
+  } else {
+    fprintf(pktlog_txt, "a packet from host to guest, length %u\n", len);
+  }
+  for (n = 0; n < len; n++) {
+    if (((n % 16) == 0) && (n > 0))
+      fprintf(pktlog_txt, "\n");
+    fprintf(pktlog_txt, "%02x ", (unsigned)charbuf[n]);
+  }
+  fprintf(pktlog_txt, "\n--\n");
+  fflush(pktlog_txt);
+}
 
 #endif /* if BX_NETWORKING */

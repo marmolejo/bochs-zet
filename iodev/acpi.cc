@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 //
 // PIIX4 ACPI support
@@ -28,9 +28,12 @@
 // is used to know when we are exporting symbols and when we are importing.
 #define BX_PLUGGABLE
 
-#include "bochs.h"
 #include "iodev.h"
+
 #if BX_SUPPORT_PCI && BX_SUPPORT_ACPI
+
+#include "pci.h"
+#include "acpi.h"
 
 #define LOG_THIS theACPIController->
 
@@ -46,6 +49,9 @@ const Bit8u acpi_sm_iomask[16] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 0, 0, 0
 #define PM_FREQ 3579545
 
 #define ACPI_DBG_IO_ADDR  0xb044
+
+#define RSM_STS (1 << 15)
+#define PWRBTN_STS (1 << 8)
 
 #define RTC_EN (1 << 10)
 #define PWRBTN_EN (1 << 8)
@@ -101,7 +107,6 @@ Bit64u muldiv64(Bit64u a, Bit32u b, Bit32u c)
 bx_acpi_ctrl_c::bx_acpi_ctrl_c()
 {
   put("ACPI");
-  settype(ACPILOG);
   s.timer_index = BX_NULL_TIMER_HANDLE;
 }
 
@@ -152,33 +157,40 @@ void bx_acpi_ctrl_c::init(void)
 
 void bx_acpi_ctrl_c::reset(unsigned type)
 {
-  unsigned i;
+  BX_ACPI_THIS s.pci_conf[0x04] = 0x00; // command_io + command_mem
+  BX_ACPI_THIS s.pci_conf[0x05] = 0x00;
+  BX_ACPI_THIS s.pci_conf[0x06] = 0x80; // status_devsel_medium
+  BX_ACPI_THIS s.pci_conf[0x07] = 0x02;
+  BX_ACPI_THIS s.pci_conf[0x3c] = 0x00; // IRQ
 
-  static const struct reset_vals_t {
-    unsigned      addr;
-    unsigned char val;
-  } reset_vals[] = {
-      { 0x04, 0x00 }, { 0x05, 0x00 },  // command_io + command_mem
-      { 0x06, 0x80 }, { 0x07, 0x02 },  // status_devsel_medium
-      { 0x3c, 0x00 },                  // IRQ
-      // PM base 0x40 - 0x43
-      { 0x40, 0x01 }, { 0x41, 0x00 },
-      { 0x42, 0x00 }, { 0x43, 0x00 },
-      // device resources
-      { 0x5f, 0x90 }, { 0x63, 0x60 },
-      { 0x67, 0x98 },
-      // SM base 0x90 - 0x93
-      { 0x90, 0x01 }, { 0x91, 0x00 },
-      { 0x92, 0x00 }, { 0x93, 0x00 }
-  };
-  for (i = 0; i < sizeof(reset_vals) / sizeof(*reset_vals); ++i) {
-    BX_ACPI_THIS s.pci_conf[reset_vals[i].addr] = reset_vals[i].val;
-  }
+  // PM base 0x40 - 0x43
+  BX_ACPI_THIS s.pci_conf[0x40] = 0x01;
+  BX_ACPI_THIS s.pci_conf[0x41] = 0x00;
+  BX_ACPI_THIS s.pci_conf[0x42] = 0x00;
+  BX_ACPI_THIS s.pci_conf[0x43] = 0x00;
+
+  // clear DEVACTB register on PIIX4 ACPI reset
+  BX_ACPI_THIS s.pci_conf[0x58] = 0x00;
+  BX_ACPI_THIS s.pci_conf[0x59] = 0x00;
+
+  // device resources
+  BX_ACPI_THIS s.pci_conf[0x5a] = 0x00;
+  BX_ACPI_THIS s.pci_conf[0x5b] = 0x00;
+  BX_ACPI_THIS s.pci_conf[0x5f] = 0x90;
+  BX_ACPI_THIS s.pci_conf[0x63] = 0x60;
+  BX_ACPI_THIS s.pci_conf[0x67] = 0x98;
+
+  // SM base 0x90 - 0x93
+  BX_ACPI_THIS s.pci_conf[0x90] = 0x01;
+  BX_ACPI_THIS s.pci_conf[0x91] = 0x00;
+  BX_ACPI_THIS s.pci_conf[0x92] = 0x00;
+  BX_ACPI_THIS s.pci_conf[0x93] = 0x00;
 
   BX_ACPI_THIS s.pmsts = 0;
   BX_ACPI_THIS s.pmen = 0;
   BX_ACPI_THIS s.pmcntrl = 0;
   BX_ACPI_THIS s.tmr_overflow_time = 0xffffff;
+
   BX_ACPI_THIS s.smbus.stat = 0;
   BX_ACPI_THIS s.smbus.ctl = 0;
   BX_ACPI_THIS s.smbus.cmd = 0;
@@ -186,7 +198,8 @@ void bx_acpi_ctrl_c::reset(unsigned type)
   BX_ACPI_THIS s.smbus.data0 = 0;
   BX_ACPI_THIS s.smbus.data1 = 0;
   BX_ACPI_THIS s.smbus.index = 0;
-  for (i = 0; i < 32; i++) {
+
+  for (unsigned i = 0; i < 32; i++) {
     BX_ACPI_THIS s.smbus.data[i] = 0;
   }
 }
@@ -405,12 +418,18 @@ void bx_acpi_ctrl_c::write(Bit32u address, Bit32u value, unsigned io_len)
           BX_ACPI_THIS s.pmcntrl = value & ~(SUS_EN);
           if (value & SUS_EN) {
             // change suspend type
-            Bit16u sus_typ = (value >> 10) & 3;
+            Bit16u sus_typ = (value >> 10) & 7;
             switch (sus_typ) {
               case 0: // soft power off
                 bx_user_quit = 1;
                 LOG_THIS setonoff(LOGLEV_PANIC, ACT_FATAL);
                 BX_PANIC(("ACPI control: soft power off"));
+                break;
+              case 1:
+                BX_INFO(("ACPI control: suspend to ram"));
+                BX_ACPI_THIS s.pmsts |= (RSM_STS | PWRBTN_STS);
+                DEV_cmos_set_reg(0xF, 0xFE);
+                bx_pc_system.Reset(BX_RESET_HARDWARE);
                 break;
               default:
                 break;
@@ -478,55 +497,17 @@ Bit32u bx_acpi_ctrl_c::pci_read_handler(Bit8u address, unsigned io_len)
 {
   Bit32u value = 0;
 
-  if (io_len > 4 || io_len == 0) {
-    BX_DEBUG(("ACPI controller read register 0x%02x, len=%u !",
-             (unsigned) address, (unsigned) io_len));
-    return 0xffffffff;
-  }
-
-  const char* pszName = "                  ";
-  switch (address) {
-    case 0x00: if (io_len == 2) {
-                 pszName = "(vendor id)       ";
-               } else if (io_len == 4) {
-                 pszName = "(vendor + device) ";
-               }
-      break;
-    case 0x04: if (io_len == 2) {
-                 pszName = "(command)         ";
-               } else if (io_len == 4) {
-                 pszName = "(command+status)  ";
-               }
-      break;
-    case 0x08: if (io_len == 1) {
-                 pszName = "(revision id)     ";
-               } else if (io_len == 4) {
-                 pszName = "(rev.+class code) ";
-               }
-      break;
-    case 0x0c: pszName = "(cache line size) "; break;
-    case 0x28: pszName = "(cardbus cis)     "; break;
-    case 0x2c: pszName = "(subsys. vendor+) "; break;
-    case 0x30: pszName = "(rom base)        "; break;
-    case 0x3c: pszName = "(interrupt line+) "; break;
-    case 0x3d: pszName = "(interrupt pin)   "; break;
-  }
-
-  // This odd code is to display only what bytes actually were read.
-  char szTmp[9];
-  char szTmp2[3];
-  szTmp[0] = '\0';
-  szTmp2[0] = '\0';
   for (unsigned i=0; i<io_len; i++) {
     value |= (BX_ACPI_THIS s.pci_conf[address+i] << (i*8));
-
-    sprintf(szTmp2, "%02x", (BX_ACPI_THIS s.pci_conf[address+i]));
-    strrev(szTmp2);
-    strcat(szTmp, szTmp2);
   }
-  strrev(szTmp);
-  BX_DEBUG(("ACPI controller  read register 0x%02x %svalue 0x%s",
-            address, pszName, szTmp));
+
+  if (io_len == 1)
+    BX_DEBUG(("read  PCI register 0x%02x value 0x%02x", address, value));
+  else if (io_len == 2)
+    BX_DEBUG(("read  PCI register 0x%02x value 0x%04x", address, value));
+  else if (io_len == 4)
+    BX_DEBUG(("read  PCI register 0x%02x value 0x%08x", address, value));
+
   return value;
 }
 
@@ -539,11 +520,7 @@ void bx_acpi_ctrl_c::pci_write_handler(Bit8u address, Bit32u value, unsigned io_
 
   if ((address >= 0x10) && (address < 0x34))
     return;
-  // This odd code is to display only what bytes actually were written.
-  char szTmp[9];
-  char szTmp2[3];
-  szTmp[0] = '\0';
-  szTmp2[0] = '\0';
+
   for (unsigned i=0; i<io_len; i++) {
     value8 = (value >> (i*8)) & 0xFF;
     oldval = BX_ACPI_THIS s.pci_conf[address+i];
@@ -553,7 +530,6 @@ void bx_acpi_ctrl_c::pci_write_handler(Bit8u address, Bit32u value, unsigned io_
         goto set_value;
         break;
       case 0x06: // disallowing write to status lo-byte (is that expected?)
-        strcpy(szTmp2, "..");
         break;
       case 0x3c:
         if (value8 != oldval) {
@@ -578,10 +554,7 @@ void bx_acpi_ctrl_c::pci_write_handler(Bit8u address, Bit32u value, unsigned io_
       default:
 set_value:
         BX_ACPI_THIS s.pci_conf[address+i] = value8;
-        sprintf(szTmp2, "%02x", value8);
     }
-    strrev(szTmp2);
-    strcat(szTmp, szTmp2);
   }
   if (pm_base_change) {
     if (DEV_pci_set_base_io(BX_ACPI_THIS_PTR, read_handler, write_handler,
@@ -601,8 +574,13 @@ set_value:
        BX_INFO(("new SM base address: 0x%04x", BX_ACPI_THIS s.sm_base));
     }
   }
-  strrev(szTmp);
-  BX_DEBUG(("ACPI controller write register 0x%02x value 0x%s", address, szTmp));
+
+  if (io_len == 1)
+    BX_DEBUG(("write PCI register 0x%02x value 0x%02x", address, value));
+  else if (io_len == 2)
+    BX_DEBUG(("write PCI register 0x%02x value 0x%04x", address, value));
+  else if (io_len == 4)
+    BX_DEBUG(("write PCI register 0x%02x value 0x%08x", address, value));
 }
 
 #endif // BX_SUPPORT_PCI

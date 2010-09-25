@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 
 // if including from C parser, need basic types etc
@@ -30,8 +24,6 @@
 #include "osdep.h"
 
 #define BX_DBG_NO_HANDLE 1000
-
-extern Bit32u dbg_cpu;
 
 Bit32u crc32(const Bit8u *buf, int len);
 
@@ -41,6 +33,8 @@ Bit32u crc32(const Bit8u *buf, int len);
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+extern Bit32u dbg_cpu;
 
 void dbg_printf (const char *fmt, ...);
 
@@ -205,6 +199,7 @@ extern void bxerror(char *s);
 
 #define EMPTY_ARG (-1)
 
+bx_bool bx_dbg_read_linear(unsigned which_cpu, bx_address laddr, unsigned len, Bit8u *buf);
 Bit16u bx_dbg_get_selector_value(unsigned int seg_no);
 Bit16u bx_dbg_get_ip (void);
 Bit32u bx_dbg_get_eip(void);
@@ -219,7 +214,8 @@ void bx_dbg_set_reg8h_value(unsigned reg, Bit8u value);
 void bx_dbg_set_reg16_value(unsigned reg, Bit16u value);
 void bx_dbg_set_reg32_value(unsigned reg, Bit32u value);
 void bx_dbg_set_reg64_value(unsigned reg, Bit64u value);
-Bit32u bx_dbg_get_laddr(Bit16u sel, Bit32u ofs);
+void bx_dbg_load_segreg(unsigned reg, unsigned value);
+bx_address bx_dbg_get_laddr(Bit16u sel, bx_address ofs);
 void bx_dbg_step_over_command(void);
 void bx_dbg_trace_command(bx_bool enable);
 void bx_dbg_trace_reg_command(bx_bool enable);
@@ -240,12 +236,16 @@ void bx_dbg_print_string_command(bx_address addr);
 void bx_dbg_xlate_address(bx_lin_address address);
 void bx_dbg_show_command(const char*);
 void bx_dbg_print_stack_command(unsigned nwords);
-void bx_dbg_watch(int read, bx_phy_address address);
-void bx_dbg_unwatch(int read, bx_phy_address address);
+void bx_dbg_print_watchpoints(void);
+void bx_dbg_watchpoint_continue(bx_bool watch_continue);
+void bx_dbg_watch(int type, bx_phy_address address, Bit32u len);
+void bx_dbg_unwatch_all(void);
+void bx_dbg_unwatch(bx_phy_address handle);
 void bx_dbg_continue_command(void);
-void bx_dbg_stepN_command(Bit32u count);
+void bx_dbg_stepN_command(int cpu, Bit32u count);
 void bx_dbg_set_auto_disassemble(bx_bool enable);
 void bx_dbg_disassemble_switch_mode(void);
+void bx_dbg_disassemble_hex_mode_switch(int mode);
 void bx_dbg_set_disassemble_size(unsigned size);
 void bx_dbg_del_breakpoint_command(unsigned handle);
 void bx_dbg_en_dis_breakpoint_command(unsigned handle, bx_bool enable);
@@ -265,18 +265,20 @@ void bx_dbg_quit_command(void);
 #define BX_INFO_MMX_REGS 4
 #define BX_INFO_SSE_REGS 8
 void bx_dbg_info_registers_command(int);
-void bx_dbg_info_dirty_command(void);
 void bx_dbg_info_ivt_command(unsigned from, unsigned to);
 void bx_dbg_info_idt_command(unsigned from, unsigned to);
 void bx_dbg_info_gdt_command(unsigned from, unsigned to);
 void bx_dbg_info_ldt_command(unsigned from, unsigned to);
 void bx_dbg_info_tss_command(void);
+void bx_dbg_info_debug_regs_command(void);
 void bx_dbg_info_control_regs_command(void);
 void bx_dbg_info_segment_regs_command(void);
 void bx_dbg_info_flags(void);
 void bx_dbg_info_linux_command(void);
 void bx_dbg_examine_command(char *command, char *format, bx_bool format_passed,
                     bx_address addr, bx_bool addr_passed);
+Bit32u bx_dbg_lin_indirect(bx_address addr);
+Bit32u bx_dbg_phy_indirect(bx_phy_address addr);
 void bx_dbg_setpmem_command(bx_phy_address addr, unsigned len, Bit32u val);
 void bx_dbg_query_command(const char *);
 void bx_dbg_take_command(const char *, unsigned n);
@@ -285,7 +287,6 @@ void bx_dbg_disassemble_command(const char *, Bit64u from, Bit64u to);
 void bx_dbg_instrument_command(const char *);
 void bx_dbg_doit_command(unsigned);
 void bx_dbg_crc_command(bx_phy_address addr1, bx_phy_address addr2);
-extern bx_bool watchpoint_continue;
 void bx_dbg_linux_syscall(unsigned which_cpu);
 void bx_dbg_info_ne2k(int page, int reg);
 void bx_dbg_info_pic(void);
@@ -305,21 +306,21 @@ void bx_dbg_lin_memory_access(unsigned cpu, bx_address lin, bx_phy_address phy, 
 void bx_dbg_phy_memory_access(unsigned cpu, bx_phy_address phy, unsigned len, unsigned rw, Bit8u *data);
 
 // check memory access for watchpoints
-void bx_dbg_check_memory_access_watchpoints(unsigned cpu, bx_phy_address phy, unsigned len, unsigned rw);
+void bx_dbg_check_memory_watchpoints(unsigned cpu, bx_phy_address phy, unsigned len, unsigned rw);
 
 // commands that work with Bochs param tree
 void bx_dbg_restore_command(const char *param_name, const char *path);
-void bx_dbg_show_param_command(char *param);
+void bx_dbg_show_param_command(const char *param);
 
 int bx_dbg_show_symbolic(void);
-void bx_dbg_set_symbol_command(char *symbol, Bit32u val);
-char* bx_dbg_symbolic_address(Bit32u context, Bit32u eip, Bit32u base);
-char* bx_dbg_symbolic_address_16bit(Bit32u eip, Bit32u cs);
-int bx_dbg_symbol_command(char* filename, bx_bool global, Bit32u offset);
-void bx_dbg_info_symbols_command(char *Symbol);
-int bx_dbg_lbreakpoint_symbol_command(char *Symbol);
-Bit32u bx_dbg_get_symbol_value(char *Symbol);
-char* bx_dbg_disasm_symbolic_address(Bit32u eip, Bit32u base);
+void bx_dbg_set_symbol_command(const char *symbol, Bit32u val);
+const char* bx_dbg_symbolic_address(Bit32u context, Bit32u eip, Bit32u base);
+const char* bx_dbg_symbolic_address_16bit(Bit32u eip, Bit32u cs);
+int bx_dbg_symbol_command(const char* filename, bx_bool global, Bit32u offset);
+void bx_dbg_info_symbols_command(const char *Symbol);
+int bx_dbg_lbreakpoint_symbol_command(const char *Symbol);
+Bit32u bx_dbg_get_symbol_value(const char *Symbol);
+const char* bx_dbg_disasm_symbolic_address(Bit32u eip, Bit32u base);
 
 #ifdef __cplusplus
 }
@@ -381,7 +382,7 @@ void bx_dbg_exit(int code);
 #define BX_DBG_GUARD_CTRL_C        0x0100
 
 typedef struct {
-  unsigned long guard_for;
+  unsigned guard_for;
 
   // instruction address breakpoints
   struct {
@@ -407,7 +408,7 @@ typedef struct {
 #if (BX_DBG_MAX_PHY_BPOINTS > 0)
     unsigned num_physical;
     struct {
-      bx_phy_address addr; // physical address is 32 bits only
+      bx_phy_address addr;
       unsigned bpoint_id;
       bx_bool enabled;
     } phy[BX_DBG_MAX_PHY_BPOINTS];
@@ -423,7 +424,6 @@ typedef struct {
     bx_bool irq;
     bx_bool a20;
     bx_bool io;
-    bx_bool ucmem;
     bx_bool dma;
   } report;
 
@@ -453,19 +453,31 @@ typedef struct {
 // working information for each simulator to update when a guard
 // is reached (found)
 typedef struct bx_guard_found_t {
-  unsigned long guard_found;
+  unsigned guard_found;
   unsigned iaddr_index;
-  Bit32u icount; // number of completed instructions
-  Bit32u  cs; // cs:eip and linear addr of instruction at guard point
+  Bit64u icount; // number of completed instructions from last breakpoint hit
+  Bit32u cs;     // cs:eip and linear addr of instruction at guard point
   bx_address eip;
   bx_address laddr;
-  bx_bool is_32bit_code; // CS seg size at guard point
-  bx_bool is_64bit_code;
+  // 00 - 16 bit, 01 - 32 bit, 10 - 64-bit, 11 - illegal
+  unsigned code_32_64; // CS seg size at guard point
   bx_bool ctrl_c; // simulator stopped due to Ctrl-C request
   Bit64u  time_tick; // time tick when guard reached
 } bx_guard_found_t;
 
+struct bx_watchpoint {
+  bx_phy_address addr;
+  Bit32u len;
+};
+
+extern unsigned num_write_watchpoints;
+extern unsigned num_read_watchpoints;
+extern bx_watchpoint write_watchpoint[BX_DBG_MAX_WATCHPONTS];
+extern bx_watchpoint read_watchpoint[BX_DBG_MAX_WATCHPONTS];
 extern bx_guard_t bx_guard;
+
+#define IS_CODE_32(code_32_64) ((code_32_64 & 1) != 0)
+#define IS_CODE_64(code_32_64) ((code_32_64 & 2) != 0)
 
 void bx_dbg_init_infile(void);
 int  bx_dbg_set_rcfile(const char *rcfile);
@@ -476,6 +488,9 @@ void bx_dbg_interpret_line(char *cmd);
 typedef struct {
   Bit16u sel;
   Bit32u des_l, des_h, valid;
+#if BX_SUPPORT_X86_64
+  Bit32u dword3;
+#endif
 } bx_dbg_sreg_t;
 
 typedef struct {
@@ -487,7 +502,6 @@ void bx_dbg_dma_report(bx_phy_address addr, unsigned len, unsigned what, Bit32u 
 void bx_dbg_iac_report(unsigned vector, unsigned irq);
 void bx_dbg_a20_report(unsigned val);
 void bx_dbg_io_report(Bit32u port, unsigned size, unsigned op, Bit32u val);
-void bx_dbg_ucmem_report(Bit32u addr, unsigned size, unsigned op, Bit32u val);
 void bx_dbg_disassemble_current(int which_cpu, int print_time);
 
 #endif // #ifdef __cplusplus

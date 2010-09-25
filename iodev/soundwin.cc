@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 /////////////////////////////////////////////////////////////////////////
 
 // This file (SOUNDWIN.CC) written and donated by Josef Drexler
@@ -41,7 +35,7 @@
 
 #include "soundwin.h"
 
-#define LOG_THIS bx_devices.pluginSB16Device->
+#define LOG_THIS sb16->
 
 bx_sound_windows_c::bx_sound_windows_c(bx_sb16_c *sb16)
   :bx_sound_output_c(sb16)
@@ -73,15 +67,15 @@ bx_sound_windows_c::bx_sound_windows_c(bx_sb16_c *sb16)
 
 #define NEWBUFFER(size) &(DataPointer[offset]); offset += ALIGN(size)
 
-  int offset = 0;
+  unsigned offset = 0;
   MidiHeader = (LPMIDIHDR) NEWBUFFER(sizeof(MIDIHDR));
   MidiData = (LPSTR) NEWBUFFER(BX_SOUND_WINDOWS_MAXSYSEXLEN);
 
   for (int bufnum=0; bufnum<BX_SOUND_WINDOWS_NBUF; bufnum++)
-    {
+  {
       WaveHeader[bufnum] = (LPWAVEHDR) NEWBUFFER(sizeof(WAVEHDR));
       WaveData[bufnum] = (LPSTR) NEWBUFFER(BX_SOUND_OUTPUT_WAVEPACKETSIZE+64);
-    }
+  }
 
   if (offset > size)
     BX_PANIC(("Allocated memory was too small!"));
@@ -251,7 +245,7 @@ int bx_sound_windows_c::playnextbuffer()
       int frequency = WaveInfo.frequency;
       int stereo = WaveInfo.stereo;
       int bits = WaveInfo.bits;
-      int format = WaveInfo.format;
+//    int format = WaveInfo.format;
       int bps = (bits / 8) * (stereo + 1);
 
       waveformat.wf.wFormatTag = WAVE_FORMAT_PCM;

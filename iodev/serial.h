@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2004  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2004-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,8 +16,8 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
-
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+//
 
 #ifndef BX_IODEV_SERIAL_H
 #define BX_IODEV_SERIAL_H
@@ -204,13 +198,12 @@ typedef struct {
 
 
 
-class bx_serial_c : public bx_serial_stub_c {
+class bx_serial_c : public bx_devmodel_c {
 public:
   bx_serial_c();
   virtual ~bx_serial_c();
   virtual void init(void);
   virtual void reset(unsigned type);
-  virtual void serial_mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state);
   virtual void register_state(void);
 
 private:
@@ -241,6 +234,9 @@ private:
 
   static void fifo_timer_handler(void *);
   BX_SER_SMF void fifo_timer(void);
+
+  static void mouse_enq_static(void *dev, int delta_x, int delta_y, int delta_z, unsigned button_state);
+  void mouse_enq(int delta_x, int delta_y, int delta_z, unsigned button_state);
 
   static Bit32u read_handler(void *this_ptr, Bit32u address, unsigned io_len);
   static void   write_handler(void *this_ptr, Bit32u address, Bit32u value, unsigned io_len);

@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2004  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2002-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 #ifndef BX_IODEV_PCIIDE_H
 #define BX_IODEV_PCIIDE_H
@@ -47,11 +41,11 @@ public:
   virtual void bmdma_set_irq(Bit8u channel);
   virtual void register_state(void);
   virtual void after_restore_state(void);
-  static  Bit64s param_save_handler(void *devptr, bx_param_c *param, Bit64s val);
-  static  Bit64s param_restore_handler(void *devptr, bx_param_c *param, Bit64s val);
+  static Bit64s param_save_handler(void *devptr, bx_param_c *param);
+  static void param_restore_handler(void *devptr, bx_param_c *param, Bit64s val);
 #if !BX_USE_PIDE_SMF
-  Bit64s param_save(bx_param_c *param, Bit64s val);
-  Bit64s param_restore(bx_param_c *param, Bit64s val);
+  Bit64s param_save(bx_param_c *param);
+  void param_restore(bx_param_c *param, Bit64s val);
 #endif
 
   virtual Bit32u pci_read_handler(Bit8u address, unsigned io_len);

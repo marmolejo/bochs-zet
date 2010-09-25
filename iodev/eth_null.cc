@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,8 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+//
 
 // eth_null.cc  - skeleton code for an ethernet pktmover
 
@@ -43,7 +38,7 @@
 
 #include "eth.h"
 
-#define LOG_THIS bx_devices.pluginNE2kDevice->
+#define LOG_THIS netdev->
 
 
 //
@@ -52,8 +47,8 @@
 class bx_null_pktmover_c : public eth_pktmover_c {
 public:
   bx_null_pktmover_c(const char *netif, const char *macaddr,
-		     eth_rx_handler_t rxh,
-		     void *rxarg, char *script);
+                     eth_rx_handler_t rxh,
+                     bx_devmodel_c *dev, const char *script);
   void sendpkt(void *buf, unsigned io_len);
 private:
   int rx_timer_index;
@@ -71,9 +66,9 @@ public:
   bx_null_locator_c(void) : eth_locator_c("null") {}
 protected:
   eth_pktmover_c *allocate(const char *netif, const char *macaddr,
-			   eth_rx_handler_t rxh,
-			   void *rxarg, char *script) {
-    return (new bx_null_pktmover_c(netif, macaddr, rxh, rxarg, script));
+                           eth_rx_handler_t rxh,
+                           bx_devmodel_c *dev, const char *script) {
+    return (new bx_null_pktmover_c(netif, macaddr, rxh, dev, script));
   }
 } bx_null_match;
 
@@ -84,18 +79,19 @@ protected:
 
 // the constructor
 bx_null_pktmover_c::bx_null_pktmover_c(const char *netif,
-				       const char *macaddr,
-				       eth_rx_handler_t rxh,
-				       void *rxarg,
-				       char *script)
+                                       const char *macaddr,
+                                       eth_rx_handler_t rxh,
+                                       bx_devmodel_c *dev,
+                                       const char *script)
 {
+  this->netdev = dev;
+  BX_INFO(("null network driver"));
 #if BX_ETH_NULL_LOGGING
   // Start the rx poll
   this->rx_timer_index =
     bx_pc_system.register_timer(this, this->rx_timer_handler, 1000,
-				1, 1, "eth_null"); // continuous, active
+                                1, 1, "eth_null"); // continuous, active
   this->rxh   = rxh;
-  this->rxarg = rxarg;
   // eventually Bryce wants txlog to dump in pcap format so that
   // tcpdump -r FILE can read it and interpret packets.
   txlog = fopen("ne2k-tx.log", "wb");
@@ -112,8 +108,7 @@ bx_null_pktmover_c::bx_null_pktmover_c(const char *netif,
 #endif
 }
 
-void
-bx_null_pktmover_c::sendpkt(void *buf, unsigned io_len)
+void bx_null_pktmover_c::sendpkt(void *buf, unsigned io_len)
 {
 #if BX_ETH_NULL_LOGGING
   BX_DEBUG (("sendpkt length %u", io_len));
@@ -122,17 +117,9 @@ bx_null_pktmover_c::sendpkt(void *buf, unsigned io_len)
   size_t n = fwrite (buf, io_len, 1, txlog);
   if (n != 1) BX_ERROR(("fwrite to txlog failed, io_len = %u", io_len));
   // dump packet in hex into an ascii log file
-  fprintf(txlog_txt, "NE2K transmitting a packet, length %u\n", io_len);
-  Bit8u *charbuf = (Bit8u *)buf;
-  for (n=0; n<io_len; n++) {
-    if (((n % 16) == 0) && n>0)
-      fprintf(txlog_txt, "\n");
-    fprintf(txlog_txt, "%02x ", charbuf[n]);
-  }
-  fprintf(txlog_txt, "\n--\n");
+  write_pktlog_txt(txlog_txt, (const Bit8u *)buf, io_len, 0);
   // flush log so that we see the packets as they arrive w/o buffering
   fflush(txlog);
-  fflush(txlog_txt);
 #endif
 }
 
@@ -144,24 +131,17 @@ void bx_null_pktmover_c::rx_timer_handler (void *this_ptr)
   int io_len = 0;
   Bit8u buf[1];
   bx_null_pktmover_c *class_ptr = (bx_null_pktmover_c *) this_ptr;
+  bx_devmodel_c *netdev = class_ptr->netdev;
   if (io_len > 0) {
-    BX_DEBUG (("receive packet length %u", io_len));
+    BX_DEBUG(("receive packet length %u", io_len));
     // dump raw bytes to a file, eventually dump in pcap format so that
     // tcpdump -r FILE can interpret them for us.
     size_t n = fwrite (buf, io_len, 1, class_ptr->rxlog);
     if (n != 1) BX_ERROR(("fwrite to rxlog failed, io_len = %u", io_len));
     // dump packet in hex into an ascii log file
-    fprintf(class_ptr->rxlog_txt, "NE2K transmitting a packet, length %u\n", io_len);
-    Bit8u *charbuf = (Bit8u *)buf;
-    for (n=0; n<io_len; n++) {
-      if (((n % 16) == 0) && n>0)
-	fprintf(class_ptr->rxlog_txt, "\n");
-      fprintf(class_ptr->rxlog_txt, "%02x ", charbuf[n]);
-    }
-    fprintf(class_ptr->rxlog_txt, "\n--\n");
+    write_pktlog_txt(class_ptr->rxlog_txt, buf, io_len, 1);
     // flush log so that we see the packets as they arrive w/o buffering
     fflush(class_ptr->rxlog);
-    fflush(class_ptr->rxlog_txt);
   }
 #endif
 }

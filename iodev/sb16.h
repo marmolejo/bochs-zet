@@ -2,13 +2,7 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//  Copyright (C) 2001-2009  The Bochs Project
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,7 +16,7 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 // This file (SB16.H) written and donated by Josef Drexler
 
@@ -135,7 +129,6 @@ typedef struct {
   int opnum[4];     // operator numbers
   Bit16u freq;      // frequency (in a special code)
   Bit32u afreq;     // actual frequency in milli-Hertz (10^-3 Hz)
-  bx_bool freqch;   // byte of the frequency that has changed recently
   Bit8u midichan;   // assigned midi channel
   bx_bool needprogch;  // has the instrument changed
   Bit8u midinote;   // currently playing midi note
@@ -159,7 +152,7 @@ public:
 
       /* These functions return 1 on success and 0 on error */
   BX_SB16_BUFINL bx_bool put(Bit8u data);    // write one byte in the buffer
-  BX_SB16_BUFINL bx_bool puts(char *data, ...);  // write a formatted string to the buffer
+  BX_SB16_BUFINL bx_bool puts(const char *data, ...);  // write a formatted string to the buffer
   BX_SB16_BUFINL bx_bool get(Bit8u *data);   // read the next available byte
   BX_SB16_BUFINL bx_bool getw(Bit16u *data); // get word, in order lo/hi
   BX_SB16_BUFINL bx_bool getw1(Bit16u *data);// get word, in order hi/lo
@@ -286,8 +279,8 @@ private:
     int drumchannel;              // midi channel for percussion (10)
     int index[2];                 // index register for the two chips
     int wsenable[2];              // wave form select enable
-    int timer[4];                 // two timers on each chip
-    int timerinit[4];             // initial timer counts
+    Bit16u timer[4];              // two timers on each chip
+    Bit16u timerinit[4];          // initial timer counts
     int tmask[2];                 // the timer masking byte for both chips
     int tflag[2];                 // shows if the timer overflow has occured
     int percmode[2];              // percussion mode enabled

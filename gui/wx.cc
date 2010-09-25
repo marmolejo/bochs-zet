@@ -2,6 +2,8 @@
 // $Id$
 /////////////////////////////////////////////////////////////////
 //
+//  Copyright (C) 2009  The Bochs Project
+//
 // wxWidgets VGA display for Bochs.  wx.cc implements a custom
 // wxPanel called a MyPanel, which has methods to display
 // text and VGA graphics on the panel.  Normally, a MyPanel
@@ -33,6 +35,8 @@
 #define BX_PLUGGABLE
 
 #include "bochs.h"
+#include "param_names.h"
+#include "keymap.h"
 #include "iodev.h"
 #if BX_WITH_WX
 
@@ -63,7 +67,7 @@ public:
   bx_wx_gui_c (void) {}
   DECLARE_GUI_VIRTUAL_METHODS()
   DECLARE_GUI_NEW_VIRTUAL_METHODS()
-  void statusbar_setitem(int element, bx_bool active);
+  void statusbar_setitem(int element, bx_bool active, bx_bool w=0);
 #if BX_SHOW_IPS
   void show_ips(Bit32u ips_count);
 #endif
@@ -165,6 +169,13 @@ void MyPanel::OnTimer(wxTimerEvent& WXUNUSED(event))
     IFDBG_VGA(wxLogDebug(wxT("calling refresh")));
     Refresh(FALSE);
   }
+#if BX_SHOW_IPS && defined(WIN32)
+  static int i = 10;
+  if (--i <= 0) {
+    bx_signal_handler(SIGALRM);
+    i = 10;
+  }
+#endif
 }
 
 void MyPanel::OnPaint(wxPaintEvent& WXUNUSED(event))
@@ -235,9 +246,13 @@ void MyPanel::OnMouse(wxMouseEvent& event)
     }
   )
 
-  if (event.MiddleDown() && event.ControlDown()) {
-    ToggleMouse (false);
-    return;
+  if (event.MiddleDown()) {
+    if (bx_gui->mouse_toggle_check(BX_MT_MBUTTON, 1)) {
+      ToggleMouse(false);
+      return;
+    }
+  } else if (event.MiddleUp()) {
+    bx_gui->mouse_toggle_check(BX_MT_MBUTTON, 0);
   }
 
   if (!mouse_captured)
@@ -739,26 +754,39 @@ bx_bool MyPanel::fillBxKeyEvent_GTK (wxKeyEvent& wxev, BxKeyEvent& bxev, bx_bool
 #endif
 }
 
-bx_bool MyPanel::fillBxKeyEvent (wxKeyEvent& wxev, BxKeyEvent& bxev, bx_bool release)
+bx_bool MyPanel::fillBxKeyEvent(wxKeyEvent& wxev, BxKeyEvent& bxev, bx_bool release)
 {
-  // Use raw codes if they are available.  Raw codes are a nonstandard addition
-  // to the wxWidgets library.  At present, the only way to use the "RAW_CODES"
-  // mode is to apply Bryce's "patch.wx-raw-keycodes" patch to the wxWidgets
-  // sources and recompile.  This patch, or something like it, should appear in
-  // future wxWidgets versions.
+  Bit32u key = wxev.m_keyCode;
+  bx_bool mouse_toggle = 0;
+
+  if (key == WXK_CONTROL) {
+    mouse_toggle = bx_gui->mouse_toggle_check(BX_MT_KEY_CTRL, !release);
+  } else if (key == WXK_ALT) {
+    mouse_toggle = bx_gui->mouse_toggle_check(BX_MT_KEY_ALT, !release);
+  } else if (key == WXK_F10) {
+    mouse_toggle = bx_gui->mouse_toggle_check(BX_MT_KEY_F10, !release);
+  } else if (key == WXK_F12) {
+    mouse_toggle = bx_gui->mouse_toggle_check(BX_MT_KEY_F12, !release);
+  }
+  if (mouse_toggle) {
+    ToggleMouse(false);
+    return false;
+  }
+
+  // Use raw codes if they are available.  Raw codes are an addition to the
+  // wxWidgets library introduced in version 2.3.3.
 
 #if defined (wxHAS_RAW_KEY_CODES) && defined(__WXMSW__)
-  return fillBxKeyEvent_MSW (wxev, bxev, release);
+  return fillBxKeyEvent_MSW(wxev, bxev, release);
 #endif
 
 #if defined (wxHAS_RAW_KEY_CODES) && defined(__WXGTK__)
-  return fillBxKeyEvent_GTK (wxev, bxev, release);
+  return fillBxKeyEvent_GTK(wxev, bxev, release);
 #endif
 
   // otherwise fall back to using portable WXK_* keycodes.  Not all keys
   // can be mapped correctly using WXK_* codes but it should be usable.
   IFDBG_KEY (wxLogDebug (wxT ("fillBxKeyEvent. key code %ld", wxev.m_keyCode)));
-  Bit32u key = wxev.m_keyCode;
   Bit32u bx_key;
 
   if(key >= WXK_SPACE && key < WXK_DELETE) {
@@ -822,9 +850,13 @@ bx_bool MyPanel::fillBxKeyEvent (wxKeyEvent& wxev, BxKeyEvent& bxev, bx_bool rel
     case WXK_NUMPAD_RIGHT:         bx_key = BX_KEY_KP_RIGHT;     break;
     case WXK_NUMPAD_DOWN:          bx_key = BX_KEY_KP_DOWN;      break;
     case WXK_NUMPAD_PRIOR:         bx_key = BX_KEY_KP_PAGE_UP;   break;
+#if WXK_NUMPAD_PAGEUP != WXK_NUMPAD_PRIOR
     case WXK_NUMPAD_PAGEUP:        bx_key = BX_KEY_KP_PAGE_UP;   break;
+#endif
     case WXK_NUMPAD_NEXT:          bx_key = BX_KEY_KP_PAGE_DOWN; break;
+#if WXK_NUMPAD_PAGEDOWN != WXK_NUMPAD_NEXT
     case WXK_NUMPAD_PAGEDOWN:      bx_key = BX_KEY_KP_PAGE_DOWN; break;
+#endif
     case WXK_NUMPAD_END:           bx_key = BX_KEY_KP_END;       break;
     case WXK_NUMPAD_BEGIN:         bx_key = BX_KEY_KP_HOME;      break;
     case WXK_NUMPAD_INSERT:        bx_key = BX_KEY_KP_INSERT;    break;
@@ -849,7 +881,11 @@ bx_bool MyPanel::fillBxKeyEvent (wxKeyEvent& wxev, BxKeyEvent& bxev, bx_bool rel
     case 220: bx_key = BX_KEY_BACKSLASH;     break; // \|
     case 222: bx_key = BX_KEY_SINGLE_QUOTE;  break; // '"
     case 305: bx_key = BX_KEY_KP_5;          break; // keypad 5
-    case 392: bx_key = BX_KEY_KP_ADD;        break; // keypad plus
+//#if defined(WXK_NUMPAD_ADD)
+    case WXK_NUMPAD_ADD: bx_key = BX_KEY_KP_ADD; break; // keypad plus
+//#else
+//    case 392: bx_key = BX_KEY_KP_ADD;        break; // keypad plus
+//#endif
 
     default:
       wxLogMessage(wxT ("Unhandled key event: %i (0x%x)"), key, key);
@@ -872,7 +908,7 @@ void bx_wx_gui_c::specific_init(int argc, char **argv, unsigned tilewidth, unsig
   int b,i,j;
   unsigned char fc, vc;
 
-  put("WX  ");
+  put("WX");
   if (SIM->get_param_bool(BXPN_PRIVATE_COLORMAP)->get()) {
     BX_INFO(("private_colormap option ignored."));
   }
@@ -1038,7 +1074,7 @@ void bx_wx_gui_c::handle_events(void)
   num_events = 0;
 }
 
-void bx_wx_gui_c::statusbar_setitem(int element, bx_bool active)
+void bx_wx_gui_c::statusbar_setitem(int element, bx_bool active, bx_bool w)
 {
 #if defined(__WXMSW__)
   char status_text[10];
@@ -1230,8 +1266,13 @@ void bx_wx_gui_c::text_update(Bit8u *old_text, Bit8u *new_text,
   y = 0;
   cs_y = 0;
   text_base = new_text - tm_info.start_address;
-  split_textrow = (line_compare + v_panning) / wxFontY;
-  split_fontrows = ((line_compare + v_panning) % wxFontY) + 1;
+  if (line_compare < wxScreenY) {
+    split_textrow = (line_compare + v_panning) / wxFontY;
+    split_fontrows = ((line_compare + v_panning) % wxFontY) + 1;
+  } else {
+    split_textrow = rows + 1;
+    split_fontrows = 0;
+  }
   split_screen = 0;
   do {
     hchars = text_cols;
@@ -1409,7 +1450,11 @@ bx_svga_tileinfo_t *bx_wx_gui_c::graphics_tile_info(bx_svga_tileinfo_t *info)
   info->green_mask = 0x00ff00;
   info->blue_mask = 0xff0000;
   info->is_indexed = 0;
+#ifdef BX_LITTLE_ENDIAN
   info->is_little_endian = 1;
+#else
+  info->is_little_endian = 0;
+#endif
 
   return info;
 }
@@ -1628,10 +1673,12 @@ int bx_wx_gui_c::set_clipboard_text(char *text_snapshot, Bit32u len)
 void bx_wx_gui_c::show_ips(Bit32u ips_count)
 {
   char ips_text[40];
-  wxMutexGuiEnter();
+  bx_bool is_main_thread = wxThread::IsMain();
+  bx_bool needmutex = !is_main_thread && SIM->is_sim_thread();
+  if (needmutex) wxMutexGuiEnter();
   sprintf(ips_text, "IPS: %9u", ips_count);
   theFrame->SetStatusText(wxString(ips_text, wxConvUTF8), 0);
-  wxMutexGuiLeave();
+  if (needmutex) wxMutexGuiLeave();
 }
 #endif
 

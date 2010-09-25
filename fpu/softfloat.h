@@ -111,6 +111,7 @@ struct float_status_t
 #endif
     int float_rounding_mode;
     int float_exception_flags;
+    int float_exception_masks;
     int float_nan_handling_mode;	/* flag register */
     int flush_underflow_to_zero;	/* flag register */
 };
@@ -123,6 +124,16 @@ struct float_status_t
 BX_CPP_INLINE void float_raise(float_status_t &status, int flags)
 {
     status.float_exception_flags |= flags;
+}
+
+/*----------------------------------------------------------------------------
+| Routine to check if any or all of the software IEC/IEEE floating-point
+| exceptions are masked.
+*----------------------------------------------------------------------------*/
+
+BX_CPP_INLINE int float_exception_masked(float_status_t &status, int flag)
+{
+    return status.float_exception_masks & flag;
 }
 
 /*----------------------------------------------------------------------------
@@ -216,6 +227,7 @@ int float32_compare_quiet(float32, float32, float_status_t &status);
 
 float_class_t float32_class(float32);
 int float32_is_signaling_nan(float32);
+int float32_is_nan(float32);
 
 /*----------------------------------------------------------------------------
 | Software IEC/IEEE double-precision conversion routines.
@@ -249,6 +261,7 @@ int float64_compare_quiet(float64, float64, float_status_t &status);
 
 float_class_t float64_class(float64);
 int float64_is_signaling_nan(float64);
+int float64_is_nan(float64);
 
 #ifdef FLOATX80
 
@@ -298,7 +311,9 @@ floatx80 floatx80_mul(floatx80, floatx80, float_status_t &status);
 floatx80 floatx80_div(floatx80, floatx80, float_status_t &status);
 floatx80 floatx80_sqrt(floatx80, float_status_t &status);
 
+float_class_t floatx80_class(floatx80);
 int floatx80_is_signaling_nan(floatx80);
+int floatx80_is_nan(floatx80);
 
 #endif  /* FLOATX80 */
 
@@ -319,6 +334,8 @@ struct float128 {
 *----------------------------------------------------------------------------*/
 float128 floatx80_to_float128(floatx80 a, float_status_t &status);
 floatx80 float128_to_floatx80(float128 a, float_status_t &status);
+
+float128 int64_to_float128(Bit64s a);
 
 /*----------------------------------------------------------------------------
 | Software IEC/IEEE extended double-precision operations.
