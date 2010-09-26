@@ -160,9 +160,9 @@ void BX_CPP_AttrRegparmN(1) BX_CPU_C::DAA(bxInstruction_c *)
     AL = AL + 0x60;
     tmpCF = 1;
   }
-  else
+/*  else
     tmpCF = 0;
-
+*/
   clear_OF();	/* undocumented flag modification */
   set_SF(AL >= 0x80);
   set_ZF(AL==0);

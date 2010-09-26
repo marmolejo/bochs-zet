@@ -55,7 +55,14 @@ struct bx_cr0_t {
 //   Pentium: reserved bits retain value set using mov cr0, reg32
 //   486DX2/Pentium-II: reserved bits are hardwired to 0
 
-  IMPLEMENT_CRREG_ACCESSORS(PE, 0);
+  //IMPLEMENT_CRREG_ACCESSORS(PE, 0);
+  BX_CPP_INLINE bx_bool get_PE () {
+    return 1 & (val32 >> 0);
+  }
+  BX_CPP_INLINE void set_PE (Bit8u val) {
+    printf("set_PE()\n");
+    val32 = (val32&~(1<<0)) | (val ? (1<<0) : 0);
+  }
   IMPLEMENT_CRREG_ACCESSORS(MP, 1);
   IMPLEMENT_CRREG_ACCESSORS(EM, 2);
   IMPLEMENT_CRREG_ACCESSORS(TS, 3);
@@ -70,7 +77,7 @@ struct bx_cr0_t {
   IMPLEMENT_CRREG_ACCESSORS(PG, 31);
 
   BX_CPP_INLINE Bit32u getRegister() { return val32; }
-  BX_CPP_INLINE void setRegister(Bit32u val) { val32 = val; }
+  BX_CPP_INLINE void setRegister(Bit32u val) { if (val & 1) printf("setCR0 (PE)\n"); val32 = val; }
 };
 
 #if BX_CPU_LEVEL >= 4

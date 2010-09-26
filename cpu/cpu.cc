@@ -129,13 +129,16 @@ void BX_CPU_C::cpu_loop(Bit32u max_instr_count)
 
     // check on events which occurred for previous instructions (traps)
     // and ones which are asynchronous to the CPU (hardware interrupts)
+/*
+ * Zet: we don't handle external interrupts
+ *
     if (BX_CPU_THIS_PTR async_event) {
       if (handleAsyncEvent()) {
         // If request to return to caller ASAP.
         return;
       }
     }
-
+ */
 no_async_event:
 
     Bit32u eipBiased = RIP + BX_CPU_THIS_PTR eipPageBias;

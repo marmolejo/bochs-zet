@@ -440,6 +440,7 @@ public:
   bx_pci_usb_stub_c *pluginPciUSBAdapter;
 #endif
   bx_devmodel_c     *pluginParallelDevice;
+  bx_devmodel_c     *pluginHdemuDevice;
   bx_devmodel_c     *pluginUnmapped;
   bx_vga_stub_c     *pluginVgaDevice;
   bx_pic_stub_c     *pluginPicDevice;
@@ -591,6 +592,7 @@ BX_CPP_INLINE void DEV_MEM_WRITE_PHYSICAL(bx_phy_address phy_addr, unsigned len,
 #   include "iodev/busmouse.h"
 #endif
 #include "iodev/parallel.h"
+#include "iodev/hdemu.h"
 #include "iodev/pic.h"
 #include "iodev/pit_wrap.h"
 #include "iodev/virt_timer.h"

@@ -263,7 +263,7 @@ void disassembler::toggle_syntax_mode()
   if (intel_mode) set_syntax_att();
   else set_syntax_intel();
 }
-
+/*
 void disassembler::print_disassembly_att(const x86_insn *insn, const BxDisasmOpcodeInfo_t *entry)
 {
   // print opcode
@@ -284,4 +284,10 @@ void disassembler::print_disassembly_att(const x86_insn *insn, const BxDisasmOpc
   if (entry->Operand1) {
     (this->*entry->Operand1)(insn);
   }
+}
+*/
+void disassembler::print_disassembly_att(const x86_insn *insn, const BxDisasmOpcodeInfo_t *entry)
+{
+  // print opcode
+  dis_sprintf("%s", entry->AttOpcode);
 }

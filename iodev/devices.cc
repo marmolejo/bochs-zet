@@ -170,9 +170,12 @@ void bx_devices_c::init(BX_MEM_C *newmem)
   PLUG_load_plugin(unmapped, PLUGTYPE_CORE);
   PLUG_load_plugin(biosdev, PLUGTYPE_CORE);
   PLUG_load_plugin(cmos, PLUGTYPE_CORE);
+/*
   PLUG_load_plugin(dma, PLUGTYPE_CORE);
   PLUG_load_plugin(pic, PLUGTYPE_CORE);
+*/
   PLUG_load_plugin(vga, PLUGTYPE_CORE);
+/*
   PLUG_load_plugin(floppy, PLUGTYPE_CORE);
   PLUG_load_plugin(harddrv, PLUGTYPE_OPTIONAL);
   PLUG_load_plugin(keyboard, PLUGTYPE_OPTIONAL);
@@ -185,15 +188,18 @@ void bx_devices_c::init(BX_MEM_C *newmem)
     PLUG_load_plugin(serial, PLUGTYPE_OPTIONAL);
   if (is_parallel_enabled())
     PLUG_load_plugin(parallel, PLUGTYPE_OPTIONAL);
+*/
+  PLUG_load_plugin(hdemu, PLUGTYPE_OPTIONAL);
+/*
   PLUG_load_plugin(extfpuirq, PLUGTYPE_OPTIONAL);
 #if BX_SUPPORT_GAMEPORT
   PLUG_load_plugin(gameport, PLUGTYPE_OPTIONAL);
 #endif
   PLUG_load_plugin(speaker, PLUGTYPE_OPTIONAL);
-
+*/
   // Start with registering the default (unmapped) handler
   pluginUnmapped->init ();
-
+/*
   // PCI logic (i440FX)
   if (SIM->get_param_bool(BXPN_I440FX_SUPPORT)->get()) {
 #if BX_SUPPORT_PCI
@@ -243,14 +249,14 @@ void bx_devices_c::init(BX_MEM_C *newmem)
   ioapic = & bx_ioapic;
   ioapic->init ();
 #endif
-
+*/
   // BIOS log
   pluginBiosDevice->init ();
 
   // CMOS RAM & RTC
   pluginCmosDevice->init ();
-
-  /*--- 8237 DMA ---*/
+/*
+  //--- 8237 DMA ---
   pluginDmaDevice->init();
 
   //--- FLOPPY ---
@@ -269,14 +275,14 @@ void bx_devices_c::init(BX_MEM_C *newmem)
   pluginPciBridge->init ();
   pluginPci2IsaBridge->init ();
 #endif
-
-  /*--- VGA adapter ---*/
+*/
+  //--- VGA adapter ---
   pluginVgaDevice->init ();
-
-  /*--- 8259A PIC ---*/
+/*
+  //--- 8259A PIC ---
   pluginPicDevice->init();
 
-  /*--- 8254 PIT ---*/
+  //--- 8254 PIT ---
   pit = & bx_pit;
   pit->init();
 
@@ -291,7 +297,7 @@ void bx_devices_c::init(BX_MEM_C *newmem)
   g2h = &bx_g2h;
   g2h->init();
 #endif
-
+*/
   // system hardware
   register_io_read_handler(this, &read_handler, 0x0092,
                            "Port 92h System Control", 1);
@@ -314,12 +320,12 @@ void bx_devices_c::init(BX_MEM_C *newmem)
 
   DEV_cmos_set_reg(0x34, (Bit8u) (extended_memory_in_64k & 0xff));
   DEV_cmos_set_reg(0x35, (Bit8u) ((extended_memory_in_64k >> 8) & 0xff));
-
+/*
   if (timer_handle != BX_NULL_TIMER_HANDLE) {
     timer_handle = bx_pc_system.register_timer(this, timer_handler,
       (unsigned) BX_IODEV_HANDLER_PERIOD, 1, 1, "devices.cc");
   }
-
+*/
   // Clear fields for bulk IO acceleration transfers.
   bulkIOHostAddr = 0;
   bulkIOQuantumsRequested = 0;
