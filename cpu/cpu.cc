@@ -151,11 +151,6 @@ no_async_event:
     for(;;) {
 #endif
 
-#if BX_INSTRUMENTATION
-      BX_INSTR_OPCODE(BX_CPU_ID, BX_CPU_THIS_PTR eipFetchPtr + (RIP + BX_CPU_THIS_PTR eipPageBias),
-         i->ilen(), BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b, long64_mode());
-#endif
-
 #if BX_DISASM
       if (BX_CPU_THIS_PTR trace) {
         // print the instruction that is about to be executed
