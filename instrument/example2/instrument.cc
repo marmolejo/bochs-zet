@@ -88,7 +88,7 @@ void bx_instr_before_execution(unsigned cpu, bxInstruction_c *i)
       printf("Interrupts: %d, Exceptions: %d\n", ia_stats[cpu].interrupts, ia_stats[cpu].exceptions);
       for (int n=0;n < BX_IA_LAST; n++) {
         if (ia_stats[cpu].ia_cnt[n] > 0) {
-           printf("%s: %f%%\n", get_bx_opcode_name(n), ia_stats[cpu].ia_cnt[n] * 100.0 / ia_stats[cpu].total_cnt);
+           printf("%s [%s]: %f%%\n", get_bx_opcode_name(n), get_bx_feature_name(n), ia_stats[cpu].ia_cnt[n] * 100.0 / ia_stats[cpu].total_cnt);
            ia_stats[cpu].ia_cnt[n] = 0;
         }
       }

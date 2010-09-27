@@ -2842,6 +2842,18 @@ const char *get_bx_opcode_name(Bit16u ia_opcode)
   return (ia_opcode < BX_IA_LAST) ? BxOpcodeNamesTable[ia_opcode] : 0;
 }
 
+const char *get_bx_feature_name(Bit16u ia_opcode)
+{
+  static const char* BxOpcodeFeatureTable[BX_IA_LAST] =
+  {
+#define bx_define_opcode(a, b, c, d) #d,
+#include "ia_opcodes.h"
+  };
+#undef  bx_define_opcode
+
+  return (ia_opcode < BX_IA_LAST) ? BxOpcodeFeatureTable[ia_opcode] : 0;
+}
+
 void BX_CPU_C::init_FetchDecodeTables(void)
 {
   static Bit32u BxOpcodeFeatures[BX_IA_LAST] =

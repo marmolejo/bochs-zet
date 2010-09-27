@@ -266,6 +266,7 @@ public:
 // <TAG-CLASS-INSTRUCTION-END>
 
 const char *get_bx_opcode_name(Bit16u ia_opcode);
+const char *get_bx_feature_name(Bit16u ia_opcode);
 
 enum {
 #define bx_define_opcode(a, b, c, d) a,

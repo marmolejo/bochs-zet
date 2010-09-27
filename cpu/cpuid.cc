@@ -949,7 +949,7 @@ void BX_CPU_C::bx_cpuid_xsave_leaf(Bit32u subfunction)
 
 void BX_CPU_C::init_isa_features_bitmask(void)
 {
-  Bit32u features_bitmask = 0;
+  Bit32u features_bitmask = 0xf;  /* 8086, 80186, 286 and 386 */
 
   bx_bool mmx_enabled = 0, movbe_enabled = 0;
   bx_bool sep_enabled = 0, xsave_enabled = 0;
