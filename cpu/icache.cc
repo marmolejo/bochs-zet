@@ -110,6 +110,9 @@ void BX_CPU_C::serveICacheMiss(bxICacheEntry_c *entry, Bit32u eipBiased, bx_phy_
     unsigned iLen = i->ilen();
     entry->tlen++;
 
+    BX_INSTR_OPCODE(BX_CPU_ID, fetchPtr, iLen,
+       BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].cache.u.segment.d_b, long64_mode());
+
     // continue to the next instruction
     remainingInPage -= iLen;
     if (ret != 0 /* stop trace indication */ || remainingInPage == 0) break;
