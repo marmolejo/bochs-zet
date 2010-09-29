@@ -604,39 +604,37 @@ typedef struct
 #define MAX_EXT_CPUID_FUNCTION 9
 
 // cpuid features (duplicated in disasm.h)
-#define BX_CPU_8086             0x00000001        /* Initial 16-bit 8086 instruction */
-#define BX_CPU_ZET              0x00000002        /* Zet processor ISA */
-#define BX_CPU_80186            0x00000003        /* 80186 new instruction */
-#define BX_CPU_286              0x00000004        /* 80286 new instruction */
-#define BX_CPU_386              0x00000008        /* 80386 new instruction */
-#define BX_CPU_X87              0x00000010        /* FPU (X87) instruction */
-#define BX_CPU_486              0x00000020        /* 486 new instruction */
-#define BX_CPU_PENTIUM          0x00000040        /* Pentium new instruction */
-#define BX_CPU_P6               0x00000080        /* P6 new instruction */
-#define BX_CPU_MMX              0x00000100        /* MMX instruction */
-#define BX_CPU_3DNOW            0x00000200        /* 3DNow! instruction */
-#define BX_CPU_FXSAVE_FXRSTOR   0x00000400        /* FXSAVE/FXRSTOR instruction */
-#define BX_CPU_SYSENTER_SYSEXIT 0x00000800        /* SYSENTER/SYSEXIT instruction */
-#define BX_CPU_CLFLUSH          0x00001000        /* CLFLUSH instruction */
-#define BX_CPU_SSE              0x00002000        /* SSE  instruction */
-#define BX_CPU_SSE2             0x00004000        /* SSE2 instruction */
-#define BX_CPU_SSE3             0x00008000        /* SSE3 instruction */
-#define BX_CPU_SSSE3            0x00010000        /* SSSE3 instruction */
-#define BX_CPU_SSE4_1           0x00020000        /* SSE4_1 instruction */
-#define BX_CPU_SSE4_2           0x00040000        /* SSE4_2 instruction */
-#define BX_CPU_SSE4A            0x00080000        /* SSE4A instruction */
-#define BX_CPU_MONITOR_MWAIT    0x00100000        /* MONITOR/MWAIT instruction */
-#define BX_CPU_VMX              0x00200000        /* VMX instruction */
-#define BX_CPU_SMX              0x00400000        /* SMX instruction */
-#define BX_CPU_SVM              0x00800000        /* SVM instruction */
-#define BX_CPU_XSAVE            0x01000000        /* XSAVE/XRSTOR extensions instruction */
-#define BX_CPU_XSAVEOPT         0x02000000        /* XSAVEOPT instruction */
-#define BX_CPU_AES_PCLMULQDQ    0x04000000        /* AES+PCLMULQDQ instructions */
-#define BX_CPU_MOVBE            0x08000000        /* MOVBE Intel Atom(R) instruction */
-#define BX_CPU_FSGSBASE         0x10000000        /* FS/GS BASE access instructions */
-#define BX_CPU_AVX              0x20000000        /* AVX instruction */
-#define BX_CPU_AVX_FMA          0x40000000        /* AVX FMA instruction */
-#define BX_CPU_X86_64           0x80000000        /* x86-64 instruction */
+#define BX_CPU_80186            0x00000001        /* 80186 new instruction */
+#define BX_CPU_286              0x00000002        /* 286 new instruction */
+#define BX_CPU_386              0x00000004        /* 386 new instruction */
+#define BX_CPU_X87              0x00000008        /* FPU (X87) instruction */
+#define BX_CPU_486              0x00000010        /* 486 new instruction */
+#define BX_CPU_PENTIUM          0x00000020        /* Pentium new instruction */
+#define BX_CPU_P6               0x00000040        /* P6 new instruction */
+#define BX_CPU_MMX              0x00000080        /* MMX instruction */
+#define BX_CPU_3DNOW            0x00000100        /* 3DNow! instruction */
+#define BX_CPU_FXSAVE_FXRSTOR   0x00000200        /* FXSAVE/FXRSTOR instruction */
+#define BX_CPU_SYSENTER_SYSEXIT 0x00000400        /* SYSENTER/SYSEXIT instruction */
+#define BX_CPU_CLFLUSH          0x00000800        /* CLFLUSH instruction */
+#define BX_CPU_SSE              0x00001000        /* SSE  instruction */
+#define BX_CPU_SSE2             0x00002000        /* SSE2 instruction */
+#define BX_CPU_SSE3             0x00004000        /* SSE3 instruction */
+#define BX_CPU_SSSE3            0x00008000        /* SSSE3 instruction */
+#define BX_CPU_SSE4_1           0x00010000        /* SSE4_1 instruction */
+#define BX_CPU_SSE4_2           0x00020000        /* SSE4_2 instruction */
+#define BX_CPU_SSE4A            0x00040000        /* SSE4A instruction */
+#define BX_CPU_MONITOR_MWAIT    0x00080000        /* MONITOR/MWAIT instruction */
+#define BX_CPU_VMX              0x00100000        /* VMX instruction */
+#define BX_CPU_SMX              0x00200000        /* SMX instruction */
+#define BX_CPU_SVM              0x00400000        /* SVM instruction */
+#define BX_CPU_XSAVE            0x00800000        /* XSAVE/XRSTOR extensions instruction */
+#define BX_CPU_XSAVEOPT         0x01000000        /* XSAVEOPT instruction */
+#define BX_CPU_AES_PCLMULQDQ    0x02000000        /* AES+PCLMULQDQ instructions */
+#define BX_CPU_MOVBE            0x04000000        /* MOVBE Intel Atom(R) instruction */
+#define BX_CPU_FSGSBASE         0x08000000        /* FS/GS BASE access instructions */
+#define BX_CPU_AVX              0x10000000        /* AVX instruction */
+#define BX_CPU_AVX_FMA          0x20000000        /* AVX FMA instruction */
+#define BX_CPU_X86_64           0x40000000        /* x86-64 instruction */
 
 struct cpuid_function_t {
   Bit32u eax;

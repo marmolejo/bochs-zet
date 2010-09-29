@@ -9,4 +9,4 @@ CFLAGS='-g3 -O0' CXXFLAGS='-g3 -O0' ./configure \
   --enable-cpu-level=3 \
   --disable-cdrom \
   --enable-logging \
-  --enable-instrumentation="instrument/example2"
+  --enable-instrumentation="instrument/zet"

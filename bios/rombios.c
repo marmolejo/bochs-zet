@@ -6295,7 +6295,7 @@ int13_harddisk(EHAX, DS, ES, DI, SI, BP, ELDX, BX, DX, CX, AX, IP, CS, FLAGS)
     return;
   }
 
-  printf("int13_hard (%x)\n", GET_AH());
+  //printf("int13_hard (%x)\n", GET_AH());
   switch (GET_AH()) {
 
     case 0x00: /* disk controller reset */
@@ -6406,7 +6406,7 @@ BX_DEBUG_INT13_HD("CHS: %x %x %x\n", cylinder, head, sector);
 
       sector_count = 0;
       tempbx = BX;
-
+/*
       log_sector = ((Bit32u)cylinder) * ((Bit32u)hd_heads) * ((Bit32u)hd_sectors)
                  + ((Bit32u)head) * ((Bit32u)hd_sectors)
                  + ((Bit32u)sector) - 1;
@@ -6419,6 +6419,7 @@ BX_DEBUG_INT13_HD("CHS: %x %x %x\n", cylinder, head, sector);
       printf("h: %d, ", head);
       printf("s: %d\n", sector);
       printf("num_sectors: %d\n", num_sectors);
+*/
 
 ASM_START
   sti  ;; enable higher priority interrupts

@@ -165,7 +165,7 @@ no_async_event:
 
       // instruction decoding completed -> continue with execution
       // want to allow changing of the instruction inside instrumentation callback
-      BX_INSTR_BEFORE_EXECUTION(BX_CPU_ID, i);
+      BX_INSTR_BEFORE_EXECUTION(BX_CPU_ID, i, BX_CPU_THIS_PTR prev_rip);
       RIP += i->ilen();
       BX_CPU_CALL_METHOD(i->execute, (i)); // might iterate repeat instruction
       BX_CPU_THIS_PTR prev_rip = RIP; // commit new RIP

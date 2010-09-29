@@ -2,13 +2,8 @@
 // $Id$
 /////////////////////////////////////////////////////////////////////////
 //
-//  Copyright (C) 2001  MandrakeSoft S.A.
-//
-//    MandrakeSoft S.A.
-//    43, rue d'Aboukir
-//    75002 Paris - France
-//    http://www.linux-mandrake.com/
-//    http://www.mandrakesoft.com/
+//   Copyright (c) 2009 Stanislav Shwartsman
+//          Written by Stanislav Shwartsman [sshwarts at sourceforge net]
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -22,262 +17,161 @@
 //
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 
 #include <assert.h>
-#include <map>
-#include <string>
-#include <iostream>
-using std::cerr;
-using std::endl;
-
 
 #include "bochs.h"
 #include "cpu/cpu.h"
-#include "disasm/disasm.h"
 
-// maximum size of an instruction
-#define MAX_OPCODE_SIZE 16
+#include <map>
+#include <string>
+#include <iostream>
+using std::cout;
+using std::endl;
 
-// maximum physical addresses an instruction can generate
-#define MAX_DATA_ACCESSES 1024
-
-// Use this variable to turn on/off collection of instrumentation data
-// If you are not using the debugger to turn this on/off, then possibly
-// start this at 1 instead of 0.
 typedef std::map<std::string, unsigned> TStrUIntMap;
-TStrUIntMap *stats = 0;
 
-unsigned long ninstr = 0;
-
-static disassembler bx_disassembler;
-
-static struct instruction_t {
-  bx_bool  valid;        // is current instruction valid
-  unsigned opcode_size;
-  unsigned nprefixes;
-  Bit8u    opcode[MAX_OPCODE_SIZE];
-  bx_bool  is32, is64;
-  unsigned num_data_accesses;
-  struct {
-    bx_address laddr;     // linear address
-    bx_phy_address paddr; // physical address
-    unsigned op;          // BX_READ, BX_WRITE or BX_RW
-    unsigned size;        // 1 .. 8
-  } data_access[MAX_DATA_ACCESSES];
-  bx_bool is_branch;
-  bx_bool is_taken;
-  bx_address target_linear;
-} *instruction;
+struct bx_instr_ia_stats {
+   bx_bool active;
+   Bit32u ia_cnt[BX_IA_LAST];
+   Bit32u total_cnt;
+   Bit32u interrupts;
+   Bit32u exceptions;
+} *ia_stats;
 
 static logfunctions *instrument_log = new logfunctions ();
 #define LOG_THIS instrument_log->
-
-void bx_instr_init_env(void) {}
-void bx_instr_exit_env(void) {}
 
 void bx_instr_initialize(unsigned cpu)
 {
   assert(cpu < BX_SMP_PROCESSORS);
 
-  if (instruction == NULL)
-      instruction = new struct instruction_t[BX_SMP_PROCESSORS];
+  if (ia_stats == NULL)
+      ia_stats = new bx_instr_ia_stats[BX_SMP_PROCESSORS];
 
-  fprintf(stderr, "Initialize cpu %d\n", cpu);
+  ia_stats[cpu].active = 0;
 
-  bx_disassembler.toggle_syntax_mode();
+  fprintf(stderr, "Initialize cpu %d instrumentation module\n", cpu);
 }
 
 void bx_instr_reset(unsigned cpu, unsigned type)
 {
-  instruction[cpu].valid = 0;
-  instruction[cpu].nprefixes = 0;
-  instruction[cpu].num_data_accesses = 0;
-  instruction[cpu].is_branch = 0;
+  ia_stats[cpu].active    = 0;
+  ia_stats[cpu].total_cnt = 0;
+
+  for(int n=0; n < BX_IA_LAST; n++)
+    ia_stats[cpu].ia_cnt[n] = 0;
+
+  ia_stats[cpu].interrupts = ia_stats[cpu].exceptions = 0;
+}
+
+void bx_instr_interrupt(unsigned cpu, unsigned vector)
+{
+  if(ia_stats[cpu].active) ia_stats[cpu].interrupts++;
+}
+
+void bx_instr_exception(unsigned cpu, unsigned vector, unsigned error_code)
+{
+  if(ia_stats[cpu].active) ia_stats[cpu].exceptions++;
+}
+
+void bx_instr_hwinterrupt(unsigned cpu, unsigned vector, Bit16u cs, bx_address eip)
+{
+  if(ia_stats[cpu].active) ia_stats[cpu].interrupts++;
+}
+
+void bx_instr_before_execution(unsigned cpu, bxInstruction_c *i, bx_address offset)
+{
+  Bit16u sel;
+  if(ia_stats[cpu].active) {
+    sel = bx_cpu.sregs[BX_SEG_REG_CS].selector.value;
+    if (sel!=0xf000 && sel!=0xc000) {
+      ia_stats[cpu].ia_cnt[i->getIaOpcode()]++;
+      ia_stats[cpu].total_cnt++;
+
+// This is to trace the unknown instruction
+//      if (strcmp(get_bx_feature_name(i->getIaOpcode()),"0"))
+//        BX_CPU(cpu)->debug_disasm_instruction(offset);
+    }
+  }
 }
 
 void bx_instr_debug_cmd(const char *comm)
 {
   if(!strcmp(comm,"start"))
     {
-      if (stats) cerr << "instrumentation already started" << endl;
-      else stats = new TStrUIntMap;
+      for (int i=0; i<BX_SMP_PROCESSORS; i++) ia_stats[i].active = 1;
+
+      printf ("Statistics are active now for all processors\n");
     }
   else
     {
       if (!strcmp(comm,"stop"))
         {
-          if (stats)
-            {
-              delete stats;
-              stats = 0;
-            }
-          else
-            {
-              cerr << "there's no statistics to stop!" << endl;
-            }
+          for (int i=0; i<BX_SMP_PROCESSORS; i++) ia_stats[i].active = 0;
+
+          printf ("Statistics are not active for all processors\n");
         }
       else
         {
           if (!strcmp(comm,"print"))
             {
-              if (stats)
+              for (int cpu=0; cpu<BX_SMP_PROCESSORS; cpu++)
                 {
-                  cerr << "stats contains:\nKey\tValue\n";
+                  if (ia_stats[cpu].active)
+                    {
+                      TStrUIntMap fst;   // Feature stats
 
-                  // use const_iterator to walk through elements of pairs
-                  for ( std::map<std::string, unsigned>
-                        ::const_iterator iter = stats->begin();
-                        iter != stats->end(); ++iter )
+                      printf("Dump IA stats for CPU %d\n", cpu);
+                      printf("--------------------------------------------\n");
+                      printf("Interrupts: %d, Exceptions: %d\n",
+                             ia_stats[cpu].interrupts, ia_stats[cpu].exceptions);
 
-                  cerr << iter->first << '\t' << iter->second << '\n';
+                      for (int n=0;n < BX_IA_LAST; n++)
+                        if (ia_stats[cpu].ia_cnt[n] > 0)
+                          fst[get_bx_feature_name(n)]++;
 
-                  cerr << endl;
-                  cerr << "# instr: " << ninstr << endl;
-                }
-              else
-                {
-                  cerr << "There's no statistics to show!" << endl;
+                      printf("\n");
+                      printf("Features stats for CPU %d\n", cpu);
+                      printf("------------------------\n");
+
+                      // use const_iterator to walk through elements of pairs
+                      for ( std::map<std::string, unsigned>
+                        ::const_iterator iter = fst.begin();
+                        iter != fst.end(); ++iter )
+
+                        {
+                          cout << "[> Instructions using feature " << iter->first
+                               << ": " << iter->second << " <]" << endl;
+                          for (int n=0;n < BX_IA_LAST; n++)
+                            if (ia_stats[cpu].ia_cnt[n] > 0
+                                && !strcmp(get_bx_feature_name(n),iter->first.c_str()))
+
+                            printf("%s: %d (%f%%)\n", get_bx_opcode_name(n),
+                                   ia_stats[cpu].ia_cnt[n],
+                                   ia_stats[cpu].ia_cnt[n] * 100.0 / ia_stats[cpu].total_cnt);
+
+                          cout << endl;
+                        }
+                    }
+                  else
+                    {
+                      printf("Statistics are not currently active for CPU %d\n", cpu);
+                    }
                 }
             }
           else
             {
-              cerr << "Unknown instrumentation command" << endl;
+              printf("Unknown instrumentation command\n");
             }
         }
     }
 }
 
-void bx_instr_new_instruction(unsigned cpu)
-{
-  Bit16u sel;
-  if (!stats) return;
 
-  ninstr++;
-  instruction_t *i = &instruction[cpu];
-
-  if (i->valid)
-  {
-    char disasm_tbuf[512];	// buffer for instruction disassembly
-    unsigned length = i->opcode_size, n;
-
-    bx_disassembler.disasm(i->is32, i->is64, 0, 0, i->opcode, disasm_tbuf);
-
-    if(length != 0)
-    {
-      sel = bx_cpu.sregs[BX_SEG_REG_CS].selector.value;
-      if (sel!=0xf000 && sel!=0xc000) {
-        (*stats)[std::string(disasm_tbuf)]++;
-      }
-    }
-  }
-
-  instruction[cpu].valid = 0;
-  instruction[cpu].nprefixes = 0;
-  instruction[cpu].num_data_accesses = 0;
-  instruction[cpu].is_branch = 0;
-}
-
-static void branch_taken(unsigned cpu, bx_address new_eip)
-{
-  if (!stats || !instruction[cpu].valid) return;
-
-  // find linear address
-  bx_address laddr = BX_CPU(cpu)->get_laddr(BX_SEG_REG_CS, new_eip);
-
-  instruction[cpu].is_branch = 1;
-  instruction[cpu].is_taken = 1;
-  instruction[cpu].target_linear = laddr;
-}
-
-void bx_instr_cnear_branch_taken(unsigned cpu, bx_address new_eip)
-{
-  branch_taken(cpu, new_eip);
-}
-
-void bx_instr_cnear_branch_not_taken(unsigned cpu)
-{
-  if (!stats || !instruction[cpu].valid) return;
-
-  instruction[cpu].is_branch = 1;
-  instruction[cpu].is_taken = 0;
-}
-
-void bx_instr_ucnear_branch(unsigned cpu, unsigned what, bx_address new_eip)
-{
-  branch_taken(cpu, new_eip);
-}
-
-void bx_instr_far_branch(unsigned cpu, unsigned what, Bit16u new_cs, bx_address new_eip)
-{
-  branch_taken(cpu, new_eip);
-}
-
-void bx_instr_opcode(unsigned cpu, const Bit8u *opcode, unsigned len, bx_bool is32, bx_bool is64)
-{
-  if (!stats) return;
-
-  for(unsigned i=0;i<len;i++)
-  {
-    instruction[cpu].opcode[i] = opcode[i];
-  }
-
-  instruction[cpu].is32 = is32;
-  instruction[cpu].is64 = is64;
-  instruction[cpu].opcode_size = len;
-}
-
-void bx_instr_fetch_decode_completed(unsigned cpu, bxInstruction_c *i)
-{
-  if(stats) instruction[cpu].valid = 1;
-}
-
-void bx_instr_prefix(unsigned cpu, Bit8u prefix)
-{
-  if(stats) instruction[cpu].nprefixes++;
-}
-
-void bx_instr_interrupt(unsigned cpu, unsigned vector)
-{
-  char tmpbuf[50];
-  Bit16u sel;
-  if(stats)
-  {
-    sel = bx_cpu.sregs[BX_SEG_REG_CS].selector.value;
-    if (sel!=0xf000 && sel!=0xc000) {
-      if (vector==0x10)
-        sprintf(tmpbuf, "int %02xh AH=%02x AL=%02x", vector,
-          bx_cpu.gen_reg[0].word.byte.rh, bx_cpu.gen_reg[0].word.byte.rl);
-      else sprintf(tmpbuf, "int %02xh AH=%02x", vector,
-        bx_cpu.gen_reg[0].word.byte.rh);
-      (*stats)[std::string(tmpbuf)]++;
-    }
-  }
-/*  printf("int %02xh AH=%02x\n", vector,
-        bx_cpu.gen_reg[0].word.byte.rh); */
-}
-
-void bx_instr_exception(unsigned cpu, unsigned vector, unsigned error_code)
-{
-  char tmpbuf[50];
-  if(stats)
-  {
-    sprintf(tmpbuf, "exc %02xh", vector);
-    (*stats)[std::string(tmpbuf)]++;
-  }
-}
-
-void bx_instr_hwinterrupt(unsigned cpu, unsigned vector, Bit16u cs, bx_address eip)
-{
-  char tmpbuf[50];
-  if(stats)
-  {
-    sprintf(tmpbuf, "hwint %02xh", vector);
-    (*stats)[std::string(tmpbuf)]++;
-  }
-}
-
+/*
 void bx_instr_mem_data(unsigned cpu, unsigned seg, bx_address offset, unsigned len, unsigned rw)
 {
   unsigned index;
@@ -324,12 +218,12 @@ void bx_instr_inp2(Bit16u addr, unsigned len, Bit32u val)
     if (sel!=0xf000 && sel!=0xc000) {
       sprintf(tmpbuf, "in%d %x: %x", len, addr, val);
       (*stats)[std::string(tmpbuf)]++;
-/*
-      if ((addr&0xffe0)==0x3c0)
-        {
-          printf("in%d %x: %x\n", len, addr, val);
-        }
-*/
+
+//      if ((addr&0xffe0)==0x3c0)
+//        {
+//          printf("in%d %x: %x\n", len, addr, val);
+//        }
+
     }
   }
 }
@@ -344,12 +238,13 @@ void bx_instr_outp(Bit16u addr, unsigned len, Bit32u val)
     if (sel!=0xf000 && sel!=0xc000) {
       sprintf(tmpbuf, "out%d %x: %x", len, addr, val);
       (*stats)[std::string(tmpbuf)]++;
-/*
-      if ((addr&0xffe0)==0x3c0)
-        {
-          printf("out%d %x: %x\n", len, addr, val);
-        }
-*/
+
+//      if ((addr&0xffe0)==0x3c0)
+//        {
+//          printf("out%d %x: %x\n", len, addr, val);
+//        }
+
     }
   }
 }
+*/
