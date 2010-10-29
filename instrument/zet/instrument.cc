@@ -207,44 +207,19 @@ void bx_instr_mem_data_access(unsigned cpu, unsigned seg, unsigned offset, unsig
 {
   return;
 }
-
+*/
 void bx_instr_inp2(Bit16u addr, unsigned len, Bit32u val)
 {
-  char tmpbuf[50];
-  Bit16u sel;
-  if(stats)
-  {
-    sel = bx_cpu.sregs[BX_SEG_REG_CS].selector.value;
-    if (sel!=0xf000 && sel!=0xc000) {
-      sprintf(tmpbuf, "in%d %x: %x", len, addr, val);
-      (*stats)[std::string(tmpbuf)]++;
-
 //      if ((addr&0xffe0)==0x3c0)
 //        {
 //          printf("in%d %x: %x\n", len, addr, val);
 //        }
-
-    }
-  }
 }
 
 void bx_instr_outp(Bit16u addr, unsigned len, Bit32u val)
 {
-  char tmpbuf[50];
-  Bit16u sel;
-  if(stats)
-  {
-    sel = bx_cpu.sregs[BX_SEG_REG_CS].selector.value;
-    if (sel!=0xf000 && sel!=0xc000) {
-      sprintf(tmpbuf, "out%d %x: %x", len, addr, val);
-      (*stats)[std::string(tmpbuf)]++;
-
 //      if ((addr&0xffe0)==0x3c0)
 //        {
 //          printf("out%d %x: %x\n", len, addr, val);
 //        }
-
-    }
-  }
 }
-*/

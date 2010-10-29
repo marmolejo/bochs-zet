@@ -62,6 +62,8 @@ void bx_instr_hwinterrupt(unsigned cpu, unsigned vector, Bit16u cs, bx_address e
 void bx_instr_before_execution(unsigned cpu, bxInstruction_c *i, bx_address offset);
 
 void bx_instr_debug_cmd(const char *comm);
+void bx_instr_inp2(Bit16u addr, unsigned io_len, Bit32u ret);
+void bx_instr_outp(Bit16u addr, unsigned io_len, Bit32u value);
 
 /* initialization/deinitialization of instrumentalization*/
 #define BX_INSTR_INIT_ENV()
@@ -119,8 +121,8 @@ void bx_instr_debug_cmd(const char *comm);
 
 /* feedback from device units */
 #define BX_INSTR_INP(addr, len)
-#define BX_INSTR_INP2(addr, len, val)
-#define BX_INSTR_OUTP(addr, len, val)
+#define BX_INSTR_INP2(addr, len, val) bx_instr_inp2(addr, len, val)
+#define BX_INSTR_OUTP(addr, len, val) bx_instr_outp(addr, len, val)
 
 /* wrmsr callback */
 #define BX_INSTR_WRMSR(cpu_id, addr, value)

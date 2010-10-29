@@ -31,7 +31,7 @@
 
 #define LOG_THIS theVga->
 
-#define VGA_TRACE_FEATURE
+#define VGA_TRACE_FEATURE 1
 
 // Only reference the array if the tile numbers are within the bounds
 // of the array.  If out of bounds, do nothing.
@@ -776,6 +776,7 @@ Bit32u bx_vga_c::read(Bit32u address, unsigned io_len)
       break;
 
     case 0x03c5: /* Sequencer Registers 00..04 */
+			printf("s.sequencer.index: %x\n", BX_VGA_THIS s.sequencer.index);
       switch (BX_VGA_THIS s.sequencer.index) {
         case 0: /* sequencer: reset */
           BX_DEBUG(("io read 0x3c5: sequencer reset"));
@@ -1231,7 +1232,7 @@ void bx_vga_c::write(Bit32u address, Bit32u value, unsigned io_len, bx_bool no_l
           BX_VGA_THIS s.sequencer.odd_even       = (value >> 2) & 0x01;
           BX_VGA_THIS s.sequencer.chain_four     = (value >> 3) & 0x01;
 
-          printf("chan_four = %d\n", BX_VGA_THIS s.sequencer.chain_four);
+          //printf("chan_four = %d\n", BX_VGA_THIS s.sequencer.chain_four);
 #if !defined(VGA_TRACE_FEATURE)
           BX_DEBUG(("io write 0x3c5: memory mode:"));
           BX_DEBUG(("  extended_mem = %u",
@@ -1341,6 +1342,7 @@ void bx_vga_c::write(Bit32u address, Bit32u value, unsigned io_len, bx_bool no_l
         case 3: /* Data Rotate */
           BX_VGA_THIS s.graphics_ctrl.data_rotate = value & 0x07;
           BX_VGA_THIS s.graphics_ctrl.raster_op    = (value >> 3) & 0x03;
+					
           break;
         case 4: /* Read Map Select */
           BX_VGA_THIS s.graphics_ctrl.read_map_select = value & 0x03;
@@ -1353,7 +1355,7 @@ void bx_vga_c::write(Bit32u address, Bit32u value, unsigned io_len, bx_bool no_l
           BX_VGA_THIS s.graphics_ctrl.read_mode         = (value >> 3) & 0x01;
           BX_VGA_THIS s.graphics_ctrl.odd_even          = (value >> 4) & 0x01;
           BX_VGA_THIS s.graphics_ctrl.shift_reg         = (value >> 5) & 0x03;
-
+printf("s.graphics_ctrl.odd_even: %x\n", (value >> 4) & 0x01);
           if (BX_VGA_THIS s.graphics_ctrl.odd_even)
             BX_DEBUG(("io write: 0x3cf: mode reg: value = 0x%02x",
               (unsigned) value));
@@ -1443,7 +1445,7 @@ void bx_vga_c::write(Bit32u address, Bit32u value, unsigned io_len, bx_bool no_l
             break;
           case 0x09:
             BX_VGA_THIS s.y_doublescan = ((value & 0x9f) > 0);
-            printf("s.y_doublescan = %x\n", BX_VGA_THIS s.y_doublescan);
+            //printf("s.y_doublescan = %x\n", BX_VGA_THIS s.y_doublescan);
             BX_VGA_THIS s.line_compare &= 0x1ff;
             if (BX_VGA_THIS s.CRTC.reg[0x09] & 0x40) BX_VGA_THIS s.line_compare |= 0x200;
             charmap_update = 1;
@@ -1483,7 +1485,7 @@ void bx_vga_c::write(Bit32u address, Bit32u value, unsigned io_len, bx_bool no_l
               BX_VGA_THIS s.line_offset = BX_VGA_THIS s.CRTC.reg[0x13] << 1;
               if (BX_VGA_THIS s.CRTC.reg[0x14] & 0x40) BX_VGA_THIS s.line_offset <<= 2;
               else if ((BX_VGA_THIS s.CRTC.reg[0x17] & 0x40) == 0) BX_VGA_THIS s.line_offset <<= 1;
-              printf("s.line_offset = %x\n", BX_VGA_THIS s.line_offset);
+              //printf("s.line_offset = %x\n", BX_VGA_THIS s.line_offset);
               needs_update = 1;
             }
             break;
@@ -1859,7 +1861,7 @@ void bx_vga_c::update(void)
     if (start_addr != start_addr_old)
     {
       start_addr_old = start_addr;
-      printf("New start_addr: %x\n", start_addr);
+      //printf("New start_addr: %x\n", start_addr);
     }
 
 //BX_DEBUG(("update: shiftreg=%u, chain4=%u, mapping=%u",
